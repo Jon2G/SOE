@@ -6,12 +6,13 @@
              xmlns:magicGradients="clr-namespace:MagicGradients;assembly=MagicGradients"
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              mc:Ignorable="d"
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
              xmlns:models="clr-namespace:OrganizadorEscolar.ViewModels;assembly=OrganizadorEscolar"
-             x:Class="OrganizadorEscolar.Views.LoginPage"
+             x:Class="OrganizadorEscolar.Views.LoginPage" BackgroundColor="#080821"
              Shell.NavBarIsVisible="False" x:DataType="{x:Type models:LoginViewModel}">
     <ContentPage.Content>
         <Grid>
-            <magicGradients:GradientView>
+            <!--<magicGradients:GradientView>
                 <magicGradients:CssGradientSource>
                     <x:String>
                         <![CDATA[
@@ -20,40 +21,52 @@
                     </x:String>
                 </magicGradients:CssGradientSource>
 
-            </magicGradients:GradientView>
-            <pancakeView:PancakeView 
+            </magicGradients:GradientView>-->
+            <!--<pancakeView:PancakeView 
                 Style="{StaticResource card}" 
-                BackgroundColor="{StaticResource PrimaryLightBackground}"
+                BackgroundColor="WhiteSmoke"
                 CornerRadius="5" 
                 Padding="10" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
-                Margin="10">
+                Margin="20,10">-->
+            <StackLayout Padding="10" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
+                         Margin="20,10">
+                <Label TextColor="White" FontFamily="KarlaSB" Text="Organizador Escolar" Margin="10" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                <Image HeightRequest="70" Source="icon" />
+                <Label TextColor="White" FontFamily="KarlaSB" Text="¡Bienvenido!" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
                 <StackLayout>
-                    <Label TextColor="{StaticResource secondaryTextColor}" FontFamily="KarlaSB" Text="Organizador Escolar" Margin="10" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
-                    <Image HeightRequest="70" Source="icon" />
-                    <Label TextColor="{StaticResource secondaryTextColor}" FontFamily="KarlaSB" Text="¡Bienvenido!" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
-                    <StackLayout>
-                        <Label TextColor="{StaticResource secondaryTextColor}" FontFamily="KarlaM" Text="Usuario:" FontSize="20" FontAttributes="Bold"/>
-                        <Entry FontFamily="Karla" FontSize="20"  Text="{Binding Usuario}"/>
-                        <Label TextColor="{StaticResource secondaryTextColor}" FontFamily="KarlaM" Text="Contraseña" FontSize="20" FontAttributes="Bold"/>
-                        <Entry FontFamily="Karla" IsPassword="True" FontSize="20" Text="{Binding Password}"/>
-                        <Button VerticalOptions="Center" FontSize="20"
-                                Text="Iniciar sesión"  FontFamily="KarlaSB"
-                                Command="{Binding LoginCommand}"/>
-                    </StackLayout>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                        <Button Text="&#xF230;" FontFamily="FontIcon" TextColor="#3b5998" FontSize="30"
-                                HorizontalOptions="Center" BackgroundColor="GhostWhite"/>
-                        <Button Text="&#xE800;" FontFamily="FontIcon" Grid.Column="1"
-                                TextColor="IndianRed" FontSize="30"
-                                HorizontalOptions="Center" BackgroundColor="GhostWhite"/>
-                    </StackLayout>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                        <Label TextDecorations="Underline" Text="No tengo cuenta" FontSize="Small" HorizontalOptions="Start"/>
-                        <Label TextDecorations="Underline" Text="Olvide mi contraseña" FontSize="Small" HorizontalOptions="EndAndExpand"/>
-                    </StackLayout>
+
+                    <input:AdvancedEntry  Margin="0,10"  Placeholder="Usuario" PlaceholderColor="Gray"  FontFamily="Karla"  TextFontSize="20"  Text="{Binding Usuario}" TextColor="Black"/>
+
+                    <input:AdvancedEntry  Margin="0,10"  Placeholder="Contraseña" PlaceholderColor="Gray"  FontFamily="Karla" IsPassword="True" TextFontSize="20" Text="{Binding Password}" TextColor="Black"/>
+                    <!--<Button VerticalOptions="Center" FontSize="20"
+                                Text="Iniciar sesión"  FontFamily="KarlaSB" BackgroundColor="#22AECE" TextColor="Black"
+                                Command="{Binding LoginCommand}"/>-->
+
                 </StackLayout>
 
-            </pancakeView:PancakeView>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+
+                    <Switch OnColor="Yellow" ThumbColor="White" />
+                    <Label Text="Recuérdame" TextColor="White" FontFamily="KarlaSB"  FontSize="18" FontAttributes="Bold" />
+                </StackLayout>
+
+                <Button Margin="10,0"  VerticalOptions="FillAndExpand" FontSize="20" CornerRadius="20" 
+                            Text="Iniciar sesión"  FontFamily="KarlaSB" BackgroundColor="Yellow" TextColor="#080821"
+                            Command="{Binding LoginCommand}"/>
+                <!--<Button  Text="&#xF230;" FontFamily="FontIcon" TextColor="#3b5998" FontSize="30"
+                                HorizontalOptions="Center" BackgroundColor="GhostWhite"/>-->
+
+                <Label BackgroundColor="White"  Text="&#xE800;" FontFamily="FontIcon" Grid.Column="1"
+                            TextColor="IndianRed" FontSize="30" Margin="10"
+                            HorizontalOptions="Center" />
+
+                <StackLayout Orientation="Horizontal" VerticalOptions="End"  HorizontalOptions="FillAndExpand">
+                    <Label FontFamily="Karla_SemiBold"  TextColor="WhiteSmoke"  TextDecorations="Underline" Text="No tengo cuenta" FontSize="18" HorizontalOptions="Start"/>
+                    <Label FontFamily="Karla_SemiBold" TextColor="WhiteSmoke" TextDecorations="Underline" Text="Olvide mi contraseña" FontSize="18" HorizontalOptions="EndAndExpand"/>
+                </StackLayout>
+            </StackLayout>
+
+            <!--</pancakeView:PancakeView>-->
         </Grid>
     </ContentPage.Content>
 </ContentPage>

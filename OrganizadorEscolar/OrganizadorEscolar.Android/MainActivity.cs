@@ -34,7 +34,7 @@ namespace OrganizadorEscolar.Droid
 
             OrganizadorEscolar.Widgets.Horario.WidgetHorario.Init(new Widgets.Horario.WidgetHorario(this));
             OrganizadorEscolar.Widgets.Tareas.WidgetTareas.Init(new Widgets.Tareas.WidgetTareas(this));
-
+            Plugin.InputKit.Platforms.Droid.Config.Init(this, savedInstanceState);
             LoadApplication(new App());
         }
 

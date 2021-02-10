@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#fff"
+    android:id="@+id/widgetBackground"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3">
+        <TextView
+            android:id="@+id/LblNombreDiaActual"
+            android:textSize="25dp"
+            android:layout_columnWeight="1"
+            android:layout_column="0"
+            android:textColor="#000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" />
+
+        <Button
+            android:id="@+id/BtnDiaAntes"
+            android:minWidth="20dp"
+            android:textSize="20dp"
+            android:layout_column="1"
+            android:layout_marginRight="5dp"
+            android:layout_height="wrap_content"
+            android:text="👈"
+            android:layout_width="wrap_content"
+            android:background="#fff"/>
+        <Button
+            android:id="@+id/BtnDiaManana"
+            android:minWidth="20dp"
+            android:textSize="20dp"
+            android:layout_marginLeft="5dp"
+            android:layout_column="2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="👉"
+            android:background="#fff"/>
+    </GridLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp">
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:loopViews="true" />
+
+        <TextView
+            android:id="@+id/empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/widget_item_background_empty"
+            android:gravity="center"
+            android:text="Empty"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>
+

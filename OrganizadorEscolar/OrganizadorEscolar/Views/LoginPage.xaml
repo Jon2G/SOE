@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:magicGradients="clr-namespace:MagicGradients;assembly=MagicGradients"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             mc:Ignorable="d"
+             xmlns:models="clr-namespace:OrganizadorEscolar.ViewModels;assembly=OrganizadorEscolar"
+             x:Class="OrganizadorEscolar.Views.LoginPage"
+             Shell.NavBarIsVisible="False" x:DataType="{x:Type models:LoginViewModel}">
+    <ContentPage.Content>
+        <Grid>
+            <magicGradients:GradientView>
+                <magicGradients:CssGradientSource>
+                    <x:String>
+                        <![CDATA[
+                   linear-gradient(126deg, rgba(101, 101, 101, 0.09) 0%, rgba(101, 101, 101, 0.09) 68%,rgba(200, 200, 200, 0.09) 68%, rgba(200, 200, 200, 0.09) 100%),linear-gradient(164deg, rgba(238, 238, 238, 0.03) 0%, rgba(238, 238, 238, 0.03) 90%,rgba(14, 14, 14, 0.03) 90%, rgba(14, 14, 14, 0.03) 100%),linear-gradient(27deg, rgba(214, 214, 214, 0.04) 0%, rgba(214, 214, 214, 0.04) 34%,rgba(104, 104, 104, 0.04) 34%, rgba(104, 104, 104, 0.04) 100%),linear-gradient(175deg, rgba(20, 20, 20, 0.01) 0%, rgba(20, 20, 20, 0.01) 4%,rgba(9, 9, 9, 0.01) 4%, rgba(9, 9, 9, 0.01) 100%),linear-gradient(257deg, rgba(14, 14, 14, 0.01) 0%, rgba(14, 14, 14, 0.01) 28%,rgba(164, 164, 164, 0.01) 28%, rgba(164, 164, 164, 0.01) 100%),linear-gradient(311deg, rgba(68, 68, 68, 0.07) 0%, rgba(68, 68, 68, 0.07) 33%,rgba(213, 213, 213, 0.07) 33%, rgba(213, 213, 213, 0.07) 100%),linear-gradient(244deg, rgba(43, 43, 43, 0.02) 0%, rgba(43, 43, 43, 0.02) 80%,rgba(161, 161, 161, 0.02) 80%, rgba(161, 161, 161, 0.02) 100%),linear-gradient(130deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.04) 49%,rgba(105, 105, 105, 0.04) 49%, rgba(105, 105, 105, 0.04) 100%),linear-gradient(90deg, rgb(190, 33, 111),rgb(97, 3, 0))
+                        ]]>
+                    </x:String>
+                </magicGradients:CssGradientSource>
+
+            </magicGradients:GradientView>
+            <pancakeView:PancakeView 
+                Style="{StaticResource card}" 
+                BackgroundColor="{StaticResource PrimaryLightBackground}"
+                CornerRadius="5" 
+                Padding="10" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
+                Margin="10">
+                <StackLayout>
+                    <Label TextColor="{StaticResource secondaryTextColor}" FontFamily="KarlaSB" Text="Organizador Escolar" Margin="10" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                    <Image HeightRequest="70" Source="icon" />
+                    <Label TextColor="{StaticResource secondaryTextColor}" FontFamily="KarlaSB" Text="¡Bienvenido!" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                    <StackLayout>
+                        <Label TextColor="{StaticResource secondaryTextColor}" FontFamily="KarlaM" Text="Usuario:" FontSize="20" FontAttributes="Bold"/>
+                        <Entry FontFamily="Karla" FontSize="20"  Text="{Binding Usuario}"/>
+                        <Label TextColor="{StaticResource secondaryTextColor}" FontFamily="KarlaM" Text="Contraseña" FontSize="20" FontAttributes="Bold"/>
+                        <Entry FontFamily="Karla" IsPassword="True" FontSize="20" Text="{Binding Password}"/>
+                        <Button VerticalOptions="Center" FontSize="20"
+                                Text="Iniciar sesión"  FontFamily="KarlaSB"
+                                Command="{Binding LoginCommand}"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                        <Button Text="&#xF230;" FontFamily="FontIcon" TextColor="#3b5998" FontSize="30"
+                                HorizontalOptions="Center" BackgroundColor="GhostWhite"/>
+                        <Button Text="&#xE800;" FontFamily="FontIcon" Grid.Column="1"
+                                TextColor="IndianRed" FontSize="30"
+                                HorizontalOptions="Center" BackgroundColor="GhostWhite"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                        <Label TextDecorations="Underline" Text="No tengo cuenta" FontSize="Small" HorizontalOptions="Start"/>
+                        <Label TextDecorations="Underline" Text="Olvide mi contraseña" FontSize="Small" HorizontalOptions="EndAndExpand"/>
+                    </StackLayout>
+                </StackLayout>
+
+            </pancakeView:PancakeView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

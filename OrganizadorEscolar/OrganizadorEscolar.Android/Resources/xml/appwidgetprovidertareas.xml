@@ -1,0 +1,8 @@
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="288dip"
+    android:minHeight="72dip"
+    android:resizeMode="3"
+    android:minResizeWidth="144dip"
+    android:updatePeriodMillis="1000"
+    android:initialLayout="@layout/WidgetTareas"
+    android:previewImage="@drawable/tab_feed" />

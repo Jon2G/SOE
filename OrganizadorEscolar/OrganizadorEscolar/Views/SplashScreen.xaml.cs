@@ -25,18 +25,18 @@ namespace OrganizadorEscolar.Views
 
             
             //Si la llamada se provoco desde el WidgetDeHorario
-            if (Widgets.Horario.WidgetHorario.Instance.IsItentDataSet())
-            {
-                Widgets.Horario.IntentData data = Widgets.Horario.WidgetHorario.Instance.GetIntentData();
-                UserDialogs.Instance.Alert($"Se presiono el elemento #{data.RowId+1}", data.NombreMateria, "Ok");
-            }
+            //if (Widgets.Horario.WidgetHorario.Instance.IsItentDataSet())
+            //{
+            //    Widgets.Horario.IntentData data = Widgets.Horario.WidgetHorario.Instance.GetIntentData();
+            //    UserDialogs.Instance.Alert($"Se presiono el elemento #{data.RowId+1}", data.NombreMateria, "Ok");
+            //}
 
-            //Si la llamada se provoco desde el Widget Tareas
-            if (Widgets.Tareas.WidgetTareas.Instance.IsItentDataSet())
-            {
-                Widgets.Tareas.IntentData data = Widgets.Tareas.WidgetTareas.Instance.GetIntentData();
-                UserDialogs.Instance.Alert($"Se presiono el elemento #{data.RowId + 1}", data.NombreTarea, "Ok");
-            }
+            ////Si la llamada se provoco desde el Widget Tareas
+            //if (Widgets.Tareas.WidgetTareas.Instance.IsItentDataSet())
+            //{
+            //    Widgets.Tareas.IntentData data = Widgets.Tareas.WidgetTareas.Instance.GetIntentData();
+            //    UserDialogs.Instance.Alert($"Se presiono el elemento #{data.RowId + 1}", data.NombreTarea, "Ok");
+            //}
 
 
             App.Current.MainPage = new AppShell();

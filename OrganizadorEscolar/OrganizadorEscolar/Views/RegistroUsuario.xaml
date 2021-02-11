@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+              xmlns:models="clr-namespace:OrganizadorEscolar.ViewModels;assembly=OrganizadorEscolar"
+             x:Class="OrganizadorEscolar.Views.RegistroUsuario" BackgroundColor="White"
+             x:DataType="{x:Type models:RegistroViewModel}">
+    <ContentPage.Content>
+        <StackLayout Padding="10" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
+                         Margin="20,10">
+            <Label TextColor="Black" FontFamily="KarlaSB" Text="Registro" Margin="10" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+            <StackLayout>
+                <input:AdvancedEntry  Margin="0,10"  Placeholder="Usuario" PlaceholderColor="White"  FontFamily="Karla"  TextFontSize="20"  TextColor="Black" BackgroundColor="MidnightBlue"/>
+                <input:AdvancedEntry  Margin="0,10"  Placeholder="Correo" PlaceholderColor="White"  FontFamily="Karla"  TextFontSize="20"  TextColor="Black" BackgroundColor="MidnightBlue"/>
+                <input:AdvancedEntry  Margin="0,10"  Placeholder="Contraseña" PlaceholderColor="White"  FontFamily="Karla"  TextFontSize="20"  TextColor="Black" BackgroundColor="MidnightBlue"/>
+                <input:AdvancedEntry  Margin="0,10"  Placeholder="Confirmar la contraseña" PlaceholderColor="White"  FontFamily="Karla"  TextFontSize="20"  TextColor="Black" BackgroundColor="MidnightBlue"/>
+                <Button Margin="10,0"  VerticalOptions="FillAndExpand" FontSize="20" CornerRadius="20" 
+                            Text="Crear Cuenta"  FontFamily="KarlaSB" BackgroundColor="Aquamarine" TextColor="#080821"
+                            Command="{Binding UserCommand}"/>
+                <Label Text="Registrar con:"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Label BackgroundColor="White"  Text="&#xE800;" FontFamily="FontIcon" Grid.Column="1"
+                            TextColor="IndianRed" FontSize="30" Margin="10"
+                            HorizontalOptions="Center" />
+                    <Label BackgroundColor="MidnightBlue"  Text="&#x1f1eb;" FontFamily="FontIcon" Grid.Column="1"
+                            TextColor="White"  FontSize="30" Margin="10"
+                            HorizontalOptions="Center" />
+                </StackLayout>
+                
+            </StackLayout>
+        </StackLayout>
+        
+    </ContentPage.Content>
+</ContentPage>

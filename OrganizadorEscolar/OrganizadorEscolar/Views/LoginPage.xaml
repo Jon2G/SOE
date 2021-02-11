@@ -35,9 +35,9 @@
                 <Label TextColor="White" FontFamily="KarlaSB" Text="¡Bienvenido!" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
                 <StackLayout>
 
-                    <input:AdvancedEntry  Margin="0,10"  Placeholder="Usuario" PlaceholderColor="Gray"  FontFamily="Karla"  TextFontSize="20"  Text="{Binding Usuario}" TextColor="Black"/>
+                    <input:AdvancedEntry  Margin="0,10"  Placeholder="Usuario" PlaceholderColor="Gray"  FontFamily="Karla"  TextFontSize="20"  Text="{Binding Usuario}" TextColor="Black"  />
 
-                    <input:AdvancedEntry  Margin="0,10"  Placeholder="Contraseña" PlaceholderColor="Gray"  FontFamily="Karla" IsPassword="True" TextFontSize="20" Text="{Binding Password}" TextColor="Black"/>
+                    <input:AdvancedEntry  Margin="0,10"  Placeholder="Contraseña" PlaceholderColor="Gray"  FontFamily="Karla" IsPassword="True" TextFontSize="20" Text="{Binding Password}" TextColor="Black" />
                     <!--<Button VerticalOptions="Center" FontSize="20"
                                 Text="Iniciar sesión"  FontFamily="KarlaSB" BackgroundColor="#22AECE" TextColor="Black"
                                 Command="{Binding LoginCommand}"/>-->
@@ -46,12 +46,12 @@
 
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
 
-                    <Switch OnColor="Yellow" ThumbColor="White" />
+                    <Switch OnColor="Aquamarine" ThumbColor="White" />
                     <Label Text="Recuérdame" TextColor="White" FontFamily="KarlaSB"  FontSize="18" FontAttributes="Bold" />
                 </StackLayout>
 
                 <Button Margin="10,0"  VerticalOptions="FillAndExpand" FontSize="20" CornerRadius="20" 
-                            Text="Iniciar sesión"  FontFamily="KarlaSB" BackgroundColor="Yellow" TextColor="#080821"
+                            Text="Iniciar sesión"  FontFamily="KarlaSB" BackgroundColor="Aquamarine" TextColor="#080821"
                             Command="{Binding LoginCommand}"/>
                 <!--<Button  Text="&#xF230;" FontFamily="FontIcon" TextColor="#3b5998" FontSize="30"
                                 HorizontalOptions="Center" BackgroundColor="GhostWhite"/>-->
@@ -61,8 +61,12 @@
                             HorizontalOptions="Center" />
 
                 <StackLayout Orientation="Horizontal" VerticalOptions="End"  HorizontalOptions="FillAndExpand">
-                    <Label FontFamily="Karla_SemiBold"  TextColor="WhiteSmoke"  TextDecorations="Underline" Text="No tengo cuenta" FontSize="18" HorizontalOptions="Start"/>
-                    <Label FontFamily="Karla_SemiBold" TextColor="WhiteSmoke" TextDecorations="Underline" Text="Olvide mi contraseña" FontSize="18" HorizontalOptions="EndAndExpand"/>
+                    <Label FontFamily="Karla_SemiBold"  TextColor="WhiteSmoke"  TextDecorations="Underline" Text="No tengo cuenta" FontSize="18" HorizontalOptions="Start" >
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Registro}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                        <Label FontFamily="Karla_SemiBold" TextColor="WhiteSmoke" TextDecorations="Underline" Text="Olvide mi contraseña" FontSize="18" HorizontalOptions="EndAndExpand"/>
                 </StackLayout>
             </StackLayout>
 

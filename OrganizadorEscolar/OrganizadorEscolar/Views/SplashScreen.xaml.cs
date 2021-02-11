@@ -39,7 +39,7 @@ namespace OrganizadorEscolar.Views
             //}
 
 
-            App.Current.MainPage = new AppShell();
+            App.Current.MainPage = new LoginPage();
         }
     }
 }

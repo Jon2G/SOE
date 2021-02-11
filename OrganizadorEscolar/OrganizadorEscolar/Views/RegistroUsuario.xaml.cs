@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrganizadorEscolar.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace OrganizadorEscolar.Views
         public RegistroUsuario()
         {
             InitializeComponent();
+            this.BindingContext = new RegistroViewModel();
         }
     }
 }

@@ -6,6 +6,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Fonts\fontello.ttf" />
+    <None Remove="Fonts\Karla.ttf" />
+    <None Remove="Fonts\Karla_ExtraLight.ttf" />
+    <None Remove="Fonts\Karla_Medium.ttf" />
+    <None Remove="Fonts\Karla_SemiBold.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Fonts\fontello.ttf" />
+    <EmbeddedResource Include="Fonts\Karla.ttf" />
+    <EmbeddedResource Include="Fonts\Karla_ExtraLight.ttf" />
+    <EmbeddedResource Include="Fonts\Karla_Medium.ttf" />
+    <EmbeddedResource Include="Fonts\Karla_SemiBold.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.1.0.475" />
     <PackageReference Include="MagicGradients" Version="1.2.0" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.1931" />  

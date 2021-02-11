@@ -14,7 +14,7 @@ using Xamarin.Forms;
 using Android.Content;
 using Android.Util;
 using Acr.UserDialogs;
-using OrganizadorEscolar.Droid.Widgets.Tareas;
+
 
 namespace OrganizadorEscolar.Droid
 {
@@ -32,8 +32,8 @@ namespace OrganizadorEscolar.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             UserDialogs.Init(this);
 
-            OrganizadorEscolar.Widgets.Horario.WidgetHorario.Init(new Widgets.Horario.WidgetHorario(this));
-            OrganizadorEscolar.Widgets.Tareas.WidgetTareas.Init(new Widgets.Tareas.WidgetTareas(this));
+            //OrganizadorEscolar.Widgets.Horario.WidgetHorario.Init(new Widgets.Horario.WidgetHorario(this));
+            //OrganizadorEscolar.Widgets.Tareas.WidgetTareas.Init(new Widgets.Tareas.WidgetTareas(this));
             Plugin.InputKit.Platforms.Droid.Config.Init(this, savedInstanceState);
             LoadApplication(new App());
         }

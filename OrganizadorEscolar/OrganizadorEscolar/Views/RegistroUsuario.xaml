@@ -14,7 +14,7 @@
                 <input:AdvancedEntry  Margin="0,10"  Placeholder="Correo" PlaceholderColor="Gray"  FontFamily="Karla"  TextFontSize="20"  TextColor="Black" BackgroundColor="White"/>
                 <input:AdvancedEntry  Margin="0,10"  Placeholder="Contraseña" PlaceholderColor="Gray"  FontFamily="Karla"  TextFontSize="20"  TextColor="Black" BackgroundColor="White"/>
                 <input:AdvancedEntry  Margin="0,10"  Placeholder="Confirmar la contraseña" PlaceholderColor="Gray"  FontFamily="Karla"  TextFontSize="20"  TextColor="Black" BackgroundColor="White"/>
-                <Button Margin="10,0"  VerticalOptions="FillAndExpand" FontSize="20" CornerRadius="20" 
+                <Button Margin="0,0"  VerticalOptions="FillAndExpand" FontSize="20" CornerRadius="20" 
                             Text="Crear Cuenta"  FontFamily="KarlaSB" BackgroundColor="Aquamarine" TextColor="#080821"
                             Command="{Binding UserCommand}"/>
                 <Label Text="Registrar con:" TextColor="White"/>

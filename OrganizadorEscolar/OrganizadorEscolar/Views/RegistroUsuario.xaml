@@ -3,21 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
               xmlns:models="clr-namespace:OrganizadorEscolar.ViewModels;assembly=OrganizadorEscolar"
-             x:Class="OrganizadorEscolar.Views.RegistroUsuario" BackgroundColor="White"
+             x:Class="OrganizadorEscolar.Views.RegistroUsuario" BackgroundColor="#080821"
              x:DataType="{x:Type models:RegistroViewModel}">
     <ContentPage.Content>
         <StackLayout Padding="10" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
                          Margin="20,10">
-            <Label TextColor="Black" FontFamily="KarlaSB" Text="Registro" Margin="10" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+            <Label TextColor="White" FontFamily="KarlaSB" Text="Registro" Margin="10" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
             <StackLayout>
-                <input:AdvancedEntry  Margin="0,10"  Placeholder="Usuario" PlaceholderColor="White"  FontFamily="Karla"  TextFontSize="20"  TextColor="Black" BackgroundColor="MidnightBlue"/>
-                <input:AdvancedEntry  Margin="0,10"  Placeholder="Correo" PlaceholderColor="White"  FontFamily="Karla"  TextFontSize="20"  TextColor="Black" BackgroundColor="MidnightBlue"/>
-                <input:AdvancedEntry  Margin="0,10"  Placeholder="Contraseña" PlaceholderColor="White"  FontFamily="Karla"  TextFontSize="20"  TextColor="Black" BackgroundColor="MidnightBlue"/>
-                <input:AdvancedEntry  Margin="0,10"  Placeholder="Confirmar la contraseña" PlaceholderColor="White"  FontFamily="Karla"  TextFontSize="20"  TextColor="Black" BackgroundColor="MidnightBlue"/>
+                <input:AdvancedEntry  Margin="0,10"  Placeholder="Usuario" PlaceholderColor="Gray"  FontFamily="Karla"  TextFontSize="20"  TextColor="Black" BackgroundColor="White"/>
+                <input:AdvancedEntry  Margin="0,10"  Placeholder="Correo" PlaceholderColor="Gray"  FontFamily="Karla"  TextFontSize="20"  TextColor="Black" BackgroundColor="White"/>
+                <input:AdvancedEntry  Margin="0,10"  Placeholder="Contraseña" PlaceholderColor="Gray"  FontFamily="Karla"  TextFontSize="20"  TextColor="Black" BackgroundColor="White"/>
+                <input:AdvancedEntry  Margin="0,10"  Placeholder="Confirmar la contraseña" PlaceholderColor="Gray"  FontFamily="Karla"  TextFontSize="20"  TextColor="Black" BackgroundColor="White"/>
                 <Button Margin="10,0"  VerticalOptions="FillAndExpand" FontSize="20" CornerRadius="20" 
                             Text="Crear Cuenta"  FontFamily="KarlaSB" BackgroundColor="Aquamarine" TextColor="#080821"
                             Command="{Binding UserCommand}"/>
-                <Label Text="Registrar con:"/>
+                <Label Text="Registrar con:" TextColor="White"/>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                     <Label BackgroundColor="White"  Text="&#xE800;" FontFamily="FontIcon" Grid.Column="1"
                             TextColor="IndianRed" FontSize="30" Margin="10"

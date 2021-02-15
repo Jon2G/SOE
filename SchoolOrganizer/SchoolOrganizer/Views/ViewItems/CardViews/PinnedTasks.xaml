@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewItems="clr-namespace:SchoolOrganizer.Views.ViewItems" 
+             xmlns:viewmodels="clr-namespace:SchoolOrganizer.ViewModels.ViewItems"
+             x:Class="SchoolOrganizer.Views.ViewItems.CardViews.PinnedTasks">
+    <ContentView.BindingContext>
+        <viewmodels:PinnedTasksViewModel/>
+    </ContentView.BindingContext>
+  <ContentView.Content>
+        <ScrollView Margin="5">
+            <viewItems:CardView Padding="24"/>
+        </ScrollView>
+        
+    </ContentView.Content>
+</ContentView>

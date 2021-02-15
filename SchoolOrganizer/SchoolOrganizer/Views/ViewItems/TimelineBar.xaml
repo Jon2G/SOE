@@ -18,12 +18,12 @@
     </ContentView.BindingContext>
     <ContentView.Content>
         <ScrollView InputTransparent="True" VerticalScrollBarVisibility="Default" HorizontalScrollBarVisibility="Never"  Orientation="Vertical">
-            <viewItems:SwipeContainer  BackgroundColor="#83FFFFFF" SwipeCommand="{Binding ToggleCommand}"
+            <viewItems:SwipeContainer SwipeCommand="{Binding ToggleCommand}"
                                    CommandParameter="{x:Reference Me}">
                 <StackLayout Spacing="0"  BindableLayout.ItemsSource="{Binding Subjects}">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="{x:Type horario:Subject}">
-                            <StackLayout Margin="0" HeightRequest="90" BackgroundColor="{Binding Color}">
+                            <StackLayout Margin="0"  BackgroundColor="{Binding Color}">
                                 <StackLayout Padding="5"    IsVisible="{Binding IsExpanded, Source={x:Reference Model}}">
                                     <Label TextColor="{DynamicResource secondaryTextColor}" Text="{Binding Name,Mode=OneWay}" FontFamily="KarlaSB" FontSize="18"/>
                                     <Label TextColor="{DynamicResource secondaryTextColor}" Text="{Binding Group}" FontFamily="KarlaSB" FontSize="18"/>

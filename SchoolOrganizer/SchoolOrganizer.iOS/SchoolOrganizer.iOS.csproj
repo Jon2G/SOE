@@ -145,4 +145,28 @@
       <Name>SchoolOrganizer</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Alert.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Calendarmini.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Clockmini.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Completed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Config.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Report.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Resume.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Unresolved.png" />
+  </ItemGroup>
 </Project>

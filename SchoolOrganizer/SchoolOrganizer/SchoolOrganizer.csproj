@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fonts\fontello.ttf" />
+    <None Remove="Fonts\Karla.ttf" />
+    <None Remove="Fonts\Karla_ExtraLight.ttf" />
+    <None Remove="Fonts\Karla_Medium.ttf" />
+    <None Remove="Fonts\Karla_SemiBold.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Fonts\fontello.ttf" />
+    <EmbeddedResource Include="Fonts\Karla.ttf" />
+    <EmbeddedResource Include="Fonts\Karla_ExtraLight.ttf" />
+    <EmbeddedResource Include="Fonts\Karla_Medium.ttf" />
+    <EmbeddedResource Include="Fonts\Karla_SemiBold.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs" Version="7.1.0.475" />
+    <PackageReference Include="MagicGradients" Version="1.2.0" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.1931" />  
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />  
+    <PackageReference Include="Xamarin.Forms.InputKit" Version="3.5.0" />  
+    <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\Pages\RegisterPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Pages\SplashScreen.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ViewItems\TimelineBar.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\Pages\RegisterPage.xaml.cs">
+      <DependentUpon>RegisterPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

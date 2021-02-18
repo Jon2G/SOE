@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SchoolOrganizer.Views.ViewItems.ConfigIconView"
+             xmlns:models="clr-namespace:SchoolOrganizer.Models;assembly=SchoolOrganizer"
+             x:Class="SchoolOrganizer.Views.ViewItems.ConfigIconView" x:DataType="models:Card"
              BackgroundColor="#F6F6F6">
   <ContentView.Content>
-        <Image Source="Config.png" VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="10" WidthRequest="10" />
+        <Label  Text="😰" TextColor="Black"
+                VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
     </ContentView.Content>
 </ContentView>

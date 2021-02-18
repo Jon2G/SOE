@@ -28,7 +28,9 @@ namespace SchoolOrganizer.Models
 
         public DateTime DueDate { get; set; }
 
-        public int DirationInMinutes { get; set; }
+        public int DaysLeft { get; set; }
+        public string SubjectName { get; set; }
+        public string SubjectColor { get; set; }
     }
 
 

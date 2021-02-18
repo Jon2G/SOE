@@ -24,8 +24,8 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="7*" />
             </Grid.RowDefinitions>
             <cardviews:PinnedTasks/>
         </Grid>

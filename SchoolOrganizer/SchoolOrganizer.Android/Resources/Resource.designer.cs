@@ -21581,37 +21581,40 @@ namespace OrganizadorEscolar.Droid
 			public const int notify_panel_notification_icon_bg = 2131230982;
 			
 			// aapt resource value: 0x7F080107
-			public const int Report = 2131230983;
+			public const int profile = 2131230983;
 			
 			// aapt resource value: 0x7F080108
-			public const int Resume = 2131230984;
+			public const int Report = 2131230984;
 			
 			// aapt resource value: 0x7F080109
-			public const int roundedbg = 2131230985;
+			public const int Resume = 2131230985;
 			
 			// aapt resource value: 0x7F08010A
-			public const int roundedbgdark = 2131230986;
+			public const int roundedbg = 2131230986;
 			
 			// aapt resource value: 0x7F08010B
-			public const int tab_about = 2131230987;
+			public const int roundedbgdark = 2131230987;
 			
 			// aapt resource value: 0x7F08010C
-			public const int tab_feed = 2131230988;
+			public const int tab_about = 2131230988;
 			
 			// aapt resource value: 0x7F08010D
-			public const int test_custom_background = 2131230989;
+			public const int tab_feed = 2131230989;
 			
 			// aapt resource value: 0x7F08010E
-			public const int tooltip_frame_dark = 2131230990;
+			public const int test_custom_background = 2131230990;
 			
 			// aapt resource value: 0x7F08010F
-			public const int tooltip_frame_light = 2131230991;
+			public const int tooltip_frame_dark = 2131230991;
 			
 			// aapt resource value: 0x7F080110
-			public const int Unresolved = 2131230992;
+			public const int tooltip_frame_light = 2131230992;
 			
 			// aapt resource value: 0x7F080111
-			public const int xamarin_logo = 2131230993;
+			public const int Unresolved = 2131230993;
+			
+			// aapt resource value: 0x7F080112
+			public const int xamarin_logo = 2131230994;
 			
 			static Drawable()
 			{

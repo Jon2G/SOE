@@ -169,4 +169,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\Unresolved.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\profile.jpg" />
+  </ItemGroup>
 </Project>

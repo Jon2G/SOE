@@ -41,7 +41,7 @@ namespace SchoolOrganizer.ViewModels.Pages
             AuthenticationRequestConfiguration conf =
                 new AuthenticationRequestConfiguration("Authentication",
                 "Authenticate access to your personal data");
-
+            conf.AllowAlternativeAuthentication = true;
             var authResult = await CrossFingerprint.Current.AuthenticateAsync(conf);
             if (authResult.Authenticated)
             {

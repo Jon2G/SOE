@@ -14,7 +14,7 @@ using Xamarin.Forms;
 using Android.Content;
 using Android.Util;
 using Acr.UserDialogs;
-
+using Plugin.Fingerprint;
 
 namespace OrganizadorEscolar.Droid
 {
@@ -44,7 +44,6 @@ namespace OrganizadorEscolar.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-
 
 
     }

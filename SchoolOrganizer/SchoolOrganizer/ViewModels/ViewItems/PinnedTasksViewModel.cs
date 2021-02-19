@@ -10,7 +10,6 @@ namespace SchoolOrganizer.ViewModels.ViewItems
         public List<Card> Tasks { get; set; }
         public PinnedTasksViewModel()
         {
-
         }
     }
 }

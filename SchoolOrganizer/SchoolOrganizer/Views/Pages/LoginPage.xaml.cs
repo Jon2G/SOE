@@ -1,4 +1,6 @@
-﻿using SchoolOrganizer.ViewModels.Pages;
+﻿using Plugin.Fingerprint;
+using Plugin.Fingerprint.Abstractions;
+using SchoolOrganizer.ViewModels.Pages;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,5 +14,7 @@ namespace SchoolOrganizer.Views.Pages
             InitializeComponent();
             this.BindingContext = new LoginViewModel();
         }
+
+      
     }
 }

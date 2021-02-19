@@ -34,7 +34,7 @@ namespace SchoolOrganizer.ViewModels.Pages
             if (!isFingerprintAvailable)
             {
                 Acr.UserDialogs.UserDialogs.Instance.Alert($"Error",
-                    "Biometric authentication is not available or is not configured.", "OK");
+                    "La autenticacion biometrica no esta disponible  o no esta configurada.", "OK");
                 return;
             }
 
@@ -50,7 +50,7 @@ namespace SchoolOrganizer.ViewModels.Pages
             }
             else
             {
-                Acr.UserDialogs.UserDialogs.Instance.Alert($"Error", "Authentication failed", "OK");
+                Acr.UserDialogs.UserDialogs.Instance.Alert($"Error", "Autenticacion fallida", "OK");
             }
         }
         private void ConfirmRegister(object obj)

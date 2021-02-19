@@ -11,6 +11,9 @@ namespace SchoolOrganizer.Views.Pages
         {
             InitializeComponent();
         }
-
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
+        }
     }
 }

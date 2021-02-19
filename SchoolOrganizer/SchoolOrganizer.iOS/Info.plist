@@ -34,5 +34,7 @@
     <string>OrganizadorEscolar</string>
     <key>XSAppIconAssets</key>
     <string>Assets.xcassets/AppIcon.appiconset</string>
+  <key>NSFaceIDUsageDescription</key>
+  <string>Authenticate with Face ID</string>
 </dict>
 </plist>

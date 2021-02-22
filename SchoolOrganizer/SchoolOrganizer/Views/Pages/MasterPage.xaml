@@ -1,12 +1,187 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SchoolOrganizer.Views.Pages.MasterPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+             xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="SchoolOrganizer.Views.Pages.MasterPage"
+             xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
+             xmlns:viewItems="clr-namespace:SchoolOrganizer.Views.ViewItems;assembly=SchoolOrganizer"
+             xmlns:cardViews="clr-namespace:SchoolOrganizer.Views.ViewItems.CardViews;assembly=SchoolOrganizer">
+
+    <ContentPage.Resources>
+
+
+        <ControlTemplate x:Key="TabItemTemplate">
+            <Grid>
+                <Image
+                    x:Name="TabIcon"
+                    Grid.Row="0"
+                    Margin="6"
+                    HeightRequest="24"
+                    HorizontalOptions="Center"
+                    Source="{TemplateBinding CurrentIcon}"
+                    VerticalOptions="Center"
+                    WidthRequest="24" />
+            </Grid>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="BasketTabItemTemplate">
+            <Grid>
+                <ImageButton
+                    x:Name="BagBtn"
+                    Padding="24"
+                    BackgroundColor="{DynamicResource primaryDarkColor}"
+                    HeightRequest="72"
+                    HorizontalOptions="Center"
+                    InputTransparent="True"
+                    Source="{TemplateBinding CurrentIcon}"
+                    VerticalOptions="Start"
+                    WidthRequest="72">
+                    <ImageButton.CornerRadius>
+                        <OnPlatform x:TypeArguments="x:Int32">
+                            <On Platform="iOS, UWP" Value="36" />
+                            <On Platform="Android" Value="60" />
+                        </OnPlatform>
+                    </ImageButton.CornerRadius>
+                </ImageButton>
+            </Grid>
+        </ControlTemplate>
+
+        <Style x:Key="TabItemStyle" TargetType="toolkit:TabViewItem">
+            <Setter Property="TextColor" Value="#979797" />
+            <Setter Property="TextColor" Value="#979797" />
+            <Setter Property="TextColorSelected" Value="{DynamicResource secondaryColor}" />
+            <Setter Property="Scale" Value="0.85" />
+        </Style>
+
+        <Style x:Key="CustomTabStyle" TargetType="toolkit:TabView">
+            <Setter Property="IsTabTransitionEnabled" Value="False" />
+            <Setter Property="IsSwipeEnabled" Value="False" />
+            <Setter Property="IsClippedToBounds" Value="False" />
+            <Setter Property="TabStripBackgroundColor" Value="#E8E6F2" />
+            <Setter Property="TabStripHeight" Value="65" />
+            <Setter Property="TabContentBackgroundColor" Value="#F5F5F5" />
+            <Setter Property="TabStripPlacement" Value="Bottom" />
+        </Style>
+
+    </ContentPage.Resources>
+
+    <Grid IsClippedToBounds="False" RowSpacing="0">
+        <toolkit:TabView Style="{StaticResource CustomTabStyle}">
+            <!--  HOME TAB  -->
+            <toolkit:TabViewItem>
+                <toolkit:TabViewItem.Icon>
+                    <FontImageSource
+                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                        Glyph="{x:Static fonts:FontelloIcons.Home}"
+                        Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
+                                                Light={StaticResource secondaryTextColor}}" />
+                </toolkit:TabViewItem.Icon>
+                <toolkit:TabViewItem.IconSelected>
+                    <FontImageSource
+                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                        Glyph="{x:Static fonts:FontelloIcons.Home}"
+                        Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
+                                                Light={StaticResource secondaryTextColor}}"/>
+                </toolkit:TabViewItem.IconSelected>
+                <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                    <Label FontSize="Large" FontFamily="fontello" 
+                           Text="{x:Static fonts:FontelloIcons.Calendar}" TextColor="Blue"/>
+                  
+
+                </StackLayout>
+            </toolkit:TabViewItem>
+
+            <!--  FAVOURITE TAB  -->
+            <toolkit:TabViewItem>
+                <toolkit:TabViewItem.Icon>
+                    <FontImageSource
+                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                        Glyph="{x:Static fonts:FontelloIcons.Users}"
+                        Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
+                                                Light={StaticResource secondaryTextColor}}" />
+                </toolkit:TabViewItem.Icon>
+                <toolkit:TabViewItem.IconSelected>
+                    <FontImageSource
+                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                        Glyph="{x:Static fonts:FontelloIcons.AddressBook}"
+                        Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
+                                                Light={StaticResource secondaryTextColor}}" />
+                </toolkit:TabViewItem.IconSelected>
+                <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                    <Label FontSize="Large" Text="Favourites" />
+                    
+                </StackLayout>
+            </toolkit:TabViewItem>
+
+            <!--  HOME TAB  -->
+            <toolkit:TabViewItem IsSelected="True"
+                ControlTemplate="{StaticResource BasketTabItemTemplate}"
+                Style="{StaticResource TabItemStyle}">
+                <toolkit:TabViewItem.Icon>
+                    <FontImageSource
+                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                        Glyph="{x:Static fonts:FontelloIcons.Home}"
+                        Color="{AppThemeBinding Dark={StaticResource  secondaryTextColor},
+                                                Light={StaticResource secondaryLightColor}}" />
+                </toolkit:TabViewItem.Icon>
+
+                <Grid>
+                    <Grid  ColumnDefinitions="*,20" ColumnSpacing="0" RowDefinitions="4*,6*">
+                        <cardViews:PinnedTasks/>
+                    </Grid>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <viewItems:TimelineBar Grid.Column="1"/>
+                    </Grid>
+                </Grid>
+            </toolkit:TabViewItem>
+
+            <!--  FINANCE TAB  -->
+            <toolkit:TabViewItem>
+                <toolkit:TabViewItem.Icon>
+                    <FontImageSource
+                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                        Glyph="{x:Static fonts:FontelloIcons.Award}"
+                        Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
+                                                Light={StaticResource secondaryTextColor}}" />
+                </toolkit:TabViewItem.Icon>
+                <toolkit:TabViewItem.IconSelected>
+                    <FontImageSource
+                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                        Glyph="{x:Static fonts:FontelloIcons.PaperPlane}"
+                        Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
+                                                Light={StaticResource secondaryTextColor}}" />
+                </toolkit:TabViewItem.IconSelected>
+                <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                    <Label FontSize="Large" Text="Finance" />
+                    
+                </StackLayout>
+            </toolkit:TabViewItem>
+
+            <!--  PROFILE TAB  -->
+            <toolkit:TabViewItem>
+                <toolkit:TabViewItem.Icon>
+                    <FontImageSource
+                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                        Glyph="{x:Static fonts:FontelloIcons.PaperPlane}"
+                        Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
+                                                Light={StaticResource secondaryTextColor}}" />
+                </toolkit:TabViewItem.Icon>
+                <toolkit:TabViewItem.IconSelected>
+                    <FontImageSource
+                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                        Glyph="{x:Static fonts:FontelloIcons.Attach}"
+                        Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
+                                                Light={StaticResource secondaryTextColor}}" />
+                </toolkit:TabViewItem.IconSelected>
+                <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                    <Label FontSize="Large" Text="Profile" />
+                  
+                    <StackLayout Margin="10">
+                        <Button Text="Home" StyleId="0"/>
+                    </StackLayout>
+                </StackLayout>
+            </toolkit:TabViewItem>
+        </toolkit:TabView>
+    </Grid>
+
 </ContentPage>

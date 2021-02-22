@@ -2,23 +2,24 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SchoolOrganizer.Views.ViewItems.UserProfile"
-             BackgroundColor="#12396F">
-  <ContentView.Content>
+             xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
+             xmlns:circular="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             BackgroundColor="{StaticResource primaryLightColor}">
+    <ContentView.Content>
       <StackLayout >
-            <Grid Margin="10,0,0,0" ColumnDefinitions="Auto,*"  >
+            <Grid Margin="10,0,0,0" ColumnDefinitions="Auto,*" Padding="10" >
 
-                <StackLayout Padding="0">
-                  <Frame CornerRadius="50" 
-                         HeightRequest="100"
-                         WidthRequest="100"
-                         HorizontalOptions="Center"
-                         Padding="0"
-                         IsClippedToBounds="True">
-                        <Image Source="profile.jpg"  HorizontalOptions="CenterAndExpand"
-                             VerticalOptions="CenterAndExpand"     />
-                  </Frame>
-              </StackLayout>
-              <StackLayout VerticalOptions="Center" Grid.Column="1">
+                <pancakeView:PancakeView Padding="1"   WidthRequest="75" HeightRequest="75"
+                                         CornerRadius="80" BackgroundColor="Transparent"
+                                         IsClippedToBounds="True" Style="{StaticResource card}">
+                    <circular:CircleImage Source="profile.jpg" 
+                                          Aspect="AspectFill" 
+                                          WidthRequest="75"
+                                          HeightRequest="75"/>
+                </pancakeView:PancakeView>
+
+                <StackLayout VerticalOptions="Center" Grid.Column="1">
                   <Label  Text="Calamardo Tentaculos"  FontSize="20" FontAttributes="Bold" TextColor="White" VerticalOptions="Center"/>
                     <Label  Text="Estudiante"  FontSize="14" FontAttributes="Bold" VerticalOptions="Center" TextColor="White"/>
               </StackLayout>
@@ -26,53 +27,58 @@
           </Grid>
             
             <TableView BackgroundColor="White">
-                <TableSection >
-                    <ViewCell >
-                        <StackLayout Margin="5" Orientation="Horizontal" >
-                            <Label Margin="10,0,0,0" Text="Activar Lector" FontSize="18" HorizontalOptions="Start" VerticalOptions="Center"/>
-                            <Switch OnColor="Aqua" ThumbColor="#12396F" IsToggled="False" HorizontalOptions="EndAndExpand"/>
-                        </StackLayout>
-                    </ViewCell>
-                    <ViewCell  >
-
-                        <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
-                            <Image Source="contact.png" WidthRequest="30"/>
-                            <Label  Margin="10,0,0,0" Text=" Contactos" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                <TableSection>
+                    <ViewCell>
+                        <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand" >
+                            <Label Text="{x:Static fonts:FontelloIcons.AddressBook}" 
+                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Contactos" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                         </StackLayout>
                     </ViewCell>
                     <ViewCell >
 
                         <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
-                            <Image Source="horario.png" WidthRequest="30"/>
-                            <Label  Margin="10,0,0,0" Text=" Horario" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                            <Label Text="{x:Static fonts:FontelloIcons.Calendar}"
+                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Horario" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                         </StackLayout>
                     </ViewCell>
                     <ViewCell >
 
                         <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
-                            <Image Source="task.png" WidthRequest="30"/>
-                            <Label  Margin="10,0,0,0" Text=" Tareas" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                            <Label Text="{x:Static fonts:FontelloIcons.Book}"  
+                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Tareas" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                         </StackLayout>
                     </ViewCell>
                     <ViewCell >
 
                         <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
-                            <Image Source="logro.png" WidthRequest="30"/>
-                            <Label  Margin="10,0,0,0" Text=" Logros" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                            <Label Text="{x:Static fonts:FontelloIcons.Award}"  
+                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Logros" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                         </StackLayout>
                     </ViewCell>
                     <ViewCell >
 
                         <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
-                            <Image Source="setting.png" WidthRequest="30"/>
-                            <Label  Margin="10,0,0,0" Text=" Ajustes" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                            <Label Text="{x:Static fonts:FontelloIcons.Cog}" 
+                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Ajustes" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                         </StackLayout>
                     </ViewCell>
                     <ViewCell >
 
                         <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
-                            <Image Source="logout.png" WidthRequest="30"/>
-                            <Label  Margin="10,0,0,0" Text=" Cerrar Sesión" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                            <Label Text="{x:Static fonts:FontelloIcons.Logout}" 
+                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <Label TextColor="{DynamicResource primaryDarkColor}"  Margin="10,0,0,0" Text=" Cerrar Sesión" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                         </StackLayout>
                     </ViewCell>
                     

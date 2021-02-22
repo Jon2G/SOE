@@ -21,15 +21,12 @@ namespace SchoolOrganizer.Views.Pages
             var settings = new HighlightSettings()
             {
                 StrokeWidth = 6,
-                StrokeStartColor = Color.FromHex("#04d6d3"),
-                StrokeEndColor = Color.FromHex("#12396F"),
+                StrokeStartColor = (Color)Application.Current.Resources["secondaryColor"],
+                StrokeEndColor = (Color)Application.Current.Resources["primaryLightColor"],//Color.FromHex("#12396F"),
                 AnimationDuration = TimeSpan.FromMilliseconds(900),
                 AnimationEasing = Easing.CubicInOut,
             };
-
             _highlightForm = new HighlightForm(settings);
-            this.BindingContext = new LoginViewModel();
-           
         }
 
         void EntryFocused(object sender, FocusEventArgs e)

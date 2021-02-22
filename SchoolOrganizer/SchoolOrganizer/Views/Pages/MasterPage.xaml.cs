@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace SchoolOrganizer.Views.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MasterPage : ContentPage
+    public partial class MasterPage 
     {
         public MasterPage()
         {

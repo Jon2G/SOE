@@ -11,10 +11,10 @@
         <ResourceDictionary>
 
             <Color x:Key="Primary">#080821</Color>
-            <Color x:Key="primaryLightColor">MidnightBlue</Color>
+            <Color x:Key="primaryLightColor">#12396F</Color>
             <Color x:Key="primaryDarkColor">#080821</Color>
-            <Color x:Key="secondaryColor">#26a69a</Color>
-            <Color x:Key="secondaryLightColor">#64d8cb</Color>
+            <Color x:Key="secondaryColor">#04d6be</Color>
+            <Color x:Key="secondaryLightColor">WhiteSmoke</Color>
             <Color x:Key="secondaryDarkColor">#00766c</Color>
             <Color x:Key="primaryTextColor">#ffffff</Color>
             <Color x:Key="PrimaryLightBackground">#ffffff</Color>

@@ -10,10 +10,12 @@
         <viewmodels:PinnedTasksViewModel/>
     </ContentView.BindingContext>
   <ContentView.Content>
-      <CollectionView Margin="5" ItemsSource="{Binding Tasks}">
+      <CollectionView VerticalScrollBarVisibility="Always" Margin="5" ItemsSource="{Binding Tasks}">
                 <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:Card">
-                            <viewItems:CardView Margin="5"/>
+                            <ContentView Padding="3">
+                                <viewItems:CardView Margin="5"/>
+                            </ContentView>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>

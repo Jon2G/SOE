@@ -1,70 +1,83 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SchoolOrganizer.Views.ViewItems.UserProfile">
+             x:Class="SchoolOrganizer.Views.ViewItems.UserProfile"
+             BackgroundColor="#12396F">
   <ContentView.Content>
       <StackLayout >
-          <Grid  Background="rgb(26, 217, 230)" ColumnDefinitions="Auto,*">
-              
-              <StackLayout Padding="0" Margin="20">
+            <Grid Margin="10,0,0,0" ColumnDefinitions="Auto,*"  >
+
+                <StackLayout Padding="0">
                   <Frame CornerRadius="50" 
                          HeightRequest="100"
                          WidthRequest="100"
                          HorizontalOptions="Center"
                          Padding="0"
                          IsClippedToBounds="True">
-                      <Image Source="profile.jpg" 
-                             HorizontalOptions="Center"
-                             VerticalOptions="Center" />
+                        <Image Source="profile.jpg"  HorizontalOptions="CenterAndExpand"
+                             VerticalOptions="CenterAndExpand"     />
                   </Frame>
               </StackLayout>
               <StackLayout VerticalOptions="Center" Grid.Column="1">
-                  <Label  Text="Calamardo Tentaculos"  FontSize="20" FontAttributes="Bold" TextColor="Black" VerticalOptions="Center"/>
-                  <Label  Text="Estudiante"  FontSize="14" FontAttributes="Bold" VerticalOptions="Center"/>
+                  <Label  Text="Calamardo Tentaculos"  FontSize="20" FontAttributes="Bold" TextColor="White" VerticalOptions="Center"/>
+                    <Label  Text="Estudiante"  FontSize="14" FontAttributes="Bold" VerticalOptions="Center" TextColor="White"/>
               </StackLayout>
 
           </Grid>
-            <!--<StackLayout Padding="40">
-              <Frame CornerRadius="100" 
-                     HeightRequest="200"
-                     WidthRequest="200"
-                     HorizontalOptions="Center"
-                     Padding="0"
-                     IsClippedToBounds="True">
-                    <Image Source="profile.jpg" 
-                         HorizontalOptions="Center"
-                         VerticalOptions="Center" />
-              </Frame>
-          </StackLayout>
-            --><!--<Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30*" />
-                    <ColumnDefinition Width="70*"/>
-                </Grid.ColumnDefinitions>-->
-                <!--<BoxView Background="rgb(26, 217, 230)" Grid.ColumnSpan="2"/>--><!--
-            -->
-            <!--</Grid>-->
-            <TableView>
-                <TableSection>
-                    <ViewCell>
-                        <Label Margin="10,0,0,0" Text="&#x2706;  Contactos" FontSize="18" VerticalOptions="Center"/>
+            
+            <TableView BackgroundColor="White">
+                <TableSection >
+                    <ViewCell >
+                        <StackLayout Margin="5" Orientation="Horizontal" >
+                            <Label Margin="10,0,0,0" Text="Activar Lector" FontSize="18" HorizontalOptions="Start" VerticalOptions="Center"/>
+                            <Switch OnColor="Aqua" ThumbColor="#12396F" IsToggled="False" HorizontalOptions="EndAndExpand"/>
+                        </StackLayout>
                     </ViewCell>
+                    <ViewCell  >
+
+                        <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
+                            <Image Source="contact.png" WidthRequest="30"/>
+                            <Label  Margin="10,0,0,0" Text=" Contactos" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                        </StackLayout>
+                    </ViewCell>
+                    <ViewCell >
+
+                        <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
+                            <Image Source="horario.png" WidthRequest="30"/>
+                            <Label  Margin="10,0,0,0" Text=" Horario" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                        </StackLayout>
+                    </ViewCell>
+                    <ViewCell >
+
+                        <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
+                            <Image Source="task.png" WidthRequest="30"/>
+                            <Label  Margin="10,0,0,0" Text=" Tareas" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                        </StackLayout>
+                    </ViewCell>
+                    <ViewCell >
+
+                        <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
+                            <Image Source="logro.png" WidthRequest="30"/>
+                            <Label  Margin="10,0,0,0" Text=" Logros" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                        </StackLayout>
+                    </ViewCell>
+                    <ViewCell >
+
+                        <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
+                            <Image Source="setting.png" WidthRequest="30"/>
+                            <Label  Margin="10,0,0,0" Text=" Ajustes" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                        </StackLayout>
+                    </ViewCell>
+                    <ViewCell >
+
+                        <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
+                            <Image Source="logout.png" WidthRequest="30"/>
+                            <Label  Margin="10,0,0,0" Text=" Cerrar Sesión" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                        </StackLayout>
+                    </ViewCell>
+                    
                 </TableSection>
             </TableView>
-            <!--
-                    
-                -->
-          <!--<StackLayout Spacing="0" >
-                <Button TextColor="Black"  Background="white" BorderColor="FloralWhite" BorderWidth="2"></Button>
-              <Button TextColor="Black" Text="Contactos" Background="white" BorderColor="FloralWhite" BorderWidth="2"></Button>
-              <Button TextColor="Black" Text="Contactos" Background="white" BorderColor="FloralWhite" BorderWidth="2"></Button>
-              <Button TextColor="Black" Text="Logros" Background="white" BorderColor="FloralWhite" BorderWidth="2"></Button>
-              <Button TextColor="Black" Text="Tareas" Background="white" BorderColor="FloralWhite" BorderWidth="2"></Button>
-              <Button TextColor="Black" Text="Horarios" Background="white" BorderColor="FloralWhite" BorderWidth="2"></Button>
-              <Button TextColor="Black" Text="Ajuestes" Background="white" BorderColor="FloralWhite" BorderWidth="2"></Button>
-                <Button TextColor="Black" Text=" &#x26bf;Cerrar Sesión" Background="white" BorderColor="FloralWhite" BorderWidth="2"></Button>
-            </StackLayout>-->
-
-      </StackLayout>
+        </StackLayout>
   </ContentView.Content>
 </ContentView>

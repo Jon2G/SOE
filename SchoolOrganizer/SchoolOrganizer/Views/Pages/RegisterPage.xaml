@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
              xmlns:viewModels="clr-namespace:SchoolOrganizer.ViewModels.Pages;assembly=SchoolOrganizer"
-             x:Class="SchoolOrganizer.Views.Pages.RegisterPage" BackgroundColor="#080821"
+             x:Class="SchoolOrganizer.Views.Pages.RegisterPage" BackgroundColor="#12396F"
              x:DataType="{x:Type viewModels:RegisterPageViewModel}">
     <ContentPage.Content>
         <StackLayout Padding="10" VerticalOptions="Center" HorizontalOptions="FillAndExpand"

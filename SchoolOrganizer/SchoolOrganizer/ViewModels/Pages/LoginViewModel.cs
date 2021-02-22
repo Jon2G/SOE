@@ -2,6 +2,8 @@
 using Plugin.Fingerprint.Abstractions;
 using SchoolOrganizer.Views.Pages;
 using Xamarin.Forms;
+using System;
+using SkiaSharp.Views.Forms;
 
 namespace SchoolOrganizer.ViewModels.Pages
 {
@@ -12,14 +14,16 @@ namespace SchoolOrganizer.ViewModels.Pages
         public Command LoginCommand { get; }
         public Command FingerCommand { get; }
         public Command RegisterCommand { get; }
-
+       
+       
         public LoginViewModel()
         {
             LoginCommand = new Command(OnLoginClicked);
             FingerCommand = new Command(FingerClicked);
             RegisterCommand = new Command(ConfirmRegister);
+         
         }
-
+      
         private void OnLoginClicked(object obj)
         {
             Acr.UserDialogs.UserDialogs.Instance.Alert($"Hemos notado que es tu primer inicio de sesión, te damos la bienvenida.", $"!Bienvenido,{User}¡", "Vamos allá");

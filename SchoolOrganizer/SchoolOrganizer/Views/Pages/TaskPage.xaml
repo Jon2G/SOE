@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<popup:PopupPage  xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SchoolOrganizer.Views.Pages.TaskPage"
              xmlns:render="clr-namespace:SchoolOrganizer.Views.Renders"
+              xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
               xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit">
-    <ContentPage.Content>
+ 
         <StackLayout Spacing="10" Margin="20">
-
+        
             <StackLayout Orientation="Horizontal">
                 <Button ImageSource="leftarrow.png" WidthRequest="30" BackgroundColor="White"/>
                 <Button CornerRadius="30" FontAttributes="Bold" Text="Agregar" HorizontalOptions="EndAndExpand" BackgroundColor="#12396F"/>
@@ -30,5 +31,5 @@
             </StackLayout>
             <Editor Placeholder="Nota" VerticalOptions="FillAndExpand"/>
         </StackLayout>
-    </ContentPage.Content>
-</ContentPage>
+
+</popup:PopupPage>

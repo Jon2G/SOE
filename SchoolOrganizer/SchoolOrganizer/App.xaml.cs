@@ -13,8 +13,8 @@ namespace SchoolOrganizer
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
-            MainPage = new ContentPage() { Content = new UserProfile() };
-            //MainPage = new LoginPage();
+           // MainPage = new ContentPage() { Content = new UserProfile() };
+            MainPage = new TaskPage();
         }
 
         protected override void OnStart()

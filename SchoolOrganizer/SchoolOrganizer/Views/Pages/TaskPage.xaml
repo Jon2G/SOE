@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SchoolOrganizer.Views.Pages.TaskPage"
+             xmlns:render="clr-namespace:SchoolOrganizer.Views.Renders"
+              xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit">
+    <ContentPage.Content>
+        <StackLayout Spacing="10" Margin="20">
+
+            <StackLayout Orientation="Horizontal">
+                <Button ImageSource="leftarrow.png" WidthRequest="30" BackgroundColor="White"/>
+                <Button CornerRadius="30" FontAttributes="Bold" Text="Agregar" HorizontalOptions="EndAndExpand" BackgroundColor="#12396F"/>
+            </StackLayout>
+            <StackLayout Spacing="10">
+                <Label FontSize="30" Text="Titulo:" TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB"/>
+                <input:AdvancedEntry Placeholder="Agregar Titulo" Grid.Row="0" PlaceholderColor="#12396F"/>
+                <Button Grid.Row="1" Text="Seleccionar Materia" BackgroundColor="White" CornerRadius="20" BorderColor="LightGray" BorderWidth="2" TextColor="#12396F"/>
+                <Frame Grid.Row="2" CornerRadius="10" Padding="3" BackgroundColor="{DynamicResource PrimaryLightBackground}" 
+                       BorderColor="#12396F" >
+                    <DatePicker  FontAttributes="Bold" TextColor="{DynamicResource primaryLightColor}" Format="dd/MM/yyyy" x:Name="Date" />
+                </Frame>
+              
+            </StackLayout>
+            <StackLayout VerticalOptions="Start" >
+                <Label FontSize="30" Text="Notas:" TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB"/>
+                <StackLayout Orientation="Horizontal">
+                    <Button ImageSource="gallery.png" WidthRequest="40" BackgroundColor="White" BorderColor="#12396F" BorderWidth="2" />
+                    <Button ImageSource="cam.png" BackgroundColor="White" BorderColor="#12396F" BorderWidth="2"/>
+                </StackLayout>
+            </StackLayout>
+            <Editor Placeholder="Nota" VerticalOptions="FillAndExpand"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

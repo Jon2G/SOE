@@ -11,13 +11,15 @@
              x:Class="SchoolOrganizer.Views.Pages.LoginPage"
              Shell.NavBarIsVisible="False" x:DataType="{x:Type viewModels:LoginViewModel}"
              xmlns:skiaSharp="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
-             xmlns:render="clr-namespace:SchoolOrganizer.Views.Renders">
+             xmlns:render="clr-namespace:SchoolOrganizer.Views.Renders" 
+             BackgroundColor="{DynamicResource primaryLightColor}">
+    <ContentPage.BindingContext>
+        <viewModels:LoginViewModel/>
+    </ContentPage.BindingContext>
 
-    <ScrollView Orientation="Vertical"
-                BackgroundColor="#12396F">
         <pancakeView:PancakeView 
                 Style="{StaticResource card}" 
-                BackgroundColor="WhiteSmoke"
+                BackgroundColor="{DynamicResource secondaryLightColor}"
                 CornerRadius="10" 
                 Padding="10" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
                 Margin="20,10">
@@ -26,11 +28,9 @@
                 <Image HeightRequest="70" Source="icon" />
                 <Label TextColor="Black" FontFamily="KarlaSB" Text="¡Bienvenido!" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
                 <BoxView HeightRequest="1"
-                         BackgroundColor="#12396F" />
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                         BackgroundColor="{DynamicResource primaryLightColor}" />
+                <Grid >
+
                     <skiaSharp:SKCanvasView x:Name="_skCanvasView"
                                             PaintSurface="SkCanvasViewPaintSurfaceRequested"
                                             SizeChanged="SkCanvasViewSizeChanged"/>
@@ -40,47 +40,42 @@
                                  Orientation="Vertical"
                                  Spacing="1">
 
-                        <render:NoLineEntry Style="{StaticResource FormEntryStyle} " TextColor="Black"  x:Name="Usuario"
+                        <render:NoLineEntry Style="{StaticResource FormEntryStyle} " TextColor="{DynamicResource secondaryTextColor}"  x:Name="Usuario"
                                Focused="EntryFocused" Placeholder="Usuario" PlaceholderColor="Black" Margin="0,10"/>
 
 
                         <render:NoLineEntry IsPassword="True"
-                               Style="{StaticResource FormEntryStyle}" TextColor="Black"
-                               Focused="EntryFocused" Placeholder="Contraseña" PlaceholderColor="Black" Margin="0,10"/>
+                               Style="{StaticResource FormEntryStyle}" TextColor="{DynamicResource secondaryTextColor}"
+                               Focused="EntryFocused" Placeholder="Contraseña" PlaceholderColor="{DynamicResource secondaryTextColor}" Margin="0,10"/>
 
                         <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
 
-                            <Switch OnColor="#04d6be" ThumbColor="#12396F" />
-                            <Label Text="Recuérdame" TextColor="Black" FontFamily="KarlaSB"  FontSize="18" FontAttributes="Bold" />
+                        <Switch OnColor="{DynamicResource secondaryColor}" ThumbColor="{DynamicResource primaryLightColor}" />
+                        <Label Text="Recuérdame" TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB"  FontSize="18" FontAttributes="Bold" />
                         </StackLayout>
 
 
                         <Button  Text="Iniciar sesión"
                                 FontFamily="KarlaSB"
-                                BackgroundColor="#12396F"
+                                BackgroundColor="{DynamicResource primaryLightColor}" TextColor="{DynamicResource primaryTextColor}"
                                 Command="{Binding LoginCommand}"
                                 CornerRadius="20" 
-                                Margin="0, 5, 0, 0"
+                                Margin="0, 10, 0, 0"
                                 Style="{StaticResource FormSubmitBtnStyle}"
                                />
-                        <!--<Button ImageSource="FiPrint.png"   x:Name="AuthButton" 
-                                 CornerRadius="20" Command="{Binding FingerCommand}"
-                                Margin="0, 5, 0, 0"
-                                 FontFamily="KarlaSB"
-                                BackgroundColor="#04d6be"
-                                Style="{StaticResource FormSubmitBtnStyle}"
-                                />-->
-                        <StackLayout Orientation="Horizontal">
-                            <Label FontFamily="Karla_SemiBold"  TextColor="Black"  TextDecorations="Underline" Text="No tengo cuenta" FontSize="14" HorizontalOptions="Start"  Margin="0,5">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding RegisterCommand}" />
-                                </Label.GestureRecognizers>
-                            </Label>
-                            <Label FontFamily="Karla_SemiBold" TextColor="Black" TextDecorations="Underline" Text="Olvide mi contraseña" FontSize="14" HorizontalOptions="EndAndExpand" Margin="0,5"/>
-                        </StackLayout>
                     </StackLayout>
                 </Grid>
-            </StackLayout>
+                <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" 
+                             >
+                    <Label FontFamily="Karla_SemiBold"  TextColor="Black"  TextDecorations="Underline" Text="No tengo cuenta"
+                           FontSize="14" HorizontalOptions="StartAndExpand"  Margin="0,5">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding RegisterCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label FontFamily="Karla_SemiBold" TextColor="Black" TextDecorations="Underline" Text="Olvide mi contraseña" FontSize="14" HorizontalOptions="EndAndExpand" Margin="0,5"/>
+                </StackLayout>
+        </StackLayout>
         </pancakeView:PancakeView>
-    </ScrollView>
+
 </ContentPage>

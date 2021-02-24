@@ -14,6 +14,7 @@ using Xamarin.Forms;
 using Android.Content;
 using Android.Util;
 using Acr.UserDialogs;
+using ImageCircle.Forms.Plugin.Droid;
 using Plugin.Fingerprint;
 
 namespace OrganizadorEscolar.Droid
@@ -32,8 +33,8 @@ namespace OrganizadorEscolar.Droid
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            ImageCircleRenderer.Init();
             UserDialogs.Init(this);
-
             //OrganizadorEscolar.Widgets.Horario.WidgetHorario.Init(new Widgets.Horario.WidgetHorario(this));
             //OrganizadorEscolar.Widgets.Tareas.WidgetTareas.Init(new Widgets.Tareas.WidgetTareas(this));
             Plugin.InputKit.Platforms.Droid.Config.Init(this, savedInstanceState);

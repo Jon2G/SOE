@@ -14,25 +14,26 @@ namespace SchoolOrganizer.ViewModels.Pages
         public Command LoginCommand { get; }
         public Command FingerCommand { get; }
         public Command RegisterCommand { get; }
-       
-       
+
+
         public LoginViewModel()
         {
             LoginCommand = new Command(OnLoginClicked);
             FingerCommand = new Command(FingerClicked);
             RegisterCommand = new Command(ConfirmRegister);
-         
+
         }
-      
+
         private void OnLoginClicked(object obj)
         {
             Acr.UserDialogs.UserDialogs.Instance.Alert($"Hemos notado que es tu primer inicio de sesión, te damos la bienvenida.", $"!Bienvenido,{User}¡", "Vamos allá");
             // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
             /*await Shell.Current.GoToAsync($"//{nameof(AboutPage)}", true);*/
             //await App.Current.MainPage.Navigation.PushAsync(new LoginPage());
-            App.Current.MainPage = new AppShell();
+           //App.Current.MainPage = new NavigationPage(new MasterPage());
+           App.Current.MainPage = new AppShell();
         }
-        private async void FingerClicked(object obj) 
+        private async void FingerClicked(object obj)
         {
             bool isFingerprintAvailable = await CrossFingerprint.Current.IsAvailableAsync(true);
             if (!isFingerprintAvailable)

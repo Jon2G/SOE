@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using ImageCircle.Forms.Plugin.iOS;
 using UIKit;
 
 namespace OrganizadorEscolar.iOS
@@ -24,6 +25,7 @@ namespace OrganizadorEscolar.iOS
         {
             global::Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
             global::Xamarin.Forms.Forms.Init();
+            ImageCircleRenderer.Init();
             LoadApplication(new SchoolOrganizer.App());
             Plugin.InputKit.Platforms.iOS.Config.Init();
             return base.FinishedLaunching(app, options);

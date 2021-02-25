@@ -127,7 +127,7 @@
 
                 <Grid>
                     <Grid  ColumnDefinitions="*,20" ColumnSpacing="0" RowDefinitions="4*,6*">
-                        <cardViews:PinnedTasks/>
+                        <cardViews:PinnedTasks BackgroundColor="Purple"/>
                     </Grid>
                     <Grid ColumnDefinitions="*,Auto">
                         <viewItems:TimelineBar Grid.Column="1"/>
@@ -176,8 +176,8 @@
                 <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                     <Label FontSize="Large" Text="Profile" />
                   
-                    <StackLayout Margin="10">
-                        <Button Text="Home" StyleId="0"/>
+                    <StackLayout Margin="10" >
+                        <Button Text="Home" StyleId="0" BackgroundColor="Red" Clicked="Button_Clicked"/>
                     </StackLayout>
                 </StackLayout>
             </toolkit:TabViewItem>

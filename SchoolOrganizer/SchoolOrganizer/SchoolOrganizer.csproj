@@ -45,7 +45,7 @@
     <EmbeddedResource Update="Views\Pages\SplashScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Pages\TaskPage.xaml">
+    <EmbeddedResource Update="Views\PopUps\TaskPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ViewItems\CardViews\CardDetailsView.xaml">
@@ -84,9 +84,5 @@
     <Compile Update="Views\ViewItems\CardViews\DateTimeView.xaml.cs">
       <DependentUpon>DateTimeView.xaml</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\PopUps\" />
   </ItemGroup>
 </Project>

@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Renders\BorderlessDatePickerRenderer.cs" />
     <Compile Include="Renders\NoLineEntryRender.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
@@ -133,11 +134,14 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Rg.Plugins.Popup">
+      <Version>2.0.0.10</Version>
+    </PackageReference>
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle">
-      <Version>3.0.0.5</Version>
+      <Version>3.1.1.1-beta</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.CommunityToolkit">
-      <Version>1.0.2</Version>
+      <Version>1.1.0-pre1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />

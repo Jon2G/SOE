@@ -25,7 +25,7 @@
               </StackLayout>
 
           </Grid>
-            
+
             <TableView BackgroundColor="White">
                 <TableSection>
                     <ViewCell>
@@ -81,7 +81,7 @@
                             <Label TextColor="{DynamicResource primaryDarkColor}"  Margin="10,0,0,0" Text=" Cerrar Sesión" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                         </StackLayout>
                     </ViewCell>
-                    
+
                 </TableSection>
             </TableView>
         </StackLayout>

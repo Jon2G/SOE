@@ -16,7 +16,7 @@ using Android.Util;
 using Acr.UserDialogs;
 using ImageCircle.Forms.Plugin.Droid;
 using Plugin.Fingerprint;
-
+using Rg.Plugins.Popup;
 namespace OrganizadorEscolar.Droid
 {
     [Activity(Label = "OrganizadorEscolar", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
@@ -35,9 +35,11 @@ namespace OrganizadorEscolar.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             ImageCircleRenderer.Init();
             UserDialogs.Init(this);
+            Rg.Plugins.Popup.Popup.Init(this); // :)
             //OrganizadorEscolar.Widgets.Horario.WidgetHorario.Init(new Widgets.Horario.WidgetHorario(this));
             //OrganizadorEscolar.Widgets.Tareas.WidgetTareas.Init(new Widgets.Tareas.WidgetTareas(this));
             Plugin.InputKit.Platforms.Droid.Config.Init(this, savedInstanceState);
+            
             LoadApplication(new SchoolOrganizer.App());
         }
 
@@ -47,7 +49,6 @@ namespace OrganizadorEscolar.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-
-
-    }
+     
+        }
 }

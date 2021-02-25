@@ -26,6 +26,7 @@ namespace OrganizadorEscolar.iOS
             global::Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
             global::Xamarin.Forms.Forms.Init();
             ImageCircleRenderer.Init();
+            Rg.Plugins.Popup.Popup.Init();
             LoadApplication(new SchoolOrganizer.App());
             Plugin.InputKit.Platforms.iOS.Config.Init();
             return base.FinishedLaunching(app, options);

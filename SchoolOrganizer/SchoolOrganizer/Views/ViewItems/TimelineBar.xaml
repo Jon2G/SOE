@@ -23,6 +23,9 @@
             <ScrollView InputTransparent="True" VerticalScrollBarVisibility="Default" HorizontalScrollBarVisibility="Never"  Orientation="Vertical">
                 <viewItems:SwipeContainer SwipeCommand="{Binding ToggleCommand}"
                                    CommandParameter="{x:Reference Me}">
+                    <viewItems:SwipeContainer.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToggleCommand}" CommandParameter="{x:Reference Me}"/>
+                    </viewItems:SwipeContainer.GestureRecognizers>
                     <StackLayout Spacing="0"  BindableLayout.ItemsSource="{Binding Subjects}">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="{x:Type horario:Subject}">

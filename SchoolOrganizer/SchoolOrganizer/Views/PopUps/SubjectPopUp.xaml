@@ -3,16 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SchoolOrganizer.Views.PopUps.SubjectPopUp"
              xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-             
-                 xmlns:viewModels="clr-namespace:SchoolOrganizer.ViewModels.Pages;assembly=SchoolOrganizer">
+             xmlns:viewModels="clr-namespace:SchoolOrganizer.ViewModels.Pages;assembly=SchoolOrganizer"
+             xmlns:scheduler="clr-namespace:SchoolOrganizer.Models.Scheduler;assembly=SchoolOrganizer"
+             x:DataType="viewModels:SubjectViewModel">
+    <popup:PopupPage.BindingContext>
+        <viewModels:SubjectViewModel/>
+    </popup:PopupPage.BindingContext>
+    <Frame Margin="20" CornerRadius="15" 
+           BackgroundColor="{DynamicResource secondaryLightColor}"
+           VerticalOptions="Center" HorizontalOptions="Center" 
+           BorderColor="{DynamicResource primaryLightColor}">
+        <CollectionView ItemsSource="{Binding subjects}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="scheduler:Subject">
+                    <ContentView>
+                        <Frame Margin="3"  BorderColor="{DynamicResource primaryLightColor}" 
+                                CornerRadius="10" BackgroundColor="{Binding Color}">
+                            <Label  FontFamily="Karla_SemiBold"  TextColor="Black"  Text="{Binding Name}"
+                                     FontSize="14"  FontAttributes="Bold">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer  />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Frame>
+                    </ContentView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
 
-    <Frame Margin="10" CornerRadius="15" BackgroundColor="{DynamicResource secondaryLightColor}" VerticalOptions="Center" HorizontalOptions="Center" BorderColor="{DynamicResource primaryLightColor}">
-        <StackLayout Spacing="10" Margin="20">
+        </CollectionView>
+        <!--<StackLayout Spacing="10" Margin="20">
 
 
             <ScrollView>
                 <StackLayout>
-                    <Frame BorderColor="{DynamicResource primaryLightColor}" CornerRadius="10" BackgroundColor="Orange">
+                    <Frame BorderColor="{DynamicResource primaryLightColor}" 
+                           CornerRadius="10" BackgroundColor="Orange">
                         <Label  FontFamily="Karla_SemiBold"  TextColor="Black"  Text="Base de datos"
                            FontSize="14"  FontAttributes="Bold">
                             <Label.GestureRecognizers>
@@ -20,7 +45,8 @@
                             </Label.GestureRecognizers>
                         </Label>
                     </Frame>
-                    <Frame BorderColor="{DynamicResource primaryLightColor}" CornerRadius="10" BackgroundColor="YellowGreen">
+                    <Frame BorderColor="{DynamicResource primaryLightColor}" 
+                           CornerRadius="10" BackgroundColor="YellowGreen">
                         <Label  FontFamily="Karla_SemiBold"  TextColor="Black"  Text="Administración"
                            FontSize="14"  FontAttributes="Bold">
                             <Label.GestureRecognizers>
@@ -31,6 +57,6 @@
                 </StackLayout>
             </ScrollView>
 
-        </StackLayout>
+        </StackLayout>-->
     </Frame>
 </popup:PopupPage>

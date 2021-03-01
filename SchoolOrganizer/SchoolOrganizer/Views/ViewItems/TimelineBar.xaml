@@ -18,8 +18,6 @@
     </ContentView.BindingContext>
     <ContentView.Content>
         <Grid>
-
-
             <ScrollView InputTransparent="True" VerticalScrollBarVisibility="Default" HorizontalScrollBarVisibility="Never"  Orientation="Vertical">
                 <viewItems:SwipeContainer SwipeCommand="{Binding ToggleCommand}"
                                    CommandParameter="{x:Reference Me}">
@@ -48,7 +46,6 @@
                         </BindableLayout.ItemTemplate>
                     </StackLayout>
                 </viewItems:SwipeContainer>
-
             </ScrollView>
         </Grid>
     </ContentView.Content>

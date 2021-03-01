@@ -9,7 +9,7 @@
               xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
               xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit">
     <ContentPage.BindingContext>
-        <viewModels:TaskViewModel/>
+        <viewModels:TaskViewModel x:Name="Modelo"/>
     </ContentPage.BindingContext>
     <Frame Margin="10" CornerRadius="15" BackgroundColor="{DynamicResource secondaryLightColor}" VerticalOptions="Center" HorizontalOptions="Center">
         <StackLayout Spacing="10" Margin="20">
@@ -38,7 +38,16 @@
                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryLightColor}" BackgroundColor="White" BorderColor="{DynamicResource primaryLightColor}" BorderWidth="2" CornerRadius="30" FontSize="18" Clicked="Button_Clicked_1"/>
                 </StackLayout>
             </StackLayout>
-            <Image x:Name="MyImg"/>
+            <!--<Image x:Name="MyImg"/>-->
+            <CarouselView
+                ItemsSource="{Binding Photos}">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding .}"/>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+
             <Editor Placeholder="Nota" VerticalOptions="FillAndExpand"/>
         </StackLayout>
     </Frame>

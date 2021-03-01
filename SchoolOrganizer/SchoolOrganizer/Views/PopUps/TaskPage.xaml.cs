@@ -1,6 +1,4 @@
-﻿using Plugin.Media;
-using Plugin.Media.Abstractions;
-using Rg.Plugins.Popup.Pages;
+﻿using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,7 +6,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -27,35 +25,37 @@ namespace SchoolOrganizer.Views.Pages
 
         private async void Button_Clicked(object sender, EventArgs e)
         {
-            var tomar = new StoreCameraMediaOptions()
+
+            //var tomar = new StoreCameraMediaOptions()
+            //{
+            //    SaveToAlbum = true,
+            //    Name = "new.jpg"
+            //};
+            if (Xamarin.Essentials.MediaPicker.IsCaptureSupported)
             {
-                SaveToAlbum = true,
-                Name = "new.jpg"
-            };
-            var picture = await CrossMedia.Current.TakePhotoAsync(tomar);
-            MyImg.Source = ImageSource.FromStream(() =>
-            {
-                var stream = picture.GetStream();
-                picture.Dispose();
-                return stream;
-            });
+                var picture = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync();
+                if (picture != null)
+                {
+                    //var stream = await picture.FileName; //.GetStream();
+                    //var picture = await CrossMedia.Current.TakePhotoAsync(tomar);
+                    FileImageSource imagen = new FileImageSource() {File = picture.FullPath };
+                    Modelo.Photos.Add(imagen);
+                }
+            }
         }
 
         private async void Button_Clicked_1(object sender, EventArgs e)
         {
-            if (CrossMedia.Current.IsTakePhotoSupported)
+
+            var picture = await Xamarin.Essentials.MediaPicker.PickPhotoAsync(new MediaPickerOptions());
+
+            // CrossMedia.Current.PickPhotoAsync();
+            if (picture != null)
             {
-                var picture = await CrossMedia.Current.PickPhotoAsync();
-                if (picture != null)
-                {
-                    MyImg.Source = ImageSource.FromStream(() =>
-                    {
-                        var stream = picture.GetStream();
-                        picture.Dispose();
-                        return stream;
-                    });
-                }
+                FileImageSource imagen = new FileImageSource() { File = picture.FullPath };
+                Modelo.Photos.Add(imagen);
             }
+
         }
     }
 }

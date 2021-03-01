@@ -19,6 +19,8 @@ namespace SchoolOrganizer.Fonts
         public const string Cog = "\ue80a";
         public const string Logout = "\ue80b";
         public const string PaperPlane = "\uf1d8";
-		public const string Font = "FontIcon";
+        public const string Camera = "\uE80C";
+        public const string Photo = "\uE80D";
+        public const string Font = "FontIcon";
     }
 }

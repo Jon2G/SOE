@@ -177,7 +177,7 @@
                     <Label FontSize="Large" Text="Profile" />
                   
                     <StackLayout Margin="10" >
-                        <Button Text="Home" StyleId="0" BackgroundColor="Red" Clicked="Button_Clicked"/>
+                        <Button Text="Home" StyleId="0" BackgroundColor="Red" Clicked="Button_Clicked" />
                     </StackLayout>
                 </StackLayout>
             </toolkit:TabViewItem>

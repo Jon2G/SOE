@@ -6,4 +6,4 @@ using Xamarin.Forms.Xaml;
 [assembly: ExportFont("Karla_ExtraLight.ttf", Alias = "KarlaEL")]
 [assembly: ExportFont("Karla_Medium.ttf", Alias = "KarlaM")]
 [assembly: ExportFont("Karla_SemiBold.ttf", Alias = "KarlaSB")]
-[assembly: ExportFont("fontello_icons.ttf", Alias = "FontIcon")]
+[assembly: ExportFont("fontello_1.ttf", Alias = "FontIcon")]

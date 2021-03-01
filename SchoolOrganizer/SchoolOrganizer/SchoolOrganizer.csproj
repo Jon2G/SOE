@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Fonts\fontello_icons.ttf" />
+    <None Remove="Fonts\fontello_1.ttf" />
     <None Remove="Fonts\Karla.ttf" />
     <None Remove="Fonts\Karla_ExtraLight.ttf" />
     <None Remove="Fonts\Karla_Medium.ttf" />
@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Fonts\fontello_icons.ttf" />
+    <EmbeddedResource Include="Fonts\fontello_1.ttf" />
     <EmbeddedResource Include="Fonts\Karla.ttf" />
     <EmbeddedResource Include="Fonts\Karla_ExtraLight.ttf" />
     <EmbeddedResource Include="Fonts\Karla_Medium.ttf" />
@@ -27,6 +27,7 @@
     <PackageReference Include="Plugin.Fingerprint" Version="2.1.3" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.10" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.3-preview.40" />
+    <PackageReference Include="Xam.Plugin.Media" Version="5.0.1" />
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle" Version="3.0.0.5" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="1.0.2" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />  
@@ -43,6 +44,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\SplashScreen.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\PopUps\SubjectPopUp.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\PopUps\TaskPage.xaml">

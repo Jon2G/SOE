@@ -3,32 +3,57 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
              xmlns:viewModels="clr-namespace:SchoolOrganizer.ViewModels.Pages;assembly=SchoolOrganizer"
-             x:Class="SchoolOrganizer.Views.Pages.RegisterPage" BackgroundColor="#12396F"
-             x:DataType="{x:Type viewModels:RegisterPageViewModel}">
-    <ContentPage.Content>
-        <StackLayout Padding="10" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
-                         Margin="20,10">
-            <Label TextColor="White" FontFamily="KarlaSB" Text="Registro" Margin="10" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+             x:Class="SchoolOrganizer.Views.Pages.RegisterPage" BackgroundColor="{DynamicResource primaryLightColor}"
+             xmlns:skiaSharp="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             xmlns:render="clr-namespace:SchoolOrganizer.Views.Renders" 
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             x:DataType="{x:Type viewModels:RegisterPageViewModel}"
+             >
+    <ContentPage.BindingContext>
+        <viewModels:RegisterPageViewModel/>
+    </ContentPage.BindingContext>
+    <pancakeView:PancakeView 
+                Style="{StaticResource card}" 
+                BackgroundColor="{DynamicResource secondaryLightColor}"
+                CornerRadius="10" 
+                Padding="10" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
+                Margin="20,10">
             <StackLayout>
-                <input:AdvancedEntry  Margin="0,10"  Placeholder="Usuario" PlaceholderColor="Gray"  FontFamily="Karla"  TextFontSize="20"  TextColor="Black" BackgroundColor="White"/>
-                <input:AdvancedEntry  Margin="0,10"  Placeholder="Correo" PlaceholderColor="Gray"  FontFamily="Karla"  TextFontSize="20"  TextColor="Black" BackgroundColor="White"/>
-                <input:AdvancedEntry  Margin="0,10"  Placeholder="Contraseña" PlaceholderColor="Gray"  FontFamily="Karla"  TextFontSize="20"  TextColor="Black" BackgroundColor="White"/>
-                <input:AdvancedEntry  Margin="0,10"  Placeholder="Confirmar la contraseña" PlaceholderColor="Gray"  FontFamily="Karla"  TextFontSize="20"  TextColor="Black" BackgroundColor="White"/>
-                <Button Margin="0,0"  VerticalOptions="FillAndExpand" FontSize="20" CornerRadius="20" 
-                            Text="Crear Cuenta"  FontFamily="KarlaSB" BackgroundColor="Aquamarine" TextColor="#080821"
-                            Command="{Binding UserCommand}"/>
-                <Label Text="Registrar con:" TextColor="White"/>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                    <Label BackgroundColor="White"  Text="&#xE800;" FontFamily="FontIcon" Grid.Column="1"
-                            TextColor="IndianRed" FontSize="30" Margin="10"
-                            HorizontalOptions="Center" />
-                    <Label BackgroundColor="MidnightBlue"  Text="&#x1f1eb;" FontFamily="FontIcon" Grid.Column="1"
-                            TextColor="White"  FontSize="30" Margin="10"
-                            HorizontalOptions="Center" />
+            <Grid>
+                <skiaSharp:SKCanvasView x:Name="_skCanvasView"
+                                            PaintSurface="SkCanvasViewPaintSurfaceRequested"
+                                            SizeChanged="SkCanvasViewSizeChanged"/>
+                <StackLayout x:Name="_formLayout"
+                                 Padding="60, 30, 60, 60"
+                                 Orientation="Vertical"
+                                 Spacing="1">
+                    <Label TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB" Text="Registro" Margin="10" FontSize="35" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                    <BoxView HeightRequest="1"
+                         BackgroundColor="{DynamicResource primaryLightColor}" />
+
+                    <render:NoLineEntry Style="{StaticResource FormEntryStyle} " TextColor="{DynamicResource secondaryTextColor}"  x:Name="Usuario"
+                               Focused="EntryFocused" Placeholder="Usuario" PlaceholderColor="Black" Margin="0,10"/>
+                    <render:NoLineEntry IsPassword="True"
+                               Style="{StaticResource FormEntryStyle}" TextColor="{DynamicResource secondaryTextColor}"
+                               Focused="EntryFocused" Placeholder="Correo" PlaceholderColor="{DynamicResource secondaryTextColor}" Margin="0,10"/>
+                    <render:NoLineEntry IsPassword="True"
+                               Style="{StaticResource FormEntryStyle}" TextColor="{DynamicResource secondaryTextColor}"
+                               Focused="EntryFocused" Placeholder="Contraseña" PlaceholderColor="{DynamicResource secondaryTextColor}" Margin="0,10"/>
+                    <render:NoLineEntry IsPassword="True"
+                               Style="{StaticResource FormEntryStyle}" TextColor="{DynamicResource secondaryTextColor}"
+                               Focused="EntryFocused" Placeholder="Confirmar Contraseña" PlaceholderColor="{DynamicResource secondaryTextColor}" Margin="0,10"/>
+                    <Button  Text="Crear Cuenta"
+                                FontFamily="KarlaSB"
+                                BackgroundColor="{DynamicResource primaryLightColor}" TextColor="{DynamicResource primaryTextColor}"
+                                Command="{Binding UserCommand}"
+                                CornerRadius="20" 
+                                Margin="0, 10, 0, 0"
+                                Style="{StaticResource FormSubmitBtnStyle}"
+                               />
                 </StackLayout>
+            </Grid>
                 
             </StackLayout>
-        </StackLayout>
-        
-    </ContentPage.Content>
+        </pancakeView:PancakeView>
+
 </ContentPage>

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<popup:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SchoolOrganizer.Views.PopUps.SubjectPopUp"
+             xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             
+                 xmlns:viewModels="clr-namespace:SchoolOrganizer.ViewModels.Pages;assembly=SchoolOrganizer">
+
+    <Frame Margin="10" CornerRadius="15" BackgroundColor="{DynamicResource secondaryLightColor}" VerticalOptions="Center" HorizontalOptions="Center" BorderColor="{DynamicResource primaryLightColor}">
+        <StackLayout Spacing="10" Margin="20">
+
+
+            <ScrollView>
+                <StackLayout>
+                    <Frame BorderColor="{DynamicResource primaryLightColor}" CornerRadius="10" BackgroundColor="Orange">
+                        <Label  FontFamily="Karla_SemiBold"  TextColor="Black"  Text="Base de datos"
+                           FontSize="14"  FontAttributes="Bold">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer  />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Frame>
+                    <Frame BorderColor="{DynamicResource primaryLightColor}" CornerRadius="10" BackgroundColor="YellowGreen">
+                        <Label  FontFamily="Karla_SemiBold"  TextColor="Black"  Text="Administración"
+                           FontSize="14"  FontAttributes="Bold">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer  />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Frame>
+                </StackLayout>
+            </ScrollView>
+
+        </StackLayout>
+    </Frame>
+</popup:PopupPage>

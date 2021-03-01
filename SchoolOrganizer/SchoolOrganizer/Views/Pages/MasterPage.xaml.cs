@@ -33,5 +33,7 @@ namespace SchoolOrganizer.Views.Pages
             await PopupNavigation.Instance.PushAsync(pr);
         }
 
+
+
     }
 }

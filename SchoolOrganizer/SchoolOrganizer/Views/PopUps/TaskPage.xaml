@@ -5,31 +5,40 @@
              xmlns:render="clr-namespace:SchoolOrganizer.Views.Renders"
               xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
               xmlns:date="clr-namespace:SchoolOrganizer.Views.Renders"
+                  xmlns:viewModels="clr-namespace:SchoolOrganizer.ViewModels.Pages;assembly=SchoolOrganizer"
+              xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
               xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit">
+    <ContentPage.BindingContext>
+        <viewModels:TaskViewModel/>
+    </ContentPage.BindingContext>
     <Frame Margin="10" CornerRadius="15" BackgroundColor="{DynamicResource secondaryLightColor}" VerticalOptions="Center" HorizontalOptions="Center">
         <StackLayout Spacing="10" Margin="20">
 
             <StackLayout Orientation="Horizontal">
-                
-                <Button CornerRadius="30" FontAttributes="Bold" Text="Agregar" HorizontalOptions="EndAndExpand" BackgroundColor="#12396F"/>
+                <Button CornerRadius="30" FontAttributes="Bold" Text="Agregar" HorizontalOptions="EndAndExpand" BackgroundColor="{DynamicResource primaryLightColor}"/>
             </StackLayout>
             <StackLayout Spacing="10">
-                <Label FontSize="30" Text="Titulo:" TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB"/>
-                <input:AdvancedEntry Placeholder="Agregar Titulo" Grid.Row="0" PlaceholderColor="#12396F"/>
-                <Button Grid.Row="1" Text="Seleccionar Materia" BackgroundColor="White" CornerRadius="20" BorderColor="LightGray" BorderWidth="2" TextColor="#12396F"/>
+                <Label  FontSize="30" Text="Titulo:" TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB"/>
+                <input:AdvancedEntry Placeholder="Agregar Titulo" Grid.Row="0" PlaceholderColor="{DynamicResource primaryLightColor}"/>
+                <Button Grid.Row="1" Text="Seleccionar Materia" BackgroundColor="White" CornerRadius="20" BorderColor="LightGray" 
+                        BorderWidth="2" TextColor="{DynamicResource primaryLightColor}" Command="{Binding TaskCommand}"/>
                 <Frame Grid.Row="2" CornerRadius="10" Padding="3" BackgroundColor="{DynamicResource PrimaryLightBackground}" 
                        BorderColor="#12396F" >
                     <date:BorderlessDatePicker Margin="5"  FontAttributes="Bold" TextColor="{DynamicResource primaryLightColor}" Format="dd/MM/yyyy" x:Name="Date" />
                 </Frame>
 
             </StackLayout>
-            <StackLayout VerticalOptions="Start" >
-                <Label FontSize="30" Text="Notas:" TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB"/>
-                <StackLayout Orientation="Horizontal">
-                    <Button ImageSource="gallery.png" WidthRequest="40" BackgroundColor="White" BorderColor="#12396F" BorderWidth="2" />
-                    <Button ImageSource="cam.png" BackgroundColor="White" BorderColor="#12396F" BorderWidth="2"/>
+            <StackLayout VerticalOptions="Start"  >
+                <StackLayout Orientation="Horizontal" >
+                    <Label FontSize="20" Text="Agregar Imagenes:" TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB"/>
+                    <Button Text="{x:Static fonts:FontelloIcons.Camera}" 
+                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                            TextColor="{DynamicResource primaryLightColor}"  BackgroundColor="White" BorderColor="{DynamicResource primaryLightColor}" BorderWidth="2" FontSize="20" CornerRadius="30" Clicked="Button_Clicked" />
+                    <Button Text="{x:Static fonts:FontelloIcons.Photo}" 
+                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryLightColor}" BackgroundColor="White" BorderColor="{DynamicResource primaryLightColor}" BorderWidth="2" CornerRadius="30" FontSize="18" Clicked="Button_Clicked_1"/>
                 </StackLayout>
             </StackLayout>
+            <Image x:Name="MyImg"/>
             <Editor Placeholder="Nota" VerticalOptions="FillAndExpand"/>
         </StackLayout>
     </Frame>

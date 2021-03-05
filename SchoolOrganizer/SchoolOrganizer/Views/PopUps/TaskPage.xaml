@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SchoolOrganizer.Views.Pages.TaskPage"
              xmlns:render="clr-namespace:SchoolOrganizer.Views.Renders"
-              xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-              xmlns:date="clr-namespace:SchoolOrganizer.Views.Renders"
-                  xmlns:viewModels="clr-namespace:SchoolOrganizer.ViewModels.Pages;assembly=SchoolOrganizer"
-              xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
-              xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit">
+             xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:date="clr-namespace:SchoolOrganizer.Views.Renders"
+             xmlns:viewModels="clr-namespace:SchoolOrganizer.ViewModels.Pages;assembly=SchoolOrganizer"
+             xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit">
     <ContentPage.BindingContext>
         <viewModels:TaskViewModel x:Name="Modelo"/>
     </ContentPage.BindingContext>
@@ -19,7 +19,7 @@
             </StackLayout>
             <StackLayout Spacing="10">
                 <Label  FontSize="30" Text="Titulo:" TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB"/>
-                <input:AdvancedEntry Placeholder="Agregar Titulo" Grid.Row="0" PlaceholderColor="{DynamicResource primaryLightColor}"/>
+                <input:AdvancedEntry Placeholder="Agregar Titulo" Grid.Row="0" PlaceholderColor="{DynamicResource primaryLightColor}" TextColor="Black"/>
                 <Button Grid.Row="1" Text="Seleccionar Materia" BackgroundColor="White" CornerRadius="20" BorderColor="LightGray" 
                         BorderWidth="2" TextColor="{DynamicResource primaryLightColor}" Command="{Binding TaskCommand}"/>
                 <Frame Grid.Row="2" CornerRadius="10" Padding="3" BackgroundColor="{DynamicResource PrimaryLightBackground}" 
@@ -39,15 +39,19 @@
                 </StackLayout>
             </StackLayout>
             <!--<Image x:Name="MyImg"/>-->
-            <CarouselView
-                ItemsSource="{Binding Photos}">
-                <CarouselView.ItemTemplate>
-                    <DataTemplate>
-                        <Image Source="{Binding .}"/>
-                    </DataTemplate>
-                </CarouselView.ItemTemplate>
-            </CarouselView>
-
+            <StackLayout>
+                <CarouselView IndicatorView="indicatorView"  
+                ItemsSource="{Binding Photos}" HeightRequest="100" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate >
+                            <Image  Source="{Binding .}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+                <IndicatorView x:Name="indicatorView" IndicatorColor="LightGray"
+                   SelectedIndicatorColor="{DynamicResource primaryLightColor}"
+                   HorizontalOptions="Center"/>
+            </StackLayout>
             <Editor Placeholder="Nota" VerticalOptions="FillAndExpand"/>
         </StackLayout>
     </Frame>

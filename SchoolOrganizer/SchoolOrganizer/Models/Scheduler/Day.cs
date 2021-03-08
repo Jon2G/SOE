@@ -39,22 +39,9 @@ namespace SchoolOrganizer.Models.Scheduler
         }
         public IEnumerable<Subject> GetTimeLine()
         {
-            return AppData.Instance.LiteConnection.Table<Subject>().Where(x => x.Day == this.DayOfWeek)
+            return AppData.Instance.LiteConnection.Table<Subject>()
+                .Where(x => x.Day == this.DayOfWeek)
                 .OrderBy(x => x.Begin).ToList();
-            // List<Subject> subjects = new List<Subject>(4);
-            //TimeSpan begin = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(30));
-            //TimeSpan end = begin.Add(TimeSpan.FromMinutes(90));
-            //subjects.Add(new Subject(1, "TEORIA DE LA INFORMACION Y CODIFICACION", "#a3ddcb", "6CV1", begin, end));
-            //begin = end;
-            //end = begin.Add(TimeSpan.FromMinutes(90));
-            //subjects.Add(new Subject(2, "TEORIA DE CONTROL DIGITAL", "#e8e9a1", "6CV2", begin, end));
-            //begin = end;
-            //end = begin.Add(TimeSpan.FromMinutes(90));
-            //subjects.Add(new Subject(3, "BASES DE DATOS", "#e6b566", "6CV3", begin, end));
-            //begin = end;
-            //end = begin.Add(TimeSpan.FromMinutes(90));
-            //subjects.Add(new Subject(4, "SISTEMAS DE INFORMACION I", "#e5707e", "6CV4", begin, end));
-            // return subjects.ToArray();
         }
 
         public static Day Today()

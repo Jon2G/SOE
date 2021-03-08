@@ -157,17 +157,38 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.10</Version>
     </PackageReference>
+    <PackageReference Include="Serilog">
+      <Version>2.10.0</Version>
+    </PackageReference>
     <PackageReference Include="Xam.Plugin.Media">
       <Version>5.0.1</Version>
     </PackageReference>
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle">
       <Version>3.0.0.5</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.CommunityToolkit">
+      <Version>1.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Essentials">
+      <Version>1.6.1</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms">
       <Version>5.0.0.2012</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Kit\Kit.Forms\Kit.Forms.csproj">
+      <Project>{34efec99-a6e9-4c5e-a4a3-cf62c8d2a3e1}</Project>
+      <Name>Kit.Forms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Kit\Kit.UWP\Kit.UWP.csproj">
+      <Project>{448253ec-bf0c-4173-885b-f9f7b92d511c}</Project>
+      <Name>Kit.UWP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Kit\Kit\Kit.csproj">
+      <Project>{FBDD1DCC-B804-4690-8113-98D775DE9A88}</Project>
+      <Name>Kit</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SchoolOrganizer\SchoolOrganizer.csproj">
       <Project>{20ccea58-74b4-41b0-9e9e-22b7b328c798}</Project>
       <Name>SchoolOrganizer</Name>

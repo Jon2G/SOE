@@ -11,49 +11,53 @@
     <ContentPage.BindingContext>
         <viewModels:TaskViewModel x:Name="Modelo"/>
     </ContentPage.BindingContext>
+    
     <Frame Margin="10" CornerRadius="15" BackgroundColor="{DynamicResource secondaryLightColor}" VerticalOptions="Center" HorizontalOptions="Center">
-        <StackLayout Spacing="10" Margin="20">
+        <ScrollView>
+            <StackLayout Spacing="10" Margin="20">
 
-            <StackLayout Orientation="Horizontal">
-                <Button CornerRadius="30" FontAttributes="Bold" Text="Agregar" HorizontalOptions="EndAndExpand" BackgroundColor="{DynamicResource primaryLightColor}"/>
-            </StackLayout>
-            <StackLayout Spacing="10">
-                <Label  FontSize="30" Text="Titulo:" TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB"/>
-                <input:AdvancedEntry Placeholder="Agregar Titulo" Grid.Row="0" PlaceholderColor="{DynamicResource primaryLightColor}" TextColor="Black"/>
-                <Button Grid.Row="1" Text="Seleccionar Materia" BackgroundColor="White" CornerRadius="20" BorderColor="LightGray" 
+                <StackLayout Orientation="Horizontal">
+                    <Button CornerRadius="30" FontAttributes="Bold" Text="Agregar" HorizontalOptions="EndAndExpand" BackgroundColor="{DynamicResource primaryLightColor}"/>
+                </StackLayout>
+                <StackLayout Spacing="10">
+                    <Label  FontSize="30" Text="Titulo:" TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB"/>
+                    <input:AdvancedEntry Placeholder="Agregar Titulo" Grid.Row="0" PlaceholderColor="{DynamicResource primaryLightColor}" TextColor="Black"/>
+                    <Button Grid.Row="1" Text="Seleccionar Materia" BackgroundColor="White" CornerRadius="20" BorderColor="LightGray" 
                         BorderWidth="2" TextColor="{DynamicResource primaryLightColor}" Command="{Binding TaskCommand}"/>
-                <Frame Grid.Row="2" CornerRadius="10" Padding="3" BackgroundColor="{DynamicResource PrimaryLightBackground}" 
+                    <Frame Grid.Row="2" CornerRadius="10" Padding="3" BackgroundColor="{DynamicResource PrimaryLightBackground}" 
                        BorderColor="#12396F" >
-                    <date:BorderlessDatePicker Margin="5"  FontAttributes="Bold" TextColor="{DynamicResource primaryLightColor}" Format="dd/MM/yyyy" x:Name="Date" />
-                </Frame>
+                        <date:BorderlessDatePicker Margin="5"  FontAttributes="Bold" TextColor="{DynamicResource primaryLightColor}" Format="dd/MM/yyyy" x:Name="Date" />
+                    </Frame>
 
-            </StackLayout>
-            <StackLayout VerticalOptions="Start"  >
-                <StackLayout Orientation="Horizontal" >
-                    <Label FontSize="20" Text="Agregar Imagenes:" TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB"/>
-                    <Button Text="{x:Static fonts:FontelloIcons.Camera}" 
+                </StackLayout>
+                <StackLayout VerticalOptions="Start"  >
+                    <StackLayout Orientation="Horizontal" >
+                        <Label FontSize="20" Text="Agregar Imagenes:" TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB"/>
+                        <Button Text="{x:Static fonts:FontelloIcons.Camera}" 
                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                             TextColor="{DynamicResource primaryLightColor}"  BackgroundColor="White" BorderColor="{DynamicResource primaryLightColor}" BorderWidth="2" FontSize="20" CornerRadius="30" Clicked="Button_Clicked" />
-                    <Button Text="{x:Static fonts:FontelloIcons.Photo}" 
+                        <Button Text="{x:Static fonts:FontelloIcons.Photo}" 
                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryLightColor}" BackgroundColor="White" BorderColor="{DynamicResource primaryLightColor}" BorderWidth="2" CornerRadius="30" FontSize="18" Clicked="Button_Clicked_1"/>
+                    </StackLayout>
                 </StackLayout>
-            </StackLayout>
-            <!--<Image x:Name="MyImg"/>-->
-            <StackLayout>
-                <CarouselView IndicatorView="indicatorView"  
+                <!--<Image x:Name="MyImg"/>-->
+                <StackLayout>
+                    <CarouselView IndicatorView="indicatorView"  
                 ItemsSource="{Binding Photos}" HeightRequest="100" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
-                    <CarouselView.ItemTemplate>
-                        <DataTemplate >
-                            <Image  Source="{Binding .}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
-                        </DataTemplate>
-                    </CarouselView.ItemTemplate>
-                </CarouselView>
-                <IndicatorView x:Name="indicatorView" IndicatorColor="LightGray"
+                        <CarouselView.ItemTemplate>
+                            <DataTemplate >
+                                <Image  Source="{Binding .}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                            </DataTemplate>
+                        </CarouselView.ItemTemplate>
+                    </CarouselView>
+                    <IndicatorView x:Name="indicatorView" IndicatorColor="LightGray"
                    SelectedIndicatorColor="{DynamicResource primaryLightColor}"
                    HorizontalOptions="Center"/>
+                </StackLayout>
+                <Editor Placeholder="Nota" VerticalOptions="FillAndExpand" HeightRequest="200"/>
             </StackLayout>
-            <Editor Placeholder="Nota" VerticalOptions="FillAndExpand"/>
-        </StackLayout>
+        </ScrollView>
+
     </Frame>
 
 </popup:PopupPage>

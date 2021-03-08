@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Kit;
 using Kit.Model;
 using Kit.Sql.Attributes;
 using SchoolOrganizer.Data;

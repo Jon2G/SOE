@@ -38,5 +38,3 @@ namespace SchoolOrganizer.ViewModels.Pages
     }
 }
 
-//:( hola => se murió mi teléfono, un minuto
-//meno

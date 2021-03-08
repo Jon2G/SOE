@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Kit;
 using Kit.Model;
 using Kit.Sql.Attributes;
 

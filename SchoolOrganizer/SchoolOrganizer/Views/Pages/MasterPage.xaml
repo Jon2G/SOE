@@ -6,8 +6,12 @@
              xmlns:touch="clr-namespace:TouchEffect;assembly=TouchEffect"
              xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
              xmlns:viewItems="clr-namespace:SchoolOrganizer.Views.ViewItems;assembly=SchoolOrganizer"
-             xmlns:cardViews="clr-namespace:SchoolOrganizer.Views.ViewItems.CardViews;assembly=SchoolOrganizer">
-
+             xmlns:cardViews="clr-namespace:SchoolOrganizer.Views.ViewItems.CardViews;assembly=SchoolOrganizer"
+             xmlns:controls="clr-namespace:SchoolOrganizer.Control" xmlns:pages="clr-namespace:SchoolOrganizer.ViewModels.Pages"
+             x:DataType="pages:MasterPageViewModel">
+    <ContentPage.BindingContext>
+        <pages:MasterPageViewModel/>
+    </ContentPage.BindingContext>
     <ContentPage.Resources>
 
 
@@ -179,15 +183,25 @@
                 <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                     <Label FontSize="Large" Text="Profile" />
                   
-                    <StackLayout Margin="10" >
+                    <!--<StackLayout Margin="10" >
+
                         <Button Text="Home" StyleId="0" BackgroundColor="Red" Clicked="Button_Clicked" />
 
-                    </StackLayout>
+                    </StackLayout>-->
 
                 
                 </StackLayout>
             </toolkit:TabViewItem>
         </toolkit:TabView>
+        <!-- RADIAL MENU FILTER -->
+        <Grid        
+                HorizontalOptions="End" VerticalOptions="End"
+                Margin="0, 0, -50, 60">
+            <controls:FilterMenu 
+                    SelectedCommand="{Binding ItemSelectedCommand}"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center" />
+        </Grid>
     </Grid>
 
 </ContentPage>

@@ -66,6 +66,8 @@
     </ContentPage.Resources>
 
     <Grid IsClippedToBounds="False" RowSpacing="0">
+        <ContentView x:Name="BrowserHolder" IsVisible="True"  x:FieldModifier="public" />
+
         <toolkit:TabView Style="{StaticResource CustomTabStyle}">
             <!--  HOME TAB  -->
             <toolkit:TabViewItem>

@@ -1,10 +1,10 @@
-﻿using SkiaSharp;
-using SkiaSharp.Views.Forms;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using SkiaSharp;
+using SkiaSharp.Views.Forms;
 using Xamarin.Forms;
 
-namespace AnimatedHighlightApp
+namespace SchoolOrganizer.Models.SkiaSharp
 {
     class HighlightPath
     {

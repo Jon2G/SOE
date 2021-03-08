@@ -1,4 +1,4 @@
-﻿namespace AnimatedHighlightApp
+﻿namespace SchoolOrganizer.Models.SkiaSharp
 {
     class HighlightState
     {

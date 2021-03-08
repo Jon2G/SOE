@@ -3,36 +3,92 @@ using Plugin.Fingerprint.Abstractions;
 using SchoolOrganizer.Views.Pages;
 using Xamarin.Forms;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
+using SchoolOrganizer.Data;
+using SchoolOrganizer.Models.Data;
 using SkiaSharp.Views.Forms;
 
 namespace SchoolOrganizer.ViewModels.Pages
 {
     public class LoginViewModel : BaseViewModel
     {
-        public string User { get; set; }
-        public string Password { get; set; }
-        public Command LoginCommand { get; }
+        private User _User;
+        public User User 
+        {
+            get => _User;
+            set
+            {
+                _User = value;
+                this.LoginCommand?.ChangeCanExecute();
+
+            }
+        }
+
+        public string _Captcha;
+        public string Captcha
+        {
+            get => _Captcha;
+            set
+            {
+                _Captcha = value;
+                this.LoginCommand.ChangeCanExecute();
+            }
+        }
+
+        public ImageSource _CaptchaImg;
+        public ImageSource CaptchaImg
+        {
+            get => _CaptchaImg;
+            set
+            {
+                _CaptchaImg = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public Command<LoginViewModel> LoginCommand { get; }
         public Command FingerCommand { get; }
         public Command RegisterCommand { get; }
+        public Command<Saes.Saes> OnLoginSuccess { get; }
 
 
-        public LoginViewModel()
+        public LoginViewModel(Action<LoginViewModel> OnLoginClicked)
         {
-            LoginCommand = new Command(OnLoginClicked);
+            this.User = new User();
+            this.User.PropertyChanged += User_PropertyChanged;
+            LoginCommand = new Command<LoginViewModel>(OnLoginClicked, LoginCanExecute);
             FingerCommand = new Command(FingerClicked);
             RegisterCommand = new Command(ConfirmRegister);
+            OnLoginSuccess = new Command<Saes.Saes>(LoginSuccess);
 
         }
 
-        private void OnLoginClicked(object obj)
+        private void User_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            Acr.UserDialogs.UserDialogs.Instance.Alert($"Hemos notado que es tu primer inicio de sesión, te damos la bienvenida.", $"!Bienvenido,{User}¡", "Vamos allá");
-            // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
-            /*await Shell.Current.GoToAsync($"//{nameof(AboutPage)}", true);*/
-            //await App.Current.MainPage.Navigation.PushAsync(new LoginPage());
-           //App.Current.MainPage = new NavigationPage(new MasterPage());
-           App.Current.MainPage = new AppShell();
+            this.LoginCommand?.ChangeCanExecute();
         }
+
+        private void LoginSuccess(Saes.Saes saes)
+        {
+            if (AppData.Instance.LiteConnection.Table<User>().Any(x => x.Boleta == this.User.Boleta))
+            {
+                Acr.UserDialogs.UserDialogs.Instance.Alert($"Hemos notado que es tu primer inicio de sesión, te damos la bienvenida.", $"!Bienvenido,{AppData.Instance.User.Name}¡", "Vamos allá");
+            }
+            if (User.RemeberMe)
+            {
+                AppData.Instance.LiteConnection.InsertOrReplace(this.User);
+            }
+            App.Current.MainPage = new AppShell(saes);
+        }
+
+        private bool LoginCanExecute(object arg)
+        {
+            return !string.IsNullOrEmpty(User.Boleta) && User.Boleta.Length == 10 && !string.IsNullOrEmpty(User.Password) && !string.IsNullOrEmpty(Captcha);
+        }
+
+
         private async void FingerClicked(object obj)
         {
             bool isFingerprintAvailable = await CrossFingerprint.Current.IsAvailableAsync(true);
@@ -51,7 +107,7 @@ namespace SchoolOrganizer.ViewModels.Pages
             if (authResult.Authenticated)
             {
                 //Success  
-                App.Current.MainPage = new AppShell();
+                //App.Current.MainPage = new AppShell();
             }
             else
             {
@@ -63,5 +119,7 @@ namespace SchoolOrganizer.ViewModels.Pages
             App.Current.MainPage = new RegisterPage();
             //App.Current.MainPage = new AboutPage();
         }
+
+
     }
 }

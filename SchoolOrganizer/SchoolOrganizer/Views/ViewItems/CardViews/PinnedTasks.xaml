@@ -4,6 +4,7 @@
              xmlns:viewItems="clr-namespace:SchoolOrganizer.Views.ViewItems" 
              xmlns:viewmodels="clr-namespace:SchoolOrganizer.ViewModels.ViewItems"
              xmlns:models="clr-namespace:SchoolOrganizer.Models;assembly=SchoolOrganizer"
+             xmlns:cardViews="clr-namespace:SchoolOrganizer.Views.ViewItems.CardViews;assembly=SchoolOrganizer"
              x:Class="SchoolOrganizer.Views.ViewItems.CardViews.PinnedTasks"
              x:DataType="viewmodels:PinnedTasksViewModel">
     <ContentView.BindingContext>
@@ -14,7 +15,7 @@
                 <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:Card">
                             <ContentView Padding="3">
-                                <viewItems:CardView Margin="5"/>
+                                <cardViews:CardView Margin="5"/>
                             </ContentView>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

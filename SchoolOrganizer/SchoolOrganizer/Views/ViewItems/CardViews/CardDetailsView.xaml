@@ -1,15 +1,16 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SchoolOrganizer.Views.ViewItems.CardDetailsView"
+             x:Class="SchoolOrganizer.Views.ViewItems.CardViews.CardDetailsView"
              BackgroundColor="White"
               xmlns:viewItems="clr-namespace:SchoolOrganizer.Views.ViewItems"
               xmlns:models="clr-namespace:SchoolOrganizer.Models;assembly=SchoolOrganizer"
+              xmlns:cardViews="clr-namespace:SchoolOrganizer.Views.ViewItems.CardViews;assembly=SchoolOrganizer"
               x:DataType="models:Card">
     <StackLayout Spacing="0" Padding="10, 0, 0, 0" VerticalOptions="CenterAndExpand" >
         <Label TextColor="#383838" FontSize="18" Text="{Binding Title}" />
         <!--<Label Text="{Binding Description}" FontSize="12" TextColor="#383838"/>-->
-        <viewItems:DateTimeView/>
+        <cardViews:DateTimeView/>
     </StackLayout>
     
 </ContentView>

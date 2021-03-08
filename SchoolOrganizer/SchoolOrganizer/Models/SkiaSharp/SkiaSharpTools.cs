@@ -1,7 +1,7 @@
 ﻿using SkiaSharp.Views.Forms;
 using Xamarin.Forms;
 
-namespace AnimatedHighlightApp
+namespace SchoolOrganizer.Models.SkiaSharp
 {
     static class SkiaSharpTools
     {

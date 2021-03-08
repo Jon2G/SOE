@@ -1,4 +1,5 @@
-﻿using SchoolOrganizer.Services;
+﻿using SchoolOrganizer.Data;
+using SchoolOrganizer.Services;
 using SchoolOrganizer.Views.Pages;
 using SchoolOrganizer.Views.ViewItems;
 using Xamarin.Forms;
@@ -11,10 +12,7 @@ namespace SchoolOrganizer
         public App()
         {
             InitializeComponent();
-
-            DependencyService.Register<MockDataStore>();
-            //MainPage = new ContentPage() { Content = new UserProfile() };
-            MainPage = new LoginPage();
+            App.Current.MainPage = new SplashScreen();
         }
 
         protected override void OnStart()

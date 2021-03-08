@@ -1,4 +1,6 @@
-﻿using Xamarin.Forms;
+﻿using SchoolOrganizer.Data;
+using SchoolOrganizer.Models.Data;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace SchoolOrganizer.Views.Pages
@@ -13,8 +15,20 @@ namespace SchoolOrganizer.Views.Pages
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            AppData.Init();
+            User user = AppData.Instance.LiteConnection.Table<User>().FirstOrDefault();
+            if (user != null && user.RemeberMe)
+            {
+                AppData.Instance.User = user;
+                App.Current.MainPage = new AppShell();
+            }
+            else
+            {
+                Saes.Saes saes = new Saes.Saes();
+                saes.OnLogIn();
+            }
 
-            
+
             //Si la llamada se provoco desde el WidgetDeHorario
             //if (Widgets.Horario.WidgetHorario.Instance.IsItentDataSet())
             //{
@@ -30,7 +44,7 @@ namespace SchoolOrganizer.Views.Pages
             //}
 
 
-            App.Current.MainPage = new LoginPage();
+            //App.Current.MainPage = new LoginPage();
         }
     }
 }

@@ -14,19 +14,19 @@ namespace SchoolOrganizer.Models.Scheduler
             this.IncluirSabado = IncluirSabado;
             this.IncluirDomingo = IncluirDomingo;
             List<Day> Dias = new List<Day>(7);
-            if (IncluirDomingo)
-            {
-                Dias.Add(new Day(DayOfWeek.Sunday));
-            }
-            Dias.Add(new Day(DayOfWeek.Monday));
-            Dias.Add(new Day(DayOfWeek.Tuesday));
-            Dias.Add(new Day(DayOfWeek.Wednesday));
-            Dias.Add(new Day(DayOfWeek.Thursday));
-            Dias.Add(new Day(DayOfWeek.Friday));
-            if (IncluirSabado)
-            {
-                Dias.Add(new Day(DayOfWeek.Saturday));
-            }
+            //if (IncluirDomingo)
+            //{
+            //    Dias.Add(new Day(DayOfWeek.Sunday));
+            //}
+            //Dias.Add(new Day(DayOfWeek.Monday));
+            //Dias.Add(new Day(DayOfWeek.Tuesday));
+            //Dias.Add(new Day(DayOfWeek.Wednesday));
+            //Dias.Add(new Day(DayOfWeek.Thursday));
+            //Dias.Add(new Day(DayOfWeek.Friday));
+            //if (IncluirSabado)
+            //{
+            //    Dias.Add(new Day(DayOfWeek.Saturday));
+            //}
             this.Dias = Dias.ToArray();
         }
 

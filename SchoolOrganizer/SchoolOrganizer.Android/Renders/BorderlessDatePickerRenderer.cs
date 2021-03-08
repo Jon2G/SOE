@@ -1,20 +1,10 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using OrganizadorEscolar.Droid.Renders;
+﻿using SchoolOrganizer.Droid.Renders;
 using SchoolOrganizer.Views.Renders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
 [assembly: ExportRenderer(typeof(BorderlessDatePicker), typeof(BorderlessDatePickerRenderer))]
-namespace OrganizadorEscolar.Droid.Renders
+namespace SchoolOrganizer.Droid.Renders
 {
     public class BorderlessDatePickerRenderer : DatePickerRenderer
     {

@@ -34,7 +34,7 @@ namespace SchoolOrganizer.Views.ViewItems
         SwipeGestureRecognizer GetSwipeGestureRecognizer(SwipeDirection direction)
         {
             var swipe = new SwipeGestureRecognizer {Direction = direction};
-            swipe.Threshold = 5;
+            swipe.Threshold = 15;
             swipe.Swiped += Swipe_Swiped;
             return swipe;
         }

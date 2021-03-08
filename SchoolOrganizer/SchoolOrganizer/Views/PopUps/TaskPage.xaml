@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <popup:PopupPage  xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SchoolOrganizer.Views.Pages.TaskPage"
+             x:Class="SchoolOrganizer.Views.PopUps.TaskPage"
              xmlns:render="clr-namespace:SchoolOrganizer.Views.Renders"
               xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
               xmlns:date="clr-namespace:SchoolOrganizer.Views.Renders"

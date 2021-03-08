@@ -23,4 +23,12 @@
   <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
     <item name="android:headerBackground">@color/primaryLightColor</item>
   </style>
+
+  <style name="SplashTheme" parent="MainTheme.Base">
+    <item name="android:windowBackground">@drawable/splash_screen</item>
+    <item name="android:windowFullscreen">true</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowActionBar">true</item>
+  </style>
+
 </resources>

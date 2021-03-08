@@ -2,13 +2,13 @@
 using Android.Content.Res;
 using Android.Graphics.Drawables;
 using Android.Text;
-using OrganizadorEscolar.Droid.Renders;
+using SchoolOrganizer.Droid.Renders;
 using SchoolOrganizer.Views.Renders;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
 [assembly: ExportRenderer(typeof(NoLineEntry), typeof(NoLineEntryRender))]
-namespace OrganizadorEscolar.Droid.Renders
+namespace SchoolOrganizer.Droid.Renders
 {
     public class NoLineEntryRender : EntryRenderer
     {

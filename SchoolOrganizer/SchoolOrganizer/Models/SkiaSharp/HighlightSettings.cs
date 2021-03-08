@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Xamarin.Forms;
 
-namespace AnimatedHighlightApp
+namespace SchoolOrganizer.Models.SkiaSharp
 {
     class HighlightSettings
     {

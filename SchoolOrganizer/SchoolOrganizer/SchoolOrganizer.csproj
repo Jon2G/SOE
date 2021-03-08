@@ -23,12 +23,13 @@
 
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.1.0.475" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.31" />
     <PackageReference Include="MagicGradients" Version="1.2.0" />
     <PackageReference Include="Plugin.Fingerprint" Version="2.1.3" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.10" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.3-preview.40" />
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle" Version="3.0.0.5" />
-    <PackageReference Include="Xamarin.CommunityToolkit" Version="1.0.2" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="1.0.3" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />  
     <PackageReference Include="Xamarin.Forms.InputKit" Version="3.5.0" />  
@@ -36,6 +37,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Kit\Kit\Kit.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Saes\SaesTest.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\MasterPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -81,6 +89,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Saes\SaesTest.xaml.cs">
+      <DependentUpon>SaesTest.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Pages\RegisterPage.xaml.cs">
       <DependentUpon>RegisterPage.xaml</DependentUpon>
     </Compile>

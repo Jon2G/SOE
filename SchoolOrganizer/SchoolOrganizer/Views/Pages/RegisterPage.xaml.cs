@@ -1,7 +1,7 @@
-﻿using AnimatedHighlightApp;
-using SchoolOrganizer.ViewModels.Pages;
+﻿using SchoolOrganizer.ViewModels.Pages;
 using SkiaSharp.Views.Forms;
 using System;
+using SchoolOrganizer.Models.SkiaSharp;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

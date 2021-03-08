@@ -33,6 +33,10 @@ namespace SchoolOrganizer.ViewModels.ViewItems
         public TimelineBarViewModel()
         {
             Day = Day.Today();
+            while (Day.IsWeekend)
+            {
+                Day = Day.Tommorrow();
+            }
             Subjects = Day.GetTimeLine();
             this.IsExpanded = false;
             this.ExpandCommand = new Command(Expand);
@@ -67,17 +71,17 @@ namespace SchoolOrganizer.ViewModels.ViewItems
             if (!(obj is TimelineBar timeline)) return;
             if (!IsExpanded)
             {
-               // timeline.ScaleXTo(1, Speed);
-               timeline.WidthRequest = CollapsedWidth;
+                // timeline.ScaleXTo(1, Speed);
+                timeline.WidthRequest = CollapsedWidth;
                 timeline.TranslateTo(0, 0, Speed, Easing.SinInOut);
             }
             else
             {
                 double PreviousWidth = timeline.Width;
                 //timeline.ScaleXTo(Scale, Speed);
-                timeline.WidthRequest = CollapsedWidth* Scale;
+                timeline.WidthRequest = CollapsedWidth * Scale;
                 //timeline.ScaleXTo(Scale, Speed);
-                timeline.TranslateTo(-(timeline.Width-PreviousWidth), timeline.TranslationY, Speed,Easing.SinIn);
+                timeline.TranslateTo(-(timeline.Width - PreviousWidth), timeline.TranslationY, Speed, Easing.SinIn);
             }
         }
     }

@@ -1,7 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 
-namespace AnimatedHighlightApp
+namespace SchoolOrganizer.Models.SkiaSharp
 {
     class StrokeDashAnimation
     {

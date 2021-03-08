@@ -1,28 +1,31 @@
-﻿using AnimatedHighlightApp;
-using Plugin.Fingerprint;
+﻿using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 using SchoolOrganizer.ViewModels.Pages;
 using SkiaSharp.Views.Forms;
 using System;
+using SchoolOrganizer.Models.SkiaSharp;
+using SchoolOrganizer.Saes;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace SchoolOrganizer.Views.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : ContentPage
+    public partial class LoginPage : ContentPage,IBrowser
     {
+        public WebView Browser => this.Web;
+
         readonly HighlightForm _highlightForm;
 
-        public LoginPage()
+        public LoginPage(LoginViewModel Model)
         {
-
+            this.BindingContext = Model;
             InitializeComponent();
             var settings = new HighlightSettings()
             {
                 StrokeWidth = 6,
                 StrokeStartColor = (Color)Application.Current.Resources["secondaryColor"],
-                StrokeEndColor = (Color)Application.Current.Resources["primaryLightColor"],//Color.FromHex("#12396F"),
+                StrokeEndColor = (Color)Application.Current.Resources["primaryLightColor"],
                 AnimationDuration = TimeSpan.FromMilliseconds(900),
                 AnimationEasing = Easing.CubicInOut,
             };

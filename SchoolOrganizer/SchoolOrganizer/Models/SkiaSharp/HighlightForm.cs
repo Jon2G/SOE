@@ -1,9 +1,9 @@
-﻿using SkiaSharp;
+﻿using System.Collections.Generic;
+using SkiaSharp;
 using SkiaSharp.Views.Forms;
-using System.Collections.Generic;
 using Xamarin.Forms;
 
-namespace AnimatedHighlightApp
+namespace SchoolOrganizer.Models.SkiaSharp
 {
     class HighlightForm
     {
@@ -79,7 +79,7 @@ namespace AnimatedHighlightApp
             if (fromDash != null)
             {
                 var anim = new StrokeDashAnimation(
-                    from: fromDash,
+                    @from: fromDash,
                     to: toDash,
                     duration: _highlightSettings.AnimationDuration);
 

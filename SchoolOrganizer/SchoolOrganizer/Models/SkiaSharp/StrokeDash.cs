@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AnimatedHighlightApp
+namespace SchoolOrganizer.Models.SkiaSharp
 {
     class StrokeDash
     {

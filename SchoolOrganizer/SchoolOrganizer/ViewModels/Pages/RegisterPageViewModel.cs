@@ -18,7 +18,7 @@ namespace SchoolOrganizer.ViewModels.Pages
         private async void OnLoginClicked(object obj)
         {
             Acr.UserDialogs.UserDialogs.Instance.Alert($"Creacion de cuenta exitosa, te damos la bienvenida.", $"!Bienvenido,{User}¡", "Vamos allá");
-            App.Current.MainPage = new AppShell();
+            //App.Current.MainPage = new AppShell();
        
         }
       

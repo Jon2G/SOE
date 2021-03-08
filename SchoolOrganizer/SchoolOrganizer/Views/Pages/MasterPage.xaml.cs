@@ -8,18 +8,27 @@ using Rg.Plugins.Popup.Animations;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Rg.Plugins.Popup.Enums;
+using SchoolOrganizer.Saes;
+using SchoolOrganizer.Views.PopUps;
 
 namespace SchoolOrganizer.Views.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MasterPage 
+    public partial class MasterPage : IBrowser
     {
-
+        public WebView Browser => BrowserHolder.Content as WebView;
         public MasterPage()
         {
             InitializeComponent();
         }
 
+        public void SetBrowser(IBrowser browser)
+        {
+            if (browser != null)
+            {
+                this.BrowserHolder.Content = browser.Browser;
+            }
+        }
         private async void Button_Clicked(object sender, EventArgs e)
         {
             var pr = new TaskPage();

@@ -9,7 +9,8 @@ namespace SchoolOrganizer.Views.PopUps
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TaskPage : PopupPage
     {
-
+        private int _position;
+        public int Position { get { return _position; } set { _position = value; OnPropertyChanged(); } }
         public TaskPage()
         {
             InitializeComponent();

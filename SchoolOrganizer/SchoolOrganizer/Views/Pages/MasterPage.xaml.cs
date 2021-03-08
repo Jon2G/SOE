@@ -10,12 +10,18 @@ using Xamarin.Forms.Xaml;
 using Rg.Plugins.Popup.Enums;
 using SchoolOrganizer.Saes;
 using SchoolOrganizer.Views.PopUps;
+using System.Threading;
 
 namespace SchoolOrganizer.Views.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MasterPage : IBrowser
     {
+        private bool _isSocialOpened;
+        private CancellationTokenSource _tokenSource;
+        public string Twitter => "https://twitter.com/Andrik_Just4Fun";
+        public string LinkedIn => "https://www.linkedin.com/in/andrei-misiukevich-416589aa/";
+        public string Instagram => "https://www.instagram.com/andrik_just4fun/";
         public WebView Browser => BrowserHolder.Content as WebView;
         public MasterPage()
         {
@@ -41,8 +47,5 @@ namespace SchoolOrganizer.Views.Pages
             pr.Animation = scaleAnimation;
             await PopupNavigation.Instance.PushAsync(pr);
         }
-
-
-
     }
 }

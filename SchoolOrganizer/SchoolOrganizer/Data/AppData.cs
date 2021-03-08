@@ -31,7 +31,6 @@ namespace SchoolOrganizer.Data
         {
             AppData.Instance = new AppData();
             AppData.Instance.User = new User();
-            Sqlh.Init(Tools.Instance.LibraryPath, Tools.Debugging);
             AppData.Instance.LiteConnection =
                 new SQLiteConnection(
                     new FileInfo(

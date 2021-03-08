@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using ImageCircle.Forms.Plugin.UWP;
+using Kit.Sql.Helpers;
 
 namespace SchoolOrganizer.UWP
 {
@@ -46,7 +47,18 @@ namespace SchoolOrganizer.UWP
                 typeof(ImageCircleRenderer).GetTypeInfo().Assembly
             };
             global::Xamarin.Forms.Forms.SetFlags("Shell_UWP_Experimental");
-            Xamarin.Forms.Forms.Init(e, rendererAssemblies);
+            try
+            {
+                Xamarin.Forms.Forms.Init(e, rendererAssemblies);
+                Tools.UWP.Tools.Init();
+                //Sqlh.Init(Path.Combine(Kit.Tools.Instance.LibraryPath, "db"), Kit.Tools.Debugging);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                throw;
+            }
+         
 
             Frame rootFrame = Window.Current.Content as Frame;
 

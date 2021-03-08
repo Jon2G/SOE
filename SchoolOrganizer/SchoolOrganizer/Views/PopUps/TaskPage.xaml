@@ -40,7 +40,7 @@
             </StackLayout>
             <!--<Image x:Name="MyImg"/>-->
             <StackLayout>
-                <CarouselView IndicatorView="indicatorView"  
+                <CarouselView IndicatorView="indicatorView"
                 ItemsSource="{Binding Photos}" HeightRequest="100" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
                     <CarouselView.ItemTemplate>
                         <DataTemplate >

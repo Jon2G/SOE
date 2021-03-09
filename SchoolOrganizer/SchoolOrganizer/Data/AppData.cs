@@ -34,8 +34,8 @@ namespace SchoolOrganizer.Data
             AppData.Instance.LiteConnection =
                 new SQLiteConnection(
                     new FileInfo(
-                        Path.Combine(Tools.Instance.LibraryPath, "SchoolOrganizer.db")), 104);
-            AppData.Instance.LiteConnection.CheckTables(typeof(Teacher), typeof(Subject),typeof(User));
+                        Path.Combine(Tools.Instance.LibraryPath, "SchoolOrganizer.db")), 116);
+            AppData.Instance.LiteConnection.CheckTables(typeof(Teacher), typeof(Subject),typeof(User),typeof(ClassTime));
         }
     }
 }

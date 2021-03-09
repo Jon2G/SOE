@@ -14,7 +14,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
         private const uint Speed = 150;
         private const uint Scale = 10;
         private const uint HalfScale = Scale / 2;
-        public IEnumerable<Subject> Subjects { get; set; }
+        public IEnumerable<ClassSquare> ClassSquares { get; set; }
         private readonly Day Day;
 
         private bool _IsExpanded;
@@ -37,7 +37,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
             {
                 Day = Day.Tommorrow();
             }
-            Subjects = Day.GetTimeLine();
+            ClassSquares = Day.GetTimeLine();
             this.IsExpanded = false;
             this.ExpandCommand = new Command(Expand);
             this.CollapseCommand = new Command(Collapse);

@@ -5,8 +5,8 @@
              xmlns:viewItems="clr-namespace:SchoolOrganizer.Views.ViewItems;assembly=SchoolOrganizer"
              xmlns:models="clr-namespace:SchoolOrganizer.ViewModels.ViewItems;assembly=SchoolOrganizer"
              x:Class="SchoolOrganizer.Views.ViewItems.TimelineBar"
-             HorizontalOptions="FillAndExpand" x:Name="Me"
-             VerticalOptions="FillAndExpand" BackgroundColor="White"
+             HorizontalOptions="FillAndExpand" x:Name="Me" x:DataType="models:TimelineBarViewModel"
+             VerticalOptions="FillAndExpand" BackgroundColor="White" 
              WidthRequest="{x:Static models:TimelineBarViewModel.CollapsedWidth}">
     <ContentView.GestureRecognizers>
         <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"/>
@@ -24,15 +24,15 @@
                     <viewItems:SwipeContainer.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ToggleCommand}" CommandParameter="{x:Reference Me}"/>
                     </viewItems:SwipeContainer.GestureRecognizers>
-                    <StackLayout Spacing="0"  BindableLayout.ItemsSource="{Binding Subjects}">
+                    <StackLayout Spacing="0"  BindableLayout.ItemsSource="{Binding ClassSquares}">
                         <BindableLayout.ItemTemplate>
-                            <DataTemplate x:DataType="{x:Type horario:Subject}">
+                            <DataTemplate x:DataType="{x:Type horario:ClassSquare}">
                                 <Grid>
                                     <BoxView HeightRequest="120"  BackgroundColor="{Binding Color}"/>
                                     <StackLayout  Margin="0"  BackgroundColor="{Binding Color}"
                                                   IsVisible="{Binding IsExpanded, Source={x:Reference Model}}">
                                         <StackLayout Padding="5" >
-                                            <Label TextColor="{DynamicResource secondaryTextColor}" Text="{Binding Name,Mode=OneWay}" FontFamily="KarlaSB" FontSize="18"/>
+                                            <Label TextColor="{DynamicResource secondaryTextColor}" Text="{Binding SubjectName,Mode=OneWay}" FontFamily="KarlaSB" FontSize="18"/>
                                             <Label TextColor="{DynamicResource secondaryTextColor}" Text="{Binding Group}" FontFamily="KarlaSB" FontSize="18"/>
                                             <StackLayout Orientation="Horizontal"  >
                                                 <Label TextColor="{DynamicResource secondaryTextColor}" Text="{Binding Begin,StringFormat='{0:hh}:{0:mm}'}" FontFamily="KarlaSB" FontSize="18"/>

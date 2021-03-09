@@ -77,8 +77,9 @@ namespace SchoolOrganizer.Saes
                     GetHorario();
                     break;
                 default:
-                    await Acr.UserDialogs.UserDialogs.Instance.AlertAsync($"I dont know what to do on =>[{e.Url}]");
+                    //await Acr.UserDialogs.UserDialogs.Instance.AlertAsync($"I dont know what to do on =>[{e.Url}]");
                     Log.Logger.Debug($"I dont know what to do on =>[{e.Url}]");
+                    GoTo(HomePage);
                     break;
             }
         }
@@ -108,14 +109,54 @@ namespace SchoolOrganizer.Saes
                     .ToList();
                 List<Materia> subjects = new List<Materia>();
                 Regex time = new Regex(@"(?<begin_hour>\d\d):(?<begin_minutes>\d\d)\s*-\s*(?<end_hour>\d\d):(?<end_minutes>\d\d)");
-
+                Regex teacher_name = new Regex(@"//");
+                int aux_suffix = 1;
                 foreach (var row in table)
                 {
+                    string TeacherName = row[3];
+                    if (teacher_name.IsMatch(TeacherName))
+                    {
+                        TeacherName = teacher_name.Split(TeacherName).First();
+                    }
+                    Teacher teacher = new Teacher()
+                    {
+                        Name = TeacherName
+                    };
+                    AppData.Instance.LiteConnection.Insert(teacher);
+
                     for (int i = 6; i < 12; i++)
                     {
                         var match = time.Match(row[i]);
                         if (match.Success)
                         {
+                            string group = row[0];
+                            Subject subject;
+
+                            subject = (AppData.Instance.LiteConnection.Table<Subject>().FirstOrDefault(x =>
+                                x.Group == group));
+                            if (subject is null)
+                            {
+
+                                int suffix = Convert.ToInt32(group.Last().ToString());
+                                subject = new Subject()
+                                {
+                                    Name = row[2],
+                                    Color = ((Color)Application.Current.Resources[$"SubjectColor_{suffix}"]).ToHex(),
+                                    Group = group,
+                                    IdTeacher = teacher.Id
+                                };
+                                if (AppData.Instance.LiteConnection.Table<Subject>().Where(x =>
+                                    x.Color == subject.Color && x.Group != subject.Group).Any())
+                                {
+                                    subject.Color =
+                                        ((Color)Application.Current.Resources[$"SubjectColor_Aux{aux_suffix}"])
+                                        .ToHex();
+                                    aux_suffix++;
+                                }
+
+                                AppData.Instance.LiteConnection.Insert(subject);
+                            }
+
                             int begin_hour = Convert.ToInt32(match.Groups["begin_hour"].Value);
                             int begin_minutes = Convert.ToInt32(match.Groups["begin_minutes"].Value);
                             int end_hour = Convert.ToInt32(match.Groups["end_hour"].Value);
@@ -123,25 +164,18 @@ namespace SchoolOrganizer.Saes
 
                             TimeSpan begin = TimeSpan.FromHours(begin_hour).Add(TimeSpan.FromMinutes(begin_minutes));
                             TimeSpan end = TimeSpan.FromHours(end_hour).Add(TimeSpan.FromMinutes(end_minutes));
-
-                            Subject subject = new Subject()
+                            ClassTime classTime = new ClassTime()
                             {
-                                Name = row[2],
-                                Color = Color.Pink.ToHex(),
-                                Group = row[0],
                                 Begin = begin,
                                 End = end,
-                                Day = (DayOfWeek)i-5
+                                Day = (DayOfWeek)i - 5,
+                                IdSubject = subject.Id
                             };
-                            AppData.Instance.LiteConnection.InsertOrReplace(subject);
+                            AppData.Instance.LiteConnection.Insert(classTime);
                         }
                     }
 
-                    Teacher teacher = new Teacher()
-                    {
-                        Name = row[3]
-                    };
-                    AppData.Instance.LiteConnection.InsertOrReplace(teacher);
+
                 }
             }
             //Reboot app

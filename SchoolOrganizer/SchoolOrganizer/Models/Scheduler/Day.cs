@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using SchoolOrganizer.Data;
 
 namespace SchoolOrganizer.Models.Scheduler
@@ -37,11 +38,27 @@ namespace SchoolOrganizer.Models.Scheduler
             }
             return string.Empty;
         }
-        public IEnumerable<Subject> GetTimeLine()
+        public List<ClassSquare> GetTimeLine()
         {
-            return AppData.Instance.LiteConnection.Table<Subject>()
+            List<ClassSquare> classSquares = new List<ClassSquare>();
+
+            foreach (ClassTime classTime in AppData.Instance.LiteConnection.Table<ClassTime>()
                 .Where(x => x.Day == this.DayOfWeek)
-                .OrderBy(x => x.Begin).ToList();
+                .OrderBy(x => x.Begin))
+            {
+                Subject subject = AppData.Instance.LiteConnection.Find<Subject>(classTime.IdSubject);
+                classSquares.Add(new ClassSquare()
+                {
+                    SubjectName= subject.Name,
+                    Color = subject.Color,
+                    Begin= classTime.Begin,
+                    End= classTime.End,
+                    Day= classTime.Day,
+                    Group=subject.Group
+                });
+            }
+
+            return classSquares;
         }
 
         public static Day Today()

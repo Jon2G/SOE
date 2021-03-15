@@ -7,7 +7,8 @@
              xmlns:date="clr-namespace:SchoolOrganizer.Views.Renders"
              xmlns:viewModels="clr-namespace:SchoolOrganizer.ViewModels.Pages;assembly=SchoolOrganizer"
              xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
-             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit">
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
     <ContentPage.BindingContext>
         <viewModels:TaskViewModel x:Name="Modelo"/>
     </ContentPage.BindingContext>
@@ -42,11 +43,11 @@
                 </StackLayout>
                 <!--<Image x:Name="MyImg"/>-->
                 <StackLayout>
-                    <CarouselView IndicatorView="indicatorView"  
+                    <CarouselView IndicatorView="indicatorView" PeekAreaInsets="100" 
                 ItemsSource="{Binding Photos}" HeightRequest="100" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
                         <CarouselView.ItemTemplate>
                             <DataTemplate >
-                                <Image  Source="{Binding .}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                                <ContentView  Content="{Binding .}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
                             </DataTemplate>
                         </CarouselView.ItemTemplate>
                     </CarouselView>

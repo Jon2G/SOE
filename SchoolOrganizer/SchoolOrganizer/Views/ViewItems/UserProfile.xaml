@@ -7,7 +7,11 @@
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:data="clr-namespace:SchoolOrganizer.Models.Data;assembly=SchoolOrganizer"
              xmlns:data1="clr-namespace:SchoolOrganizer.Data;assembly=SchoolOrganizer"
-             BackgroundColor="{StaticResource primaryLightColor}">
+             xmlns:viewItems="clr-namespace:SchoolOrganizer.ViewModels.ViewItems;assembly=SchoolOrganizer"
+             BackgroundColor="{StaticResource primaryLightColor}" x:Name="Me">
+    <ContentView.BindingContext>
+        <viewItems:UserProfileViewModel/>
+    </ContentView.BindingContext>
     <ContentView.Content>
       <StackLayout >
             <Grid BindingContext="{Binding User, Source={x:Static data1:AppData.Instance}}" x:DataType="data:User" Margin="10,0,0,0" ColumnDefinitions="Auto,*" Padding="10" >
@@ -47,9 +51,11 @@
                             <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Horario" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                         </StackLayout>
                     </ViewCell>
-                    <ViewCell >
-
+                    <ViewCell>
                         <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TareasCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
+                            </StackLayout.GestureRecognizers>
                             <Label Text="{x:Static fonts:FontelloIcons.Book}"  
                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>

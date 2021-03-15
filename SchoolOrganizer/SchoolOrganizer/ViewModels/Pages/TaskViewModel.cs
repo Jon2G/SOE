@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using FFImageLoading.Forms;
 using Xamarin.Forms;
 
 namespace SchoolOrganizer.ViewModels.Pages
@@ -16,12 +17,12 @@ namespace SchoolOrganizer.ViewModels.Pages
     {
         public Command TaskCommand { get; }
 
-        public ObservableCollection<ImageSource> Photos { get; }
+        public ObservableCollection<CachedImage> Photos { get; }
 
         public TaskViewModel()
         {
             TaskCommand = new Command(TaskClicked);
-            this.Photos = new ObservableCollection<ImageSource>();
+            this.Photos = new ObservableCollection<CachedImage>();
         }
 
         private async void TaskClicked(object obj)

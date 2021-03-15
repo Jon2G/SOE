@@ -14,7 +14,8 @@
              xmlns:render="clr-namespace:SchoolOrganizer.Views.Renders" 
              BackgroundColor="{DynamicResource primaryLightColor}">
     <Grid>
-        <WebView x:Name="Web" IsVisible="True"   />
+        <WebView x:Name="Web" IsVisible="True" />
+        <ContentView BackgroundColor="{DynamicResource primaryLightColor}">
             <pancakeView:PancakeView 
                 Style="{StaticResource card}" 
                 BackgroundColor="{DynamicResource secondaryLightColor}"
@@ -43,7 +44,7 @@
                                Focused="EntryFocused" Placeholder="Usuario" PlaceholderColor="Black" Margin="0,10"/>
 
 
-                        <render:NoLineEntry IsPassword="True" Text="{Binding User.Password}"
+                            <render:NoLineEntry IsPassword="True" Text="{Binding User.Password}"
                                Style="{StaticResource FormEntryStyle}" TextColor="{DynamicResource secondaryTextColor}"
                                Focused="EntryFocused" Placeholder="Contraseña" PlaceholderColor="{DynamicResource secondaryTextColor}" Margin="0,10"/>
 
@@ -83,5 +84,6 @@
                     </StackLayout>
                 </StackLayout>
             </pancakeView:PancakeView>
-        </Grid>
+        </ContentView>
+    </Grid>
 </ContentPage>

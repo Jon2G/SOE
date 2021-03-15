@@ -59,8 +59,8 @@
         </Style>
 
         <Style x:Key="CustomTabStyle" TargetType="toolkit:TabView">
-            <Setter Property="IsTabTransitionEnabled" Value="False" />
-            <Setter Property="IsSwipeEnabled" Value="False" />
+            <Setter Property="IsTabTransitionEnabled" Value="True" />
+            <Setter Property="IsSwipeEnabled" Value="True" />
             <Setter Property="IsClippedToBounds" Value="False" />
             <Setter Property="TabStripBackgroundColor" Value="#E8E6F2" />
             <Setter Property="TabStripHeight" Value="65" />

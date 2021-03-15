@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SchoolOrganizer.Views.ViewItems.DailyTasks.TaskHeaderTemplate" 
+             xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
+             xmlns:dailyTasksModels="clr-namespace:SchoolOrganizer.Models.DailyTasksModels;assembly=SchoolOrganizer"
+             xmlns:viewItems="clr-namespace:SchoolOrganizer.ViewModels.ViewItems;assembly=SchoolOrganizer"
+             x:DataType="dailyTasksModels:DailyTasks">
+    <ContentView.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="LineStyle" TargetType="BoxView">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Fill" />
+                <Setter Property="WidthRequest" Value="1" />
+            </Style>
+
+            <Style x:Key="TitleTextStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="{x:Static fonts:TextFonts.KarlaSemiBold}"/>
+                <Setter Property="FontSize" Value=" 36" />
+                <Setter Property="TextColor" Value="{StaticResource secondaryTextColor}" />
+                <Setter Property="Margin" Value="0, 6, 0, 0" />
+            </Style>
+
+            <Style x:Key="SubTitleTextStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="{x:Static fonts:TextFonts.KarlaExtraLight}"/>
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="Margin" Value="0, 0, 0, 36" />
+            </Style>
+
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <ContentView  >
+            <Grid x:DataType="dailyTasksModels:DailyTasks" 
+                  BackgroundColor="{StaticResource  PrimaryLightBackground}"
+                  ColumnSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid
+                Grid.Column="0">
+                <BoxView
+                    BackgroundColor="Black"
+                    Style="{StaticResource LineStyle}" />
+            </Grid>
+            <StackLayout
+                Grid.Column="1">
+                <Label 
+                    Text="My Tasks"
+                    Style="{StaticResource TitleTextStyle}"/>
+                <Label
+                    Text="{Binding Date}"
+                    Style="{StaticResource SubTitleTextStyle}"/>
+            </StackLayout>
+        </Grid>
+            </ContentView>
+    </ContentView.Content>
+</ContentView>

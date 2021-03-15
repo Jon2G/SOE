@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
+             xmlns:cardViews="clr-namespace:SchoolOrganizer.Views.ViewItems.CardViews;assembly=SchoolOrganizer"
+             xmlns:viewItems="clr-namespace:SchoolOrganizer.Views.ViewItems;assembly=SchoolOrganizer"
+             xmlns:models="clr-namespace:SchoolOrganizer.ViewModels.ViewItems;assembly=SchoolOrganizer"
+             x:Class="SchoolOrganizer.Views.Pages.DailyTasks" x:DataType="models:DailyTasksViewModel">
+    <ContentPage.BindingContext>
+        <models:DailyTasksViewModel x:Name="Model"/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <CarouselView IsScrollAnimated="False" Loop="False"
+                      ItemsSource="{Binding LoadedDays}" PeekAreaInsets="0"
+                      HorizontalScrollBarVisibility = "Never"
+                      CurrentItem="{Binding CurrentDailyTasks}"
+                      VerticalScrollBarVisibility="Never"
+                      HorizontalOptions="FillAndExpand"
+                      VerticalOptions="FillAndExpand">
+            <!--<CarouselView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal" ItemSpacing="0" SnapPointsType="MandatorySingle"  />
+            </CarouselView.ItemsLayout>-->
+            <CarouselView.ItemTemplate>
+                <DataTemplate x:DataType="models:DailyTasksViewModel">
+                    <viewItems:DailyTasksView BindingContext="{Binding .}"/>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+        <!--<StackLayout>
+            <views:TabView x:Name="TabView"  Style="{StaticResource CustomTabStyle}" 
+                           SelectionChanged="TabView_OnSelectionChanged"  >
+                <views:TabViewItem>
+                    <Label
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Text="Past ..." />
+                </views:TabViewItem>
+                <views:TabViewItem>
+                    <viewItems:DailyTasksView BindingContext="{Binding CurrentDailyTasks }"/>
+                </views:TabViewItem>
+                <views:TabViewItem>
+                    <Label
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Text="Future ..." />
+                </views:TabViewItem>
+            </views:TabView>
+        </StackLayout>-->
+    </ContentPage.Content>
+</ContentPage>

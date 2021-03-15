@@ -1,4 +1,7 @@
 ﻿using System;
+using FFImageLoading.Cache;
+using FFImageLoading.Forms;
+using FFImageLoading.Work;
 using Rg.Plugins.Popup.Pages;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -27,10 +30,25 @@ namespace SchoolOrganizer.Views.PopUps
             if (Xamarin.Essentials.MediaPicker.IsCaptureSupported)
             {
                 var picture = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync();
+
                 if (picture != null)
                 {
                     FileImageSource imagen = new FileImageSource() {File = picture.FullPath };
-                    Modelo.Photos.Add(imagen);
+
+
+                    var cachedImage = new CachedImage()
+                    {
+                        CacheType = CacheType.Disk,
+                        HorizontalOptions = LayoutOptions.FillAndExpand,
+                        VerticalOptions = LayoutOptions.FillAndExpand,
+                        DownsampleToViewSize = true,
+                        //LoadingPlaceholder = "loading.png",
+                        //ErrorPlaceholder = "error.png",
+                        Source = imagen
+                    };
+
+
+                    Modelo.Photos.Add(cachedImage);
                 }
             }
         }
@@ -44,7 +62,19 @@ namespace SchoolOrganizer.Views.PopUps
             if (picture != null)
             {
                 FileImageSource imagen = new FileImageSource() { File = picture.FullPath };
-                Modelo.Photos.Add(imagen);
+
+                var cachedImage = new CachedImage()
+                {
+                    CacheType = CacheType.Disk,
+                    HorizontalOptions = LayoutOptions.FillAndExpand,
+                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    DownsampleToViewSize = true,
+                    //LoadingPlaceholder = "loading.png",
+                    //ErrorPlaceholder = "error.png",
+                    Source = imagen
+                };
+
+                Modelo.Photos.Add(cachedImage);
             }
 
         }

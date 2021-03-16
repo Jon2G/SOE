@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kit;
 using Kit.Model;
 using SchoolOrganizer.Models.DailyTasksModels;
 using SchoolOrganizer.Views.ViewItems;

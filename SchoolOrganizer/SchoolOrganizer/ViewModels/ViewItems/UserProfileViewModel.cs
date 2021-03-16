@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
+using Kit;
 using Kit.Model;
 using SchoolOrganizer.Views.Pages;
 using Xamarin.Forms;

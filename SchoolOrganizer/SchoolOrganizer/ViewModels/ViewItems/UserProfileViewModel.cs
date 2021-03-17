@@ -19,7 +19,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 
         private void Tareas(INavigation obj)
         {
-            obj.PushModalAsync(new DailyTasks(), true);
+            obj.PushModalAsync(new TaskFirstPage(), true);
         }
     }
 }

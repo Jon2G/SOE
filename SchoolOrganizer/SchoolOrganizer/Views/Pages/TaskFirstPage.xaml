@@ -4,6 +4,7 @@
              xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
              xmlns:behaviors="http://xamarin.com/schemas/2020/toolkit"
              xmlns:viewItems="clr-namespace:SchoolOrganizer.ViewModels.ViewItems;assembly=SchoolOrganizer"
+             x:Name="Me"
              x:Class="SchoolOrganizer.Views.Pages.TaskFirstPage">
     <ContentPage.BindingContext>
         <viewItems:TaskFirstViewModel x:Name="Modelo"/>
@@ -43,12 +44,12 @@
                 <BoxView Grid.RowSpan="2" WidthRequest="80" BackgroundColor="#00C6AE"/>
                 <BoxView Grid.Column="1" Grid.RowSpan="2" WidthRequest="80" BackgroundColor="White"/>
                 <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                    <Label Text="2" TextColor="White" FontSize="36" HorizontalOptions="Center"/>
-                    <Label Text="MARCH" TextColor="White" FontSize="12" HorizontalOptions="Center" Margin="0,-10,0,0"/>
+                    <Label Text="{Binding dateTime}" BindingContext="{x:Reference Me}" TextColor="White" FontSize="36" HorizontalOptions="Center"/>
+                    <Label Text="{Binding mes}" BindingContext="{x:Reference Me}" TextColor="White" FontSize="12" HorizontalOptions="Center" Margin="0,-10,0,0"/>
                 </StackLayout>
                 <StackLayout Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
-                    <Label Text="4" TextColor="#455399" FontSize="36" HorizontalOptions="Center"/>
-                    <Label Text="MARCH" TextColor="#455399" FontSize="12" HorizontalOptions="Center" Margin="0,-10,0,0"/>
+                    <Label Text="{Binding dateTime2}" BindingContext="{x:Reference Me}" TextColor="#455399" FontSize="36" HorizontalOptions="Center"/>
+                    <Label Text="{Binding mes}" BindingContext="{x:Reference Me}" TextColor="#455399" FontSize="12" HorizontalOptions="Center" Margin="0,-10,0,0"/>
                 </StackLayout>
                 <BoxView Grid.Row="1" Grid.ColumnSpan="2" WidthRequest="73" HeightRequest="1" BackgroundColor="#F1F3F7" 
                          HorizontalOptions="Center" VerticalOptions="Center"/>

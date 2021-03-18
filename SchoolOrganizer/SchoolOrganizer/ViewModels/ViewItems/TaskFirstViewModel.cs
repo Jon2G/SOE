@@ -8,10 +8,12 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 {
     class TaskFirstViewModel
     {
+       
         public ObservableCollection<Agenda> MyAgenda { get => GetAgenda(); }
 
         private ObservableCollection<Agenda> GetAgenda()
         {
+           
             return new ObservableCollection<Agenda>
             {
                 new Agenda { Topic = "Reporte de Matematicas", Duration = "07:30 UTC - 11:30 UTC", Color = "#B96CBD", Date = new DateTime(2020, 3, 23),

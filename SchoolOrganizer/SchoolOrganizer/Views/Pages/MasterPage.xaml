@@ -73,47 +73,17 @@
     <Grid IsClippedToBounds="False" RowSpacing="0">
         <ContentView x:Name="BrowserHolder" IsVisible="True"  x:FieldModifier="public" />
 
-        <toolkit:TabView Style="{StaticResource CustomTabStyle}">
-            <!--  HOME TAB  -->
-            <toolkit:TabViewItem>
-                <toolkit:TabViewItem.Icon>
-                    <FontImageSource
-                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                        Glyph="{x:Static fonts:FontelloIcons.Home}"
-                        Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
-                                                Light={StaticResource secondaryTextColor}}" />
-                </toolkit:TabViewItem.Icon>
-                <toolkit:TabViewItem.IconSelected>
-                    <FontImageSource
-                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                        Glyph="{x:Static fonts:FontelloIcons.Home}"
-                        Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
-                                                Light={StaticResource secondaryTextColor}}"/>
-                </toolkit:TabViewItem.IconSelected>
-                <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                    <Label FontSize="Large" FontFamily="fontello" 
-                           Text="{x:Static fonts:FontelloIcons.Calendar}" TextColor="Blue"/>
-                  
-
-                </StackLayout>
-            </toolkit:TabViewItem>
+        <toolkit:TabView Style="{StaticResource CustomTabStyle}" IsTabStripVisible="False">
 
             <!--  FAVOURITE TAB  -->
-            <toolkit:TabViewItem>
+            <toolkit:TabViewItem HeightRequest="60" BadgeText="2" BadgeBackgroundColor="Red" BadgeTextColor="White">
                 <toolkit:TabViewItem.Icon>
                     <FontImageSource
                         FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                        Glyph="{x:Static fonts:FontelloIcons.Users}"
+                        Glyph="{x:Static fonts:FontelloIcons.Book1}"
                         Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
                                                 Light={StaticResource secondaryTextColor}}" />
                 </toolkit:TabViewItem.Icon>
-                <toolkit:TabViewItem.IconSelected>
-                    <FontImageSource
-                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                        Glyph="{x:Static fonts:FontelloIcons.AddressBook}"
-                        Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
-                                                Light={StaticResource secondaryTextColor}}" />
-                </toolkit:TabViewItem.IconSelected>
                 <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                     <Label FontSize="Large" Text="Favourites" />
                     
@@ -121,7 +91,7 @@
             </toolkit:TabViewItem>
 
             <!--  HOME TAB  -->
-            <toolkit:TabViewItem IsSelected="True"
+            <toolkit:TabViewItem IsSelected="True"  BadgeText="1" BadgeBackgroundColor="Red" BadgeTextColor="White"
                 ControlTemplate="{StaticResource BasketTabItemTemplate}"
                 Style="{StaticResource TabItemStyle}">
                 <toolkit:TabViewItem.Icon>
@@ -131,6 +101,7 @@
                         Color="{AppThemeBinding Dark={StaticResource  secondaryTextColor},
                                                 Light={StaticResource secondaryLightColor}}" />
                 </toolkit:TabViewItem.Icon>
+
 
                 <Grid>
                     <Grid  ColumnDefinitions="*,20" ColumnSpacing="0" RowDefinitions="4*,6*">
@@ -143,60 +114,26 @@
             </toolkit:TabViewItem>
 
             <!--  FINANCE TAB  -->
-            <toolkit:TabViewItem>
+            <toolkit:TabViewItem HeightRequest="60">
                 <toolkit:TabViewItem.Icon>
                     <FontImageSource
                         FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                        Glyph="{x:Static fonts:FontelloIcons.Award}"
+                        Glyph="{x:Static fonts:FontelloIcons.Calendar}"
                         Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
                                                 Light={StaticResource secondaryTextColor}}" />
                 </toolkit:TabViewItem.Icon>
-                <toolkit:TabViewItem.IconSelected>
-                    <FontImageSource
-                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                        Glyph="{x:Static fonts:FontelloIcons.PaperPlane}"
-                        Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
-                                                Light={StaticResource secondaryTextColor}}" />
-                </toolkit:TabViewItem.IconSelected>
                 <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                     <Label FontSize="Large" Text="Finance" />
                     
                 </StackLayout>
             </toolkit:TabViewItem>
 
-            <!--  PROFILE TAB  -->
-            <toolkit:TabViewItem>
-                <toolkit:TabViewItem.Icon>
-                    <FontImageSource
-                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                        Glyph="{x:Static fonts:FontelloIcons.PaperPlane}"
-                        Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
-                                                Light={StaticResource secondaryTextColor}}" />
-                </toolkit:TabViewItem.Icon>
-                <toolkit:TabViewItem.IconSelected>
-                    <FontImageSource
-                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                        Glyph="{x:Static fonts:FontelloIcons.Attach}"
-                        Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
-                                                Light={StaticResource secondaryTextColor}}" />
-                </toolkit:TabViewItem.IconSelected>
-                <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                    <Label FontSize="Large" Text="Profile" />
-                  
-                    <!--<StackLayout Margin="10" >
 
-                        <Button Text="Home" StyleId="0" BackgroundColor="Red" Clicked="Button_Clicked" />
-
-                    </StackLayout>-->
-
-                
-                </StackLayout>
-            </toolkit:TabViewItem>
         </toolkit:TabView>
         <!-- RADIAL MENU FILTER -->
         <Grid        
                 HorizontalOptions="End" VerticalOptions="End"
-                Margin="0, 0, -50, 60">
+                Margin="0, 0, -50, 0">
             <controls:FilterMenu 
                     SelectedCommand="{Binding ItemSelectedCommand}"
                     HorizontalOptions="Center" 

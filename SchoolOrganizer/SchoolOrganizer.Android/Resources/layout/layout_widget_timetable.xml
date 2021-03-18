@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_gravity="center_horizontal"
+  android:id="@+id/widget_timetable"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:layout_margin="@dimen/widget_margin">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f0f0"
+    android:orientation="vertical"
+    android:elevation="4dp">
+
+<GridLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:columnCount="3"
+    android:padding="10dp">
+    <TextView
+        android:id="@+id/widget_timetable_TextViewCurrent_day"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_column="0"
+        android:textColor="@color/secondaryTextColor"
+        
+        android:layout_columnSpan="0"
+        android:text="Lunes"
+        android:textSize="25dp" />
+
+    <Button
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/widget_timetable_Btnyesterday"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:layout_column="1"
+        android:text="👈"
+        android:textSize="20dp"
+        android:tooltipText="Ayer" />
+    <Button
+        android:id="@+id/widget_timetable_Btntomorrow"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:layout_column="2"
+        android:layout_marginLeft="5dp"
+        android:text="👉"
+        android:textSize="20dp"
+        android:tooltipText="Mañana" />
+</GridLayout>
+
+
+
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/stack_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:loopViews="true"
+        android:orientation="vertical" />
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@color/secondaryTextColor"
+        android:textStyle="bold"
+        android:text="empty_view_text"
+        android:textSize="20sp" />
+
+</LinearLayout>
+</LinearLayout>

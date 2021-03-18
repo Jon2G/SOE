@@ -12,5 +12,6 @@ namespace SchoolOrganizer.Models.Scheduler
         public TimeSpan End { get; internal set; }
         public DayOfWeek Day { get; set; }
         public string Group { get; internal set; }
+        public string FormattedTime => $"{Begin:hh}:{Begin:mm} - {End:hh}:{End:mm}";
     }
 }

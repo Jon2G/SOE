@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Kit.Model;
 using SchoolOrganizer.Data;
 
 namespace SchoolOrganizer.Models.Scheduler
 {
-    public class Day
+    public class Day: ModelBase
     {
         public string Name { get; private set; }
+        public string ShortName => Name.Substring(0, 3);
         public DateTime Date { get; private set; }
         public DayOfWeek DayOfWeek { get; private set; }
         public bool IsWeekend => (DayOfWeek == DayOfWeek.Sunday || DayOfWeek == DayOfWeek.Saturday);
@@ -75,7 +77,7 @@ namespace SchoolOrganizer.Models.Scheduler
 
         public Day Tommorrow()
         {
-            Day Day=this;
+            Day Day = this;
             do
             {
                 Day = new Day(Day.Date.AddDays(1));
@@ -91,6 +93,24 @@ namespace SchoolOrganizer.Models.Scheduler
                 Day = new Day(Day.Date.AddDays(-1));
             } while (Day.IsWeekend);
             return Day;
+        }
+
+        public static Day GetNearest(DayOfWeek day)
+        {
+            DateTime date = DateTime.Today;
+            while (date.DayOfWeek != day)
+            {
+                if (date.DayOfWeek > day)
+                {
+                    date=date.AddDays(-1);
+                }
+                else
+                {
+                    date=date.AddDays(+1);
+                }
+            }
+
+            return new Day(date);
         }
     }
 }

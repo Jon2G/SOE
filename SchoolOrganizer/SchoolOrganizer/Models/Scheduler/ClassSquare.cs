@@ -6,6 +6,14 @@ namespace SchoolOrganizer.Models.Scheduler
 {
     public class ClassSquare
     {
+        public double HoursHeigthRequest
+        {
+            get
+            {
+                TimeSpan total = End - Begin;
+                return total.TotalHours * Hour.HourHeigth;
+            }
+        }
         public string SubjectName { get; set; }
         public string Color { get; internal set; }
         public TimeSpan Begin { get; internal set; }

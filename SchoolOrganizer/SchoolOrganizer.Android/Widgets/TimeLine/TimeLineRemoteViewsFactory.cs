@@ -27,60 +27,14 @@ namespace SchoolOrganizer.Droid.Widgets.RemoteViewsServices
         private Context mContext;
         private int mAppWidgetId;
         private List<ClassSquare> Schedule;
-        private MyReceiver ReceiverFoward;
-        private MyReceiver ReceiverBackward;
-
-        [BroadcastReceiver()]
-        [IntentFilter(actions: new[] { TimeLineWidget.FOWARD_ACTION, TimeLineWidget.BACKWARD_ACTION })]
-        private class MyReceiver : BroadcastReceiver
-        {
-            public Action<Context, Intent> ReceiveAction;
-            public MyReceiver() { }
-
-            public override void OnReceive(Context? context, Intent? intent)
-            {
-                if (context != null && intent != null)
-                {
-                    ReceiveAction.Invoke(context, intent);
-                }
-            }
-        }
 
         public TimeLineRemoteViewsFactory() { }
         public TimeLineRemoteViewsFactory(Context context, Intent intent)
         {
             mContext = context;
             mAppWidgetId = intent.GetIntExtra(AppWidgetManager.ExtraAppwidgetId, AppWidgetManager.InvalidAppwidgetId);
-            //this.ReceiverFoward = new MyReceiver();
-            //this.ReceiverFoward.ReceiveAction = OnReceiveAction;
-            //this.ReceiverBackward = new MyReceiver();
-            //this.ReceiverBackward.ReceiveAction = OnReceiveAction;
-            //context.RegisterReceiver(this.ReceiverFoward, new IntentFilter(TimeLineWidget.FOWARD_ACTION));
-            //context.RegisterReceiver(this.ReceiverBackward, new IntentFilter(TimeLineWidget.BACKWARD_ACTION));
         }
 
-        private void OnReceiveAction(Context context, Intent arg2)
-        {
-            Log.Logger.Debug("OnReceiveAction,{0}", "START");
-            AppWidgetManager appWidgetManager = AppWidgetManager.GetInstance(context);
-            switch (arg2.Action)
-            {
-                case TimeLineWidget.FOWARD_ACTION:
-                    TimeLineWidget.Tomorrow(this.mAppWidgetId);
-                    appWidgetManager.NotifyAppWidgetViewDataChanged(this.mAppWidgetId, Resource.Id.stack_view);
-                    break;
-                case TimeLineWidget.BACKWARD_ACTION:
-                    TimeLineWidget.Yesterday(this.mAppWidgetId);
-                    appWidgetManager.NotifyAppWidgetViewDataChanged(this.mAppWidgetId, Resource.Id.stack_view);
-                    break;
-                default:
-                    return;
-            }
-
-            context.SendBroadcast(new Intent(TimeLineWidget.DAY_CHANGED));
-
-            Log.Logger.Debug("OnReceiveAction,{0}", "END");
-        }
 
         public void OnCreate()
         {

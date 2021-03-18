@@ -8,6 +8,7 @@
              xmlns:viewItems="clr-namespace:SchoolOrganizer.Views.ViewItems;assembly=SchoolOrganizer"
              xmlns:cardViews="clr-namespace:SchoolOrganizer.Views.ViewItems.CardViews;assembly=SchoolOrganizer"
              xmlns:controls="clr-namespace:SchoolOrganizer.Control" xmlns:pages="clr-namespace:SchoolOrganizer.ViewModels.Pages"
+             xmlns:scheduleView="clr-namespace:SchoolOrganizer.Views.ViewItems.ScheduleView;assembly=SchoolOrganizer"
              x:DataType="pages:MasterPageViewModel">
     <ContentPage.BindingContext>
         <pages:MasterPageViewModel/>
@@ -122,10 +123,7 @@
                         Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
                                                 Light={StaticResource secondaryTextColor}}" />
                 </toolkit:TabViewItem.Icon>
-                <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                    <Label FontSize="Large" Text="Finance" />
-                    
-                </StackLayout>
+                <scheduleView:ScheduleViewMain/>
             </toolkit:TabViewItem>
 
 

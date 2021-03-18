@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:viewItems="clr-namespace:SchoolOrganizer.ViewModels.ViewItems;assembly=SchoolOrganizer"
+             xmlns:generic="clr-namespace:System.Collections.Generic;assembly=netstandard"
+             xmlns:scheduler="clr-namespace:SchoolOrganizer.Models.Scheduler;assembly=SchoolOrganizer"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:scheduleViewModel="clr-namespace:SchoolOrganizer.ViewModels.ViewItems.ScheduleViewModel;assembly=SchoolOrganizer"
+             x:Class="SchoolOrganizer.Views.ViewItems.ScheduleView.ScheduleViewMain" x:DataType="viewItems:ScheduleMainViewModel">
+    <ContentView.BindingContext>
+        <viewItems:ScheduleMainViewModel x:Name="Model"/>
+    </ContentView.BindingContext>
+    <ContentView.Content>
+        <StackLayout BindingContext="{x:Reference Model}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="5">
+            <Grid  ColumnDefinitions="20,*" >
+                <views:UniformGrid Grid.Column="1"
+                    BindableLayout.ItemsSource="{Binding WeekDays}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="scheduleViewModel:SheduleDay">
+                            <ContentView>
+                                <Label FontSize="25" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Binding Day.ShortName}"/>
+                            </ContentView>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </views:UniformGrid>
+            </Grid>
+
+            <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
+                <Grid ColumnDefinitions="20,*"  >
+                    <StackLayout BackgroundColor="WhiteSmoke" VerticalOptions="FillAndExpand" 
+                                 BindableLayout.ItemsSource="{Binding WeekHours}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="scheduler:Hour">
+                                <ContentView>
+                                    <Label HeightRequest="{x:Static scheduler:Hour.HourHeigth}" FontSize="16" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Binding ShortName}"/>
+                                </ContentView>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+                    <Frame CornerRadius="5" Padding="0" BackgroundColor="White" Grid.Column="1">
+                        <views:UniformGrid BindableLayout.ItemsSource="{Binding WeekDays}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="scheduleViewModel:SheduleDay">
+                                    <ContentView Margin="0" Padding="0">
+                                        <StackLayout Spacing="0" Margin="0" Padding="0"  WidthRequest="10" 
+                                                     BindableLayout.ItemsSource="{Binding Class}">
+                                            <BindableLayout.ItemTemplate>
+                                                <DataTemplate x:DataType="scheduler:ClassSquare">
+                                                    <ContentView HeightRequest="{Binding HoursHeigthRequest}">
+                                                        <Frame Margin="3" BackgroundColor="{Binding Color}" Padding="3">
+                                                            <StackLayout>
+                                                                <Label FontSize="14" TextColor="Black"
+                                                                       HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                                                                       Text="{Binding SubjectName}"/>
+                                                                <Label FontSize="14" TextColor="Black"
+                                                                       HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
+                                                                       Text="{Binding Group}" />
+                                                                <Label FontSize="12" TextColor="Black"
+                                                                       HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
+                                                                       Text="{Binding  FormattedTime}" />
+                                                            </StackLayout>
+                                                        </Frame>
+                                                    </ContentView>
+                                                </DataTemplate>
+                                            </BindableLayout.ItemTemplate>
+                                        </StackLayout>
+                                    </ContentView>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </views:UniformGrid>
+                    </Frame>
+                </Grid>
+                <!--<Grid ColumnDefinitions="20,*"  >
+                    <Grid BackgroundColor="WhiteSmoke" BindableLayout.ItemsSource="{Binding WeekHours}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="scheduler:Hour">
+                                <ContentView Grid.Row="{Binding Index}">
+                                    <Label FontSize="16" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Binding ShortName}"/>
+                                </ContentView>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </Grid>
+                    <Frame CornerRadius="5" BackgroundColor="White" Grid.Column="1">
+
+                    </Frame>
+                </Grid>-->
+            </ScrollView>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

@@ -107,6 +107,9 @@
     <EmbeddedResource Update="Views\ViewItems\DailyTasks\TaskItemTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\ViewItems\ScheduleView\ScheduleMain.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\ViewItems\TimelineBar.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -124,6 +127,9 @@
     </Compile>
     <Compile Update="Views\ViewItems\CardViews\DateTimeView.xaml.cs">
       <DependentUpon>DateTimeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ViewItems\ScheduleView\ScheduleMain.xaml.cs">
+      <DependentUpon>ScheduleMain.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

@@ -33,10 +33,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
         public TimelineBarViewModel()
         {
             Day = Day.Today();
-            while (Day.IsWeekend)
-            {
-                Day = Day.Tommorrow();
-            }
+
             ClassSquares = Day.GetTimeLine();
             this.IsExpanded = false;
             this.ExpandCommand = new Command(Expand);

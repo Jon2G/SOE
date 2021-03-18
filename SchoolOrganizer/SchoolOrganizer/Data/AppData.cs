@@ -14,6 +14,7 @@ namespace SchoolOrganizer.Data
 {
     public class AppData
     {
+        public static bool IsInitialized => Instance is not null;
         public static AppData Instance { get; private set; }
 
         public User User
@@ -21,21 +22,25 @@ namespace SchoolOrganizer.Data
             get;
             set;
         }
+
         public SQLiteConnection LiteConnection { get; private set; }
         private AppData()
         {
 
         }
 
+        private static FileInfo LiteDbPath => new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SchoolOrganizer.db"));
+     
+
         public static void Init()
         {
-            AppData.Instance = new AppData();
-            AppData.Instance.User = new User();
-            AppData.Instance.LiteConnection =
-                new SQLiteConnection(
-                    new FileInfo(
-                        Path.Combine(Tools.Instance.LibraryPath, "SchoolOrganizer.db")), 116);
-            AppData.Instance.LiteConnection.CheckTables(typeof(Teacher), typeof(Subject),typeof(User),typeof(ClassTime));
+            AppData.Instance = new AppData
+            {
+                User = new User(),
+                LiteConnection = new SQLiteConnection(LiteDbPath, 116)
+            };
+            AppData.Instance.LiteConnection.CheckTables(typeof(Teacher), typeof(Subject), typeof(User), typeof(ClassTime));
+
         }
     }
 }

@@ -9,29 +9,29 @@
   android:layout_height="match_parent"
   android:layout_margin="@dimen/widget_margin">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="match_parent"  
     android:layout_height="match_parent"
-    android:background="#f0f0f0"
+    android:background="@color/PrimaryLightBackground"
     android:orientation="vertical"
-    android:elevation="4dp">
+    android:elevation="4dp" android:padding="0dp">
 
 <GridLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:columnCount="3"
-    android:padding="10dp">
+    android:columnCount="3" android:background="@color/primaryLightColor"
+    android:padding="5dp">
     <TextView
         android:id="@+id/widget_timetable_TextViewCurrent_day"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_column="0"
-        android:textColor="@color/secondaryTextColor"
-        
+        android:textColor="@android:color/primary_text_dark"
         android:layout_columnSpan="0"
         android:text="Lunes"
-        android:textSize="25dp" />
+        android:textSize="18dp" />
 
     <Button
+        android:background="@color/PrimaryLightBackground"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/widget_timetable_Btnyesterday"
         android:layout_width="40dp"
@@ -41,6 +41,7 @@
         android:textSize="20dp"
         android:tooltipText="Ayer" />
     <Button
+        android:background="@color/PrimaryLightBackground"
         android:id="@+id/widget_timetable_Btntomorrow"
         android:layout_width="40dp"
         android:layout_height="match_parent"

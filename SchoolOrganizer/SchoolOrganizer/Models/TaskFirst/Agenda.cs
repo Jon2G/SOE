@@ -13,5 +13,6 @@ namespace SchoolOrganizer.Models.TaskFirst
         public DateTime Date { get; set; }
         public ObservableCollection<Description> Speakers { get; set; }
         public string Color { get; set; }
+        //implementar imagen
     }
 }

@@ -12,19 +12,47 @@ namespace SchoolOrganizer.Views.Pages
 {
     [DesignTimeVisible(false)]
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TaskFirstPage : ContentPage
+    public partial class TaskFirstPage : ContentPage,INotifyPropertyChanged
     {
-        public int dateTime { get; set; }
-        public int dateTime2 { get; set; }
-        public string mes { get; set; }
+
+        private int _dateTime;
+        public int dateTime
+        {
+            get { return _dateTime; }
+            set
+            {
+                _dateTime = value;
+                OnPropertyChanged();
+            }
+        }
+        private int _dateTime2;
+        public int dateTime2
+        {
+            get { return _dateTime2; }
+            set
+            {
+                _dateTime2 = value;
+                OnPropertyChanged();
+            }
+        }
+        private DateTime _mes;
+        public DateTime mes
+        {
+            get { return _mes; }
+            set
+            {
+                _mes = value;
+                OnPropertyChanged();
+            }
+        }
         public TaskFirstPage()
         {
             InitializeComponent();
             dateTime = DateTime.Now.Day;
             dateTime2 = DateTime.Now.Day + 5;
-            mes = DateTime.Now.Month.ToString();
+            mes = DateTime.Now;
         }
 
-        
+       
     }
 }

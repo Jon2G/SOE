@@ -31,32 +31,5 @@
             </CollectionView.ItemTemplate>
 
         </CollectionView>
-        <!--<StackLayout Spacing="10" Margin="20">
-
-
-            <ScrollView>
-                <StackLayout>
-                    <Frame BorderColor="{DynamicResource primaryLightColor}" 
-                           CornerRadius="10" BackgroundColor="Orange">
-                        <Label  FontFamily="Karla_SemiBold"  TextColor="Black"  Text="Base de datos"
-                           FontSize="14"  FontAttributes="Bold">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer  />
-                            </Label.GestureRecognizers>
-                        </Label>
-                    </Frame>
-                    <Frame BorderColor="{DynamicResource primaryLightColor}" 
-                           CornerRadius="10" BackgroundColor="YellowGreen">
-                        <Label  FontFamily="Karla_SemiBold"  TextColor="Black"  Text="Administración"
-                           FontSize="14"  FontAttributes="Bold">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer  />
-                            </Label.GestureRecognizers>
-                        </Label>
-                    </Frame>
-                </StackLayout>
-            </ScrollView>
-
-        </StackLayout>-->
     </Frame>
 </popup:PopupPage>

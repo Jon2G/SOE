@@ -45,11 +45,11 @@
                 <BoxView Grid.Column="1" Grid.RowSpan="2" WidthRequest="80" BackgroundColor="White"/>
                 <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
                     <Label Text="{Binding dateTime}" BindingContext="{x:Reference Me}" TextColor="White" FontSize="36" HorizontalOptions="Center"/>
-                    <Label Text="{Binding mes}" BindingContext="{x:Reference Me}" TextColor="White" FontSize="12" HorizontalOptions="Center" Margin="0,-10,0,0"/>
+                    <Label Text="{Binding mes,StringFormat='{0:MMMM}'}" BindingContext="{x:Reference Me}" TextColor="White" FontSize="12" HorizontalOptions="Center" Margin="0,-10,0,0"/>
                 </StackLayout>
                 <StackLayout Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
                     <Label Text="{Binding dateTime2}" BindingContext="{x:Reference Me}" TextColor="#455399" FontSize="36" HorizontalOptions="Center"/>
-                    <Label Text="{Binding mes}" BindingContext="{x:Reference Me}" TextColor="#455399" FontSize="12" HorizontalOptions="Center" Margin="0,-10,0,0"/>
+                    <Label Text="{Binding mes, StringFormat='{0:MMMM}'}" BindingContext="{x:Reference Me}" TextColor="#455399" FontSize="12" HorizontalOptions="Center" Margin="0,-10,0,0"/>
                 </StackLayout>
                 <BoxView Grid.Row="1" Grid.ColumnSpan="2" WidthRequest="73" HeightRequest="1" BackgroundColor="#F1F3F7" 
                          HorizontalOptions="Center" VerticalOptions="Center"/>
@@ -96,7 +96,11 @@
                                                  VerticalOptions="FillAndExpand"/>
                                         <StackLayout Grid.Column="2" HorizontalOptions="Start" VerticalOptions="Center" Margin="20">
                                             <Label Text="{Binding Topic}" TextColor="Black" FontSize="15"/>
-                                            <Label Text="{Binding Duration}" TextColor="#2F3246" FontSize="12" Margin="0,-10,0,0"/>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="Vence:" TextColor="#2F3246" FontSize="12" Margin="0,-10,0,0"/>
+                                                <Label Text="{Binding Duration}" TextColor="#2F3246" FontSize="12" Margin="0,-10,0,0"/>
+                                            </StackLayout>
+                                            
                                         </StackLayout>
                                     </Grid>
                                 </behaviors:Expander.Header>
@@ -109,7 +113,7 @@
                                     <BoxView Grid.Column="1" BackgroundColor="#F2F4F8" WidthRequest="1" HorizontalOptions="Start" 
                                              VerticalOptions="FillAndExpand"/>
                                     <StackLayout Grid.Column="2" Spacing="10">
-                                        <Label Text="SPEAKERS" TextColor="Black" Opacity="0.5" FontSize="10" Margin="20,0"/>
+                                        <Label Text="Materia:" TextColor="Black" Opacity="0.5" FontSize="12" Margin="20,0" FontAttributes="Bold"/>
                                         <StackLayout BindableLayout.ItemsSource="{Binding Speakers}" HorizontalOptions="Start" VerticalOptions="Center" Margin="20,0,0,20">
                                             <BindableLayout.ItemTemplate>
                                                 <DataTemplate>
@@ -117,9 +121,13 @@
                                                         <Label.FormattedText>
                                                             <FormattedString>
                                                                 <FormattedString.Spans>
-                                                                    <Span Text="{Binding Time}"/>
-                                                                    <Span Text=" - "/>
                                                                     <Span Text="{Binding Name}" FontAttributes="Bold"/>
+                                                                    <Span Text="
+                                                                          "/>
+                                                                    <Span Text="Descripción:" FontSize="12"/>
+                                                                    <Span Text="
+                                                                          "/>
+                                                                    <Span Text="{Binding Descripción}" FontAttributes="Bold"/>
                                                                 </FormattedString.Spans>
                                                             </FormattedString>
                                                         </Label.FormattedText>

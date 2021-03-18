@@ -7,6 +7,6 @@ namespace SchoolOrganizer.Models.TaskFirst
     class Description
     {
         public string Name { get; set; }
-        public string Time { get; set; }
+        public string Descripción { get; set; }
     }
 }

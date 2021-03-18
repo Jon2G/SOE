@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
+using Kit;
 using Kit.Model;
 using SchoolOrganizer.Views.Pages;
 using Xamarin.Forms;
@@ -18,7 +19,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 
         private void Tareas(INavigation obj)
         {
-            obj.PushModalAsync(new DailyTasks(), true);
+            obj.PushModalAsync(new TaskFirstPage(), true);
         }
     }
 }

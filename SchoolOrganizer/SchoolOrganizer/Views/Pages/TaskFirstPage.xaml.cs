@@ -35,8 +35,8 @@ namespace SchoolOrganizer.Views.Pages
                 OnPropertyChanged();
             }
         }
-        private DateTime _mes;
-        public DateTime mes
+        private string _mes;
+        public string mes
         {
             get { return _mes; }
             set
@@ -48,11 +48,17 @@ namespace SchoolOrganizer.Views.Pages
         public TaskFirstPage()
         {
             InitializeComponent();
-            dateTime = DateTime.Now.Day;
-            dateTime2 = DateTime.Now.Day + 5;
-            mes = DateTime.Now;
+            dateTime = DateTime.Now.Hour;
+            dateTime2 = DateTime.Now.Minute;
+            
+            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
+            {
+                Device.BeginInvokeOnMainThread(()=> mes=DateTime.Now.ToString("hh:mm:ss tt")
+                    );
+                return true;
+            });
         }
 
-       
+      
     }
 }

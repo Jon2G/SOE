@@ -42,21 +42,11 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <BoxView Grid.RowSpan="2" WidthRequest="80" BackgroundColor="#00C6AE"/>
-                <BoxView Grid.Column="1" Grid.RowSpan="2" WidthRequest="80" BackgroundColor="White"/>
-                <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                    <Label Text="{Binding dateTime}" BindingContext="{x:Reference Me}" TextColor="White" FontSize="36" HorizontalOptions="Center"/>
-                    <Label Text="{Binding mes,StringFormat='{0:MMMM}'}" BindingContext="{x:Reference Me}" TextColor="White" FontSize="12" HorizontalOptions="Center" Margin="0,-10,0,0"/>
+                <BoxView Grid.Column="1" Grid.RowSpan="2" WidthRequest="80" BackgroundColor="#00C6AE"/>
+                <StackLayout Grid.ColumnSpan="2" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="{Binding mes,StringFormat='{0:h:mm}'}" BindingContext="{x:Reference Me}" TextColor="White" FontSize="25" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </StackLayout>
-                <StackLayout Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
-                    <Label Text="{Binding dateTime2}" BindingContext="{x:Reference Me}" TextColor="#455399" FontSize="36" HorizontalOptions="Center"/>
-                    <Label Text="{Binding mes, StringFormat='{0:MMMM}'}" BindingContext="{x:Reference Me}" TextColor="#455399" FontSize="12" HorizontalOptions="Center" Margin="0,-10,0,0"/>
-                </StackLayout>
-                <BoxView Grid.Row="1" Grid.ColumnSpan="2" WidthRequest="73" HeightRequest="1" BackgroundColor="#F1F3F7" 
-                         HorizontalOptions="Center" VerticalOptions="Center"/>
-                <pv:PancakeView Grid.Row="1" HeightRequest="7" WidthRequest="7"  CornerRadius="3.5" HorizontalOptions="Center" 
-                                VerticalOptions="Center" Margin="7"/>
-                <pv:PancakeView Grid.Row="1" Grid.Column="1" HeightRequest="7" WidthRequest="7"  CornerRadius="3.5" HorizontalOptions="Center" 
-                                BackgroundColor="#C9D6EF" VerticalOptions="Center" Margin="7"/>
+
             </Grid>
         </pv:PancakeView>
         <CollectionView Grid.Row="2" Margin="25" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"

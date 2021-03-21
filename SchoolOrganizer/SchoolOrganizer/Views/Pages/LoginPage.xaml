@@ -24,7 +24,23 @@
                 Margin="20,10">
                 <StackLayout>
                     <Label TextColor="Black" FontFamily="KarlaSB" Text="Organizador Escolar" Margin="10" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
-                    <Image HeightRequest="70" Source="icon" />
+                    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                            <Grid HeightRequest="100" WidthRequest="100"  HorizontalOptions="Center" VerticalOptions="Center">
+                                <Rectangle x:Name="mainRect" StrokeThickness="5" HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="FillAndExpand">
+                                    <Rectangle.Stroke>
+                                        <LinearGradientBrush>
+                                            <GradientStop x:Name="tealGrad" Color="#56D9BE" Offset="0"/>
+                                            <GradientStop x:Name="orangeGrad" Color="MediumBlue" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Rectangle.Stroke>
+                                </Rectangle>
+                                <Image Source="icon" Aspect="AspectFill" Margin="10" HorizontalOptions="FillAndExpand" 
+                                VerticalOptions="FillAndExpand"/>
+                            </Grid>
+                        </StackLayout>
+                    </Grid>
                     <Label TextColor="Black" FontFamily="KarlaSB" Text="¡Bienvenido!" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
                     <BoxView HeightRequest="1"
                          BackgroundColor="{DynamicResource primaryLightColor}" />
@@ -41,7 +57,7 @@
 
                             <render:NoLineEntry Style="{StaticResource FormEntryStyle} " TextColor="{DynamicResource secondaryTextColor}"  x:Name="Usuario"
                                             Text="{Binding User.Boleta}"
-                               Focused="EntryFocused" Placeholder="Usuario" PlaceholderColor="Black" Margin="0,10"/>
+                               Focused="EntryFocused" Placeholder="Usuario" PlaceholderColor="Black" Margin="0,10" />
 
 
                             <render:NoLineEntry IsPassword="True" Text="{Binding User.Password}"

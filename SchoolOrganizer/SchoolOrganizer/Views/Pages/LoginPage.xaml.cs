@@ -6,6 +6,7 @@ using System;
 using SchoolOrganizer.Models.SkiaSharp;
 using SchoolOrganizer.Saes;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 using Xamarin.Forms.Xaml;
 
 namespace SchoolOrganizer.Views.Pages
@@ -21,6 +22,7 @@ namespace SchoolOrganizer.Views.Pages
         {
             this.BindingContext = Model;
             InitializeComponent();
+            Task.Run(AnimateBorder);
             var settings = new HighlightSettings()
             {
                 StrokeWidth = 6,
@@ -54,6 +56,24 @@ namespace SchoolOrganizer.Views.Pages
             base.OnAppearing();
             Usuario.Focus();
 
+        }
+        private async void AnimateBorder()
+        {
+            Action<double> tealMovement = tInput => tealGrad.Offset = (float)tInput;
+            Action<double> orangeMovement = oInput => orangeGrad.Offset = (float)oInput;
+
+            while (true)
+            {
+                mainRect.Animate(name: "forward", callback: tealMovement, start: 0, end: 1, length: 1000, easing: Easing.SinIn);
+                await Task.Delay(750);
+                mainRect.Animate(name: "backward", callback: tealMovement, start: 1, end: 0, length: 1000, easing: Easing.SinIn);
+                await Task.Delay(750);
+
+                mainRect.Animate(name: "forward2", callback: orangeMovement, start: 1, end: 0, length: 1000, easing: Easing.SinIn);
+                await Task.Delay(750);
+                mainRect.Animate(name: "backward2", callback: orangeMovement, start: 0, end: 1, length: 1000, easing: Easing.SinIn);
+                await Task.Delay(750);
+            }
         }
     }
 }

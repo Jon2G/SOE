@@ -14,17 +14,13 @@ namespace SchoolOrganizer.Views.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TaskFirstPage : ContentPage
     {
-        public int dateTime { get; set; }
-        public int dateTime2 { get; set; }
-        public string mes { get; set; }
+
+
         public TaskFirstPage()
         {
             InitializeComponent();
-            dateTime = DateTime.Now.Day;
-            dateTime2 = DateTime.Now.Day + 5;
-            mes = DateTime.Now.Month.ToString();
         }
 
-        
+      
     }
 }

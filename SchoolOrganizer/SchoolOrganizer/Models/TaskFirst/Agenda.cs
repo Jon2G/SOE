@@ -11,7 +11,7 @@ namespace SchoolOrganizer.Models.TaskFirst
         public string Topic { get; set; }
         public string Duration { get; set; }
         public DateTime Date { get; set; }
-        public ObservableCollection<Description> Speakers { get; set; }
+        public ObservableCollection<Description> Contenido { get; set; }
         public string Color { get; set; }
         //implementar imagen
     }

@@ -30,6 +30,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
             for (DayOfWeek dayOfWeek = DayOfWeek.Monday; dayOfWeek <= DayOfWeek.Friday; dayOfWeek++)
             {
                 var schedule = new SheduleDay(Day.GetNearest(dayOfWeek));
+                if (!schedule.Class.Any()) { continue; }
                 WeekDays.Add(schedule);
                 int max_newhour = schedule.Class.Max(x => x.End.Hours);
                 int min_newhour = schedule.Class.Min(x => x.Begin.Hours);

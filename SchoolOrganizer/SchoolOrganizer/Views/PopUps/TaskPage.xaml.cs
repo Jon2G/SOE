@@ -48,7 +48,7 @@ namespace SchoolOrganizer.Views.PopUps
                     };
 
 
-                    Modelo.Photos.Add(cachedImage);
+                    Modelo.Photos.Add(imagen);
                 }
             }
         }
@@ -74,7 +74,7 @@ namespace SchoolOrganizer.Views.PopUps
                     Source = imagen
                 };
 
-                Modelo.Photos.Add(cachedImage);
+                Modelo.Photos.Add(imagen);
             }
 
         }

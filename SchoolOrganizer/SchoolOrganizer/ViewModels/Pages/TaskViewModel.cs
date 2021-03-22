@@ -17,12 +17,12 @@ namespace SchoolOrganizer.ViewModels.Pages
     {
         public Command TaskCommand { get; }
 
-        public ObservableCollection<CachedImage> Photos { get; }
+        public ObservableCollection<FileImageSource> Photos { get; }
 
         public TaskViewModel()
         {
             TaskCommand = new Command(TaskClicked);
-            this.Photos = new ObservableCollection<CachedImage>();
+            this.Photos = new ObservableCollection<FileImageSource>();
         }
 
         private async void TaskClicked(object obj)

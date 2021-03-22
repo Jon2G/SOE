@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using HtmlAgilityPack;
 using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Academic;
 using SchoolOrganizer.Models.Data;
@@ -23,6 +24,8 @@ namespace SchoolOrganizer.Saes
         private const string HomePage = "https://www.saes.esimecu.ipn.mx";
         private const string AlumnosPage = "/alumnos/default.aspx";
         private const string HorariosPage = "/alumnos/informacion_semestral/horario_alumno.aspx";
+        private const string KardexPage = "/alumnos/boleta/kardex.aspx";
+        private const string CitaReinscripcionPage = "/alumnos/reinscripciones/fichas_reinscripcion.aspx";
         private LogIn LogIn { get; set; }
         private bool IsCheckingSession { get; set; }
         public bool IsLogedIn { get => LogIn?.IsLogedIn ?? false; }
@@ -76,12 +79,69 @@ namespace SchoolOrganizer.Saes
                 case HorariosPage:
                     GetHorario();
                     break;
+                case KardexPage:
+                    GetKardexInfo(); 
+                    break;
+                case CitaReinscripcionPage:
+                    GetCitasReinscripcionInfo(); 
+                    break;
                 default:
                     //await Acr.UserDialogs.UserDialogs.Instance.AlertAsync($"I dont know what to do on =>[{e.Url}]");
                     Log.Logger.Debug($"I dont know what to do on =>[{e.Url}]");
                     GoTo(HomePage);
                     break;
             }
+        }
+
+        private async void GetCitasReinscripcionInfo()
+        {
+            double creditos_totales = 0;
+            double creditos_alumno = 0;
+
+            string creditos_carrera_html = await this.Browser.EvaluateJavaScriptAsync("document.getElementById(\"ctl00_mainCopy_CREDITOSCARRERA\").outerHTML");
+            string alumno_html = await this.Browser.EvaluateJavaScriptAsync("document.getElementById(\"ctl00_mainCopy_alumno\").outerHTML");
+
+            alumno_html = System.Text.RegularExpressions.Regex.Unescape(alumno_html);
+            if (!string.IsNullOrEmpty(alumno_html))
+            {
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(alumno_html);
+                HtmlNode htable = doc.DocumentNode.SelectSingleNode("//table");
+                List<List<string>> table = htable
+                    .Descendants("tr")
+                    .Skip(1)
+                    .Where(tr => tr.Elements("td").Count() > 1)
+                    .Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
+                    .ToList();
+                creditos_alumno = Convert.ToDouble(table[0][1]);
+            }
+
+            creditos_carrera_html = System.Text.RegularExpressions.Regex.Unescape(creditos_carrera_html);
+            if (!string.IsNullOrEmpty(creditos_carrera_html))
+            {
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(creditos_carrera_html);
+                HtmlNode htable = doc.DocumentNode.SelectSingleNode("//table");
+                List<List<string>> table = htable
+                    .Descendants("tr")
+                    .Skip(1)
+                    .Where(tr => tr.Elements("td").Count() > 1)
+                    .Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
+                    .ToList();
+                creditos_totales = Convert.ToDouble(table[0][1]);
+            }
+
+            double result = (creditos_alumno / creditos_totales) * 100;
+            result = Math.Round(result, 2);
+            //Reboot app
+            App.Current.MainPage = new SplashScreen();
+
+        }
+
+        private async void GetKardexInfo()
+        {
+            string carrera = await this.Browser.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_Lbl_Carrera').innerHTML");
+            GoTo(CitaReinscripcionPage);
         }
 
         private async void GetHorario()
@@ -178,8 +238,7 @@ namespace SchoolOrganizer.Saes
 
                 }
             }
-            //Reboot app
-            App.Current.MainPage = new SplashScreen();
+            GoTo(KardexPage);
         }
 
         private void GoTo(string url)

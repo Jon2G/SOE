@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:scheduleViewModel="clr-namespace:SchoolOrganizer.ViewModels.ViewItems.ScheduleViewModel;assembly=SchoolOrganizer"
+             xmlns:views="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:scheduler="clr-namespace:SchoolOrganizer.Models.Scheduler;assembly=SchoolOrganizer"
+             x:Class="SchoolOrganizer.Views.ViewItems.ScheduleView.ScheduleViewDay"
+             x:DataType="scheduleViewModel:SheduleDay" BackgroundColor="WhiteSmoke" x:Name="Me"
+             VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+    <ContentView.Content>
+        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="5">
+                <Label FontSize="18" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Start"
+                       Text="{Binding Day.Name}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer 
+                            Command="{Binding OnDayTappedCommand,Source={x:Reference Me}}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
+                    <Grid ColumnDefinitions="25,*"  >
+                        <StackLayout Spacing="0" BackgroundColor="WhiteSmoke" VerticalOptions="FillAndExpand" BindingContext="{Binding MainModel,Source={x:Reference Me}}"
+                                 BindableLayout.ItemsSource="{Binding MainModel.WeekHours,Source={x:Reference Me}}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="scheduler:Hour">
+                                    <ContentView>
+                                        <Label Margin="0" HeightRequest="{x:Static scheduler:Hour.HourHeigth}" 
+                                               FontSize="14" HorizontalTextAlignment="Center" 
+                                               VerticalTextAlignment="Start" 
+                                               Text="{Binding ShortName}"/>
+                                    </ContentView>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
+                        <ContentView Margin="0" Padding="0" BackgroundColor="White" Grid.Column="1">
+                                <StackLayout Spacing="0" Margin="0" Padding="0" 
+                                                     BindableLayout.ItemsSource="{Binding Class}">
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate x:DataType="scheduler:ClassSquare">
+                                            <ContentView HeightRequest="{Binding HoursHeigthRequest}"
+                                                         MinimumHeightRequest="{Binding HoursHeigthRequest}" 
+                                                         Padding="0" Margin="0">
+                                                <Frame Margin="6" BackgroundColor="{Binding Color}" Padding="3">
+                                                    <StackLayout>
+                                                        <Label FontSize="16" TextColor="Black"
+                                                                       HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                                                                       Text="{Binding SubjectName}"/>
+                                                        <Label FontSize="16" TextColor="Black"
+                                                                       HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
+                                                                       Text="{Binding Group}" />
+                                                        <Label FontSize="16" TextColor="Black"
+                                                                       HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
+                                                                       Text="{Binding  FormattedTime}" />
+                                                    </StackLayout>
+                                                </Frame>
+                                            </ContentView>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </StackLayout>
+                            </ContentView>
+                        
+                        <StackLayout Grid.ColumnSpan="2">
+                            <StackLayout HeightRequest="{Binding MainModel.TimeLineOffset,Source={x:Reference Me}}"/>
+                            <BoxView BackgroundColor="Blue" HeightRequest="1"/>
+                        </StackLayout>
+                </Grid>
+                </ScrollView>
+            </StackLayout>
+
+    </ContentView.Content>
+</ContentView>

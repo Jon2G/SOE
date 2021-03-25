@@ -13,6 +13,8 @@ using SchoolOrganizer.Views.PopUps;
 using System.Threading;
 using System.Windows.Input;
 using SchoolOrganizer.ViewModels.ViewItems;
+using SchoolOrganizer.Views.ViewItems.ScheduleView;
+using Xamarin.CommunityToolkit.UI.Views;
 
 namespace SchoolOrganizer.Views.Pages
 {
@@ -20,7 +22,7 @@ namespace SchoolOrganizer.Views.Pages
     public partial class MasterPage : IBrowser
     {
 
-        
+
         public WebView Browser => BrowserHolder.Content as WebView;
         public MasterPage()
         {
@@ -36,7 +38,21 @@ namespace SchoolOrganizer.Views.Pages
         }
         private async void Button_Clicked(object sender, EventArgs e)
         {
-            
+
+        }
+        protected override bool OnBackButtonPressed()
+        {
+            TabViewItem selectedView = this.TabView.TabItems[TabView.SelectedIndex];
+            switch (selectedView.Content)
+            {
+                case ScheduleViewMain schedule:
+                    if (schedule.OnBackButtonPressed())
+                    {
+                        return true;
+                    }
+                    break;
+            }
+            return base.OnBackButtonPressed();
         }
     }
 }

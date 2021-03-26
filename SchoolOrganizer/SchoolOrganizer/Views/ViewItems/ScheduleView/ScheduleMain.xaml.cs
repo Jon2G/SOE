@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using SchoolOrganizer.Models.Scheduler;
 using SchoolOrganizer.ViewModels.ViewItems.ScheduleViewModel;
+using SchoolOrganizer.Views.Pages;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -31,24 +32,42 @@ namespace SchoolOrganizer.Views.ViewItems.ScheduleView
             this.IsDayViewVisible = false;
         }
 
-        private async void OnDayTapped(SheduleDay day)
+        private void OnDayTapped(SheduleDay day)
         {
             if (day is null) { return; }
             DayView.DayModel = day;
             DayView.MainModel = this.Model;
-            await DayView.FadeTo(1, 250u, Easing.Linear);
-            IsDayViewVisible = true;
+            Fade(true);
+
+            if (Shell.Current.CurrentPage is MasterPage master)
+            {
+                master.TabView.IsSwipeEnabled = false;
+            }
         }
 
         internal bool OnBackButtonPressed()
         {
             if (IsDayViewVisible)
             {
-                DayView.FadeTo(0, 250u, Easing.Linear);
-                IsDayViewVisible = false;
+                Fade(false);
+                if (Shell.Current.CurrentPage is MasterPage master)
+                {
+                    master.TabView.IsSwipeEnabled = true;
+                }
                 return true;
             }
             return false;
+        }
+
+        private async void Fade(bool IsDayViewVisible)
+        {
+            if (IsDayViewVisible)
+            {
+                this.IsDayViewVisible = IsDayViewVisible;
+                await Task.Delay(100);
+            }
+            await DayView.FadeTo(IsDayViewVisible ? 1 : 0, 500u, Easing.Linear);
+            this.IsDayViewVisible = IsDayViewVisible;
         }
     }
 }

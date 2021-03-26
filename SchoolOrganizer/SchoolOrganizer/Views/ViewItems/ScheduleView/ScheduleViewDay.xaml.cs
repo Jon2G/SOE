@@ -35,11 +35,35 @@ namespace SchoolOrganizer.Views.ViewItems.ScheduleView
             }
         }
         public ICommand OnDayTappedCommand { get; }
+        public ICommand TomorrowCommand
+        {
+            get;
+        }
+        public ICommand YesterdayCommand
+        {
+            get;
+        }
+
+
+
         public ScheduleViewDay()
         {
             this.OnDayTappedCommand = new Command(OnDayTapped);
+            this.TomorrowCommand = new Command(Tomorrow);
+            this.YesterdayCommand = new Command(Yesterday);
             InitializeComponent();
         }
+
+        private void Yesterday()
+        {
+            this.DayModel =new SheduleDay(this.DayModel.Day.Yesterday());
+        }
+
+        private void Tomorrow()
+        {
+            this.DayModel = new SheduleDay(this.DayModel.Day.Tommorrow());
+        }
+
         private void OnDayTapped()
         {
             Shell.Current.CurrentPage.SendBackButtonPressed();

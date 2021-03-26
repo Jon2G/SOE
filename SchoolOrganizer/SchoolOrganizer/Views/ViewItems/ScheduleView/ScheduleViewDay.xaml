@@ -7,20 +7,33 @@
              x:Class="SchoolOrganizer.Views.ViewItems.ScheduleView.ScheduleViewDay"
              x:DataType="scheduleViewModel:SheduleDay" BackgroundColor="WhiteSmoke" x:Name="Me"
              VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+    <ContentView.GestureRecognizers>
+        <SwipeGestureRecognizer Threshold="10" Direction="Left"  Command="{Binding TomorrowCommand,Source={x:Reference Me}}"/>
+        <SwipeGestureRecognizer Threshold="10" Direction="Right" Command="{Binding YesterdayCommand,Source={x:Reference Me}}"/>
+    </ContentView.GestureRecognizers>
     <ContentView.Content>
-        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="5">
-                <Label FontSize="18" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Start"
-                       Text="{Binding Day.Name}">
+
+
+        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="5" 
+                     BackgroundColor="WhiteSmoke">
+
+
+            <Label FontSize="18" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Start"
+                   Text="{Binding Day.Name}">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer 
                             Command="{Binding OnDayTappedCommand,Source={x:Reference Me}}"/>
                     </Label.GestureRecognizers>
                 </Label>
 
-                <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
-                    <Grid ColumnDefinitions="25,*"  >
-                        <StackLayout Spacing="0" BackgroundColor="WhiteSmoke" VerticalOptions="FillAndExpand" BindingContext="{Binding MainModel,Source={x:Reference Me}}"
-                                 BindableLayout.ItemsSource="{Binding MainModel.WeekHours,Source={x:Reference Me}}">
+                <!--<ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
+                            HorizontalScrollBarVisibility="Never" >-->
+                    <Grid ColumnDefinitions="25,*" >
+
+
+
+                    <StackLayout Spacing="0" BackgroundColor="WhiteSmoke" VerticalOptions="FillAndExpand" BindingContext="{Binding MainModel,Source={x:Reference Me}}"
+                                     BindableLayout.ItemsSource="{Binding MainModel.WeekHours,Source={x:Reference Me}}">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate x:DataType="scheduler:Hour">
                                     <ContentView>
@@ -33,8 +46,8 @@
                             </BindableLayout.ItemTemplate>
                         </StackLayout>
                         <ContentView Margin="0" Padding="0" BackgroundColor="White" Grid.Column="1">
-                                <StackLayout Spacing="0" Margin="0" Padding="0" 
-                                                     BindableLayout.ItemsSource="{Binding Class}">
+                            <StackLayout Spacing="0" Margin="0" Padding="0" 
+                                         BindableLayout.ItemsSource="{Binding Class}">
                                     <BindableLayout.ItemTemplate>
                                         <DataTemplate x:DataType="scheduler:ClassSquare">
                                             <ContentView HeightRequest="{Binding HoursHeigthRequest}"
@@ -64,7 +77,7 @@
                             <BoxView BackgroundColor="Blue" HeightRequest="1"/>
                         </StackLayout>
                 </Grid>
-                </ScrollView>
+                <!--</ScrollView>-->
             </StackLayout>
 
     </ContentView.Content>

@@ -74,7 +74,7 @@
     <Grid IsClippedToBounds="False" RowSpacing="0">
         <ContentView x:Name="BrowserHolder" IsVisible="True"  x:FieldModifier="public" />
 
-        <toolkit:TabView Style="{StaticResource CustomTabStyle}" IsTabStripVisible="False" x:Name="TabView">
+        <toolkit:TabView Style="{StaticResource CustomTabStyle}" IsTabStripVisible="False" x:Name="TabView" x:FieldModifier="public">
 
             <!--  FAVOURITE TAB  -->
             <toolkit:TabViewItem HeightRequest="60" BadgeText="2" BadgeBackgroundColor="Red" BadgeTextColor="White">

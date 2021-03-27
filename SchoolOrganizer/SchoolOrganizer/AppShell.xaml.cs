@@ -1,4 +1,5 @@
 ﻿using System;
+using Kit.Forms.Pages;
 using SchoolOrganizer.Saes;
 using SchoolOrganizer.Views.Pages;
 using Xamarin.Forms;
@@ -12,7 +13,6 @@ namespace SchoolOrganizer
             InitializeComponent();
             this.MasterPage.SetBrowser(Browser);
         }
-
 
 
     }

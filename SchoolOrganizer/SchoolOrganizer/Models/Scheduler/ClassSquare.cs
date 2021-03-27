@@ -11,7 +11,8 @@ namespace SchoolOrganizer.Models.Scheduler
             get
             {
                 TimeSpan total = End - Begin;
-                return total.TotalHours * Hour.HourHeigth;
+                double TotalHours = total.TotalHours;
+                return (TotalHours) * (Hour.HourHeigth+4.5); //3*1.5 compensa los margenes de 3px entre cuadros de elementos
             }
         }
         public string SubjectName { get; set; }

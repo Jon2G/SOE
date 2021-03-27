@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SchoolOrganizer.Models.TaskFirst
 {
-    class Agenda
+   public class Agenda
     {
         public string Topic { get; set; }
         public string Duration { get; set; }

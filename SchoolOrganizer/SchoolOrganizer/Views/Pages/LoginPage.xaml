@@ -27,7 +27,7 @@
                     <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                         <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
                             <Grid HeightRequest="100" WidthRequest="100"  HorizontalOptions="Center" VerticalOptions="Center">
-                                <Rectangle x:Name="mainRect" StrokeThickness="5" HorizontalOptions="FillAndExpand" 
+                                <Rectangle x:Name="mainRect" StrokeThickness="1" HorizontalOptions="FillAndExpand" 
                     VerticalOptions="FillAndExpand">
                                     <Rectangle.Stroke>
                                         <LinearGradientBrush>

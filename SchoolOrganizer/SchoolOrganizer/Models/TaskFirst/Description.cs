@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SchoolOrganizer.Models.TaskFirst
 {
-    class Description
+  public  class Description
     {
         public string Name { get; set; }
         public string Descripción { get; set; }

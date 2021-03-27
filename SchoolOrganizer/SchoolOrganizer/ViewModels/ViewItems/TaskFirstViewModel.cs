@@ -4,14 +4,23 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using Xamarin.Forms;
 
 namespace SchoolOrganizer.ViewModels.ViewItems
 {
-    class TaskFirstViewModel
+   public class TaskFirstViewModel
     {
-        Subject subject = new Subject();
-        public ObservableCollection<Agenda> MyAgenda { get => GetAgenda(); }
-
+        public Command DeleteCommand { get; set; }
+        public ObservableCollection<Agenda> MyAgenda
+        {
+            get;
+            set;
+        }
+        public TaskFirstViewModel()
+        {
+            MyAgenda = GetAgenda();
+            DeleteCommand = new Command<Agenda>(Eliminar);
+        }
         private ObservableCollection<Agenda> GetAgenda()
         {
            
@@ -41,6 +50,10 @@ namespace SchoolOrganizer.ViewModels.ViewItems
                 new Agenda { Topic = "Pagina para SuperEspias", Duration = "07:30 UTC - 11:30 UTC", Color = "#455399", Date = new DateTime(2020, 3, 28),
                     Contenido = new ObservableCollection<Description>{ new Description { Name = "Tecnologias" } } }
             };
+        }
+        public void Eliminar(Agenda agenda)
+        {
+            MyAgenda.Remove(agenda);
         }
     }
 }

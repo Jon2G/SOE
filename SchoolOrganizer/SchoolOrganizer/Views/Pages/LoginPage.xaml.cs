@@ -65,14 +65,14 @@ namespace SchoolOrganizer.Views.Pages
             while (true)
             {
                 mainRect.Animate(name: "forward", callback: tealMovement, start: 0, end: 1, length: 1000, easing: Easing.SinIn);
-                await Task.Delay(750);
+                await Task.Delay(1000);
                 mainRect.Animate(name: "backward", callback: tealMovement, start: 1, end: 0, length: 1000, easing: Easing.SinIn);
-                await Task.Delay(750);
+                await Task.Delay(1000);
 
                 mainRect.Animate(name: "forward2", callback: orangeMovement, start: 1, end: 0, length: 1000, easing: Easing.SinIn);
-                await Task.Delay(750);
+                await Task.Delay(1000);
                 mainRect.Animate(name: "backward2", callback: orangeMovement, start: 0, end: 1, length: 1000, easing: Easing.SinIn);
-                await Task.Delay(750);
+                await Task.Delay(1000);
             }
         }
     }

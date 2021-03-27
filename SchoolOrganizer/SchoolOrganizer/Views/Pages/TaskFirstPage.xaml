@@ -35,19 +35,21 @@
         <pv:PancakeView Grid.Row="2" Margin="25" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
             <ScrollView >
                 <CollectionView 
-                            SelectionMode="None" ItemsSource="{Binding MyAgenda}">
+                            SelectionMode="None"  ItemsSource="{Binding MyAgenda}" x:Name="Coleccion" >
                     <CollectionView.Header>
                         <Label Text="Pendientes" TextColor="Black" FontSize="18" FontAttributes="Bold"/>
                     </CollectionView.Header>
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout Orientation="Vertical" ItemSpacing="20"/>
                     </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
+                    <CollectionView.ItemTemplate >
                         <DataTemplate>
                             <SwipeView>
                                 <SwipeView.RightItems>
-                                    <SwipeItem IsDestructive="True" Text="Eliminar" BackgroundColor="IndianRed"/>
-                                    <SwipeItem Text="Editar" BackgroundColor="ForestGreen"/>
+                                    <SwipeItem  IsDestructive="True" Text="Eliminar" BackgroundColor="IndianRed" 
+                                                CommandParameter="{Binding .}"
+                                                Command="{Binding DeleteCommand,Source={x:Reference Modelo}}" />
+                                    <SwipeItem Text="Editar" BackgroundColor="ForestGreen" />
                                 </SwipeView.RightItems>
                                 <pv:PancakeView BackgroundColor="White" VerticalOptions="StartAndExpand" 
                                                 HorizontalOptions="FillAndExpand">

@@ -19,48 +19,46 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:columnCount="3" android:background="@color/primaryLightColor"
-    android:padding="5dp">
-    <TextView
+    android:padding="0dp">
+    <TextView android:layout_marginLeft="15dp"
         android:id="@+id/widget_timetable_TextViewCurrent_day"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_column="0"
         android:textColor="@android:color/primary_text_dark"
         android:layout_columnSpan="0"
-        android:text="Lunes"
+        android:text="Lunes" 
         android:textSize="18dp" />
 
-    <Button
-        android:background="@color/PrimaryLightBackground"
+    <Button 
+      android:padding="0dp"
+        android:background="@android:color/transparent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/widget_timetable_Btnyesterday"
         android:layout_width="40dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_column="1"
         android:text="👈"
         android:textSize="20dp"
         android:tooltipText="Ayer" />
     <Button
-        android:background="@color/PrimaryLightBackground"
-        android:id="@+id/widget_timetable_Btntomorrow"
-        android:layout_width="40dp"
-        android:layout_height="match_parent"
-        android:layout_column="2"
-        android:layout_marginLeft="5dp"
-        android:text="👉"
-        android:textSize="20dp"
-        android:tooltipText="Mañana" />
+      android:padding="0dp"
+      android:background="@android:color/transparent"
+      android:id="@+id/widget_timetable_Btntomorrow"
+      android:layout_width="40dp"
+      android:layout_height="wrap_content"
+      android:layout_column="2"
+      android:text="👉"
+      android:textSize="20dp"
+                android:tooltipText="Mañana" />
 </GridLayout>
-
-
-
-    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/stack_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:loopViews="true"
-        android:orientation="vertical" />
+  <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/stack_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:loopViews="true"
+            android:orientation="vertical" />
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/empty_view"
         android:layout_width="match_parent"
@@ -68,7 +66,7 @@
         android:gravity="center"
         android:textColor="@color/secondaryTextColor"
         android:textStyle="bold"
-        android:text="empty_view_text"
+        android:text="Cargando..."
         android:textSize="20sp" />
 
 </LinearLayout>

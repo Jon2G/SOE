@@ -1,31 +1,28 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SchoolOrganizer.Models.Scheduler;
+﻿using System.Collections.Generic;
 using Kit;
+using SchoolOrganizer.Models.Scheduler;
 
-namespace SchoolOrganizer.Droid.Widgets
+namespace SchoolOrganizer.Droid.Widgets.TimeLine
 {
     public static class TimeLineWidget
     {
-        public const string TOAST_ACTION = "com.example.widgets.WidgetProviders.TOAST_ACTION";
         public const string FOWARD_ACTION = "FOWARD_ACTION";
         public const string BACKWARD_ACTION = "BACKWARD_ACTION";
-        public const string DAY_CHANGED = "DAY_CHANGED";
         public const string EXTRA_ITEM = "com.example.widgets.WidgetProviders.EXTRA_ITEM";
+        public const string CLICK = "CLICK";
 
         private static readonly Dictionary<int, Day> WidgetsDays;
 
         static TimeLineWidget()
         {
             WidgetsDays = new Dictionary<int, Day>();
+        }
+        public static void Today(int WidgetId)
+        {
+            Init(WidgetId);
+            Day day = Day.Today();
+            WidgetsDays[WidgetId] = day;
+            Log.Logger.Debug("Today ->{0}", day.DayOfWeek);
         }
         public static void Tomorrow(int WidgetId)
         {

@@ -1,15 +1,8 @@
 ﻿using Android.App;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace SchoolOrganizer.Droid.Widgets.RemoteViewsServices
+namespace SchoolOrganizer.Droid.Widgets.TimeLine
 {
     [Service(Permission = "android.permission.BIND_REMOTEVIEWS",Exported = false)]
     public class TimeLineWidgetService : RemoteViewsService
@@ -18,6 +11,11 @@ namespace SchoolOrganizer.Droid.Widgets.RemoteViewsServices
         public override IRemoteViewsFactory? OnGetViewFactory(Intent? intent)
         {
             return new TimeLineRemoteViewsFactory(this.ApplicationContext, intent);
+        }
+
+        public override void OnCreate()
+        {
+            base.OnCreate();
         }
     }
 }

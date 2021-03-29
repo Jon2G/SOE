@@ -6,33 +6,10 @@
           android:authorities="${applicationId}.fileprovider"
           android:exported="false"
           android:grantUriPermissions="true">
-
       <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
-                       android:resource="@xml/file_paths"></meta-data>
+                 android:resource="@xml/file_paths"></meta-data>
     </provider>
-
-    <!--WIDGETS-->
-    <!--<receiver android:name=".Widgets.TimeLine.TimeLineWidgetProvider" >
-      <intent-filter>
-        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-        <action android:name="FOWARD_BACKWARD_ACTION" />
-        <action android:name="DAY_NAME" />
-      </intent-filter>
-      <meta-data android:name="android.appwidget.provider"
-                 android:resource="@xml/widget_timetable_appwidgetprovider" />
-    </receiver>-->
-
-    <!--<service
-      android:name=".RemoteViewsServices.TimeLineWidgetService"
-      android:permission="android.permission.BIND_REMOTEVIEWS"
-      android:exported="false">
-    </service>-->
-    <!--WIDGETS-->
-
   </application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.USE_FINGERPRINT" />
-
-    
-  
 </manifest>

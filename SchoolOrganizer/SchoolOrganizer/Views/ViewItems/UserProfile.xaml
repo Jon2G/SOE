@@ -33,64 +33,75 @@
           </Grid>
 
             <TableView BackgroundColor="White">
-                <TableSection>
-                    <ViewCell>
-                        <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand" >
-                            <Label Text="{x:Static fonts:FontelloIcons.AddressBook}" 
+                <TableRoot>
+                    <TableSection>
+                        <ViewCell>
+                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand" >
+                                <Label Text="{x:Static fonts:FontelloIcons.AddressBook}" 
                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                            <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Contactos" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
-                        </StackLayout>
-                    </ViewCell>
-                    <ViewCell >
+                                <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Contactos" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                            </StackLayout>
+                        </ViewCell>
+                        <ViewCell >
 
-                        <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
-                            <Label Text="{x:Static fonts:FontelloIcons.Calendar}"
+                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
+                                <Label Text="{x:Static fonts:FontelloIcons.Calendar}"
                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                            <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Horario" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
-                        </StackLayout>
-                    </ViewCell>
-                    <ViewCell>
-                        <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
-                            <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding TareasCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
-                            </StackLayout.GestureRecognizers>
-                            <Label Text="{x:Static fonts:FontelloIcons.Book}"  
+                                <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Horario" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                            </StackLayout>
+                        </ViewCell>
+                        <ViewCell>
+                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding TareasCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
+                                </StackLayout.GestureRecognizers>
+                                <Label Text="{x:Static fonts:FontelloIcons.Book}"  
                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                            <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Tareas" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
-                        </StackLayout>
-                    </ViewCell>
-                    <ViewCell >
+                                <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Tareas" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                            </StackLayout>
+                        </ViewCell>
+                        <ViewCell >
 
-                        <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
-                            <Label Text="{x:Static fonts:FontelloIcons.Award}"  
+                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
+                                <Label Text="{x:Static fonts:FontelloIcons.Award}"  
                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                            <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Logros" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
-                        </StackLayout>
-                    </ViewCell>
-                    <ViewCell >
+                                <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Logros" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                            </StackLayout>
+                        </ViewCell>
+                        <ViewCell >
 
-                        <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
-                            <Label Text="{x:Static fonts:FontelloIcons.Cog}" 
+                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
+                                <Label Text="{x:Static fonts:FontelloIcons.Cog}" 
                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                            <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Ajustes" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
-                        </StackLayout>
-                    </ViewCell>
-                    <ViewCell >
-
-                        <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
-                            <Label Text="{x:Static fonts:FontelloIcons.Logout}" 
+                                <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Ajustes" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                            </StackLayout>
+                        </ViewCell>
+                        <ViewCell>
+                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
+                                <Label Text="{x:Static fonts:FontelloIcons.Logout}" 
                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                            <Label TextColor="{DynamicResource primaryDarkColor}"  Margin="10,0,0,0" Text=" Cerrar Sesión" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
-                        </StackLayout>
-                    </ViewCell>
+                                <Label TextColor="{DynamicResource primaryDarkColor}"  Margin="10,0,0,0" Text=" Cerrar Sesión" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                            </StackLayout>
+                        </ViewCell>
 
-                </TableSection>
+                    </TableSection>
+                    <TableSection Title="Ajustes">
+                        <ViewCell>
+                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
+                                <Label Text="{x:Static fonts:FontelloIcons.Logout}" 
+                                       FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                                       FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                <Label TextColor="{DynamicResource primaryDarkColor}"  Margin="10,0,0,0" Text=" Cerrar Sesión" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </TableSection>
+                </TableRoot>
             </TableView>
         </StackLayout>
   </ContentView.Content>

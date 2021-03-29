@@ -21,8 +21,8 @@
                                      FontSize="14"  FontAttributes="Bold">
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer 
-                                        Command="{Binding Modelo.ClosePopUpCommand,Source={Reference Me}}" 
-                                        />
+                                        Command="{Binding Modelo.ClosePopUpCommand,Source={x:Reference Me}}" 
+                                        CommandParameter="{Binding .}" />
                                 </Label.GestureRecognizers>
                             </Label>
                         </Frame>

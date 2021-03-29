@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using SchoolOrganizer.Models.Scheduler;
+using Xamarin.Forms;
 
 namespace SchoolOrganizer.ViewModels.Pages
 {
@@ -9,6 +10,10 @@ namespace SchoolOrganizer.ViewModels.Pages
         public Command UserCommand { get; }
         public Command RegisterCommand { get; }
 
+        public RegisterPageViewModel(Subject subject)
+        {
+            //??
+        }
         public RegisterPageViewModel()
         {
             UserCommand = new Command(OnLoginClicked);

@@ -1,25 +1,15 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Android.Appwidget;
-using Java.Lang;
-using SchoolOrganizer.Models.Scheduler;
+using Android.Content;
 using Android.Graphics;
+using Android.OS;
+using Android.Widget;
 using Kit;
-using AndroidX.LocalBroadcastManager.Content;
-using Java.Interop;
 using SchoolOrganizer.Data;
-using SchoolOrganizer.Droid.Widgets.TimeLine;
-using Tools = Kit.Droid.Tools;
+using SchoolOrganizer.Models.Scheduler;
 
-namespace SchoolOrganizer.Droid.Widgets.RemoteViewsServices
+namespace SchoolOrganizer.Droid.Widgets.TimeLine
 {
 
     public class TimeLineRemoteViewsFactory : Java.Lang.Object, RemoteViewsService.IRemoteViewsFactory

@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace SchoolOrganizer.Views.PopUps
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TaskPage : PopupPage
+    public partial class TaskPage : ContentPage
     {
         private int _position;
         public int Position { get { return _position; } set { _position = value; OnPropertyChanged(); } }
@@ -18,7 +18,7 @@ namespace SchoolOrganizer.Views.PopUps
         {
             InitializeComponent();
 
-            Date.MinimumDate = DateTime.Now;
+            //Date.MinimumDate = DateTime.Now;
         }
 
         private async void Button_Clicked(object sender, EventArgs e)

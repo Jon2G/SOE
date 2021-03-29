@@ -46,23 +46,25 @@ namespace SchoolOrganizer.ViewModels.Pages
             //}
         }
 
-        private async void ItemSelected(string parameter)
+        private   void ItemSelected(string parameter)
         {
+            // App.Current.MainPage = new TaskPage();
             switch (parameter)
             {
                 case "Delayed":
-                    var pr = new TaskPage();
-                    var scaleAnimation = new ScaleAnimation
-                    {
-                        PositionIn = MoveAnimationOptions.Right,
-                        PositionOut = MoveAnimationOptions.Left
-                    };
+                    App.Current.MainPage = new TaskPage();
+                    //var pr = new TaskPage();
+                    //var scaleAnimation = new ScaleAnimation
+                    //{
+                    //    PositionIn = MoveAnimationOptions.Right,
+                    //    PositionOut = MoveAnimationOptions.Left
+                    //};
 
-                    pr.Animation = scaleAnimation;
-                    await PopupNavigation.Instance.PushAsync(pr);
+                    //pr.Animation = scaleAnimation;
+                    //await PopupNavigation.Instance.PushAsync(pr);
                     break;
             }
-          
+
         }
     }
 }

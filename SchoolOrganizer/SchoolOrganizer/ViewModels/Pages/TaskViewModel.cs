@@ -16,12 +16,13 @@ namespace SchoolOrganizer.ViewModels.Pages
     public class TaskViewModel : BaseViewModel
     {
         public Command TaskCommand { get; }
-
+        public Command ReturnCommand { get; }
         public ObservableCollection<FileImageSource> Photos { get; }
 
         public TaskViewModel()
         {
             TaskCommand = new Command(TaskClicked);
+            ReturnCommand = new Command(ReturnClicked);
             this.Photos = new ObservableCollection<FileImageSource>();
         }
 
@@ -37,6 +38,9 @@ namespace SchoolOrganizer.ViewModels.Pages
             pr.Animation = scaleAnimation;
             await PopupNavigation.Instance.PushAsync(pr);
         }
-       
+        private  void ReturnClicked(object obj)
+        {
+            App.Current.MainPage = new MasterPage();
+        }
     }
 }

@@ -13,11 +13,14 @@
     <ContentPage.BindingContext>
         <viewModels:TaskViewModel x:Name="Modelo"/>
     </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Confirmar"/>
+    </ContentPage.ToolbarItems>
     <StackLayout>
-        <StackLayout Orientation="Horizontal" BackgroundColor="{DynamicResource primaryLightColor}">
-            <Button  Text="Regresar" HeightRequest="40"  HorizontalOptions="Start" BackgroundColor="Transparent"  TextColor="White" FontSize="15" Command="{Binding ReturnCommand}" FontAttributes="Bold"/>
+        <!--<StackLayout Orientation="Horizontal" BackgroundColor="{DynamicResource primaryLightColor}">
+          
             <Button  Text="Confirmar" HeightRequest="40"  HorizontalOptions="EndAndExpand" BackgroundColor="Transparent"  TextColor="White" FontSize="15" FontAttributes="Bold"/>
-        </StackLayout>
+        </StackLayout>-->
         <ScrollView>
             <StackLayout Spacing="10"  >
                 <StackLayout Spacing="10">

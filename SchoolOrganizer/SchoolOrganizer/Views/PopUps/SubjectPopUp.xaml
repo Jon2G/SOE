@@ -1,14 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<popup:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+<pages:BasePopUp  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SchoolOrganizer.Views.PopUps.SubjectPopUp"
-             xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             x:Class="SchoolOrganizer.Views.PopUps.SubjectPopUp"            
              xmlns:viewModels="clr-namespace:SchoolOrganizer.ViewModels.Pages;assembly=SchoolOrganizer"
-             xmlns:scheduler="clr-namespace:SchoolOrganizer.Models.Scheduler;assembly=SchoolOrganizer"
-             x:DataType="viewModels:SubjectViewModel">
-    <popup:PopupPage.BindingContext>
-        <viewModels:SubjectViewModel/>
-    </popup:PopupPage.BindingContext>
+             xmlns:scheduler="clr-namespace:SchoolOrganizer.Models.Scheduler;assembly=SchoolOrganizer" 
+             x:DataType="viewModels:SubjectViewModel" x:Name="Me">
+
     <Frame Margin="20" CornerRadius="15" 
            BackgroundColor="{DynamicResource secondaryLightColor}"
            VerticalOptions="Center" HorizontalOptions="Center" 
@@ -22,7 +20,9 @@
                             <Label  FontFamily="Karla_SemiBold"  TextColor="Black"  Text="{Binding Name}"
                                      FontSize="14"  FontAttributes="Bold">
                                 <Label.GestureRecognizers>
-                                    <TapGestureRecognizer  />
+                                    <TapGestureRecognizer 
+                                        Command="{Binding Modelo.ClosePopUpCommand,Source={Reference Me}}" 
+                                        />
                                 </Label.GestureRecognizers>
                             </Label>
                         </Frame>
@@ -32,4 +32,4 @@
 
         </CollectionView>
     </Frame>
-</popup:PopupPage>
+</pages:BasePopUp>

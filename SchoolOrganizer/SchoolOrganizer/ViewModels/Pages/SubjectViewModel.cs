@@ -16,12 +16,23 @@ namespace SchoolOrganizer.ViewModels.Pages
     {
         public List<Subject> subjects { get; }
 
-        public SubjectViewModel()
+        public Command ClosePopUpCommand { get; }
+
+        SubjectPopUp subjectPop;
+        Subject SelectedSubject;
+        public SubjectViewModel(SubjectPopUp sub)
         {
             subjects=AppData.Instance.LiteConnection.Table<Subject>()
                 .GroupBy(x=>x.Group)
                 .Select(g=>g.First())
                 .ToList();
+            subjectPop = sub;
+        }
+
+        public void ClosePopUp()
+        {
+            SelectedSubject=?
+            //?
         }
     }
 }

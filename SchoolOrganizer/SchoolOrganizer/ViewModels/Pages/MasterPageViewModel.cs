@@ -12,13 +12,13 @@ using Xamarin.Forms;
 
 namespace SchoolOrganizer.ViewModels.Pages
 {
-    class MasterPageViewModel:ModelBase
+    class MasterPageViewModel : ModelBase
     {
         //private ObservableCollection<Models.Task> _tasks;
 
         public MasterPageViewModel()
         {
-           // Tasks = new ObservableCollection<Models.Task>();
+            // Tasks = new ObservableCollection<Models.Task>();
 
             LoadData();
         }
@@ -46,13 +46,14 @@ namespace SchoolOrganizer.ViewModels.Pages
             //}
         }
 
-        private   void ItemSelected(string parameter)
+        private void ItemSelected(string parameter)
         {
             // App.Current.MainPage = new TaskPage();
             switch (parameter)
             {
                 case "Delayed":
-                    App.Current.MainPage = new TaskPage();
+                    //App.Current.MainPage = new TaskPage();
+                    App.Current.MainPage.Navigation.PushAsync(new TaskPage(), true);
                     //var pr = new TaskPage();
                     //var scaleAnimation = new ScaleAnimation
                     //{

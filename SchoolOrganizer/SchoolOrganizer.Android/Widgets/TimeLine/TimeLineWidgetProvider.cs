@@ -13,14 +13,17 @@ using Android.Appwidget;
 using Google.Android.Material.Internal;
 using Java.Lang;
 using SchoolOrganizer.Data;
+using SchoolOrganizer.Droid.Activities;
+using SchoolOrganizer.Models.Scheduler;
+using SchoolOrganizer.Widgets;
 using String = System.String;
 
 namespace SchoolOrganizer.Droid.Widgets.TimeLine
 {
     [BroadcastReceiver(Enabled = true, Exported = true)]
-    [IntentFilter(new string[] { AppWidgetManager.ActionAppwidgetUpdate, 
+    [IntentFilter(new string[] { AppWidgetManager.ActionAppwidgetUpdate,
         AppWidgetManager.ActionAppwidgetEnabled, AppWidgetManager.ActionAppwidgetDeleted,
-        AppWidgetManager.ActionAppwidgetDisabled,TimeLineWidget.CLICK })]
+        AppWidgetManager.ActionAppwidgetDisabled,TimeLineWidget.ITEM_CLICK,TimeLineWidget.DAY_CLICK })]
     [MetaData(AppWidgetManager.MetaDataAppwidgetProvider, Resource = "@xml/widget_timetable_appwidgetprovider")]
     public class TimeLineWidgetProvider : AppWidgetProvider
     {
@@ -41,7 +44,7 @@ namespace SchoolOrganizer.Droid.Widgets.TimeLine
             //{
             //    AppData.Init();
             //}
-           
+
         }
 
         public override void OnReceive(Context context, Intent intent)
@@ -76,12 +79,51 @@ namespace SchoolOrganizer.Droid.Widgets.TimeLine
                 case AppWidgetManager.ActionAppwidgetDeleted:
                     TimeLineWidget.Unload(appWidgetId);
                     break;
+                case TimeLineWidget.ITEM_CLICK:
+                    Intent OpenClassTimeDetails = new Intent(context, typeof(MainActivity));
+                    int itemPosition = intent.GetIntExtra(TimeLineWidget.EXTRA_ITEM, 0);
+                    ClassSquare classItem = TimeLineWidget.GetItemAt(appWidgetId, itemPosition);
+                    OpenClassTimeDetails.PutExtra(nameof(ClassTime.Group), classItem.Group);
+                    OpenClassTimeDetails.PutExtra(nameof(ClassTime.Begin), classItem.Begin.Ticks);
+                    OpenClassTimeDetails.PutExtra(nameof(ClassTime.Day), (int)classItem.Day);
+                    //OpenClassTimeDetails.SetFlags(ActivityFlags.NewTask);
+                    OpenClassTimeDetails.SetAction(IntentAction);
+                    OpenClassTimeDetails.SetFlags(ActivityFlags.SingleTop | ActivityFlags.BroughtToFront | ActivityFlags.NewTask);
+                    context.StartActivity(OpenClassTimeDetails);
+                    break;
+                case TimeLineWidget.DAY_CLICK:
+                    Intent OpenDayDetails = new Intent(context, typeof(MainActivity));
+                    OpenDayDetails.SetAction(IntentAction);
+                    OpenDayDetails.PutExtra(nameof(ClassTime.Day), (int)TimeLineWidget.GetDay(appWidgetId).DayOfWeek);
+                    OpenDayDetails.SetFlags(ActivityFlags.SingleTop|ActivityFlags.BroughtToFront| ActivityFlags.NewTask);
+                    context.StartActivity(OpenDayDetails);
+                    break;
 
             }
 
-            
+
         }
 
+        private PendingIntent GetIntent(Context context, int widgetId, string action)
+        {
+            Intent fowardIntent = new Intent(context, this.Class);
+            fowardIntent.SetAction(action);
+            fowardIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, widgetId);
+            return PendingIntent.GetBroadcast(context, 0, fowardIntent, PendingIntentFlags.UpdateCurrent);
+        }
+        //private PendingIntent ClickSubject(Context context, int widgetId)
+        //{
+        //    Intent toastIntent = new Intent(context, this.Class);
+        //    toastIntent.SetAction(TimeLineWidget.CLICK);
+        //    toastIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, widgetId);
+        //    toastIntent.SetData(Android.Net.Uri.Parse(toastIntent.ToUri(Android.Content.IntentUriType.Scheme)));
+        //    return  PendingIntent.GetBroadcast(
+        //        context,
+        //        0,
+        //        toastIntent,
+        //        PendingIntentFlags.UpdateCurrent
+        //    );
+        //}
 
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
@@ -96,6 +138,7 @@ namespace SchoolOrganizer.Droid.Widgets.TimeLine
                 // When intents are compared, the extras are ignored, so we need to embed the extras
                 // into the data so that the extras will not be ignored.
                 intent.SetData(Android.Net.Uri.Parse(intent.ToUri(Android.Content.IntentUriType.Scheme)));
+
                 RemoteViews rv = new RemoteViews(context.PackageName, Resource.Layout.layout_widget_timetable);
                 rv.SetTextViewText(Resource.Id.widget_timetable_TextViewCurrent_day, TimeLineWidget.GetDay(appWidgetIds[i]).Name);
 
@@ -107,35 +150,21 @@ namespace SchoolOrganizer.Droid.Widgets.TimeLine
                 // cannot setup their own pending intents, instead, the collection as a whole can
                 // setup a pending intent template, and the individual items can set a fillInIntent
                 // to create unique before on an item to item basis.
-                Intent toastIntent = new Intent(context, typeof(TimeLineWidgetProvider));
-                toastIntent.SetAction(TimeLineWidget.CLICK);
-                toastIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetIds[i]);
-                intent.SetData(Android.Net.Uri.Parse(intent.ToUri(Android.Content.IntentUriType.Scheme)));
-                PendingIntent toastPendingIntent = PendingIntent.GetBroadcast(context, 0, toastIntent,
-                    PendingIntentFlags.UpdateCurrent);
-                rv.SetPendingIntentTemplate(Resource.Id.stack_view, toastPendingIntent);
+                rv.SetPendingIntentTemplate(Resource.Id.stack_view,
+                    GetIntent(context, appWidgetIds[i], TimeLineWidget.ITEM_CLICK));
 
+                rv.SetOnClickPendingIntent(Resource.Id.widget_timetable_Btntomorrow,
+                    GetIntent(context, appWidgetIds[i], TimeLineWidget.FOWARD_ACTION));
 
-                Intent fowardIntent = new Intent(context, typeof(TimeLineWidgetProvider));
-                fowardIntent.SetAction(TimeLineWidget.FOWARD_ACTION);
-                fowardIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetIds[i]);
+                rv.SetOnClickPendingIntent(Resource.Id.widget_timetable_Btnyesterday,
+                    GetIntent(context, appWidgetIds[i], TimeLineWidget.BACKWARD_ACTION));
 
-                PendingIntent fowardPendingIntent = PendingIntent.GetBroadcast(context, 0, fowardIntent, PendingIntentFlags.UpdateCurrent);
-                rv.SetOnClickPendingIntent(Resource.Id.widget_timetable_Btntomorrow, fowardPendingIntent);
+                rv.SetOnClickPendingIntent(Resource.Id.widget_timetable_TextViewCurrent_day,
+                    GetIntent(context, appWidgetIds[i], TimeLineWidget.DAY_CLICK));
 
-
-                Intent backwardIntent = new Intent(context, typeof(TimeLineWidgetProvider));
-                backwardIntent.SetAction(TimeLineWidget.BACKWARD_ACTION);
-                backwardIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetIds[i]);
-
-                PendingIntent backwardPendingIntent = PendingIntent.GetBroadcast(context, 0, backwardIntent,
-                    PendingIntentFlags.UpdateCurrent);
-                rv.SetOnClickPendingIntent(Resource.Id.widget_timetable_Btnyesterday, backwardPendingIntent);
                 appWidgetManager.NotifyAppWidgetViewDataChanged(appWidgetIds[i], rv.LayoutId);
                 appWidgetManager.UpdateAppWidget(appWidgetIds[i], rv);
             }
-
-            
         }
 
     }

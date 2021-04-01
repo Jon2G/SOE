@@ -11,7 +11,7 @@
              x:Class="SchoolOrganizer.Views.ViewItems.ScheduleView.ScheduleViewMain" 
              x:DataType="viewItems:ScheduleMainViewModel" x:Name="Me">
     <ContentView.BindingContext>
-        <viewItems:ScheduleMainViewModel x:Name="Model"/>
+        <viewItems:ScheduleMainViewModel x:Name="Model" x:FieldModifier="public"/>
     </ContentView.BindingContext>
     <ContentView.Content>
         <Grid>

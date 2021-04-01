@@ -8,9 +8,7 @@
         android:id="@+id/widget_timetable_item"
         android:layout_width="match_parent"
         android:theme="@style/Theme.Widgets"
-        android:clickable="true"
-        android:focusable="true"
-        android:layout_margin="3dp"
+      android:layout_margin="3dp"
         android:foreground="?android:attr/selectableItemBackground"
       android:layout_height="wrap_content"
         android:orientation="horizontal">

@@ -79,7 +79,7 @@
         <viewItems:UserProfile/>
     </Shell.FlyoutContent>
     <ShellContent>
-        <pages:MasterPage x:Name="MasterPage"/>
+        <pages:MasterPage x:Name="MasterPage" Appearing="MasterPage_OnAppearing"/>
     </ShellContent>
     <!-- 
         When the Flyout is visible this defines the content to display in the flyout.

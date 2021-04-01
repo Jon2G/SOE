@@ -135,7 +135,6 @@
     <Compile Include="Widgets\TimeLine\TimeLineRemoteViewsFactory.cs" />
     <Compile Include="Widgets\TimeLine\TimeLineWidgetProvider.cs" />
     <Compile Include="Widgets\TimeLine\TimeLineWidgetService.cs" />
-    <Compile Include="Widgets\TimeLine\TimeLineWidget.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

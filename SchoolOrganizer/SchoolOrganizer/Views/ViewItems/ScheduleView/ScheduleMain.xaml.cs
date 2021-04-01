@@ -39,7 +39,7 @@ namespace SchoolOrganizer.Views.ViewItems.ScheduleView
             DayView.MainModel = this.Model;
             Fade(true);
 
-            if (Shell.Current.CurrentPage is MasterPage master)
+            if (Shell.Current?.CurrentPage is MasterPage master)
             {
                 master.TabView.IsSwipeEnabled = false;
             }

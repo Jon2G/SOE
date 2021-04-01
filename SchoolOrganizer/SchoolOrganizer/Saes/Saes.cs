@@ -12,7 +12,6 @@ using SchoolOrganizer.Models.Data;
 using SchoolOrganizer.Models.Scheduler;
 using SchoolOrganizer.ViewModels.Pages;
 using SchoolOrganizer.Views.Pages;
-using SchoolOrganizer.Widgets.Horario;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Log = Kit.Log;
@@ -167,7 +166,8 @@ namespace SchoolOrganizer.Saes
                     .Where(tr => tr.Elements("td").Count() > 1)
                     .Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
                     .ToList();
-                List<Materia> subjects = new List<Materia>();
+
+
                 Regex time = new Regex(@"(?<begin_hour>\d\d):(?<begin_minutes>\d\d)\s*-\s*(?<end_hour>\d\d):(?<end_minutes>\d\d)");
                 Regex teacher_name = new Regex(@"//");
                 int aux_suffix = 1;

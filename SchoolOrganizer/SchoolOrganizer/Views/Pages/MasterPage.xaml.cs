@@ -42,6 +42,10 @@ namespace SchoolOrganizer.Views.Pages
         }
         protected override bool OnBackButtonPressed()
         {
+            if (TabView.SelectedIndex < 0)
+            {
+                TabView.SelectedIndex = 0;
+            }
             TabViewItem selectedView = this.TabView.TabItems[TabView.SelectedIndex];
             switch (selectedView.Content)
             {

@@ -8,6 +8,7 @@ using Android.Widget;
 using Kit;
 using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Scheduler;
+using SchoolOrganizer.Widgets;
 
 namespace SchoolOrganizer.Droid.Widgets.TimeLine
 {

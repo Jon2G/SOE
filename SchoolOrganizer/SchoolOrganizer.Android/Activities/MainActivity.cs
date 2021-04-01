@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using ImageCircle.Forms.Plugin.Droid;
@@ -15,10 +16,8 @@ namespace SchoolOrganizer.Droid.Activities
         protected async override void OnCreate(Bundle savedInstanceState)
         {
             CrossFingerprint.SetCurrentActivityResolver(() => this);
-
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-
             base.OnCreate(savedInstanceState);
             await CrossMedia.Current.Initialize();//
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
@@ -31,6 +30,11 @@ namespace SchoolOrganizer.Droid.Activities
             Plugin.InputKit.Platforms.Droid.Config.Init(this, savedInstanceState);
             Kit.Droid.Tools.Init(this, savedInstanceState);
             LoadApplication(new SchoolOrganizer.App());
+            if (savedInstanceState != null)
+            {
+
+            }
+
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
@@ -39,5 +43,15 @@ namespace SchoolOrganizer.Droid.Activities
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
+        public override void StartIntentSender(IntentSender? intent, Intent? fillInIntent, ActivityFlags flagsMask, ActivityFlags flagsValues,
+            int extraFlags, Bundle? options)
+        {
+            base.StartIntentSender(intent, fillInIntent, flagsMask, flagsValues, extraFlags, options);
+        }
+
+        protected override void OnNewIntent(Intent intent)
+        {
+            base.OnNewIntent(intent);
+        }
     }
 }

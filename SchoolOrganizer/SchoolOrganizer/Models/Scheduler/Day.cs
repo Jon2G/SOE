@@ -66,11 +66,11 @@ namespace SchoolOrganizer.Models.Scheduler
 
         public static Day Today()
         {
-            Day Day = new Day(DateTime.Today); ;
-            do
+            Day Day = new Day(DateTime.Today);
+            while (Day.IsWeekend)
             {
                 Day = new Day(Day.Date.AddDays(1));
-            } while (Day.IsWeekend);
+            }
 
             return Day;
         }

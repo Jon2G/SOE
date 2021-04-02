@@ -12,7 +12,11 @@ using SchoolOrganizer.Saes;
 using SchoolOrganizer.Views.PopUps;
 using System.Threading;
 using System.Windows.Input;
+using SchoolOrganizer.Data;
+using SchoolOrganizer.Fonts;
+using SchoolOrganizer.ViewModels;
 using SchoolOrganizer.ViewModels.ViewItems;
+using SchoolOrganizer.Views.ViewItems;
 using SchoolOrganizer.Views.ViewItems.ScheduleView;
 using Xamarin.CommunityToolkit.UI.Views;
 
@@ -57,6 +61,43 @@ namespace SchoolOrganizer.Views.Pages
                     break;
             }
             return base.OnBackButtonPressed();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            InitBrowser();
+            TabView.SelectedIndex = 1;
+        }
+
+        private void TabView_OnSelectionChanged(object? sender, TabSelectionChangedEventArgs e)
+        {
+            if (TabView.SelectedIndex == 0)
+            {
+                var item = new ToolbarItem
+                {
+                    Command = (TabView.TabItems[0].Content as SchoolGrades)?.Model.RefreshCommand,
+                    CommandParameter = this,
+                    IconImageSource = new FontImageSource()
+                    {
+                        FontFamily = FontelloIcons.Font,
+                        Glyph = FontelloIcons.Home
+                    }
+                };
+                this.ToolbarItems.Add(item);
+            }
+            else
+            {
+                this.ToolbarItems.Clear();
+            }
+        }
+
+        private void InitBrowser()
+        {
+            if (this.Browser is null)
+            {
+                this.BrowserHolder.Content = new WebView();
+            }
         }
     }
 }

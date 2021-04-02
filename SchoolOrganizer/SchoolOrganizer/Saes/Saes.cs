@@ -1,88 +1,94 @@
-﻿using System;
+﻿using Kit;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
-using HtmlAgilityPack;
 using SchoolOrganizer.Data;
-using SchoolOrganizer.Models.Academic;
 using SchoolOrganizer.Models.Data;
-using SchoolOrganizer.Models.Scheduler;
 using SchoolOrganizer.ViewModels.Pages;
-using SchoolOrganizer.Views.Pages;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
-using Log = Kit.Log;
 
 namespace SchoolOrganizer.Saes
 {
-    public class Saes : IBrowser
+    public class SAES : WebView
     {
-        private const string HomePage = "https://www.saes.esimecu.ipn.mx";
+
+        public const string HomePage = "https://www.saes.esimecu.ipn.mx";
         private const string AlumnosPage = "/alumnos/default.aspx";
         private const string HorariosPage = "/alumnos/informacion_semestral/horario_alumno.aspx";
         private const string KardexPage = "/alumnos/boleta/kardex.aspx";
         private const string CitaReinscripcionPage = "/alumnos/reinscripciones/fichas_reinscripcion.aspx";
-        private LogIn LogIn { get; set; }
-        private bool IsCheckingSession { get; set; }
-        public bool IsLogedIn { get => LogIn?.IsLogedIn ?? false; }
-        private Action<WebNavigatedEventArgs> OnNavigated { get; set; }
-        public WebView Browser { get; set; }
-        private LoginViewModel LoginViewModel { get; set; }
-        public Saes()
-        {
+        private const string CalificacionesPage = "/alumnos/informacion_semestral/calificaciones_sem.aspx";
 
-            this.IsCheckingSession = false;
-        }
+        private AutoResetEvent _messageReceived;
+        public static readonly TimeSpan MaxWait = TimeSpan.FromMilliseconds(5000);
+        public bool IsNavigating { get; private set; }
 
-        private void Browser_Navigating(object sender, WebNavigatingEventArgs e)
+        public SAES()
         {
-            this.IsCheckingSession = true;
+            //this.LoginViewModel = new LoginViewModel();
+            //this.Browser = Browser;
+            //this.LogIn = new LogIn(this.Browser);
+            this.Navigated += Browser_Navigated;
+            this.Navigating += Browser_Navigating;
+            //this.IsCheckingSession = false;
+            //GoTo(HomePage);
+            this._messageReceived = new AutoResetEvent(false);
         }
 
         private async void Browser_Navigated(object sender, WebNavigatedEventArgs e)
         {
-            this.IsCheckingSession = false;
-            await this.Browser.EvaluateJavaScriptAsync(@"window.onerror = function myErrorHandler(errorMsg, url, lineNumber) { alert(""Error occured: "" + errorMsg); return false;");
+            this.IsNavigating = false;
+            await this.EvaluateJavaScriptAsync(@"window.onerror = function myErrorHandler(errorMsg, url, lineNumber) { alert(""Error occured: "" + errorMsg); return false;");
             //OnNavigated?.Invoke(e);
             //OnNavigated = null;
-            this.LogIn.IsLogedIn =
-                !string.IsNullOrEmpty(await Browser.EvaluateJavaScriptAsync(
-                    "document.getElementById(\"ctl00_leftColumn_LoginNameSession\").innerHTML"));
             if (e.Url is null)
             {
-                GoTo(HomePage);
+                await GoTo(HomePage);
                 return;
             }
             Uri Uri = new Uri(e.Url);
-            switch (Uri.AbsolutePath.ToLower())
+            string path = Uri.AbsolutePath.ToLower();
+            switch (path)
             {
+                //if (!IsLogedIn)
+                //{
+                //    //AppData.Instance.User = null;
+                //    LoginViewModel.CaptchaImg = await this.LogIn.GetCaptcha();
+                //}
+                //else
+                //{
+                //    AppData.Instance.User.IsLogedIn = true;
+                //    GoTo(AlumnosPage);
+                //}
+                //break;
+
+                //GetName();
+                //break;
+
+                //GetHorario();
+                //break;
+
+                //GetKardexInfo();
+                //break;
+
+                //GetCitasReinscripcionInfo();
+                //break;
+
+                //GetSchoolGrades();
+                //break;
                 case "/default.aspx":
                 case "/": //HomePage
-                    if (!IsLogedIn)
-                    {
-                        //AppData.Instance.User = null;
-                        LoginViewModel.CaptchaImg = await this.LogIn.GetCaptcha();
-                    }
-                    else
-                    {
-                        AppData.Instance.User.IsLogedIn = true;
-                        GoTo(AlumnosPage);
-                    }
-                    break;
                 case AlumnosPage:
-                    GetName();
-                    break;
                 case HorariosPage:
-                    GetHorario();
-                    break;
                 case KardexPage:
-                    GetKardexInfo(); 
-                    break;
                 case CitaReinscripcionPage:
-                    GetCitasReinscripcionInfo(); 
+                case CalificacionesPage:
+                    this._messageReceived.Set();
                     break;
                 default:
                     //await Acr.UserDialogs.UserDialogs.Instance.AlertAsync($"I dont know what to do on =>[{e.Url}]");
@@ -91,210 +97,107 @@ namespace SchoolOrganizer.Saes
                     break;
             }
         }
-
-        private async void GetCitasReinscripcionInfo()
+        private void Browser_Navigating(object sender, WebNavigatingEventArgs e)
         {
-            double creditos_totales = 0;
-            double creditos_alumno = 0;
-
-            string creditos_carrera_html = await this.Browser.EvaluateJavaScriptAsync("document.getElementById(\"ctl00_mainCopy_CREDITOSCARRERA\").outerHTML");
-            string alumno_html = await this.Browser.EvaluateJavaScriptAsync("document.getElementById(\"ctl00_mainCopy_alumno\").outerHTML");
-
-            alumno_html = System.Text.RegularExpressions.Regex.Unescape(alumno_html);
-            if (!string.IsNullOrEmpty(alumno_html))
-            {
-                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-                doc.LoadHtml(alumno_html);
-                HtmlNode htable = doc.DocumentNode.SelectSingleNode("//table");
-                List<List<string>> table = htable
-                    .Descendants("tr")
-                    .Skip(1)
-                    .Where(tr => tr.Elements("td").Count() > 1)
-                    .Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
-                    .ToList();
-                creditos_alumno = Convert.ToDouble(table[0][1]);
-            }
-
-            creditos_carrera_html = System.Text.RegularExpressions.Regex.Unescape(creditos_carrera_html);
-            if (!string.IsNullOrEmpty(creditos_carrera_html))
-            {
-                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-                doc.LoadHtml(creditos_carrera_html);
-                HtmlNode htable = doc.DocumentNode.SelectSingleNode("//table");
-                List<List<string>> table = htable
-                    .Descendants("tr")
-                    .Skip(1)
-                    .Where(tr => tr.Elements("td").Count() > 1)
-                    .Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
-                    .ToList();
-                creditos_totales = Convert.ToDouble(table[0][1]);
-            }
-
-            double result = (creditos_alumno / creditos_totales) * 100;
-            result = Math.Round(result, 2);
-            //Reboot app
-            App.Current.MainPage = new SplashScreen();
-
+            this.IsNavigating = true;
         }
 
-        private async void GetKardexInfo()
-        {
-            string carrera = await this.Browser.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_Lbl_Carrera').innerHTML");
-            GoTo(CitaReinscripcionPage);
-        }
-
-        private async void GetHorario()
-        {
-            if (DataInfo.HasTimeTable())
-            {
-                return;
-            }
-            string horario_html = await this.Browser.EvaluateJavaScriptAsync("document.getElementById(\"ctl00_mainCopy_GV_Horario\").outerHTML");
-            horario_html = System.Text.RegularExpressions.Regex.Unescape(horario_html);
-
-            if (!string.IsNullOrEmpty(horario_html))
-            {
-
-                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-                doc.LoadHtml(horario_html);
-
-                var htable = doc.DocumentNode.SelectSingleNode("//table");
-
-                List<List<string>> table = htable
-                    .Descendants("tr")
-                    .Skip(1)
-                    .Where(tr => tr.Elements("td").Count() > 1)
-                    .Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
-                    .ToList();
-
-
-                Regex time = new Regex(@"(?<begin_hour>\d\d):(?<begin_minutes>\d\d)\s*-\s*(?<end_hour>\d\d):(?<end_minutes>\d\d)");
-                Regex teacher_name = new Regex(@"//");
-                int aux_suffix = 1;
-                foreach (var row in table)
-                {
-                    string TeacherName = row[3];
-                    if (teacher_name.IsMatch(TeacherName))
-                    {
-                        TeacherName = teacher_name.Split(TeacherName).First();
-                    }
-                    Teacher teacher = new Teacher()
-                    {
-                        Name = TeacherName
-                    };
-                    AppData.Instance.LiteConnection.Insert(teacher);
-
-                    for (int i = 6; i < 12; i++)
-                    {
-                        var match = time.Match(row[i]);
-                        if (match.Success)
-                        {
-                            string group = row[0];
-                            Subject subject;
-
-                            subject = (AppData.Instance.LiteConnection.Table<Subject>().FirstOrDefault(x =>
-                                x.Group == group));
-                            if (subject is null)
-                            {
-
-                                int suffix = Convert.ToInt32(group.Last().ToString());
-                                subject = new Subject()
-                                {
-                                    Name = row[2],
-                                    Color = ((Color)Application.Current.Resources[$"SubjectColor_{suffix}"]).ToHex(),
-                                    Group = group,
-                                    IdTeacher = teacher.Id
-                                };
-                                if (AppData.Instance.LiteConnection.Table<Subject>().Where(x =>
-                                    x.Color == subject.Color && x.Group != subject.Group).Any())
-                                {
-                                    subject.Color =
-                                        ((Color)Application.Current.Resources[$"SubjectColor_Aux{aux_suffix}"])
-                                        .ToHex();
-                                    aux_suffix++;
-                                }
-
-                                AppData.Instance.LiteConnection.Insert(subject);
-                            }
-
-                            int begin_hour = Convert.ToInt32(match.Groups["begin_hour"].Value);
-                            int begin_minutes = Convert.ToInt32(match.Groups["begin_minutes"].Value);
-                            int end_hour = Convert.ToInt32(match.Groups["end_hour"].Value);
-                            int end_minutes = Convert.ToInt32(match.Groups["end_minutes"].Value);
-
-                            TimeSpan begin = TimeSpan.FromHours(begin_hour).Add(TimeSpan.FromMinutes(begin_minutes));
-                            TimeSpan end = TimeSpan.FromHours(end_hour).Add(TimeSpan.FromMinutes(end_minutes));
-                            ClassTime classTime = new ClassTime()
-                            {
-                                Begin = begin,
-                                End = end,
-                                Day = (DayOfWeek)i - 5,
-                                IdSubject = subject.Id
-                            };
-                            AppData.Instance.LiteConnection.Insert(classTime);
-                        }
-                    }
-
-
-                }
-            }
-            GoTo(KardexPage);
-        }
-
-        private void GoTo(string url)
+        public async Task GoTo(string url)
         {
             string navigateUrl = url;
             if (url != HomePage)
             {
                 navigateUrl = HomePage + url;
             }
-            Browser.Source = new UrlWebViewSource()
+            Source = new UrlWebViewSource()
             {
                 Url = navigateUrl
             };
-        }
+            await Task.Run(() => this._messageReceived.WaitOne());
 
-        private async void GetName()
-        {
-            AppData.Instance.User.Name = await this.Browser.EvaluateJavaScriptAsync("document.getElementById(\"ctl00_mainCopy_FormView1_nombrelabel\").innerHTML;");
-            AppData.Instance.User.Boleta = await this.Browser.EvaluateJavaScriptAsync("document.getElementById(\"ctl00_leftColumn_LoginNameSession\").innerHTML;");
-            //AppData.Instance.User.RemeberMe = false;
-
-            this.LoginViewModel.OnLoginSuccess.Execute(this);
-            GoTo(HorariosPage);
-        }
-        public void OnLogIn()
-        {
-            this.LoginViewModel = new LoginViewModel(LoginRequested);
-            var loginpage = new LoginPage(LoginViewModel);
-            App.Current.MainPage = loginpage;
-
-            Browser = loginpage.Browser;
-            //Browser.IsNativeStateConsistent = true;
-            //Browser.IsInNativeLayout = true;
-            //Browser.IsPlatformEnabled = true;
-
-            this.Browser.Navigated += Browser_Navigated;
-            this.Browser.Navigating += Browser_Navigating;
-            this.LogIn = new LogIn(this.Browser);
-
-            GoTo(HomePage);
-            //OnNavigated = (async (e) =>
-            //{
-            //    if (e.Url == HomePage)
-            //        loginModel.CaptchaImg = await this.LogIn.GetCaptcha();
-            //    if(e.Url=="")
-            //});
         }
 
 
-        private void LoginRequested(LoginViewModel obj)
+        public async Task<ImageSource> GetCaptcha()
         {
-            this.LogIn.RequestLogIn(obj.User, obj.Captcha);
-            //OnNavigated = ((e) =>
-            //{
+            ImageSource ImageSource = null;
+            try
+            {
+                await GoTo(HomePage);
+                string base_64 = await this.EvaluateJavaScriptAsync(
+                    @"var getDataUrl = function (img) {
+var canvas = document.createElement('canvas')
+var ctx = canvas.getContext('2d')
+canvas.width = img.width
+canvas.height = img.height
+ctx.drawImage(img, 0, 0)
+// If the image is not png, the format
+ // must be specified here
+return canvas.toDataURL()
+}
+var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincaptcha_CaptchaImage"");
+            getDataUrl(img);");
+                if (!string.IsNullOrEmpty(base_64))
+                {
+                    base_64 = base_64.Replace("data:image/png;base64,", string.Empty);
+                    ImageSource =
+                        Xamarin.Forms.ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(base_64)));
+                }
+            }
+            catch (Exception ex)
+            {
 
-            //});
+            }
+
+            return ImageSource;
+        }
+
+        public async Task<bool> IsLoggedIn()
+        {
+            return
+               !string.IsNullOrEmpty(await EvaluateJavaScriptAsync(
+                       "document.getElementById(\"ctl00_leftColumn_LoginNameSession\").innerHTML"));
+        }
+        public async Task<string> GetCurrentUser()
+        {
+            return await EvaluateJavaScriptAsync(
+                "document.getElementById(\"ctl00_leftColumn_LoginNameSession\").innerHTML");
+        }
+
+        public async Task LogOut()
+        {
+            await EvaluateJavaScriptAsync(
+                "document.getElementById('ctl00_leftColumn_LoginStatusSession').click()");
+            await GoTo(HomePage);
+            await GoTo(HomePage);
+
+        }
+        public async Task<bool> LogIn(LoginViewModel login)
+        {
+            if (login.AttemptCount++ < 3)
+            {
+                Regex regex = new Regex("[\"\\\\]");
+                string Password = regex.Replace(login.User.Password, "\\");
+                //binding.captchaDisplayer.visibility = View.GONE
+                await this.EvaluateJavaScriptAsync(
+                    $"document.getElementById(\"ctl00_leftColumn_LoginUser_UserName\").value = \"{login.User.Boleta}\";" +
+                    $"document.getElementById(\"ctl00_leftColumn_LoginUser_Password\").value = \"{Password}\";" +
+                    $"document.getElementById(\"ctl00_leftColumn_LoginUser_CaptchaCodeTextBox\").value = \"{login.Captcha}\";" +
+                    "document.getElementById(\"ctl00_leftColumn_LoginUser_LoginButton\").click();");
+                await Task.Run(() => this._messageReceived.WaitOne());
+                if (await IsLoggedIn())
+                {
+                    AppData.Instance.User = login.User;
+                    return true;
+
+                }
+            }
+            else
+            {
+                Acr.UserDialogs.UserDialogs.Instance.Alert("Tienes varios intentos fallidos. Es posible que la aplicación no pueda comunicarse correctamente con el SAES o tus datos sean incorrectos." +
+                                                           " Si continuas es posible que tu cuenta sea suspendida.", "Cuidado!", "Entiendo");
+            }
+            return false;
         }
     }
 }

@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:academic="clr-namespace:SchoolOrganizer.Models.Academic;assembly=SchoolOrganizer"
+             xmlns:viewModels="clr-namespace:SchoolOrganizer.ViewModels;assembly=SchoolOrganizer"
+             x:Class="SchoolOrganizer.Views.ViewItems.SchoolGrades"
+             x:DataType="viewModels:SchoolGradesViewModel">
+    <ContentView.BindingContext>
+        <viewModels:SchoolGradesViewModel x:Name="Model" x:FieldModifier="public"/>
+    </ContentView.BindingContext>
+    <ContentView.Content>
+        <ListView ItemsSource="{Binding Grades}" HasUnevenRows="True" SeparatorColor="LightGray">
+            <ListView.Header>
+                <Grid ColumnDefinitions="*,*,*,*,*,*,*" ColumnSpacing="0">
+                    <Label Padding="3,5" Text="Grupo" BackgroundColor="{DynamicResource primaryDarkColor}" Grid.Column="0"
+                           TextColor="{DynamicResource secondaryLightColor}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    <Label Padding="3,5" Text="Materia" BackgroundColor="{DynamicResource primaryDarkColor}" Grid.Column="1" 
+                           TextColor="{DynamicResource secondaryLightColor}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    <Label Padding="3,5" Text="#1" BackgroundColor="{DynamicResource primaryDarkColor}" Grid.Column="2" 
+                           TextColor="{DynamicResource secondaryLightColor}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    <Label Padding="3,5" Text="#2" BackgroundColor="{DynamicResource primaryDarkColor}" Grid.Column="3" 
+                           TextColor="{DynamicResource secondaryLightColor}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    <Label Padding="3,5" Text="#3" BackgroundColor="{DynamicResource primaryDarkColor}" Grid.Column="4" 
+                           TextColor="{DynamicResource secondaryLightColor}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    <Label Padding="3,5" Text="Ext." BackgroundColor="{DynamicResource primaryDarkColor}" Grid.Column="5" 
+                           TextColor="{DynamicResource secondaryLightColor}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    <Label Padding="3,5" Text="Final" BackgroundColor="{DynamicResource primaryDarkColor}" Grid.Column="6" 
+                           TextColor="{DynamicResource secondaryLightColor}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                </Grid>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="academic:Grade">
+                    <ViewCell>
+                        <Grid ColumnDefinitions="*,*,*,*,*,*,*" ColumnSpacing="0">
+                            <Label Padding="3,5" Text="{Binding Score}" Grid.Column="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Padding="3,5" Text="{Binding Score}" Grid.Column="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Padding="3,5" Text="{Binding Score}" Grid.Column="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Padding="3,5" Text="{Binding Score}" Grid.Column="3" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Padding="3,5" Text="{Binding Score}" Grid.Column="4" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Padding="3,5" Text="{Binding Score}" Grid.Column="5" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Padding="3,5" Text="{Binding Score}" Grid.Column="6"  HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+
+
+
+        <!--<ScrollView HorizontalScrollBarVisibility="Always" VerticalScrollBarVisibility="Always">
+    <Grid ColumnDefinitions="*,Auto">
+
+        <Grid Grid.ColumnDefinitions="Auto,*,*" ColumnSpacing="0">
+            <StackLayout Grid.Column="0" Spacing="0">
+
+                <StackLayout Spacing="3">
+                            <Label Padding="3" BackgroundColor="LightGray"  Text="7CV21" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Padding="3" Text="7CV21" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Padding="3" BackgroundColor="LightGray" Text="7CV21" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Padding="3" Text="7CV21" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Padding="3" BackgroundColor="LightGray" Text="7CV21" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout  Grid.Column="1" Spacing="0">
+                <Label Padding="5" Text="Final" BackgroundColor="{DynamicResource primaryDarkColor}" 
+                       TextColor="{DynamicResource secondaryLightColor}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                <StackLayout Spacing="3">
+                            <Label Padding="3" BackgroundColor="LightGray"  Text="TEORIA DE LA INFORMACION Y CODIFICACION" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Padding="3" Text="TEORIA DE LA INFORMACION Y CODIFICACION" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Padding="3" BackgroundColor="LightGray" Text="TEORIA DE LA INFORMACION Y CODIFICACION" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Padding="3" Text="TEORIA DE LA INFORMACION Y CODIFICACION" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Label Padding="3" BackgroundColor="LightGray" Text="TEORIA DE LA INFORMACION Y CODIFICACION" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                </StackLayout>
+            </StackLayout>
+                    <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="0" Grid.Column="2">
+                        <StackLayout  Grid.Column="0" Spacing="0"> 
+                            <Label Padding="5" Text="Final" BackgroundColor="{DynamicResource primaryDarkColor}" 
+                       TextColor="{DynamicResource secondaryLightColor}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <StackLayout Spacing="3">
+                                <Label Padding="3" BackgroundColor="LightGray"  Text="7" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                <Label Padding="3" Text="7" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                <Label Padding="3" BackgroundColor="LightGray" Text="10" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                <Label Padding="3" Text="7" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                <Label Padding="3" BackgroundColor="LightGray" Text="8" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            </StackLayout>
+                        </StackLayout>
+                        <StackLayout  Grid.Column="1" Spacing="0">
+                            <Label Padding="5" Text="Final" BackgroundColor="{DynamicResource primaryDarkColor}" 
+                       TextColor="{DynamicResource secondaryLightColor}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <StackLayout Spacing="3">
+                                <Label Padding="3" BackgroundColor="LightGray"  Text="7" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                <Label Padding="3" Text="7" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                <Label Padding="3" BackgroundColor="LightGray" Text="10" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                <Label Padding="3" Text="7" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                <Label Padding="3" BackgroundColor="LightGray" Text="8" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            </StackLayout>
+                        </StackLayout>
+                        <StackLayout  Grid.Column="2" Spacing="0">
+                            <Label Padding="5" Text="Final" BackgroundColor="{DynamicResource primaryDarkColor}" 
+                       TextColor="{DynamicResource secondaryLightColor}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <StackLayout Spacing="3">
+                                <Label Padding="3" BackgroundColor="LightGray"  Text="7" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                <Label Padding="3" Text="7" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                <Label Padding="3" BackgroundColor="LightGray" Text="10" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                <Label Padding="3" Text="7" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                <Label Padding="3" BackgroundColor="LightGray" Text="8" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            </StackLayout>
+                        </StackLayout>
+                        <StackLayout  Grid.Column="3" Spacing="0">
+                            <Label Padding="5" Text="Final" BackgroundColor="{DynamicResource primaryDarkColor}" 
+                       TextColor="{DynamicResource secondaryLightColor}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <StackLayout Spacing="3">
+                                <Label Padding="3" BackgroundColor="LightGray"  Text="7" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                <Label Padding="3" Text="7" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                <Label Padding="3" BackgroundColor="LightGray" Text="10" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                <Label Padding="3" Text="7" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                <Label Padding="3" BackgroundColor="LightGray" Text="8" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </Grid>
+        </Grid>
+
+
+
+
+
+        <StackLayout  Grid.Column="1" Spacing="0">
+                    <Label Padding="5" Text="Final" BackgroundColor="{DynamicResource primaryDarkColor}" 
+                           TextColor="{DynamicResource secondaryLightColor}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    <StackLayout Spacing="3">
+                        <Label Padding="3" BackgroundColor="LightGray"  Text="7" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        <Label Padding="3" Text="7" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        <Label Padding="3" BackgroundColor="LightGray" Text="10" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        <Label Padding="3" Text="7" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        <Label Padding="3" BackgroundColor="LightGray" Text="8" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    </StackLayout>
+        </StackLayout>
+    </Grid>
+        </ScrollView>-->
+    </ContentView.Content>
+</ContentView>

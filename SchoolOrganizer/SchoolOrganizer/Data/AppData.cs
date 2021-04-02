@@ -23,15 +23,20 @@ namespace SchoolOrganizer.Data
             set;
         }
 
+        public Saes.SAES SAES
+        {
+            get;
+            set;
+        }
         public SQLiteConnection LiteConnection { get; private set; }
         private AppData()
         {
 
         }
 
-        private static FileInfo LiteDbPath => 
+        private static FileInfo LiteDbPath =>
             new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SchoolOrganizer.db"));
-     
+
 
         public static void Init()
         {
@@ -40,7 +45,7 @@ namespace SchoolOrganizer.Data
                 User = new User(),
                 LiteConnection = new SQLiteConnection(LiteDbPath, 116)
             };
-            AppData.Instance.LiteConnection.CheckTables(typeof(Teacher), typeof(Subject), typeof(User), typeof(ClassTime));
+            AppData.Instance.LiteConnection.CheckTables(typeof(Teacher), typeof(Subject), typeof(User), typeof(ClassTime), typeof(Grade));
         }
     }
 }

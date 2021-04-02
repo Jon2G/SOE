@@ -1,5 +1,6 @@
 ﻿using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Data;
+using SchoolOrganizer.ViewModels.Pages;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -24,8 +25,7 @@ namespace SchoolOrganizer.Views.Pages
             }
             else
             {
-                Saes.Saes saes = new Saes.Saes();
-                saes.OnLogIn();
+                App.Current.MainPage = new LoginPage();
             }
 
 

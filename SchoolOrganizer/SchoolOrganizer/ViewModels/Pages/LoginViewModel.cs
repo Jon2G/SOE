@@ -5,8 +5,10 @@ using Xamarin.Forms;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Data;
+using SchoolOrganizer.Saes;
 using SkiaSharp.Views.Forms;
 
 namespace SchoolOrganizer.ViewModels.Pages
@@ -14,7 +16,7 @@ namespace SchoolOrganizer.ViewModels.Pages
     public class LoginViewModel : BaseViewModel
     {
         private User _User;
-        public User User 
+        public User User
         {
             get => _User;
             set
@@ -46,23 +48,37 @@ namespace SchoolOrganizer.ViewModels.Pages
                 OnPropertyChanged();
             }
         }
-
+        public bool IsLogedIn { get; internal set; }
+        public int AttemptCount { get; set; }
 
         public Command<LoginViewModel> LoginCommand { get; }
-        public Command FingerCommand { get; }
-        public Command RegisterCommand { get; }
-        public Command<Saes.Saes> OnLoginSuccess { get; }
+        public ICommand FingerCommand { get; }
+        public ICommand RegisterCommand { get; }
+        public ICommand OnLoginSuccess { get; }
 
 
-        public LoginViewModel(Action<LoginViewModel> OnLoginClicked)
+        public LoginViewModel()
         {
             this.User = new User();
             this.User.PropertyChanged += User_PropertyChanged;
-            LoginCommand = new Command<LoginViewModel>(OnLoginClicked, LoginCanExecute);
+            LoginCommand = new Command<LoginViewModel>(LoginRequested, LoginCanExecute);
             FingerCommand = new Command(FingerClicked);
             RegisterCommand = new Command(ConfirmRegister);
-            OnLoginSuccess = new Command<Saes.Saes>(LoginSuccess);
+            OnLoginSuccess = new Command(LoginSuccess);
 
+        }
+
+        private async void LoginRequested(LoginViewModel obj)
+        {
+            if (await AppData.Instance.SAES.LogIn(obj))
+            {
+                this.OnLoginSuccess.Execute(AppData.Instance.SAES);
+            }
+            else
+            {
+                await AppData.Instance.SAES.GetCaptcha();
+                Acr.UserDialogs.UserDialogs.Instance.Alert("Usuario o contraseña invalidos", "Atención", "Ok");
+            }
         }
 
         private void User_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -70,7 +86,7 @@ namespace SchoolOrganizer.ViewModels.Pages
             this.LoginCommand?.ChangeCanExecute();
         }
 
-        private void LoginSuccess(Saes.Saes saes)
+        private void LoginSuccess()
         {
             if (AppData.Instance.LiteConnection.Table<User>().Any(x => x.Boleta == this.User.Boleta))
             {
@@ -80,7 +96,7 @@ namespace SchoolOrganizer.ViewModels.Pages
             {
                 AppData.Instance.LiteConnection.InsertOrReplace(this.User);
             }
-            App.Current.MainPage = new AppShell(saes);
+            Application.Current.MainPage = new AppShell();
         }
 
         private bool LoginCanExecute(object arg)

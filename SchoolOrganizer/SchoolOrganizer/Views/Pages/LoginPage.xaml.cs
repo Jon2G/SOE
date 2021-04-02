@@ -7,21 +7,20 @@ using SchoolOrganizer.Models.SkiaSharp;
 using SchoolOrganizer.Saes;
 using Xamarin.Forms;
 using System.Threading.Tasks;
+using SchoolOrganizer.Data;
+using SchoolOrganizer.Models.Data;
 using Xamarin.Forms.Xaml;
 
 namespace SchoolOrganizer.Views.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : ContentPage,IBrowser
+    public partial class LoginPage : ContentPage
     {
-        public WebView Browser => this.Web;
-
         readonly HighlightForm _highlightForm;
-
-        public LoginPage(LoginViewModel Model)
+        public LoginPage()
         {
-            this.BindingContext = Model;
             InitializeComponent();
+            AppData.Instance.SAES = this.SAES;
             Task.Run(AnimateBorder);
             var settings = new HighlightSettings()
             {
@@ -32,6 +31,10 @@ namespace SchoolOrganizer.Views.Pages
                 AnimationEasing = Easing.CubicInOut,
             };
             _highlightForm = new HighlightForm(settings);
+
+
+            //Saes.Saes saes = new Saes.Saes(this.Browser);
+            //saes.OnLogIn();
         }
 
         void EntryFocused(object sender, FocusEventArgs e)
@@ -51,10 +54,25 @@ namespace SchoolOrganizer.Views.Pages
             _highlightForm.Invalidate(_skCanvasView, _formLayout);
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
+            await SAES.GoTo(Saes.SAES.HomePage);
+            if (await SAES.IsLoggedIn())
+            {
+                string boleta = await SAES.GetCurrentUser();
+                AppData.Instance.User = AppData.Instance.LiteConnection.Get<User>(boleta);
+                if (AppData.Instance.User is not null)
+                {
+                    this.Model.OnLoginSuccess.Execute(this.SAES);
+                }
+                else
+                {
+                    await SAES.LogOut();
+                }
+            }
             Usuario.Focus();
+           this.Model.CaptchaImg = await this.SAES.GetCaptcha();
 
         }
         private async void AnimateBorder()

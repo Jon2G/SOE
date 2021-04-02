@@ -1,5 +1,6 @@
 ﻿using System;
 using Kit.Sql.Attributes;
+using SchoolOrganizer.Data;
 
 namespace SchoolOrganizer.Models.Scheduler
 {
@@ -20,6 +21,11 @@ namespace SchoolOrganizer.Models.Scheduler
             this.Name = Name;
             this.Color = Color;
             this.Group = Group;
+        }
+
+        internal static int GetId(string group)
+        {
+            return AppData.Instance.LiteConnection.Table<Subject>().FirstOrDefault(x => x.Group == group)?.Id ?? -1;
         }
     }
 }

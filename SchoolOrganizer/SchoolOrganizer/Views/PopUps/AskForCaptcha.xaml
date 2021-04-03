@@ -3,14 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
              xmlns:viewmodels="clr-namespace:SchoolOrganizer.ViewModels.Pages;assembly=SchoolOrganizer"
-             xmlns:renders="clr-namespace:SchoolOrganizer.Views.Renders;assembly=SchoolOrganizer"
+             xmlns:renders1="clr-namespace:SchoolOrganizer.Renders;assembly=SchoolOrganizer"
              x:Class="SchoolOrganizer.Views.PopUps.AskForCaptcha" x:DataType="viewmodels:LoginViewModel">
     <ContentPage.Content>
         <StackLayout>
 
             <Image Source="{Binding CaptchaImg}" HeightRequest="50" />
 
-            <renders:NoLineEntry IsPassword="False" Text="{Binding Captcha}"
+            <renders1:NoLineEntry IsPassword="False" Text="{Binding Captcha}"
                                 Style="{StaticResource FormEntryStyle}" TextColor="{DynamicResource secondaryTextColor}"
                                 Placeholder="Captcha" PlaceholderColor="{DynamicResource secondaryTextColor}" Margin="0,10"/>
         </StackLayout>

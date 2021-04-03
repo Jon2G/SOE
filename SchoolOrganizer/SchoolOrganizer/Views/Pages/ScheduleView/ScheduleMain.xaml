@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+<pages:BasePage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:viewItems="clr-namespace:SchoolOrganizer.ViewModels.ViewItems;assembly=SchoolOrganizer"
@@ -7,14 +7,14 @@
              xmlns:scheduler="clr-namespace:SchoolOrganizer.Models.Scheduler;assembly=SchoolOrganizer"
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:scheduleViewModel="clr-namespace:SchoolOrganizer.ViewModels.ViewItems.ScheduleViewModel;assembly=SchoolOrganizer"
-             xmlns:scheduleView="clr-namespace:SchoolOrganizer.Views.ViewItems.ScheduleView;assembly=SchoolOrganizer"
-             xmlns:renders="clr-namespace:Kit.Forms.Renders;assembly=Kit.Forms"
-             x:Class="SchoolOrganizer.Views.ViewItems.ScheduleView.ScheduleViewMain" 
+             xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+             xmlns:scheduleView="clr-namespace:SchoolOrganizer.Views.Pages.ScheduleView;assembly=SchoolOrganizer"
+             x:Class="SchoolOrganizer.Views.Pages.ScheduleView.ScheduleViewMain" 
              x:DataType="viewItems:ScheduleMainViewModel" x:Name="Me">
-    <ContentView.BindingContext>
+    <pages:BasePage.BindingContext>
         <viewItems:ScheduleMainViewModel x:Name="Model" x:FieldModifier="public"/>
-    </ContentView.BindingContext>
-    <ContentView.Content>
+    </pages:BasePage.BindingContext>
+    <pages:BasePage.Content>
         <Grid>
 
             <StackLayout BindingContext="{x:Reference Model}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="5">
@@ -37,7 +37,7 @@
                     </views:UniformGrid>
                 </Grid>
 
-                <renders:NestedScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
+                <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
                     <Grid ColumnDefinitions="15,*">
 
 
@@ -52,8 +52,7 @@
                                                     <DataTemplate x:DataType="scheduler:ClassSquare">
                                                         <ContentView  HeightRequest="{Binding HoursHeigthRequest}"
                                                                       MinimumHeightRequest="{Binding HoursHeigthRequest}">
-                                                            <Frame Margin="3"  BackgroundColor="{Binding Color}"
-                                                                   Padding="3">
+                                                            <Frame Margin="3"  BackgroundColor="{Binding Color}" Padding="3">
                                                                 <StackLayout>
                                                                     <Label FontSize="10" TextColor="Black"
                                                                        HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
@@ -90,10 +89,10 @@
                             <BoxView BackgroundColor="Blue" HeightRequest="1"/>
                         </StackLayout>
                     </Grid>
-                </renders:NestedScrollView>
+                </ScrollView>
             </StackLayout>
             <scheduleView:ScheduleViewDay x:Name="DayView" Opacity="0" IsVisible="False" MainModel="{x:Reference Model}"
                                           VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
         </Grid>
-    </ContentView.Content>
-</ContentView>
+    </pages:BasePage.Content>
+</pages:BasePage>

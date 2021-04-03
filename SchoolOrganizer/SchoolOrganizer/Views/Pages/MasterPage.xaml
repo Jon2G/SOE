@@ -9,6 +9,7 @@
              xmlns:cardViews="clr-namespace:SchoolOrganizer.Views.ViewItems.CardViews;assembly=SchoolOrganizer"
              xmlns:controls="clr-namespace:SchoolOrganizer.Control" xmlns:pages="clr-namespace:SchoolOrganizer.ViewModels.Pages"
              xmlns:scheduleView="clr-namespace:SchoolOrganizer.Views.ViewItems.ScheduleView;assembly=SchoolOrganizer"
+             xmlns:pages1="clr-namespace:SchoolOrganizer.Views.Pages;assembly=SchoolOrganizer"
              x:DataType="pages:MasterPageViewModel">
     <ContentPage.BindingContext>
         <pages:MasterPageViewModel/>
@@ -86,7 +87,7 @@
                         Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
                                                 Light={StaticResource secondaryTextColor}}" />
                 </toolkit:TabViewItem.Icon>
-                <viewItems:SchoolGrades/>
+                <pages1:SchoolGrades/>
             </toolkit:TabViewItem>
 
             <!--  HOME TAB  -->
@@ -127,14 +128,7 @@
 
         </toolkit:TabView>
         <!-- RADIAL MENU FILTER -->
-        <Grid        
-                HorizontalOptions="End" VerticalOptions="End"
-                Margin="0, 0, -50, 0">
-            <controls:FilterMenu 
-                    SelectedCommand="{Binding ItemSelectedCommand}"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center" />
-        </Grid>
+
     </Grid>
 
 </ContentPage>

@@ -6,6 +6,7 @@
              xmlns:cardViews="clr-namespace:SchoolOrganizer.Views.ViewItems.CardViews;assembly=SchoolOrganizer"
              xmlns:viewItems="clr-namespace:SchoolOrganizer.Views.ViewItems;assembly=SchoolOrganizer"
              xmlns:models="clr-namespace:SchoolOrganizer.ViewModels.ViewItems;assembly=SchoolOrganizer"
+             xmlns:dailyTasks="clr-namespace:SchoolOrganizer.Views.ViewItems.DailyTasks;assembly=SchoolOrganizer"
              x:Class="SchoolOrganizer.Views.Pages.DailyTasks" x:DataType="models:DailyTasksViewModel">
     <ContentPage.BindingContext>
         <models:DailyTasksViewModel x:Name="Model"/>
@@ -23,7 +24,7 @@
             </CarouselView.ItemsLayout>-->
             <CarouselView.ItemTemplate>
                 <DataTemplate x:DataType="models:DailyTasksViewModel">
-                    <viewItems:DailyTasksView BindingContext="{Binding .}"/>
+                    <dailyTasks:DailyTasksView BindingContext="{Binding .}"/>
                 </DataTemplate>
             </CarouselView.ItemTemplate>
         </CarouselView>

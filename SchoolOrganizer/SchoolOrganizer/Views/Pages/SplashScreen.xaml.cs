@@ -20,6 +20,12 @@ namespace SchoolOrganizer.Views.Pages
             User user = AppData.Instance.LiteConnection.Table<User>().FirstOrDefault();
             if (user != null && user.RemeberMe)
             {
+                //if (user.UseFingerPrint)
+                //{
+                    //
+                    //pedir huella
+                    //
+                //}
                 AppData.Instance.User = user;
                 App.Current.MainPage = new AppShell();
             }

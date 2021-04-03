@@ -67,7 +67,8 @@ namespace SchoolOrganizer.Views.Pages
         {
             base.OnAppearing();
             InitBrowser();
-            TabView.SelectedIndex = 1;
+            if (TabView.SelectedIndex == 0)
+                TabView.SelectedIndex = 1;
         }
 
         private void TabView_OnSelectionChanged(object? sender, TabSelectionChangedEventArgs e)

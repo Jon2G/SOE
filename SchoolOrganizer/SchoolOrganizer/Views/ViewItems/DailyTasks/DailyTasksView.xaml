@@ -6,7 +6,7 @@
              xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
              xmlns:dailyTasksModels="clr-namespace:SchoolOrganizer.Models.DailyTasksModels;assembly=SchoolOrganizer"
              xmlns:viewItems="clr-namespace:SchoolOrganizer.ViewModels.ViewItems;assembly=SchoolOrganizer"
-             x:Class="SchoolOrganizer.Views.ViewItems.DailyTasksView" x:DataType="dailyTasksModels:DailyTasks" x:Name="Me" >
+             x:Class="SchoolOrganizer.Views.ViewItems.DailyTasks.DailyTasksView" x:DataType="dailyTasksModels:DailyTasks" x:Name="Me" >
     <ContentView.Resources>
         <ResourceDictionary>
             <Style x:Key="LineStyle" TargetType="BoxView">

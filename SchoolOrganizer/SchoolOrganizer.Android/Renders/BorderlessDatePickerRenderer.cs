@@ -1,5 +1,5 @@
 ﻿using SchoolOrganizer.Droid.Renders;
-using SchoolOrganizer.Views.Renders;
+using SchoolOrganizer.Renders;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 

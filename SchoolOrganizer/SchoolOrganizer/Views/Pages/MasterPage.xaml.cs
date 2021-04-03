@@ -76,7 +76,7 @@ namespace SchoolOrganizer.Views.Pages
             {
                 var item = new ToolbarItem
                 {
-                    Command = (TabView.TabItems[0].Content as SchoolGrades)?.Model.RefreshCommand,
+                    //Command = (TabView.TabItems[0].Content as SchoolGrades)?.Model.RefreshCommand,
                     CommandParameter = this,
                     IconImageSource = new FontImageSource()
                     {

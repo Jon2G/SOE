@@ -4,7 +4,6 @@
        Title="OrganizadorEscolar"
        xmlns:pages="clr-namespace:SchoolOrganizer.Views.Pages;assembly=SchoolOrganizer"
        xmlns:viewItems="clr-namespace:SchoolOrganizer.Views.ViewItems;assembly=SchoolOrganizer"
-       xmlns:scheduleView="clr-namespace:SchoolOrganizer.Views.ViewItems.ScheduleView;assembly=SchoolOrganizer"
        x:Class="SchoolOrganizer.AppShell" BackgroundColor="{DynamicResource primaryLightColor}">
 
     <!--
@@ -79,44 +78,9 @@
     <Shell.FlyoutContent>
         <viewItems:UserProfile/>
     </Shell.FlyoutContent>
-    <TabBar x:Name="TabBar">
-        <Tab x:Name="SchoolGradesTab">
-            <ShellContent>
-                <ContentPage>
-                    <pages:SchoolGrades>
-                        <ContentView.GestureRecognizers>
-                            <SwipeGestureRecognizer Direction="Right" Swiped="SwipeGestureRecognizer_OnSwipedRight"/>
-                            <SwipeGestureRecognizer Direction="Left" Swiped="SwipeGestureRecognizer_OnSwipedLeft"/>
-                        </ContentView.GestureRecognizers>
-                    </pages:SchoolGrades>
-                </ContentPage>
-            </ShellContent>
-        </Tab>
-        <Tab x:Name="TasksPageTab">
-            <ShellContent>
-                <ContentPage>
-                <viewItems:TasksPage>
-                    <ContentView.GestureRecognizers>
-                        <SwipeGestureRecognizer Direction="Right" Swiped="SwipeGestureRecognizer_OnSwipedRight"/>
-                        <SwipeGestureRecognizer Direction="Left" Swiped="SwipeGestureRecognizer_OnSwipedLeft"/>
-                        </ContentView.GestureRecognizers>
-                </viewItems:TasksPage>
-            </ContentPage>
-            </ShellContent>
-        </Tab>
-        <Tab>
-            <ShellContent x:Name="ScheduleViewMainTab">
-                <ContentPage>
-                    <scheduleView:ScheduleViewMain>
-                        <ContentView.GestureRecognizers>
-                            <SwipeGestureRecognizer Direction="Right" Swiped="SwipeGestureRecognizer_OnSwipedRight"/>
-                            <SwipeGestureRecognizer Direction="Left" Swiped="SwipeGestureRecognizer_OnSwipedLeft"/>
-                        </ContentView.GestureRecognizers>
-                    </scheduleView:ScheduleViewMain>
-                </ContentPage>
-            </ShellContent>
-        </Tab>
-    </TabBar>
+    <ShellContent>
+        <pages:MasterPage x:Name="MasterPage" Appearing="MasterPage_OnAppearing" x:FieldModifier="public"/>
+    </ShellContent>
     <!-- 
         When the Flyout is visible this defines the content to display in the flyout.
         FlyoutDisplayOptions="AsMultipleItems" will create a separate flyout item for each child element    

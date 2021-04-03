@@ -2,14 +2,14 @@
 <ContentPage  xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SchoolOrganizer.Views.PopUps.TaskPage"
+             xmlns:render="clr-namespace:SchoolOrganizer.Views.Renders"
              xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:date="clr-namespace:SchoolOrganizer.Views.Renders"
              xmlns:viewModels="clr-namespace:SchoolOrganizer.ViewModels.Pages;assembly=SchoolOrganizer"
              xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
              xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
              xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             xmlns:views="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:renders="clr-namespace:SchoolOrganizer.Renders;assembly=SchoolOrganizer"
-             BackgroundColor="White">
+             xmlns:views="http://xamarin.com/schemas/2020/toolkit" BackgroundColor="White">
     <ContentPage.BindingContext>
         <viewModels:TaskViewModel x:Name="Modelo"/>
     </ContentPage.BindingContext>
@@ -31,7 +31,7 @@
                         BorderWidth="2" TextColor="{DynamicResource primaryLightColor}" Command="{Binding TaskCommand}"/>
                     <Frame Grid.Row="2" CornerRadius="10" Padding="3" BackgroundColor="{DynamicResource PrimaryLightBackground}" 
                        BorderColor="#12396F" >
-                        <renders:BorderlessDatePicker Margin="5"  FontAttributes="Bold" TextColor="{DynamicResource primaryLightColor}" Format="dd/MM/yyyy" x:Name="Date" />
+                        <date:BorderlessDatePicker Margin="5"  FontAttributes="Bold" TextColor="{DynamicResource primaryLightColor}" Format="dd/MM/yyyy" x:Name="Date" />
                     </Frame>
 
                 </StackLayout>

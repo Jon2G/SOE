@@ -3,7 +3,7 @@ using Android.Content.Res;
 using Android.Graphics.Drawables;
 using Android.Text;
 using SchoolOrganizer.Droid.Renders;
-using SchoolOrganizer.Renders;
+using SchoolOrganizer.Views.Renders;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 

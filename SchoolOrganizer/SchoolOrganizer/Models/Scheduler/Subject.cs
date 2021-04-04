@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Kit.Sql.Attributes;
 using SchoolOrganizer.Data;
 
@@ -23,6 +24,10 @@ namespace SchoolOrganizer.Models.Scheduler
             this.Group = Group;
         }
 
+        internal static List<Subject> ToList()
+        {
+            return AppData.Instance.LiteConnection.Table<Subject>().OrderBy(x => x.Group).ToList();
+        }
         internal static int GetId(string group)
         {
             return AppData.Instance.LiteConnection.Table<Subject>().FirstOrDefault(x => x.Group == group)?.Id ?? -1;

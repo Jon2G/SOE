@@ -87,7 +87,7 @@
                         Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
                                                 Light={StaticResource secondaryTextColor}}" />
                 </toolkit:TabViewItem.Icon>
-                <pages1:SchoolGrades/>
+                <viewItems:SchoolGrades x:Name="SchoolGrades"/>
             </toolkit:TabViewItem>
 
             <!--  HOME TAB  -->

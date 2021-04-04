@@ -23,11 +23,8 @@ using Xamarin.CommunityToolkit.UI.Views;
 namespace SchoolOrganizer.Views.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MasterPage : IBrowser
+    public partial class MasterPage
     {
-
-
-        public WebView Browser => BrowserHolder.Content as WebView;
         public MasterPage()
         {
             InitializeComponent();
@@ -67,7 +64,8 @@ namespace SchoolOrganizer.Views.Pages
         {
             base.OnAppearing();
             InitBrowser();
-            if (TabView.SelectedIndex == 0)
+            this.SchoolGrades.OnAppearing();
+            if (TabView.SelectedIndex <= 0)
                 TabView.SelectedIndex = 1;
         }
 
@@ -75,9 +73,13 @@ namespace SchoolOrganizer.Views.Pages
         {
             if (TabView.SelectedIndex == 0)
             {
+                if (this.ToolbarItems.Any(x => x.Command == SchoolGrades.Model.RefreshCommand))
+                {
+                    return;
+                }
                 var item = new ToolbarItem
                 {
-                    //Command = (TabView.TabItems[0].Content as SchoolGrades)?.Model.RefreshCommand,
+                    Command = SchoolGrades.Model.RefreshCommand,
                     CommandParameter = this,
                     IconImageSource = new FontImageSource()
                     {
@@ -95,10 +97,12 @@ namespace SchoolOrganizer.Views.Pages
 
         private void InitBrowser()
         {
-            if (this.Browser is null)
+            if (AppData.Instance.SAES is null)
             {
-                this.BrowserHolder.Content = new WebView();
+                AppData.Instance.SAES = new SAES();
+
             }
+            this.BrowserHolder.Content = AppData.Instance.SAES;
         }
     }
 }

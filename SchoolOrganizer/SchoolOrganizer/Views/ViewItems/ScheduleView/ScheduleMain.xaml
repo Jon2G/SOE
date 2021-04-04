@@ -8,7 +8,6 @@
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:scheduleViewModel="clr-namespace:SchoolOrganizer.ViewModels.ViewItems.ScheduleViewModel;assembly=SchoolOrganizer"
              xmlns:scheduleView="clr-namespace:SchoolOrganizer.Views.ViewItems.ScheduleView;assembly=SchoolOrganizer"
-             xmlns:renders="clr-namespace:Kit.Forms.Renders;assembly=Kit.Forms"
              x:Class="SchoolOrganizer.Views.ViewItems.ScheduleView.ScheduleViewMain" 
              x:DataType="viewItems:ScheduleMainViewModel" x:Name="Me">
     <ContentView.BindingContext>
@@ -37,11 +36,11 @@
                     </views:UniformGrid>
                 </Grid>
 
-                <renders:NestedScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
+                <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
                     <Grid ColumnDefinitions="15,*">
 
 
-                        <Frame CornerRadius="5" Padding="0" BackgroundColor="White" Grid.Column="1">
+                        <StackLayout Padding="0" BackgroundColor="White" Grid.Column="1">
                             <views:UniformGrid BindableLayout.ItemsSource="{Binding WeekDays}">
                                 <BindableLayout.ItemTemplate>
                                     <DataTemplate x:DataType="scheduleViewModel:SheduleDay">
@@ -50,10 +49,15 @@
                                                      BindableLayout.ItemsSource="{Binding Class}">
                                                 <BindableLayout.ItemTemplate>
                                                     <DataTemplate x:DataType="scheduler:ClassSquare">
-                                                        <ContentView  HeightRequest="{Binding HoursHeigthRequest}"
+                                                        <ContentView  HeightRequest="{Binding HoursHeigthRequest}" 
+                                                                      BackgroundColor="{Binding Color}"
                                                                       MinimumHeightRequest="{Binding HoursHeigthRequest}">
-                                                            <Frame Margin="3"  BackgroundColor="{Binding Color}"
+                                                            <pancakeView:PancakeView Style="{StaticResource card}" Margin="3"  BackgroundColor="{Binding Color}"
                                                                    Padding="3">
+                                                                <pancakeView:PancakeView.GestureRecognizers>
+                                                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped" NumberOfTapsRequired="1"/>
+                                                                    <ClickGestureRecognizer Clicked="TapGestureRecognizer_OnTapped"/>
+                                                                </pancakeView:PancakeView.GestureRecognizers>
                                                                 <StackLayout>
                                                                     <Label FontSize="10" TextColor="Black"
                                                                        HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
@@ -65,7 +69,7 @@
                                                                        HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
                                                                        Text="{Binding  FormattedTime}" />
                                                                 </StackLayout>
-                                                            </Frame>
+                                                            </pancakeView:PancakeView>
                                                         </ContentView>
                                                     </DataTemplate>
                                                 </BindableLayout.ItemTemplate>
@@ -74,7 +78,7 @@
                                     </DataTemplate>
                                 </BindableLayout.ItemTemplate>
                             </views:UniformGrid>
-                        </Frame>
+                        </StackLayout>
                         <StackLayout Grid.Column="0" BackgroundColor="WhiteSmoke" VerticalOptions="FillAndExpand"  Spacing="0"
                                      BindableLayout.ItemsSource="{Binding WeekHours}">
                             <BindableLayout.ItemTemplate>
@@ -90,7 +94,7 @@
                             <BoxView BackgroundColor="Blue" HeightRequest="1"/>
                         </StackLayout>
                     </Grid>
-                </renders:NestedScrollView>
+                </ScrollView>
             </StackLayout>
             <scheduleView:ScheduleViewDay x:Name="DayView" Opacity="0" IsVisible="False" MainModel="{x:Reference Model}"
                                           VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>

@@ -56,7 +56,7 @@ namespace SchoolOrganizer.ViewModels.Pages
         {
             var pr = new SubjectPopUp();
             pr.ClosedCommad = this.SubjectSelectedCommand;
-            pr.Mostrar();
+            pr.Show();
 
             //var scaleAnimation = new ScaleAnimation
             //{

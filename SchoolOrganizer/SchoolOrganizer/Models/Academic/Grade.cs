@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Kit.Daemon.Sync;
 using Kit.Sql.Attributes;
+using SchoolOrganizer.Data;
+using SchoolOrganizer.Models.Scheduler;
+using Xamarin.Forms;
 
 namespace SchoolOrganizer.Models.Academic
 {
@@ -17,6 +20,7 @@ namespace SchoolOrganizer.Models.Academic
         public int Id { get; set; }
         public Partial Partial { get; set; }
         public string Score { get; set; }
+
         public int SubjectId { get; set; }
 
         public Grade() { }

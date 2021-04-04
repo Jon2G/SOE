@@ -1,21 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
+using Acr.UserDialogs;
+using Kit.Extensions;
 using Kit.Model;
+using MagicGradients.Animation;
 using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Academic;
+using SchoolOrganizer.Models.Scheduler;
 using SchoolOrganizer.Saes;
 using SchoolOrganizer.ViewModels.Pages;
+using SchoolOrganizer.Views.PopUps;
 using Xamarin.Forms;
 
 namespace SchoolOrganizer.ViewModels
 {
     public class SchoolGradesViewModel : ModelBase
     {
-        private List<Grade> _Grades;
-
-        public List<Grade> Grades
+        private ObservableCollection<SchoolGrade> _Grades;
+        public ObservableCollection<SchoolGrade> Grades
         {
             get => _Grades;
             set
@@ -24,31 +30,54 @@ namespace SchoolOrganizer.ViewModels
                 Raise(() => Grades);
             }
         }
+
         public ICommand RefreshCommand { get; }
-        public ICommand HasBeenRefreshedCommand { get; }
 
         public SchoolGradesViewModel()
         {
-            HasBeenRefreshed();
+            this.Grades = new ObservableCollection<SchoolGrade>();
+            GetGrades();
             this.RefreshCommand = new Command(Refresh);
-            this.HasBeenRefreshedCommand = new Command(HasBeenRefreshed);
         }
 
-        private void HasBeenRefreshed()
+        private void GetGrades()
         {
-            this.Grades = AppData.Instance.LiteConnection.Table<Grade>().ToList();
+            this.Grades.Clear();
+            this.Grades.AddRange(Subject.ToList().Select(s => new SchoolGrade(s)));
         }
 
-        private void Refresh()
+        private async void Refresh()
         {
-            //AppData.Instance.SAES ??= new Saes._Saes(browser.Browser);
-            //AppData.Instance.SAES.OnFinished = this.HasBeenRefreshedCommand;
-            //if (!AppData.Instance.SAES.IsLogedIn)
-            //{
-            //    AppData.Instance.SAES.LoginViewModel.User = AppData.Instance.User;
-            //    AppData.Instance.SAES.LoginRequested(AppData.Instance.SAES.LoginViewModel);
-            //}
-            //AppData.Instance.SAES.RefreshSchoolGrades();
+            SAES saes = AppData.Instance.SAES;
+            await saes.GoTo(SAES.HomePage);
+            if (!await saes.IsLoggedIn())
+            {
+                LoginViewModel loginViewModel = new LoginViewModel()
+                {
+                    User = AppData.Instance.User,
+                    CaptchaImg = await saes.GetCaptcha()
+                };
+                AskForCaptcha captcha = new AskForCaptcha(loginViewModel);
+
+                await captcha.ShowDialog();
+
+                if (!await saes.LogIn(loginViewModel, false))
+                {
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("Usuario o contraseña invalidos", "Atención", "Ok");
+                    return;
+                }
+                else
+                {
+                    Refresh();
+                }
+                return;
+            }
+
+            using (UserDialogs.Instance.Loading("Actualizando calificaciones...."))
+            {
+                await AppData.Instance.SAES.GetSchoolGrades();
+            }
+            GetGrades();
         }
     }
 }

@@ -121,9 +121,13 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
         }
         public async Task<bool> IsLoggedIn()
         {
-            return
-               !string.IsNullOrEmpty(await EvaluateJavaScriptAsync(
-                       "document.getElementById(\"ctl00_leftColumn_LoginNameSession\").innerHTML"));
+            try
+            {
+                return
+                    !string.IsNullOrEmpty(await EvaluateJavaScriptAsync(
+                        "document.getElementById(\"ctl00_leftColumn_LoginNameSession\").innerHTML"));
+            }
+            catch (Exception) { return false; }
         }
         public async Task<string> GetCurrentUser()
         {
@@ -138,7 +142,7 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
             await GoTo(HomePage);
 
         }
-        public async Task<bool> LogIn(LoginViewModel login)
+        public async Task<bool> LogIn(LoginViewModel login, bool ShouldGetUserData = true)
         {
             if (login.AttemptCount++ < 3)
             {
@@ -153,7 +157,8 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
                 await Task.Run(() => this.NavigatedCallback.WaitOne());
                 if (await IsLoggedIn())
                 {
-                    await GetUserData();
+                    if (ShouldGetUserData)
+                        await GetUserData();
                     AppData.Instance.User = login.User;
                     return true;
                 }
@@ -324,7 +329,7 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
             double result = (creditos_alumno / creditos_totales) * 100;
             result = Math.Round(result, 2);
         }
-        private async Task GetSchoolGrades()
+        public async Task GetSchoolGrades()
         {
 
             await GoTo(CalificacionesPage);
@@ -347,7 +352,12 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
                 for (int j = 2; j <= 6; j++)
                 {
                     int index = j - 2;
-                    row_grades[index] = new Grade((Partial)index, row[j], Subject.GetId(grupo));
+                    string score = row[j];
+                    if (score == "&nbsp;")
+                    {
+                        score = "-";
+                    }
+                    row_grades[index] = new Grade((Partial)index, score, Subject.GetId(grupo));
                 }
                 grades.AddRange(row_grades);
             }

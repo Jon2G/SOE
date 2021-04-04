@@ -69,5 +69,10 @@ namespace SchoolOrganizer.Views.ViewItems.ScheduleView
             await DayView.FadeTo(IsDayViewVisible ? 1 : 0, 500u, Easing.Linear);
             this.IsDayViewVisible = IsDayViewVisible;
         }
+
+        private void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

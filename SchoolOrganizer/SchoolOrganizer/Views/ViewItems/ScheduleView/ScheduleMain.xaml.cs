@@ -20,6 +20,8 @@ namespace SchoolOrganizer.Views.ViewItems.ScheduleView
             get => DayView.IsVisible;
             set
             {
+                DayView.IsTabStop = value;
+                DayView.IsEnabled = value;
                 DayView.IsVisible = value;
             }
         }
@@ -72,7 +74,7 @@ namespace SchoolOrganizer.Views.ViewItems.ScheduleView
 
         private void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            Acr.UserDialogs.UserDialogs.Instance.Alert("Hola :)");
         }
     }
 }

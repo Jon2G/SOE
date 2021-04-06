@@ -76,6 +76,7 @@ namespace SchoolOrganizer.ViewModels.Pages
             }
             else
             {
+                await AppData.Instance.SAES.GoTo(AppData.Instance.SAES.School.HomePage);
                 await AppData.Instance.SAES.GetCaptcha();
                 Acr.UserDialogs.UserDialogs.Instance.Alert("Usuario o contraseña invalidos", "Atención", "Ok");
             }

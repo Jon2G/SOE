@@ -1,10 +1,10 @@
 ﻿using SchoolOrganizer.UWP.Renders;
-using SchoolOrganizer.Views.Renders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SchoolOrganizer.Renders;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.UWP;
 

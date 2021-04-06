@@ -21,20 +21,29 @@ namespace SchoolOrganizer.Saes
 {
     public class SAES : WebView
     {
-        public const string HomePage = "https://www.saes.esimecu.ipn.mx";
+        private const string SaesHomePage = "https://www.saes.ipn.mx";
+        //public const string HomePage = "https://www.saes.esimecu.ipn.mx";
         private const string AlumnosPage = "/alumnos/default.aspx";
         private const string HorariosPage = "/alumnos/informacion_semestral/horario_alumno.aspx";
         private const string KardexPage = "/alumnos/boleta/kardex.aspx";
         private const string CitaReinscripcionPage = "/alumnos/reinscripciones/fichas_reinscripcion.aspx";
         private const string CalificacionesPage = "/alumnos/informacion_semestral/calificaciones_sem.aspx";
-        private AutoResetEvent NavigatedCallback;
+        private const string UniversitiesPage = "https://www.saes.ipn.mx/ns.html";
+        private const string HighSchoolsPage = "https://www.saes.ipn.mx/nms.html";
+        private readonly AutoResetEvent NavigatedCallback;
+        public School School;
         public bool IsNavigating { get; private set; }
-        public SAES()
+
+
+        public SAES() : this(new School()) { }
+        public SAES(School School)
         {
+            this.School = School;
             this.Navigated += Browser_Navigated;
             this.Navigating += Browser_Navigating;
             this.NavigatedCallback = new AutoResetEvent(false);
-            GoTo(HomePage);
+            if (this.School.IsSchoolSelected)
+                GoTo(this.School.HomePage);
         }
 
         private async void Browser_Navigated(object sender, WebNavigatedEventArgs e)
@@ -45,8 +54,21 @@ namespace SchoolOrganizer.Saes
             //OnNavigated = null;
             if (e.Url is null)
             {
-                await GoTo(HomePage);
+                await GoTo(School.HomePage);
                 return;
+            }
+
+            if (e.Url == School.HomePage)
+            {
+                this.NavigatedCallback.Set();
+                return;
+            }
+            switch (e.Url)
+            {
+                case UniversitiesPage:
+                case HighSchoolsPage:
+                    this.NavigatedCallback.Set();
+                    return;
             }
             Uri Uri = new Uri(e.Url);
             string path = Uri.AbsolutePath.ToLower();
@@ -64,7 +86,7 @@ namespace SchoolOrganizer.Saes
                 default:
                     //await Acr.UserDialogs.UserDialogs.Instance.AlertAsync($"I dont know what to do on =>[{e.Url}]");
                     Log.Logger.Debug($"I dont know what to do on =>[{e.Url}]");
-                    await GoTo(HomePage);
+                    await GoTo(School.HomePage);
                     break;
             }
         }
@@ -75,15 +97,15 @@ namespace SchoolOrganizer.Saes
         public async Task GoTo(string url)
         {
             string navigateUrl = url;
-            if (url != HomePage)
+            if (url != School.HomePage)
             {
-                navigateUrl = HomePage + url;
+                navigateUrl = School.HomePage + url;
             }
             Source = new UrlWebViewSource()
             {
                 Url = navigateUrl
             };
-            await Task.Run(() => this.NavigatedCallback.WaitOne());
+            await Task.Run(() => this.NavigatedCallback.WaitOne(TimeSpan.FromMinutes(1)));
 
         }
         public async Task<ImageSource> GetCaptcha()
@@ -91,7 +113,7 @@ namespace SchoolOrganizer.Saes
             ImageSource ImageSource = null;
             try
             {
-                await GoTo(HomePage);
+                await GoTo(School.HomePage);
                 string base_64 = await this.EvaluateJavaScriptAsync(
                     @"var getDataUrl = function (img) {
 var canvas = document.createElement('canvas')
@@ -138,8 +160,8 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
         {
             await EvaluateJavaScriptAsync(
                 "document.getElementById('ctl00_leftColumn_LoginStatusSession').click()");
-            await GoTo(HomePage);
-            await GoTo(HomePage);
+            await GoTo(School.HomePage);
+            await GoTo(School.HomePage);
 
         }
         public async Task<bool> LogIn(LoginViewModel login, bool ShouldGetUserData = true)
@@ -334,6 +356,10 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
 
             await GoTo(CalificacionesPage);
             string grades_html = await this.EvaluateJavaScriptAsync("document.getElementById(\"ctl00_mainCopy_GV_Calif\").outerHTML");
+            if (string.IsNullOrEmpty(grades_html))
+            {
+                return;
+            }
             grades_html = System.Text.RegularExpressions.Regex.Unescape(grades_html);
             HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
             doc.LoadHtml(grades_html);
@@ -385,6 +411,28 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
             //{
 
             //}
+        }
+
+        public async Task<IEnumerable<School>> GetSchools(SchoolLevel Level)
+        {
+            await GoTo(Level == SchoolLevel.University ? UniversitiesPage : HighSchoolsPage);
+            string html = await this.EvaluateJavaScriptAsync("document.getElementById('botones_esc').outerHTML");
+            html = System.Text.RegularExpressions.Regex.Unescape(html);
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(html);
+
+            var ul = doc.DocumentNode.SelectSingleNode("//ul");
+
+            var lis = ul.Descendants("li");
+            List<School> schools = new List<School>();
+            foreach (var li in lis)
+            {
+                var a = li.Descendants("a").First();
+                var img = a.Descendants("img").First();
+                schools.Add(new School(a.Attributes["href"].Value, img.Attributes["alt"].Value.Trim(), SaesHomePage + "/" + img.Attributes["src"].Value.Trim()));
+            }
+
+            return schools;
         }
     }
 }

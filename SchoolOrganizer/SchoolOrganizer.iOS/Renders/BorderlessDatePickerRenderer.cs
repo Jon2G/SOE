@@ -1,11 +1,11 @@
 ﻿using Foundation;
 using OrganizadorEscolar.iOS.Renders;
-using SchoolOrganizer.Views.Renders;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using SchoolOrganizer.Renders;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;

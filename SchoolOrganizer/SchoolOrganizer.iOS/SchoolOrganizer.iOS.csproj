@@ -134,8 +134,14 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs">
+      <Version>7.1.0.483</Version>
+    </PackageReference>
+    <PackageReference Include="PdfSharp.Xamarin.Forms">
+      <Version>1.0.0</Version>
+    </PackageReference>
     <PackageReference Include="Rg.Plugins.Popup">
-      <Version>2.0.0.10</Version>
+      <Version>2.0.0.11</Version>
     </PackageReference>
     <PackageReference Include="Xam.Plugin.Media">
       <Version>5.0.1</Version>
@@ -144,7 +150,7 @@
       <Version>3.1.1.1-beta</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.CommunityToolkit">
-      <Version>1.1.0-pre1</Version>
+      <Version>1.1.0</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading">
       <Version>2.4.11.982</Version>
@@ -152,11 +158,15 @@
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
     <PackageReference Include="Xamarin.Forms.InputKit">
-      <Version>3.5.0</Version>
+      <Version>3.6.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Kit\Kit.iOS\Kit.iOS.csproj">
+      <Project>{de4b3620-b011-4ab8-84d8-05e073dab97e}</Project>
+      <Name>Kit.iOS</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SchoolOrganizer\SchoolOrganizer.csproj">
       <Project>{20CCEA58-74B4-41B0-9E9E-22B7B328C798}</Project>
       <Name>SchoolOrganizer</Name>

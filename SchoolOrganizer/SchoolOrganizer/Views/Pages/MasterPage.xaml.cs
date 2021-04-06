@@ -71,27 +71,37 @@ namespace SchoolOrganizer.Views.Pages
 
         private void TabView_OnSelectionChanged(object? sender, TabSelectionChangedEventArgs e)
         {
-            if (TabView.SelectedIndex == 0)
+            switch (TabView.SelectedIndex)
             {
-                if (this.ToolbarItems.Any(x => x.Command == SchoolGrades.Model.RefreshCommand))
-                {
-                    return;
-                }
-                var item = new ToolbarItem
-                {
-                    Command = SchoolGrades.Model.RefreshCommand,
-                    CommandParameter = this,
-                    IconImageSource = new FontImageSource()
+                case 0:
+                    this.ToolbarItems.Clear();
+                    this.ToolbarItems.Add(new ToolbarItem
                     {
-                        FontFamily = FontelloIcons.Font,
-                        Glyph = FontelloIcons.Home
-                    }
-                };
-                this.ToolbarItems.Add(item);
-            }
-            else
-            {
-                this.ToolbarItems.Clear();
+                        Command = SchoolGrades.Model.RefreshCommand,
+                        CommandParameter = this,
+                        IconImageSource = new FontImageSource()
+                        {
+                            FontFamily = FontelloIcons.Font,
+                            Glyph = FontelloIcons.Home
+                        }
+                    });
+                    break;
+                case 2:
+                    this.ToolbarItems.Clear();
+                    this.ToolbarItems.Add(new ToolbarItem
+                    {
+                        Command = ScheduleViewMain.Model.ExportToPdfCommand,
+                        CommandParameter = ScheduleViewMain,
+                        IconImageSource = new FontImageSource()
+                        {
+                            FontFamily = FontelloIcons.Font,
+                            Glyph = FontelloIcons.Calendar
+                        }
+                    });
+                    break;
+                default:
+                    this.ToolbarItems.Clear();
+                    break;
             }
         }
 

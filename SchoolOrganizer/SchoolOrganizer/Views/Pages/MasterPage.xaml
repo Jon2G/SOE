@@ -122,7 +122,7 @@
                         Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
                                                 Light={StaticResource secondaryTextColor}}" />
                 </toolkit:TabViewItem.Icon>
-                <scheduleView:ScheduleViewMain/>
+                <scheduleView:ScheduleViewMain x:Name="ScheduleViewMain"/>
             </toolkit:TabViewItem>
 
 

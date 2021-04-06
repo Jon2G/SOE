@@ -16,11 +16,24 @@ namespace SchoolOrganizer.Views.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
-        readonly HighlightForm _highlightForm;
-        public LoginPage()
+        private HighlightForm _highlightForm;
+
+        public LoginPage(School School)
         {
             InitializeComponent();
             AppData.Instance.SAES = this.SAES;
+            AppData.Instance.SAES.School = School;
+            InitAnimation();
+        }
+        public LoginPage()
+        {
+            InitializeComponent();
+            AppData.Instance.SAES =this.SAES;
+            InitAnimation();
+        }
+
+        private void InitAnimation()
+        {
             Task.Run(AnimateBorder);
             var settings = new HighlightSettings()
             {
@@ -31,18 +44,12 @@ namespace SchoolOrganizer.Views.Pages
                 AnimationEasing = Easing.CubicInOut,
             };
             _highlightForm = new HighlightForm(settings);
-
-
-            //Saes.Saes saes = new Saes.Saes(this.Browser);
-            //saes.OnLogIn();
         }
 
         void EntryFocused(object sender, FocusEventArgs e)
         {
             _highlightForm.HighlightElement((View)sender, _skCanvasView, _formLayout);
         }
-
-
 
         void SkCanvasViewPaintSurfaceRequested(object sender, SKPaintSurfaceEventArgs e)
         {
@@ -57,7 +64,12 @@ namespace SchoolOrganizer.Views.Pages
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await SAES.GoTo(Saes.SAES.HomePage);
+            if (!AppData.Instance.SAES.School.IsSchoolSelected)
+            {
+                await Navigation.PushModalAsync(new SchoolLevelSelector());
+                return;
+            }
+            await SAES.GoTo(SAES.School.HomePage);
             if (await SAES.IsLoggedIn())
             {
                 string boleta = await SAES.GetCurrentUser();
@@ -72,7 +84,7 @@ namespace SchoolOrganizer.Views.Pages
                 }
             }
             Usuario.Focus();
-           this.Model.CaptchaImg = await this.SAES.GetCaptcha();
+            this.Model.CaptchaImg = await this.SAES.GetCaptcha();
 
         }
         private async void AnimateBorder()

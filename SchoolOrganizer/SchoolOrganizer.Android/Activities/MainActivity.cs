@@ -5,6 +5,7 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using ImageCircle.Forms.Plugin.Droid;
+using Kit;
 using Plugin.Fingerprint;
 using Plugin.Media;
 using SchoolOrganizer.Droid.Widgets.TimeLine;
@@ -32,11 +33,13 @@ namespace SchoolOrganizer.Droid.Activities
             base.OnResume();
         }
 
-        protected async override void OnCreate(Bundle savedInstanceState)
+        protected override async void OnCreate(Bundle savedInstanceState)
         {
             CrossFingerprint.SetCurrentActivityResolver(() => this);
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
+            if (!Tools.IsInited)
+                PdfSharp.Xamarin.Forms.Droid.Platform.Init();
             base.OnCreate(savedInstanceState);
             await CrossMedia.Current.Initialize();//
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
@@ -44,12 +47,13 @@ namespace SchoolOrganizer.Droid.Activities
             ImageCircleRenderer.Init();
             UserDialogs.Init(this);
             Rg.Plugins.Popup.Popup.Init(this); // :)
+            Forms9Patch.Droid.Settings.Initialize(this);
             //OrganizadorEscolar.Widgets.Horario.WidgetHorario.Init(new Widgets.Horario.WidgetHorario(this));
             //OrganizadorEscolar.Widgets.Tareas.WidgetTareas.Init(new Widgets.Tareas.WidgetTareas(this));
             Plugin.InputKit.Platforms.Droid.Config.Init(this, savedInstanceState);
             Kit.Droid.Tools.Init(this, savedInstanceState);
             LoadApplication(new SchoolOrganizer.App());
-            if(this.Intent!=null)
+            if (this.Intent != null)
                 OnNewIntent(this.Intent);
 
         }
@@ -60,11 +64,7 @@ namespace SchoolOrganizer.Droid.Activities
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
-        public override void StartIntentSender(IntentSender? intent, Intent? fillInIntent, ActivityFlags flagsMask, ActivityFlags flagsValues,
-            int extraFlags, Bundle? options)
-        {
-            base.StartIntentSender(intent, fillInIntent, flagsMask, flagsValues, extraFlags, options);
-        }
+
 
         protected override void OnNewIntent(Intent intent)
         {

@@ -49,7 +49,7 @@ namespace SchoolOrganizer.ViewModels
         private async void Refresh()
         {
             SAES saes = AppData.Instance.SAES;
-            await saes.GoTo(SAES.HomePage);
+            await saes.GoTo(saes.School.HomePage);
             if (!await saes.IsLoggedIn())
             {
                 LoginViewModel loginViewModel = new LoginViewModel()

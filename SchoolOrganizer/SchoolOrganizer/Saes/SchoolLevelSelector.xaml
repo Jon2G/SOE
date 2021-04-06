@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:saes="clr-namespace:SchoolOrganizer.Saes;assembly=SchoolOrganizer"
+             xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
+             x:Class="SchoolOrganizer.Saes.SchoolLevelSelector" x:DataType="saes:SchoolLevelSelectorViewModel">
+    <ContentPage.BindingContext>
+        <saes:SchoolLevelSelectorViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout Spacing="25" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                <Label Text="¡Bienvenido!" HorizontalTextAlignment="Center"  FontAttributes="Bold" FontSize="35" FontFamily="{x:Static fonts:TextFonts.KarlaMedium}"/>
+                <Label Text="Selecciona tu nivel educativo"  FontAttributes="Bold" FontSize="30" FontFamily="{x:Static fonts:TextFonts.Karla}"/>
+                <pancakeView:PancakeView Style="{StaticResource card}" Padding="20">
+                    <pancakeView:PancakeView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding UniversityCommand }"/>
+                    </pancakeView:PancakeView.GestureRecognizers>
+                    <StackLayout>
+                        <Label HorizontalTextAlignment="Center" Text="Universidad" FontAttributes="Bold" FontSize="30" FontFamily="{x:Static fonts:TextFonts.KarlaSemiBold}"/>
+                        <Image Source="strong_donkey.jpg" WidthRequest="70"/>
+                    </StackLayout>
+
+                </pancakeView:PancakeView>
+
+                <pancakeView:PancakeView Style="{StaticResource card}" Padding="20">
+                    <pancakeView:PancakeView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding HighSchoolCommand}"/>
+                    </pancakeView:PancakeView.GestureRecognizers>
+                    <StackLayout>
+                        <Label HorizontalTextAlignment="Center" Text="Preparatoria" FontAttributes="Bold" FontSize="30" FontFamily="{x:Static fonts:TextFonts.KarlaSemiBold}"/>
+                        <Image Source="happy_donkey.jpg" WidthRequest="70"/>
+                    </StackLayout>
+                </pancakeView:PancakeView>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -24,7 +24,7 @@ namespace SchoolOrganizer.Droid.Renders
             {
                 GradientDrawable gd = new GradientDrawable();
                 gd.SetColor(global::Android.Graphics.Color.Transparent);
-                this.Control.SetBackgroundDrawable(gd);
+                this.Control.SetBackground(gd);
                 this.Control.SetRawInputType(InputTypes.TextFlagNoSuggestions);
                 Control.SetHintTextColor(ColorStateList.ValueOf(global::Android.Graphics.Color.Black));
             }

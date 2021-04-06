@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:saes="clr-namespace:SchoolOrganizer.Saes;assembly=SchoolOrganizer"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:forms="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             xmlns:renders="clr-namespace:SchoolOrganizer.Renders;assembly=SchoolOrganizer"
+             xmlns:views="http://xamarin.com/schemas/2020/toolkit" x:Name="Me" BackgroundColor="Red"
+             x:Class="SchoolOrganizer.Saes.SchoolSelector" x:DataType="saes:SchoolSelectorViewModel">
+    <ContentPage.Content>
+        <Grid>
+            <saes:SAES x:Name="SAES" IsVisible="True" />
+            <ContentView IsVisible="True">
+                <pancakeView:PancakeView 
+                Style="{StaticResource card}" 
+                CornerRadius="10" 
+                Padding="10" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
+                Margin="20,10">
+                    <StackLayout>
+                        <CollectionView  ItemsSource="{Binding Schools}">
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout Orientation="Vertical" Span="1" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="saes:School">
+                                    <ContentView HorizontalOptions="Center">
+                                        <pancakeView:PancakeView Margin="5" IsClippedToBounds="True" Style="{StaticResource card}" Padding="0">
+                                            <pancakeView:PancakeView.GestureRecognizers>
+                                                <TapGestureRecognizer 
+                                                    Command="{Binding Model.SelectSchoolCommand ,Source={x:Reference Me}}"
+                                                    CommandParameter="{Binding .}"/>
+                                            </pancakeView:PancakeView.GestureRecognizers>
+                                            <Image Aspect="Fill" Source="{Binding ImgPath}" HeightRequest="70"/>
+                                        </pancakeView:PancakeView>
+                                    </ContentView>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                    </StackLayout>
+                </pancakeView:PancakeView>
+            </ContentView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

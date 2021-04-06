@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using Foundation;
 using ImageCircle.Forms.Plugin.iOS;
+using SchoolOrganizer;
 using UIKit;
 
 namespace OrganizadorEscolar.iOS
@@ -12,24 +12,15 @@ namespace OrganizadorEscolar.iOS
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
     [Register("AppDelegate")]
-    public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
+    public partial class AppDelegate :Kit.iOS.Services.AppDelegate //global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
-        //
-        // This method is invoked when the application has loaded and is ready to run. In this 
-        // method you should instantiate the window, load the UI into it and then make the window
-        // visible.
-        //
-        // You have 17 seconds to return from this method, or iOS will terminate your application.
-        //
-        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+        protected override Xamarin.Forms.Application GetApp => new App();
+
+        protected override void Initialize()
         {
-            global::Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
-            global::Xamarin.Forms.Forms.Init();
             ImageCircleRenderer.Init();
-            Rg.Plugins.Popup.Popup.Init();
-            LoadApplication(new SchoolOrganizer.App());
+            PdfSharp.Xamarin.Forms.iOS.Platform.Init();
             Plugin.InputKit.Platforms.iOS.Config.Init();
-            return base.FinishedLaunching(app, options);
         }
     }
 }

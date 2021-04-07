@@ -18,7 +18,6 @@ namespace SchoolOrganizer.ViewModels.Pages
     public class TaskViewModel : BaseViewModel
     {
         public Command TaskCommand { get; }
-        private ICommand SubjectSelectedCommand;
         public ICommand SaveCommand { get; }
         private Subject _selectedSubject;
 
@@ -36,38 +35,20 @@ namespace SchoolOrganizer.ViewModels.Pages
         public TaskViewModel()
         {
             TaskCommand = new Command(TaskClicked);
-            SubjectSelectedCommand = new Command<SubjectPopUp>(SubjectSelected);
             this.Photos = new ObservableCollection<FileImageSource>();
             this.SaveCommand = new Command(Save);
         }
 
         private void Save()
         {
-          //?
-         
-        }
+            //?
 
-        private void SubjectSelected(SubjectPopUp popUp)
-        {
-            this.SelectedSubject = popUp.Modelo.SelectedSubject;
         }
-
         private async void TaskClicked(object obj)
         {
             var pr = new SubjectPopUp();
-            pr.ClosedCommad = this.SubjectSelectedCommand;
-            pr.Show();
-
-            //var scaleAnimation = new ScaleAnimation
-            //{
-            //    PositionIn = MoveAnimationOptions.Right,
-            //    PositionOut = MoveAnimationOptions.Left
-            //};
-
-            //pr.Animation = scaleAnimation;
-            //await PopupNavigation.Instance.PushAsync(pr);
-
-
+            await pr.ShowDialog();
+            this.SelectedSubject = pr.Modelo.SelectedSubject;
         }
 
     }

@@ -23,6 +23,7 @@ namespace SchoolOrganizer.Views.Pages
             InitializeComponent();
             AppData.Instance.SAES = this.SAES;
             AppData.Instance.SAES.School = School;
+            AppData.Instance.User.School = School;
             InitAnimation();
         }
         public LoginPage()

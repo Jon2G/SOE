@@ -9,6 +9,7 @@ using SchoolOrganizer.Models;
 using SchoolOrganizer.Models.Academic;
 using SchoolOrganizer.Models.Data;
 using SchoolOrganizer.Models.Scheduler;
+using SchoolOrganizer.Saes;
 
 namespace SchoolOrganizer.Data
 {
@@ -16,7 +17,6 @@ namespace SchoolOrganizer.Data
     {
         public static bool IsInitialized => Instance is not null;
         public static AppData Instance { get; private set; }
-
         public User User
         {
             get;

@@ -21,6 +21,11 @@ namespace SchoolOrganizer.Fonts
         public const string PaperPlane = "\uf1d8";
         public const string Camera = "\uE80C";
         public const string Photo = "\uE80D";
+        public const string Lock = "\uE80E";
+        public const string Out = "\uE80F";
+        public const string Notifi= "\uE810";
+        public const string Share = "\uE811";
+        public const string Update = "\uE812";
         public const string Font = "FontIcon";
     }
 }

@@ -82,7 +82,7 @@ namespace SchoolOrganizer.Views.Pages
                         IconImageSource = new FontImageSource()
                         {
                             FontFamily = FontelloIcons.Font,
-                            Glyph = FontelloIcons.Home
+                            Glyph = FontelloIcons.Update
                         }
                     });
                     break;
@@ -95,7 +95,7 @@ namespace SchoolOrganizer.Views.Pages
                         IconImageSource = new FontImageSource()
                         {
                             FontFamily = FontelloIcons.Font,
-                            Glyph = FontelloIcons.Calendar
+                            Glyph = FontelloIcons.Share
                         }
                     });
                     break;

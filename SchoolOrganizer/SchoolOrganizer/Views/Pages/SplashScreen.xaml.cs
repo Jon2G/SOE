@@ -1,4 +1,6 @@
-﻿using SchoolOrganizer.Data;
+﻿using Plugin.Fingerprint;
+using Plugin.Fingerprint.Abstractions;
+using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Data;
 using SchoolOrganizer.ViewModels.Pages;
 using Xamarin.Forms;
@@ -13,21 +15,37 @@ namespace SchoolOrganizer.Views.Pages
         {
             InitializeComponent();
         }
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
             AppData.Init();
             User user = AppData.Instance.LiteConnection.Table<User>().FirstOrDefault();
             if (user != null && user.RemeberMe)
             {
-                //if (user.UseFingerPrint)
-                //{
-                    //
-                    //pedir huella
-                    //
-                //}
+                bool isFingerprintAvailable = await CrossFingerprint.Current.IsAvailableAsync(true);
+                if (!isFingerprintAvailable)
+                {
+                    Acr.UserDialogs.UserDialogs.Instance.Alert($"Error",
+                        "La autenticacion biometrica no esta disponible  o no esta configurada.", "OK");
+                    return;
+                }
+
+                AuthenticationRequestConfiguration conf =
+                    new AuthenticationRequestConfiguration("Authentication",
+                    "Authenticate access to your personal data");
+                conf.AllowAlternativeAuthentication = true;
+                var authResult = await CrossFingerprint.Current.AuthenticateAsync(conf);
+                if (authResult.Authenticated)
+                {
+                    AppData.Instance.User = user;
+                    App.Current.MainPage = new AppShell();
+                }
+                else
+                {
+                    Acr.UserDialogs.UserDialogs.Instance.Alert($"Error", "Autenticacion fallida", "OK");
+                }
                 AppData.Instance.User = user;
-                App.Current.MainPage = new AppShell();
+                       App.Current.MainPage = new AppShell();
             }
             else
             {

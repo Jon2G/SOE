@@ -35,7 +35,7 @@
             <TableView BackgroundColor="White">
                 <TableRoot>
                     <TableSection>
-                        <ViewCell>
+                        <ViewCell >
                             <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand" >
                                 <Label Text="{x:Static fonts:FontelloIcons.AddressBook}" 
                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
@@ -75,6 +75,9 @@
                         <ViewCell >
 
                             <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SettingCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
+                                </StackLayout.GestureRecognizers>
                                 <Label Text="{x:Static fonts:FontelloIcons.Cog}" 
                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>

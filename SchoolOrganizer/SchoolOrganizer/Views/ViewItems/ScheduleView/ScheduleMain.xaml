@@ -22,7 +22,7 @@
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="scheduleViewModel:SheduleDay">
                                 <ContentView>
-                                    <Label FontSize="14" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Binding Day.ShortName}">
+                                    <Label TextColor="Black" FontSize="14" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Binding Day.ShortName}">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer 
                                                 Command="{Binding OnDayTappedCommand,Source={x:Reference Me}}"
@@ -81,7 +81,7 @@
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate x:DataType="scheduler:Hour">
                                     <ContentView>
-                                        <Label Margin="0"  HeightRequest="{x:Static scheduler:Hour.HourHeigth}" FontSize="10" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Text="{Binding ShortName}"/>
+                                        <Label TextColor="Black"  Margin="0"  HeightRequest="{x:Static scheduler:Hour.HourHeigth}" FontSize="10" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Text="{Binding ShortName}"/>
                                     </ContentView>
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>

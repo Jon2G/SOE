@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage BackgroundColor="{StaticResource primaryDarkColor}" xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SchoolOrganizer.Views.Pages.SettingsView"
+             xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
+             >
+    <Frame BackgroundColor="White" CornerRadius="30" BorderColor="{StaticResource primaryLightColor}" >
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <BoxView BackgroundColor="WhiteSmoke" CornerRadius="5"/>
+                <Label HorizontalTextAlignment="Center" Text="Ajustes Principales" FontSize="Title" FontAttributes="Bold" TextColor="Black"/>
+            </Grid>
+            <Grid  Grid.Row="1" Padding="5" >
+                <Grid.RowDefinitions >
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2"/>
+                </Grid.RowDefinitions>
+                <StackLayout Orientation="Horizontal" Grid.Row="0">
+                    <Label Text="{x:Static fonts:FontelloIcons.Lock}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Center" />
+                    <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="Activar Finger Print" FontSize="15"  TextColor="Black" HorizontalOptions="Start"/>
+                    <Switch  OnColor="{StaticResource secondaryColor}" ThumbColor="{StaticResource primaryLightColor}" HorizontalOptions="EndAndExpand"/>
+                </StackLayout>
+                <BoxView BackgroundColor="LightGray"  Grid.Row="1"/>
+            </Grid>
+            <Grid  Grid.Row="2" Padding="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2"/>
+                </Grid.RowDefinitions>
+                <StackLayout Orientation="Horizontal" Grid.Row="0">
+                    <Label Text="{x:Static fonts:FontelloIcons.Out}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                    <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Text="Desactivar Inicio Automatico"  FontSize="15"  TextColor="Black"  HorizontalOptions="Start"/>
+                    <Switch  OnColor="{StaticResource secondaryColor}" ThumbColor="{StaticResource primaryLightColor}" HorizontalOptions="EndAndExpand"/>
+                </StackLayout>
+                <BoxView BackgroundColor="LightGray" CornerRadius="5" Grid.Row="1"/>
+            </Grid>
+            <Grid  Grid.Row="3" Padding="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2"/>
+                </Grid.RowDefinitions>
+                <StackLayout Orientation="Horizontal" Grid.Row="0">
+                    <Label Text="{x:Static fonts:FontelloIcons.Notifi}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                    <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Text="Activar Notificaciones"  FontSize="15"  TextColor="Black"  HorizontalOptions="Start"/>
+                    <Switch  OnColor="{StaticResource secondaryColor}" ThumbColor="{StaticResource primaryLightColor}" HorizontalOptions="EndAndExpand"/>
+                </StackLayout>
+                <BoxView BackgroundColor="LightGray" CornerRadius="5" Grid.Row="1"/>
+            </Grid>
+            
+        </Grid>
+    </Frame>
+</ContentPage>

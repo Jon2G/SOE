@@ -33,7 +33,7 @@
 
         <ControlTemplate x:Key="BasketTabItemTemplate">
             <Grid>
-                <ImageButton
+                <ImageButton 
                     x:Name="BagBtn"
                     Padding="24"
                     BackgroundColor="{DynamicResource primaryDarkColor}"

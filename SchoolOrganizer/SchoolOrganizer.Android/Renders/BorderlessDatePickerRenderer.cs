@@ -1,4 +1,6 @@
-﻿using SchoolOrganizer.Droid.Renders;
+﻿using Android.Content;
+using Java.Lang;
+using SchoolOrganizer.Droid.Renders;
 using SchoolOrganizer.Renders;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
@@ -8,6 +10,17 @@ namespace SchoolOrganizer.Droid.Renders
 {
     public class BorderlessDatePickerRenderer : DatePickerRenderer
     {
+        [System.Obsolete]
+        public BorderlessDatePickerRenderer()
+        {
+
+        }
+
+        public BorderlessDatePickerRenderer(Context context) : base(context)
+        {
+
+        }
+
         public static void Init() { }
         protected override void OnElementChanged(ElementChangedEventArgs<Xamarin.Forms.DatePicker> e)
         {

@@ -31,11 +31,13 @@ namespace SchoolOrganizer.Saes
         private const string UniversitiesPage = "https://www.saes.ipn.mx/ns.html";
         private const string HighSchoolsPage = "https://www.saes.ipn.mx/nms.html";
         private readonly AutoResetEvent NavigatedCallback;
-        public School School;
+        public School School { get; set; }
         public bool IsNavigating { get; private set; }
 
+        public SAES() : this(new School())
+        {
 
-        public SAES() : this(new School()) { }
+        }
         public SAES(School School)
         {
             this.School = School;
@@ -45,7 +47,6 @@ namespace SchoolOrganizer.Saes
             if (this.School.IsSchoolSelected)
                 GoTo(this.School.HomePage);
         }
-
         private async void Browser_Navigated(object sender, WebNavigatedEventArgs e)
         {
             this.IsNavigating = false;

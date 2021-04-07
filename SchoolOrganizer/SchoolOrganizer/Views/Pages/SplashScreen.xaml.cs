@@ -17,7 +17,7 @@ namespace SchoolOrganizer.Views.Pages
         {
             base.OnAppearing();
             AppData.Init();
-            User user = AppData.Instance.LiteConnection.Table<User>().FirstOrDefault();
+            User user = User.Get();
             if (user != null && user.RemeberMe)
             {
                 //if (user.UseFingerPrint)

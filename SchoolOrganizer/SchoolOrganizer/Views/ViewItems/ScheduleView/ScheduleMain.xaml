@@ -87,7 +87,7 @@
                             </BindableLayout.ItemTemplate>
                         </StackLayout>
                         <StackLayout Grid.ColumnSpan="2" InputTransparent="True" CascadeInputTransparent="False">
-                            <StackLayout HeightRequest="{Binding TimeLineOffset}"/>
+                            <StackLayout InputTransparent="True" CascadeInputTransparent="False" HeightRequest="{Binding TimeLineOffset}"/>
                             <BoxView BackgroundColor="Blue" HeightRequest="1"/>
                         </StackLayout>
                     </Grid>

@@ -128,7 +128,14 @@
 
         </toolkit:TabView>
         <!-- RADIAL MENU FILTER -->
-
+        <Grid        
+            HorizontalOptions="End" VerticalOptions="End"
+            Margin="0, 0, -50, 0">
+            <controls:FilterMenu 
+                SelectedCommand="{Binding ItemSelectedCommand}"
+                HorizontalOptions="Center" 
+                VerticalOptions="Center" />
+        </Grid>
     </Grid>
 
 </ContentPage>

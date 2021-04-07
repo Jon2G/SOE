@@ -14,7 +14,7 @@
         <viewModels:TaskViewModel x:Name="Modelo"/>
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Confirmar" Command="{Binding SaveCommand}"/>
+        <ToolbarItem Text="Confirmar" Clicked="ToolbarItem_Clicked"/>
     </ContentPage.ToolbarItems>
     <StackLayout>
         <!--<StackLayout Orientation="Horizontal" BackgroundColor="{DynamicResource primaryLightColor}">
@@ -25,19 +25,19 @@
             <StackLayout Spacing="10"  >
                 <StackLayout Spacing="10">
                     <Label  FontSize="30" Text="Titulo:" TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB"/>
-                    <input:AdvancedEntry Placeholder="Agregar Titulo" Grid.Row="0" PlaceholderColor="{DynamicResource primaryLightColor}" TextColor="Black"/>
+                    <input:AdvancedEntry Placeholder="Agregar Titulo" Grid.Row="0" PlaceholderColor="{DynamicResource primaryLightColor}" TextColor="Black" Text="{Binding Tarea.N_Tarea}"/>
                     <Button Grid.Row="1" Text="{Binding SelectedSubject.Name}" 
                             BackgroundColor="{Binding SelectedSubject.Color}" CornerRadius="20" BorderColor="LightGray" 
                         BorderWidth="2" TextColor="{DynamicResource primaryLightColor}" Command="{Binding TaskCommand}"/>
                     <Frame Grid.Row="2" CornerRadius="10" Padding="3" BackgroundColor="{DynamicResource PrimaryLightBackground}" 
                        BorderColor="#12396F" >
-                        <renders:BorderlessDatePicker Margin="5"  FontAttributes="Bold" TextColor="{DynamicResource primaryLightColor}" Format="dd/MM/yyyy" x:Name="Date" />
+                        <renders:BorderlessDatePicker Margin="5"  FontAttributes="Bold" TextColor="{DynamicResource primaryLightColor}" Format="dd/MM/yyyy" Date="{Binding Tarea.Date}" />
                     </Frame>
 
                 </StackLayout>
                 <!--<Image x:Name="MyImg"/>-->
 
-                <Editor Placeholder="Nota" VerticalOptions="FillAndExpand" HeightRequest="200"/>
+                <Editor Placeholder="Nota" VerticalOptions="FillAndExpand" HeightRequest="200" Text="{Binding Tarea.Description}"/>
 
                 <StackLayout VerticalOptions="End" Orientation="Horizontal" HorizontalOptions="End">
                     <!--<Label FontSize="10" Text="Agregar Imagenes:" 

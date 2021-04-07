@@ -4,7 +4,7 @@
              xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
              xmlns:behaviors="http://xamarin.com/schemas/2020/toolkit"
              xmlns:viewItems="clr-namespace:SchoolOrganizer.ViewModels.ViewItems;assembly=SchoolOrganizer"
-             xmlns:system="clr-namespace:System;assembly=netstandard"
+             xmlns:system="clr-namespace:System;assembly=netstandard" xmlns:b="clr-namespace:SchoolOrganizer.Models.TaskFirst"
              x:Name="Me"
              x:Class="SchoolOrganizer.Views.Pages.TaskFirstPage">
     <ContentPage.BindingContext>
@@ -77,16 +77,30 @@
                                                     <BoxView Grid.Column="1" BackgroundColor="#F2F4F8" WidthRequest="1" HorizontalOptions="Start" 
                                                      VerticalOptions="FillAndExpand"/>
                                                     <StackLayout Grid.Column="2" HorizontalOptions="Start" VerticalOptions="Center" Margin="20">
-                                                        <Label Text="{Binding Topic}" TextColor="Black" FontSize="15"/>
+                                                        <Label Text="{Binding N_Tarea}" TextColor="Black" FontSize="15"/>
                                                         <StackLayout Orientation="Horizontal">
                                                             <Label Text="Vence:" TextColor="#2F3246" FontSize="12" Margin="0,-10,0,0"/>
                                                             <Label Text="{Binding Duration}" TextColor="#2F3246" FontSize="12" Margin="0,-10,0,0"/>
                                                         </StackLayout>
-
+                                                        <!--<Label TextColor="#2F3246" FontSize="12">
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <FormattedString.Spans>
+                                                                        <Span Text="{Binding Subject }" FontAttributes="Bold"/>
+                                                                        <Span Text="
+                                                                              "/>
+                                                                        <Span Text="Descripción:" FontSize="12"/>
+                                                                        <Span Text="
+                                                                              "/>
+                                                                        <Span Text="{Binding Description}" FontAttributes="Bold"/>
+                                                                    </FormattedString.Spans>
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>-->
                                                     </StackLayout>
                                                 </Grid>
                                             </behaviors:Expander.Header>
-                                            <Grid HorizontalOptions="FillAndExpand">
+                                            <Grid HorizontalOptions="FillAndExpand" >
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"/>
                                                     <ColumnDefinition Width="Auto"/>
@@ -94,22 +108,20 @@
                                                 </Grid.ColumnDefinitions>
                                                 <BoxView Grid.Column="1" BackgroundColor="#F2F4F8" WidthRequest="1" HorizontalOptions="Start" 
                                                  VerticalOptions="FillAndExpand"/>
-                                                <StackLayout Grid.Column="2" Spacing="10">
+                                                <StackLayout Grid.Column="2" Spacing="10" >
                                                     <Label Text="Materia:" TextColor="Black" Opacity="0.5" FontSize="12" Margin="20,0" FontAttributes="Bold"/>
-                                                    <StackLayout BindableLayout.ItemsSource="{Binding Contenido}" HorizontalOptions="Start" VerticalOptions="Center" Margin="20,0,0,20">
+                                                    <StackLayout BindableLayout.ItemsSource="{Binding MyAgenda ,Source={x:Reference Modelo}}"  HorizontalOptions="Start" VerticalOptions="Center" Margin="20,0,0,20">
                                                         <BindableLayout.ItemTemplate>
-                                                            <DataTemplate>
+                                                            <DataTemplate x:DataType="b:ToDo" >
                                                                 <Label TextColor="#2F3246" FontSize="12">
                                                                     <Label.FormattedText>
                                                                         <FormattedString>
                                                                             <FormattedString.Spans>
-                                                                                <Span Text="{Binding Name}" FontAttributes="Bold"/>
-                                                                                <Span Text="
-                                                                              "/>
+                                                                                <Span Text="{Binding Subject }" FontAttributes="Bold"/>
+                                                                                <Span Text=""/>
                                                                                 <Span Text="Descripción:" FontSize="12"/>
-                                                                                <Span Text="
-                                                                              "/>
-                                                                                <Span Text="{Binding Descripción}" FontAttributes="Bold"/>
+                                                                                <Span Text=""/>
+                                                                                <Span Text="{Binding Description}" FontAttributes="Bold"/>
                                                                             </FormattedString.Spans>
                                                                         </FormattedString>
                                                                     </Label.FormattedText>

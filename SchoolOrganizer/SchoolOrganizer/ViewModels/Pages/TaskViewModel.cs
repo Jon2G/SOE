@@ -11,14 +11,15 @@ using FFImageLoading.Forms;
 using Xamarin.Forms;
 using System.Windows.Input;
 using SchoolOrganizer.Models.Scheduler;
+using SchoolOrganizer.Models.TaskFirst;
 
 namespace SchoolOrganizer.ViewModels.Pages
 {
 
     public class TaskViewModel : BaseViewModel
     {
+
         public Command TaskCommand { get; }
-        public ICommand SaveCommand { get; }
         private Subject _selectedSubject;
 
         public ObservableCollection<FileImageSource> Photos { get; }
@@ -31,19 +32,36 @@ namespace SchoolOrganizer.ViewModels.Pages
                 OnPropertyChanged();
             }
         }
+        private ObservableCollection<ToDo> _tareas;
+        public ObservableCollection<ToDo> Tareas
+        {
+            get => _tareas;
+            set
+            {
+                _tareas = value;
+                OnPropertyChanged();
+            }
+        }
+        private ToDo _Tarea;
 
+        public ToDo Tarea
+        {
+            get => _Tarea;
+            set
+            {
+                _Tarea = value;
+                OnPropertyChanged();
+            }
+        }
         public TaskViewModel()
         {
+            Tareas = new ObservableCollection<ToDo>();
+            Tarea = new ToDo();
             TaskCommand = new Command(TaskClicked);
             this.Photos = new ObservableCollection<FileImageSource>();
-            this.SaveCommand = new Command(Save);
         }
 
-        private void Save()
-        {
-            //?
 
-        }
         private async void TaskClicked(object obj)
         {
             var pr = new SubjectPopUp();

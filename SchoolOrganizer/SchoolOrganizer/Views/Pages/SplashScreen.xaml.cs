@@ -22,28 +22,28 @@ namespace SchoolOrganizer.Views.Pages
             User user = User.Get();
             if (user != null && user.RemeberMe)
             {
-                bool isFingerprintAvailable = await CrossFingerprint.Current.IsAvailableAsync(true);
-                if (!isFingerprintAvailable)
-                {
-                    Acr.UserDialogs.UserDialogs.Instance.Alert($"Error",
-                        "La autenticacion biometrica no esta disponible  o no esta configurada.", "OK");
-                    return;
-                }
+                //bool isFingerprintAvailable = await CrossFingerprint.Current.IsAvailableAsync(true);
+                //if (!isFingerprintAvailable)
+                //{
+                //    Acr.UserDialogs.UserDialogs.Instance.Alert($"Error",
+                //        "La autenticacion biometrica no esta disponible  o no esta configurada.", "OK");
+                //    return;
+                //}
 
-                AuthenticationRequestConfiguration conf =
-                    new AuthenticationRequestConfiguration("Authentication",
-                    "Authenticate access to your personal data");
-                conf.AllowAlternativeAuthentication = true;
-                var authResult = await CrossFingerprint.Current.AuthenticateAsync(conf);
-                if (authResult.Authenticated)
-                {
-                    AppData.Instance.User = user;
-                    App.Current.MainPage = new AppShell();
-                }
-                else
-                {
-                    Acr.UserDialogs.UserDialogs.Instance.Alert($"Error", "Autenticacion fallida", "OK");
-                }
+                //AuthenticationRequestConfiguration conf =
+                //    new AuthenticationRequestConfiguration("Authentication",
+                //    "Authenticate access to your personal data");
+                //conf.AllowAlternativeAuthentication = true;
+                //var authResult = await CrossFingerprint.Current.AuthenticateAsync(conf);
+                //if (authResult.Authenticated)
+                //{
+                //    AppData.Instance.User = user;
+                //    App.Current.MainPage = new AppShell();
+                //}
+                //else
+                //{
+                //    Acr.UserDialogs.UserDialogs.Instance.Alert($"Error", "Autenticacion fallida", "OK");
+                //}
                 AppData.Instance.User = user;
                        App.Current.MainPage = new AppShell();
             }

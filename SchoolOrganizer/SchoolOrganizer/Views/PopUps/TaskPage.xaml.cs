@@ -3,6 +3,7 @@ using FFImageLoading.Cache;
 using FFImageLoading.Forms;
 using FFImageLoading.Work;
 using Rg.Plugins.Popup.Pages;
+using SchoolOrganizer.Models.TaskFirst;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -18,15 +19,11 @@ namespace SchoolOrganizer.Views.PopUps
         {
             InitializeComponent();
 
-            //Date.MinimumDate = DateTime.Now;
         }
 
         private async void Button_Clicked(object sender, EventArgs e)
         {
-            //var tomar = new StoreCameraMediaOptions()
-            //{
-            //    SaveToAlbum = true,
-            //};
+
             if (Xamarin.Essentials.MediaPicker.IsCaptureSupported)
             {
                 var picture = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync();
@@ -42,8 +39,6 @@ namespace SchoolOrganizer.Views.PopUps
                         HorizontalOptions = LayoutOptions.FillAndExpand,
                         VerticalOptions = LayoutOptions.FillAndExpand,
                         DownsampleToViewSize = true,
-                        //LoadingPlaceholder = "loading.png",
-                        //ErrorPlaceholder = "error.png",
                         Source = imagen
                     };
 
@@ -58,7 +53,6 @@ namespace SchoolOrganizer.Views.PopUps
 
             var picture = await Xamarin.Essentials.MediaPicker.PickPhotoAsync(new MediaPickerOptions());
 
-            // CrossMedia.Current.PickPhotoAsync();
             if (picture != null)
             {
                 FileImageSource imagen = new FileImageSource() { File = picture.FullPath };
@@ -69,14 +63,20 @@ namespace SchoolOrganizer.Views.PopUps
                     HorizontalOptions = LayoutOptions.FillAndExpand,
                     VerticalOptions = LayoutOptions.FillAndExpand,
                     DownsampleToViewSize = true,
-                    //LoadingPlaceholder = "loading.png",
-                    //ErrorPlaceholder = "error.png",
                     Source = imagen
                 };
 
                 Modelo.Photos.Add(imagen);
             }
 
+        }
+
+        private void ToolbarItem_Clicked(object sender, EventArgs e)
+        {
+            var Task = this.Modelo.Tarea;
+            this.Modelo.Tareas.Add(Task);
+            this.Modelo.Tarea = new ToDo();
+            
         }
     }
 }

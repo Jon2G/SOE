@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using SchoolOrganizer.Models.Scheduler;
 
 
 namespace SchoolOrganizer.Models.TaskFirst
@@ -11,11 +12,11 @@ namespace SchoolOrganizer.Models.TaskFirst
     {
        
         private string n_Tarea;
-        private string duration;
+        private string _H_Entrga;
         private DateTime date;
-        private string subject;
+        private Subject subject;
         private string description;
-        private string color;
+
         public string N_Tarea
         {
             get => n_Tarea;
@@ -25,13 +26,13 @@ namespace SchoolOrganizer.Models.TaskFirst
                 Raise(() => N_Tarea);
             }
         }
-        public string Duration
+        public string H_Entrga
         {
-            get => duration;
+            get => _H_Entrga;
             set
             {
-                duration = value;
-                Raise(() => Duration);
+                _H_Entrga = value;
+                Raise(() => H_Entrga);
             }
         }
         public DateTime Date
@@ -43,7 +44,7 @@ namespace SchoolOrganizer.Models.TaskFirst
                 Raise(() => Date);
             }
         }
-        public string Subject
+        public Subject Subject
         {
             get => subject;
             set
@@ -52,6 +53,7 @@ namespace SchoolOrganizer.Models.TaskFirst
                 Raise(() => Subject);
             }
         }
+
         public string Description
         {
             get => description;
@@ -61,26 +63,16 @@ namespace SchoolOrganizer.Models.TaskFirst
                 Raise(() => Description);
             }
         }
-        public string Color
-        {
-            get => color;
-            set
-            {
-                color = value;
-                Raise(() => Color);
-            }
-        }
         //implementar imagen
 
         public ToDo()
         {
             N_Tarea = "";
-            Duration = "11:00";
+            H_Entrga = "11:00";
             Date = DateTime.Now;
-            Subject = "Base de datos";
+            //Subject = null;
             Description = "";
-            Color = "#B96CBD";
-         }
+        }
         
     }
 }

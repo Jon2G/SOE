@@ -5,6 +5,8 @@
              xmlns:behaviors="http://xamarin.com/schemas/2020/toolkit"
              xmlns:viewItems="clr-namespace:SchoolOrganizer.ViewModels.ViewItems;assembly=SchoolOrganizer"
              xmlns:system="clr-namespace:System;assembly=netstandard" xmlns:b="clr-namespace:SchoolOrganizer.Models.TaskFirst"
+             xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
+             xmlns:scheduler="clr-namespace:SchoolOrganizer.Models.Scheduler;assembly=SchoolOrganizer"
              x:Name="Me"
              x:Class="SchoolOrganizer.Views.Pages.TaskFirstPage">
     <ContentPage.BindingContext>
@@ -32,10 +34,10 @@
             </StackLayout>
         </Grid>
 
-        <pv:PancakeView Grid.Row="2" Margin="25" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-            <ScrollView >
-                <CollectionView 
-                            SelectionMode="None"  ItemsSource="{Binding MyAgenda}" x:Name="Coleccion" >
+        
+
+                <CollectionView BackgroundColor="WhiteSmoke" Grid.Row="2" Margin="10"
+                            SelectionMode="None"  ItemsSource="{Binding DayGroups}" x:Name="Coleccion" >
                     <CollectionView.Header>
                         <Label Text="Pendientes" TextColor="Black" FontSize="18" FontAttributes="Bold"/>
                     </CollectionView.Header>
@@ -43,8 +45,73 @@
                         <LinearItemsLayout Orientation="Vertical" ItemSpacing="20"/>
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate >
-                        <DataTemplate>
-                            <SwipeView>
+                        <DataTemplate x:DataType="b:ByDayGroup">
+                            <ContentView>
+                                <pv:PancakeView CornerRadius="0" Style="{StaticResource card}" Margin="5">
+                                    <behaviors:Expander>
+                                        <behaviors:Expander.Header>
+                                            <Grid ColumnDefinitions="5,80,1,*">
+                                                
+                                                    <BoxView BackgroundColor="{StaticResource secondaryColor }"/>
+                                                                                                 
+
+                                                <StackLayout  Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center">
+                                                    <Label Text="{Binding FDateTime.Day,StringFormat='{0:00}'}"  FontSize="Title"  HorizontalOptions="Center" HorizontalTextAlignment="Center"
+                                                           TextColor="{DynamicResource secondaryTextColor}"/>
+                                                    <Label Text="{Binding Month}" FontSize="15"   HorizontalOptions="Center" HorizontalTextAlignment="Center"
+                                                           TextColor="{DynamicResource secondaryTextColor}"/>
+                                                </StackLayout>
+                                               <BoxView Grid.Column="2" Background="LightGray"/>
+                                        <Label Grid.Column="3" Text="{Binding Tareas,StringFormat='{0} tareas para hoy.'}" FontSize="Large" TextColor="{DynamicResource secondaryTextColor} " 
+                                                       VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  Margin="5" FontAttributes="Italic" />
+                                            </Grid>
+                                        </behaviors:Expander.Header>
+                                        <StackLayout Spacing="0" BindableLayout.ItemsSource="{Binding SubjectGroups}">
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate x:DataType="b:BySubjectGroup">
+                                            <ContentView>
+                                                <Grid ColumnDefinitions="5,*" ColumnSpacing="0">
+                                                    <BoxView BackgroundColor="{StaticResource secondaryColor }"/>
+                                                    <StackLayout Grid.Column="1" BackgroundColor="{Binding Subject.Color}" Margin="0">
+                                                        <behaviors:Expander>
+                                                            <behaviors:Expander.Header>
+                                                                <Label VerticalOptions="Center" VerticalTextAlignment="Center"
+                                                                       Text="{Binding Subject.Name}" 
+                                                                       TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" 
+                                                                       FontAttributes="Bold"/>
+                                                            </behaviors:Expander.Header>
+                                                            <StackLayout>
+                                                                <BoxView HeightRequest="1" Margin="0" BackgroundColor="LightGray"/>
+                                                                <StackLayout BindableLayout.ItemsSource="{Binding ToDoS}">
+                                                                    <BindableLayout.ItemTemplate>
+                                                                        <DataTemplate x:DataType="b:ToDo">
+                                                                            <ContentView>
+                                                                                <StackLayout Spacing="0" Margin="3">
+                                                                                    <Label Text="{Binding N_Tarea}" FontAttributes="Bold" TextColor="Black" FontSize="14"/>
+                                                                                    <Label Text="{Binding Description}" FontSize="16" TextColor="Gray"/>
+                                                                                    <BoxView HeightRequest="1" Margin="0" BackgroundColor="LightGray"/>
+                                                                                </StackLayout>
+                                                                            </ContentView>
+                                                                        </DataTemplate>
+                                                                    </BindableLayout.ItemTemplate>
+                                                                </StackLayout>
+                                                            </StackLayout>
+                                                  
+                                                        </behaviors:Expander>
+
+                                                
+                                                    </StackLayout>
+                                                </Grid>
+
+                                            </ContentView>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                       </StackLayout>
+                                    </behaviors:Expander>
+
+                                </pv:PancakeView>
+                            </ContentView>
+                            <!--<SwipeView>
                                 <SwipeView.RightItems>
                                     <SwipeItem  IsDestructive="True" Text="Eliminar" BackgroundColor="IndianRed" 
                                                 CommandParameter="{Binding .}"
@@ -58,7 +125,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <BoxView BackgroundColor="{Binding Color}" WidthRequest="3" HorizontalOptions="Start"
+                                        <BoxView BackgroundColor="{Binding  }" WidthRequest="3" HorizontalOptions="Start"
                                          VerticalOptions="FillAndExpand"/>
                                         <behaviors:Expander Grid.Column="1">
                                             <behaviors:Expander.Header>
@@ -82,7 +149,7 @@
                                                             <Label Text="Vence:" TextColor="#2F3246" FontSize="12" Margin="0,-10,0,0"/>
                                                             <Label Text="{Binding Duration}" TextColor="#2F3246" FontSize="12" Margin="0,-10,0,0"/>
                                                         </StackLayout>
-                                                        <!--<Label TextColor="#2F3246" FontSize="12">
+                                                        --><!--<Label TextColor="#2F3246" FontSize="12">
                                                             <Label.FormattedText>
                                                                 <FormattedString>
                                                                     <FormattedString.Spans>
@@ -96,7 +163,7 @@
                                                                     </FormattedString.Spans>
                                                                 </FormattedString>
                                                             </Label.FormattedText>
-                                                        </Label>-->
+                                                        </Label>--><!--
                                                     </StackLayout>
                                                 </Grid>
                                             </behaviors:Expander.Header>
@@ -134,12 +201,11 @@
                                         </behaviors:Expander>
                                     </Grid>
                                 </pv:PancakeView>
-                            </SwipeView>
+                            </SwipeView>-->
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-            </ScrollView>
-        </pv:PancakeView>
+    
     </Grid>
 
 </ContentPage>

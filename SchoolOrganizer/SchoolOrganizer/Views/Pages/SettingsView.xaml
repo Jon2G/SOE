@@ -2,11 +2,13 @@
 <ContentPage BackgroundColor="{StaticResource primaryDarkColor}" xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SchoolOrganizer.Views.Pages.SettingsView"
-             xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
-             >
+             xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer" 
+             xmlns:viewItems="clr-namespace:SchoolOrganizer.ViewModels.Pages">
     <Frame BackgroundColor="White" CornerRadius="30" BorderColor="{StaticResource primaryLightColor}" >
         <Grid >
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -22,7 +24,7 @@
                     <RowDefinition Height="2"/>
                 </Grid.RowDefinitions>
                 <StackLayout Orientation="Horizontal" Grid.Row="0">
-                    <Label Text="{x:Static fonts:FontelloIcons.Lock}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                    <Label Text="{x:Static fonts:FontelloIcons.Lock}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center" />
                     <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="Activar Finger Print" FontSize="15"  TextColor="Black" HorizontalOptions="Start"/>
                     <Switch  OnColor="{StaticResource secondaryColor}" ThumbColor="{StaticResource primaryLightColor}" HorizontalOptions="EndAndExpand"/>
@@ -35,7 +37,7 @@
                     <RowDefinition Height="2"/>
                 </Grid.RowDefinitions>
                 <StackLayout Orientation="Horizontal" Grid.Row="0">
-                    <Label Text="{x:Static fonts:FontelloIcons.Out}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                    <Label Text="{x:Static fonts:FontelloIcons.Out}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
                     <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Text="Desactivar Inicio Automatico"  FontSize="15"  TextColor="Black"  HorizontalOptions="Start"/>
                     <Switch  OnColor="{StaticResource secondaryColor}" ThumbColor="{StaticResource primaryLightColor}" HorizontalOptions="EndAndExpand"/>
@@ -48,14 +50,18 @@
                     <RowDefinition Height="2"/>
                 </Grid.RowDefinitions>
                 <StackLayout Orientation="Horizontal" Grid.Row="0">
-                    <Label Text="{x:Static fonts:FontelloIcons.Notifi}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                    <Label Text="{x:Static fonts:FontelloIcons.Notifi}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                    <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Text="Activar Notificaciones"  FontSize="15"  TextColor="Black"  HorizontalOptions="Start"/>
+                    <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Text="Activar Notificaciones"  FontSize="15"  TextColor="{DynamicResource secondaryTextColor}"  HorizontalOptions="Start"/>
                     <Switch  OnColor="{StaticResource secondaryColor}" ThumbColor="{StaticResource primaryLightColor}" HorizontalOptions="EndAndExpand"/>
                 </StackLayout>
                 <BoxView BackgroundColor="LightGray" CornerRadius="5" Grid.Row="1"/>
             </Grid>
-            
+            <Grid Grid.Row="4">
+                <BoxView BackgroundColor="WhiteSmoke" CornerRadius="5"/>
+                <Label HorizontalTextAlignment="Center" Text="Ajustes Principales" FontSize="Title" FontAttributes="Bold" TextColor="{DynamicResource secondaryTextColor}"/>
+            </Grid>
+            <Button Grid.Row="5" TextColor="{DynamicResource secondaryTextColor}" BackgroundColor="WhiteSmoke"  CornerRadius="5"  Text="Cambiar ventanas principales" FontSize="12"  HeightRequest="35"/>
         </Grid>
     </Frame>
 </ContentPage>

@@ -14,24 +14,84 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 {
     public class TaskFirstViewModel : BaseViewModel
     {
-        //TaskViewModel TaskView = new(); ??
-        // public Command DeleteCommand { get; set; }
+      
+        public Command DeleteCommand { get; set; }
 
         public ObservableCollection<ByDayGroup> DayGroups { get; set; }
 
         public TaskFirstViewModel()
         {
+            //var subject = new Subject(1, 1, "Base de datos", "#e2F0cb", "7CV22");
+            //var subject2 = new Subject(1, 1, "Sistemas de información", "#c7ceea", "7CV25");
+
+            DayGroups = GetDays();
+             //new ObservableCollection<ByDayGroup>()
+            //{
+            //    new()
+            //    {
+            //        FDateTime = DateTime.Today,
+            //        SubjectGroups =
+            //        {
+            //            new BySubjectGroup(subject)
+            //            {
+            //                ToDoS =new ObservableCollection<ToDo>()
+            //                {
+            //                    new()
+            //                    {
+            //                        N_Tarea = "Diagrama",
+            //                        Date = DateTime.Now,
+            //                        Description = "Diagrama de don cuco",
+            //                        H_Entrga = "11:00",
+            //                        Subject = subject
+            //                    },
+            //                    new()
+            //                    {
+            //                        N_Tarea = "Formatos de fecha",
+            //                        Date = DateTime.Now,
+            //                        Description = "Documento de word con la descripcion de los formatos de fecha",
+            //                        H_Entrga = "10:00",
+            //                        Subject = subject
+            //                    }
+            //                }
+            //            },
+            //            new BySubjectGroup(subject2)
+            //            {
+            //                ToDoS =new ObservableCollection<ToDo>()
+            //                {
+            //                    new()
+            //                    {
+            //                        N_Tarea = "Diagrama",
+            //                        Date = DateTime.Now,
+            //                        Description = "Diagrama de don cuco",
+            //                        H_Entrga = "11:00",
+            //                        Subject = subject2
+            //                    },
+            //                    new()
+            //                    {
+            //                        N_Tarea = "Formatos de fecha",
+            //                        Date = DateTime.Now,
+            //                        Description = "Documento de word con la descripcion de los formatos de fecha",
+            //                        H_Entrga = "10:00",
+            //                        Subject = subject2
+            //                    }
+            //                }
+            //            }
+
+            //        }
+            //    }
+            //};
+            DeleteCommand = new Command<ByDayGroup>(Eliminar);
+        }
+        private new ObservableCollection<ByDayGroup> GetDays()
+        {
             var subject = new Subject(1, 1, "Base de datos", "#e2F0cb", "7CV22");
             var subject2 = new Subject(1, 1, "Sistemas de información", "#c7ceea", "7CV25");
-
-            DayGroups = new ObservableCollection<ByDayGroup>()
+            return new ObservableCollection<ByDayGroup>
             {
-                new()
-                {
-                    FDateTime = DateTime.Today,
-                    SubjectGroups =
-                    {
-                        new BySubjectGroup(subject)
+               new ByDayGroup
+               { 
+                   FDateTime = DateTime.Today, 
+                   SubjectGroups ={ new BySubjectGroup(subject)
                         {
                             ToDoS =new ObservableCollection<ToDo>()
                             {
@@ -79,12 +139,11 @@ namespace SchoolOrganizer.ViewModels.ViewItems
                     }
                 }
             };
-            //DeleteCommand = new Command<ToDo>(Eliminar);
-        }
 
-        //public void Eliminar(ToDo agenda)
-        //{
-        //    MyAgenda.Remove(agenda);
-        //}
+        }
+        public void Eliminar(ByDayGroup dayGroup)
+            {
+                DayGroups.Remove(dayGroup);
+            }
     }
 }

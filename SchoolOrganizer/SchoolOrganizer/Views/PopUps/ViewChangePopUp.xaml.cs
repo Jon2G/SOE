@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,16 +7,15 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace SchoolOrganizer.Views.Pages
+namespace SchoolOrganizer.Views.PopUps
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SettingsView : ContentPage
+    public partial class ViewChangePopUp 
     {
-        public SettingsView()
+        public ViewChangePopUp()
         {
             InitializeComponent();
         }
-
 
     }
 }

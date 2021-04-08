@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Fonts\fontello_1.ttf" />
     <None Remove="Fonts\Karla.ttf" />
     <None Remove="Fonts\Karla_ExtraLight.ttf" />
     <None Remove="Fonts\Karla_Medium.ttf" />
@@ -17,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Fonts\fontello_1.ttf" />
     <EmbeddedResource Include="Fonts\Karla.ttf" />
     <EmbeddedResource Include="Fonts\Karla_ExtraLight.ttf" />
     <EmbeddedResource Include="Fonts\Karla_Medium.ttf" />
@@ -92,6 +90,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\PopUps\TaskPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\PopUps\ViewChangePopUp.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ViewItems\CardViews\CardDetailsView.xaml">

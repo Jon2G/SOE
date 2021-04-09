@@ -25,7 +25,7 @@ namespace SchoolOrganizer.Fonts
         public const string Out = "\uE80F";
         public const string Notifi= "\uE810";
         public const string Share = "\uE811";
-        public const string Update = "\uE812";
+        public const string Refresh = "\uE812";
         public const string Font = "FontIcon";
     }
 }

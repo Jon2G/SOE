@@ -91,8 +91,8 @@
                                                                                 <SwipeView>
                                                                                     <SwipeView.RightItems>
                                                                                         <SwipeItem  IsDestructive="True" Text="Eliminar" BackgroundColor="IndianRed" 
-                                                                                     CommandParameter="{Binding .}"
-                                                                                      Command="{Binding DeleteCommand,Source={x:Reference Modelo}}" />
+                                                                                            CommandParameter="{Binding .}"
+                                                                                            Command="{Binding DeleteCommand,Source={x:Reference Modelo}}" />
                                                                                         <SwipeItem Text="Editar" BackgroundColor="ForestGreen" />
                                                                                     </SwipeView.RightItems>
                                                                                     <StackLayout Spacing="0" Margin="3">
@@ -120,97 +120,6 @@
 
                                 </pv:PancakeView>
                             </ContentView>
-                            <!--<SwipeView>
-                                <SwipeView.RightItems>
-                                    <SwipeItem  IsDestructive="True" Text="Eliminar" BackgroundColor="IndianRed" 
-                                                CommandParameter="{Binding .}"
-                                                Command="{Binding DeleteCommand,Source={x:Reference Modelo}}" />
-                                    <SwipeItem Text="Editar" BackgroundColor="ForestGreen" />
-                                </SwipeView.RightItems>
-                                <pv:PancakeView BackgroundColor="White" VerticalOptions="StartAndExpand" 
-                                                HorizontalOptions="FillAndExpand">
-                                    <Grid VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <BoxView BackgroundColor="{Binding  }" WidthRequest="3" HorizontalOptions="Start"
-                                         VerticalOptions="FillAndExpand"/>
-                                        <behaviors:Expander Grid.Column="1">
-                                            <behaviors:Expander.Header>
-                                                <Grid HorizontalOptions="FillAndExpand">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="3.5*"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                                                        <Label Text="{Binding Date, StringFormat='{0:dd}'}" TextColor="Black" FontSize="27" 
-                                                       HorizontalOptions="Center"/>
-                                                        <Label Text="{Binding Date, StringFormat='{0:MMMM}'}" TextColor="Black" FontSize="10" 
-                                                       HorizontalOptions="Center" Margin="0,-10,0,0"/>
-                                                    </StackLayout>
-                                                    <BoxView Grid.Column="1" BackgroundColor="#F2F4F8" WidthRequest="1" HorizontalOptions="Start" 
-                                                     VerticalOptions="FillAndExpand"/>
-                                                    <StackLayout Grid.Column="2" HorizontalOptions="Start" VerticalOptions="Center" Margin="20">
-                                                        <Label Text="{Binding N_Tarea}" TextColor="Black" FontSize="15"/>
-                                                        <StackLayout Orientation="Horizontal">
-                                                            <Label Text="Vence:" TextColor="#2F3246" FontSize="12" Margin="0,-10,0,0"/>
-                                                            <Label Text="{Binding Duration}" TextColor="#2F3246" FontSize="12" Margin="0,-10,0,0"/>
-                                                        </StackLayout>
-                                                        --><!--<Label TextColor="#2F3246" FontSize="12">
-                                                            <Label.FormattedText>
-                                                                <FormattedString>
-                                                                    <FormattedString.Spans>
-                                                                        <Span Text="{Binding Subject }" FontAttributes="Bold"/>
-                                                                        <Span Text="
-                                                                              "/>
-                                                                        <Span Text="Descripción:" FontSize="12"/>
-                                                                        <Span Text="
-                                                                              "/>
-                                                                        <Span Text="{Binding Description}" FontAttributes="Bold"/>
-                                                                    </FormattedString.Spans>
-                                                                </FormattedString>
-                                                            </Label.FormattedText>
-                                                        </Label>--><!--
-                                                    </StackLayout>
-                                                </Grid>
-                                            </behaviors:Expander.Header>
-                                            <Grid HorizontalOptions="FillAndExpand" >
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="3.5*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <BoxView Grid.Column="1" BackgroundColor="#F2F4F8" WidthRequest="1" HorizontalOptions="Start" 
-                                                 VerticalOptions="FillAndExpand"/>
-                                                <StackLayout Grid.Column="2" Spacing="10" >
-                                                    <Label Text="Materia:" TextColor="Black" Opacity="0.5" FontSize="12" Margin="20,0" FontAttributes="Bold"/>
-                                                    <StackLayout BindableLayout.ItemsSource="{Binding MyAgenda ,Source={x:Reference Modelo}}"  HorizontalOptions="Start" VerticalOptions="Center" Margin="20,0,0,20">
-                                                        <BindableLayout.ItemTemplate>
-                                                            <DataTemplate x:DataType="b:ToDo" >
-                                                                <Label TextColor="#2F3246" FontSize="12">
-                                                                    <Label.FormattedText>
-                                                                        <FormattedString>
-                                                                            <FormattedString.Spans>
-                                                                                <Span Text="{Binding Subject }" FontAttributes="Bold"/>
-                                                                                <Span Text=""/>
-                                                                                <Span Text="Descripción:" FontSize="12"/>
-                                                                                <Span Text=""/>
-                                                                                <Span Text="{Binding Description}" FontAttributes="Bold"/>
-                                                                            </FormattedString.Spans>
-                                                                        </FormattedString>
-                                                                    </Label.FormattedText>
-                                                                </Label>
-                                                            </DataTemplate>
-                                                        </BindableLayout.ItemTemplate>
-                                                    </StackLayout>
-                                                </StackLayout>
-                                            </Grid>
-                                        </behaviors:Expander>
-                                    </Grid>
-                                </pv:PancakeView>
-                            </SwipeView>-->
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>

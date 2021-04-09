@@ -11,14 +11,14 @@
     <ContentPage.Content>
         <StackLayout>
             <StackLayout Spacing="25" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-                <Label Text="¡Bienvenido!" HorizontalTextAlignment="Center"  FontAttributes="Bold" FontSize="35" FontFamily="{x:Static fonts:TextFonts.KarlaMedium}"/>
-                <Label Text="Selecciona tu nivel educativo"  FontAttributes="Bold" FontSize="30" FontFamily="{x:Static fonts:TextFonts.Karla}"/>
+                <Label Text="¡Bienvenido!" HorizontalTextAlignment="Center"  FontAttributes="Bold" FontSize="35" />
+                <Label Text="Selecciona tu nivel educativo"  FontAttributes="Bold" FontSize="30" />
                 <pancakeView:PancakeView Style="{StaticResource card}" Padding="20">
                     <pancakeView:PancakeView.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding UniversityCommand }"/>
                     </pancakeView:PancakeView.GestureRecognizers>
                     <StackLayout>
-                        <Label HorizontalTextAlignment="Center" Text="Universidad" FontAttributes="Bold" FontSize="30" FontFamily="{x:Static fonts:TextFonts.KarlaSemiBold}"/>
+                        <Label HorizontalTextAlignment="Center" Text="Universidad" FontAttributes="Bold" FontSize="30" />
                         <Image Source="strong_donkey.jpg" WidthRequest="70"/>
                     </StackLayout>
 
@@ -29,7 +29,7 @@
                         <TapGestureRecognizer Command="{Binding HighSchoolCommand}"/>
                     </pancakeView:PancakeView.GestureRecognizers>
                     <StackLayout>
-                        <Label HorizontalTextAlignment="Center" Text="Preparatoria" FontAttributes="Bold" FontSize="30" FontFamily="{x:Static fonts:TextFonts.KarlaSemiBold}"/>
+                        <Label HorizontalTextAlignment="Center" Text="Preparatoria" FontAttributes="Bold" FontSize="30" />
                         <Image Source="happy_donkey.jpg" WidthRequest="70"/>
                     </StackLayout>
                 </pancakeView:PancakeView>

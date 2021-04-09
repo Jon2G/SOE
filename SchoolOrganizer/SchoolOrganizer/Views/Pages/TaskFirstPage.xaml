@@ -73,35 +73,41 @@
                                                 <Grid ColumnDefinitions="5,*" ColumnSpacing="0">
                                                     <BoxView BackgroundColor="{StaticResource secondaryColor }"/>
                                                     <StackLayout Grid.Column="1" BackgroundColor="{Binding Subject.Color}" Margin="0">
-                                                      
-                                                            
-                                                            <behaviors:Expander>
+                                                        <behaviors:Expander>
                                                                 <behaviors:Expander.Header>
                                                                     <Label VerticalOptions="Center" VerticalTextAlignment="Center"
                                                                        Text="{Binding Subject.Name}" 
                                                                        TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" 
                                                                        FontAttributes="Bold"/>
                                                                 </behaviors:Expander.Header>
-                                                                <StackLayout>
-                                                                    <BoxView HeightRequest="1" Margin="0" BackgroundColor="LightGray"/>
-                                                                    <StackLayout BindableLayout.ItemsSource="{Binding ToDoS}">
+                                                            <StackLayout>
+                                                                <!--<BoxView HeightRequest="1" Margin="0" BackgroundColor="LightGray"/>-->
+                                                                    <StackLayout Spacing="0" x:Name="root" BindableLayout.ItemsSource="{Binding ToDoS}">
                                                                         <BindableLayout.ItemTemplate>
                                                                             <DataTemplate x:DataType="b:ToDo">
-                                                                                <ContentView>
-                                                                                <SwipeView>
-                                                                                    <SwipeView.RightItems>
-                                                                                        <SwipeItem  IsDestructive="True" Text="Eliminar" BackgroundColor="IndianRed" 
-                                                                                            CommandParameter="{Binding .}"
-                                                                                            Command="{Binding DeleteCommand,Source={x:Reference Modelo}}" />
-                                                                                        <SwipeItem Text="Editar" BackgroundColor="ForestGreen" />
-                                                                                    </SwipeView.RightItems>
-                                                                                    <StackLayout Spacing="0" Margin="3">
-                                                                                        <Label Text="{Binding N_Tarea}" FontAttributes="Bold" TextColor="Black" FontSize="14"/>
-                                                                                        <Label Text="{Binding Description}" FontSize="16" TextColor="Gray"/>
-                                                                                        <BoxView HeightRequest="1" Margin="0" BackgroundColor="LightGray"/>
-                                                                                    </StackLayout>
-                                                                                </SwipeView>
-                                                                            </ContentView>
+                                                                                <StackLayout Spacing="0" Padding="0">
+                                                                                    <SwipeView  Margin="0" Padding="0">
+                                                                                        <SwipeView.RightItems>
+                                                                                            <SwipeItem  IsDestructive="True" Text="Eliminar" BackgroundColor="IndianRed" 
+                                                                                                CommandParameter="{Binding .}" 
+                                                                                                Command="{Binding Source={x:Reference root}, Path=BindingContext.DeleteCommand}" />
+                                                                                            <SwipeItem Text="Editar" BackgroundColor="ForestGreen" />
+                                                                                        </SwipeView.RightItems>
+                                                                                        <pv:PancakeView Style="{StaticResource card}" Margin="0" CornerRadius="0">
+                                                                                            <Grid Grid.ColumnDefinitions="*,35">
+                                                                                                <StackLayout Grid.Column="1" Margin="0,0,5,0">
+                                                                                                    <Label Text="Vence:" FontSize="10" VerticalOptions="End" VerticalTextAlignment="End" TextColor="Black"/>
+                                                                                                    <Label Text="{Binding H_Entrga}" FontSize="12" VerticalOptions="End" VerticalTextAlignment="End" TextColor="Black"/>
+                                                                                            </StackLayout>
+                                                                                                <StackLayout Spacing="0" Margin="3" Grid.Column="0">
+                                                                                                    <Label Text="{Binding N_Tarea}" FontAttributes="Bold" TextColor="Black" FontSize="14"/>
+                                                                                                    <Label Text="{Binding Description}" FontSize="16" TextColor="Gray"/>
+                                                                                                </StackLayout>
+                                                                                        </Grid>
+                                                                                        </pv:PancakeView>
+                                                                                    </SwipeView>
+                                                                                <BoxView HeightRequest="1" Margin="0" BackgroundColor="LightGray"/>
+                                                                            </StackLayout>
                                                                             </DataTemplate>
                                                                         </BindableLayout.ItemTemplate>
                                                                     </StackLayout>

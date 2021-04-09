@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Xamarin.Forms;
 
 namespace SchoolOrganizer.Models.TaskFirst
 {
@@ -17,5 +18,6 @@ namespace SchoolOrganizer.Models.TaskFirst
         {
             this.SubjectGroups = new ObservableCollection<BySubjectGroup>();
         }
+
     }
 }

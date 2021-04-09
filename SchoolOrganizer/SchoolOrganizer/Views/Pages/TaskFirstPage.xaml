@@ -1,17 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
              xmlns:behaviors="http://xamarin.com/schemas/2020/toolkit"
              xmlns:viewItems="clr-namespace:SchoolOrganizer.ViewModels.ViewItems;assembly=SchoolOrganizer"
-             xmlns:system="clr-namespace:System;assembly=netstandard" xmlns:b="clr-namespace:SchoolOrganizer.Models.TaskFirst"
+             xmlns:system="clr-namespace:System;assembly=netstandard" 
+             xmlns:b="clr-namespace:SchoolOrganizer.Models.TaskFirst"
              xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
              xmlns:scheduler="clr-namespace:SchoolOrganizer.Models.Scheduler;assembly=SchoolOrganizer"
              x:Name="Me"
              x:Class="SchoolOrganizer.Views.Pages.TaskFirstPage">
-    <ContentPage.BindingContext>
-        <viewItems:TaskFirstViewModel x:Name="Modelo"/>
-    </ContentPage.BindingContext>
     <Grid BackgroundColor="#F3F5F9" RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <Grid.RowDefinitions>
             <RowDefinition Height="180"/>
@@ -94,7 +92,7 @@
                                                                                             <SwipeItem Text="Editar" BackgroundColor="ForestGreen" />
                                                                                         </SwipeView.RightItems>
                                                                                         <pv:PancakeView Style="{StaticResource card}" Margin="0" CornerRadius="0">
-                                                                                            <Grid Grid.ColumnDefinitions="*,35">
+                                                                                            <Grid Grid.ColumnDefinitions="*,38">
                                                                                                 <StackLayout Grid.Column="1" Margin="0,0,5,0">
                                                                                                     <Label Text="Vence:" FontSize="10" VerticalOptions="End" VerticalTextAlignment="End" TextColor="Black"/>
                                                                                                     <Label Text="{Binding H_Entrga}" FontSize="12" VerticalOptions="End" VerticalTextAlignment="End" TextColor="Black"/>
@@ -132,4 +130,4 @@
     
     </Grid>
 
-</ContentPage>
+</ContentView>

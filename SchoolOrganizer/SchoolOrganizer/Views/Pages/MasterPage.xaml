@@ -10,6 +10,7 @@
              xmlns:controls="clr-namespace:SchoolOrganizer.Control" xmlns:pages="clr-namespace:SchoolOrganizer.ViewModels.Pages"
              xmlns:scheduleView="clr-namespace:SchoolOrganizer.Views.ViewItems.ScheduleView;assembly=SchoolOrganizer"
              xmlns:pages1="clr-namespace:SchoolOrganizer.Views.Pages;assembly=SchoolOrganizer"
+             xmlns:viewPage="clr-namespace:SchoolOrganizer.Views.Pages"
              x:DataType="pages:MasterPageViewModel">
     <ContentPage.BindingContext>
         <pages:MasterPageViewModel/>
@@ -101,13 +102,14 @@
                         Color="{AppThemeBinding Dark={StaticResource  secondaryTextColor},
                                                 Light={StaticResource secondaryLightColor}}" />
                 </toolkit:TabViewItem.Icon>
+                
 
 
                 <Grid>
-                    <Grid  ColumnDefinitions="*,20" ColumnSpacing="0" RowDefinitions="4*,6*">
-                        <cardViews:PinnedTasks/>
+                    <Grid  BackgroundColor="Red" >
+                        <viewPage:TaskFirstPage/>
                     </Grid>
-                    <Grid ColumnDefinitions="*,Auto">
+                    <Grid ColumnDefinitions="10,Auto" HorizontalOptions="End" >
                         <viewItems:TimelineBar Grid.Column="1"/>
                     </Grid>
                 </Grid>

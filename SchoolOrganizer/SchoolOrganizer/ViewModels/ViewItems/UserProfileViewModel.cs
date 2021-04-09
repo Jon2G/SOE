@@ -22,7 +22,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 
         private void Tareas()
         {
-            Shell.Current.Navigation.PushAsync(new TaskFirstPage(), true);
+            //Shell.Current.Navigation.PushAsync(new TaskFirstPage(), true);
         }
 
         private void OpenSettings()

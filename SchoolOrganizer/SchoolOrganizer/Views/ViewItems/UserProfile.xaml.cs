@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace SchoolOrganizer.Views.ViewItems
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class UserProfile : ContentView
+    public partial class UserProfile 
     {
         public UserProfile()
         {

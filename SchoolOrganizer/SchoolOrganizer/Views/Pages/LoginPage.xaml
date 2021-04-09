@@ -6,7 +6,7 @@
              xmlns:magicGradients="clr-namespace:MagicGradients;assembly=MagicGradients"
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              mc:Ignorable="d"
-             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+           
              xmlns:viewModels="clr-namespace:SchoolOrganizer.ViewModels.Pages;assembly=SchoolOrganizer"
              x:Class="SchoolOrganizer.Views.Pages.LoginPage"
              Shell.NavBarIsVisible="False" x:DataType="{x:Type viewModels:LoginViewModel}"
@@ -31,8 +31,7 @@
                     <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                         <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
                             <Grid HeightRequest="100" WidthRequest="100"  HorizontalOptions="Center" VerticalOptions="Center">
-                                <Rectangle x:Name="mainRect" StrokeThickness="1" HorizontalOptions="FillAndExpand" 
-                    VerticalOptions="FillAndExpand">
+                                <Rectangle x:Name="mainRect" StrokeThickness="1" HorizontalOptions="FillAndExpand"  VerticalOptions="FillAndExpand">
                                     <Rectangle.Stroke>
                                         <LinearGradientBrush>
                                             <GradientStop x:Name="tealGrad" Color="#56D9BE" Offset="0"/>
@@ -92,14 +91,7 @@
                                />
                         </StackLayout>
                     </Grid>
-                    <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" 
-                             >
-                        <Label FontFamily="Karla_SemiBold"  TextColor="Black"  TextDecorations="Underline" Text="No tengo cuenta"
-                           FontSize="14" HorizontalOptions="StartAndExpand"  Margin="0,5">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding RegisterCommand}" />
-                            </Label.GestureRecognizers>
-                        </Label>
+                    <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" >
                         <Label FontFamily="Karla_SemiBold" TextColor="Black" TextDecorations="Underline" Text="Olvide mi contraseña" FontSize="14" HorizontalOptions="EndAndExpand" Margin="0,5"/>
                     </StackLayout>
                 </StackLayout>

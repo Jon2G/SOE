@@ -4,7 +4,6 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
-using ImageCircle.Forms.Plugin.Droid;
 using Kit;
 using Plugin.Fingerprint;
 using Plugin.Media;
@@ -38,19 +37,13 @@ namespace SchoolOrganizer.Droid.Activities
             CrossFingerprint.SetCurrentActivityResolver(() => this);
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-            if (!Tools.IsInited)
-                PdfSharp.Xamarin.Forms.Droid.Platform.Init();
             base.OnCreate(savedInstanceState);
             await CrossMedia.Current.Initialize();//
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            ImageCircleRenderer.Init();
             UserDialogs.Init(this);
             Rg.Plugins.Popup.Popup.Init(this); // :)
             Forms9Patch.Droid.Settings.Initialize(this);
-            //OrganizadorEscolar.Widgets.Horario.WidgetHorario.Init(new Widgets.Horario.WidgetHorario(this));
-            //OrganizadorEscolar.Widgets.Tareas.WidgetTareas.Init(new Widgets.Tareas.WidgetTareas(this));
-            Plugin.InputKit.Platforms.Droid.Config.Init(this, savedInstanceState);
             Kit.Droid.Tools.Init(this, savedInstanceState);
             LoadApplication(new SchoolOrganizer.App());
             if (this.Intent != null)

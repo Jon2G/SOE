@@ -16,18 +16,18 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 
         public UserProfileViewModel()
         {
-           this.SettingCommand = new Command<INavigation>(OpenSettings);
-            this.TareasCommand = new Command<INavigation>(Tareas);
+            this.SettingCommand = new Command(OpenSettings);
+            this.TareasCommand = new Command(Tareas);
         }
 
-        private void Tareas(INavigation obj)
+        private void Tareas()
         {
-            obj.PushModalAsync(new TaskFirstPage(), true);
+            Shell.Current.Navigation.PushAsync(new TaskFirstPage(), true);
         }
 
-        private void OpenSettings(INavigation obj)
+        private void OpenSettings()
         {
-            obj.PushModalAsync(new SettingsView(),true);
+            Shell.Current.Navigation.PushModalAsync(new SettingsView(), true);
         }
     }
 }

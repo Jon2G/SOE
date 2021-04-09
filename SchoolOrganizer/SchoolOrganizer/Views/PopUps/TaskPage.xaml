@@ -5,7 +5,6 @@
              xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              xmlns:viewModels="clr-namespace:SchoolOrganizer.ViewModels.Pages;assembly=SchoolOrganizer"
              xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
-             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
              xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:renders="clr-namespace:SchoolOrganizer.Renders;assembly=SchoolOrganizer"
@@ -25,7 +24,7 @@
             <StackLayout Spacing="10"  >
                 <StackLayout Spacing="10">
                     <Label  FontSize="30" Text="Titulo:" TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB"/>
-                    <input:AdvancedEntry Placeholder="Agregar Titulo" Grid.Row="0" PlaceholderColor="{DynamicResource primaryLightColor}" TextColor="Black" Text="{Binding Tarea.N_Tarea}"/>
+                    <Entry Placeholder="Agregar Titulo" Grid.Row="0" PlaceholderColor="{DynamicResource primaryLightColor}" TextColor="Black" Text="{Binding Tarea.N_Tarea}"/>
                     <Button Grid.Row="1" Text="{Binding SelectedSubject.Name}" 
                             BackgroundColor="{Binding SelectedSubject.Color}" CornerRadius="20" BorderColor="LightGray" 
                         BorderWidth="2" TextColor="{DynamicResource primaryLightColor}" Command="{Binding TaskCommand}"/>

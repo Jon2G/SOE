@@ -7,7 +7,6 @@ using System.Windows.Input;
 using Acr.UserDialogs;
 using Kit.Extensions;
 using Kit.Model;
-using MagicGradients.Animation;
 using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Academic;
 using SchoolOrganizer.Models.Scheduler;

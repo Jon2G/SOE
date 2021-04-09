@@ -5,12 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Forms9Patch;
-using PdfSharpCore;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using PageSize = PdfSharpCore.PageSize;
-
 namespace SchoolOrganizer.Views.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]

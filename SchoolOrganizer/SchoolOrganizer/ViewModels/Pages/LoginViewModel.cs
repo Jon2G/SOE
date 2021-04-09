@@ -53,7 +53,6 @@ namespace SchoolOrganizer.ViewModels.Pages
 
         public Command<LoginViewModel> LoginCommand { get; }
         public ICommand FingerCommand { get; }
-        public ICommand RegisterCommand { get; }
         public ICommand OnLoginSuccess { get; }
 
 
@@ -63,7 +62,6 @@ namespace SchoolOrganizer.ViewModels.Pages
             this.User.PropertyChanged += User_PropertyChanged;
             LoginCommand = new Command<LoginViewModel>(LoginRequested, LoginCanExecute);
             FingerCommand = new Command(FingerClicked);
-            RegisterCommand = new Command(ConfirmRegister);
             OnLoginSuccess = new Command(LoginSuccess);
 
         }
@@ -130,11 +128,6 @@ namespace SchoolOrganizer.ViewModels.Pages
             {
                 Acr.UserDialogs.UserDialogs.Instance.Alert($"Error", "Autenticacion fallida", "OK");
             }
-        }
-        private void ConfirmRegister(object obj)
-        {
-            App.Current.MainPage = new RegisterPage();
-            //App.Current.MainPage = new AboutPage();
         }
 
 

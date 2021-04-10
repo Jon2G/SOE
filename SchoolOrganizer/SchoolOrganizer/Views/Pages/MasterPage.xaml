@@ -106,7 +106,7 @@
 
 
                 <Grid>
-                    <Grid  BackgroundColor="Red" >
+                    <Grid   >
                         <viewPage:TaskFirstPage/>
                     </Grid>
                     <Grid ColumnDefinitions="10,Auto" HorizontalOptions="End" >

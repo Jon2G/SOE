@@ -38,10 +38,9 @@ namespace SchoolOrganizer.Control
 
         private void HandleOptionsClicked()
         {
-            HandleOptionClicked(N, "Ready");
+            //HandleOptionClicked(N, "Ready");
             //HandleOptionClicked(NW, "Warning");
             HandleOptionClicked(SW, "Delayed");
-            HandleOptionClicked(S, "Problem");
         }
 
         private void HandleOptionClicked(Image image, string value)
@@ -128,19 +127,18 @@ namespace SchoolOrganizer.Control
         private async Task HideButtons()
         {
             var speed = 25U;
-            await N.FadeTo(0, speed);
+            //await N.FadeTo(0, speed);
             //await NW.FadeTo(0, speed);
             await SW.FadeTo(0, speed);
-            await S.FadeTo(0, speed);
+
         }
 
         private async Task ShowButtons()
         {
             var speed = 25U;
-            await N.FadeTo(1, speed);
+            //await N.FadeTo(1, speed);
             //await NW.FadeTo(1, speed);
             await SW.FadeTo(1, speed);
-            await S.FadeTo(1, speed);
         }
     }
 }

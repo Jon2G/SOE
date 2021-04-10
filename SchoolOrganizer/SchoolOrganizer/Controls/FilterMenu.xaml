@@ -28,7 +28,7 @@
                 HorizontalOptions="Center" 
                 Source="close_circle"/>
             <!-- N -->
-            <Image 
+            <!--<Image 
                 x:Name="N" 
                 Opacity="0" 
                 Margin="0,-60,0,60"
@@ -37,7 +37,7 @@
                 WidthRequest="40" 
                 HeightRequest="40" 
                 VerticalOptions="Center"
-                HorizontalOptions="Center"/>
+                HorizontalOptions="Center"/>-->
             <!-- NW -->
             <!--<Image 
                 x:Name="NW"
@@ -54,23 +54,13 @@
                 x:Name="SW" 
                 Opacity="0"
                 Margin="0,60,130,0" 
-                Source="time"
+                Source="clipboard.png"
                 Aspect="AspectFit"
                 WidthRequest="40"
                 HeightRequest="40" 
                 VerticalOptions="Center"
                 HorizontalOptions="Center"/>
             <!-- S -->
-            <Image 
-                x:Name="S"  
-                Opacity="0" 
-                Margin="0,60,0,-60" 
-                Source="warning"
-                Aspect="AspectFit"
-                WidthRequest="40"
-                HeightRequest="40"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"/>
         </Grid>
     </ContentView.Content>
 </ContentView>

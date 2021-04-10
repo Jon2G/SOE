@@ -89,7 +89,7 @@ namespace SchoolOrganizer.Views.Pages
                         IconImageSource = new FontImageSource()
                         {
                             FontFamily = FontelloIcons.Font,
-                            Glyph = FontelloIcons.Share
+                            Glyph = FontelloIcons.PDF
                         }
                     });
                     break;

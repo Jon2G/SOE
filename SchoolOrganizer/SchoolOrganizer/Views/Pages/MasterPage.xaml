@@ -37,7 +37,7 @@
                 <ImageButton 
                     x:Name="BagBtn"
                     Padding="24"
-                    BackgroundColor="{DynamicResource primaryDarkColor}"
+                    BackgroundColor="{DynamicResource primaryLightColor}"
                     HeightRequest="72"
                     HorizontalOptions="Center"
                     InputTransparent="True"
@@ -76,15 +76,15 @@
     <Grid IsClippedToBounds="False" RowSpacing="0">
         <ContentView x:Name="BrowserHolder" IsVisible="True"  x:FieldModifier="public" />
 
-        <toolkit:TabView Style="{StaticResource CustomTabStyle}" IsTabStripVisible="False" 
-                         x:Name="TabView" x:FieldModifier="public" SelectionChanged="TabView_OnSelectionChanged">
+        <toolkit:TabView Style="{StaticResource CustomTabStyle}" IsTabStripVisible="True" 
+                         x:Name="TabView" x:FieldModifier="public" SelectionChanged="TabView_OnSelectionChanged" IsSwipeEnabled="False">
 
             <!--  FAVOURITE TAB  -->
             <toolkit:TabViewItem HeightRequest="60" BadgeText="2" BadgeBackgroundColor="Red" BadgeTextColor="White">
                 <toolkit:TabViewItem.Icon>
                     <FontImageSource
                         FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                        Glyph="{x:Static fonts:FontelloIcons.Book1}"
+                        Glyph="{x:Static fonts:FontelloIcons.Cal}"
                         Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
                                                 Light={StaticResource secondaryTextColor}}" />
                 </toolkit:TabViewItem.Icon>
@@ -92,18 +92,16 @@
             </toolkit:TabViewItem>
 
             <!--  HOME TAB  -->
-            <toolkit:TabViewItem IsSelected="True"  BadgeText="1" BadgeBackgroundColor="Red" BadgeTextColor="White"
+            <toolkit:TabViewItem IsSelected="True"  BadgeText="1" BadgeBackgroundColor="Red" BadgeTextColor="White" 
                 ControlTemplate="{StaticResource BasketTabItemTemplate}"
                 Style="{StaticResource TabItemStyle}">
-                <toolkit:TabViewItem.Icon>
-                    <FontImageSource
+                <toolkit:TabViewItem.Icon >
+                    <FontImageSource 
                         FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                        Glyph="{x:Static fonts:FontelloIcons.Home}"
+                        Glyph="{x:Static fonts:FontelloIcons.Book}"
                         Color="{AppThemeBinding Dark={StaticResource  secondaryTextColor},
                                                 Light={StaticResource secondaryLightColor}}" />
                 </toolkit:TabViewItem.Icon>
-                
-
 
                 <Grid>
                     <Grid   >
@@ -132,7 +130,7 @@
         <!-- RADIAL MENU FILTER -->
         <Grid        
             HorizontalOptions="End" VerticalOptions="End"
-            Margin="0, 0, -50, 0">
+            Margin="0, 0, -50, 50">
             <controls:FilterMenu 
                 SelectedCommand="{Binding ItemSelectedCommand}"
                 HorizontalOptions="Center" 

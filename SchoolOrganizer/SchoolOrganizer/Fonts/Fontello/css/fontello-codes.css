@@ -18,5 +18,8 @@
 .icon-comment:before { content: '\e810'; } /* '' */
 .icon-share:before { content: '\e811'; } /* '' */
 .icon-arrows-ccw:before { content: '\e812'; } /* '' */
+.icon-off:before { content: '\e813'; } /* '' */
+.icon-bookmark:before { content: '\e814'; } /* '' */
 .icon-angle-right:before { content: '\f105'; } /* '' */
+.icon-file-pdf:before { content: '\f1c1'; } /* '' */
 .icon-paper-plane:before { content: '\f1d8'; } /* '' */

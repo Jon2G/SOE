@@ -131,6 +131,24 @@
       "css": "angle-right",
       "code": 61701,
       "src": "fontawesome"
+    },
+    {
+      "uid": "9daa1fdf0838118518a7e22715e83abc",
+      "css": "file-pdf",
+      "code": 61889,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "8b9e6a8dd8f67f7c003ed8e7e5ee0857",
+      "css": "off",
+      "code": 59411,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "23912d5623126e14b7b137c3ba557168",
+      "css": "bookmark",
+      "code": 59412,
+      "src": "entypo"
     }
   ]
 }

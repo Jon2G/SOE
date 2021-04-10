@@ -14,8 +14,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 {
     public class TaskFirstViewModel : BaseViewModel
     {
-      
-        
+
 
         public ObservableCollection<ByDayGroup> DayGroups { get; set; }
 
@@ -23,7 +22,6 @@ namespace SchoolOrganizer.ViewModels.ViewItems
         {
             //var subject = new Subject(1, 1, "Base de datos", "#e2F0cb", "7CV22");
             //var subject2 = new Subject(1, 1, "Sistemas de información", "#c7ceea", "7CV25");
-
             DayGroups = GetDays();
              //new ObservableCollection<ByDayGroup>()
             //{

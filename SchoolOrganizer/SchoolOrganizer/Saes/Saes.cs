@@ -30,9 +30,18 @@ namespace SchoolOrganizer.Saes
         private const string CalificacionesPage = "/alumnos/informacion_semestral/calificaciones_sem.aspx";
         private const string UniversitiesPage = "https://www.saes.ipn.mx/ns.html";
         private const string HighSchoolsPage = "https://www.saes.ipn.mx/nms.html";
-        private readonly AutoResetEvent NavigatedCallback;
+        private NavigationRequest CurrentRequest;
+        private readonly Queue<NavigationRequest> NavigationQueue;
         public School School { get; set; }
-        public bool IsNavigating { get; private set; }
+        private bool _IsNavigating;
+        public bool IsNavigating
+        {
+            get => _IsNavigating;
+            private set
+            {
+                _IsNavigating = value;
+            }
+        }
 
         public SAES() : this(new School())
         {
@@ -42,58 +51,36 @@ namespace SchoolOrganizer.Saes
         {
             this.School = School;
             this.Navigated += Browser_Navigated;
-            this.Navigating += Browser_Navigating;
-            this.NavigatedCallback = new AutoResetEvent(false);
+            this.NavigationQueue = new Queue<NavigationRequest>();
+            Init();
+        }
+
+        private async void Init()
+        {
+            NavigateAsync();
             if (this.School.IsSchoolSelected)
-                GoTo(this.School.HomePage);
+                await GoTo(this.School.HomePage);
+
         }
         private async void Browser_Navigated(object sender, WebNavigatedEventArgs e)
         {
-            this.IsNavigating = false;
             await this.EvaluateJavaScriptAsync(@"window.onerror = function myErrorHandler(errorMsg, url, lineNumber) { alert(""Error occured: "" + errorMsg); return false;");
-            //OnNavigated?.Invoke(e);
-            //OnNavigated = null;
             if (e.Url is null)
             {
                 await GoTo(School.HomePage);
                 return;
             }
-
-            if (e.Url == School.HomePage)
+            if (IsOn(e.Source as UrlWebViewSource, this.CurrentRequest))
             {
-                this.NavigatedCallback.Set();
-                return;
+                this.CurrentRequest.Done();
             }
-            switch (e.Url)
+            else
             {
-                case UniversitiesPage:
-                case HighSchoolsPage:
-                    this.NavigatedCallback.Set();
-                    return;
+                //await Acr.UserDialogs.UserDialogs.Instance.AlertAsync($"I dont know what to do on =>[{e.Url}]");
+                //Log.Logger.Debug($"I dont know what to do on =>[{e.Url}]");
+                //await GoTo(School.HomePage);
+                Log.Logger.Debug($"Landed unexpectly at =>[{e.Url}]");
             }
-            Uri Uri = new Uri(e.Url);
-            string path = Uri.AbsolutePath.ToLower();
-            switch (path)
-            {
-                case "/default.aspx":
-                case "/": //HomePage
-                case AlumnosPage:
-                case HorariosPage:
-                case KardexPage:
-                case CitaReinscripcionPage:
-                case CalificacionesPage:
-                    this.NavigatedCallback.Set();
-                    break;
-                default:
-                    //await Acr.UserDialogs.UserDialogs.Instance.AlertAsync($"I dont know what to do on =>[{e.Url}]");
-                    Log.Logger.Debug($"I dont know what to do on =>[{e.Url}]");
-                    await GoTo(School.HomePage);
-                    break;
-            }
-        }
-        private void Browser_Navigating(object sender, WebNavigatingEventArgs e)
-        {
-            this.IsNavigating = true;
         }
         public async Task GoTo(string url)
         {
@@ -102,21 +89,59 @@ namespace SchoolOrganizer.Saes
             {
                 navigateUrl = School.HomePage + url;
             }
-            Source = new UrlWebViewSource()
+            await Task.Run(() =>
             {
-                Url = navigateUrl
-            };
-            await Task.Run(() => this.NavigatedCallback.WaitOne(TimeSpan.FromMinutes(1)));
-
+                while (this.IsNavigating)
+                {
+                }
+            });
+            var request = new NavigationRequest(navigateUrl);
+            NavigationQueue.Enqueue(request);
+            NavigateAsync();
+            await request.Wait();
+            await Task.Run(() =>
+            {
+                while (!request.IsComplete)
+                {
+                }
+            });
         }
+        private async void NavigateAsync()
+        {
+            this.IsNavigating = true;
+            await Task.Yield();
+            try
+            {
+                while (NavigationQueue.Any())
+                {
+                    this.CurrentRequest = NavigationQueue.Dequeue();
+                    Source = new UrlWebViewSource()
+                    {
+                        Url = this.CurrentRequest.Url.AbsoluteUri
+                    };
+                    Log.Logger.Debug("Requested:{0}", CurrentRequest);
+                    await this.CurrentRequest.Wait();
+                    this.CurrentRequest.IsComplete = true;
+                    Log.Logger.Debug("Complete:{0}", CurrentRequest);
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(e, "NavigateAsync");
+            }
+            finally
+            {
+                this.IsNavigating = false;
+            }
+        }
+
         public async Task<ImageSource> GetCaptcha()
         {
             ImageSource ImageSource = null;
-            try
-            {
-                await GoTo(School.HomePage);
-                string base_64 = await this.EvaluateJavaScriptAsync(
-                    @"var getDataUrl = function (img) {
+            await GoTo(School.HomePage);
+            await Task.Delay(TimeSpan.FromSeconds(2)); //dale tiempo al captcha para cargar
+            string base_64 = await this.EvaluateJavaScriptAsync(
+                @"var getDataUrl = function (img) {
 var canvas = document.createElement('canvas')
 var ctx = canvas.getContext('2d')
 canvas.width = img.width
@@ -128,20 +153,41 @@ return canvas.toDataURL()
 }
 var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincaptcha_CaptchaImage"");
             getDataUrl(img);");
-                if (!string.IsNullOrEmpty(base_64))
-                {
-                    base_64 = base_64.Replace("data:image/png;base64,", string.Empty);
-                    ImageSource =
-                        Xamarin.Forms.ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(base_64)));
-                }
-            }
-            catch (Exception ex)
+            if (!string.IsNullOrEmpty(base_64))
             {
-
+                base_64 = base_64.Replace("data:image/png;base64,", string.Empty);
+                ImageSource =
+                    Xamarin.Forms.ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(base_64)));
             }
-
             return ImageSource;
         }
+
+        private bool UriCompare(Uri uri1, Uri uri2)
+        {
+            var result = Uri.Compare(uri1, uri2,
+                UriComponents.Host | UriComponents.PathAndQuery,
+                UriFormat.SafeUnescaped, StringComparison.OrdinalIgnoreCase);
+            return result == 0;
+        }
+        private bool IsOn(UrlWebViewSource source, NavigationRequest request)
+        {
+            if (source is null)
+            {
+                return false;
+            }
+            if (UriCompare(new Uri(source.Url), request.Url))
+            {
+                return true;
+            }
+            string path = new Uri(source.Url).AbsolutePath.ToLower();
+            if ((path == "/default.aspx" || path == "/") && UriCompare(request.Url, new Uri(School.HomePage)))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public async Task<bool> IsLoggedIn()
         {
             try
@@ -160,8 +206,8 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
         public async Task LogOut()
         {
             await EvaluateJavaScriptAsync(
-                "document.getElementById('ctl00_leftColumn_LoginStatusSession').click()");
-            await GoTo(School.HomePage);
+                "document.getElementById('ctl00_leftColumn_LoginStatusSession').click();");
+            await Task.Delay(TimeSpan.FromSeconds(2)); //dale tiempo para redireccionar
             await GoTo(School.HomePage);
 
         }
@@ -175,31 +221,38 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
                 await this.EvaluateJavaScriptAsync(
                     $"document.getElementById(\"ctl00_leftColumn_LoginUser_UserName\").value = \"{login.User.Boleta}\";" +
                     $"document.getElementById(\"ctl00_leftColumn_LoginUser_Password\").value = \"{Password}\";" +
-                    $"document.getElementById(\"ctl00_leftColumn_LoginUser_CaptchaCodeTextBox\").value = \"{login.Captcha}\";" +
+                    $"document.getElementById(\"ctl00_leftColumn_LoginUser_CaptchaCodeTextBox\").value = \"{login.Captcha}\";");
+                await Task.Delay(100);
+                await this.EvaluateJavaScriptAsync(
                     "document.getElementById(\"ctl00_leftColumn_LoginUser_LoginButton\").click();");
-                await Task.Run(() => this.NavigatedCallback.WaitOne());
+                await Task.Delay(TimeSpan.FromSeconds(2));
+                await GoTo(School.HomePage);
                 if (await IsLoggedIn())
                 {
                     if (ShouldGetUserData)
-                        await GetUserData();
-                    AppData.Instance.User = login.User;
+                        await GetUserData(login.User);
                     return true;
                 }
             }
             else
             {
+                await GoTo(School.HomePage);
                 Acr.UserDialogs.UserDialogs.Instance.Alert("Tienes varios intentos fallidos. Es posible que la aplicación no pueda comunicarse correctamente con el SAES o tus datos sean incorrectos." +
                                                            " Si continuas es posible que tu cuenta sea suspendida.", "Cuidado!", "Entiendo");
             }
             return false;
         }
-        private async Task GetUserData()
+        private async Task GetUserData(User user)
         {
+            AppData.Instance.User =user;
+            user.IsLogedIn = true;
+            user.School = this.School;
             await GetName();
             await GetHorario();
             await GetKardexInfo();
             await GetCitasReinscripcionInfo();
             await GetSchoolGrades();
+            AppData.Instance.LiteConnection.InsertOrReplace(AppData.Instance.User);
         }
         private async Task GetName()
         {
@@ -343,7 +396,7 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
                 Percentage = result,
                 UserId = AppData.Instance.User.Boleta
             };
-            AppData.Instance.LiteConnection.Insert(credits);
+            AppData.Instance.LiteConnection.InsertOrReplace(credits);
         }
 
         private List<List<string>> HtmlToTable(string html)
@@ -437,7 +490,6 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
                 var img = a.Descendants("img").First();
                 schools.Add(new School(a.Attributes["href"].Value, img.Attributes["alt"].Value.Trim(), SaesHomePage + "/" + img.Attributes["src"].Value.Trim()));
             }
-
             return schools;
         }
     }

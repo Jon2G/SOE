@@ -34,6 +34,7 @@ namespace SchoolOrganizer.ViewModels.Pages
             set
             {
                 _Captcha = value;
+                OnPropertyChanged();
                 this.LoginCommand.ChangeCanExecute();
             }
         }
@@ -74,8 +75,9 @@ namespace SchoolOrganizer.ViewModels.Pages
             }
             else
             {
-                await AppData.Instance.SAES.GoTo(AppData.Instance.SAES.School.HomePage);
-                await AppData.Instance.SAES.GetCaptcha();
+                this.Captcha = string.Empty;
+                this.User.Password = string.Empty;
+                this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
                 Acr.UserDialogs.UserDialogs.Instance.Alert("Usuario o contraseña invalidos", "Atención", "Ok");
             }
         }

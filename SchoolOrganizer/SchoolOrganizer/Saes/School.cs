@@ -7,7 +7,7 @@ namespace SchoolOrganizer.Saes
     public class School
     {
         public bool IsSchoolSelected => !string.IsNullOrEmpty(HomePage);
-        public string HomePage { get; private set; }
+        public string HomePage { get; set; }
         public string Name { get;private set; }
         public string ImgPath { get; private set; }
 

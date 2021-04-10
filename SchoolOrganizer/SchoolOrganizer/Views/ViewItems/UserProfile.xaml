@@ -11,7 +11,7 @@
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              BackgroundColor="{StaticResource primaryLightColor}" x:Name="Me">
     <ContentView.BindingContext>
-        <viewItems:UserProfileViewModel/>
+        <viewItems:UserProfileViewModel x:Name="Model"/>
     </ContentView.BindingContext>
     <ContentView.Content>
       <StackLayout >
@@ -23,9 +23,11 @@
                                          BackgroundColor="Transparent"
                                          IsClippedToBounds="True" Style="{StaticResource card}">
 
-                    <views:AvatarView 
-                        Source="profile.jpg" Aspect="AspectFill" 
-                         Size="80"/>
+                    <views:AvatarView BindingContext="{x:Reference Model}" x:DataType="viewItems:UserProfileViewModel"
+                                      Text="{Binding UserInitials}"
+                        Source="{Binding AvatarSource}" Aspect="AspectFill" 
+                         Size="80" views:TouchEffect.Command="{Binding TapAvatarCommand}"
+                        views:TouchEffect.NativeAnimation="True" views:TouchEffect.PressedBackgroundImageAspect="AspectFill"/>
                 </pancakeView:PancakeView>
 
                 <StackLayout VerticalOptions="Center" Grid.Column="1">

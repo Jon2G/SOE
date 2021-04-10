@@ -2,7 +2,7 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-             xmlns:taskFirst="clr-namespace:SchoolOrganizer.Models.TaskFirst;assembly=SchoolOrganizer"
+             xmlns:taskFirst="clr-namespace:SchoolOrganizer.Models.TaskFirst;assembly=SchoolOrganizer" xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts"
              x:Class="SchoolOrganizer.Views.ViewItems.TasksViews.TaskView"
              x:DataType="taskFirst:ToDo" x:Name="Me">
   <ContentView.Content>
@@ -15,6 +15,13 @@
                         Path=Group.DeleteCommand}" />
                     <SwipeItem Text="Editar" BackgroundColor="ForestGreen" />
                 </SwipeView.RightItems>
+                <SwipeView.LeftItems>
+                    <SwipeItem BackgroundColor="DodgerBlue" >
+                        <SwipeItem.IconImageSource>
+                            <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Attach}" FontFamily="{x:Static fonts:FontelloIcons.Font}" />
+                        </SwipeItem.IconImageSource>
+                    </SwipeItem>
+                </SwipeView.LeftItems>
                 <pancakeView:PancakeView Style="{StaticResource card}" Margin="0" CornerRadius="0">
                     <Grid Grid.ColumnDefinitions="*,38">
                         <StackLayout Grid.Column="1" Margin="0,0,5,0">

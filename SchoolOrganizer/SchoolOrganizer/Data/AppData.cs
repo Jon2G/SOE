@@ -44,6 +44,9 @@ namespace SchoolOrganizer.Data
         private static FileInfo LiteDbPath =>
             new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SchoolOrganizer.db"));
 
+        public DirectoryInfo ImagesDirectory =>
+            new DirectoryInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+                "Images"));
 
         public static void Init()
         {

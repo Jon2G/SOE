@@ -19,7 +19,7 @@
     </ContentPage.BindingContext>
     <Grid>
         <saes:SAES x:Name="SAES" IsVisible="True" />
-        <ContentView BackgroundColor="Transparent">
+        <ContentView BackgroundColor="{DynamicResource primaryLightColor}">
             <pancakeView:PancakeView 
                 Style="{StaticResource card}" 
                 BackgroundColor="{DynamicResource secondaryLightColor}"

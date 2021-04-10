@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using Kit;
 using Kit.Model;
 using Kit.Sql.Attributes;
 using SchoolOrganizer.Data;
 using SchoolOrganizer.Saes;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace SchoolOrganizer.Models.Data
 {
@@ -28,8 +32,13 @@ namespace SchoolOrganizer.Models.Data
             {
                 if (School is null)
                 {
-                    School = new School(HomePage, String.Empty, String.Empty);
+                    School = new School(value, String.Empty, String.Empty);
                 }
+                else
+                {
+                    School.HomePage = value;
+                }
+                
             }
         }
 
@@ -45,9 +54,10 @@ namespace SchoolOrganizer.Models.Data
         }
         internal static User Get()
         {
-
-            return AppData.Instance.LiteConnection.Table<User>().FirstOrDefault();
+            User User=AppData.Instance.LiteConnection.Table<User>().FirstOrDefault();
+            return User;
         }
+
 
         public bool RemeberMe
         {
@@ -63,6 +73,44 @@ namespace SchoolOrganizer.Models.Data
         public bool IsLogedIn { get; set; }
 
         public User() { }
-        //public User(string Boleta, string Password, bool RemeberMe) { }
+
+        internal static async Task<FileImageSource> SaveAvatar(FileResult result)
+        {
+            await Task.Yield();
+            DirectoryInfo directory = AppData.Instance.ImagesDirectory;
+            if (!directory.Exists)
+            {
+                directory.Create();
+            }
+            FileInfo avatar = new FileInfo(Path.Combine(directory.FullName, $"{AppData.Instance.User.Boleta}.png"));
+
+            using (FileStream stream = new FileStream(avatar.FullName, FileMode.OpenOrCreate))
+            {
+                using (var image = await result.OpenReadAsync())
+                {
+                  await  image.CopyToAsync(stream);
+                }
+            }
+
+            return GetAvatar();
+        }
+        internal static FileImageSource GetAvatar()
+        {
+            DirectoryInfo directory = AppData.Instance.ImagesDirectory;
+            if (!directory.Exists)
+            {
+                directory.Create();
+                return null;
+            }
+
+            FileInfo avatar = new FileInfo(Path.Combine(directory.FullName, $"{AppData.Instance.User.Boleta}.png"));
+            if (!avatar.Exists)
+            {
+                return null;
+            }
+            return (FileImageSource)FileImageSource.FromFile(avatar.FullName);
+        }
+
+
     }
 }

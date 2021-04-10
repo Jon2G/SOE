@@ -5,18 +5,19 @@
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:forms="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              xmlns:renders="clr-namespace:SchoolOrganizer.Renders;assembly=SchoolOrganizer"
-             xmlns:views="http://xamarin.com/schemas/2020/toolkit" x:Name="Me" BackgroundColor="Red"
+             xmlns:views="http://xamarin.com/schemas/2020/toolkit" x:Name="Me"
              x:Class="SchoolOrganizer.Saes.SchoolSelector" x:DataType="saes:SchoolSelectorViewModel">
     <ContentPage.Content>
         <Grid>
             <saes:SAES x:Name="SAES" IsVisible="True" />
-            <ContentView IsVisible="True">
+            <ContentView IsVisible="True" BackgroundColor="WhiteSmoke">
                 <pancakeView:PancakeView 
                 Style="{StaticResource card}" 
                 CornerRadius="10" 
                 Padding="10" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
                 Margin="20,10">
                     <StackLayout>
+                        <Label Text="Selecciona tu escuela" HorizontalOptions="Center" FontSize="18" TextColor="Black"/>
                         <CollectionView  ItemsSource="{Binding Schools}">
                             <CollectionView.ItemsLayout>
                                 <GridItemsLayout Orientation="Vertical" Span="1" />

@@ -15,7 +15,9 @@
     </ContentView.BindingContext>
     <ContentView.Content>
       <StackLayout >
-            <Grid BindingContext="{Binding User, Source={x:Static data1:AppData.Instance}}" x:DataType="data:User" Margin="10,0,0,0" ColumnDefinitions="Auto,*" Padding="10" >
+            <Grid BindingContext="{Binding User, Source={x:Static data1:AppData.Instance}}" 
+                  x:DataType="data:User" Margin="10,0,0,0"
+                  ColumnDefinitions="Auto,*" Padding="10" >
 
                 <pancakeView:PancakeView Padding="1" 
                                          BackgroundColor="Transparent"
@@ -27,8 +29,8 @@
                 </pancakeView:PancakeView>
 
                 <StackLayout VerticalOptions="Center" Grid.Column="1">
-                  <Label  Text="{Binding Name}"  FontSize="16" FontAttributes="Bold" TextColor="White" VerticalOptions="Center"/>
-                    <Label  Text="Estudiante"  FontSize="14" FontAttributes="Bold" VerticalOptions="Center" TextColor="White"/>
+                    <Label  Text="{Binding Name}"  FontSize="16" FontAttributes="Bold" TextColor="White" VerticalOptions="Center"/>
+                    <Label  Text="{Binding Career}"   FontSize="14" FontAttributes="Bold" VerticalOptions="Center" TextColor="White"/>
               </StackLayout>
 
           </Grid>

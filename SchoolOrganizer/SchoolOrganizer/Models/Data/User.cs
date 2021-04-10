@@ -15,6 +15,7 @@ namespace SchoolOrganizer.Models.Data
         private string _Password;
         private bool _RemeberMe;
         private string _Name;
+        private string _Career;
         [PrimaryKey, MaxLength(10)]
         public string Boleta { get => _Boleta; set { _Boleta = value; Raise(() => Boleta); } }
         public string Password { get => _Password; set { _Password = value; Raise(() => Password); } }
@@ -29,6 +30,17 @@ namespace SchoolOrganizer.Models.Data
                 {
                     School = new School(HomePage, String.Empty, String.Empty);
                 }
+            }
+        }
+
+
+        public string Career
+        {
+            get => _Career;
+            set
+            {
+                _Career = value;
+                Raise(() => Career);
             }
         }
         internal static User Get()
@@ -51,6 +63,6 @@ namespace SchoolOrganizer.Models.Data
         public bool IsLogedIn { get; set; }
 
         public User() { }
-        public User(string Boleta, string Password, bool RemeberMe) { }
+        //public User(string Boleta, string Password, bool RemeberMe) { }
     }
 }

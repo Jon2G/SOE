@@ -30,13 +30,7 @@ namespace SchoolOrganizer.Views.Pages
             InitializeComponent();
         }
 
-        public void SetBrowser(IBrowser browser)
-        {
-            if (browser != null)
-            {
-                this.BrowserHolder.Content = browser.Browser;
-            }
-        }
+
         private async void Button_Clicked(object sender, EventArgs e)
         {
 

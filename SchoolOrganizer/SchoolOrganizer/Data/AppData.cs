@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Kit;
+using Kit.Model;
 using Kit.Sql.Helpers;
 using Kit.Sql.Sqlite;
 using SchoolOrganizer.Models;
@@ -13,14 +14,20 @@ using SchoolOrganizer.Saes;
 
 namespace SchoolOrganizer.Data
 {
-    public class AppData
+    public class AppData : ModelBase
     {
         public static bool IsInitialized => Instance is not null;
         public static AppData Instance { get; private set; }
+
+        private User _User;
         public User User
         {
-            get;
-            set;
+            get => _User;
+            set
+            {
+                _User = value;
+                Raise(() => User);
+            }
         }
 
         public Saes.SAES SAES
@@ -45,7 +52,7 @@ namespace SchoolOrganizer.Data
                 User = new User(),
                 LiteConnection = new SQLiteConnection(LiteDbPath, 116)
             };
-            AppData.Instance.LiteConnection.CheckTables(typeof(Teacher), typeof(Subject), typeof(User), typeof(ClassTime), typeof(Grade));
+            AppData.Instance.LiteConnection.CheckTables(typeof(Teacher), typeof(Subject), typeof(User), typeof(ClassTime), typeof(Grade), typeof(Credits));
         }
     }
 }

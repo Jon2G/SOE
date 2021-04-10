@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:taskFirst="clr-namespace:SchoolOrganizer.Models.TaskFirst;assembly=SchoolOrganizer"
+             x:Class="SchoolOrganizer.Views.ViewItems.TasksViews.TaskView"
+             x:DataType="taskFirst:ToDo" x:Name="Me">
+  <ContentView.Content>
+        <StackLayout Spacing="0" Padding="0">
+            <SwipeView  Margin="0" Padding="0">
+                <SwipeView.RightItems>
+                    <SwipeItem  IsDestructive="True" Text="Eliminar" BackgroundColor="IndianRed" 
+                                CommandParameter="{Binding .}" 
+                                Command="{Binding Source={x:Reference Me}, 
+                        Path=Group.DeleteCommand}" />
+                    <SwipeItem Text="Editar" BackgroundColor="ForestGreen" />
+                </SwipeView.RightItems>
+                <pancakeView:PancakeView Style="{StaticResource card}" Margin="0" CornerRadius="0">
+                    <Grid Grid.ColumnDefinitions="*,38">
+                        <StackLayout Grid.Column="1" Margin="0,0,5,0">
+                            <Label Text="Vence:" FontSize="10" VerticalOptions="End" VerticalTextAlignment="End" TextColor="Black"/>
+                            <Label Text="{Binding H_Entrga}" FontSize="12" VerticalOptions="End" VerticalTextAlignment="End" TextColor="Black"/>
+                        </StackLayout>
+                        <StackLayout Spacing="0" Margin="3" Grid.Column="0">
+                            <Label Text="{Binding N_Tarea}" FontAttributes="Bold" TextColor="Black" FontSize="14"/>
+                            <Label Text="{Binding Description}" FontSize="16" TextColor="Gray"/>
+                        </StackLayout>
+                    </Grid>
+                </pancakeView:PancakeView>
+            </SwipeView>
+            <BoxView HeightRequest="1" Margin="0" BackgroundColor="LightGray"/>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

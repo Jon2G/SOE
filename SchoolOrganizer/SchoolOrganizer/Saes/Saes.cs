@@ -308,7 +308,7 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
         {
             await GoTo(KardexPage);
             string carrera = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_Lbl_Carrera').innerHTML");
-
+            AppData.Instance.User.Career = carrera;
         }
         private async Task GetCitasReinscripcionInfo()
         {
@@ -322,35 +322,41 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
             alumno_html = System.Text.RegularExpressions.Regex.Unescape(alumno_html);
             if (!string.IsNullOrEmpty(alumno_html))
             {
-                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-                doc.LoadHtml(alumno_html);
-                HtmlNode htable = doc.DocumentNode.SelectSingleNode("//table");
-                List<List<string>> table = htable
-                    .Descendants("tr")
-                    .Skip(1)
-                    .Where(tr => tr.Elements("td").Count() > 1)
-                    .Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
-                    .ToList();
+                var table = HtmlToTable(alumno_html);
                 creditos_alumno = Convert.ToDouble(table[0][1]);
             }
 
             creditos_carrera_html = System.Text.RegularExpressions.Regex.Unescape(creditos_carrera_html);
             if (!string.IsNullOrEmpty(creditos_carrera_html))
             {
-                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-                doc.LoadHtml(creditos_carrera_html);
-                HtmlNode htable = doc.DocumentNode.SelectSingleNode("//table");
-                List<List<string>> table = htable
-                    .Descendants("tr")
-                    .Skip(1)
-                    .Where(tr => tr.Elements("td").Count() > 1)
-                    .Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
-                    .ToList();
+                List<List<string>> table = HtmlToTable(creditos_carrera_html);
                 creditos_totales = Convert.ToDouble(table[0][1]);
             }
 
             double result = (creditos_alumno / creditos_totales) * 100;
             result = Math.Round(result, 2);
+
+            Credits credits = new Credits
+            {
+                CurrentCredits = creditos_alumno,
+                TotalCredits = creditos_totales,
+                Percentage = result,
+                UserId = AppData.Instance.User.Boleta
+            };
+            AppData.Instance.LiteConnection.Insert(credits);
+        }
+
+        private List<List<string>> HtmlToTable(string html)
+        {
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(html);
+            HtmlNode htable = doc.DocumentNode.SelectSingleNode("//table");
+            return htable
+                .Descendants("tr")
+                .Skip(1)
+                .Where(tr => tr.Elements("td").Count() > 1)
+                .Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
+                .ToList();
         }
         public async Task GetSchoolGrades()
         {
@@ -413,7 +419,6 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
 
             //}
         }
-
         public async Task<IEnumerable<School>> GetSchools(SchoolLevel Level)
         {
             await GoTo(Level == SchoolLevel.University ? UniversitiesPage : HighSchoolsPage);

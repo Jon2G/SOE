@@ -15,7 +15,7 @@ namespace SchoolOrganizer.Views.Pages
         {
             InitializeComponent();
         }
-        protected async override void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
             AppData.Init();
@@ -44,8 +44,8 @@ namespace SchoolOrganizer.Views.Pages
                 //{
                 //    Acr.UserDialogs.UserDialogs.Instance.Alert($"Error", "Autenticacion fallida", "OK");
                 //}
-                AppData.Instance.User = user;
-                       App.Current.MainPage = new AppShell();
+                AppData.Instance.User = user; 
+                App.Current.MainPage = new AppShell();
             }
             else
             {

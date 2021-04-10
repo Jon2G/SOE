@@ -4,6 +4,8 @@ using System.Text;
 using System.Windows.Input;
 using Kit;
 using Kit.Model;
+using SchoolOrganizer.Data;
+using SchoolOrganizer.Models.Academic;
 using SchoolOrganizer.Views.Pages;
 using Xamarin.Forms;
 
@@ -13,11 +15,13 @@ namespace SchoolOrganizer.ViewModels.ViewItems
     {
         public ICommand TareasCommand { get; }
         public ICommand SettingCommand { get; set; }
+     
 
         public UserProfileViewModel()
         {
             this.SettingCommand = new Command(OpenSettings);
             this.TareasCommand = new Command(Tareas);
+            //AppData.Instance.User.Career;
         }
 
         private void Tareas()

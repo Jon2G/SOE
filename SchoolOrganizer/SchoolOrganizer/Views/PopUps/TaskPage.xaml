@@ -21,12 +21,14 @@
             <Button  Text="Confirmar" HeightRequest="40"  HorizontalOptions="EndAndExpand" BackgroundColor="Transparent"  TextColor="White" FontSize="15" FontAttributes="Bold"/>
         </StackLayout>-->
         <ScrollView>
-            <StackLayout Spacing="10"  >
+            <StackLayout Spacing="10" Margin="5" >
                 <StackLayout Spacing="10">
-                    <Label  FontSize="30" Text="Titulo:" TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB"/>
-                    <Entry Placeholder="Agregar Titulo" Grid.Row="0" PlaceholderColor="{DynamicResource primaryLightColor}" TextColor="Black" Text="{Binding Tarea.N_Tarea}"/>
+                    <Label  HorizontalTextAlignment="Center" FontSize="30" Text="Nueva Tarea" TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB" FontAttributes="Bold"/>
+                    <Frame BorderColor="{StaticResource primaryLightColor}" CornerRadius="60" HeightRequest="39" WidthRequest="1">
+                        <Entry Placeholder="Agregar Titulo" Grid.Row="0" PlaceholderColor="{DynamicResource secondaryTextColor}" TextColor="Black" Text="{Binding Tarea.N_Tarea}"/>
+                    </Frame>
                     <Button Grid.Row="1" Text="{Binding SelectedSubject.Name}" 
-                            BackgroundColor="{Binding SelectedSubject.Color}" CornerRadius="20" BorderColor="LightGray" 
+                            BackgroundColor="{Binding SelectedSubject.Color}" CornerRadius="20" BorderColor="{StaticResource primaryLightColor}" 
                         BorderWidth="2" TextColor="{DynamicResource primaryLightColor}" Command="{Binding TaskCommand}"/>
                     <Frame Grid.Row="2" CornerRadius="10" Padding="3" BackgroundColor="{DynamicResource PrimaryLightBackground}" 
                        BorderColor="#12396F" >
@@ -35,8 +37,9 @@
 
                 </StackLayout>
                 <!--<Image x:Name="MyImg"/>-->
-
-                <Editor Placeholder="Nota" VerticalOptions="FillAndExpand" HeightRequest="200" Text="{Binding Tarea.Description}"/>
+                <Frame BorderColor="{StaticResource primaryLightColor}" CornerRadius="20">
+                    <Editor Placeholder="Nota" VerticalOptions="FillAndExpand" HeightRequest="200" Text="{Binding Tarea.Description}"/>
+                </Frame>
 
                 <StackLayout VerticalOptions="End" Orientation="Horizontal" HorizontalOptions="End">
                     <!--<Label FontSize="10" Text="Agregar Imagenes:" 
@@ -59,18 +62,18 @@
                 </StackLayout>
 
                 <StackLayout>
-
                     <CollectionView ItemsSource="{Binding Photos}">
-                        <CollectionView.ItemsLayout>
-                            <GridItemsLayout Orientation="Vertical"  Span="2"/>
-                        </CollectionView.ItemsLayout>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Image HeightRequest="150" Aspect="AspectFit" Source="{Binding .}"/>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </StackLayout>
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout Orientation="Vertical"  Span="2"/>
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Image HeightRequest="150" Aspect="AspectFit" Source="{Binding .}"/>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+
             </StackLayout>
         </ScrollView>
     </StackLayout>

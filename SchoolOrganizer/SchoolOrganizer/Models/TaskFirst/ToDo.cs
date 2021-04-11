@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using Kit.Forms.Pages;
 using Kit.Sql.Attributes;
 using Kit.Sql.Interfaces;
 using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Scheduler;
-
+using Rg.Plugins.Popup.Services;
+using SchoolOrganizer.Views.PopUps;
 
 namespace SchoolOrganizer.Models.TaskFirst
 {
@@ -95,6 +97,15 @@ namespace SchoolOrganizer.Models.TaskFirst
             //todo.subject = Subject.Get(todo.Id);
             //hacer los grupos
             //por dia, por materia ...
+            //  Kit.Forms.Pages.BasePopUp a = new BasePopUp();
+            //await  a.ShowDialog();
+
+            //var a = new ViewChangePopUp();
+            //await a.Show();
+            //await a.ShowDialog();
+
+
+
         }
 
 

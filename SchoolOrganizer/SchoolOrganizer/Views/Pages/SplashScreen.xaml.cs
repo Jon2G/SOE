@@ -22,6 +22,8 @@ namespace SchoolOrganizer.Views.Pages
             User user = User.Get();
             if (user != null && user.RemeberMe)
             {
+                // Settings settings = Settings.Get(user.Boleta);
+                //if(settings.HasFingerPrint){}
                 //bool isFingerprintAvailable = await CrossFingerprint.Current.IsAvailableAsync(true);
                 //if (!isFingerprintAvailable)
                 //{

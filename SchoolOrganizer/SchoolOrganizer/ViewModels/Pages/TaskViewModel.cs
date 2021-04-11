@@ -10,6 +10,7 @@ using System.Text;
 using FFImageLoading.Forms;
 using Xamarin.Forms;
 using System.Windows.Input;
+using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Scheduler;
 using SchoolOrganizer.Models.TaskFirst;
 
@@ -20,6 +21,7 @@ namespace SchoolOrganizer.ViewModels.Pages
     {
 
         public Command TaskCommand { get; }
+        public ICommand SaveCommand { get; }
         private Subject _selectedSubject;
 
         public ObservableCollection<FileImageSource> Photos { get; }
@@ -32,16 +34,7 @@ namespace SchoolOrganizer.ViewModels.Pages
                 OnPropertyChanged();
             }
         }
-        private ObservableCollection<ToDo> _tareas;
-        public ObservableCollection<ToDo> Tareas
-        {
-            get => _tareas;
-            set
-            {
-                _tareas = value;
-                OnPropertyChanged();
-            }
-        }
+
         private ToDo _Tarea;
 
         public ToDo Tarea
@@ -55,12 +48,19 @@ namespace SchoolOrganizer.ViewModels.Pages
         }
         public TaskViewModel()
         {
-            Tareas = new ObservableCollection<ToDo>();
             Tarea = new ToDo();
             TaskCommand = new Command(TaskClicked);
+            SaveCommand = new Command(Save);
             this.Photos = new ObservableCollection<FileImageSource>();
         }
 
+        private void Save(object obj)
+        {
+            this.Tarea.Subject = this.SelectedSubject;
+            //insertar o actualizar
+            AppData.Instance.LiteConnection.InsertOrReplace(this.Tarea);
+            //photos ?
+        }
 
         private async void TaskClicked(object obj)
         {

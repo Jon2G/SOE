@@ -3,47 +3,65 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using Kit.Sql.Attributes;
+using Kit.Sql.Interfaces;
+using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Scheduler;
 
 
 namespace SchoolOrganizer.Models.TaskFirst
 {
-    public class ToDo : ModelBase
+    public class ToDo : ModelBase, IGuid
     {
-       
-        private string n_Tarea;
-        private string _H_Entrga;
-        private DateTime date;
+        private string _Title;
+        private TimeSpan _Time;
+        private DateTime _Date;
         private Subject subject;
-        private string description;
-
-        public string N_Tarea
+        private string _Description;
+        public Guid Guid { get; set; }
+        [PrimaryKey, AutoIncrement]
+        public int Id
         {
-            get => n_Tarea;
+            get;
+            set;
+        }
+        public string Title
+        {
+            get => _Title;
             set
             {
-                n_Tarea = value;
-                Raise(() => N_Tarea);
+                _Title = value;
+                Raise(() => Title);
             }
         }
-        public string H_Entrga
+        public string Description
         {
-            get => _H_Entrga;
+            get => _Description;
             set
             {
-                _H_Entrga = value;
-                Raise(() => H_Entrga);
+                _Description = value;
+                Raise(() => Description);
             }
         }
         public DateTime Date
         {
-            get => date;
+            get => _Date;
             set
             {
-                date = value;
+                _Date = value;
                 Raise(() => Date);
             }
         }
+        public TimeSpan Time
+        {
+            get => _Time;
+            set
+            {
+                _Time = value;
+                Raise(() => Time);
+            }
+        }
+        [Ignore]
         public Subject Subject
         {
             get => subject;
@@ -53,26 +71,32 @@ namespace SchoolOrganizer.Models.TaskFirst
                 Raise(() => Subject);
             }
         }
-
-        public string Description
+        public int SubjectId
         {
-            get => description;
+            get => Subject.Id;
             set
             {
-                description = value;
-                Raise(() => Description);
+                if (Subject is null)
+                {
+                    Subject = new Subject();
+                }
+                Subject.Id = value;
             }
         }
-        //implementar imagen
-
         public ToDo()
         {
-            N_Tarea = "";
-            H_Entrga = "11:00";
-            Date = DateTime.Now;
-            //Subject = null;
-            Description = "";
+            //Title = "";
+            //Time =new TimeSpan(0,11,0,0);
+            //Date = DateTime.Now;
+            ////Subject = null;
+            //Description = "";
+
+            //var todo=AppData.Instance.LiteConnection.Table<ToDo>().ToList();
+            //todo.subject = Subject.Get(todo.Id);
+            //hacer los grupos
+            //por dia, por materia ...
         }
-        
+
+
     }
 }

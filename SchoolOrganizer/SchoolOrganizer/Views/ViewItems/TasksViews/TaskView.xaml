@@ -26,10 +26,10 @@
                     <Grid Grid.ColumnDefinitions="*,38">
                         <StackLayout Grid.Column="1" Margin="0,0,5,0">
                             <Label Text="Vence:" FontSize="10" VerticalOptions="End" VerticalTextAlignment="End" TextColor="Black"/>
-                            <Label Text="{Binding H_Entrga}" FontSize="12" VerticalOptions="End" VerticalTextAlignment="End" TextColor="Black"/>
+                            <Label Text="{Binding Time}" FontSize="12" VerticalOptions="End" VerticalTextAlignment="End" TextColor="Black"/>
                         </StackLayout>
                         <StackLayout Spacing="0" Margin="3" Grid.Column="0">
-                            <Label Text="{Binding N_Tarea}" FontAttributes="Bold" TextColor="Black" FontSize="14"/>
+                            <Label Text="{Binding Title}" FontAttributes="Bold" TextColor="Black" FontSize="14"/>
                             <Label Text="{Binding Description}" FontSize="16" TextColor="Gray"/>
                         </StackLayout>
                     </Grid>

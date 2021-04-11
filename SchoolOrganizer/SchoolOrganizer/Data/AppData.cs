@@ -10,6 +10,7 @@ using SchoolOrganizer.Models;
 using SchoolOrganizer.Models.Academic;
 using SchoolOrganizer.Models.Data;
 using SchoolOrganizer.Models.Scheduler;
+using SchoolOrganizer.Models.TaskFirst;
 using SchoolOrganizer.Saes;
 
 namespace SchoolOrganizer.Data
@@ -55,7 +56,7 @@ namespace SchoolOrganizer.Data
                 User = new User(),
                 LiteConnection = new SQLiteConnection(LiteDbPath, 116)
             };
-            AppData.Instance.LiteConnection.CheckTables(typeof(Teacher), typeof(Subject), typeof(User), typeof(ClassTime), typeof(Grade), typeof(Credits));
+            AppData.Instance.LiteConnection.CheckTables(typeof(Teacher), typeof(Subject), typeof(User), typeof(ClassTime), typeof(Grade), typeof(Credits),typeof(ToDo));
         }
     }
 }

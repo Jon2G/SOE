@@ -13,7 +13,7 @@
         <viewModels:TaskViewModel x:Name="Modelo"/>
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Confirmar" Clicked="ToolbarItem_Clicked"/>
+        <ToolbarItem Text="Confirmar" Command="{Binding SaveCommand}"/>
     </ContentPage.ToolbarItems>
     <StackLayout>
         <!--<StackLayout Orientation="Horizontal" BackgroundColor="{DynamicResource primaryLightColor}">
@@ -25,7 +25,7 @@
                 <StackLayout Spacing="10">
                     <Label  HorizontalTextAlignment="Center" FontSize="30" Text="Nueva Tarea" TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB" FontAttributes="Bold"/>
                     <Frame BorderColor="{StaticResource primaryLightColor}" CornerRadius="60" HeightRequest="39" WidthRequest="1">
-                        <Entry Placeholder="Agregar Titulo" Grid.Row="0" PlaceholderColor="{DynamicResource secondaryTextColor}" TextColor="Black" Text="{Binding Tarea.N_Tarea}"/>
+                        <Entry Placeholder="Agregar Titulo" Grid.Row="0" PlaceholderColor="{DynamicResource secondaryTextColor}" TextColor="Black" Text="{Binding Tarea.Title}"/>
                     </Frame>
                     <Button Grid.Row="1" Text="{Binding SelectedSubject.Name}" 
                             BackgroundColor="{Binding SelectedSubject.Color}" CornerRadius="20" BorderColor="{StaticResource primaryLightColor}" 

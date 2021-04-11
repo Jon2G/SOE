@@ -97,18 +97,18 @@ namespace SchoolOrganizer.ViewModels.ViewItems
                             {
                                 new()
                                 {
-                                    N_Tarea = "Diagrama",
+                                    Title = "Diagrama",
                                     Date = DateTime.Now,
                                     Description = "Diagrama de don cuco",
-                                    H_Entrga = "11:00",
+                                    Time =new TimeSpan(0,11,0,0),// "11:00",
                                     Subject = subject
                                 },
                                 new()
                                 {
-                                    N_Tarea = "Formatos de fecha",
+                                    Title = "Formatos de fecha",
                                     Date = DateTime.Now,
                                     Description = "Documento de word con la descripcion de los formatos de fecha",
-                                    H_Entrga = "10:00",
+                                    Time = new TimeSpan(0,11,0,0),
                                     Subject = subject
                                 }
                             }
@@ -119,18 +119,18 @@ namespace SchoolOrganizer.ViewModels.ViewItems
                             {
                                 new()
                                 {
-                                    N_Tarea = "Diagrama",
+                                    Title = "Diagrama",
                                     Date = DateTime.Now,
                                     Description = "Diagrama de don cuco",
-                                    H_Entrga = "11:00",
+                                    Time = new TimeSpan(0,11,0,0),
                                     Subject = subject2
                                 },
                                 new()
                                 {
-                                    N_Tarea = "Formatos de fecha",
+                                    Title = "Formatos de fecha",
                                     Date = DateTime.Now,
                                     Description = "Documento de word con la descripcion de los formatos de fecha",
-                                    H_Entrga = "10:00",
+                                    Time = new TimeSpan(0,11,0,0),
                                     Subject = subject2
                                 }
                             }
@@ -141,18 +141,18 @@ namespace SchoolOrganizer.ViewModels.ViewItems
                             {
                                 new()
                                 {
-                                    N_Tarea = "Diagrama",
+                                    Title = "Diagrama",
                                     Date = DateTime.Now,
                                     Description = "Diagrama de don cuco",
-                                    H_Entrga = "11:00",
+                                    Time = new TimeSpan(0,11,0,0),
                                     Subject = subject3
                                 },
                                 new()
                                 {
-                                    N_Tarea = "Formatos de fecha",
+                                    Title = "Formatos de fecha",
                                     Date = DateTime.Now,
                                     Description = "Documento de word con la descripcion de los formatos de fecha",
-                                    H_Entrga = "10:00",
+                                    Time = new TimeSpan(0,11,0,0),
                                     Subject = subject3
                                 }
                             }
@@ -164,18 +164,18 @@ namespace SchoolOrganizer.ViewModels.ViewItems
                             {
                                 new()
                                 {
-                                    N_Tarea = "Diagrama",
+                                    Title = "Diagrama",
                                     Date = DateTime.Now,
                                     Description = "Diagrama de don cuco",
-                                    H_Entrga = "11:00",
+                                    Time =new TimeSpan(0,11,0,0),
                                     Subject = subject4
                                 },
                                 new()
                                 {
-                                    N_Tarea = "Formatos de fecha",
+                                    Title = "Formatos de fecha",
                                     Date = DateTime.Now,
                                     Description = "Documento de word con la descripcion de los formatos de fecha",
-                                    H_Entrga = "10:00",
+                                    Time = new TimeSpan(0,11,0,0),
                                     Subject = subject4
                                 }
                             }

@@ -74,7 +74,7 @@ namespace SchoolOrganizer.Views.PopUps
         private void ToolbarItem_Clicked(object sender, EventArgs e)
         {
             var Task = this.Modelo.Tarea;
-            this.Modelo.Tareas.Add(Task);
+            //this.Modelo.Tareas.Add(Task);
             this.Modelo.Tarea = new ToDo();
             
         }

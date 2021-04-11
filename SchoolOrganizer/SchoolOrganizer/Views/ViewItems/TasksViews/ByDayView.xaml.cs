@@ -42,6 +42,8 @@ namespace SchoolOrganizer.Views.ViewItems.TasksViews
                 Group?.DayGroups.Remove(this.Model);
                 //la automatación
             }
+
+            this.Model.RefreshCount();
         }
     }
 }

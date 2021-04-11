@@ -68,6 +68,7 @@ namespace SchoolOrganizer.Views.Pages
             switch (TabView.SelectedIndex)
             {
                 case 0:
+                    this.Title = "Calificaciones";
                     this.ToolbarItems.Clear();
                     this.ToolbarItems.Add(new ToolbarItem
                     {
@@ -80,7 +81,12 @@ namespace SchoolOrganizer.Views.Pages
                         }
                     });
                     break;
+                case 1:
+                    this.Title = "Tareas";
+                    this.ToolbarItems.Clear();
+                    break;
                 case 2:
+                    this.Title = "Horario";
                     this.ToolbarItems.Clear();
                     this.ToolbarItems.Add(new ToolbarItem
                     {

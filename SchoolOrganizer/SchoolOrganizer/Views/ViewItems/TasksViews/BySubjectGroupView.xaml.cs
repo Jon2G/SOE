@@ -46,8 +46,8 @@ namespace SchoolOrganizer.Views.ViewItems.TasksViews
             {
                 Group.SubjectGroups.Remove(this.Model);
                 //la automatación
-                Group.View.Resize();
             }
+            Group.View.Resize();
         }
     }
 }

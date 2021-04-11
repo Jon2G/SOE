@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SchoolOrganizer.Control.FilterMenu">
+             xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
+             x:Class="SchoolOrganizer.Control.FilterMenu"
+            >
     <ContentView.Content>
         <Grid>
             <Image 
@@ -54,12 +56,16 @@
                 x:Name="SW" 
                 Opacity="0"
                 Margin="0,60,130,0" 
-                Source="clipboard.png"
                 Aspect="AspectFit"
                 WidthRequest="40"
                 HeightRequest="40" 
                 VerticalOptions="Center"
-                HorizontalOptions="Center"/>
+                HorizontalOptions="Center">
+                <Image.Source>
+                    <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Book1}" 
+                                     FontFamily="{x:Static fonts:FontelloIcons.Font}"/>
+                </Image.Source>
+                </Image>
             <!-- S -->
         </Grid>
     </ContentView.Content>

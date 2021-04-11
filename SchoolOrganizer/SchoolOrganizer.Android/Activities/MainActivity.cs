@@ -7,6 +7,7 @@ using Android.OS;
 using Kit;
 using Plugin.Fingerprint;
 using Plugin.Media;
+using Plugin.Media.Abstractions;
 using SchoolOrganizer.Droid.Widgets.TimeLine;
 using SchoolOrganizer.Models.Scheduler;
 using SchoolOrganizer.Widgets;
@@ -37,27 +38,14 @@ namespace SchoolOrganizer.Droid.Activities
             CrossFingerprint.SetCurrentActivityResolver(() => this);
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-            base.OnCreate(savedInstanceState);
             await CrossMedia.Current.Initialize();//
-            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            UserDialogs.Init(this);
-            Rg.Plugins.Popup.Popup.Init(this); // :)
-            Forms9Patch.Droid.Settings.Initialize(this);
+            base.OnCreate(savedInstanceState);
             Kit.Droid.Tools.Init(this, savedInstanceState);
             LoadApplication(new SchoolOrganizer.App());
             if (this.Intent != null)
                 OnNewIntent(this.Intent);
 
         }
-
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
-        {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-
-
 
         protected override void OnNewIntent(Intent intent)
         {

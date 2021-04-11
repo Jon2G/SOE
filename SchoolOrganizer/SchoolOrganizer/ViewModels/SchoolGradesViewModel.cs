@@ -63,7 +63,7 @@ namespace SchoolOrganizer.ViewModels
 
                 if (!await saes.LogIn(loginViewModel, false))
                 {
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Usuario o contraseña invalidos", "Atención", "Ok");
+                    UserDialogs.Instance.Alert("Usuario o contraseña invalidos", "Atención", "Ok");
                     return;
                 }
                 else

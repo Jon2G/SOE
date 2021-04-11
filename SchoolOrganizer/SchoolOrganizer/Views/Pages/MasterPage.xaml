@@ -80,7 +80,7 @@
                          x:Name="TabView" x:FieldModifier="public" SelectionChanged="TabView_OnSelectionChanged" IsSwipeEnabled="False">
 
             <!--  FAVOURITE TAB  -->
-            <toolkit:TabViewItem HeightRequest="60" BadgeText="2" BadgeBackgroundColor="Red" BadgeTextColor="White">
+            <toolkit:TabViewItem HeightRequest="60" >
                 <toolkit:TabViewItem.Icon>
                     <FontImageSource
                         FontFamily="{x:Static fonts:FontelloIcons.Font}"

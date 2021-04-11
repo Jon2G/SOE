@@ -20,11 +20,12 @@ using ImageSource = Xamarin.Forms.ImageSource;
 
 namespace SchoolOrganizer.ViewModels.ViewItems
 {
-    public class UserProfileViewModel : ModelBase
+    public class FlyOutViewModel : ModelBase
     {
         public ICommand TareasCommand { get; }
         public ICommand SettingCommand { get; set; }
         public ICommand TapAvatarCommand { get; set; }
+        public ICommand UserCommand { get; set; }
         private FileImageSource _AvatarSource;
         public string _UserInitials;
 
@@ -48,13 +49,15 @@ namespace SchoolOrganizer.ViewModels.ViewItems
             }
         }
 
-        public UserProfileViewModel()
+        public FlyOutViewModel()
         {
             this.SettingCommand = new Command(OpenSettings);
             this.TareasCommand = new Command(Tareas);
             this.TapAvatarCommand = new Command(TapAvatar);
+            this.UserCommand = new Command(UserProfile);
             GetAvatar();
         }
+
         private async void GetAvatar()
         {
             await Task.Yield();
@@ -118,7 +121,14 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 
         private void OpenSettings()
         {
-            Shell.Current.Navigation.PushModalAsync(new SettingsView(), true);
+            Shell.Current.FlyoutIsPresented = false;
+            Shell.Current.Navigation.PushAsync(new SettingsView(), true);
+        }
+
+        private void UserProfile(object obj)
+        {
+            Shell.Current.FlyoutIsPresented = false;
+            Shell.Current.Navigation.PushAsync(new UserProfile(), true);
         }
     }
 }

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <None Remove="Fonts\Fontello\font\fontello_6.ttf" />
+    <None Remove="Fonts\Fontello\font\fontello_7.ttf" />
     <None Remove="Fonts\Karla.ttf" />
     <None Remove="Fonts\Karla_ExtraLight.ttf" />
     <None Remove="Fonts\Karla_Medium.ttf" />
@@ -17,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Fonts\Fontello\font\fontello_6.ttf" />
+    <EmbeddedResource Include="Fonts\Fontello\font\fontello_7.ttf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -62,6 +63,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\SplashScreen.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Pages\UserProfile.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ViewItems\TasksViews\ByDayView.xaml">
@@ -124,7 +128,7 @@
     <EmbeddedResource Update="Views\ViewItems\TimelineBar.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ViewItems\UserProfile.xaml">
+    <EmbeddedResource Update="Views\ViewItems\FlyOutView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
@@ -138,6 +142,9 @@
     </Compile>
     <Compile Update="Views\ViewItems\ScheduleView\ScheduleMain.xaml.cs">
       <DependentUpon>ScheduleMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ViewItems\FlyOutView.xaml.cs">
+      <DependentUpon>FlyOutView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 

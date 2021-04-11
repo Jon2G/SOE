@@ -14,12 +14,13 @@
 .icon-camera:before { content: '\e80c'; } /* '' */
 .icon-picture:before { content: '\e80d'; } /* '' */
 .icon-lock:before { content: '\e80e'; } /* '' */
-.icon-user-delete:before { content: '\e80f'; } /* '' */
+.icon-heart:before { content: '\e80f'; } /* '' */
 .icon-comment:before { content: '\e810'; } /* '' */
 .icon-share:before { content: '\e811'; } /* '' */
 .icon-arrows-ccw:before { content: '\e812'; } /* '' */
 .icon-off:before { content: '\e813'; } /* '' */
 .icon-bookmark:before { content: '\e814'; } /* '' */
+.icon-user:before { content: '\e815'; } /* '' */
 .icon-angle-right:before { content: '\f105'; } /* '' */
 .icon-file-pdf:before { content: '\f1c1'; } /* '' */
 .icon-paper-plane:before { content: '\f1d8'; } /* '' */

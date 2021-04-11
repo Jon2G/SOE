@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SchoolOrganizer.Views.ViewItems.UserProfile"
+             x:Class="SchoolOrganizer.Views.ViewItems.FlyOutView"
              xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
           
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
@@ -11,10 +11,10 @@
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              BackgroundColor="{StaticResource primaryLightColor}" x:Name="Me">
     <ContentView.BindingContext>
-        <viewItems:UserProfileViewModel x:Name="Model"/>
+        <viewItems:FlyOutViewModel x:Name="Model"/>
     </ContentView.BindingContext>
     <ContentView.Content>
-      <StackLayout >
+        <StackLayout >
             <Grid BindingContext="{Binding User, Source={x:Static data1:AppData.Instance}}" 
                   x:DataType="data:User" Margin="10,0,0,0"
                   ColumnDefinitions="Auto,*" Padding="10" >
@@ -23,7 +23,7 @@
                                          BackgroundColor="Transparent"
                                          IsClippedToBounds="True" Style="{StaticResource card}">
 
-                    <views:AvatarView BindingContext="{x:Reference Model}" x:DataType="viewItems:UserProfileViewModel"
+                    <views:AvatarView BindingContext="{x:Reference Model}" x:DataType="viewItems:FlyOutViewModel"
                                       Text="{Binding UserInitials}"
                         Source="{Binding AvatarSource}" Aspect="AspectFill" 
                          Size="80" views:TouchEffect.Command="{Binding TapAvatarCommand}"
@@ -33,13 +33,25 @@
                 <StackLayout VerticalOptions="Center" Grid.Column="1">
                     <Label  Text="{Binding Name}"  FontSize="16" FontAttributes="Bold" TextColor="White" VerticalOptions="Center"/>
                     <Label  Text="{Binding Career}"   FontSize="14" FontAttributes="Bold" VerticalOptions="Center" TextColor="White"/>
-              </StackLayout>
+                </StackLayout> 
 
-          </Grid>
+            </Grid>
 
             <TableView BackgroundColor="White">
                 <TableRoot>
                     <TableSection>
+                        <ViewCell>
+                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding UserCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
+                                </StackLayout.GestureRecognizers>
+                                <Label Text="{x:Static fonts:FontelloIcons.User}" 
+                                       FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                                       FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Perfil" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                            </StackLayout>
+                        </ViewCell>
+
                         <ViewCell >
                             <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand" >
                                 <Label Text="{x:Static fonts:FontelloIcons.AddressBook}" 
@@ -48,6 +60,7 @@
                                 <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Contactos" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                             </StackLayout>
                         </ViewCell>
+
                         <ViewCell >
 
                             <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
@@ -97,20 +110,9 @@
                                 <Label TextColor="{DynamicResource primaryDarkColor}"  Margin="10,0,0,0" Text=" Cerrar Sesión" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                             </StackLayout>
                         </ViewCell>
-
                     </TableSection>
-                    <!--<TableSection Title="Ajustes">
-                        <ViewCell>
-                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
-                                <Label Text="{x:Static fonts:FontelloIcons.Logout}" 
-                                       FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
-                                       FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                <Label TextColor="{DynamicResource primaryDarkColor}"  Margin="10,0,0,0" Text=" Cerrar Sesión" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
-                            </StackLayout>
-                        </ViewCell>
-                    </TableSection>-->
                 </TableRoot>
             </TableView>
         </StackLayout>
-  </ContentView.Content>
+    </ContentView.Content>
 </ContentView>

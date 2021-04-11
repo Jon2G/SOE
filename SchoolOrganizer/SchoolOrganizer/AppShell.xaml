@@ -77,7 +77,7 @@
     </Shell.Resources>
 
     <Shell.FlyoutContent>
-        <viewItems:UserProfile/>
+        <viewItems:FlyOutView/>
     </Shell.FlyoutContent>
     <ShellContent>
         <pages:MasterPage x:Name="MasterPage" Appearing="MasterPage_OnAppearing" x:FieldModifier="public"/>

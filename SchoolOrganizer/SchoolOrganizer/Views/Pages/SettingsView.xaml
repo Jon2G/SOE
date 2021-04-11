@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SchoolOrganizer.Views.Pages.SettingsView"
              xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer" 
-             xmlns:viewItems="clr-namespace:SchoolOrganizer.ViewModels.Pages">
-    <Frame BackgroundColor="White" CornerRadius="30" BorderColor="{StaticResource primaryLightColor}" >
+             xmlns:viewItems="clr-namespace:SchoolOrganizer.ViewModels.Pages" Title="Ajustes">
+    <Frame BackgroundColor="White" CornerRadius="0" BorderColor="{StaticResource primaryLightColor}" >
         <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -37,7 +37,7 @@
                     <RowDefinition Height="2"/>
                 </Grid.RowDefinitions>
                 <StackLayout Orientation="Horizontal" Grid.Row="0">
-                    <Label Text="{x:Static fonts:FontelloIcons.Out}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
+                    <Label Text="{x:Static fonts:FontelloIcons.Hearth}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
                     <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Text="Desactivar Inicio Automatico"  FontSize="15"  TextColor="Black"  HorizontalOptions="Start"/>
                     <Switch  OnColor="{StaticResource secondaryColor}" ThumbColor="{StaticResource primaryLightColor}" HorizontalOptions="EndAndExpand"/>

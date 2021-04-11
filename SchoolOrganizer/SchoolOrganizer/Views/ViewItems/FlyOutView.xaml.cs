@@ -10,15 +10,12 @@ using Xamarin.Forms.Xaml;
 namespace SchoolOrganizer.Views.ViewItems
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class UserProfile 
+    public partial class FlyOutView 
     {
-        public UserProfile()
+        public FlyOutView()
         {
             InitializeComponent();
 
         }
-
-
-        
     }
 }

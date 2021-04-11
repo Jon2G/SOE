@@ -6,7 +6,6 @@ namespace SchoolOrganizer.Fonts
 {
     public static class FontelloIcons
     {
-        public const string Gmail = "\ue800";
         public const string AddressBook = "\ue801";
         public const string Home = "\ue802";
         public const string Calendar = "\ue803";
@@ -22,13 +21,14 @@ namespace SchoolOrganizer.Fonts
         public const string Camera = "\uE80C";
         public const string Photo = "\uE80D";
         public const string Lock = "\uE80E";
-        public const string Out = "\uE80F";
+        public const string Hearth = "\uE80F";
         public const string Notifi= "\uE810";
         public const string Share = "\uE811";
         public const string Refresh = "\uE812";
         public const string Off = "\uE813";
         public const string PDF = "\uF1C1";
         public const string Cal = "\uE814";
+        public const string User = "\uE815";
         public const string Font = "FontIcon";
     }
 }

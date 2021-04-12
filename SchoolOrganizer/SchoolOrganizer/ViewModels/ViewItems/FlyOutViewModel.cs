@@ -93,7 +93,15 @@ namespace SchoolOrganizer.ViewModels.ViewItems
             });
             if (result != null)
             {
-                this.AvatarSource.File = result.FullPath;
+                if (this.AvatarSource is null)
+                {
+                    this.AvatarSource = (FileImageSource)FileImageSource.FromFile(result.FullPath);
+                }
+                else
+                {
+                    this.AvatarSource.File = result.FullPath;
+                }
+
                 await User.SaveAvatar(result);
             }
         }
@@ -106,8 +114,15 @@ namespace SchoolOrganizer.ViewModels.ViewItems
             });
             if (result != null)
             {
-                this.AvatarSource.File = result.FullPath;
-              await User.SaveAvatar(result);
+                if (this.AvatarSource is null)
+                {
+                    this.AvatarSource = (FileImageSource)FileImageSource.FromFile(result.FullPath);
+                }
+                else
+                {
+                    this.AvatarSource.File = result.FullPath;
+                }
+                await User.SaveAvatar(result);
             }
 
         }

@@ -91,6 +91,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activities\MainActivity.cs" />
+    <Compile Include="Notifications\Alarm.cs" />
+    <Compile Include="Notifications\AutoStart.cs" />
+    <Compile Include="Notifications\NotificationService.cs" />
     <Compile Include="Renders\BorderlessDatePickerRenderer.cs" />
     <Compile Include="Renders\NoLineEntryRender.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
@@ -254,6 +257,7 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\clipboard.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>

@@ -38,7 +38,7 @@ namespace SchoolOrganizer.Models.Data
                 {
                     School.HomePage = value;
                 }
-                
+
             }
         }
 
@@ -54,7 +54,7 @@ namespace SchoolOrganizer.Models.Data
         }
         internal static User Get()
         {
-            User User=AppData.Instance.LiteConnection.Table<User>().FirstOrDefault();
+            User User = AppData.Instance.LiteConnection.Table<User>().FirstOrDefault();
             return User;
         }
 
@@ -88,7 +88,7 @@ namespace SchoolOrganizer.Models.Data
             {
                 using (var image = await result.OpenReadAsync())
                 {
-                  await  image.CopyToAsync(stream);
+                    await image.CopyToAsync(stream);
                 }
             }
 
@@ -112,5 +112,21 @@ namespace SchoolOrganizer.Models.Data
         }
 
 
+        public Settings GetSettings()
+        {
+            var settings = AppData.Instance.LiteConnection
+                .Table<Settings>()
+                .FirstOrDefault(x => x.Boleta == this.Boleta);
+            if (settings is null)
+            {
+                settings= new Settings()
+                {
+                    Boleta = this.Boleta
+                };
+                settings.Save();
+            }
+
+            return settings;
+        }
     }
 }

@@ -46,8 +46,10 @@ namespace SchoolOrganizer.Views.Pages
                 //{
                 //    Acr.UserDialogs.UserDialogs.Instance.Alert($"Error", "Autenticacion fallida", "OK");
                 //}
-                AppData.Instance.User = user; 
+                AppData.Instance.User = user;
                 App.Current.MainPage = new AppShell();
+                Settings settings = user.GetSettings();
+                settings.Notifications();
             }
             else
             {

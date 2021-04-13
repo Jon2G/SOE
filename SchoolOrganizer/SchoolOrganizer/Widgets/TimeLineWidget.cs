@@ -26,14 +26,14 @@ namespace SchoolOrganizer.Widgets
             Init(WidgetId);
             Day day = Day.Today();
             WidgetsDays[WidgetId] = day;
-            Log.Logger.Debug("Today ->{0}", day.DayOfWeek);
+            //Log.Logger.Debug("Today ->{0}", day.DayOfWeek);
         }
         public static void Tomorrow(int WidgetId)
         {
             Init(WidgetId);
             Day day = WidgetsDays[WidgetId].Tommorrow();
             WidgetsDays[WidgetId] = day;
-            Log.Logger.Debug("Tomorrow ->{0}", day.DayOfWeek);
+            //Log.Logger.Debug("Tomorrow ->{0}", day.DayOfWeek);
         }
 
         public static void Yesterday(int WidgetId)
@@ -41,7 +41,7 @@ namespace SchoolOrganizer.Widgets
             Init(WidgetId);
             Day day = WidgetsDays[WidgetId].Yesterday();
             WidgetsDays[WidgetId] = day;
-            Log.Logger.Debug("Yesterday ->{0}", day.DayOfWeek);
+            //Log.Logger.Debug("Yesterday ->{0}", day.DayOfWeek);
         }
 
         public static List<ClassSquare> GetTimeLine(int WidgetId)
@@ -50,7 +50,7 @@ namespace SchoolOrganizer.Widgets
             if (!SavedTimeLines.ContainsKey(day.DayOfWeek))
             {
                 Init(WidgetId);
-                Log.Logger.Debug("GetTimeLine of day {0}", day.DayOfWeek);
+                //Log.Logger.Debug("GetTimeLine of day {0}", day.DayOfWeek);
                 SavedTimeLines.Add(day.DayOfWeek, day.GetTimeLine());
                 return GetTimeLine(WidgetId);
             }
@@ -73,7 +73,7 @@ namespace SchoolOrganizer.Widgets
         {
             Init(WidgetId);
             Day day = WidgetsDays[WidgetId];
-            Log.Logger.Debug("GetDay => {0}", day.DayOfWeek);
+            //Log.Logger.Debug("GetDay => {0}", day.DayOfWeek);
             return day;
         }
 

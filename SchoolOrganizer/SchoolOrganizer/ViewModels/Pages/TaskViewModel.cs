@@ -22,7 +22,9 @@ namespace SchoolOrganizer.ViewModels.Pages
 
         public Command TaskCommand { get; }
         public ICommand SaveCommand { get; }
+
         private Subject _selectedSubject;
+        
 
         public ObservableCollection<FileImageSource> Photos { get; }
         public Subject SelectedSubject

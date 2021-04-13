@@ -1,6 +1,7 @@
 ﻿using SchoolOrganizer.Models.Scheduler;
 using SchoolOrganizer.Models.TaskFirst;
 using SchoolOrganizer.ViewModels.Pages;
+using SchoolOrganizer.Views.Pages;
 using SchoolOrganizer.Views.PopUps;
 using System;
 using System.Collections.Generic;
@@ -20,66 +21,14 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 
         public TaskFirstViewModel()
         {
-            //var subject = new Subject(1, 1, "Base de datos", "#e2F0cb", "7CV22");
-            //var subject2 = new Subject(1, 1, "Sistemas de información", "#c7ceea", "7CV25");
+           
             DayGroups = GetDays();
-             //new ObservableCollection<ByDayGroup>()
-            //{
-            //    new()
-            //    {
-            //        FDateTime = DateTime.Today,
-            //        SubjectGroups =
-            //        {
-            //            new BySubjectGroup(subject)
-            //            {
-            //                ToDoS =new ObservableCollection<ToDo>()
-            //                {
-            //                    new()
-            //                    {
-            //                        N_Tarea = "Diagrama",
-            //                        Date = DateTime.Now,
-            //                        Description = "Diagrama de don cuco",
-            //                        H_Entrga = "11:00",
-            //                        Subject = subject
-            //                    },
-            //                    new()
-            //                    {
-            //                        N_Tarea = "Formatos de fecha",
-            //                        Date = DateTime.Now,
-            //                        Description = "Documento de word con la descripcion de los formatos de fecha",
-            //                        H_Entrga = "10:00",
-            //                        Subject = subject
-            //                    }
-            //                }
-            //            },
-            //            new BySubjectGroup(subject2)
-            //            {
-            //                ToDoS =new ObservableCollection<ToDo>()
-            //                {
-            //                    new()
-            //                    {
-            //                        N_Tarea = "Diagrama",
-            //                        Date = DateTime.Now,
-            //                        Description = "Diagrama de don cuco",
-            //                        H_Entrga = "11:00",
-            //                        Subject = subject2
-            //                    },
-            //                    new()
-            //                    {
-            //                        N_Tarea = "Formatos de fecha",
-            //                        Date = DateTime.Now,
-            //                        Description = "Documento de word con la descripcion de los formatos de fecha",
-            //                        H_Entrga = "10:00",
-            //                        Subject = subject2
-            //                    }
-            //                }
-            //            }
-
-            //        }
-            //    }
-            //};
+            
 
         }
+
+
+
         private  ObservableCollection<ByDayGroup> GetDays()
         {
             var subject = new Subject(1, 1, "Base de datos", "#e2F0cb", "7CV22");
@@ -100,7 +49,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
                                     Title = "Diagrama",
                                     Date = DateTime.Now,
                                     Description = "Diagrama de don cuco",
-                                    Time =new TimeSpan(0,11,0,0),// "11:00",
+                                    Time =new TimeSpan(11,0,0),// "11:00",
                                     Subject = subject
                                 },
                                 new()
@@ -108,7 +57,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
                                     Title = "Formatos de fecha",
                                     Date = DateTime.Now,
                                     Description = "Documento de word con la descripcion de los formatos de fecha",
-                                    Time = new TimeSpan(0,11,0,0),
+                                    Time = new TimeSpan(11,0,0),
                                     Subject = subject
                                 }
                             }
@@ -122,7 +71,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
                                     Title = "Diagrama",
                                     Date = DateTime.Now,
                                     Description = "Diagrama de don cuco",
-                                    Time = new TimeSpan(0,11,0,0),
+                                    Time = new TimeSpan(11,0,0),
                                     Subject = subject2
                                 },
                                 new()
@@ -130,7 +79,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
                                     Title = "Formatos de fecha",
                                     Date = DateTime.Now,
                                     Description = "Documento de word con la descripcion de los formatos de fecha",
-                                    Time = new TimeSpan(0,11,0,0),
+                                    Time = new TimeSpan(11,0,0),
                                     Subject = subject2
                                 }
                             }
@@ -144,7 +93,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
                                     Title = "Diagrama",
                                     Date = DateTime.Now,
                                     Description = "Diagrama de don cuco",
-                                    Time = new TimeSpan(0,11,0,0),
+                                    Time = new TimeSpan(11,0,0),
                                     Subject = subject3
                                 },
                                 new()
@@ -152,7 +101,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
                                     Title = "Formatos de fecha",
                                     Date = DateTime.Now,
                                     Description = "Documento de word con la descripcion de los formatos de fecha",
-                                    Time = new TimeSpan(0,11,0,0),
+                                    Time = new TimeSpan(11,0,0),
                                     Subject = subject3
                                 }
                             }
@@ -167,7 +116,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
                                     Title = "Diagrama",
                                     Date = DateTime.Now,
                                     Description = "Diagrama de don cuco",
-                                    Time =new TimeSpan(0,11,0,0),
+                                    Time =new TimeSpan(11,0,0),
                                     Subject = subject4
                                 },
                                 new()
@@ -175,7 +124,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
                                     Title = "Formatos de fecha",
                                     Date = DateTime.Now,
                                     Description = "Documento de word con la descripcion de los formatos de fecha",
-                                    Time = new TimeSpan(0,11,0,0),
+                                    Time = new TimeSpan(11,0,0),
                                     Subject = subject4
                                 }
                             }

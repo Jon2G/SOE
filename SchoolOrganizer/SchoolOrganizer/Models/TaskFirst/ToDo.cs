@@ -88,7 +88,7 @@ namespace SchoolOrganizer.Models.TaskFirst
         public ToDo()
         {
             //Title = "";
-            //Time =new TimeSpan(0,11,0,0);
+            //Time =new TimeSpan(0,11,0);
             //Date = DateTime.Now;
             ////Subject = null;
             //Description = "";

@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             x:Class="SchoolOrganizer.Views.Pages.TaskDetails" 
+             Title="Descripción">
+    <StackLayout >
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <pancakeView:PancakeView Grid.Row="0" VerticalOptions="CenterAndExpand" Margin="10" Style="{StaticResource card}" BackgroundColor="WhiteSmoke">
+                <StackLayout Margin="20">
+                    <Label TextColor="{DynamicResource secondaryTextColor}" >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Title:                                "  FontAttributes="Bold" FontSize="19"/>
+                                <Span Text= "Tarea1" FontAttributes="Italic" FontSize="Medium"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label TextColor="{DynamicResource secondaryTextColor}" >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Materia:                           "  FontAttributes="Bold" FontSize="19"/>
+                                <Span Text= "Base de datos" FontAttributes="Italic" FontSize="Medium"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label TextColor="{DynamicResource secondaryTextColor}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Fecha:                              "  FontAttributes="Bold" FontSize="19"/>
+                                <Span Text= "12/04/2021" FontAttributes="Italic" FontSize="Medium"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label TextColor="{DynamicResource secondaryTextColor}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Entrega:                           "  FontAttributes="Bold" FontSize="19"/>
+                                <Span Text= "11:00" FontAttributes="Italic" FontSize="Medium"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label TextColor="{DynamicResource secondaryTextColor}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Descripcion:                    "  FontAttributes="Bold" FontSize="19"/>
+                                <Span Text= "hacer tarea 1" FontAttributes="Italic" FontSize="Medium"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+            </pancakeView:PancakeView>
+            <StackLayout Grid.Row="1">
+                <Label   TextColor="{DynamicResource secondaryTextColor}" HorizontalTextAlignment="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Imagenes"  FontAttributes="Bold" FontSize="19" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <StackLayout >
+                    <CollectionView >
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical"  Span="2"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Image HeightRequest="150" Aspect="AspectFit" Source="{Binding .}"/>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </StackLayout>
+
+        </Grid>
+    </StackLayout>
+</ContentPage>

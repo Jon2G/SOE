@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Input;
+using Kit.Extensions;
+using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Scheduler;
 using SchoolOrganizer.Views.Pages;
 using SchoolOrganizer.Views.ViewItems.TasksViews;
@@ -33,6 +35,11 @@ namespace SchoolOrganizer.Models.TaskFirst
         private void Detail(ToDo obj)
         {
             App.Current.MainPage.Navigation.PushAsync(new TaskDetails(), true);
+        }
+
+        internal void Refresh(DateTime date)
+        {
+            this.ToDoS.AddRange(AppData.Instance.LiteConnection.Table<ToDo>().Where(x=>x.SubjectId==this.Subject.Id&&x.Date==date));
         }
     }
 }

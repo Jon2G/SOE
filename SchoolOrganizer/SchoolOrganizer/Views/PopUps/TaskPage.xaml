@@ -42,9 +42,9 @@
                 </Frame>
 
                 <StackLayout VerticalOptions="End" Orientation="Horizontal" HorizontalOptions="End">
-                    <!--<Label FontSize="10" Text="Agregar Imagenes:" 
-                               TextColor="{DynamicResource secondaryTextColor}"
-                               FontFamily="KarlaSB"/>-->
+                    
+                    <TimePicker Time="{Binding Tarea.Time}"/>
+                    
                     <Button Text="{x:Static fonts:FontelloIcons.Camera}" 
                                 FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                 TextColor="{DynamicResource primaryLightColor}"  

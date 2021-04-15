@@ -18,7 +18,7 @@
                 </SwipeView.RightItems>
                 <SwipeView.LeftItems>
                     <SwipeItem BackgroundColor="DodgerBlue"  Command="{Binding Source={x:Reference Me}, 
-                        Path=Group.DetailCommand}"  >
+                        Path=Group.DetailCommand}" CommandParameter="{Binding .}" >
                         <SwipeItem.IconImageSource>
                             <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Attach}" FontFamily="{x:Static fonts:FontelloIcons.Font}" />
                         </SwipeItem.IconImageSource>

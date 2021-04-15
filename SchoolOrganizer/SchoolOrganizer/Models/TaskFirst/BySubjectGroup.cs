@@ -34,12 +34,17 @@ namespace SchoolOrganizer.Models.TaskFirst
         }
         private void Detail(ToDo obj)
         {
-            App.Current.MainPage.Navigation.PushAsync(new TaskDetails(), true);
+            App.Current.MainPage.Navigation.PushAsync(new TaskDetails(obj), true);
         }
 
         internal void Refresh(DateTime date)
         {
-            this.ToDoS.AddRange(AppData.Instance.LiteConnection.Table<ToDo>().Where(x=>x.SubjectId==this.Subject.Id&&x.Date==date));
+            this.ToDoS.AddRange(AppData.Instance.LiteConnection.Table<ToDo>()
+                .Where(x=>x.SubjectId==this.Subject.Id&&x.Date==date));
+            foreach (var todo in ToDoS)
+            {
+                todo.Subject = Subject;
+            }
         }
     }
 }

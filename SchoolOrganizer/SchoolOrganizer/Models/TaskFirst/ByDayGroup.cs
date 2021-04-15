@@ -32,14 +32,14 @@ namespace SchoolOrganizer.Models.TaskFirst
             Raise(() => Tareas);
         }
 
-        internal void Refresh(DateTime date)
+        internal void Refresh()
         {
             SubjectGroups.Clear();
-            var subjects_ids = AppData.Instance.LiteConnection.DeferredQuery<int>($"SELECT Distinct {nameof(ToDo.SubjectId)} from {nameof(ToDo)} where julianday({nameof(ToDo.Date)})=?", this.FDateTime).ToList();
-            SubjectGroups.AddRange(subjects_ids.Select(x => new BySubjectGroup(Subject.Get(x))).ToList());
+            var subjects_ids = AppData.Instance.LiteConnection.DeferredQuery<ToDo>($"SELECT Distinct {nameof(ToDo.SubjectId)} from {nameof(ToDo)} where {nameof(ToDo.Date)}=?", this.FDateTime).ToList();
+            SubjectGroups.AddRange(subjects_ids.Select(x => new BySubjectGroup(Subject.Get(x.SubjectId))).ToList());
             foreach(var group in this.SubjectGroups)
             {
-                group.Refresh(date);
+                group.Refresh(this.FDateTime);
             }
             RefreshCount();
         }

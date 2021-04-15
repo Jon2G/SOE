@@ -104,8 +104,8 @@
                 </toolkit:TabViewItem.Icon>
 
                 <Grid>
-                    <Grid   >
-                        <viewPage:TaskFirstPage/>
+                    <Grid  Margin="0,0,20,0">
+                        <viewPage:TaskFirstPage x:Name="TaskFirstPage" x:FieldModifier="public"/>
                     </Grid>
                     <Grid ColumnDefinitions="10,Auto" HorizontalOptions="End" >
                         <viewItems:TimelineBar Grid.Column="1"/>

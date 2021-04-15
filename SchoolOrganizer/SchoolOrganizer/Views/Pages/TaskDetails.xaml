@@ -2,8 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:pages="clr-namespace:SchoolOrganizer.ViewModels.Pages;assembly=SchoolOrganizer"
              x:Class="SchoolOrganizer.Views.Pages.TaskDetails" 
-             Title="Descripción">
+             Title="Descripción" x:DataType="pages:TaskDetailsViewModel">
     <StackLayout >
         <Grid >
             <Grid.ColumnDefinitions>
@@ -19,7 +20,7 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Title:                                "  FontAttributes="Bold" FontSize="19"/>
-                                <Span Text= "Tarea1" FontAttributes="Italic" FontSize="Medium"/>
+                                <Span Text= "{Binding ToDo.Title}" FontAttributes="Italic" FontSize="Medium"/>
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
@@ -27,7 +28,7 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Materia:                           "  FontAttributes="Bold" FontSize="19"/>
-                                <Span Text= "Base de datos" FontAttributes="Italic" FontSize="Medium"/>
+                                <Span Text= "{Binding ToDo.Subject.Name}" FontAttributes="Italic" FontSize="Medium"/>
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
@@ -35,7 +36,7 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Fecha:                              "  FontAttributes="Bold" FontSize="19"/>
-                                <Span Text= "12/04/2021" FontAttributes="Italic" FontSize="Medium"/>
+                                <Span Text= "{Binding ToDo.Date}" FontAttributes="Italic" FontSize="Medium"/>
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
@@ -43,7 +44,7 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Entrega:                           "  FontAttributes="Bold" FontSize="19"/>
-                                <Span Text= "11:00" FontAttributes="Italic" FontSize="Medium"/>
+                                <Span Text= "{Binding ToDo.Time,StringFormat='{0:hh:mm}'}" FontAttributes="Italic" FontSize="Medium"/>
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
@@ -51,7 +52,7 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Descripcion:                    "  FontAttributes="Bold" FontSize="19"/>
-                                <Span Text= "hacer tarea 1" FontAttributes="Italic" FontSize="Medium"/>
+                                <Span Text= "{Binding ToDo.Description}" FontAttributes="Italic" FontSize="Medium"/>
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>

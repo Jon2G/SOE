@@ -17,11 +17,13 @@ namespace SchoolOrganizer.Views.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TaskFirstPage : ContentView
     {
-       
+       public TaskFirstViewModel Model { get; set; }
         public TaskFirstPage()
         {
+            this.Model= new TaskFirstViewModel();
+            BindingContext = this.Model;
             InitializeComponent();
-            BindingContext = new TaskFirstViewModel();
+
         }
 
 

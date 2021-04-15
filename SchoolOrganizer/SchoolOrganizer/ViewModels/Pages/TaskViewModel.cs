@@ -24,7 +24,7 @@ namespace SchoolOrganizer.ViewModels.Pages
         public ICommand SaveCommand { get; }
 
         private Subject _selectedSubject;
-        
+
 
         public ObservableCollection<FileImageSource> Photos { get; }
         public Subject SelectedSubject
@@ -56,11 +56,17 @@ namespace SchoolOrganizer.ViewModels.Pages
             this.Photos = new ObservableCollection<FileImageSource>();
         }
 
-        private void Save(object obj)
+        private async void Save(object obj)
         {
             this.Tarea.Subject = this.SelectedSubject;
             //insertar o actualizar
             AppData.Instance.LiteConnection.InsertOrReplace(this.Tarea);
+            if (Shell.Current is AppShell app)
+            {
+                await app.MasterPage.TaskFirstPage.Model.Refresh();
+            }
+
+            await Shell.Current.Navigation.PopToRootAsync(true);
             //photos ?
         }
 

@@ -64,6 +64,13 @@ namespace SchoolOrganizer.Saes
         }
         private async void Browser_Navigated(object sender, WebNavigatedEventArgs e)
         {
+            if (e.Result == WebNavigationResult.Timeout || e.Result == WebNavigationResult.Cancel ||
+                e.Result == WebNavigationResult.Failure)
+            {
+                Acr.UserDialogs.UserDialogs.Instance.Alert(
+                    "No fue posible conectarse al SAES, verifique si el sitio esta activo", "Sin conexión");
+                return;
+            }
             await this.EvaluateJavaScriptAsync(@"window.onerror = function myErrorHandler(errorMsg, url, lineNumber) { alert(""Error occured: "" + errorMsg); return false;");
             if (e.Url is null)
             {
@@ -98,13 +105,16 @@ namespace SchoolOrganizer.Saes
             var request = new NavigationRequest(navigateUrl);
             NavigationQueue.Enqueue(request);
             NavigateAsync();
-            await request.Wait();
-            await Task.Run(() =>
+            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Espere un momento..."))
             {
-                while (!request.IsComplete)
+                await request.Wait();
+                await Task.Run(() =>
                 {
-                }
-            });
+                    while (!request.IsComplete)
+                    {
+                    }
+                });
+            }
         }
         private async void NavigateAsync()
         {

@@ -37,10 +37,9 @@ namespace SchoolOrganizer.Models.Data
         }
         public void Notifications()
         {
-            if (IsNotificationsActive)
-            {
-                DependencyService.Get<ILocalNotificationService>().Start();
-            }
+            //if (IsNotificationsActive)
+            //{
+            //}
         }
     }
 }

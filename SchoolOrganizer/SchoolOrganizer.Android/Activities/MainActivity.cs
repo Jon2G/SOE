@@ -8,6 +8,7 @@ using Kit;
 using Plugin.Fingerprint;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
+using SchoolOrganizer.Droid.Notifications;
 using SchoolOrganizer.Droid.Widgets.TimeLine;
 using SchoolOrganizer.Models.Scheduler;
 using SchoolOrganizer.Widgets;
@@ -20,6 +21,10 @@ namespace SchoolOrganizer.Droid.Activities
     {
         protected override void OnStart()
         {
+            if (!IsServiceRunning(typeof(NotificationService)))
+            {
+                StartService(new Intent(this, typeof(NotificationService)));
+            }
             base.OnStart();
         }
 

@@ -80,7 +80,7 @@ namespace SchoolOrganizer.Droid.Widgets.TimeLine
                     TimeLineWidget.Unload(appWidgetId);
                     break;
                 case TimeLineWidget.ITEM_CLICK:
-                    Intent OpenClassTimeDetails = new Intent(context, typeof(MainActivity));
+                    Intent OpenClassTimeDetails = new Intent(context, typeof(SplashActivity));
                     int itemPosition = intent.GetIntExtra(TimeLineWidget.EXTRA_ITEM, 0);
                     ClassSquare classItem = TimeLineWidget.GetItemAt(appWidgetId, itemPosition);
                     OpenClassTimeDetails.PutExtra(nameof(ClassTime.Group), classItem.Group);
@@ -92,13 +92,15 @@ namespace SchoolOrganizer.Droid.Widgets.TimeLine
                     context.StartActivity(OpenClassTimeDetails);
                     break;
                 case TimeLineWidget.DAY_CLICK:
-                    Intent OpenDayDetails = new Intent(context, typeof(MainActivity));
+                    Intent OpenDayDetails = new Intent(context, typeof(SplashActivity));
                     OpenDayDetails.SetAction(IntentAction);
                     OpenDayDetails.PutExtra(nameof(ClassTime.Day), (int)TimeLineWidget.GetDay(appWidgetId).DayOfWeek);
-                    OpenDayDetails.SetFlags(ActivityFlags.SingleTop|ActivityFlags.BroughtToFront| ActivityFlags.NewTask);
+                    OpenDayDetails.SetFlags(ActivityFlags.SingleTop | ActivityFlags.BroughtToFront | ActivityFlags.NewTask);
                     context.StartActivity(OpenDayDetails);
                     break;
-
+                default:
+                    OnUpdate(context, mgr,new []{ appWidgetId } );
+                    break;
             }
 
 

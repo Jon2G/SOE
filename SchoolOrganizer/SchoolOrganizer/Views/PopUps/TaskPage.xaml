@@ -9,7 +9,8 @@
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:renders="clr-namespace:SchoolOrganizer.Renders;assembly=SchoolOrganizer"
               xmlns:sharpnado="http://sharpnado.com"
-             BackgroundColor="White">
+              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+              BackgroundColor="White" x:DataType="viewModels:TaskViewModel">
     <ContentPage.BindingContext>
         <viewModels:TaskViewModel x:Name="Modelo"/>
     </ContentPage.BindingContext>
@@ -25,20 +26,20 @@
             <StackLayout Spacing="10" Margin="5" >
                 <StackLayout Spacing="10">
                     <Label  HorizontalTextAlignment="Center" FontSize="30" Text="Nueva Tarea" TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB" FontAttributes="Bold"/>
-                    <Frame BorderColor="{StaticResource primaryLightColor}" CornerRadius="60" HeightRequest="39" WidthRequest="1">
+                    <!--<Frame BorderColor="{StaticResource primaryLightColor}" CornerRadius="60" HeightRequest="39" WidthRequest="1">-->
                         <Entry Placeholder="Agregar Titulo" Grid.Row="0" PlaceholderColor="{DynamicResource secondaryTextColor}" TextColor="Black" Text="{Binding Tarea.Title}"/>
-                    </Frame>
+                    <!--</Frame>-->
                     <Button Grid.Row="1" Text="{Binding SelectedSubject.Name}" 
-                            BackgroundColor="{Binding SelectedSubject.Color}" CornerRadius="20" BorderColor="{StaticResource primaryLightColor}" 
+                            BackgroundColor="{Binding SelectedSubject.Color}" CornerRadius="5" BorderColor="{StaticResource primaryLightColor}" 
                         BorderWidth="2" TextColor="{DynamicResource primaryLightColor}" Command="{Binding TaskCommand}"/>
-                    <Frame Grid.Row="2" CornerRadius="10" Padding="3" BackgroundColor="{DynamicResource PrimaryLightBackground}" 
-                       BorderColor="#12396F" >
-                        <renders:BorderlessDatePicker Margin="5"  FontAttributes="Bold" TextColor="{DynamicResource primaryLightColor}" Format="dd/MM/yyyy" Date="{Binding Tarea.Date}" />
-                    </Frame>
+                    <!--<Frame Grid.Row="2" CornerRadius="10" Padding="3" BackgroundColor="{DynamicResource PrimaryLightBackground}" 
+                       BorderColor="#12396F" >-->
+                        <DatePicker Margin="5"  FontAttributes="Bold" TextColor="{DynamicResource primaryLightColor}" Format="dd/MM/yyyy" Date="{Binding Tarea.Date}" />
+                    <!--</Frame>-->
 
                 </StackLayout>
                 <!--<Image x:Name="MyImg"/>-->
-                <Frame BorderColor="{StaticResource primaryLightColor}" CornerRadius="20">
+                <Frame BorderColor="{StaticResource primaryLightColor}" CornerRadius="5">
                     <Editor Placeholder="Nota" VerticalOptions="FillAndExpand" HeightRequest="200" Text="{Binding Tarea.Description}"/>
                 </Frame>
 
@@ -63,15 +64,30 @@
                 </StackLayout>
 
                 <StackLayout>
-                    <CollectionView ItemsSource="{Binding Photos}">
+                    <CollectionView BackgroundColor="WhiteSmoke" ItemsSource="{Binding Photos}">
                             <CollectionView.ItemsLayout>
                                 <GridItemsLayout Orientation="Vertical"  Span="2"/>
                             </CollectionView.ItemsLayout>
                             <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                <sharpnado:MaterialFrame >
-                                    <Image HeightRequest="150" Aspect="AspectFit" Source="{Binding .}"/>
-                                </sharpnado:MaterialFrame>
+                                <DataTemplate x:DataType="FileImageSource">
+                                    <ContentView>
+                                        <Grid RowDefinitions="Auto,*">
+
+                                            <pancakeView:PancakeView InputTransparent="True" Grid.RowSpan="2" Style="{StaticResource card}"
+                                                                     Padding="3" BackgroundColor="LightGray"
+                                                                     Margin="3">
+                                                <Image 
+                                                    Aspect="AspectFit" Source="{Binding .}"/>
+                                            </pancakeView:PancakeView>
+                                        <Label Text="{x:Static fonts:FontelloIcons.Hearth}" FontSize="20"
+                                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" HorizontalOptions="End" Margin="0,10,10,0" TextColor="Red" >
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding DeleteImageCommand,Source={x:Reference Modelo}}"
+                                                                      CommandParameter="{Binding .}"/>
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                    </Grid>
+                                    </ContentView>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>

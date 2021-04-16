@@ -22,7 +22,7 @@ namespace SchoolOrganizer.ViewModels.Pages
 
         public Command TaskCommand { get; }
         public ICommand SaveCommand { get; }
-
+        public ICommand DeleteImageCommand { get; set; }
         private Subject _selectedSubject;
 
 
@@ -53,7 +53,13 @@ namespace SchoolOrganizer.ViewModels.Pages
             Tarea = new ToDo();
             TaskCommand = new Command(TaskClicked);
             SaveCommand = new Command(Save);
+            DeleteImageCommand = new Command<FileImageSource>(DeleteImage);
             this.Photos = new ObservableCollection<FileImageSource>();
+        }
+
+        private void DeleteImage(FileImageSource img)
+        {
+            this.Photos.Remove(img);
         }
 
         private async void Save(object obj)

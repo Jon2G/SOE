@@ -16,88 +16,55 @@ using Xamarin.Forms.Platform.Android;
 
 namespace SchoolOrganizer.Droid.Notifications
 {
-    public class ClassAlarm : NotificationBase
+    public static class ClassAlarm
     {
-
-        private readonly Alarm Alarm;
-        public ClassAlarm(Alarm Alarm, Context Context) : base(Context)
+        public static void ProgramAlarms(Context context)
         {
-            this.Alarm = Alarm;
-
-        }
-
-        public void Start()
-        {
-            if (AppData.Instance is null)
+            List<ClassSquare> timeline = Day.Today()?.GetTimeLine();
+            if (timeline is null)
             {
-                AppData.Init();
+                return;
             }
-            var day = Day.Today();
-            var TimeLine = day.GetTimeLine();
-            NotificationsHistory.Clear();
+
+            NotificationChannel chanel = new NotificationChannel(context, NotificationChannel.ClassChannelId
+                , "Notificaciones antes de la hora de tu clase.",
+                "Te notificaremos minutos antes de que comience tu clase");
+            if (!chanel.HasBeenRegistered())
+            {
+                chanel.RegisterNotificationChannel(context);
+            }
+
+            DateTime now = DateTime.Now;
             int NotificationIndex = 1;
-            var now = DateTime.Now;
-            foreach (var cl in TimeLine)
+            foreach (var cl in timeline)
             {
-                var begin_date = DateTime.Today.Add(cl.Begin);
-                var end_date = DateTime.Today.Add(cl.End);
+                DateTime begin = DateTime.Today.Add(cl.Begin);
+                DateTime end = DateTime.Today.Add(cl.End);
+                end.AddMinutes(-10);
+                bool InProgress = now <= end && begin <= now;
+                Notification notification = new Notification(cl.SubjectName,
+                    $"{cl.FormattedTime} ,{cl.Group}\n{(InProgress ? "En curso..." : "Comienza pronto")}",
+                    NotificationIndex, cl.Color, context, chanel);
 
-                var diff = begin_date - now;
-                if (diff.TotalMinutes <= 0 && end_date > now)
+                //si ya inicio enviar una notificación ahora!
+                if (InProgress)
                 {
-                    if ((end_date - now).TotalMinutes >= 10)
-                    {
-                        //En curso
-                        Notify(NotificationIndex, cl, true);
-                        NotificationIndex++;
-                    }
-                    continue;
-                }
-                if (diff.TotalMinutes >= 0 && diff.TotalMinutes <= 10)
-                {
-                    //if (!NotificationsHistory.HasBeenNotified(DateTime.Today, NotificationType.Class, cl.Group))
-                    //{
-                    Notify(NotificationIndex, cl);
+                    notification.Notify();
                     NotificationIndex++;
-                    //}
-                    continue;
                 }
-                if (diff.TotalMinutes > 0)
+                else if (begin > now) //si no ha iniciado se debe programar una alerta
                 {
-                    begin_date = begin_date - TimeSpan.FromMinutes(10);
-                    this.Alarm.Start(begin_date);
-                    return;
+                    Alarm.ProgramFor(notification, begin.AddMinutes(-10), context);
+                }
+                else if (begin < now)
+                {
+                    //Program for next week
+                    DateTime tommorrow = DateTime.Today.AddDays(7).Add(cl.Begin);
+                    tommorrow.AddMinutes(-10);
+                    Alarm.ProgramFor(notification, tommorrow, context);
                 }
             }
-            //Todas las clases para hoy ya han pasado...
-            if (TimeLine.FirstOrDefault() is ClassSquare tomorrowFirstClass)
-            {
-                DateTime tommorowdate = DateTime.Today.AddDays(1).Add(tomorrowFirstClass.Begin);
-                tommorowdate = tommorowdate - TimeSpan.FromMinutes(10);
-                this.Alarm.Start(tommorowdate);
-            }
-            //Start(context); //retick
-        }
 
-
-        private void Notify(int notificationIndex, ClassSquare cl, bool InProgress = false)
-        {
-            NotificationChannel chanel = new NotificationChannel(this.Context, NotificationChannel.ClassChannelId
-                , "Notificaciones antes de la hora de tu clase.", "Te notificaremos minutos antes de que comience tu clase");
-            string content =
-                $"{cl.FormattedTime} , {cl.Group}\n{(InProgress ? "En estos momentos" : "Comienza pronto")}";
-            var color = Xamarin.Forms.Color.FromHex(cl.Color).ToAndroid();
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this.Context, chanel.ChannelId)
-                .SetSmallIcon(Android.Resource.Id.Icon)
-                .SetContentTitle(cl.SubjectName)
-                .SetContentText(content)
-                .SetStyle(new NotificationCompat.BigTextStyle()
-                    .BigText(content)
-                    .SetBigContentTitle(cl.SubjectName))
-                .SetColorized(true)
-                .SetColor(color);
-            //chanel.NotificationManager.Notify(notificationIndex, builder.Build());
-            Notify(notificationIndex, builder, chanel);
         }
     }
 }

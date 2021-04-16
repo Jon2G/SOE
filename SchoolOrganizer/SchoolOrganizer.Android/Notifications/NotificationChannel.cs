@@ -52,9 +52,12 @@ namespace SchoolOrganizer.Droid.Notifications
             // or other notification behaviors after this
 
             this.NotificationManager.CreateNotificationChannel(channel);
-
+            this.IsRegistered = true;
             //}
         }
+
+
+
         private static NotificationManager GetNotificationManager(Context Context)
         {
             return (NotificationManager)Context.GetSystemService(Java.Lang.Class.FromType(typeof(NotificationManager)));
@@ -72,11 +75,14 @@ namespace SchoolOrganizer.Droid.Notifications
 
             return new NotificationChannel(context, chanel.Id, chanel.Name, chanel.Description);
         }
-        public bool IsRegistered()
+        public bool IsRegistered { get; private set; }
+        public bool HasBeenRegistered()
         {
-            return this.NotificationManager.GetNotificationChannel(this.ChannelId) != null;
+            return IsRegistered = this.NotificationManager.GetNotificationChannel(this.ChannelId) != null;
         }
-        public void Notify(string text, string content, int Id)
+
+        private static int Index = 10;
+        public void Notify(string text, string content)
         {
             this.RegisterNotificationChannel(this.Context);
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this.Context, this.ChannelId)
@@ -94,7 +100,7 @@ namespace SchoolOrganizer.Droid.Notifications
                 .SetLights(Color.Red, 300, 100)
                 .SetVibrate(new long[] { 0, 1000, 200, 1000 });
             if (Tools.Debugging)
-                this.NotificationManager.Notify(Id, builder.Build());
+                this.NotificationManager.Notify(Index++, builder.Build());
         }
     }
 }

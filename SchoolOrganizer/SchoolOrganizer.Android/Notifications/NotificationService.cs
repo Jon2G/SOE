@@ -11,6 +11,7 @@ using System.Text;
 using Android;
 using Android.Telephony.Gsm;
 using Java.Security;
+using Kit.Droid.Services;
 using Plugin.CurrentActivity;
 using SchoolOrganizer.Droid.Notifications;
 using SchoolOrganizer.Notifications;
@@ -21,67 +22,26 @@ namespace SchoolOrganizer.Droid.Notifications
     [IntentFilter(new[] { ".NotificationService" })]
     public class NotificationService : Service
     {
-        private Context _Context;
-        private Context Context
-        {
-            get => _Context ??= GetAppContext() ?? this.ApplicationContext;
-            set => _Context = value;
-        }
-        public static Alarm Alarm { get; private set; }
         public override IBinder? OnBind(Intent? intent)
         {
             return null;
         }
-
         public override StartCommandResult OnStartCommand(Intent? intent, StartCommandFlags flags, int startId)
         {
-            NotificationChannel chanel = NotificationChannel.GetNotificationChannel(this.Context, NotificationChannel.ClassChannelId);
-            chanel?.Notify("NotificationService.OnStartCommand", intent?.Action ?? "No action", 6);
-            if (Alarm is null)
-            {
-                OnCreate();
-            }
+            var Context = MainActivity.GetAppContext();
+            NotificationChannel chanel = NotificationChannel.GetNotificationChannel(Context, NotificationChannel.ClassChannelId);
+            chanel?.Notify("NotificationService.OnStartCommand", intent?.Action ?? "No action");
             return StartCommandResult.Sticky;
         }
-
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
-        }
-
-        public override void OnTaskRemoved(Intent? rootIntent)
-        {
-            NotificationChannel chanel = NotificationChannel.GetNotificationChannel(this.Context, NotificationChannel.ClassChannelId);
-            chanel?.Notify("NotificationService.OnTaskRemoved", rootIntent?.Action ?? "No action", 8);
-
-            // TODO Auto-generated method stub
-            Intent restartService = new Intent(this.Context,
-                typeof(NotificationService));
-            restartService.SetPackage(PackageName);
-            PendingIntent restartServicePI =
-                PendingIntent.GetService(this.Context, 1,
-                    restartService, PendingIntentFlags.OneShot);
-
-            //Restart the service once it has been killed android
-            AlarmManager alarmService = (AlarmManager)this.Context.GetSystemService(Context.AlarmService);
-            alarmService.Set(AlarmType.ElapsedRealtime, SystemClock.ElapsedRealtime() + 100, restartServicePI);
-
-        }
-
         public override void OnCreate()
         {
-            this.Context = GetAppContext();
-            base.OnCreate();
-            NotificationChannel chanel = NotificationChannel.GetNotificationChannel(this.Context, NotificationChannel.ClassChannelId);
-            chanel?.Notify("NotificationService.OnCreate", "No action", 7);
+            var Context = MainActivity.GetAppContext();
+            NotificationChannel chanel = NotificationChannel.GetNotificationChannel(Context, NotificationChannel.ClassChannelId);
+            chanel?.Notify("NotificationService.OnCreate", "No action");
             //start a separate thread and start listening to your network object
-            Alarm = new Alarm();
-            Alarm.Start(this.Context);
-
-        }
-        public static Context GetAppContext()
-        {
-            return Android.App.Application.Context;
+            ClassAlarm.ProgramAlarms(Context);
+            chanel?.Notify("OnReceive", "OnReceive");
+            base.OnCreate();
         }
     }
 }

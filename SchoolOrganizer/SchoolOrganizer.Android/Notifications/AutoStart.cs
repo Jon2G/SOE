@@ -39,25 +39,15 @@ namespace SchoolOrganizer.Droid.Notifications
                 catch (Exception ex)
                 {
                     NotificationChannel chanel = NotificationChannel.GetNotificationChannel(context, NotificationChannel.ClassChannelId);
-                    chanel?.Notify("Exception", ex?.Message??"No message", 6);
+                    chanel?.Notify("Exception", ex?.Message??"No message");
                 }
 
             }
             else
             {
                 NotificationChannel chanel = NotificationChannel.GetNotificationChannel(context, NotificationChannel.ClassChannelId);
-                chanel?.Notify("AutoStart.OnReceive", "context is null", 5);
+                chanel?.Notify("AutoStart.OnReceive", "context is null");
             }
-
-
-            //Intent startService = new Intent(context,
-            //    typeof(NotificationService));
-            //startService.SetPackage(context.PackageName);
-            //PendingIntent restartServicePI = PendingIntent.GetService(context, 0, startService, PendingIntentFlags.OneShot);
-            //Start the service once it has been killed android
-            //AlarmManager alarmService = (AlarmManager)context.GetSystemService(Context.AlarmService);
-            //alarmService.Set(AlarmType.ElapsedRealtime, SystemClock.ElapsedRealtime() + 100, restartServicePI);
-
 
         }
     }

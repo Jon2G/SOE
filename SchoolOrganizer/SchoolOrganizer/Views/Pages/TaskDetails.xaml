@@ -35,27 +35,39 @@
                 </StackLayout>
             </pancakeView:PancakeView>
             <StackLayout Grid.Row="1">
-                <Label   TextColor="{DynamicResource secondaryTextColor}" HorizontalTextAlignment="Center">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Imagenes"  FontAttributes="Bold" FontSize="19" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <StackLayout >
-                    <CollectionView >
-                        <CollectionView.ItemsLayout>
-                            <GridItemsLayout Orientation="Vertical"  Span="2"/>
-                        </CollectionView.ItemsLayout>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Image HeightRequest="150" Aspect="AspectFit" Source="{Binding .}"/>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </StackLayout>
-            </StackLayout>
+                <CollectionView BackgroundColor="WhiteSmoke">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"  Span="2"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.EmptyView>
+                        <Grid>
+                            <pancakeView:PancakeView Style="{StaticResource card}" BackgroundColor="WhiteSmoke" Margin="50">
+                                <Label 
+                               Text="Sin imagenes que mostrar"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" FontSize="Large" FontAttributes="Bold" TextColor="Red" />
+                            </pancakeView:PancakeView>
+                               
+                        </Grid>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate >
+                            <ContentView>
+                                <Grid RowDefinitions="Auto,*">
 
-        </Grid>
+                                    <pancakeView:PancakeView InputTransparent="True" Grid.RowSpan="2" Style="{StaticResource card}"
+                                                                     Padding="3" BackgroundColor="LightGray"
+                                                                     Margin="3">
+                                        <Image 
+                                                    Aspect="AspectFit" />
+                                    </pancakeView:PancakeView>
+                                </Grid>
+                            </ContentView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+    </StackLayout>
+
+    </Grid>
     </StackLayout>
 </ContentPage>

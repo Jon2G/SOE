@@ -17,8 +17,9 @@ namespace SchoolOrganizer.Views.PopUps
         public int Position { get { return _position; } set { _position = value; OnPropertyChanged(); } }
         public TaskPage()
         {
+           
             InitializeComponent();
-
+            DatePick.MinimumDate = DateTime.Now;
         }
 
         private async void Button_Clicked(object sender, EventArgs e)

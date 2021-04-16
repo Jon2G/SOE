@@ -9,7 +9,7 @@
              x:Class="SchoolOrganizer.Saes.SchoolSelector" x:DataType="saes:SchoolSelectorViewModel">
     <ContentPage.Content>
         <Grid>
-            <saes:SAES x:Name="SAES" IsVisible="True" />
+            <saes:SAES x:Name="SAES" IsVisible="True"/>
             <ContentView IsVisible="True" BackgroundColor="WhiteSmoke">
                 <pancakeView:PancakeView 
                 Style="{StaticResource card}" 

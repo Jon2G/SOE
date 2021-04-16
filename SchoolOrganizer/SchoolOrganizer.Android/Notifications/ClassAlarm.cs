@@ -35,33 +35,37 @@ namespace SchoolOrganizer.Droid.Notifications
             }
 
             DateTime now = DateTime.Now;
-            int NotificationIndex = 1;
+            int ProgrammedId = 1;
             foreach (var cl in timeline)
             {
                 DateTime begin = DateTime.Today.Add(cl.Begin);
                 DateTime end = DateTime.Today.Add(cl.End);
                 end.AddMinutes(-10);
-                bool InProgress = now <= end && begin <= now;
+                //bool InProgress = now <= end && begin <= now;
+                bool InProgress = (now.Ticks >= begin.Ticks && now <= end);
+
                 Notification notification = new Notification(cl.SubjectName,
                     $"{cl.FormattedTime} ,{cl.Group}\n{(InProgress ? "En curso..." : "Comienza pronto")}",
-                    NotificationIndex, cl.Color, context, chanel);
+                    1, cl.Color, context, chanel);
 
                 //si ya inicio enviar una notificación ahora!
                 if (InProgress)
                 {
-                    notification.Notify();
-                    NotificationIndex++;
+                    //notification.Index = 0;
+                    //notification.Notify();
                 }
                 else if (begin > now) //si no ha iniciado se debe programar una alerta
                 {
-                    Alarm.ProgramFor(notification, begin.AddMinutes(-10), context);
+                    Alarm.ProgramFor(notification, begin.AddMinutes(-10), context,ProgrammedId);
+                    ProgrammedId++;
                 }
                 else if (begin < now)
                 {
                     //Program for next week
                     DateTime tommorrow = DateTime.Today.AddDays(7).Add(cl.Begin);
                     tommorrow.AddMinutes(-10);
-                    Alarm.ProgramFor(notification, tommorrow, context);
+                    Alarm.ProgramFor(notification, tommorrow, context, ProgrammedId);
+                    ProgrammedId++;
                 }
             }
 

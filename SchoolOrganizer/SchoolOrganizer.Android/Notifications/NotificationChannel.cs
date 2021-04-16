@@ -120,7 +120,7 @@ namespace SchoolOrganizer.Droid.Notifications
             .SetOngoing(false)
             .SetLights(Color.Red, 300, 100)
             .SetVibrate(new long[] { 0, 1000, 200, 1000 });
-            if (Tools.Debugging && (Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.O))
+            if (Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.O)
             {
                 this.NotificationManager.Notify(Index++, builder.Build());
             }

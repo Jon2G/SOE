@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolOrganizer.Android", "SchoolOrganizer\SchoolOrganizer.Android\SchoolOrganizer.Android.csproj", "{0D12415A-E622-42C1-80A6-7EDC3F13711C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolOrganizer.Droid", "SchoolOrganizer\SchoolOrganizer.Android\SchoolOrganizer.Droid.csproj", "{0D12415A-E622-42C1-80A6-7EDC3F13711C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolOrganizer.iOS", "SchoolOrganizer\SchoolOrganizer.iOS\SchoolOrganizer.iOS.csproj", "{E5E516B2-E4AD-4602-9540-090D4A9435BC}"
 EndProject

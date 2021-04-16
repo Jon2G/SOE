@@ -23,7 +23,7 @@ namespace SchoolOrganizer.Droid.Notifications
     {
         private readonly string Title;
         private readonly string Content;
-        private readonly int Index;
+        public int Index;
         private readonly Xamarin.Forms.Color Color;
         private readonly Context Context;
         private readonly NotificationChannel NotificationChannel;
@@ -137,7 +137,7 @@ namespace SchoolOrganizer.Droid.Notifications
 
         public void Notify()
         {
-            if ((Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.O)&&!this.NotificationChannel.IsRegistered)
+            if ((Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.O) && !this.NotificationChannel.IsRegistered)
             {
                 this.NotificationChannel.RegisterNotificationChannel(Context);
             }
@@ -145,25 +145,14 @@ namespace SchoolOrganizer.Droid.Notifications
 
             if ((Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.O))
             {
-                this.NotificationChannel.NotificationManager.Notify(this.Index,this.Build());
+                this.NotificationChannel.NotificationManager.Notify(this.Index, this.Build());
             }
             else
             {
-                post(this.Build());
+                NotificationManager notificationManager = (NotificationManager)this.Context.GetSystemService(
+                   Java.Lang.Class.FromType(typeof(Android.App.NotificationManager)));
+                notificationManager.Notify(this.Index, this.Build());
             }
-        }
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public virtual void post(Android.App.Notification notification)
-        {
-
-            Handler handler = new Handler();
-            Runnable task = new Runnable(() =>
-            {
-                notification.Notify();
-            });
-            handler.PostDelayed(task, 100);
-            //segun java :v es de <8 :c no pues pon el otro alv
         }
 
     }

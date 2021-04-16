@@ -254,7 +254,7 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
         }
         private async Task GetUserData(User user)
         {
-            AppData.Instance.User =user;
+            AppData.Instance.User = user;
             user.IsLogedIn = true;
             user.School = this.School;
             await GetName();
@@ -278,7 +278,7 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
                 return;
             }
             string horario_html = await this.EvaluateJavaScriptAsync("document.getElementById(\"ctl00_mainCopy_GV_Horario\").outerHTML");
-            horario_html = System.Text.RegularExpressions.Regex.Unescape(horario_html);
+            Unescape(ref horario_html);
 
             if (!string.IsNullOrEmpty(horario_html))
             {
@@ -382,14 +382,14 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
             string creditos_carrera_html = await this.EvaluateJavaScriptAsync("document.getElementById(\"ctl00_mainCopy_CREDITOSCARRERA\").outerHTML");
             string alumno_html = await this.EvaluateJavaScriptAsync("document.getElementById(\"ctl00_mainCopy_alumno\").outerHTML");
 
-            alumno_html = System.Text.RegularExpressions.Regex.Unescape(alumno_html);
+            Unescape(ref alumno_html);
             if (!string.IsNullOrEmpty(alumno_html))
             {
                 var table = HtmlToTable(alumno_html);
                 creditos_alumno = Convert.ToDouble(table[0][1]);
             }
 
-            creditos_carrera_html = System.Text.RegularExpressions.Regex.Unescape(creditos_carrera_html);
+            Unescape(ref creditos_carrera_html);
             if (!string.IsNullOrEmpty(creditos_carrera_html))
             {
                 List<List<string>> table = HtmlToTable(creditos_carrera_html);
@@ -430,7 +430,7 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
             {
                 return;
             }
-            grades_html = System.Text.RegularExpressions.Regex.Unescape(grades_html);
+            Unescape(ref grades_html);
             HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
             doc.LoadHtml(grades_html);
             HtmlNode htable = doc.DocumentNode.SelectSingleNode("//table");
@@ -482,25 +482,50 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
 
             //}
         }
+
+        private static void Unescape(ref string html)
+        {
+            if (string.IsNullOrEmpty(html))
+            {
+                return;
+            }
+            html = System.Text.RegularExpressions.Regex.Unescape(html);
+        }
+        private HtmlDocument GetHtmlDoc(string html)
+        {
+            Unescape(ref html);
+            var doc = new HtmlAgilityPack.HtmlDocument();
+            if (string.IsNullOrEmpty(html))
+            {
+                return doc;
+            }
+            doc.LoadHtml(html);
+            return doc;
+        }
         public async Task<IEnumerable<School>> GetSchools(SchoolLevel Level)
         {
-            await GoTo(Level == SchoolLevel.University ? UniversitiesPage : HighSchoolsPage);
-            string html = await this.EvaluateJavaScriptAsync("document.getElementById('botones_esc').outerHTML");
-            html = System.Text.RegularExpressions.Regex.Unescape(html);
-            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-            doc.LoadHtml(html);
-
-            var ul = doc.DocumentNode.SelectSingleNode("//ul");
-
-            var lis = ul.Descendants("li");
+        
             List<School> schools = new List<School>();
-            foreach (var li in lis)
+            await GoTo(Level == SchoolLevel.University ? UniversitiesPage : HighSchoolsPage);
+            string html = await this.EvaluateJavaScriptAsync("document.getElementById('botones_esc')?.outerHTML;");
+            Unescape(ref html);
+            if (!string.IsNullOrEmpty(html))
             {
-                var a = li.Descendants("a").First();
-                var img = a.Descendants("img").First();
-                schools.Add(new School(a.Attributes["href"].Value, img.Attributes["alt"].Value.Trim(), SaesHomePage + "/" + img.Attributes["src"].Value.Trim()));
+                HtmlAgilityPack.HtmlDocument doc = GetHtmlDoc(html);
+                var ul = doc.DocumentNode.SelectSingleNode("//ul");
+                var lis = ul.Descendants("li");
+                foreach (var li in lis)
+                {
+                    var a = li.Descendants("a").First();
+                    var img = a.Descendants("img").First();
+                    schools.Add(new School(a.Attributes["href"].Value, img.Attributes["alt"].Value.Trim(),
+                        SaesHomePage + "/" + img.Attributes["src"].Value.Trim()));
+                }
             }
             return schools;
         }
+        
+
+
     }
 }

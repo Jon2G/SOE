@@ -41,11 +41,11 @@ namespace SchoolOrganizer.Droid.Notifications
                 notification.Notify();
             }
         }
-        internal static void ProgramFor(Notification notification, DateTime date, Context context)
+        internal static void ProgramFor(Notification notification, DateTime date, Context context,int requestId)
         {
             Intent i = new Intent(context, typeof(Alarm));
             i.PutExtras(notification.ToExtras());
-            PendingIntent pi = PendingIntent.GetBroadcast(context, 0, i, 0);
+            PendingIntent pi = PendingIntent.GetBroadcast(context, requestId, i, 0);
             AlarmManager am = (AlarmManager)context.GetSystemService(Context.AlarmService);
             am.SetExact(AlarmType.RtcWakeup, date.ToUniversalTime().ToUnixTimestamp(), pi);
             //am.SetInexactRepeating(AlarmType.RtcWakeup, JavaSystem.CurrentTimeMillis(), interval.Milliseconds, pi); // Millisec * Second * Minute

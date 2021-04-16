@@ -16,46 +16,22 @@
             </Grid.RowDefinitions>
             <pancakeView:PancakeView Grid.Row="0" VerticalOptions="CenterAndExpand" Margin="10" Style="{StaticResource card}" BackgroundColor="WhiteSmoke">
                 <StackLayout Margin="20">
-                    <Label TextColor="{DynamicResource secondaryTextColor}" >
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Title:                                "  FontAttributes="Bold" FontSize="19"/>
-                                <Span Text= "{Binding ToDo.Title}" FontAttributes="Italic" FontSize="Medium"/>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-                    <Label TextColor="{DynamicResource secondaryTextColor}" >
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Materia:                           "  FontAttributes="Bold" FontSize="19"/>
-                                <Span Text= "{Binding ToDo.Subject.Name}" FontAttributes="Italic" FontSize="Medium"/>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-                    <Label TextColor="{DynamicResource secondaryTextColor}">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Fecha:                              "  FontAttributes="Bold" FontSize="19"/>
-                                <Span Text= "{Binding ToDo.Date}" FontAttributes="Italic" FontSize="Medium"/>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-                    <Label TextColor="{DynamicResource secondaryTextColor}">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Entrega:                           "  FontAttributes="Bold" FontSize="19"/>
-                                <Span Text= "{Binding ToDo.Time,StringFormat='{0:hh:mm}'}" FontAttributes="Italic" FontSize="Medium"/>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-                    <Label TextColor="{DynamicResource secondaryTextColor}">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Descripcion:                    "  FontAttributes="Bold" FontSize="19"/>
-                                <Span Text= "{Binding ToDo.Description}" FontAttributes="Italic" FontSize="Medium"/>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
+
+                    <Label Text="Title:"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
+                    <Label Text= "{Binding ToDo.Title}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}" />
+
+                    <Label Text="Materia:"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
+                    <Label Text= "{Binding ToDo.Subject.Name}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
+
+                    <Label Text="Fecha:"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
+                    <Label Text= "{Binding ToDo.Date}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
+
+                    <Label Text="Entrega"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
+                   <Label Text= "{Binding ToDo.Time,StringFormat='{0:hh:mm}'}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
+
+                    <Label Text="Descripcion"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
+                   <Label Text= "{Binding ToDo.Description}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
+
                 </StackLayout>
             </pancakeView:PancakeView>
             <StackLayout Grid.Row="1">

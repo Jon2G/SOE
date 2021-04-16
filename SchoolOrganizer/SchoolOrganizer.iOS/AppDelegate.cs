@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Foundation;
-using ImageCircle.Forms.Plugin.iOS;
 using SchoolOrganizer;
+using Sharpnado.MaterialFrame.iOS;
 using UIKit;
 
 namespace OrganizadorEscolar.iOS
@@ -18,8 +18,7 @@ namespace OrganizadorEscolar.iOS
 
         protected override void Initialize()
         {
-            ImageCircleRenderer.Init();
-            PdfSharp.Xamarin.Forms.iOS.Platform.Init();
+            iOSMaterialFrameRenderer.Init();
             Plugin.InputKit.Platforms.iOS.Config.Init();
         }
     }

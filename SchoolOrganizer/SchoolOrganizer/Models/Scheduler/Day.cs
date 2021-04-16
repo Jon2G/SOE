@@ -44,6 +44,10 @@ namespace SchoolOrganizer.Models.Scheduler
         }
         public List<ClassSquare> GetTimeLine()
         {
+            if(AppData.Instance is null)
+            {
+                AppData.Init();
+            }
             List<ClassSquare> classSquares = new List<ClassSquare>();
 
             foreach (ClassTime classTime in AppData.Instance.LiteConnection.Table<ClassTime>()

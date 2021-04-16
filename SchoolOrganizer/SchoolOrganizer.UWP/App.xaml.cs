@@ -15,8 +15,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using ImageCircle.Forms.Plugin.UWP;
 using Kit.Sql.Helpers;
+using Sharpnado.MaterialFrame.UWP;
 
 namespace SchoolOrganizer.UWP
 {
@@ -31,7 +31,7 @@ namespace SchoolOrganizer.UWP
             {
                 return new[]
                 {
-                    typeof(ImageCircleRenderer).GetTypeInfo().Assembly
+                    typeof(UWPMaterialFrameRenderer).GetTypeInfo().Assembly
                 };
             }
         }

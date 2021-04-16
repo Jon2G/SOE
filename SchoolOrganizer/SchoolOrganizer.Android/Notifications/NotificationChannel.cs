@@ -65,6 +65,11 @@ namespace SchoolOrganizer.Droid.Notifications
 
         public static NotificationChannel GetNotificationChannel(Context context, string ChannelId)
         {
+            if (Android.OS.Build.VERSION.SdkInt < BuildVersionCodes.O)
+            {
+                //no existe antes de OREO
+                return null;
+            }
             var mgr = GetNotificationManager(context);
             var chanel = mgr?.GetNotificationChannel(ChannelId);
 
@@ -84,23 +89,45 @@ namespace SchoolOrganizer.Droid.Notifications
         private static int Index = 10;
         public void Notify(string text, string content)
         {
-            this.RegisterNotificationChannel(this.Context);
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this.Context, this.ChannelId)
-                .SetSmallIcon(Android.Resource.Id.Icon)
-                .SetContentTitle("Notifications Debugger")
-                .SetVisibility(NotificationCompat.VisibilityPublic)
-                .SetContentText(text)
-                .SetStyle(new NotificationCompat.BigTextStyle()
-                    .BigText(content)
-                    .SetBigContentTitle(text))
-                .SetPriority(NotificationCompat.PriorityHigh)
-                .SetColorized(true)
-                .SetColor(Color.Red)
-                .SetOngoing(false)
-                .SetLights(Color.Red, 300, 100)
-                .SetVibrate(new long[] { 0, 1000, 200, 1000 });
-            if (Tools.Debugging)
+            if (Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.O)
+            {
+                //no existe antes de OREO
+                this.RegisterNotificationChannel(this.Context);
+            }
+
+            NotificationCompat.Builder builder;
+            if (Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.O)
+            {
+                builder = new NotificationCompat.Builder(this.Context, this.ChannelId);
+                builder.SetChannelId(this.ChannelId);
+            }
+            else
+            {
+#pragma warning disable CS0618 // Type or member is obsolete
+                builder = new NotificationCompat.Builder(this.Context);
+#pragma warning restore CS0618 // Type or member is obsolete
+            }
+            builder.SetSmallIcon(Android.Resource.Id.Icon)
+            .SetContentTitle("Notifications Debugger")
+            .SetVisibility(NotificationCompat.VisibilityPublic)
+            .SetContentText(text)
+            .SetStyle(new NotificationCompat.BigTextStyle()
+                .BigText(content)
+                .SetBigContentTitle(text))
+            .SetPriority(NotificationCompat.PriorityHigh)
+            .SetColorized(true)
+            .SetColor(Color.Red)
+            .SetOngoing(false)
+            .SetLights(Color.Red, 300, 100)
+            .SetVibrate(new long[] { 0, 1000, 200, 1000 });
+            if (Tools.Debugging && (Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.O))
+            {
                 this.NotificationManager.Notify(Index++, builder.Build());
+            }
+            else
+            {
+                builder.Build().Notify();
+            }
         }
     }
 }

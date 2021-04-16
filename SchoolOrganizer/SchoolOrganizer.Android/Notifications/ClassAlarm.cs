@@ -29,7 +29,7 @@ namespace SchoolOrganizer.Droid.Notifications
             NotificationChannel chanel = new NotificationChannel(context, NotificationChannel.ClassChannelId
                 , "Notificaciones antes de la hora de tu clase.",
                 "Te notificaremos minutos antes de que comience tu clase");
-            if (!chanel.HasBeenRegistered())
+            if ((Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.O)&&!chanel.HasBeenRegistered())
             {
                 chanel.RegisterNotificationChannel(context);
             }

@@ -1,4 +1,5 @@
-﻿using SchoolOrganizer.Data;
+﻿using Kit;
+using SchoolOrganizer.Data;
 using SchoolOrganizer.Services;
 using SchoolOrganizer.Views.Pages;
 using SchoolOrganizer.Views.ViewItems;
@@ -11,8 +12,11 @@ namespace SchoolOrganizer
 
         public App()
         {
+
             InitializeComponent();
+            Sharpnado.MaterialFrame.Initializer.Initialize(Tools.Debugging, Tools.Debugging);
             App.Current.MainPage = new SplashScreen();
+
         }
 
         protected override void OnStart()

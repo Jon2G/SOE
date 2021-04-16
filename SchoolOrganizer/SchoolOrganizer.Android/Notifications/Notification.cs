@@ -13,6 +13,9 @@ using SchoolOrganizer.Notifications;
 using Xamarin.Forms.Platform.Android;
 using Android.Util;
 using SchoolOrganizer.Droid.Activities;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using Java.Lang;
 
 namespace SchoolOrganizer.Droid.Notifications
 {
@@ -49,7 +52,20 @@ namespace SchoolOrganizer.Droid.Notifications
         public Android.App.Notification Build()
         {
             var color = this.Color.ToAndroid();
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this.Context, this.NotificationChannel.ChannelId)
+
+            NotificationCompat.Builder builder;
+            if (Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.O)
+            {
+                builder = new NotificationCompat.Builder(this.Context, this.NotificationChannel.ChannelId);
+                builder.SetChannelId(this.NotificationChannel.ChannelId);
+            }
+            else
+            {
+#pragma warning disable CS0618 // Type or member is obsolete
+                builder = new NotificationCompat.Builder(this.Context);
+#pragma warning restore CS0618 // Type or member is obsolete
+            }
+            builder
                 .SetSmallIcon(Resource.Drawable.xamagonblue)
                 .SetContentTitle(this.Title)
                 .SetContentText(this.Content)
@@ -60,7 +76,6 @@ namespace SchoolOrganizer.Droid.Notifications
                 .SetColor(color)
                 .SetAutoCancel(true)
                 .SetOngoing(true)
-                .SetChannelId(this.NotificationChannel.ChannelId)
                 .SetPriority(NotificationCompat.PriorityHigh)
                 .SetVisibility(NotificationCompat.VisibilityPublic);
             var BuildedNotification = builder.Build();
@@ -119,14 +134,36 @@ namespace SchoolOrganizer.Droid.Notifications
             }
         }
 
+
         public void Notify()
         {
-            if (!this.NotificationChannel.IsRegistered)
+            if ((Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.O)&&!this.NotificationChannel.IsRegistered)
             {
                 this.NotificationChannel.RegisterNotificationChannel(Context);
             }
             WakeUpScreen();
-            NotificationChannel.NotificationManager.Notify(this.Index, this.Build());
+
+            if ((Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.O))
+            {
+                this.NotificationChannel.NotificationManager.Notify(this.Index,this.Build());
+            }
+            else
+            {
+                post(this.Build());
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public virtual void post(Android.App.Notification notification)
+        {
+
+            Handler handler = new Handler();
+            Runnable task = new Runnable(() =>
+            {
+                notification.Notify();
+            });
+            handler.PostDelayed(task, 100);
+            //segun java :v es de <8 :c no pues pon el otro alv
         }
 
     }

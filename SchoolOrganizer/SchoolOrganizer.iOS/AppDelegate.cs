@@ -5,6 +5,7 @@ using Foundation;
 using SchoolOrganizer;
 using Sharpnado.MaterialFrame.iOS;
 using UIKit;
+using Xamarin.Forms.Platform.iOS;
 
 namespace OrganizadorEscolar.iOS
 {
@@ -20,6 +21,9 @@ namespace OrganizadorEscolar.iOS
         {
             iOSMaterialFrameRenderer.Init();
             Plugin.InputKit.Platforms.iOS.Config.Init();
+            UINavigationBar.Appearance.Translucent = false;
+            UINavigationBar.Appearance.BackgroundColor = Xamarin.Forms.Color.MidnightBlue.ToUIColor();
+            UINavigationBar.Appearance.BarTintColor = Xamarin.Forms.Color.White.ToUIColor();
         }
     }
 }

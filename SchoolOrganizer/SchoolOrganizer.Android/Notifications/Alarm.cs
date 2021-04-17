@@ -43,11 +43,12 @@ namespace SchoolOrganizer.Droid.Notifications
         }
         internal static void ProgramFor(Notification notification, DateTime date, Context context,int requestId)
         {
+            long trigger_milis = date.ToUniversalTime().ToUnixTimestamp();
             Intent i = new Intent(context, typeof(Alarm));
-            i.PutExtras(notification.ToExtras());
+            i.PutExtras(notification.ToExtras(trigger_milis));
             PendingIntent pi = PendingIntent.GetBroadcast(context, requestId, i, 0);
             AlarmManager am = (AlarmManager)context.GetSystemService(Context.AlarmService);
-            am.SetExact(AlarmType.RtcWakeup, date.ToUniversalTime().ToUnixTimestamp(), pi);
+            am.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, trigger_milis, pi);
             //am.SetInexactRepeating(AlarmType.RtcWakeup, JavaSystem.CurrentTimeMillis(), interval.Milliseconds, pi); // Millisec * Second * Minute
             // am.SetRepeating(AlarmType.RtcWakeup, JavaSystem.CurrentTimeMillis(), 1000 * 60 * 10, pi); // Millisec * Second * Minute 
         }

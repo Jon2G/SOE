@@ -39,8 +39,7 @@ namespace SchoolOrganizer.Droid.Notifications
             foreach (var cl in timeline)
             {
                 DateTime begin = DateTime.Today.Add(cl.Begin);
-                DateTime end = DateTime.Today.Add(cl.End);
-                end.AddMinutes(-10);
+                DateTime end = DateTime.Today.Add(cl.End).AddMinutes(-10);
                 //bool InProgress = now <= end && begin <= now;
                 bool InProgress = (now.Ticks >= begin.Ticks && now <= end);
 
@@ -62,8 +61,7 @@ namespace SchoolOrganizer.Droid.Notifications
                 else if (begin < now)
                 {
                     //Program for next week
-                    DateTime tommorrow = DateTime.Today.AddDays(7).Add(cl.Begin);
-                    tommorrow.AddMinutes(-10);
+                    DateTime tommorrow = DateTime.Today.AddDays(7).Add(cl.Begin).AddMinutes(-10);
                     Alarm.ProgramFor(notification, tommorrow, context, ProgrammedId);
                     ProgrammedId++;
                 }

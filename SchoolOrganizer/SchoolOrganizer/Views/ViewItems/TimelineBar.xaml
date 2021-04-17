@@ -9,7 +9,6 @@
              VerticalOptions="FillAndExpand" BackgroundColor="White" 
              WidthRequest="{x:Static models:TimelineBarViewModel.CollapsedWidth}">
     <ContentView.GestureRecognizers>
-        <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"/>
         <SwipeGestureRecognizer Direction="Left" Command="{Binding ExpandCommand}" CommandParameter="{x:Reference Me}" />
         <SwipeGestureRecognizer Direction="Right" Command="{Binding CollapseCommand}" CommandParameter="{x:Reference Me}"/>
     </ContentView.GestureRecognizers>

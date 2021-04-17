@@ -11,10 +11,5 @@ namespace SchoolOrganizer.Views.ViewItems
         {
             InitializeComponent();
         }
-
-        private void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
-        {
-            
-        }
     }
 }

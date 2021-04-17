@@ -27,6 +27,7 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
+    <MtouchFastDev>true</MtouchFastDev>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -61,6 +62,9 @@
     <MtouchArch>ARM64</MtouchArch>
     <CodesignKey>iPhone Developer</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <AppExtensionDebugBundleId />
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -114,15 +118,6 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <BundleResource Include="Resources\tab_about.png" />
-    <BundleResource Include="Resources\tab_about%402x.png" />
-    <BundleResource Include="Resources\tab_about%403x.png" />
-    <BundleResource Include="Resources\tab_feed.png" />
-    <BundleResource Include="Resources\tab_feed%402x.png" />
-    <BundleResource Include="Resources\tab_feed%403x.png" />
-    <BundleResource Include="Resources\xamarin_logo.png" />
-    <BundleResource Include="Resources\xamarin_logo%402x.png" />
-    <BundleResource Include="Resources\xamarin_logo%403x.png" />
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
   </ItemGroup>
   <ItemGroup>
@@ -174,32 +169,48 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\Alert.png" />
+    <BundleResource Include="..\Images\icon.png">
+      <Link>Resources\icon.png</Link>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\Calendarmini.png" />
+    <BundleResource Include="..\Images\logo.jpeg">
+      <Link>Resources\logo.jpeg</Link>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\Clockmini.png" />
+    <BundleResource Include="..\Images\xamarin_logo.png">
+      <Link>Resources\xamarin_logo.png</Link>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\Completed.png" />
+    <BundleResource Include="..\Images\menu_circle.png">
+      <Link>Resources\menu_circle.png</Link>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\Config.png" />
+    <BundleResource Include="..\Images\close_circle.png">
+      <Link>Resources\close_circle.png</Link>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\Report.png" />
+    <BundleResource Include="..\Images\strong_donkey.jpg">
+      <Link>Resources\strong_donkey.jpg</Link>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\Resume.png" />
+    <BundleResource Include="..\Images\happy_donkey.jpg">
+      <Link>Resources\happy_donkey.jpg</Link>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\Unresolved.png" />
+    <BundleResource Include="..\Images\outer_circle.png">
+      <Link>Resources\outer_circle.png</Link>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="..\Images\profile.jpg">
-      <Link>Resources\profile.jpg</Link>
+    <BundleResource Include="..\Images\xamagonblue.png">
+      <Link>Resources\xamagonblue.png</Link>
     </BundleResource>
   </ItemGroup>
 </Project>

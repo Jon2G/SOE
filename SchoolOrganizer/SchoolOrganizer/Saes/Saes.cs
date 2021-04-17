@@ -71,7 +71,7 @@ namespace SchoolOrganizer.Saes
                     "No fue posible conectarse al SAES, verifique si el sitio esta activo", "Sin conexión");
                 return;
             }
-            await this.EvaluateJavaScriptAsync(@"window.onerror = function myErrorHandler(errorMsg, url, lineNumber) { alert(""Error occured: "" + errorMsg); return false;");
+            await this.EvaluateJavaScriptAsync(@"window.onerror = function myErrorHandler(errorMsg, url, lineNumber) { alert('Error occured: ' + errorMsg); return false;");
             if (e.Url is null)
             {
                 await GoTo(School.HomePage);
@@ -150,22 +150,24 @@ namespace SchoolOrganizer.Saes
             ImageSource ImageSource = null;
             await GoTo(School.HomePage);
             await Task.Delay(TimeSpan.FromSeconds(2)); //dale tiempo al captcha para cargar
-            string base_64 = await this.EvaluateJavaScriptAsync(
-                @"var getDataUrl = function (img) {
-var canvas = document.createElement('canvas')
-var ctx = canvas.getContext('2d')
-canvas.width = img.width
-canvas.height = img.height
-ctx.drawImage(img, 0, 0)
-// If the image is not png, the format
- // must be specified here
-return canvas.toDataURL()
-}
-var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincaptcha_CaptchaImage"");
-            getDataUrl(img);");
-            if (!string.IsNullOrEmpty(base_64))
+            StringBuilder sb = new StringBuilder();
+            sb.Append("var getDataUrl = function (img) {")
+                .Append("var canvas = document.createElement('canvas');")
+                .Append("var ctx = canvas.getContext('2d');")
+                // If the image is not png, the format
+                // must be specified here
+                .Append("canvas.width = img.width;")
+                .Append("canvas.height = img.height;")
+                .Append("ctx.drawImage(img, 0, 0);")
+                .Append("return canvas.toDataURL();")
+                .Append("};")
+                .Append("var img=document.getElementById('c_default_ctl00_leftcolumn_loginuser_logincaptcha_CaptchaImage');")
+                .Append("getDataUrl(img);");
+
+            if (!string.IsNullOrEmpty(sb.ToString()))
             {
-                base_64 = base_64.Replace("data:image/png;base64,", string.Empty);
+                string base_64 = await EvaluateJavaScriptAsync(sb.ToString());
+                base_64= base_64.Replace("data:image/png;base64,", string.Empty);
                 ImageSource =
                     Xamarin.Forms.ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(base_64)));
             }
@@ -204,19 +206,17 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
             {
                 return
                     !string.IsNullOrEmpty(await EvaluateJavaScriptAsync(
-                        "document.getElementById(\"ctl00_leftColumn_LoginNameSession\").innerHTML"));
+                        "document.getElementById('ctl00_leftColumn_LoginNameSession').innerHTML"));
             }
             catch (Exception) { return false; }
         }
         public async Task<string> GetCurrentUser()
         {
-            return await EvaluateJavaScriptAsync(
-                "document.getElementById(\"ctl00_leftColumn_LoginNameSession\").innerHTML");
+            return await EvaluateJavaScriptAsync("document.getElementById('ctl00_leftColumn_LoginNameSession').innerHTML");
         }
         public async Task LogOut()
         {
-            await EvaluateJavaScriptAsync(
-                "document.getElementById('ctl00_leftColumn_LoginStatusSession').click();");
+            await EvaluateJavaScriptAsync("document.getElementById('ctl00_leftColumn_LoginStatusSession').click();");
             await Task.Delay(TimeSpan.FromSeconds(2)); //dale tiempo para redireccionar
             await GoTo(School.HomePage);
 
@@ -229,12 +229,11 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
                 string Password = regex.Replace(login.User.Password, "\\");
                 //binding.captchaDisplayer.visibility = View.GONE
                 await this.EvaluateJavaScriptAsync(
-                    $"document.getElementById(\"ctl00_leftColumn_LoginUser_UserName\").value = \"{login.User.Boleta}\";" +
-                    $"document.getElementById(\"ctl00_leftColumn_LoginUser_Password\").value = \"{Password}\";" +
-                    $"document.getElementById(\"ctl00_leftColumn_LoginUser_CaptchaCodeTextBox\").value = \"{login.Captcha}\";");
+                    $"document.getElementById('ctl00_leftColumn_LoginUser_UserName').value = '{login.User.Boleta}';" +
+                    $"document.getElementById('ctl00_leftColumn_LoginUser_Password').value = '{Password}';" +
+                    $"document.getElementById('ctl00_leftColumn_LoginUser_CaptchaCodeTextBox').value ='{login.Captcha}';");
                 await Task.Delay(100);
-                await this.EvaluateJavaScriptAsync(
-                    "document.getElementById(\"ctl00_leftColumn_LoginUser_LoginButton\").click();");
+                await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_leftColumn_LoginUser_LoginButton').click();");
                 await Task.Delay(TimeSpan.FromSeconds(2));
                 await GoTo(School.HomePage);
                 if (await IsLoggedIn())
@@ -267,8 +266,8 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
         private async Task GetName()
         {
             await GoTo(AlumnosPage);
-            AppData.Instance.User.Name = await this.EvaluateJavaScriptAsync("document.getElementById(\"ctl00_mainCopy_FormView1_nombrelabel\").innerHTML;");
-            AppData.Instance.User.Boleta = await this.EvaluateJavaScriptAsync("document.getElementById(\"ctl00_leftColumn_LoginNameSession\").innerHTML;");
+            AppData.Instance.User.Name = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_FormView1_nombrelabel').innerHTML;");
+            AppData.Instance.User.Boleta = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_leftColumn_LoginNameSession').innerHTML;");
         }
         private async Task GetHorario()
         {
@@ -277,7 +276,7 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
             {
                 return;
             }
-            string horario_html = await this.EvaluateJavaScriptAsync("document.getElementById(\"ctl00_mainCopy_GV_Horario\").outerHTML");
+            string horario_html = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_GV_Horario').outerHTML");
             Unescape(ref horario_html);
 
             if (!string.IsNullOrEmpty(horario_html))
@@ -379,8 +378,8 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
             double creditos_totales = 0;
             double creditos_alumno = 0;
 
-            string creditos_carrera_html = await this.EvaluateJavaScriptAsync("document.getElementById(\"ctl00_mainCopy_CREDITOSCARRERA\").outerHTML");
-            string alumno_html = await this.EvaluateJavaScriptAsync("document.getElementById(\"ctl00_mainCopy_alumno\").outerHTML");
+            string creditos_carrera_html = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_CREDITOSCARRERA').outerHTML");
+            string alumno_html = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_alumno').outerHTML");
 
             Unescape(ref alumno_html);
             if (!string.IsNullOrEmpty(alumno_html))
@@ -425,7 +424,7 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
         {
 
             await GoTo(CalificacionesPage);
-            string grades_html = await this.EvaluateJavaScriptAsync("document.getElementById(\"ctl00_mainCopy_GV_Calif\").outerHTML");
+            string grades_html = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_GV_Calif').outerHTML");
             if (string.IsNullOrEmpty(grades_html))
             {
                 return;
@@ -504,7 +503,7 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
         }
         public async Task<IEnumerable<School>> GetSchools(SchoolLevel Level)
         {
-        
+
             List<School> schools = new List<School>();
             await GoTo(Level == SchoolLevel.University ? UniversitiesPage : HighSchoolsPage);
             string html = await this.EvaluateJavaScriptAsync("document.getElementById('botones_esc')?.outerHTML;");
@@ -524,7 +523,7 @@ var img=document.getElementById(""c_default_ctl00_leftcolumn_loginuser_logincapt
             }
             return schools;
         }
-        
+
 
 
     }

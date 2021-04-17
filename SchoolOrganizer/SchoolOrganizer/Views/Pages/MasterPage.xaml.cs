@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Animations;
@@ -59,12 +60,25 @@ namespace SchoolOrganizer.Views.Pages
             base.OnAppearing();
             InitBrowser();
             this.SchoolGrades.OnAppearing();
-            if (TabView.SelectedIndex <= 0)
+
+            if (Device.RuntimePlatform != Device.iOS && TabView.SelectedIndex <= 0)
+            {
                 TabView.SelectedIndex = 1;
+            }
+            else if(TabView.SelectedIndex <= 0)
+            {
+                Dispatcher.BeginInvokeOnMainThread(async() =>
+                {
+                    await Task.Delay(100);
+                    TabView.SelectedIndex = 1;
+                });
+            }
         }
 
         private void TabView_OnSelectionChanged(object? sender, TabSelectionChangedEventArgs e)
         {
+
+
             switch (TabView.SelectedIndex)
             {
                 case 0:

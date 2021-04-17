@@ -22,25 +22,17 @@ namespace SchoolOrganizer.Droid.Notifications
     [IntentFilter(new[] { ".NotificationService" })]
     public class NotificationService : Service
     {
-        public override IBinder? OnBind(Intent? intent)
-        {
-            return null;
-        }
+        public override IBinder? OnBind(Intent? intent) => null;
         public override StartCommandResult OnStartCommand(Intent? intent, StartCommandFlags flags, int startId)
         {
-            var Context = MainActivity.GetAppContext();
-            NotificationChannel chanel = NotificationChannel.GetNotificationChannel(Context, NotificationChannel.ClassChannelId);
-            chanel?.Notify("NotificationService.OnStartCommand", intent?.Action ?? "No action");
+            base.OnStartCommand(intent, flags, startId);
             return StartCommandResult.Sticky;
         }
         public override void OnCreate()
         {
             var Context = MainActivity.GetAppContext();
-            NotificationChannel chanel = NotificationChannel.GetNotificationChannel(Context, NotificationChannel.ClassChannelId);
-            chanel?.Notify("NotificationService.OnCreate", "No action");
             //start a separate thread and start listening to your network object
             ClassAlarm.ProgramAlarms(Context);
-            chanel?.Notify("OnReceive", "OnReceive");
             base.OnCreate();
         }
     }

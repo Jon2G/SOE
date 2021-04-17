@@ -11,7 +11,8 @@
              xmlns:scheduleView="clr-namespace:SchoolOrganizer.Views.ViewItems.ScheduleView;assembly=SchoolOrganizer"
              xmlns:pages1="clr-namespace:SchoolOrganizer.Views.Pages;assembly=SchoolOrganizer"
              xmlns:viewPage="clr-namespace:SchoolOrganizer.Views.Pages"
-             x:DataType="pages:MasterPageViewModel">
+             x:DataType="pages:MasterPageViewModel"
+             BackgroundColor="{DynamicResource primaryLightColor}" >
     <ContentPage.BindingContext>
         <pages:MasterPageViewModel/>
     </ContentPage.BindingContext>

@@ -56,9 +56,9 @@
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>Full</AndroidLinkMode>
     <AotAssemblies>true</AotAssemblies>
-    <EnableLLVM>true</EnableLLVM>
+    <EnableLLVM>false</EnableLLVM>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
-    <MandroidI18n>CJK;Mideast;Rare;West;Other</MandroidI18n>
+    <MandroidI18n>West</MandroidI18n>
     <BundleAssemblies>false</BundleAssemblies>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
@@ -70,8 +70,8 @@
     <AndroidSigningKeyAlias>SchoolOrganizer</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>SchoolOrganizer</AndroidSigningKeyPass>
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
-    <AndroidSupportedAbis>armeabi-v7a;x86;arm64-v8a</AndroidSupportedAbis>
-    <AndroidLinkSkip>Kit;Kit.Droid;Kit.Forms;SchoolOrganizer;SchoolOrganizer.Droid</AndroidLinkSkip>
+    <AndroidSupportedAbis>x86;arm64-v8a</AndroidSupportedAbis>
+    <AndroidLinkSkip>Kit;Kit.Droid;SchoolOrganizer;SchoolOrganizer.Droid</AndroidLinkSkip>
     <LangVersion>latest</LangVersion>
     <AndroidSigningKeyStore>C:\Users\jonyj\AppData\Local\Xamarin\Mono for Android\Keystore\SchoolOrganizer\SchoolOrganizer.keystore</AndroidSigningKeyStore>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -177,44 +177,28 @@
     <AndroidResource Include="Resources\layout\widget_timetable_subject.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Alert.png" />
+    <AndroidResource Include="..\Images\icon.png">
+      <Link>Resources\drawable\icon.png</Link>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Calendarmini.png" />
+    <AndroidResource Include="..\Images\logo.jpeg">
+      <Link>Resources\drawable\logo.jpeg</Link>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Clockmini.png" />
+    <AndroidResource Include="..\Images\xamarin_logo.png">
+      <Link>Resources\drawable\xamarin_logo.png</Link>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Completed.png" />
+    <AndroidResource Include="..\Images\menu_circle.png">
+      <Link>Resources\drawable\menu_circle.png</Link>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Report.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Resume.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\tab_about.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\tab_feed.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Unresolved.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\xamarin_logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\FiPrint.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\Images\profile.jpg">
-      <Link>Resources\drawable\profile.jpg</Link>
+    <AndroidResource Include="..\Images\close_circle.png">
+      <Link>Resources\drawable\close_circle.png</Link>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
@@ -227,41 +211,21 @@
       <Link>Resources\drawable\happy_donkey.jpg</Link>
     </AndroidResource>
   </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\leftarrow.png" />
+    <ItemGroup>
+    <AndroidResource Include="..\Images\outer_circle.png">
+      <Link>Resources\drawable\outer_circle.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+    <ItemGroup>
+    <AndroidResource Include="..\Images\xamagonblue.png">
+      <Link>Resources\drawable\xamagonblue.png</Link>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\xml\file_paths.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\selected_circle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\unselected_circle.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\splash_screen.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\check.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\close_circle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\menu_circle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\outer_circle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\poweroff.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\time.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\warning.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\layout_widget_timetable.xml" />
@@ -274,21 +238,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\timeline_widget.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\sketch.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\close.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\plus.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\clipboard.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\xamagonblue.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\xml\network_security_config.xml" />

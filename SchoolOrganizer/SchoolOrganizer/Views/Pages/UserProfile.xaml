@@ -9,79 +9,81 @@
         <pages:UserProfileViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout Margin="20">
-            <Label TextColor="Black" FontSize="18">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Nombre: "/>
-                        <Span Text= "{Binding User.Name}"/>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-            <Label TextColor="Black" FontSize="18">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Escuela: "/>
-                        <Span Text= "{Binding User.School.Name}"/>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-            <Label TextColor="Black" FontSize="18">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Boleta: "/>
-                        <Span Text= "{Binding User.Boleta}"/>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-            <Label TextColor="Black" FontSize="18">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Carrera: "/>
-                        <Span Text= "{Binding User.Career}"/>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-            <Label TextColor="Black" FontSize="18">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Semestre: "/>
-                        <Span Text= "{Binding Semester}"/>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-            <pancakeView:PancakeView Margin="5" Style="{StaticResource card}">
-            <StackLayout Padding="5">
-                    <Label  Margin="5" Text="Creditos" HorizontalTextAlignment="Center" TextColor="Black" FontSize="18" FontAttributes="Bold"/>
-                <Label TextColor="Black" FontSize="18" >
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Créditos totales: "/>
-                        <Span Text= "{Binding Credits.TotalCredits,StringFormat='{0:N2}'}"/>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-            <Label TextColor="Black" FontSize="18">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Créditos obtenidos: "/>
-                        <Span Text= "{Binding Credits.CurrentCredits,StringFormat='{0:N2}'}"/>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-            <Label TextColor="Black" FontSize="18">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Créditos aprobados*: "/>
-                        <Span Text= "{Binding Credits.Percentage,StringFormat='{0:N2}%'}"/>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-                    <ProgressBar Progress="{Binding Progress}"/>
+        <ScrollView VerticalScrollBarVisibility="Always" HorizontalScrollBarVisibility="Never">
+            <StackLayout Margin="20">
+                <Label TextColor="Black" FontSize="18">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Nombre: "/>
+                            <Span Text= "{Binding User.Name}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label TextColor="Black" FontSize="18">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Escuela: "/>
+                            <Span Text= "{Binding User.School.Name}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label TextColor="Black" FontSize="18">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Boleta: "/>
+                            <Span Text= "{Binding User.Boleta}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label TextColor="Black" FontSize="18">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Carrera: "/>
+                            <Span Text= "{Binding User.Career}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label TextColor="Black" FontSize="18">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Semestre: "/>
+                            <Span Text= "{Binding Semester}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <pancakeView:PancakeView Margin="5" Style="{StaticResource card}">
+                    <StackLayout Padding="5">
+                        <Label  Margin="5" Text="Creditos" HorizontalTextAlignment="Center" TextColor="Black" FontSize="18" FontAttributes="Bold"/>
+                        <Label TextColor="Black" FontSize="18" >
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Créditos totales: "/>
+                                    <Span Text= "{Binding Credits.TotalCredits,StringFormat='{0:N2}'}"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label TextColor="Black" FontSize="18">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Créditos obtenidos: "/>
+                                    <Span Text= "{Binding Credits.CurrentCredits,StringFormat='{0:N2}'}"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label TextColor="Black" FontSize="18">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Créditos aprobados*: "/>
+                                    <Span Text= "{Binding Credits.Percentage,StringFormat='{0:N2}%'}"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <ProgressBar Progress="{Binding Progress}"/>
+                    </StackLayout>
+                </pancakeView:PancakeView>
+                <Image Source="happy_donkey.jpg" HeightRequest="200"/>
+                <Label Text="*Porcentaje de creditos aproximado" TextColor="Black" FontSize="13"  VerticalTextAlignment="End" VerticalOptions="EndAndExpand"/>
             </StackLayout>
-            </pancakeView:PancakeView>
-            <Image Source="happy_donkey.png"></Image>
-            <Label Text="*Porcentaje de creditos aproximado" TextColor="Black" FontSize="13"  VerticalTextAlignment="End" VerticalOptions="EndAndExpand"/>
-        </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

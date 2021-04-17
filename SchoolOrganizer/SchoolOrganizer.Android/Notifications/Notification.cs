@@ -15,14 +15,17 @@ using Android.Util;
 using SchoolOrganizer.Droid.Activities;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using Android;
 using Java.Lang;
-
+[assembly: UsesPermission(Name = Manifest.Permission.UseFullScreenIntent)]
+[assembly: UsesPermission(Name = Manifest.Permission.SystemAlertWindow)]
 namespace SchoolOrganizer.Droid.Notifications
 {
     public class Notification
     {
         private readonly string Title;
-        private readonly string Content;
+        private string Content;
+        private long UnixDate;
         public int Index;
         private readonly Xamarin.Forms.Color Color;
         private readonly Context Context;
@@ -31,6 +34,7 @@ namespace SchoolOrganizer.Droid.Notifications
         public const string ContentKey = nameof(Content);
         public const string IndexKey = nameof(Index);
         public const string ColorKey = nameof(Color);
+        public const string UnixDateKey = nameof(UnixDate);
         public const string NotificationChanelIdKey = nameof(Notifications.NotificationChannel.ChannelId);
         public Notification(string Title, string Content, int Index, string Color, Context Context,
             NotificationChannel NotificationChannel)
@@ -65,6 +69,8 @@ namespace SchoolOrganizer.Droid.Notifications
                 builder = new NotificationCompat.Builder(this.Context);
 #pragma warning restore CS0618 // Type or member is obsolete
             }
+
+            this.Content += $"\nUnixDate: {this.UnixDate}";
             builder
                 .SetSmallIcon(Resource.Drawable.xamagonblue)
                 .SetContentTitle(this.Title)
@@ -75,7 +81,7 @@ namespace SchoolOrganizer.Droid.Notifications
                 .SetColorized(true)
                 .SetColor(color)
                 .SetAutoCancel(true)
-                .SetOngoing(true)
+                .SetOngoing(false)
                 .SetPriority(NotificationCompat.PriorityHigh)
                 .SetVisibility(NotificationCompat.VisibilityPublic);
             var BuildedNotification = builder.Build();
@@ -89,14 +95,19 @@ namespace SchoolOrganizer.Droid.Notifications
             //notificationIntent.putExtra("notification_room_id", body);
             //notificationIntent.putExtra("data", dataa);
             //notificationIntent.putExtra("calling", "calling");
-            PendingIntent contentIntent = PendingIntent.GetActivity(this.Context, 0, notificationIntent,
-                PendingIntentFlags.UpdateCurrent);
+
+            PendingIntent pIntent = PendingIntent.GetActivity(this.Context, 0, new Intent(), PendingIntentFlags.UpdateCurrent);
+            PendingIntent contentIntent = PendingIntent.GetActivity(this.Context, 0, notificationIntent, PendingIntentFlags.UpdateCurrent);
+
+            builder.SetFullScreenIntent(pIntent, true);
             builder.SetContentIntent(contentIntent);
+
+
             // Add as notification
             return BuildedNotification;
         }
 
-        public Bundle ToExtras()
+        public Bundle ToExtras(long UnixDate)
         {
             Bundle bundle = new Bundle();
             bundle.PutString(nameof(Notification), nameof(Notification));
@@ -105,6 +116,7 @@ namespace SchoolOrganizer.Droid.Notifications
             bundle.PutInt(IndexKey, this.Index);
             bundle.PutString(ColorKey, this.Color.ToHex());
             bundle.PutString(NotificationChanelIdKey, this.NotificationChannel.ChannelId);
+            bundle.PutLong(UnixDateKey, UnixDate);
             return bundle;
         }
         internal static Notification FromExtras(Bundle extras, Context context)
@@ -115,13 +127,16 @@ namespace SchoolOrganizer.Droid.Notifications
                 extras.GetInt(IndexKey),
                 extras.GetString(ColorKey),
                 context,
-                NotificationChannel.GetNotificationChannel(context, extras.GetString(NotificationChanelIdKey)));
+                NotificationChannel.GetNotificationChannel(context, extras.GetString(NotificationChanelIdKey)))
+            {
+                UnixDate = extras.GetLong(UnixDateKey, 0)
+            };
         }
         /* when your phone is locked screen wakeup method*/
         protected void WakeUpScreen()
         {
             PowerManager pm = (PowerManager)this.Context.GetSystemService(Context.PowerService);
-            bool isScreenOn = pm.IsScreenOn;
+            bool isScreenOn = pm.IsInteractive;
 
             Log.Debug("screen on......", "" + isScreenOn);
             if (!isScreenOn)

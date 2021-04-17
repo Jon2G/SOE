@@ -162,6 +162,8 @@
     <ProjectReference Include="..\..\..\..\Kit\Kit.iOS\Kit.iOS.csproj">
       <Project>{de4b3620-b011-4ab8-84d8-05e073dab97e}</Project>
       <Name>Kit.iOS</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
     <ProjectReference Include="..\SchoolOrganizer\SchoolOrganizer.csproj">
       <Project>{20CCEA58-74B4-41B0-9E9E-22B7B328C798}</Project>

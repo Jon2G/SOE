@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
   <style name="MainTheme" parent="MainTheme.Base">
     <!-- As of Xamarin.Forms 4.6 the theme has moved into the Forms binary -->
     <!-- If you want to override anything you can do that here. -->
@@ -15,12 +14,26 @@
          which is used to tint widgets-->
     <item name="colorAccent">@color/secondaryColor</item>
     <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
+    <item name="android:timePickerDialogTheme">@style/TimePickerDialogTheme</item>
   </style>
+  
   <style name="MyDatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog">
     <item name="colorAccent">@color/secondaryColor</item>
     <item name="android:datePickerStyle">@style/MyDatePickerStyle</item>
   </style>
+
+  <style name="TimePickerDialogTheme" parent="@style/Theme.AppCompat.Light.Dialog">
+    <item name="colorAccent">@color/secondaryColor</item>
+    <item name="android:timePickerStyle">@style/TimePickerDialogStyle</item>
+  </style>
+  
   <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+    <item name="android:headerBackground">@color/primaryLightColor</item>
+  </style>
+
+  <style name="TimePickerDialogStyle" parent="@android:style/Widget.Material.Light.TimePicker">
+    <item name="colorAccent">@color/secondaryColor</item>
+    <item name="android:timePickerMode">clock</item>
     <item name="android:headerBackground">@color/primaryLightColor</item>
   </style>
 

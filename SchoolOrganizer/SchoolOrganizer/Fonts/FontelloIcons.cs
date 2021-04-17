@@ -31,7 +31,8 @@ namespace SchoolOrganizer.Fonts
         public const string Off = "\uE813";
         public const string PDF = "\uF1C1";
         public const string Cal = "\uE814";
-        public const string User = "\uE815";
+        public const string User = "\uE816";
+        public const string Del = "\uE815";
         public const string Font = "FontIcon";
     }
 }

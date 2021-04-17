@@ -25,7 +25,7 @@
         <ScrollView>
             <StackLayout Spacing="10" Margin="5" >
                 <StackLayout Spacing="10">
-                    <Label  HorizontalTextAlignment="Center" FontSize="30" Text="Nueva Tarea" TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB" FontAttributes="Bold"/>
+                    <Label  HorizontalTextAlignment="Center" FontSize="30" Text="Nueva Tarea" TextColor="{DynamicResource secondaryTextColor}"  />
                     <!--<Frame BorderColor="{StaticResource primaryLightColor}" CornerRadius="60" HeightRequest="39" WidthRequest="1">-->
                         <Entry Placeholder="Agregar Titulo" Grid.Row="0" PlaceholderColor="{DynamicResource secondaryTextColor}" TextColor="Black" Text="{Binding Tarea.Title}"/>
                     <!--</Frame>-->
@@ -34,7 +34,7 @@
                         BorderWidth="2" TextColor="{DynamicResource primaryLightColor}" Command="{Binding TaskCommand}"/>
                     <!--<Frame Grid.Row="2" CornerRadius="10" Padding="3" BackgroundColor="{DynamicResource PrimaryLightBackground}" 
                        BorderColor="#12396F" >-->
-                        <DatePicker Margin="5"  FontAttributes="Bold" TextColor="{DynamicResource primaryLightColor}" Format="dd/MM/yyyy" Date="{Binding Tarea.Date}" />
+                        <DatePicker Margin="5"  FontAttributes="Bold" TextColor="{DynamicResource primaryLightColor}" Format="dd/MM/yyyy" Date="{Binding Tarea.Date}" x:Name="DatePick"/>
                     <!--</Frame>-->
 
                 </StackLayout>
@@ -42,33 +42,47 @@
                 <Frame BorderColor="{StaticResource primaryLightColor}" CornerRadius="5">
                     <Editor Placeholder="Nota" VerticalOptions="FillAndExpand" HeightRequest="200" Text="{Binding Tarea.Description}"/>
                 </Frame>
-
-                <StackLayout VerticalOptions="End" Orientation="Horizontal" HorizontalOptions="End">
-                    
-                    <TimePicker Time="{Binding Tarea.Time}"/>
-                    
-                    <Button Text="{x:Static fonts:FontelloIcons.Camera}" 
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="Hora entrega:" VerticalTextAlignment="Center" TextColor="{StaticResource secondaryTextColor}" HorizontalOptions="Start" FontAttributes="Italic" FontSize="18"/>
+                    <TimePicker  Grid.Column="1" Time="{Binding Tarea.Time}" FontFamily="Italic" BackgroundColor="White"/>
+                        <Button Grid.Column="2" Text="{x:Static fonts:FontelloIcons.Camera}" 
                                 FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                 TextColor="{DynamicResource primaryLightColor}"  
                                 BackgroundColor="White" HeightRequest="40"
                                 BorderColor="{DynamicResource primaryLightColor}" 
                                 BorderWidth="2" Padding="0" CornerRadius="30" 
                                 Clicked="Button_Clicked" FontSize="18" />
-                    <Button  Padding="0" Text="{x:Static fonts:FontelloIcons.Photo}" 
+                    <Button  Grid.Column="3" Padding="0" Text="{x:Static fonts:FontelloIcons.Photo}" 
                                  FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                  TextColor="{DynamicResource primaryLightColor}"
                                  BackgroundColor="White" HeightRequest="40"
                                  BorderColor="{DynamicResource primaryLightColor}" 
                                  BorderWidth="2" 
                                  CornerRadius="30" FontSize="18" Clicked="Button_Clicked_1"/>
-                </StackLayout>
-
+                </Grid>
                 <StackLayout>
                     <CollectionView BackgroundColor="WhiteSmoke" ItemsSource="{Binding Photos}">
                             <CollectionView.ItemsLayout>
                                 <GridItemsLayout Orientation="Vertical"  Span="2"/>
                             </CollectionView.ItemsLayout>
-                            <CollectionView.ItemTemplate>
+                            <CollectionView.EmptyView>
+                                 <Grid>
+                                <pancakeView:PancakeView Style="{StaticResource card}" BackgroundColor="WhiteSmoke" Margin="10" VerticalOptions="Start">
+                                    <Label 
+                                        VerticalTextAlignment="Start"
+                                       Text="Ninguna imagen"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" FontSize="Large" FontAttributes="Bold" TextColor="Red"/>
+                                </pancakeView:PancakeView>
+                            </Grid>
+                            </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="FileImageSource">
                                     <ContentView>
                                         <Grid RowDefinitions="Auto,*">
@@ -79,7 +93,7 @@
                                                 <Image 
                                                     Aspect="AspectFit" Source="{Binding .}"/>
                                             </pancakeView:PancakeView>
-                                        <Label Text="{x:Static fonts:FontelloIcons.Hearth}" FontSize="20"
+                                        <Label Text="{x:Static fonts:FontelloIcons.Del}" FontSize="20"
                                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" HorizontalOptions="End" Margin="0,10,10,0" TextColor="Red" >
                                             <Label.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding DeleteImageCommand,Source={x:Reference Modelo}}"

@@ -103,6 +103,12 @@
       "src": "fontawesome"
     },
     {
+      "uid": "d139ce97a43aedd333fa40f776328c3c",
+      "css": "user-delete",
+      "code": 59407,
+      "src": "typicons"
+    },
+    {
       "uid": "b90868gfogj970a1g0dnot6hm5r4uj55",
       "css": "comment",
       "code": 59408,
@@ -145,16 +151,16 @@
       "src": "entypo"
     },
     {
-      "uid": "bbd66ef66bb8fa9edde54d9a90b89150",
-      "css": "user",
+      "uid": "3eb93689881ad0804f87052a53edc2b6",
+      "css": "minus-circled",
       "code": 59413,
       "src": "entypo"
     },
     {
-      "uid": "d73eceadda1f594cec0536087539afbf",
-      "css": "heart",
-      "code": 59407,
-      "src": "fontawesome"
+      "uid": "bbd66ef66bb8fa9edde54d9a90b89150",
+      "css": "user",
+      "code": 59414,
+      "src": "entypo"
     }
   ]
 }

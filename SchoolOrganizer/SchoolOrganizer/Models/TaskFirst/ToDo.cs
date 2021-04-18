@@ -64,6 +64,8 @@ namespace SchoolOrganizer.Models.TaskFirst
             }
         }
         [Ignore]
+        public string FormattedTime => $"{Time:hh}:{Time:mm}";
+        [Ignore]
         public Subject Subject
         {
             get => subject;
@@ -108,6 +110,13 @@ namespace SchoolOrganizer.Models.TaskFirst
 
         }
 
+        public void Save()
+        {
+            //leer y el regex y despues ya insertar documento
+            //this.IdDoc=?
+            //insert normal
+
+        }
 
     }
 }

@@ -6,13 +6,13 @@
   <color name="colorAccent">#FF4081</color>-->
 
   <color name="primaryColor">#080821</color>
-  <color name="primaryLightColor">#12396F</color>
+  <color name="primaryLightColor">#102e6c</color>
   <color name="primaryDarkColor">#080821</color>
   <color name="secondaryColor">#04d6be</color>
   <color name="secondaryLightColor">#64d8cb</color>
   <color name="secondaryDarkColor">#00766c</color>
   <color name="primaryTextColor">#ffffff</color>
   <color name="PrimaryLightBackground">#ffffff</color>
-  <color name="launcher_background">#ffffff</color>
+  <color name="launcher_background">#102e6c</color>
   <color name="secondaryTextColor">#000000</color>
 </resources>

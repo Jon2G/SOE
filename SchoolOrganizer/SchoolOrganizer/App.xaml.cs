@@ -14,7 +14,6 @@ namespace SchoolOrganizer
         {
 
             InitializeComponent();
-            Sharpnado.MaterialFrame.Initializer.Initialize(Tools.Debugging, Tools.Debugging);
             App.Current.MainPage = new SplashScreen();
 
         }

@@ -98,9 +98,6 @@
     <PackageReference Include="Rg.Plugins.Popup">
       <Version>2.0.0.11</Version>
     </PackageReference>
-    <PackageReference Include="Sharpnado.MaterialFrame">
-      <Version>1.1.4</Version>
-    </PackageReference>
     <PackageReference Include="Xam.Plugin.Media">
       <Version>5.0.1</Version>
     </PackageReference>
@@ -211,12 +208,12 @@
       <Link>Resources\drawable\happy_donkey.jpg</Link>
     </AndroidResource>
   </ItemGroup>
-    <ItemGroup>
+  <ItemGroup>
     <AndroidResource Include="..\Images\outer_circle.png">
       <Link>Resources\drawable\outer_circle.png</Link>
     </AndroidResource>
   </ItemGroup>
-    <ItemGroup>
+  <ItemGroup>
     <AndroidResource Include="..\Images\xamagonblue.png">
       <Link>Resources\drawable\xamagonblue.png</Link>
     </AndroidResource>

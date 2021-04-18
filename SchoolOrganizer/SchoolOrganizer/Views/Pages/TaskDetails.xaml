@@ -3,51 +3,65 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:pages="clr-namespace:SchoolOrganizer.ViewModels.Pages;assembly=SchoolOrganizer"
+             xmlns:views="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
              x:Class="SchoolOrganizer.Views.Pages.TaskDetails" 
-             Title="Descripción" x:DataType="pages:TaskDetailsViewModel">
-    <StackLayout >
-        <Grid >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <pancakeView:PancakeView Grid.Row="0" VerticalOptions="CenterAndExpand" Margin="10" Style="{StaticResource card}" BackgroundColor="WhiteSmoke">
+             Title="{Binding ToDo.Title}" x:DataType="pages:TaskDetailsViewModel">
+
+    <views:TabView IsSwipeEnabled="True" 
+                       Style="{StaticResource CustomTabStyle}" 
+                       TabStripBackgroundColor="{DynamicResource primaryLightColor}" 
+                       IsTabStripVisible="True" TabStripPlacement="Top">
+        <views:TabViewItem TextColor="White" Text="Descripción">
+            <views:TabViewItem.Icon>
+                <FontImageSource 
+                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                        Glyph="{x:Static fonts:FontelloIcons.Book1}"
+                        Color="{DynamicResource primaryTextColor}" Size="20" />
+            </views:TabViewItem.Icon>
+            <ScrollView>
                 <StackLayout Margin="20">
 
-                    <Label Text="Title:"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
-                    <Label Text= "{Binding ToDo.Title}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}" />
+                            <Label Text="Title:"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
+                            <Label Text= "{Binding ToDo.Title}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}" />
 
-                    <Label Text="Materia:"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
-                    <Label Text= "{Binding ToDo.Subject.Name}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
+                            <Label Text="Materia:"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
+                            <Label Text= "{Binding ToDo.Subject.Name}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
 
-                    <Label Text="Fecha:"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
-                    <Label Text= "{Binding ToDo.Date}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
+                            <Label Text="Fecha:"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
+                            <Label Text= "{Binding ToDo.Date}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
 
-                    <Label Text="Entrega"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
-                   <Label Text= "{Binding ToDo.Time,StringFormat='{0:hh:mm}'}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
+                            <Label Text="Entrega"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
+                            <Label Text= "{Binding ToDo.Time,StringFormat='{0:hh:mm}'}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
 
-                    <Label Text="Descripcion"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
-                   <Label Text= "{Binding ToDo.Description}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
+                            <Label Text="Descripcion"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
+                            <Label  TextType="Html" Text= "{Binding ToDo.Description}"  FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
 
-                </StackLayout>
-            </pancakeView:PancakeView>
-            <StackLayout Grid.Row="1">
+                        </StackLayout>
+                
+            </ScrollView>
+        </views:TabViewItem>
+        <views:TabViewItem Text="Imagenes" TextColor="White">
+            <views:TabViewItem.Icon>
+                <FontImageSource
+                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                        Glyph="{x:Static fonts:FontelloIcons.Photo}"
+                        Color="{DynamicResource primaryTextColor}" Size="20" />
+            </views:TabViewItem.Icon>
+            <StackLayout Padding="3">
                 <CollectionView BackgroundColor="WhiteSmoke">
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Vertical"  Span="2"/>
                     </CollectionView.ItemsLayout>
                     <CollectionView.EmptyView>
                         <Grid>
-                            <pancakeView:PancakeView Style="{StaticResource card}" BackgroundColor="WhiteSmoke" Margin="50">
+                         
                                 <Label 
-                               Text="Sin imagenes que mostrar"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center" FontSize="Large" FontAttributes="Bold" TextColor="Red" />
-                            </pancakeView:PancakeView>
-                               
+                                    Text="Sin imagenes que mostrar"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center" FontSize="Large" FontAttributes="Bold" TextColor="Black" />
+
+
                         </Grid>
                     </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>
@@ -56,18 +70,17 @@
                                 <Grid RowDefinitions="Auto,*">
 
                                     <pancakeView:PancakeView InputTransparent="True" Grid.RowSpan="2" Style="{StaticResource card}"
-                                                                     Padding="3" BackgroundColor="LightGray"
-                                                                     Margin="3">
+                                                             Padding="3" BackgroundColor="LightGray"
+                                                             Margin="3">
                                         <Image 
-                                                    Aspect="AspectFit" />
+                                            Aspect="AspectFit" />
                                     </pancakeView:PancakeView>
                                 </Grid>
                             </ContentView>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-    </StackLayout>
-
-    </Grid>
-    </StackLayout>
+            </StackLayout>
+        </views:TabViewItem>
+    </views:TabView>
 </ContentPage>

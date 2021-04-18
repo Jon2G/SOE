@@ -62,15 +62,7 @@
             <Setter Property="Scale" Value="0.85" />
         </Style>
 
-        <Style x:Key="CustomTabStyle" TargetType="toolkit:TabView">
-            <Setter Property="IsTabTransitionEnabled" Value="True" />
-            <Setter Property="IsSwipeEnabled" Value="True" />
-            <Setter Property="IsClippedToBounds" Value="False" />
-            <Setter Property="TabStripBackgroundColor" Value="#E8E6F2" />
-            <Setter Property="TabStripHeight" Value="65" />
-            <Setter Property="TabContentBackgroundColor" Value="#F5F5F5" />
-            <Setter Property="TabStripPlacement" Value="Bottom" />
-        </Style>
+    
 
     </ContentPage.Resources>
 

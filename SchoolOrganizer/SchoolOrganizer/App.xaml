@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+             xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              x:Class="SchoolOrganizer.App">
     <!--
         Define global resources and styles here, that apply to all pages in your app.
@@ -11,7 +12,7 @@
         <ResourceDictionary>
 
             <Color x:Key="Primary">#080821</Color>
-            <Color x:Key="primaryLightColor">#12396F</Color>
+            <Color x:Key="primaryLightColor">#102e6c</Color>
             <Color x:Key="primaryDarkColor">#080821</Color>
             <Color x:Key="secondaryColor">#04d6be</Color>
             <Color x:Key="secondaryLightColor">WhiteSmoke</Color>
@@ -87,6 +88,14 @@
                         Value="Black" />
                 <Setter Property="FontSize"
                         Value="20" />
+            </Style>
+            <Style x:Key="CustomTabStyle" TargetType="views:TabView">
+                <Setter Property="IsTabTransitionEnabled" Value="True" />
+                <Setter Property="IsClippedToBounds" Value="False" />
+                <Setter Property="TabStripBackgroundColor" Value="#E8E6F2" />
+                <Setter Property="TabStripHeight" Value="65" />
+                <Setter Property="TabContentBackgroundColor" Value="#F5F5F5" />
+                <Setter Property="TabStripPlacement" Value="Bottom" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

@@ -29,6 +29,8 @@ namespace SchoolOrganizer.Models.TaskFirst
         }
         public void Eliminar(ToDo todo)
         {
+            
+            AppData.Instance.LiteConnection.Delete(todo);
             ToDoS.Remove(todo);
             View?.Resize();
         }

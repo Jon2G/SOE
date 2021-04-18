@@ -17,7 +17,7 @@ namespace SchoolOrganizer.Views.PopUps
         public int Position { get { return _position; } set { _position = value; OnPropertyChanged(); } }
         public TaskPage()
         {
-           
+
             InitializeComponent();
             DatePick.MinimumDate = DateTime.Now;
         }
@@ -31,7 +31,7 @@ namespace SchoolOrganizer.Views.PopUps
 
                 if (picture != null)
                 {
-                    FileImageSource imagen = new FileImageSource() {File = picture.FullPath };
+                    FileImageSource imagen = new FileImageSource() { File = picture.FullPath };
 
 
                     var cachedImage = new CachedImage()
@@ -77,7 +77,12 @@ namespace SchoolOrganizer.Views.PopUps
             var Task = this.Modelo.Tarea;
             //this.Modelo.Tareas.Add(Task);
             this.Modelo.Tarea = new ToDo();
-            
+
+        }
+
+        private void DatePick_OnDateSelected(object sender, DateChangedEventArgs e)
+        {
+            this.Modelo?.OnDateChangedCommand?.Execute(sender);
         }
     }
 }

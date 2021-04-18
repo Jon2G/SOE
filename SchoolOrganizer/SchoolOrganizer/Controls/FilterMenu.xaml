@@ -62,7 +62,7 @@
                 VerticalOptions="Center"
                 HorizontalOptions="Center">
                 <Image.Source>
-                    <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Book1}" 
+                    <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Book1}" Color="White"
                                      FontFamily="{x:Static fonts:FontelloIcons.Font}"/>
                 </Image.Source>
                 </Image>

@@ -32,10 +32,11 @@ namespace SchoolOrganizer.ViewModels.ViewItems
             await Task.Yield();
             DayGroups.Clear();
             DayGroups.AddRange(
-            AppData.Instance.LiteConnection.DeferredQuery<ToDo>($"SELECT Distinct {nameof(ToDo.Date)} from {nameof(ToDo)} where {nameof(ToDo.Date)}>=? order by date",DateTime.Now)
+            AppData.Instance.LiteConnection.
+                Lista<long>($"SELECT Distinct {nameof(ToDo.Date)} from {nameof(ToDo)} where {nameof(ToDo.Date)}>={DateTime.Now.Ticks} order by date")
                 .Select((x) => new ByDayGroup()
                 {
-                    FDateTime = x.Date
+                    FDateTime =new DateTime(x)
                 }).ToList());
             foreach (var day in DayGroups)
             {

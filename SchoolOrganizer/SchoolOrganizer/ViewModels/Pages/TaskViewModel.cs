@@ -10,6 +10,8 @@ using System.Text;
 using FFImageLoading.Forms;
 using Xamarin.Forms;
 using System.Windows.Input;
+using Kit.Sql.Base;
+using Kit.Sql.Helpers;
 using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Scheduler;
 using SchoolOrganizer.Models.TaskFirst;
@@ -22,6 +24,7 @@ namespace SchoolOrganizer.ViewModels.Pages
 
         public Command TaskCommand { get; }
         public ICommand SaveCommand { get; }
+        public ICommand OnDateChangedCommand { get; }
         public ICommand DeleteImageCommand { get; set; }
         private Subject _selectedSubject;
 
@@ -53,8 +56,19 @@ namespace SchoolOrganizer.ViewModels.Pages
             Tarea = new ToDo();
             TaskCommand = new Command(TaskClicked);
             SaveCommand = new Command(Save);
+            OnDateChangedCommand = new Command(OnDateChanged);
             DeleteImageCommand = new Command<FileImageSource>(DeleteImage);
             this.Photos = new ObservableCollection<FileImageSource>();
+        }
+
+        private void OnDateChanged()
+        {
+            if (this.SelectedSubject != null && this.Tarea?.Date != null)
+            {
+                this.Tarea.Time =
+                    TimeSpan.FromTicks(AppData.Instance.LiteConnection.Single<long>
+                        ($"SELECT BEGIN FROM ClassTime WHERE IdSubject={this.SelectedSubject.Id} AND DAY={(int)this.Tarea.Date.DayOfWeek}"));
+            }
         }
 
         private void DeleteImage(FileImageSource img)

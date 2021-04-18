@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Foundation;
 using SchoolOrganizer;
-using Sharpnado.MaterialFrame.iOS;
 using UIKit;
 using Xamarin.Forms.Platform.iOS;
 
@@ -19,7 +18,6 @@ namespace OrganizadorEscolar.iOS
 
         protected override void Initialize()
         {
-            iOSMaterialFrameRenderer.Init();
             Plugin.InputKit.Platforms.iOS.Config.Init();
             UINavigationBar.Appearance.Translucent = false;
             UINavigationBar.Appearance.BackgroundColor = Xamarin.Forms.Color.MidnightBlue.ToUIColor();

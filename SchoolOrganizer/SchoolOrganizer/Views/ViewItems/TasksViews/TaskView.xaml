@@ -25,15 +25,18 @@
                     </SwipeItem>
                 </SwipeView.LeftItems>
                 <pancakeView:PancakeView Style="{StaticResource card}" Margin="0" CornerRadius="0">
-                    <Grid Grid.ColumnDefinitions="*,53">
-                        <StackLayout Grid.Column="1" Margin="0,0,5,0">
-                            <Label Text="Vence:" FontSize="10" VerticalOptions="End" VerticalTextAlignment="End" TextColor="Black"/>
-                            <Label Text="{Binding Time}" FontSize="12" VerticalOptions="End" VerticalTextAlignment="End" TextColor="Black"/>
+                    <Grid RowSpacing="0" RowDefinitions="Auto,*" ColumnDefinitions="*,60">
+
+                        <StackLayout  Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Padding="0" Spacing="0">
+                            <Label Margin="5,0"  Text="{Binding FormattedTime}"  HorizontalTextAlignment="End"
+                                    FontSize="12" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" TextColor="Black"/>
+                            <Label  VerticalOptions="Center"  Text="{x:Static fonts:FontelloIcons.Calendar}" FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                    FontSize="12" HorizontalOptions="End" VerticalTextAlignment="Center" TextColor="Black"/>
                         </StackLayout>
-                        <StackLayout Spacing="0" Margin="3" Grid.Column="0">
-                            <Label Text="{Binding Title}" FontAttributes="Bold" TextColor="Black" FontSize="14"/>
-                            <Label Text="{Binding Description}" FontSize="16" TextColor="Gray"/>
-                        </StackLayout>
+
+                        <Label HorizontalOptions="Start" Grid.Row="0" Text="{Binding Title}" FontAttributes="Bold" TextColor="Black" FontSize="14"/>
+                    
+                        <Label TextType="Html" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Description}" FontSize="16" TextColor="Gray"/>
                     </Grid>
                 </pancakeView:PancakeView>
             </SwipeView>

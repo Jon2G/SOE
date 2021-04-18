@@ -35,9 +35,12 @@ namespace SchoolOrganizer.Models.TaskFirst
         internal void Refresh()
         {
             SubjectGroups.Clear();
-            var subjects_ids = AppData.Instance.LiteConnection.DeferredQuery<ToDo>($"SELECT Distinct {nameof(ToDo.SubjectId)} from {nameof(ToDo)} where {nameof(ToDo.Date)}=?", this.FDateTime).ToList();
-            SubjectGroups.AddRange(subjects_ids.Select(x => new BySubjectGroup(Subject.Get(x.SubjectId))).ToList());
-            foreach(var group in this.SubjectGroups)
+            SubjectGroups.AddRange(AppData.Instance.LiteConnection.Lista<int>(
+                    $"SELECT Distinct {nameof(ToDo.SubjectId)} from {nameof(ToDo)} where {nameof(ToDo.Date)}={this.FDateTime.Ticks}")
+                .Select(x => new BySubjectGroup(Subject.Get(x))));
+            //???????????????????????
+            
+            foreach (var group in this.SubjectGroups)
             {
                 group.Refresh(this.FDateTime);
             }

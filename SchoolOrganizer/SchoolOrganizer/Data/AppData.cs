@@ -60,7 +60,7 @@ namespace SchoolOrganizer.Data
             AppData.Instance.LiteConnection.CheckTables(
                 typeof(Teacher), typeof(Subject), typeof(User),
                 typeof(ClassTime), typeof(Grade), typeof(Credits),
-                typeof(ToDo), typeof(Settings),typeof(NotificationsHistory));
+                typeof(ToDo), typeof(Settings),typeof(NotificationsHistory),typeof(Document),typeof(DocumentPart));
         }
     }
 }

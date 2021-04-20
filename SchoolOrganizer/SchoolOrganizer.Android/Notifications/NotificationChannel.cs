@@ -45,7 +45,7 @@ namespace SchoolOrganizer.Droid.Notifications
 
                 };
             channel.EnableVibration(true);
-            channel.SetVibrationPattern(new long[] { 1000, 2000 });
+            channel.SetVibrationPattern(new long[] { 200, 200 });
             channel.EnableLights(true);
             channel.EnableVibration(true);
             // Register the channel with the system; you can't change the importance

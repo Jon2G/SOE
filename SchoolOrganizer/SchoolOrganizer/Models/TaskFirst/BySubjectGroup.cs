@@ -46,6 +46,7 @@ namespace SchoolOrganizer.Models.TaskFirst
             foreach (var todo in ToDoS)
             {
                 todo.Subject = Subject;
+                todo.LoadDocument();
             }
         }
     }

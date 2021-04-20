@@ -10,6 +10,9 @@ using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Scheduler;
 using Rg.Plugins.Popup.Services;
 using SchoolOrganizer.Views.PopUps;
+using Xamarin.Forms;
+using System.Windows.Input;
+using Xamarin.Essentials;
 
 namespace SchoolOrganizer.Models.TaskFirst
 {
@@ -65,6 +68,40 @@ namespace SchoolOrganizer.Models.TaskFirst
         }
         [Ignore]
         public string FormattedTime => $"{Time:hh}:{Time:mm}";
+       
+        private FormattedString _FormattedString;
+        [Ignore]
+        public FormattedString FormattedString
+        {
+            get => _FormattedString; set
+            {
+                _FormattedString = value;
+                Raise(() => FormattedString);
+            }
+        }
+        public ICommand OpenBrowserCommand { get; }
+        internal void LoadDocument()
+        {
+            FormattedString = new FormattedString();
+            foreach (var part in DocumentPart.GetDoc(this.IdDocument))
+            {
+                var span = new Span()
+                {
+                    Text = part.Content
+                };
+                switch (part.DocType)
+                {
+                    case Enums.DocType.Link:
+                        span.TextColor = Color.DodgerBlue;
+                        span.FontAttributes = FontAttributes.Italic | FontAttributes.Bold;
+                        span.TextDecorations = TextDecorations.Underline;
+                        span.GestureRecognizers.Add(new TapGestureRecognizer() { CommandParameter = part.Content, Command = OpenBrowserCommand });
+                        break;
+                }
+                FormattedString.Spans.Add(span);
+            }
+        }
+
         [Ignore]
         public Subject Subject
         {
@@ -87,8 +124,10 @@ namespace SchoolOrganizer.Models.TaskFirst
                 Subject.Id = value;
             }
         }
+        public int IdDocument { get; set; }
         public ToDo()
         {
+            OpenBrowserCommand = new Command<string>(OpenBrowser);
             //Title = "";
             //Time =new TimeSpan(0,11,0);
             //Date = DateTime.Now;
@@ -108,6 +147,12 @@ namespace SchoolOrganizer.Models.TaskFirst
 
 
 
+        }
+
+        private async void OpenBrowser(string zelda)
+        {
+            UriBuilder builder = new UriBuilder(zelda);
+            await Browser.OpenAsync(builder.Uri, BrowserLaunchMode.SystemPreferred);
         }
 
         public void Save()

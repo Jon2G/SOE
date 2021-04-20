@@ -15,6 +15,8 @@ using Kit.Sql.Helpers;
 using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Scheduler;
 using SchoolOrganizer.Models.TaskFirst;
+using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace SchoolOrganizer.ViewModels.Pages
 {
@@ -27,9 +29,10 @@ namespace SchoolOrganizer.ViewModels.Pages
         public ICommand OnDateChangedCommand { get; }
         public ICommand DeleteImageCommand { get; set; }
         private Subject _selectedSubject;
-
+        public Regex regex => new(@"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public ObservableCollection<FileImageSource> Photos { get; }
+
         public Subject SelectedSubject
         {
             get => _selectedSubject;
@@ -79,7 +82,49 @@ namespace SchoolOrganizer.ViewModels.Pages
         private async void Save(object obj)
         {
             this.Tarea.Subject = this.SelectedSubject;
+            Document.Delete(this.Tarea.IdDocument);
+            var files = new List<string>();
+            List<DocumentPart> Contenido = new List<DocumentPart>();
             //insertar o actualizar
+            //Links
+            MatchCollection matches = regex.Matches(Tarea.Description);
+            foreach (Match match in matches)
+            {
+                files.Add(match.ToString());
+            }
+            //
+            //obtiene la primera pocision
+            int last_index = 0;
+            if (files.Any())
+            {
+                int start = Tarea.Description.IndexOf(files[0]);
+                if (start > 0)
+                {
+                    string con = Tarea.Description.Substring(0, start);
+                    Contenido.Add(new DocumentPart() { Content = con, DocType = Enums.DocType.Text });
+                }
+                last_index = start + files[0].Length;
+                Contenido.Add(new DocumentPart() { Content = files[0], DocType = Enums.DocType.Link });
+            }
+            //Separa texto
+            for (int i = 1; i < files.Count; i++)
+            {
+                string file = files[i];
+                string contexto = Tarea.Description;
+                int s_index = Tarea.Description.IndexOf(file);
+                if (last_index > 0)
+                {
+                    contexto = Tarea.Description.Substring(last_index, s_index - last_index);
+                    Contenido.Add(new DocumentPart() { Content = contexto, DocType = Enums.DocType.Text });
+                    last_index = s_index + file.Length;
+                }
+                Contenido.Add(new DocumentPart() { Content = file, DocType = Enums.DocType.Link });
+            }
+            //
+            Document doc = new Document();
+            doc.Save();
+            Contenido.ForEach(c => c.Save(doc));
+            this.Tarea.IdDocument = doc.Id;
             AppData.Instance.LiteConnection.InsertOrReplace(this.Tarea);
             if (Shell.Current is AppShell app)
             {

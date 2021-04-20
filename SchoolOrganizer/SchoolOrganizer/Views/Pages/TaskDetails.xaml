@@ -35,7 +35,8 @@
                             <Label Text= "{Binding ToDo.Time,StringFormat='{0:hh:mm}'}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
 
                             <Label Text="Descripcion"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
-                            <Label  TextType="Html" Text= "{Binding ToDo.Description}"  FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
+                    <Label FormattedText="{Binding ToDo.FormattedString}"  FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
+
 
                         </StackLayout>
                 

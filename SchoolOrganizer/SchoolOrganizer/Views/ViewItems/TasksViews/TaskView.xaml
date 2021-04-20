@@ -7,7 +7,7 @@
              x:Class="SchoolOrganizer.Views.ViewItems.TasksViews.TaskView"
              x:DataType="taskFirst:ToDo" x:Name="Me">
   <ContentView.Content>
-        <StackLayout Spacing="0" Padding="0">
+        <StackLayout Spacing="0" Padding="0" >
             <SwipeView  Margin="0" Padding="0">
                 <SwipeView.RightItems>
                     <SwipeItem  IsDestructive="True" Text="Eliminar" BackgroundColor="IndianRed" 
@@ -24,7 +24,7 @@
                         </SwipeItem.IconImageSource>
                     </SwipeItem>
                 </SwipeView.LeftItems>
-                <pancakeView:PancakeView Style="{StaticResource card}" Margin="0" CornerRadius="0">
+                <pancakeView:PancakeView Style="{StaticResource card}" Margin="0" CornerRadius="0" InputTransparent="True" >
                     <Grid RowSpacing="0" RowDefinitions="Auto,*" ColumnDefinitions="*,60">
 
                         <StackLayout  Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Padding="0" Spacing="0">
@@ -36,7 +36,7 @@
 
                         <Label HorizontalOptions="Start" Grid.Row="0" Text="{Binding Title}" FontAttributes="Bold" TextColor="Black" FontSize="14"/>
                     
-                        <Label TextType="Html" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Description}" FontSize="16" TextColor="Gray"/>
+                        <Label FormattedText="{Binding FormattedString}" Grid.Row="1" Grid.ColumnSpan="2"  FontSize="16" TextColor="Gray"/>
                     </Grid>
                 </pancakeView:PancakeView>
             </SwipeView>

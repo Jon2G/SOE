@@ -64,7 +64,7 @@
                 <BoxView BackgroundColor="WhiteSmoke" CornerRadius="5"/>
                 <Label HorizontalTextAlignment="Center" Text="Ajustes Principales" FontSize="Title" FontAttributes="Bold" TextColor="{DynamicResource secondaryTextColor}"/>
             </Grid>
-            <Button Grid.Row="5" TextColor="{DynamicResource secondaryTextColor}" BackgroundColor="WhiteSmoke"  CornerRadius="5"  Text="Cambiar ventanas principales" FontSize="12"  HeightRequest="35"/>
+            <Button Grid.Row="5" TextColor="{DynamicResource secondaryTextColor}" BackgroundColor="WhiteSmoke"  CornerRadius="5"  Text="Cambiar ventanas principales" FontSize="12"  HeightRequest="35" Command="{Binding ViewChangeCommand}"/>
         </Grid>
     </Frame>
 </ContentPage>

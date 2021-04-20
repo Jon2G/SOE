@@ -17,16 +17,25 @@ namespace SchoolOrganizer.ViewModels.Pages
     {
         public Settings Settings { get; set; }
         public ICommand SaveCommand { get; }
+        public ICommand ViewChangeCommand { get; set; }
         public SettingsViewModel()
         {
             this.SaveCommand = new Command(Save);
-            this.Settings = AppData.Instance.User.GetSettings();
+            ViewChangeCommand = new Command(ViewOpen);
+            Settings = AppData.Instance.User.GetSettings();
+        }
+
+        private async void ViewOpen(object obj)
+        {
+            var a = new ViewChangePopUp();
+            await a.ShowDialog();
         }
 
         private void Save()
         {
             Settings.Save();
         }
+       
     }
 
 }

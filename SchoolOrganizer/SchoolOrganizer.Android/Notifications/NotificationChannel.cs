@@ -65,6 +65,10 @@ namespace SchoolOrganizer.Droid.Notifications
 
         public static NotificationChannel GetNotificationChannel(Context context, string ChannelId)
         {
+            if (context is null)
+            {
+                return null;
+            }
             if (Android.OS.Build.VERSION.SdkInt < BuildVersionCodes.O)
             {
                 //no existe antes de OREO

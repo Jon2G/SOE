@@ -33,24 +33,32 @@ namespace SchoolOrganizer.Droid.Notifications
     {
         public override void OnReceive(Context context, Intent intent)
         {
-            NotificationChannel chanel = NotificationChannel.GetNotificationChannel(context, NotificationChannel.ClassChannelId);
-            chanel?.Notify("OnReceive", "OnReceive");
-            if (intent.HasExtra(nameof(Notification)))
+            if (context is null)
             {
-                Notification notification = Notification.FromExtras(intent.Extras,context);
+                return;
+            }
+            NotificationChannel chanel = NotificationChannel.GetNotificationChannel(context, NotificationChannel.ClassChannelId);
+            chanel?.Notify("OnReceive", $"{intent?.Action}");
+            if (intent?.HasExtra(nameof(Notification)) ?? false)
+            {
+                Notification notification = Notification.FromExtras(intent.Extras, context);
                 notification.Notify();
             }
+            context.StartForegroundService(new Intent(context, typeof(NotificationService)));
         }
-        internal static void ProgramFor(Notification notification, DateTime date, Context context,int requestId)
+
+        internal static void ProgramFor(Bundle extras, DateTime date, Context context, int requestId)
         {
             long trigger_milis = date.ToUniversalTime().ToUnixTimestamp();
             Intent i = new Intent(context, typeof(Alarm));
-            i.PutExtras(notification.ToExtras(trigger_milis));
+            i.PutExtras(extras);
             PendingIntent pi = PendingIntent.GetBroadcast(context, requestId, i, 0);
             AlarmManager am = (AlarmManager)context.GetSystemService(Context.AlarmService);
             am.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, trigger_milis, pi);
-            //am.SetInexactRepeating(AlarmType.RtcWakeup, JavaSystem.CurrentTimeMillis(), interval.Milliseconds, pi); // Millisec * Second * Minute
-            // am.SetRepeating(AlarmType.RtcWakeup, JavaSystem.CurrentTimeMillis(), 1000 * 60 * 10, pi); // Millisec * Second * Minute 
+        }
+        internal static void ProgramFor(Notification notification, DateTime date, Context context, int requestId)
+        {
+            ProgramFor(notification.ToExtras(), date, context, requestId);
         }
 
         public void Cancel(Context context)

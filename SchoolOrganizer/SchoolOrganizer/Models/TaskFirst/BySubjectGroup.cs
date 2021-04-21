@@ -24,8 +24,8 @@ namespace SchoolOrganizer.Models.TaskFirst
         {
             this.Subject = Subject;
             ToDoS = new ObservableCollection<ToDo>();
-            DetailCommand = new Command<ToDo>(Detail);
-            DeleteCommand = new Command<ToDo>(Eliminar);
+            DetailCommand = new Xamarin.Forms.Command<ToDo>(Detail);
+            DeleteCommand = new Xamarin.Forms.Command<ToDo>(Eliminar);
         }
         public void Eliminar(ToDo todo)
         {

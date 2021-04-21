@@ -27,12 +27,12 @@
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="{x:Type horario:ClassSquare}">
                                 <Grid>
-                                    <BoxView HeightRequest="120"  BackgroundColor="{Binding Color}"/>
-                                    <StackLayout  Margin="0"  BackgroundColor="{Binding Color}"
+                                    <BoxView HeightRequest="120"  BackgroundColor="{Binding Subject.Color}"/>
+                                    <StackLayout  Margin="0"  BackgroundColor="{Binding Subject.Color}"
                                                   IsVisible="{Binding IsExpanded, Source={x:Reference Model}}">
                                         <StackLayout Padding="5" >
-                                            <Label TextColor="{DynamicResource secondaryTextColor}" Text="{Binding SubjectName,Mode=OneWay}" FontFamily="KarlaSB" FontSize="18"/>
-                                            <Label TextColor="{DynamicResource secondaryTextColor}" Text="{Binding Group}" FontFamily="KarlaSB" FontSize="18"/>
+                                            <Label TextColor="{DynamicResource secondaryTextColor}" Text="{Binding Subject.Name,Mode=OneWay}" FontFamily="KarlaSB" FontSize="18"/>
+                                            <Label TextColor="{DynamicResource secondaryTextColor}" Text="{Binding Subject.Group}" FontFamily="KarlaSB" FontSize="18"/>
                                             <StackLayout Orientation="Horizontal"  >
                                                 <Label TextColor="{DynamicResource secondaryTextColor}" Text="{Binding Begin,StringFormat='{0:hh}:{0:mm}'}" FontFamily="KarlaSB" FontSize="18"/>
                                                 <Label TextColor="{DynamicResource secondaryTextColor}" Text="a" FontFamily="KarlaSB" FontSize="18"/>

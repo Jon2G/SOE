@@ -69,10 +69,10 @@ namespace SchoolOrganizer.Droid.Widgets.TimeLine
             var subject = this.Schedule.ElementAt(position);
             RemoteViews rv = new RemoteViews(mContext.PackageName, Resource.Layout.widget_timetable_subject);
 
-            rv.SetTextViewText(Resource.Id.widget_timetable_TextViewSubjectName, subject.SubjectName);
+            rv.SetTextViewText(Resource.Id.widget_timetable_TextViewSubjectName, subject.Subject.Name);
             rv.SetTextViewText(Resource.Id.widget_timetable_TextViewSubjectTime, subject.FormattedTime);
-            rv.SetTextViewText(Resource.Id.widget_timetable_TextViewSalon, subject.Group);
-            rv.SetInt(Resource.Id.widget_timetable_SubjectColor, "setBackgroundColor", Color.ParseColor(subject.Color));
+            rv.SetTextViewText(Resource.Id.widget_timetable_TextViewSalon, subject.Subject.Group);
+            rv.SetInt(Resource.Id.widget_timetable_SubjectColor, "setBackgroundColor", Color.ParseColor(subject.Subject.Color));
 
 
             // Next, we set a fill-intent which will be used to fill-in the pending intent template

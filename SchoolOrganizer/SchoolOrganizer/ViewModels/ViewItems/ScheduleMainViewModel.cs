@@ -90,10 +90,10 @@ namespace SchoolOrganizer.ViewModels.ViewItems
                 sb.Append("colspan=\"1\" rowspan=\"").Append(Rowspan).Append("\" ")
                     .Append("style=\"")
                     .Append("background-color:")
-                    .Append(Subject.Color)
+                    .Append(Subject.Subject.Color)
                     .Append(";")
                     .Append("\">")
-                    .Append(Subject.SubjectName)
+                    .Append(Subject.Subject.Name)
                     .AppendLine("</td>");
                 /*
 <td colspan="1" rowspan="1" class="stage-saturn">Welcome</td>

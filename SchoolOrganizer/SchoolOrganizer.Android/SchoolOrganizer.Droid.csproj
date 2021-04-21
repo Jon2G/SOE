@@ -56,7 +56,7 @@
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>Full</AndroidLinkMode>
     <AotAssemblies>true</AotAssemblies>
-    <EnableLLVM>false</EnableLLVM>
+    <EnableLLVM>true</EnableLLVM>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <MandroidI18n>West</MandroidI18n>
     <BundleAssemblies>false</BundleAssemblies>
@@ -70,11 +70,12 @@
     <AndroidSigningKeyAlias>SchoolOrganizer</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>SchoolOrganizer</AndroidSigningKeyPass>
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
-    <AndroidSupportedAbis>x86;arm64-v8a</AndroidSupportedAbis>
+    <AndroidSupportedAbis>x86_64;arm64-v8a</AndroidSupportedAbis>
     <AndroidLinkSkip>Kit;Kit.Droid;SchoolOrganizer;SchoolOrganizer.Droid</AndroidLinkSkip>
     <LangVersion>latest</LangVersion>
     <AndroidSigningKeyStore>C:\Users\jonyj\AppData\Local\Xamarin\Mono for Android\Keystore\SchoolOrganizer\SchoolOrganizer.keystore</AndroidSigningKeyStore>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AndroidLinkTool>r8</AndroidLinkTool>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />

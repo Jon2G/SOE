@@ -36,7 +36,7 @@ namespace SchoolOrganizer.ViewModels
         {
             this.Grades = new ObservableCollection<SchoolGrade>();
             GetGrades();
-            this.RefreshCommand = new Command(Refresh);
+            this.RefreshCommand = new Xamarin.Forms.Command(Refresh);
         }
 
         private void GetGrades()

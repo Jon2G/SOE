@@ -53,14 +53,14 @@
                                             <ContentView HeightRequest="{Binding HoursHeigthRequest}"
                                                          MinimumHeightRequest="{Binding HoursHeigthRequest}" 
                                                          Padding="0" Margin="0">
-                                                <Frame Margin="6" BackgroundColor="{Binding Color}" Padding="3">
+                                                <Frame Margin="6" BackgroundColor="{Binding Subject.Color}" Padding="3">
                                                     <StackLayout>
                                                         <Label FontSize="16" TextColor="Black"
                                                                        HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
-                                                                       Text="{Binding SubjectName}"/>
+                                                                       Text="{Binding Subject.Name}"/>
                                                         <Label FontSize="16" TextColor="Black"
                                                                        HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
-                                                                       Text="{Binding Group}" />
+                                                                       Text="{Binding Subject.Group}" />
                                                         <Label FontSize="16" TextColor="Black"
                                                                        HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
                                                                        Text="{Binding  FormattedTime}" />

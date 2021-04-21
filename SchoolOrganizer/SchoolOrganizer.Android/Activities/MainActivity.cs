@@ -60,7 +60,7 @@ namespace SchoolOrganizer.Droid.Activities
             {
                 case TimeLineWidget.ITEM_CLICK:
                     long ticks = intent.GetLongExtra(nameof(ClassSquare.Begin), 0);
-                    string group = intent.GetStringExtra(nameof(ClassSquare.Group));
+                    string group = intent.GetStringExtra(nameof(ClassSquare.Subject.Group));
                     DayOfWeek dayOfWeek = (DayOfWeek)intent.GetIntExtra(nameof(ClassSquare.Day), 1);
                     pendingAction = new WidgetPendingAction(intent.Action, new DateTime(ticks), group, dayOfWeek);
                     break;

@@ -48,9 +48,9 @@
                                                 <BindableLayout.ItemTemplate>
                                                     <DataTemplate x:DataType="scheduler:ClassSquare">
                                                         <ContentView  HeightRequest="{Binding HoursHeigthRequest}" 
-                                                                      BackgroundColor="{Binding Color}" TabIndex="0"
+                                                                      BackgroundColor="{Binding Subject.Color}" TabIndex="0"
                                                                       MinimumHeightRequest="{Binding HoursHeigthRequest}" >
-                                                            <pancakeView:PancakeView Style="{StaticResource card}" Margin="3"  BackgroundColor="{Binding Color}"
+                                                            <pancakeView:PancakeView Style="{StaticResource card}" Margin="3"  BackgroundColor="{Binding Subject.Color}"
                                                                    Padding="3">
                                                                 <View.GestureRecognizers>
                                                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"/>
@@ -58,10 +58,10 @@
                                                                 <StackLayout >
                                                                     <Label FontSize="10" TextColor="Black"
                                                                            HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
-                                                                           Text="{Binding SubjectName}"/>
+                                                                           Text="{Binding Subject.Name}"/>
                                                                     <Label FontSize="10" TextColor="Black"
                                                                        HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
-                                                                       Text="{Binding Group}" />
+                                                                       Text="{Binding Subject.Group}" />
                                                                     <Label FontSize="8" TextColor="Black"
                                                                        HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
                                                                        Text="{Binding  FormattedTime}" />

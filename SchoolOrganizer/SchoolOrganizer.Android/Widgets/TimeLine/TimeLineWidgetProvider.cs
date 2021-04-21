@@ -83,7 +83,7 @@ namespace SchoolOrganizer.Droid.Widgets.TimeLine
                     Intent OpenClassTimeDetails = new Intent(context, typeof(SplashActivity));
                     int itemPosition = intent.GetIntExtra(TimeLineWidget.EXTRA_ITEM, 0);
                     ClassSquare classItem = TimeLineWidget.GetItemAt(appWidgetId, itemPosition);
-                    OpenClassTimeDetails.PutExtra(nameof(ClassTime.Group), classItem.Group);
+                    OpenClassTimeDetails.PutExtra(nameof(ClassTime.Group), classItem.Subject.Group);
                     OpenClassTimeDetails.PutExtra(nameof(ClassTime.Begin), classItem.Begin.Ticks);
                     OpenClassTimeDetails.PutExtra(nameof(ClassTime.Day), (int)classItem.Day);
                     //OpenClassTimeDetails.SetFlags(ActivityFlags.NewTask);

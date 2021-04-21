@@ -6,7 +6,7 @@ using SchoolOrganizer.Data;
 
 namespace SchoolOrganizer.Models.Scheduler
 {
-    public class Day: ModelBase
+    public class Day : ModelBase
     {
         public string Name { get; private set; }
         public string ShortName => Name.Substring(0, 3);
@@ -44,7 +44,7 @@ namespace SchoolOrganizer.Models.Scheduler
         }
         public List<ClassSquare> GetTimeLine()
         {
-            if(AppData.Instance is null)
+            if (AppData.Instance is null)
             {
                 AppData.Init();
             }
@@ -55,15 +55,7 @@ namespace SchoolOrganizer.Models.Scheduler
                 .OrderBy(x => x.Begin))
             {
                 Subject subject = AppData.Instance.LiteConnection.Find<Subject>(classTime.IdSubject);
-                classSquares.Add(new ClassSquare()
-                {
-                    SubjectName = subject.Name,
-                    Color = subject.Color,
-                    Begin = classTime.Begin,
-                    End = classTime.End,
-                    Day = classTime.Day,
-                    Group = subject.Group
-                });
+                classSquares.Add(new ClassSquare(subject, classTime.Begin, classTime.End, classTime.Day));
             }
             return classSquares;
         }
@@ -106,11 +98,11 @@ namespace SchoolOrganizer.Models.Scheduler
             {
                 if (date.DayOfWeek > day)
                 {
-                    date=date.AddDays(-1);
+                    date = date.AddDays(-1);
                 }
                 else
                 {
-                    date=date.AddDays(+1);
+                    date = date.AddDays(+1);
                 }
             }
 

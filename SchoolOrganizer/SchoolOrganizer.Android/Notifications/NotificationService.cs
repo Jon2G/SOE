@@ -11,10 +11,11 @@ using System.Text;
 using Android;
 using Android.Telephony.Gsm;
 using Java.Security;
-using Kit.Droid.Services;
 using Plugin.CurrentActivity;
 using SchoolOrganizer.Droid.Notifications;
 using SchoolOrganizer.Notifications;
+using Kit.Droid.Services;
+
 [assembly: Xamarin.Forms.Dependency(typeof(NotificationService))]
 namespace SchoolOrganizer.Droid.Notifications
 {

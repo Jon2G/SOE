@@ -29,7 +29,7 @@
                             <Label Text= "{Binding ToDo.Subject.Name}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
 
                             <Label Text="Fecha:"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
-                            <Label Text= "{Binding ToDo.Date}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
+                    <Label Text= "{Binding ToDo.Date,StringFormat='{0:dd/ MM/ yyyy}'}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
 
                             <Label Text="Entrega"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
                             <Label Text= "{Binding ToDo.Time,StringFormat='{0:hh:mm}'}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>

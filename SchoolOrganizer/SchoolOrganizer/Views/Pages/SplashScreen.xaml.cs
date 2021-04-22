@@ -1,4 +1,7 @@
-﻿using Plugin.Fingerprint;
+﻿using System;
+using System.Security;
+using System.Threading.Tasks;
+using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Data;
@@ -11,57 +14,48 @@ namespace SchoolOrganizer.Views.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SplashScreen : ContentPage
     {
-       
+
         public SplashScreen()
         {
             InitializeComponent();
         }
-        protected async override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
+            await Task.Run(() => { while (Logo.IsLoading) { } });
             AppData.Init();
             User user = User.Get();
-            var FingerActivate=true;
+            Settings settings = new Settings();
+            if (user != null)
+            {
+                settings = user.GetSettings();
+            }
+
             if (user != null && user.RemeberMe)
             {
-                if (AppData.Instance.LiteConnection.Table<Settings>().FirstOrDefault(x => x.IsFingerPrintActive == true) is null)
+                if (settings.IsFingerPrintActive)
                 {
-                    FingerActivate = false;
-                }
-              
-
-                if (FingerActivate) {
-                    bool isFingerprintAvailable = await CrossFingerprint.Current.IsAvailableAsync(false);
-                    if (!isFingerprintAvailable)
+                    if (!await CrossFingerprint.Current.IsAvailableAsync(true))
                     {
-                        Acr.UserDialogs.UserDialogs.Instance.Alert($"Error",
-                            "La autenticacion biometrica no esta disponible  o no esta configurada.", "OK");
-                        return;
+                        Acr.UserDialogs.UserDialogs.Instance.Alert("La autenticación biométrica no esta disponible  o no esta configurada.", "Atención", "OK");
+                        GotoManualLogin(user);
                     }
-
-                    AuthenticationRequestConfiguration conf =
-                        new AuthenticationRequestConfiguration("Authentication",
-                        "Authenticate access to your personal data");
-                    
-                    var authResult = await CrossFingerprint.Current.AuthenticateAsync(conf);
+                    var authResult = await CrossFingerprint.Current.AuthenticateAsync(
+                        new AuthenticationRequestConfiguration("Bloqueo de aplicación",
+                        "Inicio de sesíon por huella")
+                        {
+                            AllowAlternativeAuthentication = true
+                        });
                     if (authResult.Authenticated)
                     {
-                        Settings settings2;
-                        AppData.Instance.User = user;
-                        App.Current.MainPage = new AppShell();
-                        settings2 = user.GetSettings();
-                        settings2.Notifications();
-
+                        GotoApp(user, settings);
                     }
                     else
                     {
-                        Acr.UserDialogs.UserDialogs.Instance.Alert($"Error", "Autenticacion fallida", "OK");
+                        GotoManualLogin(user);
                     }
                 }
-                AppData.Instance.User = user;
-                App.Current.MainPage = new AppShell();
-                Settings settings = user.GetSettings();
-                settings.Notifications();
+
             }
             else
             {
@@ -85,6 +79,18 @@ namespace SchoolOrganizer.Views.Pages
 
 
             //App.Current.MainPage = new LoginPage();
+        }
+
+        private void GotoManualLogin(User user)
+        {
+            Acr.UserDialogs.UserDialogs.Instance.Alert("TODO", "No hay no existe");
+        }
+
+        private void GotoApp(User user, Settings settings)
+        {
+            AppData.Instance.User = user;
+            App.Current.MainPage = new AppShell();
+            settings.Notifications();
         }
     }
 }

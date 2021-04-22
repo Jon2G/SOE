@@ -37,8 +37,8 @@ namespace SchoolOrganizer.Droid.Notifications
             {
                 return;
             }
-            NotificationChannel chanel = NotificationChannel.GetNotificationChannel(context, NotificationChannel.ClassChannelId);
-            chanel?.Notify("OnReceive", $"{intent?.Action}");
+            //NotificationChannel chanel = NotificationChannel.GetNotificationChannel(context, NotificationChannel.ClassChannelId);
+            //chanel?.Notify("OnReceive", $"{intent?.Action}");
             if (intent?.HasExtra(nameof(Notification)) ?? false)
             {
                 Notification notification = Notification.FromExtras(intent.Extras, context);

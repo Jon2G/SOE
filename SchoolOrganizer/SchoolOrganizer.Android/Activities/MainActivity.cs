@@ -40,7 +40,6 @@ namespace SchoolOrganizer.Droid.Activities
 
         protected override async void OnCreate(Bundle savedInstanceState)
         {
-            CrossFingerprint.SetCurrentActivityResolver(() => this);
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             await CrossMedia.Current.Initialize();//

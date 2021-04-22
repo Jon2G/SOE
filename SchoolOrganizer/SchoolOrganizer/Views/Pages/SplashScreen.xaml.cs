@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security;
 using System.Threading.Tasks;
+using Kit;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 using SchoolOrganizer.Data;
@@ -38,21 +39,31 @@ namespace SchoolOrganizer.Views.Pages
                     if (!await CrossFingerprint.Current.IsAvailableAsync(true))
                     {
                         Acr.UserDialogs.UserDialogs.Instance.Alert("La autenticación biométrica no esta disponible  o no esta configurada.", "Atención", "OK");
-                        GotoManualLogin(user);
+                        GotoManualLogin(user, settings);
                     }
-                    var authResult = await CrossFingerprint.Current.AuthenticateAsync(
+                    var authResult = await Device.InvokeOnMainThreadAsync(() =>
+                    CrossFingerprint.Current.AuthenticateAsync(
                         new AuthenticationRequestConfiguration("Bloqueo de aplicación",
                         "Inicio de sesíon por huella")
                         {
                             AllowAlternativeAuthentication = true
-                        });
+                        }, new System.Threading.CancellationToken(false)));
+
+                    if (authResult.Status == FingerprintAuthenticationResultStatus.Failed &&
+                        authResult.ErrorMessage == "Authentication canceled")
+                    {
+                        Log.Logger.Error("Tu telegono no jala con pin amiko Im so sorry");
+                        GotoManualLogin(user, settings);
+                        return;
+                    }
                     if (authResult.Authenticated)
                     {
                         GotoApp(user, settings);
+
                     }
                     else
                     {
-                        GotoManualLogin(user);
+                        GotoManualLogin(user, settings);
                     }
                 }
 
@@ -61,29 +72,12 @@ namespace SchoolOrganizer.Views.Pages
             {
                 App.Current.MainPage = new LoginPage();
             }
-
-
-            //Si la llamada se provoco desde el WidgetDeHorario
-            //if (Widgets.Horario.WidgetHorario.Instance.IsItentDataSet())
-            //{
-            //    Widgets.Horario.IntentData data = Widgets.Horario.WidgetHorario.Instance.GetIntentData();
-            //    UserDialogs.Instance.Alert($"Se presiono el elemento #{data.RowId+1}", data.NombreMateria, "Ok");
-            //}
-
-            ////Si la llamada se provoco desde el Widget Tareas
-            //if (Widgets.Tareas.WidgetTareas.Instance.IsItentDataSet())
-            //{
-            //    Widgets.Tareas.IntentData data = Widgets.Tareas.WidgetTareas.Instance.GetIntentData();
-            //    UserDialogs.Instance.Alert($"Se presiono el elemento #{data.RowId + 1}", data.NombreTarea, "Ok");
-            //}
-
-
-            //App.Current.MainPage = new LoginPage();
         }
 
-        private void GotoManualLogin(User user)
+        private void GotoManualLogin(User user, Settings settings)
         {
             Acr.UserDialogs.UserDialogs.Instance.Alert("TODO", "No hay no existe");
+            GotoApp(user, settings);
         }
 
         private void GotoApp(User user, Settings settings)

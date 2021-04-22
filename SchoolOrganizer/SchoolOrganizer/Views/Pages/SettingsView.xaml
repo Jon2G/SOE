@@ -30,7 +30,7 @@
                     <Label Text="{x:Static fonts:FontelloIcons.Lock}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center" />
                     <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="Activar Finger Print" FontSize="15"  TextColor="Black" HorizontalOptions="Start"/>
-                    <Switch  OnColor="{StaticResource secondaryColor}" ThumbColor="{StaticResource primaryLightColor}" HorizontalOptions="EndAndExpand"/>
+                    <Switch  OnColor="{StaticResource secondaryColor}" ThumbColor="{StaticResource primaryLightColor}" HorizontalOptions="EndAndExpand" IsToggled="{Binding Settings.IsFingerPrintActive}"/>
                 </StackLayout>
                 <BoxView BackgroundColor="LightGray"  Grid.Row="1"/>
             </Grid>
@@ -43,7 +43,7 @@
                     <Label Text="{x:Static fonts:FontelloIcons.Hearth}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
                     <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Text="Desactivar Inicio Automatico"  FontSize="15"  TextColor="Black"  HorizontalOptions="Start"/>
-                    <Switch  OnColor="{StaticResource secondaryColor}" ThumbColor="{StaticResource primaryLightColor}" HorizontalOptions="EndAndExpand"/>
+                    <Switch  OnColor="{StaticResource secondaryColor}" ThumbColor="{StaticResource primaryLightColor}" HorizontalOptions="EndAndExpand" />
                 </StackLayout>
                 <BoxView BackgroundColor="LightGray" CornerRadius="5" Grid.Row="1"/>
             </Grid>

@@ -155,13 +155,7 @@ namespace SchoolOrganizer.Models.TaskFirst
             await Browser.OpenAsync(builder.Uri, BrowserLaunchMode.SystemPreferred);
         }
 
-        public void Save()
-        {
-            //leer y el regex y despues ya insertar documento
-            //this.IdDoc=?
-            //insert normal
-
-        }
+     
 
     }
 }

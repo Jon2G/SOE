@@ -11,41 +11,53 @@ namespace SchoolOrganizer.Views.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SplashScreen : ContentPage
     {
+       
         public SplashScreen()
         {
             InitializeComponent();
         }
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
             AppData.Init();
             User user = User.Get();
+            var FingerActivate=true;
             if (user != null && user.RemeberMe)
             {
-                // Settings settings = Settings.Get(user.Boleta);
-                //if(settings.HasFingerPrint){}
-                //bool isFingerprintAvailable = await CrossFingerprint.Current.IsAvailableAsync(true);
-                //if (!isFingerprintAvailable)
-                //{
-                //    Acr.UserDialogs.UserDialogs.Instance.Alert($"Error",
-                //        "La autenticacion biometrica no esta disponible  o no esta configurada.", "OK");
-                //    return;
-                //}
+                if (AppData.Instance.LiteConnection.Table<Settings>().FirstOrDefault(x => x.IsFingerPrintActive == true) is null)
+                {
+                    FingerActivate = false;
+                }
+              
 
-                //AuthenticationRequestConfiguration conf =
-                //    new AuthenticationRequestConfiguration("Authentication",
-                //    "Authenticate access to your personal data");
-                //conf.AllowAlternativeAuthentication = true;
-                //var authResult = await CrossFingerprint.Current.AuthenticateAsync(conf);
-                //if (authResult.Authenticated)
-                //{
-                //    AppData.Instance.User = user;
-                //    App.Current.MainPage = new AppShell();
-                //}
-                //else
-                //{
-                //    Acr.UserDialogs.UserDialogs.Instance.Alert($"Error", "Autenticacion fallida", "OK");
-                //}
+                if (FingerActivate) {
+                    bool isFingerprintAvailable = await CrossFingerprint.Current.IsAvailableAsync(false);
+                    if (!isFingerprintAvailable)
+                    {
+                        Acr.UserDialogs.UserDialogs.Instance.Alert($"Error",
+                            "La autenticacion biometrica no esta disponible  o no esta configurada.", "OK");
+                        return;
+                    }
+
+                    AuthenticationRequestConfiguration conf =
+                        new AuthenticationRequestConfiguration("Authentication",
+                        "Authenticate access to your personal data");
+                    
+                    var authResult = await CrossFingerprint.Current.AuthenticateAsync(conf);
+                    if (authResult.Authenticated)
+                    {
+                        Settings settings2;
+                        AppData.Instance.User = user;
+                        App.Current.MainPage = new AppShell();
+                        settings2 = user.GetSettings();
+                        settings2.Notifications();
+
+                    }
+                    else
+                    {
+                        Acr.UserDialogs.UserDialogs.Instance.Alert($"Error", "Autenticacion fallida", "OK");
+                    }
+                }
                 AppData.Instance.User = user;
                 App.Current.MainPage = new AppShell();
                 Settings settings = user.GetSettings();

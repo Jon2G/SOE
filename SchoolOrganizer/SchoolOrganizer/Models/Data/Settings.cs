@@ -29,6 +29,16 @@ namespace SchoolOrganizer.Models.Data
                 Raise(() => IsNotificationsActive);
             }
         }
+        private bool _IsFingerPrintActive;
+        public bool IsFingerPrintActive
+        {
+            get => _IsFingerPrintActive;
+            set
+            {
+                _IsFingerPrintActive = value;
+                Raise(() => IsFingerPrintActive);
+            }
+        }
         public Guid Guid { get; set; }
         internal void Save()
         {

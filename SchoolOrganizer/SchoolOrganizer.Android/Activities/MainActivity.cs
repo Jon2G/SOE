@@ -45,6 +45,8 @@ namespace SchoolOrganizer.Droid.Activities
             ToolbarResource = Resource.Layout.Toolbar;
             await CrossMedia.Current.Initialize();//
             base.OnCreate(savedInstanceState);
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             Kit.Droid.Tools.Init(this, savedInstanceState);
             LoadApplication(new SchoolOrganizer.App());
             if (this.Intent != null)

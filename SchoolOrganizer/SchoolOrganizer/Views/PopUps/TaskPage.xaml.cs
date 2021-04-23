@@ -1,8 +1,10 @@
 ﻿using System;
+using System.IO;
 using FFImageLoading.Cache;
 using FFImageLoading.Forms;
 using FFImageLoading.Work;
 using Rg.Plugins.Popup.Pages;
+using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.TaskFirst;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -22,55 +24,55 @@ namespace SchoolOrganizer.Views.PopUps
             DatePick.MinimumDate = DateTime.Now;
         }
 
-        private async void Button_Clicked(object sender, EventArgs e)
-        {
+        //private async void Button_Clicked(object sender, EventArgs e)
+        //{
 
-            if (Xamarin.Essentials.MediaPicker.IsCaptureSupported)
-            {
-                var picture = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync();
+        //    if (Xamarin.Essentials.MediaPicker.IsCaptureSupported)
+        //    {
+        //        var picture = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync();
 
-                if (picture != null)
-                {
-                    FileImageSource imagen = new FileImageSource() { File = picture.FullPath };
-
-
-                    var cachedImage = new CachedImage()
-                    {
-                        CacheType = CacheType.Disk,
-                        HorizontalOptions = LayoutOptions.FillAndExpand,
-                        VerticalOptions = LayoutOptions.FillAndExpand,
-                        DownsampleToViewSize = true,
-                        Source = imagen
-                    };
+        //        if (picture != null)
+        //        {
+        //            FileImageSource imagen = new FileImageSource() { File = picture.FullPath };
 
 
-                    Modelo.Photos.Add(imagen);
-                }
-            }
-        }
+        //            var cachedImage = new CachedImage()
+        //            {
+        //                CacheType = CacheType.Disk,
+        //                HorizontalOptions = LayoutOptions.FillAndExpand,
+        //                VerticalOptions = LayoutOptions.FillAndExpand,
+        //                DownsampleToViewSize = true,
+        //                Source = imagen
+        //            };
 
-        private async void Button_Clicked_1(object sender, EventArgs e)
-        {
 
-            var picture = await Xamarin.Essentials.MediaPicker.PickPhotoAsync(new MediaPickerOptions());
+        //            Modelo.Photos.Add(imagen);
+        //        }
+        //    }
+        //}
 
-            if (picture != null)
-            {
-                FileImageSource imagen = new FileImageSource() { File = picture.FullPath };
+        //private async void Button_Clicked_1(object sender, EventArgs e)
+        //{
 
-                var cachedImage = new CachedImage()
-                {
-                    CacheType = CacheType.Disk,
-                    HorizontalOptions = LayoutOptions.FillAndExpand,
-                    VerticalOptions = LayoutOptions.FillAndExpand,
-                    DownsampleToViewSize = true,
-                    Source = imagen
-                };
+        //    var picture = await Xamarin.Essentials.MediaPicker.PickPhotoAsync(new MediaPickerOptions());
 
-                Modelo.Photos.Add(imagen);
-            }
+        //    if (picture != null)
+        //    {
+        //        FileImageSource imagen = new FileImageSource() { File = picture.FullPath };
 
-        }
+        //        var cachedImage = new CachedImage()
+        //        {
+        //            CacheType = CacheType.Disk,
+        //            HorizontalOptions = LayoutOptions.FillAndExpand,
+        //            VerticalOptions = LayoutOptions.FillAndExpand,
+        //            DownsampleToViewSize = true,
+        //            Source = imagen
+        //        };
+
+        //        Modelo.Photos.Add(imagen);
+        //    }
+
+        //}
 
         private void ToolbarItem_Clicked(object sender, EventArgs e)
         {

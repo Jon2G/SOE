@@ -17,17 +17,23 @@ using SchoolOrganizer.Models.Scheduler;
 using SchoolOrganizer.Models.TaskFirst;
 using System.Text.RegularExpressions;
 using System.Linq;
+using Kit.Model;
+using SchoolOrganizer.Models;
+using Xamarin.Essentials;
 
 namespace SchoolOrganizer.ViewModels.Pages
 {
 
-    public class TaskViewModel : BaseViewModel
+    public class TaskViewModel : ModelBase
     {
 
         public Command TaskCommand { get; }
         public ICommand SaveCommand { get; }
         public ICommand OnDateChangedCommand { get; }
         public ICommand DeleteImageCommand { get; set; }
+        public ICommand CameraImageCommand { get; set; }
+        public ICommand GaleryImageCommand { get; set; }
+
         private Subject _selectedSubject;
         public Regex regex => new(@"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
@@ -51,7 +57,17 @@ namespace SchoolOrganizer.ViewModels.Pages
             set
             {
                 _Tarea = value;
-                OnPropertyChanged();
+                Raise(() => Tarea);
+            }
+        }
+        private FileImageSource _TaskImage;
+        public FileImageSource TaskImage
+        {
+            get => _TaskImage;
+            set
+            {
+                _TaskImage = value;
+                Raise(() => TaskImage);
             }
         }
         public TaskViewModel()
@@ -59,6 +75,8 @@ namespace SchoolOrganizer.ViewModels.Pages
             Tarea = new ToDo();
             TaskCommand = new Command(TaskClicked);
             SaveCommand = new Command(Save);
+            CameraImageCommand = new Command(UsarCamara);
+            GaleryImageCommand = new Command(Galeria);
             OnDateChangedCommand = new Command(OnDateChanged);
             DeleteImageCommand = new Command<FileImageSource>(DeleteImage);
             this.Photos = new ObservableCollection<FileImageSource>();
@@ -140,6 +158,43 @@ namespace SchoolOrganizer.ViewModels.Pages
             var pr = new SubjectPopUp();
             await pr.ShowDialog();
             this.SelectedSubject = pr.Modelo.SelectedSubject;
+        }
+
+        private async void Galeria()
+        {
+            var result = await Xamarin.Essentials.MediaPicker.PickPhotoAsync(new MediaPickerOptions());
+            if (result != null)
+            {
+                if (this.TaskImage is null)
+                {
+                    this.TaskImage = (FileImageSource)FileImageSource.FromFile(result.FullPath);
+                }
+                else
+                {
+                    this.TaskImage.File = result.FullPath;
+                }
+
+                Photos.Add(await TaskPageModel.SaveImage(result));
+            }
+            
+        }
+
+        private async void UsarCamara()
+        {
+            var result = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync(new MediaPickerOptions());
+            if (result != null)
+            {
+                if (this.TaskImage is null)
+                {
+                    this.TaskImage = (FileImageSource)FileImageSource.FromFile(result.FullPath);
+                }
+                else
+                {
+                    this.TaskImage.File = result.FullPath;
+                }
+                Photos.Add(await TaskPageModel.SaveImage(result));
+            }
+
         }
 
     }

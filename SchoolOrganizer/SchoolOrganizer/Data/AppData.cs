@@ -49,6 +49,9 @@ namespace SchoolOrganizer.Data
         public DirectoryInfo ImagesDirectory =>
             new DirectoryInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
                 "Images"));
+        public DirectoryInfo TaskImagesDirectory =>
+         new DirectoryInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+             "ImagesTareas"));
 
         public static void Init()
         {

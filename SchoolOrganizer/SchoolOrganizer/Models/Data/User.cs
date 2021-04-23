@@ -83,7 +83,6 @@ namespace SchoolOrganizer.Models.Data
                 directory.Create();
             }
             FileInfo avatar = new FileInfo(Path.Combine(directory.FullName, $"{AppData.Instance.User.Boleta}.png"));
-
             using (FileStream stream = new FileStream(avatar.FullName, FileMode.OpenOrCreate))
             {
                 using (var image = await result.OpenReadAsync())

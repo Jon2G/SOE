@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 
 namespace SchoolOrganizer.Views.Pages
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Skip)]
     public partial class TaskDetails : ContentPage
     {
         public TaskDetailsViewModel Model { get; set; }

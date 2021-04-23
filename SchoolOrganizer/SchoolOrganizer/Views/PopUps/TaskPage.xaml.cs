@@ -12,7 +12,7 @@ using Xamarin.Forms.Xaml;
 
 namespace SchoolOrganizer.Views.PopUps
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Skip)]
     public partial class TaskPage : ContentPage
     {
         private int _position;

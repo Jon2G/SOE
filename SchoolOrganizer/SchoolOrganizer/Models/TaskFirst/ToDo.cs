@@ -125,6 +125,7 @@ namespace SchoolOrganizer.Models.TaskFirst
             }
         }
         public int IdDocument { get; set; }
+        public int IdKeeper { get; set; }
         public ToDo()
         {
             OpenBrowserCommand = new Command<string>(OpenBrowser);

@@ -17,7 +17,10 @@ using SchoolOrganizer.Models.Scheduler;
 using SchoolOrganizer.Models.TaskFirst;
 using System.Text.RegularExpressions;
 using System.Linq;
+using System.Threading.Tasks;
 using Kit.Model;
+using SchoolOrganizer.Data.Images;
+using SchoolOrganizer.Enums;
 using SchoolOrganizer.Models;
 using Xamarin.Essentials;
 
@@ -35,9 +38,9 @@ namespace SchoolOrganizer.ViewModels.Pages
         public ICommand GaleryImageCommand { get; set; }
 
         private Subject _selectedSubject;
-        public Regex regex => new(@"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        public ObservableCollection<FileImageSource> Photos { get; }
+
+        public ObservableCollection<Archive<FileImageSource>> Photos { get; }
 
         public Subject SelectedSubject
         {
@@ -78,8 +81,8 @@ namespace SchoolOrganizer.ViewModels.Pages
             CameraImageCommand = new Command(UsarCamara);
             GaleryImageCommand = new Command(Galeria);
             OnDateChangedCommand = new Command(OnDateChanged);
-            DeleteImageCommand = new Command<FileImageSource>(DeleteImage);
-            this.Photos = new ObservableCollection<FileImageSource>();
+            DeleteImageCommand = new Command<Archive<FileImageSource>>(DeleteImage);
+            this.Photos = new ObservableCollection<Archive<FileImageSource>>();
         }
 
         private void OnDateChanged()
@@ -92,58 +95,32 @@ namespace SchoolOrganizer.ViewModels.Pages
             }
         }
 
-        private void DeleteImage(FileImageSource img)
+        private void DeleteImage(Archive<FileImageSource> img)
         {
             this.Photos.Remove(img);
         }
 
-        private async void Save(object obj)
+        private async Task Save()
         {
             this.Tarea.Subject = this.SelectedSubject;
             Document.Delete(this.Tarea.IdDocument);
-            var files = new List<string>();
-            List<DocumentPart> Contenido = new List<DocumentPart>();
-            //insertar o actualizar
-            //Links
-            MatchCollection matches = regex.Matches(Tarea.Description);
-            foreach (Match match in matches)
-            {
-                files.Add(match.ToString());
-            }
-            //
-            //obtiene la primera pocision
-            int last_index = 0;
-            if (files.Any())
-            {
-                int start = Tarea.Description.IndexOf(files[0]);
-                if (start > 0)
-                {
-                    string con = Tarea.Description.Substring(0, start);
-                    Contenido.Add(new DocumentPart() { Content = con, DocType = Enums.DocType.Text });
-                }
-                last_index = start + files[0].Length;
-                Contenido.Add(new DocumentPart() { Content = files[0], DocType = Enums.DocType.Link });
-            }
-            //Separa texto
-            for (int i = 1; i < files.Count; i++)
-            {
-                string file = files[i];
-                string contexto = Tarea.Description;
-                int s_index = Tarea.Description.IndexOf(file);
-                if (last_index > 0)
-                {
-                    contexto = Tarea.Description.Substring(last_index, s_index - last_index);
-                    Contenido.Add(new DocumentPart() { Content = contexto, DocType = Enums.DocType.Text });
-                    last_index = s_index + file.Length;
-                }
-                Contenido.Add(new DocumentPart() { Content = file, DocType = Enums.DocType.Link });
-            }
-            //
-            Document doc = new Document();
-            doc.Save();
-            Contenido.ForEach(c => c.Save(doc));
+            Document doc = Document.PaseAndSave(this.Tarea.Description);
             this.Tarea.IdDocument = doc.Id;
+
+
+            Keeper.Delete(this.Tarea.IdKeeper);
+            Keeper keeper = Keeper.New();
+            foreach (Archive archive in Photos)
+            {
+                await keeper.Save(archive);
+            }
+            this.Tarea.IdKeeper = keeper.Id;
+            /////////////
+
+
+
             AppData.Instance.LiteConnection.InsertOrReplace(this.Tarea);
+            /////////////
             if (Shell.Current is AppShell app)
             {
                 await app.MasterPage.TaskFirstPage.Model.Refresh();
@@ -151,6 +128,13 @@ namespace SchoolOrganizer.ViewModels.Pages
 
             await Shell.Current.Navigation.PopToRootAsync(true);
             //photos ?
+        }
+        private async void Save(object obj)
+        {
+            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Guardando tarea..."))
+            {
+                await Save();
+            }
         }
 
         private async void TaskClicked(object obj)
@@ -160,41 +144,21 @@ namespace SchoolOrganizer.ViewModels.Pages
             this.SelectedSubject = pr.Modelo.SelectedSubject;
         }
 
-        private async void Galeria()
+        private async void Galeria() => AddPhoto(await MediaPicker.PickPhotoAsync(new MediaPickerOptions()));
+
+        private async void UsarCamara() => AddPhoto(await MediaPicker.CapturePhotoAsync(new MediaPickerOptions()));
+
+        private void AddPhoto(FileResult result)
         {
-            var result = await Xamarin.Essentials.MediaPicker.PickPhotoAsync(new MediaPickerOptions());
-            if (result != null)
+            if (result is null)
             {
-                if (this.TaskImage is null)
-                {
-                    this.TaskImage = (FileImageSource)FileImageSource.FromFile(result.FullPath);
-                }
-                else
-                {
-                    this.TaskImage.File = result.FullPath;
-                }
-
-                Photos.Add(await TaskPageModel.SaveImage(result));
+                return;
             }
-            
-        }
-
-        private async void UsarCamara()
-        {
-            var result = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync(new MediaPickerOptions());
-            if (result != null)
+            Archive<FileImageSource> archive = new Archive<FileImageSource>(result, FileType.Photo)
             {
-                if (this.TaskImage is null)
-                {
-                    this.TaskImage = (FileImageSource)FileImageSource.FromFile(result.FullPath);
-                }
-                else
-                {
-                    this.TaskImage.File = result.FullPath;
-                }
-                Photos.Add(await TaskPageModel.SaveImage(result));
-            }
-
+                Value = (FileImageSource)ImageSource.FromFile(result.FullPath)
+            };
+            Photos.Add(archive);
         }
 
     }

@@ -6,6 +6,7 @@ using Kit;
 using Kit.Model;
 using Kit.Sql.Helpers;
 using Kit.Sql.Sqlite;
+using SchoolOrganizer.Data.Images;
 using SchoolOrganizer.Models;
 using SchoolOrganizer.Models.Academic;
 using SchoolOrganizer.Models.Data;
@@ -46,12 +47,7 @@ namespace SchoolOrganizer.Data
         private static FileInfo LiteDbPath =>
             new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SchoolOrganizer.db"));
 
-        public DirectoryInfo ImagesDirectory =>
-            new DirectoryInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
-                "Images"));
-        public DirectoryInfo TaskImagesDirectory =>
-         new DirectoryInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
-             "ImagesTareas"));
+
 
         public static void Init()
         {
@@ -63,7 +59,9 @@ namespace SchoolOrganizer.Data
             AppData.Instance.LiteConnection.CheckTables(
                 typeof(Teacher), typeof(Subject), typeof(User),
                 typeof(ClassTime), typeof(Grade), typeof(Credits),
-                typeof(ToDo), typeof(Settings),typeof(NotificationsHistory),typeof(Document),typeof(DocumentPart));
+                typeof(ToDo), typeof(Settings), typeof(NotificationsHistory),
+                typeof(Document), typeof(DocumentPart), typeof(Archive),
+                typeof(Keeper));
         }
     }
 }

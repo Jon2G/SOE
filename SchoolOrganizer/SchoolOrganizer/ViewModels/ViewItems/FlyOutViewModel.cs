@@ -61,7 +61,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
         private async void GetAvatar()
         {
             await Task.Yield();
-            this.AvatarSource = User.GetAvatar();
+            //this.AvatarSource = User.GetAvatar();
             string name = AppData.Instance.User.Name;
             this.UserInitials = Kit.Extensions.Helpers.ExtractInitialsFromName(name);
         }
@@ -102,7 +102,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
                     this.AvatarSource.File = result.FullPath;
                 }
 
-                await User.SaveAvatar(result);
+                //await User.SaveAvatar(result);
             }
         }
 
@@ -122,7 +122,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
                 {
                     this.AvatarSource.File = result.FullPath;
                 }
-                await User.SaveAvatar(result);
+                //await User.SaveAvatar(result);
             }
 
         }

@@ -7,6 +7,7 @@ using Kit;
 using Kit.Model;
 using Kit.Sql.Attributes;
 using SchoolOrganizer.Data;
+using SchoolOrganizer.Data.Images;
 using SchoolOrganizer.Saes;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -74,41 +75,28 @@ namespace SchoolOrganizer.Models.Data
 
         public User() { }
 
-        internal static async Task<FileImageSource> SaveAvatar(FileResult result)
-        {
-            await Task.Yield();
-            DirectoryInfo directory = AppData.Instance.ImagesDirectory;
-            if (!directory.Exists)
-            {
-                directory.Create();
-            }
-            FileInfo avatar = new FileInfo(Path.Combine(directory.FullName, $"{AppData.Instance.User.Boleta}.png"));
-            using (FileStream stream = new FileStream(avatar.FullName, FileMode.OpenOrCreate))
-            {
-                using (var image = await result.OpenReadAsync())
-                {
-                    await image.CopyToAsync(stream);
-                }
-            }
+        //internal static async Task<FileImageSource> SaveAvatar(FileResult result)
+        //{
+        //    FileInfo avatar = new FileInfo(Path.Combine(AppData.Instance.ImagesDirectory.FullName, $"{AppData.Instance.User.Boleta}.png"));
+        //    await Keeper.Save(result.OpenReadAsync(), avatar);
+        //    return GetAvatar();
+        //}
+        //internal static FileImageSource GetAvatar()
+        //{
+        //    DirectoryInfo directory = AppData.Instance.ImagesDirectory;
+        //    if (!directory.Exists)
+        //    {
+        //        directory.Create();
+        //        return null;
+        //    }
 
-            return GetAvatar();
-        }
-        internal static FileImageSource GetAvatar()
-        {
-            DirectoryInfo directory = AppData.Instance.ImagesDirectory;
-            if (!directory.Exists)
-            {
-                directory.Create();
-                return null;
-            }
-
-            FileInfo avatar = new FileInfo(Path.Combine(directory.FullName, $"{AppData.Instance.User.Boleta}.png"));
-            if (!avatar.Exists)
-            {
-                return null;
-            }
-            return (FileImageSource)FileImageSource.FromFile(avatar.FullName);
-        }
+        //    FileInfo avatar = new FileInfo(Path.Combine(directory.FullName, $"{AppData.Instance.User.Boleta}.png"));
+        //    if (!avatar.Exists)
+        //    {
+        //        return null;
+        //    }
+        //    return (FileImageSource)FileImageSource.FromFile(avatar.FullName);
+        //}
 
 
         public Settings GetSettings()
@@ -118,7 +106,7 @@ namespace SchoolOrganizer.Models.Data
                 .FirstOrDefault(x => x.Boleta == this.Boleta);
             if (settings is null)
             {
-                settings= new Settings()
+                settings = new Settings()
                 {
                     Boleta = this.Boleta
                 };

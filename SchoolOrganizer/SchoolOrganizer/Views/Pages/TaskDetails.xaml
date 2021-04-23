@@ -5,6 +5,7 @@
              xmlns:pages="clr-namespace:SchoolOrganizer.ViewModels.Pages;assembly=SchoolOrganizer"
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
+             xmlns:images="clr-namespace:SchoolOrganizer.Data.Images;assembly=SchoolOrganizer"
              x:Class="SchoolOrganizer.Views.Pages.TaskDetails" 
              Title="{Binding ToDo.Title}" x:DataType="pages:TaskDetailsViewModel">
 
@@ -50,7 +51,7 @@
                         Color="{DynamicResource primaryTextColor}" Size="20" />
             </views:TabViewItem.Icon>
             <StackLayout Padding="3">
-                <CollectionView BackgroundColor="WhiteSmoke">
+                <CollectionView BackgroundColor="WhiteSmoke" ItemsSource="{Binding Photos}">
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Vertical"  Span="2"/>
                     </CollectionView.ItemsLayout>
@@ -66,7 +67,7 @@
                         </Grid>
                     </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>
-                        <DataTemplate >
+                        <DataTemplate x:DataType="images:Archive">
                             <ContentView>
                                 <Grid RowDefinitions="Auto,*">
 
@@ -74,7 +75,7 @@
                                                              Padding="3" BackgroundColor="LightGray"
                                                              Margin="3">
                                         <Image 
-                                            Aspect="AspectFit" />
+                                            Aspect="AspectFit" Source="{Binding Value}"/>
                                     </pancakeView:PancakeView>
                                 </Grid>
                             </ContentView>

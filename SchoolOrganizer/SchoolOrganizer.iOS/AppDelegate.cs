@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Foundation;
+using PanCardView.iOS;
 using SchoolOrganizer;
 using UIKit;
 using Xamarin.Forms.Platform.iOS;
@@ -22,6 +23,13 @@ namespace OrganizadorEscolar.iOS
             UINavigationBar.Appearance.Translucent = false;
             UINavigationBar.Appearance.BackgroundColor = Xamarin.Forms.Color.MidnightBlue.ToUIColor();
             UINavigationBar.Appearance.BarTintColor = Xamarin.Forms.Color.White.ToUIColor();
+        }
+
+        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+        {
+            bool result= base.FinishedLaunching(app, options);
+            CardsViewRenderer.Preserve();
+            return result;
         }
     }
 }

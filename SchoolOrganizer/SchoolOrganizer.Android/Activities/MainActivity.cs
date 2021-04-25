@@ -5,6 +5,7 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Kit;
+using PanCardView.Droid;
 using Plugin.Fingerprint;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
@@ -46,6 +47,7 @@ namespace SchoolOrganizer.Droid.Activities
             base.OnCreate(savedInstanceState);
 
             Kit.Droid.Tools.Init(this, savedInstanceState);
+            CardsViewRenderer.Preserve();
             LoadApplication(new SchoolOrganizer.App());
             if (this.Intent != null)
                 OnNewIntent(this.Intent);

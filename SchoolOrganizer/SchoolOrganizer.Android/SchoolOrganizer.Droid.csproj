@@ -90,6 +90,9 @@
     <PackageReference Include="Acr.UserDialogs">
       <Version>7.1.0.483</Version>
     </PackageReference>
+    <PackageReference Include="CardsView">
+      <Version>2.7.5</Version>
+    </PackageReference>
     <PackageReference Include="Forms9Patch">
       <Version>2.4.9</Version>
     </PackageReference>

@@ -71,7 +71,7 @@ namespace SchoolOrganizer.Saes
                     "No fue posible conectarse al SAES, verifique si el sitio esta activo", "Sin conexión");
                 return;
             }
-            await this.EvaluateJavaScriptAsync(@"window.onerror = function myErrorHandler(errorMsg, url, lineNumber) { alert('Error occured: ' + errorMsg); return false;");
+            await this.EvaluateJavaScriptAsync(@"window.onerror = function myErrorHandler(errorMsg, url, lineNumber) { alert('Error occured: ' + errorMsg); return false; }");
             if (e.Url is null)
             {
                 await GoTo(School.HomePage);

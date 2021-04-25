@@ -59,16 +59,6 @@ namespace SchoolOrganizer.Models.Data
             return User;
         }
 
-
-        public bool RemeberMe
-        {
-            get => _RemeberMe;
-            set
-            {
-                _RemeberMe = value;
-                Raise(() => RemeberMe);
-            }
-        }
         public string Name { get => _Name; set { _Name = value; Raise(() => Name); } }
         [Ignore]
         public bool IsLogedIn { get; set; }

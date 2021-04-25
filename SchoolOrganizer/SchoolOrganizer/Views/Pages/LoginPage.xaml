@@ -73,11 +73,6 @@
                                             Style="{StaticResource FormEntryStyle}" TextColor="{DynamicResource secondaryTextColor}"
                                             Focused="EntryFocused" Placeholder="Captcha" PlaceholderColor="{DynamicResource secondaryTextColor}" Margin="0,10"/>
 
-                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-
-                                <Switch OnColor="{DynamicResource secondaryColor}" ThumbColor="{DynamicResource primaryLightColor}" IsToggled="{Binding User.RemeberMe}" />
-                                <Label Text="Recuérdame" TextColor="{DynamicResource secondaryTextColor}" FontFamily="KarlaSB"  FontSize="18" FontAttributes="Bold" />
-                            </StackLayout>
 
 
                             <Button  Text="Iniciar sesión"

@@ -6,13 +6,15 @@
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
              xmlns:images="clr-namespace:SchoolOrganizer.Data.Images;assembly=SchoolOrganizer"
+             xmlns:viewItems="clr-namespace:SchoolOrganizer.Views.ViewItems;assembly=SchoolOrganizer"
              x:Class="SchoolOrganizer.Views.Pages.TaskDetails" 
-             Title="{Binding ToDo.Title}" x:DataType="pages:TaskDetailsViewModel">
-
-    <views:TabView IsSwipeEnabled="True" 
-                       Style="{StaticResource CustomTabStyle}" 
-                       TabStripBackgroundColor="{DynamicResource primaryLightColor}" 
-                       IsTabStripVisible="True" TabStripPlacement="Top">
+             Title="{Binding ToDo.Title}" x:DataType="pages:TaskDetailsViewModel"
+             x:Name="Me">
+    <Grid>
+        <views:TabView IsSwipeEnabled="True" 
+                   Style="{StaticResource CustomTabStyle}" 
+                   TabStripBackgroundColor="{DynamicResource primaryLightColor}" 
+                   IsTabStripVisible="True" TabStripPlacement="Top">
         <views:TabViewItem TextColor="White" Text="Descripción">
             <views:TabViewItem.Icon>
                 <FontImageSource 
@@ -52,37 +54,37 @@
             </views:TabViewItem.Icon>
             <StackLayout Padding="3">
                 <CollectionView BackgroundColor="WhiteSmoke" ItemsSource="{Binding Photos}">
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical"  Span="2"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.EmptyView>
-                        <Grid>
-                         
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical"  Span="2"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.EmptyView>
+                            <Grid>
+
                                 <Label 
                                     Text="Sin imagenes que mostrar"
                                     HorizontalOptions="Center"
                                     VerticalOptions="Center" FontSize="Large" FontAttributes="Bold" TextColor="Black" />
 
 
-                        </Grid>
-                    </CollectionView.EmptyView>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="images:Archive">
-                            <ContentView>
-                                <Grid RowDefinitions="Auto,*">
-
-                                    <pancakeView:PancakeView InputTransparent="True" Grid.RowSpan="2" Style="{StaticResource card}"
+                            </Grid>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="images:Archive">
+                                <ContentView>
+                                    <pancakeView:PancakeView InputTransparent="True" Style="{StaticResource card}"
                                                              Padding="3" BackgroundColor="LightGray"
-                                                             Margin="3">
-                                        <Image 
-                                            Aspect="AspectFit" Source="{Binding Value}"/>
-                                    </pancakeView:PancakeView>
-                                </Grid>
-                            </ContentView>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                                                             Margin="3"
+                                                             views:TouchEffect.PressedScale="1.2"
+                                                             views:TouchEffect.Command="{Binding GalleryViewCommand,Source ={x:Reference Me} }">
+                                        <Image Aspect="AspectFit" Source="{Binding Value}"/>
+                                        </pancakeView:PancakeView>
+                                </ContentView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
             </StackLayout>
         </views:TabViewItem>
-    </views:TabView>
+        </views:TabView>
+        <viewItems:GalleryView x:Name="GalleryView"/>
+    </Grid>
 </ContentPage>

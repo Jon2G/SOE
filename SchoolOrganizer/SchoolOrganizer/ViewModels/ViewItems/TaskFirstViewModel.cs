@@ -33,7 +33,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
             DayGroups.Clear();
             DayGroups.AddRange(
             AppData.Instance.LiteConnection.
-                Lista<long>($"SELECT Distinct {nameof(ToDo.Date)} from {nameof(ToDo)} where {nameof(ToDo.Date)}>={DateTime.Now.Ticks} order by date")
+                Lista<long>($"SELECT Distinct {nameof(ToDo.Date)} from {nameof(ToDo)} where {nameof(ToDo.Date)}>={DateTime.Today.Ticks} order by date")
                 .Select((x) => new ByDayGroup()
                 {
                     FDateTime =new DateTime(x)

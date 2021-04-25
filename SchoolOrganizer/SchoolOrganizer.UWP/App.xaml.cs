@@ -16,26 +16,14 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Kit.Sql.Helpers;
-using Sharpnado.MaterialFrame.UWP;
-
 namespace SchoolOrganizer.UWP
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    sealed partial class App 
+    sealed partial class App
     {
-        protected override Assembly[] IncludedAssemblies
-        {
-            get
-            {
-                return new[]
-                {
-                    typeof(UWPMaterialFrameRenderer).GetTypeInfo().Assembly
-                };
-            }
-        }
-
+        protected override Assembly[] IncludedAssemblies => null;
         protected override void Init()
         {
          //  PdfSharp.Xamarin.Forms.UWP.Platform.Init();

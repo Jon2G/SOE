@@ -44,7 +44,7 @@ namespace SchoolOrganizer.Droid.Notifications
                 Notification notification = Notification.FromExtras(intent.Extras, context);
                 notification.Notify();
             }
-            context.StartForegroundService(new Intent(context, typeof(NotificationService)));
+            //context.StartForegroundService(new Intent(context, typeof(NotificationService)));
         }
 
         internal static void ProgramFor(Bundle extras, DateTime date, Context context, int requestId)

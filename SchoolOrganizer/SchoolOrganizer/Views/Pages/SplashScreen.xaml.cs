@@ -32,7 +32,7 @@ namespace SchoolOrganizer.Views.Pages
                 settings = user.GetSettings();
             }
 
-            if (user != null && user.RemeberMe)
+            if (user != null)
             {
                 if (settings.IsFingerPrintActive)
                 {
@@ -66,7 +66,10 @@ namespace SchoolOrganizer.Views.Pages
                         GotoManualLogin(user, settings);
                     }
                 }
-
+                else
+                {
+                    GotoApp(user,settings);
+                }
             }
             else
             {

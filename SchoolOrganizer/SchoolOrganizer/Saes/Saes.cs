@@ -16,6 +16,10 @@ using SchoolOrganizer.Models.Scheduler;
 using SchoolOrganizer.ViewModels.Pages;
 using SchoolOrganizer.Views.PopUps;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
+using Application = Xamarin.Forms.Application;
+using WebView = Xamarin.Forms.WebView;
 
 namespace SchoolOrganizer.Saes
 {
@@ -49,6 +53,10 @@ namespace SchoolOrganizer.Saes
         }
         public SAES(School School)
         {
+            this.IsPlatformEnabled = true;
+            this.On<Windows>().SetIsJavaScriptAlertEnabled(true);
+            this.On<Windows>().SetExecutionMode(WebViewExecutionMode.SeparateProcess);
+
             this.School = School;
             this.Navigated += Browser_Navigated;
             this.NavigationQueue = new Queue<NavigationRequest>();
@@ -167,7 +175,7 @@ namespace SchoolOrganizer.Saes
             if (!string.IsNullOrEmpty(sb.ToString()))
             {
                 string base_64 = await EvaluateJavaScriptAsync(sb.ToString());
-                base_64= base_64.Replace("data:image/png;base64,", string.Empty);
+                base_64 = base_64.Replace("data:image/png;base64,", string.Empty);
                 ImageSource =
                     Xamarin.Forms.ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(base_64)));
             }
@@ -501,12 +509,19 @@ namespace SchoolOrganizer.Saes
             doc.LoadHtml(html);
             return doc;
         }
+
+        private async Task<string> _EvaluateJavaScriptAsync(string script)
+        {
+            await Task.Delay(TimeSpan.FromSeconds(1)); //dale tiempo para cargar
+            return
+                await this.EvaluateJavaScriptAsync(script);
+        }
         public async Task<IEnumerable<School>> GetSchools(SchoolLevel Level)
         {
-
             List<School> schools = new List<School>();
             await GoTo(Level == SchoolLevel.University ? UniversitiesPage : HighSchoolsPage);
-            string html = await this.EvaluateJavaScriptAsync("document.getElementById('botones_esc')?.outerHTML;");
+            string html = await _EvaluateJavaScriptAsync(
+                "document.getElementById(\"botones_esc\").outerHTML;");
             Unescape(ref html);
             if (!string.IsNullOrEmpty(html))
             {

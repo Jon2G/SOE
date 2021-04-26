@@ -4,7 +4,9 @@ using Rg.Plugins.Popup.Services;
 using SchoolOrganizer.Views.PopUps;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Kit.Model;
 using Plugin.Fingerprint;
@@ -12,6 +14,10 @@ using Plugin.Fingerprint.Abstractions;
 using SchoolOrganizer.Data;
 using Xamarin.Forms;
 using SchoolOrganizer.Models.Data;
+using Kit;
+using Acr.UserDialogs;
+using Kit.Forms.Extensions;
+using Xamarin.Essentials;
 
 namespace SchoolOrganizer.ViewModels.Pages
 {
@@ -20,6 +26,7 @@ namespace SchoolOrganizer.ViewModels.Pages
         public Settings Settings { get; set; }
         public ICommand SaveCommand { get; }
         public ICommand ViewChangeCommand { get; set; }
+        public ICommand ShareDatabaseCommand { get; set; }
 
 
         public ICommand OnFingerPrintToogledCommand { get; set; }
@@ -29,9 +36,57 @@ namespace SchoolOrganizer.ViewModels.Pages
             this.OnFingerPrintToogledCommand = new Command(OnFingerPrintToogled);
             this.SaveCommand = new Command(Save);
             ViewChangeCommand = new Command(ViewOpen);
+            this.ShareDatabaseCommand = new Command(ShareDatabase);
             Settings = AppData.Instance.User.GetSettings();
         }
 
+        private async void ShareDatabase()
+        {
+            using (var loading = UserDialogs.Instance.Loading("Cargando..."))
+            {
+                Log.Logger.Debug("Se solicito la base de datos lite");
+                if (!await AbrirArchivo(AppData.Instance.LiteConnection.DatabasePath, "Base de datos local"))
+                {
+                    await UserDialogs.Instance.AlertAsync("No se pudo abrir el archivo", "Mensaje informativo");
+                }
+            }
+        }
+        private static async Task<bool> AbrirArchivo(string ruta, string titulo)
+        {
+            if (await Permisos.PedirPermiso(Plugin.Permissions.Abstractions.Permission.Storage, "Permita el acceso al almacentamiento"))
+            {
+                FileInfo file = new FileInfo(ruta);
+                if (!file.Exists)
+                {
+                    await UserDialogs.Instance.AlertAsync("No se encontro el archivo", "Mensaje informativo");
+                    return false;
+                }
+                try
+                {
+                    ////
+                    string temporal = file.FullName;
+                    if (file.Directory.FullName != FileSystem.CacheDirectory)
+                    {
+                        temporal = $"{file.Name.Replace(file.Extension, String.Empty)}_{Guid.NewGuid():N}{file.Extension}";
+                        temporal = Path.Combine(FileSystem.CacheDirectory, temporal);
+                        File.Copy(file.FullName, temporal);
+                    }
+                    await Share.RequestAsync(new ShareFileRequest
+                    {
+                        Title = titulo,
+                        File = new ShareFile(temporal)
+                    });
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Log.Logger.Error(ex, "Al abrir el archivo");
+                    await UserDialogs.Instance.AlertAsync($"No se pudo abrir el archivo\n{ex?.Message}", "Mensaje informativo");
+                    return false;
+                }
+            }
+            return false;
+        }
         private async void OnFingerPrintToogled()
         {
             if (this.Settings.IsFingerPrintActive)

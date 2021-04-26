@@ -5,25 +5,18 @@
              xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer" 
              xmlns:viewItems="clr-namespace:SchoolOrganizer.ViewModels.Pages"
              xmlns:behaviors="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
              Title="Ajustes">
     <ContentPage.BindingContext>
         <viewItems:SettingsViewModel x:Name="Model"/>
     </ContentPage.BindingContext>
     <Frame BackgroundColor="White" CornerRadius="0" BorderColor="{StaticResource primaryLightColor}" >
-        <Grid >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
+        <StackLayout >
+            <Grid>
                 <BoxView BackgroundColor="WhiteSmoke" CornerRadius="5"/>
                 <Label HorizontalTextAlignment="Center" Text="Ajustes Principales" FontSize="Title" FontAttributes="Bold" TextColor="Black"/>
             </Grid>
-            <Grid  Grid.Row="1" Padding="5" >
+            <Grid Padding="5" >
                 <Grid.RowDefinitions >
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="2"/>
@@ -43,7 +36,7 @@
                 </StackLayout>
                 <BoxView BackgroundColor="LightGray"  Grid.Row="1"/>
             </Grid>
-            <Grid  Grid.Row="2" Padding="5">
+            <Grid Padding="5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="2"/>
@@ -56,7 +49,7 @@
                 </StackLayout>
                 <BoxView BackgroundColor="LightGray" CornerRadius="5" Grid.Row="1"/>
             </Grid>
-            <Grid  Grid.Row="3" Padding="5">
+            <Grid Padding="5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="2"/>
@@ -69,11 +62,17 @@
                 </StackLayout>
                 <BoxView BackgroundColor="LightGray" CornerRadius="5" Grid.Row="1"/>
             </Grid>
-            <Grid Grid.Row="4">
+            <Grid >
                 <BoxView BackgroundColor="WhiteSmoke" CornerRadius="5"/>
                 <Label HorizontalTextAlignment="Center" Text="Ajustes Principales" FontSize="Title" FontAttributes="Bold" TextColor="{DynamicResource secondaryTextColor}"/>
             </Grid>
             <Button Grid.Row="5" TextColor="{DynamicResource secondaryTextColor}" BackgroundColor="WhiteSmoke"  CornerRadius="5"  Text="Cambiar ventanas principales" FontSize="12"  HeightRequest="35" Command="{Binding ViewChangeCommand}"/>
-        </Grid>
+            <controls:ArrowButton Title="Extraer base de datos local" Command="{Binding ShareDatabase}">
+                <controls:ArrowButton.Icon>
+                    <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Share}"
+                                     FontFamily="{x:Static fonts:FontelloIcons.Font}"/>
+                </controls:ArrowButton.Icon>
+            </controls:ArrowButton>
+        </StackLayout>
     </Frame>
 </ContentPage>

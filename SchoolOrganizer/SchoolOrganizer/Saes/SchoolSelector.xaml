@@ -31,7 +31,7 @@
                                                     Command="{Binding Model.SelectSchoolCommand ,Source={x:Reference Me}}"
                                                     CommandParameter="{Binding .}"/>
                                             </pancakeView:PancakeView.GestureRecognizers>
-                                            <Image Aspect="Fill" Source="{Binding ImgPath}" HeightRequest="70"/>
+                                            <Image Aspect="AspectFit" Source="{Binding ImgPath}" HeightRequest="70"/>
                                         </pancakeView:PancakeView>
                                     </ContentView>
                                 </DataTemplate>

@@ -45,7 +45,7 @@ namespace SchoolOrganizer.Data
         }
 
         private static FileInfo LiteDbPath =>
-            new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SchoolOrganizer.db"));
+            new FileInfo(Path.Combine(Tools.Instance.LibraryPath, "SchoolOrganizer.db"));
 
 
 

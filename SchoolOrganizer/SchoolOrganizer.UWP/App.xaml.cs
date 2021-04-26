@@ -26,7 +26,6 @@ namespace SchoolOrganizer.UWP
         protected override Assembly[] IncludedAssemblies => null;
         protected override void Init()
         {
-         //  PdfSharp.Xamarin.Forms.UWP.Platform.Init();
         }
 
         protected override Type MainPageType => typeof(MainPage);

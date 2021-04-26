@@ -104,6 +104,10 @@ namespace SchoolOrganizer.ViewModels.Pages
         {
             this.Tarea.Subject = this.SelectedSubject;
             Document.Delete(this.Tarea.IdDocument);
+            if (this.Tarea.Description==null)
+            {
+                this.Tarea.Description = "";
+            }
             Document doc = Document.PaseAndSave(this.Tarea.Description);
             this.Tarea.IdDocument = doc.Id;
 
@@ -160,6 +164,10 @@ namespace SchoolOrganizer.ViewModels.Pages
             };
             Photos.Add(archive);
         }
-
+        private void OpenTask(ToDo todo)
+        {
+            this.Tarea = todo;
+            App.Current.MainPage.Navigation.PushAsync(new TaskPage(), true);
+        }
     }
 }

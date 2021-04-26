@@ -7,6 +7,7 @@ using Kit.Extensions;
 using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Scheduler;
 using SchoolOrganizer.Views.Pages;
+using SchoolOrganizer.Views.PopUps;
 using SchoolOrganizer.Views.ViewItems.TasksViews;
 using Xamarin.Forms;
 
@@ -14,11 +15,14 @@ namespace SchoolOrganizer.Models.TaskFirst
 {
     public class BySubjectGroup
     {
+        private TaskPage taskPage;
+
         public BySubjectGroupView View { get; set; }
         public Subject Subject { get; set; }
+        public ToDo toDo { get; set; }
         public ObservableCollection<ToDo> ToDoS { get; set; }
         public ICommand DeleteCommand { get; set; }
-
+        public ICommand OpenTaskCommand { get; set; }
         public ICommand DetailCommand { get; set; }
         public BySubjectGroup(Subject Subject)
         {
@@ -26,13 +30,25 @@ namespace SchoolOrganizer.Models.TaskFirst
             ToDoS = new ObservableCollection<ToDo>();
             DetailCommand = new Xamarin.Forms.Command<ToDo>(Detail);
             DeleteCommand = new Xamarin.Forms.Command<ToDo>(Eliminar);
+            OpenTaskCommand = new Xamarin.Forms.Command<ToDo>(OpenTask);
         }
+
+        public BySubjectGroup(TaskPage taskPage)
+        {
+            this.taskPage = taskPage;
+        }
+
         public void Eliminar(ToDo todo)
         {
             
             AppData.Instance.LiteConnection.Delete(todo);
             ToDoS.Remove(todo);
             View?.Resize();
+        }
+        private void OpenTask(ToDo todo)
+        {
+            this.toDo = todo;
+            App.Current.MainPage.Navigation.PushAsync(new TaskPage(), true);
         }
         private void Detail(ToDo obj)
         {

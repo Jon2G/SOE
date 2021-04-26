@@ -7,6 +7,7 @@ using Plugin.Fingerprint.Abstractions;
 using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Data;
 using SchoolOrganizer.ViewModels.Pages;
+using SchoolOrganizer.Views.PopUps;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -39,7 +40,8 @@ namespace SchoolOrganizer.Views.Pages
                     if (!await CrossFingerprint.Current.IsAvailableAsync(true))
                     {
                         Acr.UserDialogs.UserDialogs.Instance.Alert("La autenticación biométrica no esta disponible  o no esta configurada.", "Atención", "OK");
-                        GotoManualLogin(user, settings);
+                        var a = new LoginPopUp();
+                        await a.ShowDialog();
                     }
                     var authResult = await Device.InvokeOnMainThreadAsync(() =>
                     CrossFingerprint.Current.AuthenticateAsync(
@@ -53,8 +55,8 @@ namespace SchoolOrganizer.Views.Pages
                         authResult.ErrorMessage == "Authentication canceled")
                     {
                         Log.Logger.Error("Tu telegono no jala con pin amiko Im so sorry");
-                        GotoManualLogin(user, settings);
-                        return;
+                        LoginPopUp a = new LoginPopUp();
+                        await a.ShowDialog();
                     }
                     if (authResult.Authenticated)
                     {
@@ -63,12 +65,14 @@ namespace SchoolOrganizer.Views.Pages
                     }
                     else
                     {
-                        GotoManualLogin(user, settings);
+                        var a = new LoginPopUp();
+                        await a.ShowDialog();
                     }
                 }
                 else
                 {
-                    GotoApp(user,settings);
+                    var a = new LoginPopUp();
+                    await a.ShowDialog();
                 }
             }
             else

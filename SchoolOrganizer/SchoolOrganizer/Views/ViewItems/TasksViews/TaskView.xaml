@@ -14,7 +14,8 @@
                                 CommandParameter="{Binding .}" 
                                 Command="{Binding Source={x:Reference Me}, 
                         Path=Group.DeleteCommand}" />
-                    <SwipeItem Text="Editar" BackgroundColor="ForestGreen" />
+                    <SwipeItem Text="Editar" BackgroundColor="ForestGreen" CommandParameter="{Binding .}" Command="{Binding Source={x:Reference Me}, 
+                        Path=Group.OpenTaskCommand}" />
                 </SwipeView.RightItems>
                 <SwipeView.LeftItems>
                     <SwipeItem BackgroundColor="DodgerBlue"  Command="{Binding Source={x:Reference Me}, 

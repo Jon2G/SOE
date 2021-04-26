@@ -20,13 +20,17 @@ namespace SchoolOrganizer.ViewModels.ViewItems
     public class TaskFirstViewModel : BaseViewModel
     {
         public ObservableCollection<ByDayGroup> DayGroups { get; set; }
-
+       
         public TaskFirstViewModel()
         {
 
             DayGroups = new ObservableCollection<ByDayGroup>();
             Task.Run(Refresh);
+           
         }
+
+      
+
         public async Task Refresh()
         {
             await Task.Yield();

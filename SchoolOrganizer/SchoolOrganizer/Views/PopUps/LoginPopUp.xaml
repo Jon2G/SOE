@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:BasePopUp  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms" 
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:view="clr-namespace:SchoolOrganizer.ViewModels.Pages"
+                  x:Class="SchoolOrganizer.Views.PopUps.LoginPopUp">
+    <pages:BasePopUp.BindingContext>
+        <view:LoginPopUpViewModel/>
+    </pages:BasePopUp.BindingContext>
+<Frame Margin="20" CornerRadius="15" 
+           BackgroundColor="{DynamicResource secondaryLightColor}"
+           VerticalOptions="Center" HorizontalOptions="Center" 
+           BorderColor="{DynamicResource primaryLightColor}">
+        <StackLayout>
+            <Entry Placeholder="Usuario" Text="{Binding Boleta}"/>
+            <Entry IsPassword="True" Placeholder="Contraseña" Text="{Binding Password}"/>
+            <Button Text="Ingresar" Command="{Binding IngresarCommand}"/>
+        </StackLayout>
+    </Frame>
+</pages:BasePopUp>

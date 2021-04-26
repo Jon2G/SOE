@@ -13,7 +13,7 @@
              x:Class="SchoolOrganizer.Views.Pages.TaskFirstPage">
     <Grid BackgroundColor="#F3F5F9"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <CollectionView  BackgroundColor="WhiteSmoke"  Margin="10"
-                        SelectionMode="None"  ItemsSource="{Binding DayGroups}" x:Name="Coleccion" >
+                        SelectionMode="None"  ItemsSource="{Binding DayGroups}" x:Name="Coleccion"  >
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="20"/>
             </CollectionView.ItemsLayout>

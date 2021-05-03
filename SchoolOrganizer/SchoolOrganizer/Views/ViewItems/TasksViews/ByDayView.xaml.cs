@@ -42,7 +42,7 @@ namespace SchoolOrganizer.Views.ViewItems.TasksViews
                 Group?.DayGroups.Remove(this.Model);
                 //la automatación
             }
-            this.Model.RefreshCount();
+            this.Model?.RefreshCount(); //le puse un '?' y ya :)
         }
     }
 }

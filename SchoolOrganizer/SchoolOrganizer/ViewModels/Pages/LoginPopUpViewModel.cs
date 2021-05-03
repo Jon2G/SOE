@@ -11,12 +11,11 @@ using Xamarin.Forms;
 
 namespace SchoolOrganizer.ViewModels.Pages
 {
-   
+
     class LoginPopUpViewModel : ModelBase
     {
-        
+
         User user = User.Get();
-        LoginPopUp LoginPop;
         private string _Boleta;
         private string _Password;
         public string Boleta { get => _Boleta; set { _Boleta = value; Raise(() => Boleta); } }
@@ -24,20 +23,20 @@ namespace SchoolOrganizer.ViewModels.Pages
         public ICommand IngresarCommand { get; set; }
         public LoginPopUpViewModel()
         {
-            IngresarCommand = new Command(Ingresar);
+            this.Boleta = user.Boleta;
+            IngresarCommand = new Command<LoginPopUp>(Ingresar);
         }
 
-        private  void Ingresar(object obj)
+        private async void Ingresar(LoginPopUp obj)
         {
-            if(this.Boleta == user.Boleta && this.Password== user.Password)
+            if (this.Password == user.Password)
             {
                 AppData.Instance.User = user;
-                App.Current.MainPage = new AppShell();
-                // await LoginPop.Close();
+                await obj.Close();
             }
             else
             {
-                Acr.UserDialogs.UserDialogs.Instance.Alert("Error", "Validacion Fallida");
+                Acr.UserDialogs.UserDialogs.Instance.Alert("Usuario  o contraseña incorrectos.", "Error");
             }
         }
     }

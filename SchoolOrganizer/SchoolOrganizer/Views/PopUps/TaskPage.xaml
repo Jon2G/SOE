@@ -44,8 +44,8 @@
                             <Label  VerticalTextAlignment="Center" 
                                Text="Materia:" TextColor="{DynamicResource secondaryTextColor}" FontSize="17"
                                FontAttributes="Italic"/>
-                            <Button Text="{Binding SelectedSubject.Name}" 
-                                BackgroundColor="{Binding SelectedSubject.Color}"
+                            <Button Text="{Binding Tarea.Subject.Name}" 
+                                BackgroundColor="{Binding Tarea.Subject.Color}"
                                 CornerRadius="5" BorderColor="{StaticResource primaryLightColor}" 
                                 BorderWidth="1" TextColor="{DynamicResource primaryLightColor}" 
                                 Command="{Binding TaskCommand}"/>

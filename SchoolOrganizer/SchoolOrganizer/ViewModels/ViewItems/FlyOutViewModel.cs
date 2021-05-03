@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Acr.UserDialogs;
 using Forms9Patch;
 using Kit;
+using Kit.Forms.Extensions;
 using Kit.Model;
 using SchoolOrganizer.Data;
 using SchoolOrganizer.Fonts;
@@ -87,6 +88,10 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 
         private async void Galeria()
         {
+            if (!await Permisos.TenemosPermiso(Plugin.Permissions.Abstractions.Permission.Storage))
+            {
+                await Permisos.PedirPermiso(Plugin.Permissions.Abstractions.Permission.Storage);
+            }
             var result = await Xamarin.Essentials.MediaPicker.PickPhotoAsync(new MediaPickerOptions()
             {
                 Title = "Selecione una imagen"
@@ -108,6 +113,10 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 
         private async void UsarCamara()
         {
+            if (!await Permisos.TenemosPermiso(Plugin.Permissions.Abstractions.Permission.Camera))
+            {
+                await Permisos.PedirPermiso(Plugin.Permissions.Abstractions.Permission.Camera);
+            }
             var result = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync(new MediaPickerOptions()
             {
                 Title = "Selecione una imagen"

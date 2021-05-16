@@ -20,6 +20,7 @@ namespace SchoolOrganizer.Models.Scheduler
         public TimeSpan End { get; internal set; }
         public DayOfWeek Day { get; set; }
         public string FormattedTime => $"{Begin:hh}:{Begin:mm} - {End:hh}:{End:mm}";
+        public TimeSpan Duration => End - Begin;
 
         public ClassSquare(Subject Subject, TimeSpan Begin, TimeSpan End, DayOfWeek Day)
         {

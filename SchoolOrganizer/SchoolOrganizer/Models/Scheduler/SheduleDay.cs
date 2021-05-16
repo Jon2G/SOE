@@ -10,7 +10,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems.ScheduleViewModel
     public class SheduleDay: ModelBase
     {
         public Day Day { get; set; }
-        public IEnumerable<ClassSquare> Class { get; set; }
+        public List<ClassSquare> Class { get; set; }
 
 
         public SheduleDay(Day Day)

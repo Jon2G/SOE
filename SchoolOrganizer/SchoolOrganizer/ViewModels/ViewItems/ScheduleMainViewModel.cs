@@ -205,6 +205,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 
         private void GetWeek()
         {
+            ClassSquare FirstWeekClass = null;
             TimeSpan min_hourtime = TimeSpan.Zero;
             TimeSpan max_hourtime = TimeSpan.Zero;
             int min_hour = 25;
@@ -228,6 +229,8 @@ namespace SchoolOrganizer.ViewModels.ViewItems
                 {
                     min_hour = min_newhour;
                     min_hourtime = min_newhourtime;
+                    FirstWeekClass = schedule.Class.FirstOrDefault(x => x.Begin == min_hourtime);
+
                 }
             }
 
@@ -239,8 +242,63 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 
             this.StartTime = min_hourtime;
             this.EndTime = max_hourtime;
+            FillBlankHours(FirstWeekClass);
+
             CalculateTimeLineOffset(null);
             this.UpateOffsetTimer.Change(TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
+        }
+
+        private void FillBlankHours(ClassSquare FirstWeekClass)
+        {
+            //Rellenar horas vacias en la parte de arriba
+            foreach (SheduleDay day in WeekDays)
+            {
+                //si no hay clases pues ya alv
+                if (!day.Class.Any())
+                {
+                    break;
+                }
+                //primera hora de cada dia
+                ClassSquare cl = day.Class.First();
+                //si empieza DESPUES de la primera hora rellenar el espacio de esa clase 
+                if (cl.Begin != FirstWeekClass.Begin)
+                {
+                    day.Class.Insert(0, new ClassSquare(
+                        Subject.FreeHour(),
+                        FirstWeekClass.Begin,
+                        cl.Begin,
+                        day.Day.DayOfWeek));
+                }
+            }
+
+            ClassSquare FirstClass=null;
+            //Rellenar los espacios entre clases
+            foreach (SheduleDay day in WeekDays)
+            {
+                //si no hay clases pues ya alv
+                if (!day.Class.Any())
+                {
+                    break;
+                }
+                //primera clase del dia
+                FirstClass = day.Class.First();
+                for (var i = 1; i < day.Class.Count; i++)
+                {
+                    ClassSquare cl = day.Class[i];
+                    if (FirstClass.End != cl.Begin)
+                    {
+                        FirstClass = new FreeClass(
+                            FirstClass.End,
+                            cl.Begin,
+                            day.Day.DayOfWeek);
+                        day.Class.Insert(i, FirstClass);
+                        continue;
+                    }
+                    FirstClass = day.Class[i];            
+                }
+            }
+
+
         }
 
         private void CalculateTimeLineOffset(object obj)

@@ -38,5 +38,10 @@ namespace SchoolOrganizer.Models.Scheduler
         {
             return AppData.Instance.LiteConnection.Table<Subject>().FirstOrDefault(x => x.Group == group)?.Id ?? -1;
         }
+
+        internal static Subject FreeHour()
+        {
+            return new Subject(-1, -1, "Hora libre", Xamarin.Forms.Color.Gainsboro.ToHex(), String.Empty);
+        }
     }
 }

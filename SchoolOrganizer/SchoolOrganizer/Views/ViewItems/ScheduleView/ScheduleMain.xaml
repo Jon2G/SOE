@@ -8,11 +8,65 @@
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:scheduleViewModel="clr-namespace:SchoolOrganizer.ViewModels.ViewItems.ScheduleViewModel;assembly=SchoolOrganizer"
              xmlns:scheduleView="clr-namespace:SchoolOrganizer.Views.ViewItems.ScheduleView;assembly=SchoolOrganizer"
+             xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
              x:Class="SchoolOrganizer.Views.ViewItems.ScheduleView.ScheduleViewMain"
              x:DataType="viewItems:ScheduleMainViewModel" x:Name="Me"> 
     <ContentView.BindingContext>
         <viewItems:ScheduleMainViewModel x:Name="Model" x:FieldModifier="public"/>
     </ContentView.BindingContext>
+    <ContentView.Resources>
+        <scheduleView:ClassSquareDataTemplateSelector x:Key="ClassSquareDataTemplateSelector">
+            <scheduleView:ClassSquareDataTemplateSelector.FreeHourTemplate>
+                <DataTemplate x:DataType="scheduler:FreeClass">
+                    <ContentView  HeightRequest="{Binding HoursHeigthRequest}" 
+                                  BackgroundColor="#9D7AB4" TabIndex="0"
+                                  MinimumHeightRequest="{Binding HoursHeigthRequest}" >
+                        <pancakeView:PancakeView Style="{StaticResource card}" Margin="3"  
+                                                 BackgroundColor="#E1CEEE" CornerRadius="0"
+                                                 Padding="3">
+                            <StackLayout >
+                                <Label Text="HORA LIBRE" FontSize="20" TextColor="Black"
+                                       FontAttributes="Bold" VerticalOptions="Center" 
+                                       VerticalTextAlignment="Center" HorizontalOptions="Center" 
+                                       HorizontalTextAlignment="Center"/>
+                                <Image>
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                                         Glyph="{Binding Icon}" Size="30" Color="Black"/>
+                                    </Image.Source>
+                                </Image>
+                            </StackLayout>
+                        </pancakeView:PancakeView>
+                    </ContentView>
+                </DataTemplate>
+            </scheduleView:ClassSquareDataTemplateSelector.FreeHourTemplate>
+            <scheduleView:ClassSquareDataTemplateSelector.ClassSquareTemplate>
+                <DataTemplate x:DataType="scheduler:ClassSquare">
+                    <ContentView  HeightRequest="{Binding HoursHeigthRequest}" 
+                                                                      BackgroundColor="{Binding Subject.Color}" TabIndex="0"
+                                                                      MinimumHeightRequest="{Binding HoursHeigthRequest}" >
+                        <pancakeView:PancakeView Style="{StaticResource card}" Margin="3"  BackgroundColor="{Binding Subject.Color}"
+                                                                   Padding="3">
+                            <View.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"/>
+                            </View.GestureRecognizers>
+                            <StackLayout >
+                                <Label FontSize="10" TextColor="Black"
+                                                                           HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                                                                           Text="{Binding Subject.Name}"/>
+                                <Label FontSize="10" TextColor="Black"
+                                                                       HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
+                                                                       Text="{Binding Subject.Group}" />
+                                <Label FontSize="8" TextColor="Black"
+                                                                       HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
+                                                                       Text="{Binding  FormattedTime}" />
+                            </StackLayout>
+                        </pancakeView:PancakeView>
+                    </ContentView>
+                </DataTemplate>
+            </scheduleView:ClassSquareDataTemplateSelector.ClassSquareTemplate>
+        </scheduleView:ClassSquareDataTemplateSelector>
+    </ContentView.Resources>
     <ContentView.Content>
         <Grid>
             <StackLayout BindingContext="{x:Reference Model}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="5">
@@ -44,33 +98,8 @@
                                     <DataTemplate x:DataType="scheduleViewModel:SheduleDay">
                                         <ContentView Margin="0" Padding="0">
                                             <StackLayout Spacing="0" Margin="0" Padding="0"  WidthRequest="10" 
-                                                     BindableLayout.ItemsSource="{Binding Class}" >
-                                                <BindableLayout.ItemTemplate>
-                                                    <DataTemplate x:DataType="scheduler:ClassSquare">
-                                                        <ContentView  HeightRequest="{Binding HoursHeigthRequest}" 
-                                                                      BackgroundColor="{Binding Subject.Color}" TabIndex="0"
-                                                                      MinimumHeightRequest="{Binding HoursHeigthRequest}" >
-                                                            <pancakeView:PancakeView Style="{StaticResource card}" Margin="3"  BackgroundColor="{Binding Subject.Color}"
-                                                                   Padding="3">
-                                                                <View.GestureRecognizers>
-                                                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"/>
-                                                                </View.GestureRecognizers>
-                                                                <StackLayout >
-                                                                    <Label FontSize="10" TextColor="Black"
-                                                                           HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
-                                                                           Text="{Binding Subject.Name}"/>
-                                                                    <Label FontSize="10" TextColor="Black"
-                                                                       HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
-                                                                       Text="{Binding Subject.Group}" />
-                                                                    <Label FontSize="8" TextColor="Black"
-                                                                       HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
-                                                                       Text="{Binding  FormattedTime}" />
-                                                                </StackLayout>
-                                                            </pancakeView:PancakeView>
-                                                        </ContentView>
-                                                    </DataTemplate>
-                                                </BindableLayout.ItemTemplate>
-                                            </StackLayout>
+                                                     BindableLayout.ItemsSource="{Binding Class}" 
+                                                     BindableLayout.ItemTemplateSelector ="{StaticResource ClassSquareDataTemplateSelector}" />
                                         </ContentView>
                                     </DataTemplate>
                                 </BindableLayout.ItemTemplate>

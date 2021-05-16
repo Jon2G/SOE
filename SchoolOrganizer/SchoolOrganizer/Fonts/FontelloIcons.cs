@@ -4,7 +4,7 @@ using System.Text;
 using SchoolOrganizer.Fonts;
 using Xamarin.Forms;
 
-[assembly: ExportFont("fontello_7.ttf", Alias = FontelloIcons.Font)]
+[assembly: ExportFont("fontello_8.ttf", Alias = FontelloIcons.Font)]
 namespace SchoolOrganizer.Fonts
 {
     public static class FontelloIcons
@@ -33,6 +33,7 @@ namespace SchoolOrganizer.Fonts
         public const string Cal = "\uE814";
         public const string User = "\uE816";
         public const string Del = "\uE815";
+        public const string GoBack = "\uE817";
         public const string Font = "FontIcon";
     }
 }

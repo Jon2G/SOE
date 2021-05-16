@@ -76,9 +76,8 @@
                                                              Margin="3"
                                                              views:TouchEffect.PressedScale="1.2"
                                                              views:TouchEffect.Command="{Binding GalleryViewCommand,Source ={x:Reference Me} }"
-                                                             views:TouchEffect.CommandParameter="{Binding .}">
-                                        <Image Aspect="AspectFit" Source="{Binding Value}"/>
-                                        </pancakeView:PancakeView>
+                                                             views:TouchEffect.CommandParameter="{Binding .}"
+                                                             Content="{Binding Value}"/>
                                 </ContentView>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>

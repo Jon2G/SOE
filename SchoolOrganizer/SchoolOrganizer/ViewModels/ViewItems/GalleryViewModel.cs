@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+using FFImageLoading.Forms;
 using Kit;
 using Kit.Model;
 using PanCardView.Extensions;
@@ -36,14 +37,14 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 
         public bool IsUserInteractionRunning { get; set; }
 
-        public ObservableCollection<FileImageSource> Items { get; }
+        public ObservableCollection<CachedImage> Items { get; }
 
         private int _currentIndex;
         private int _imageCount = 1078;
 
         public GalleryViewModel()
         {
-            Items = new ObservableCollection<FileImageSource>();
+            Items = new ObservableCollection<CachedImage>();
             PanPositionChangedCommand = new Command(v =>
             {
                 if (IsAutoAnimationRunning || IsUserInteractionRunning)
@@ -77,12 +78,15 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 
         private async void Share()
         {
-            FileImageSource seleccionada = Items[CurrentIndex];
-            ShareFile toShare = new ShareFile(seleccionada.File);
-            ShareFileRequest request = new ShareFileRequest("Compartir", toShare);
-            await Xamarin.Essentials.Share.RequestAsync(request);
+            CachedImage seleccionada = Items[CurrentIndex];
+            if (seleccionada.Source is FileImageSource file)
+            {
+                ShareFile toShare = new ShareFile(file.File);
+                ShareFileRequest request = new ShareFileRequest("Compartir", toShare);
+                await Xamarin.Essentials.Share.RequestAsync(request);
+            }
         }
-        public void SendImages(IEnumerable<FileImageSource> photos, FileImageSource seleccionada)
+        public void SendImages(IEnumerable<CachedImage> photos, CachedImage seleccionada)
         {
             Items.Clear();
             Items.AddRange(photos);

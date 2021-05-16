@@ -25,7 +25,7 @@ namespace SchoolOrganizer.Views.PopUps
 
             InitializeComponent();
             DatePick.MinimumDate = DateTime.Now;
-           
+
         }
         public TaskPage(ToDo toDo)
         {
@@ -52,9 +52,13 @@ namespace SchoolOrganizer.Views.PopUps
             foreach (Archive archive in AppData.Instance.LiteConnection.Table<Archive>()
                 .Where(x => x.IdKeeper == toDo.IdKeeper))
             {
-                this.Modelo.Photos.Add(new Archive<FileImageSource>(
+                this.Modelo.Photos.Add(new Archive<CachedImage>(
                     archive,
-                    (FileImageSource)FileImageSource.FromFile(archive.Path)));
+                    new CachedImage()
+                    {
+                        Source = FileImageSource.FromFile(archive.Path),
+                        DownsampleToViewSize = true
+                    }));
             }
         }
     }

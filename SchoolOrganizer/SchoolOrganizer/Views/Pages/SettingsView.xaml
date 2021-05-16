@@ -57,8 +57,8 @@
                 <StackLayout Orientation="Horizontal" Grid.Row="0">
                     <Label Text="{x:Static fonts:FontelloIcons.Notifi}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                    <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Text="Activar Notificaciones"  FontSize="15"  TextColor="{DynamicResource secondaryTextColor}"  HorizontalOptions="Start"/>
-                    <Switch  OnColor="{StaticResource secondaryColor}" ThumbColor="{StaticResource primaryLightColor}" HorizontalOptions="EndAndExpand" IsToggled="{Binding Settings.IsNotificationsActive}"/>
+                    <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Text="Mostar barra de horario lateral"  FontSize="15"  TextColor="{DynamicResource secondaryTextColor}"  HorizontalOptions="Start"/>
+                    <Switch  OnColor="{StaticResource secondaryColor}" ThumbColor="{StaticResource primaryLightColor}" HorizontalOptions="EndAndExpand" IsToggled="{Binding Settings.ShowTimelineBar}"/>
                 </StackLayout>
                 <BoxView BackgroundColor="LightGray" CornerRadius="5" Grid.Row="1"/>
             </Grid>

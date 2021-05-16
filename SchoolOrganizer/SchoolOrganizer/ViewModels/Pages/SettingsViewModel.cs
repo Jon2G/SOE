@@ -37,7 +37,7 @@ namespace SchoolOrganizer.ViewModels.Pages
             this.SaveCommand = new Command(Save);
             ViewChangeCommand = new Command(ViewOpen);
             this.ShareDatabaseCommand = new Command(ShareDatabase);
-            Settings = AppData.Instance.User.GetSettings();
+            Settings = AppData.Instance.User.Settings;
         }
 
         private async void ShareDatabase()

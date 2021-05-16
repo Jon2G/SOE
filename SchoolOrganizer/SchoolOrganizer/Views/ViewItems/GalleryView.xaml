@@ -15,16 +15,16 @@
         <viewItems:GalleryViewModel x:Name="Model"/>
     </ContentView.BindingContext>
     <Grid>
-       <cards:CarouselView 
+        <cards:CarouselView 
         ItemsSource="{Binding Items}"
         IsPanSwipeEnabled="False" IsPanInteractionEnabled="False" 
         SwipeThresholdTime="0"
         SelectedIndex="{Binding CurrentIndex}">
         <cards:CarouselView.ItemTemplate>
-            <DataTemplate x:DataType="ImageSource">
-                    <controls1:ZoomGestureContainer Margin="5" OnSwiped="ZoomGestureContainer_OnOnSwiped">
-                    <ffimage:CachedImage Source="{Binding .}"/>
-                </controls1:ZoomGestureContainer>
+            <DataTemplate x:DataType="ffimage:CachedImage">
+                    <controls1:ZoomGestureContainer Margin="5">
+                        <ffimage:CachedImage Source="{Binding Source}" DownsampleToViewSize="True"/>
+                    </controls1:ZoomGestureContainer>
             </DataTemplate>
         </cards:CarouselView.ItemTemplate>
         <controls:IndicatorsControl ToFadeDuration="1500"/>
@@ -37,6 +37,12 @@
                <Label.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding ShareCommand}"/>
             </Label.GestureRecognizers>
+        </Label>
+        <Label FontSize="25" TextColor="White" Text="{x:Static fonts:FontelloIcons.GoBack}" FontFamily="{x:Static fonts:FontelloIcons.Font}"
+               HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Margin="20">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="GoBack_Tapped"/>
+                </Label.GestureRecognizers>
         </Label>
     </Grid>
 </ContentView>

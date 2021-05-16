@@ -19,14 +19,14 @@ namespace SchoolOrganizer.Models.Data
         public int Id { get; set; }
         [Unique, MaxLength(10)]
         public string Boleta { get; set; }
-        private bool _IsNotificationsActive;
-        public bool IsNotificationsActive
+        private bool _ShowTimelineBar;
+        public bool ShowTimelineBar
         {
-            get => _IsNotificationsActive;
+            get => _ShowTimelineBar;
             set
             {
-                _IsNotificationsActive = value;
-                Raise(() => IsNotificationsActive);
+                _ShowTimelineBar = value;
+                Raise(() => ShowTimelineBar);
             }
         }
         private bool _IsFingerPrintActive;
@@ -38,6 +38,11 @@ namespace SchoolOrganizer.Models.Data
                 _IsFingerPrintActive = value;
                 Raise(() => IsFingerPrintActive);
             }
+        }
+
+        public Settings()
+        {
+            this.ShowTimelineBar = true;
         }
         public Guid Guid { get; set; }
         internal void Save()

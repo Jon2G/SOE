@@ -88,9 +88,9 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 
         private async void Galeria()
         {
-            if (!await Permisos.TenemosPermiso(Plugin.Permissions.Abstractions.Permission.Storage))
+            if (!await Permisos.RequestStorage())
             {
-                await Permisos.PedirPermiso(Plugin.Permissions.Abstractions.Permission.Storage);
+                return;
             }
             var result = await Xamarin.Essentials.MediaPicker.PickPhotoAsync(new MediaPickerOptions()
             {
@@ -113,9 +113,9 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 
         private async void UsarCamara()
         {
-            if (!await Permisos.TenemosPermiso(Plugin.Permissions.Abstractions.Permission.Camera))
+            if ((await Permisos.EnsurePermission<Permissions.Camera>()) != PermissionStatus.Granted)
             {
-                await Permisos.PedirPermiso(Plugin.Permissions.Abstractions.Permission.Camera);
+                return;
             }
             var result = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync(new MediaPickerOptions()
             {

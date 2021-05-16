@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<pages2:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit"
              x:Class="SchoolOrganizer.Views.Pages.MasterPage"
@@ -10,6 +10,8 @@
              xmlns:scheduleView="clr-namespace:SchoolOrganizer.Views.ViewItems.ScheduleView;assembly=SchoolOrganizer"
              xmlns:pages1="clr-namespace:SchoolOrganizer.Views.Pages;assembly=SchoolOrganizer"
              xmlns:viewPage="clr-namespace:SchoolOrganizer.Views.Pages"
+             xmlns:pages2="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+             xmlns:data="clr-namespace:SchoolOrganizer.Data;assembly=SchoolOrganizer"
              x:DataType="pages:MasterPageViewModel"
              BackgroundColor="{DynamicResource primaryLightColor}" >
     <ContentPage.BindingContext>
@@ -100,7 +102,8 @@
                         <viewPage:TaskFirstPage x:Name="TaskFirstPage" x:FieldModifier="public"/>
                     </Grid>
                     <Grid ColumnDefinitions="10,Auto" HorizontalOptions="End" >
-                        <viewItems:TimelineBar Grid.Column="1"/>
+                        <viewItems:TimelineBar Grid.Column="1" 
+                                               IsVisible="{Binding User.Settings.ShowTimelineBar ,Source={x:Static data:AppData.Instance}}"/>
                     </Grid>
                 </Grid>
             </toolkit:TabViewItem>
@@ -130,4 +133,4 @@
         </Grid>
     </Grid>
 
-</ContentPage>
+</pages2:BasePage>

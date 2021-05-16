@@ -18,7 +18,7 @@ namespace SchoolOrganizer.Models.Data
     {
         private string _Boleta;
         private string _Password;
-        private bool _RemeberMe;
+
         private string _Name;
         private string _Career;
         [PrimaryKey, MaxLength(10)]
@@ -53,6 +53,19 @@ namespace SchoolOrganizer.Models.Data
                 Raise(() => Career);
             }
         }
+
+        private Settings _Settings;
+        [Ignore]
+        public Settings Settings
+        {
+            get => _Settings;
+            set
+            {
+                _Settings = value;
+                Raise(()=> Settings);
+            }
+        }
+
         internal static User Get()
         {
             User User = AppData.Instance.LiteConnection.Table<User>().FirstOrDefault();
@@ -103,6 +116,7 @@ namespace SchoolOrganizer.Models.Data
                 settings.Save();
             }
 
+            this.Settings = settings;
             return settings;
         }
     }

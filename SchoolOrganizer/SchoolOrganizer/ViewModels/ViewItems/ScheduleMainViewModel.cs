@@ -203,7 +203,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
             throw new NotImplementedException();
         }
 
-        public void GetWeek()
+        private void GetWeek()
         {
             TimeSpan min_hourtime = TimeSpan.Zero;
             TimeSpan max_hourtime = TimeSpan.Zero;

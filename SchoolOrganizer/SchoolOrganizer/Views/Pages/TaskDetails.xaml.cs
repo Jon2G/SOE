@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using FFImageLoading.Forms;
 using Newtonsoft.Json.Serialization;
 using SchoolOrganizer.Data.Images;
 using SchoolOrganizer.Models.TaskFirst;
@@ -23,10 +24,10 @@ namespace SchoolOrganizer.Views.Pages
         {
             this.Model = new TaskDetailsViewModel(todo);
             BindingContext = this.Model;
-            this.GalleryViewCommand = new Command<Archive<FileImageSource>>(ShowGallery);
+            this.GalleryViewCommand = new Command<Archive<CachedImage>>(ShowGallery);
             InitializeComponent();
         }
-        private void ShowGallery(Archive<FileImageSource> obj)
+        private void ShowGallery(Archive<CachedImage> obj)
         {
             Shell.SetNavBarIsVisible(this, false);
             this.GalleryView.Show(this.Model.Photos.Select(x => x.Value), obj.Value);

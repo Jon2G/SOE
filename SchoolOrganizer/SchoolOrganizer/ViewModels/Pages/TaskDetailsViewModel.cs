@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
+using FFImageLoading.Forms;
 using SchoolOrganizer.Data;
 using SchoolOrganizer.Data.Images;
 using SchoolOrganizer.Enums;
@@ -15,12 +16,12 @@ namespace SchoolOrganizer.ViewModels.Pages
     public class TaskDetailsViewModel
     {
         public ToDo ToDo { get; set; }
-        public ObservableCollection<Archive<FileImageSource>> Photos { get; }
+        public ObservableCollection<Archive<CachedImage>> Photos { get; }
 
         public TaskDetailsViewModel(ToDo ToDo)
         {
             this.ToDo = ToDo;
-            Photos = new ObservableCollection<Archive<FileImageSource>>();
+            Photos = new ObservableCollection<Archive<CachedImage>>();
             GetPhotos();
         }
 
@@ -30,9 +31,11 @@ namespace SchoolOrganizer.ViewModels.Pages
             foreach (Archive archive in AppData.Instance.LiteConnection.Table<Archive>()
                 .Where(x => x.IdKeeper == ToDo.IdKeeper))
             {
-                this.Photos.Add(new Archive<FileImageSource>(
-                    archive,
-                    (FileImageSource)FileImageSource.FromFile(archive.Path)));
+                this.Photos.Add(new Archive<CachedImage>(archive,new CachedImage()
+                {
+                    Source = FileImageSource.FromFile(archive.Path),
+                    DownsampleToViewSize = true
+                }));
             }
         }
     }

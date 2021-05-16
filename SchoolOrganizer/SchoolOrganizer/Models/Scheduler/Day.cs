@@ -48,8 +48,9 @@ namespace SchoolOrganizer.Models.Scheduler
             {
                 AppData.Init();
             }
-            List<ClassSquare> classSquares = new List<ClassSquare>();
 
+            TimeSpan EndTime=TimeSpan.Zero;
+            List<ClassSquare> classSquares = new List<ClassSquare>();
             foreach (ClassTime classTime in AppData.Instance.LiteConnection.Table<ClassTime>()
                 .Where(x => x.Day == this.DayOfWeek)
                 .OrderBy(x => x.Begin))

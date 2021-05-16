@@ -21,14 +21,15 @@ namespace SchoolOrganizer.Views.ViewItems
         public SchoolGrades()
         {
             InitializeComponent();
+            Init();
         }
-
-        internal async void OnAppearing()
+        private async void Init()
         {
+            await Task.Yield();
             this.Model = new SchoolGradesViewModel();
-            if (await AppData.Instance.SAES.IsLoggedIn()) 
-                this.Model.RefreshCommand.Execute(this);
-        }
+            OnPropertyChanged(nameof(Model));
+            OnPropertyChanged(nameof(BindingContext));
 
+        }
     }
 }

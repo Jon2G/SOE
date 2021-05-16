@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FFImageLoading.Forms;
 using Kit.Forms.Controls;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -17,7 +18,7 @@ namespace SchoolOrganizer.Views.ViewItems
             InitializeComponent();
         }
 
-        public async void Show(IEnumerable<FileImageSource> photos, FileImageSource seleccionada)
+        public async void Show(IEnumerable<CachedImage> photos, CachedImage seleccionada)
         {
             this.IsVisible = true;
             await this.FadeTo(1, 500, Easing.Linear);
@@ -30,21 +31,9 @@ namespace SchoolOrganizer.Views.ViewItems
             this.IsVisible = false;
         }
 
-        private void ZoomGestureContainer_OnOnSwiped(object sender, EventArgs e)
+        private void GoBack_Tapped(object sender, EventArgs e)
         {
-            if (sender is ZoomGestureContainer content)
-            {
-                if (content.Content.TranslationY >= 70 && content.CurrentScale == 1)
-                {
-                    content.Content.TranslationY = 0;
-                    this.Hide();
-                }
-
-                if (content.Content.TranslationX >= 70 && content.CurrentScale == 1)
-                {
-                    content.Content.TranslationX = 0;
-                }
-            }
+           this.Hide();
         }
     }
 }

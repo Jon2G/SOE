@@ -59,7 +59,8 @@ namespace SchoolOrganizer.Views.Pages
         {
             base.OnAppearing();
             InitBrowser();
-            this.SchoolGrades.OnAppearing();
+    
+            //this.SchoolGrades.OnAppearing();
 
             if (Device.RuntimePlatform != Device.iOS && TabView.SelectedIndex <= 0)
             {

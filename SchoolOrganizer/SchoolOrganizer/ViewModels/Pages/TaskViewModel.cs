@@ -3,6 +3,7 @@ using SchoolOrganizer.Views.PopUps;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using Xamarin.Forms;
 using System.Windows.Input;
 using Kit.Sql.Base;
@@ -13,6 +14,7 @@ using SchoolOrganizer.Models.TaskFirst;
 using System.Text.RegularExpressions;
 using System.Linq;
 using System.Threading.Tasks;
+using FFImageLoading.Forms;
 using Kit.Model;
 using SchoolOrganizer.Data.Images;
 using SchoolOrganizer.Enums;
@@ -36,7 +38,7 @@ namespace SchoolOrganizer.ViewModels.Pages
         private Subject _selectedSubject;
 
 
-        public ObservableCollection<Archive<FileImageSource>> Photos { get; }
+        public ObservableCollection<Archive<CachedImage>> Photos { get; }
 
 
 
@@ -69,8 +71,8 @@ namespace SchoolOrganizer.ViewModels.Pages
             CameraImageCommand = new Command(UsarCamara);
             GaleryImageCommand = new Command(Galeria);
             OnDateChangedCommand = new Command(OnDateChanged);
-            DeleteImageCommand = new Command<Archive<FileImageSource>>(DeleteImage);
-            this.Photos = new ObservableCollection<Archive<FileImageSource>>();
+            DeleteImageCommand = new Command<Archive<CachedImage>>(DeleteImage);
+            this.Photos = new ObservableCollection<Archive<CachedImage>>();
         }
 
         private void OnDateChanged()
@@ -83,7 +85,7 @@ namespace SchoolOrganizer.ViewModels.Pages
             }
         }
 
-        private void DeleteImage(Archive<FileImageSource> img)
+        private void DeleteImage(Archive<CachedImage> img)
         {
             this.Photos.Remove(img);
         }
@@ -101,8 +103,16 @@ namespace SchoolOrganizer.ViewModels.Pages
 
             Keeper.Delete(this.Tarea.IdKeeper);
             Keeper keeper = Keeper.New();
-            foreach (Archive archive in Photos)
+            foreach (Archive<CachedImage> archive in Photos)
             {
+                CachedImage image = archive.Value;
+                using (FileStream file = new FileStream(archive.Path, FileMode.OpenOrCreate))
+                {
+                    using (MemoryStream memory = new MemoryStream(await image.GetImageAsPngAsync()))
+                    {
+                        await memory.CopyToAsync(file);
+                    }
+                }
                 await keeper.Save(archive);
             }
             this.Tarea.IdKeeper = keeper.Id;
@@ -149,18 +159,18 @@ namespace SchoolOrganizer.ViewModels.Pages
 
         private async void Galeria()
         {
-            if (!await Permisos.TenemosPermiso(Plugin.Permissions.Abstractions.Permission.Storage))
+            if (!await Permisos.RequestStorage())
             {
-                await Permisos.PedirPermiso(Plugin.Permissions.Abstractions.Permission.Storage);
+                return;
             }
             AddPhoto(await MediaPicker.PickPhotoAsync(new MediaPickerOptions()));
         }
 
         private async void UsarCamara()
         {
-            if (!await Permisos.TenemosPermiso(Plugin.Permissions.Abstractions.Permission.Camera))
+            if ((await Permisos.EnsurePermission<Permissions.Camera>()) != PermissionStatus.Granted)
             {
-                await Permisos.PedirPermiso(Plugin.Permissions.Abstractions.Permission.Camera);
+                return;
             }
             AddPhoto(await MediaPicker.CapturePhotoAsync(new MediaPickerOptions()));
         }
@@ -171,9 +181,14 @@ namespace SchoolOrganizer.ViewModels.Pages
             {
                 return;
             }
-            Archive<FileImageSource> archive = new Archive<FileImageSource>(result, FileType.Photo)
+            Archive<CachedImage> archive = new Archive<CachedImage>(result, FileType.Photo)
             {
-                Value = (FileImageSource)ImageSource.FromFile(result.FullPath)
+                Value = new CachedImage()
+                {
+                    DownsampleToViewSize = true,
+                    Aspect = Aspect.AspectFit,
+                    Source = ImageSource.FromFile(result.FullPath)
+                }
             };
             Photos.Add(archive);
         }

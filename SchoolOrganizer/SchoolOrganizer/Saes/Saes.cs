@@ -70,6 +70,13 @@ namespace SchoolOrganizer.Saes
                 await GoTo(this.School.HomePage);
 
         }
+      
+
+        protected override void OnParentSet()
+        {
+            base.OnParentSet();
+        }
+
         private async void Browser_Navigated(object sender, WebNavigatedEventArgs e)
         {
             if (e.Result == WebNavigationResult.Timeout || e.Result == WebNavigationResult.Cancel ||

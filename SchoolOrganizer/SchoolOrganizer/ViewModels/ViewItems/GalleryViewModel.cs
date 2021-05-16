@@ -5,11 +5,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+using Kit;
 using Kit.Model;
 using PanCardView.Extensions;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using static Kit.Extensions.Linq;
+
 namespace SchoolOrganizer.ViewModels.ViewItems
 {
     public class GalleryViewModel : ModelBase

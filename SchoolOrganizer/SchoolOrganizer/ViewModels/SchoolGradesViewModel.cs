@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Acr.UserDialogs;
+using Kit;
 using Kit.Extensions;
 using Kit.Model;
 using SchoolOrganizer.Data;

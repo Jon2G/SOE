@@ -22,6 +22,7 @@ using SchoolOrganizer.Widgets;
 using Android.Graphics;
 using Xamarin.Forms.Platform.Android;
 using Android.Icu.Util;
+using Exception = Java.Lang.Exception;
 using TimeZone = Android.Icu.Util.TimeZone;
 
 [assembly: UsesPermission(Name = Manifest.Permission.WakeLock)]
@@ -37,14 +38,21 @@ namespace SchoolOrganizer.Droid.Notifications
             {
                 return;
             }
-            //NotificationChannel chanel = NotificationChannel.GetNotificationChannel(context, NotificationChannel.ClassChannelId);
-            //chanel?.Notify("OnReceive", $"{intent?.Action}");
             if (intent?.HasExtra(nameof(Notification)) ?? false)
             {
                 Notification notification = Notification.FromExtras(intent.Extras, context);
                 notification.Notify();
             }
-            //context.StartForegroundService(new Intent(context, typeof(NotificationService)));
+
+            try
+            {
+                context.StartForegroundService(new Intent(context, typeof(NotificationService)));
+            }
+            catch (Exception)
+            {
+                NotificationChannel chanel = NotificationChannel.GetNotificationChannel(context, NotificationChannel.ClassChannelId);
+                chanel?.Notify("OnReceive", $"{intent?.Action}");
+            }
         }
 
         internal static void ProgramFor(Bundle extras, DateTime date, Context context, int requestId)

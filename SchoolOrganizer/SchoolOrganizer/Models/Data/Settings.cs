@@ -5,7 +5,7 @@ using Kit.Forms.Extensions;
 using Kit.Model;
 using Kit.Sql.Attributes;
 using Kit.Sql.Interfaces;
-using Plugin.Permissions.Abstractions;
+
 using SchoolOrganizer.Data;
 using SchoolOrganizer.Notifications;
 using Xamarin.Essentials;

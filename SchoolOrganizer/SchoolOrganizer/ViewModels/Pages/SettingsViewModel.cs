@@ -53,7 +53,7 @@ namespace SchoolOrganizer.ViewModels.Pages
         }
         private static async Task<bool> AbrirArchivo(string ruta, string titulo)
         {
-            if (await Permisos.PedirPermiso(Plugin.Permissions.Abstractions.Permission.Storage, "Permita el acceso al almacentamiento"))
+            if (await Permisos.RequestStorage())
             {
                 FileInfo file = new FileInfo(ruta);
                 if (!file.Exists)

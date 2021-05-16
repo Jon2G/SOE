@@ -214,7 +214,7 @@ namespace SchoolOrganizer.Saes
             {
                 return
                     !string.IsNullOrEmpty(await EvaluateJavaScriptAsync(
-                        "document.getElementById('ctl00_leftColumn_LoginNameSession').innerHTML"));
+                        "var label= document.getElementById('ctl00_leftColumn_LoginNameSession'); if(label) label.innerHTML; else ''"));
             }
             catch (Exception) { return false; }
         }

@@ -113,20 +113,6 @@ namespace SchoolOrganizer.Droid.Widgets.TimeLine
             fowardIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, widgetId);
             return PendingIntent.GetBroadcast(context, 0, fowardIntent, PendingIntentFlags.UpdateCurrent);
         }
-        //private PendingIntent ClickSubject(Context context, int widgetId)
-        //{
-        //    Intent toastIntent = new Intent(context, this.Class);
-        //    toastIntent.SetAction(TimeLineWidget.CLICK);
-        //    toastIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, widgetId);
-        //    toastIntent.SetData(Android.Net.Uri.Parse(toastIntent.ToUri(Android.Content.IntentUriType.Scheme)));
-        //    return  PendingIntent.GetBroadcast(
-        //        context,
-        //        0,
-        //        toastIntent,
-        //        PendingIntentFlags.UpdateCurrent
-        //    );
-        //}
-
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
             base.OnUpdate(context, appWidgetManager, appWidgetIds);
@@ -164,7 +150,11 @@ namespace SchoolOrganizer.Droid.Widgets.TimeLine
                 rv.SetOnClickPendingIntent(Resource.Id.widget_timetable_TextViewCurrent_day,
                     GetIntent(context, appWidgetIds[i], TimeLineWidget.DAY_CLICK));
 
+                //update stack list
+                appWidgetManager.NotifyAppWidgetViewDataChanged(appWidgetIds[i], Resource.Id.stack_view);
+                //is this layout update wrong???
                 appWidgetManager.NotifyAppWidgetViewDataChanged(appWidgetIds[i], rv.LayoutId);
+
                 appWidgetManager.UpdateAppWidget(appWidgetIds[i], rv);
             }
         }

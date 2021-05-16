@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Input;
+using Kit;
 using Kit.Extensions;
 using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Scheduler;

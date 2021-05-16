@@ -13,7 +13,15 @@
              x:Class="SchoolOrganizer.Views.Pages.TaskFirstPage">
     <Grid BackgroundColor="#F3F5F9"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <CollectionView  BackgroundColor="WhiteSmoke"  Margin="10"
-                        SelectionMode="None"  ItemsSource="{Binding DayGroups}" x:Name="Coleccion"  >
+                        SelectionMode="None"  ItemsSource="{Binding DayGroups}" x:Name="Coleccion">
+            <CollectionView.EmptyView>
+                <ContentView>
+                    <StackLayout VerticalOptions="CenterAndExpand"> 
+                        <Label HorizontalTextAlignment="Center" FontSize="20" TextColor="Black" FontAttributes="Bold" Text="No hay mas tareas"/>
+                        <Image Source="happy_donkey.png" VerticalOptions="Center" HorizontalOptions="CenterAndExpand"/>
+                    </StackLayout>
+                </ContentView>
+            </CollectionView.EmptyView>
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="20"/>
             </CollectionView.ItemsLayout>

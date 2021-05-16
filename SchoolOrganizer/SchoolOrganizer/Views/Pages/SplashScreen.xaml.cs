@@ -40,8 +40,8 @@ namespace SchoolOrganizer.Views.Pages
                     if (!await CrossFingerprint.Current.IsAvailableAsync(true))
                     {
                         Acr.UserDialogs.UserDialogs.Instance.Alert("La autenticación biométrica no esta disponible  o no esta configurada.", "Atención", "OK");
-                        var a = new LoginPopUp();
-                        await a.ShowDialog();
+                        GotoManualLogin(user, settings);
+                        return;
                     }
                     var authResult = await Device.InvokeOnMainThreadAsync(() =>
                     CrossFingerprint.Current.AuthenticateAsync(
@@ -55,24 +55,20 @@ namespace SchoolOrganizer.Views.Pages
                         authResult.ErrorMessage == "Authentication canceled")
                     {
                         Log.Logger.Error("Tu telegono no jala con pin amiko Im so sorry");
-                        LoginPopUp a = new LoginPopUp();
-                        await a.ShowDialog();
+                        GotoManualLogin(user, settings);
                     }
                     if (authResult.Authenticated)
                     {
                         GotoApp(user, settings);
-
                     }
                     else
                     {
-                        var a = new LoginPopUp();
-                        await a.ShowDialog();
+                        GotoManualLogin(user, settings);
                     }
                 }
                 else
                 {
-                    var a = new LoginPopUp();
-                    await a.ShowDialog();
+                    GotoApp(user, settings);
                 }
             }
             else
@@ -81,9 +77,11 @@ namespace SchoolOrganizer.Views.Pages
             }
         }
 
-        private void GotoManualLogin(User user, Settings settings)
+        private async void GotoManualLogin(User user, Settings settings)
         {
-            Acr.UserDialogs.UserDialogs.Instance.Alert("TODO", "No hay no existe");
+            var a = new LoginPopUp();
+               await a.LockModal()
+                .ShowDialog();
             GotoApp(user, settings);
         }
 

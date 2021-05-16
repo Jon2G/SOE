@@ -1,8 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <pages:BasePopUp  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms" 
                   xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:view="clr-namespace:SchoolOrganizer.ViewModels.Pages"
-                  x:Class="SchoolOrganizer.Views.PopUps.LoginPopUp">
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                  xmlns:view="clr-namespace:SchoolOrganizer.ViewModels.Pages"
+                  x:Class="SchoolOrganizer.Views.PopUps.LoginPopUp"
+                  x:Name="Me">
     <pages:BasePopUp.BindingContext>
         <view:LoginPopUpViewModel/>
     </pages:BasePopUp.BindingContext>
@@ -11,9 +13,14 @@
            VerticalOptions="Center" HorizontalOptions="Center" 
            BorderColor="{DynamicResource primaryLightColor}">
         <StackLayout>
-            <Entry Placeholder="Usuario" Text="{Binding Boleta}"/>
+            <Frame BackgroundColor="Transparent" Padding="0">
+                <StackLayout>
+                    <Label Text="Usuario" FontAttributes="Bold" TextColor="Black"  HorizontalOptions="Center"/>
+                    <Label Text="{Binding Boleta}" TextColor="Black"  HorizontalOptions="Center" />
+                </StackLayout>
+            </Frame>
             <Entry IsPassword="True" Placeholder="Contraseña" Text="{Binding Password}"/>
-            <Button Text="Ingresar" Command="{Binding IngresarCommand}"/>
+            <Button Text="Ingresar" Command="{Binding IngresarCommand}" CommandParameter="{x:Reference Me}" CornerRadius="15"/>
         </StackLayout>
     </Frame>
 </pages:BasePopUp>

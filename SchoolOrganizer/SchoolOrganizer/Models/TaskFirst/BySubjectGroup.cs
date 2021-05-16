@@ -48,8 +48,8 @@ namespace SchoolOrganizer.Models.TaskFirst
         }
         private void OpenTask(ToDo todo)
         {
-            this.toDo = todo;
-            App.Current.MainPage.Navigation.PushAsync(new TaskPage(), true);
+          
+            App.Current.MainPage.Navigation.PushAsync(new TaskPage(todo), true);
         }
         private void Detail(ToDo obj)
         {

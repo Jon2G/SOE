@@ -33,37 +33,45 @@ namespace SchoolOrganizer.Models.TaskFirst
             var files = new List<string>();
             List<DocumentPart> Contenido = new List<DocumentPart>();
             MatchCollection matches = regex.Matches(Description);
-            foreach (Match match in matches)
+            if (matches.Count==0)
             {
-                files.Add(match.ToString());
+                Contenido.Add(new DocumentPart() { Content = Description, DocType = Enums.DocType.Text });
             }
-            //obtiene la primera pocision
-            int last_index = 0;
-            if (files.Any())
+            else
             {
-                int start = Description.IndexOf(files[0]);
-                if (start > 0)
+                foreach (Match match in matches)
                 {
-                    string con = Description.Substring(0, start);
-                    Contenido.Add(new DocumentPart() { Content = con, DocType = Enums.DocType.Text });
+                    files.Add(match.ToString());
                 }
-                last_index = start + files[0].Length;
-                Contenido.Add(new DocumentPart() { Content = files[0], DocType = Enums.DocType.Link });
-            }
-            //Separa texto
-            for (int i = 1; i < files.Count; i++)
-            {
-                string file = files[i];
-                string contexto = Description;
-                int s_index = Description.IndexOf(file);
-                if (last_index > 0)
+                //obtiene la primera pocision
+                int last_index = 0;
+                if (files.Any())
                 {
-                    contexto = Description.Substring(last_index, s_index - last_index);
-                    Contenido.Add(new DocumentPart() { Content = contexto, DocType = Enums.DocType.Text });
-                    last_index = s_index + file.Length;
+                    int start = Description.IndexOf(files[0]);
+                    if (start > 0)
+                    {
+                        string con = Description.Substring(0, start);
+                        Contenido.Add(new DocumentPart() { Content = con, DocType = Enums.DocType.Text });
+                    }
+                    last_index = start + files[0].Length;
+                    Contenido.Add(new DocumentPart() { Content = files[0], DocType = Enums.DocType.Link });
                 }
-                Contenido.Add(new DocumentPart() { Content = file, DocType = Enums.DocType.Link });
+                //Separa texto
+                for (int i = 1; i < files.Count; i++)
+                {
+                    string file = files[i];
+                    string contexto = Description;
+                    int s_index = Description.IndexOf(file);
+                    if (last_index > 0)
+                    {
+                        contexto = Description.Substring(last_index, s_index - last_index);
+                        Contenido.Add(new DocumentPart() { Content = contexto, DocType = Enums.DocType.Text });
+                        last_index = s_index + file.Length;
+                    }
+                    Contenido.Add(new DocumentPart() { Content = file, DocType = Enums.DocType.Link });
+                }
             }
+           
             //
             Document doc = new Document();
             doc.Save();

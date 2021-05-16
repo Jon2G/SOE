@@ -42,7 +42,7 @@ namespace SchoolOrganizer.ViewModels.Pages
 
         private async void ShareDatabase()
         {
-            using (var loading = UserDialogs.Instance.Loading("Cargando..."))
+            using (UserDialogs.Instance.Loading("Cargando..."))
             {
                 Log.Logger.Debug("Se solicito la base de datos lite");
                 if (!await AbrirArchivo(AppData.Instance.LiteConnection.DatabasePath, "Base de datos local"))

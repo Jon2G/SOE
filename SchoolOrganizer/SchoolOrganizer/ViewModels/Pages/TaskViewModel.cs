@@ -1,13 +1,8 @@
-﻿using Rg.Plugins.Popup.Animations;
-using Rg.Plugins.Popup.Enums;
-using Rg.Plugins.Popup.Services;
-using SchoolOrganizer.Views.Pages;
+﻿
 using SchoolOrganizer.Views.PopUps;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
-using FFImageLoading.Forms;
 using Xamarin.Forms;
 using System.Windows.Input;
 using Kit.Sql.Base;
@@ -23,6 +18,7 @@ using SchoolOrganizer.Data.Images;
 using SchoolOrganizer.Enums;
 using SchoolOrganizer.Models;
 using Xamarin.Essentials;
+using Kit.Forms.Extensions;
 
 namespace SchoolOrganizer.ViewModels.Pages
 {
@@ -42,15 +38,7 @@ namespace SchoolOrganizer.ViewModels.Pages
 
         public ObservableCollection<Archive<FileImageSource>> Photos { get; }
 
-        public Subject SelectedSubject
-        {
-            get => _selectedSubject;
-            set
-            {
-                _selectedSubject = value;
-                OnPropertyChanged();
-            }
-        }
+
 
         private ToDo _Tarea;
 
@@ -87,11 +75,11 @@ namespace SchoolOrganizer.ViewModels.Pages
 
         private void OnDateChanged()
         {
-            if (this.SelectedSubject != null && this.Tarea?.Date != null)
+            if (this.Tarea is not null && this.Tarea.Subject != null && this.Tarea.Date != null)
             {
                 this.Tarea.Time =
                     TimeSpan.FromTicks(AppData.Instance.LiteConnection.Single<long>
-                        ($"SELECT BEGIN FROM ClassTime WHERE IdSubject={this.SelectedSubject.Id} AND DAY={(int)this.Tarea.Date.DayOfWeek}"));
+                        ($"SELECT BEGIN FROM ClassTime WHERE IdSubject={this.Tarea.Subject.Id} AND DAY={(int)this.Tarea.Date.DayOfWeek}"));
             }
         }
 
@@ -102,9 +90,8 @@ namespace SchoolOrganizer.ViewModels.Pages
 
         private async Task Save()
         {
-            this.Tarea.Subject = this.SelectedSubject;
             Document.Delete(this.Tarea.IdDocument);
-            if (this.Tarea.Description==null)
+            if (this.Tarea.Description == null)
             {
                 this.Tarea.Description = "";
             }
@@ -135,22 +122,48 @@ namespace SchoolOrganizer.ViewModels.Pages
         }
         private async void Save(object obj)
         {
+            if (Tarea.Subject == null)
+            {
+                Acr.UserDialogs.UserDialogs.Instance.Alert("Por favor seleccione una materia");
+                await SelectSubject();
+                if (Tarea.Subject is not null)
+                    Save(obj);
+                return;
+            }
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Guardando tarea..."))
             {
                 await Save();
             }
         }
 
-        private async void TaskClicked(object obj)
+        private async Task SelectSubject()
         {
             var pr = new SubjectPopUp();
             await pr.ShowDialog();
-            this.SelectedSubject = pr.Modelo.SelectedSubject;
+            this.Tarea.Subject = pr.Modelo.SelectedSubject;
+        }
+        private async void TaskClicked()
+        {
+            await SelectSubject();
         }
 
-        private async void Galeria() => AddPhoto(await MediaPicker.PickPhotoAsync(new MediaPickerOptions()));
+        private async void Galeria()
+        {
+            if (!await Permisos.TenemosPermiso(Plugin.Permissions.Abstractions.Permission.Storage))
+            {
+                await Permisos.PedirPermiso(Plugin.Permissions.Abstractions.Permission.Storage);
+            }
+            AddPhoto(await MediaPicker.PickPhotoAsync(new MediaPickerOptions()));
+        }
 
-        private async void UsarCamara() => AddPhoto(await MediaPicker.CapturePhotoAsync(new MediaPickerOptions()));
+        private async void UsarCamara()
+        {
+            if (!await Permisos.TenemosPermiso(Plugin.Permissions.Abstractions.Permission.Camera))
+            {
+                await Permisos.PedirPermiso(Plugin.Permissions.Abstractions.Permission.Camera);
+            }
+            AddPhoto(await MediaPicker.CapturePhotoAsync(new MediaPickerOptions()));
+        }
 
         private void AddPhoto(FileResult result)
         {
@@ -164,10 +177,8 @@ namespace SchoolOrganizer.ViewModels.Pages
             };
             Photos.Add(archive);
         }
-        private void OpenTask(ToDo todo)
-        {
-            this.Tarea = todo;
-            App.Current.MainPage.Navigation.PushAsync(new TaskPage(), true);
-        }
+
+
+
     }
 }

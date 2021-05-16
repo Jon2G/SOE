@@ -129,27 +129,20 @@ namespace SchoolOrganizer.Models.TaskFirst
         public ToDo()
         {
             OpenBrowserCommand = new Command<string>(OpenBrowser);
-            //Title = "";
-            //Time =new TimeSpan(0,11,0);
-            //Date = DateTime.Now;
-            ////Subject = null;
-            //Description = "";
-
-            //var todo=AppData.Instance.LiteConnection.Table<ToDo>().ToList();
-            //todo.subject = Subject.Get(todo.Id);
-            //hacer los grupos
-            //por dia, por materia ...
-            //  Kit.Forms.Pages.BasePopUp a = new BasePopUp();
-            //await  a.ShowDialog();
-
-            //var a = new ViewChangePopUp();
-            //await a.Show();
-            //await a.ShowDialog();
-
-
 
         }
+        //public ToDo(ToDo toDo)
+        //{
+        //        this.Id = toDo.Id;
+        //        this.Title = toDo.Title;
+        //        this.SubjectId = toDo.SubjectId;
+        //        this.Date = toDo.Date;
+        //        this.Time = toDo.Time;
+        //        this.Description = toDo.Description;
+        //        this.IdDocument = toDo.IdDocument;
+        //        this.IdKeeper = toDo.IdKeeper;
 
+        //}
         private async void OpenBrowser(string zelda)
         {
             UriBuilder builder = new UriBuilder(zelda);

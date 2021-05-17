@@ -26,6 +26,7 @@ namespace SchoolOrganizer.Droid.Activities
             {
                 StartService(new Intent(this, typeof(NotificationService)));
             }
+           
             base.OnStart();
         }
 
@@ -47,6 +48,7 @@ namespace SchoolOrganizer.Droid.Activities
             base.OnCreate(savedInstanceState);
 
             Kit.Droid.Tools.Init(this, savedInstanceState);
+            CrossFingerprint.SetCurrentActivityResolver(() => this);
             CardsViewRenderer.Preserve();
             LoadApplication(new SchoolOrganizer.App());
             if (this.Intent != null)

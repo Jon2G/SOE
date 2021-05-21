@@ -16,9 +16,8 @@
                         SelectionMode="None"  ItemsSource="{Binding DayGroups}" x:Name="Coleccion">
             <CollectionView.EmptyView>
                 <ContentView>
-                    <StackLayout VerticalOptions="CenterAndExpand"> 
+                    <StackLayout VerticalOptions="CenterAndExpand">
                         <Label HorizontalTextAlignment="Center" FontSize="20" TextColor="Black" FontAttributes="Bold" Text="No hay mas tareas"/>
-                        <Image Source="happy_donkey.png" VerticalOptions="Center" HorizontalOptions="CenterAndExpand"/>
                     </StackLayout>
                 </ContentView>
             </CollectionView.EmptyView>

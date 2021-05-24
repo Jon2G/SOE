@@ -46,7 +46,16 @@ namespace SchoolOrganizer.Droid.Notifications
 
             try
             {
-                context.StartForegroundService(new Intent(context, typeof(NotificationService)));
+                if (Build.VERSION.SdkInt < BuildVersionCodes.Q)
+                {
+                    context.StartService(new Intent(context, typeof(NotificationService)));
+
+                }
+                else
+                {
+                    context.StartForegroundService(new Intent(context, typeof(NotificationService)));
+                }
+           
             }
             catch (Exception)
             {

@@ -12,7 +12,7 @@
 
             <Color x:Key="Primary">#080821</Color>
             <Color x:Key="primaryLightColor">#102e6c</Color>
-            <Color x:Key="primaryDarkColor">#080821</Color>
+            <Color x:Key="primaryDarkColor">#0d0d33</Color>
             <Color x:Key="secondaryColor">#04d6be</Color>
             <Color x:Key="secondaryLightColor">WhiteSmoke</Color>
             <Color x:Key="secondaryDarkColor">#00766c</Color>

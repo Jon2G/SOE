@@ -14,6 +14,7 @@ using SchoolOrganizer.Fonts;
 using SchoolOrganizer.Models.Academic;
 using SchoolOrganizer.Models.Data;
 using SchoolOrganizer.Views.Pages;
+using SchoolOrganizer.Views.PopUps;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -69,6 +70,10 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 
         private void TapAvatar()
         {
+
+            string unique_id = Kit.Daemon.Devices.Device.Current.DeviceId;
+
+
             var config = new ActionSheetConfig()
             {
                 Cancel = new ActionSheetOption("Cancelar"),
@@ -88,7 +93,21 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 
         private async void Galeria()
         {
-            if (!await Permisos.RequestStorage())
+            var permiso = new Permissions.Camera();
+            if (!await Permisos.TenemosPermiso(permiso))
+            {
+                RequestCameraPage request = new RequestCameraPage();
+                await request.ShowDialog();
+                if (await permiso.CheckStatusAsync() != PermissionStatus.Granted)
+                {
+                    await Task.Delay(500);
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("Ha denegado el acceso a su camera, por favor permita el acceso desde ajustes de su dispositivo", "Alerta");
+                    return;
+                }
+                await Task.Delay(500);
+            }
+
+            if ((await Permisos.EnsurePermission<Permissions.Camera>()) != PermissionStatus.Granted)
             {
                 return;
             }
@@ -113,8 +132,23 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 
         private async void UsarCamara()
         {
-            if ((await Permisos.EnsurePermission<Permissions.Camera>()) != PermissionStatus.Granted)
+            var permiso = new Permissions.Photos();
+            if (!await Permisos.TenemosPermiso(new Permissions.Photos()))
             {
+                RequestCameraPage request = new RequestCameraPage();
+                await request.ShowDialog();
+                if (await permiso.CheckStatusAsync() != PermissionStatus.Granted)
+                {
+                    await Task.Delay(500);
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("Ha denegado el acceso a su camera, por favor permita el acceso desde ajustes de su dispositivo", "Alerta");
+                    return;
+                }
+                await Task.Delay(500);
+            }
+            if (!await Permisos.RequestStorage())
+            {
+                await Task.Delay(500);
+                Acr.UserDialogs.UserDialogs.Instance.Alert("Ha denegado el acceso a su camera, por favor permita el acceso desde ajustes de su dispositivo", "Alerta");
                 return;
             }
             var result = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync(new MediaPickerOptions()

@@ -5,6 +5,7 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_gravity="center_horizontal"
   android:id="@+id/widget_timetable"
+  style="@style/MainTheme"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:layout_margin="@dimen/widget_margin">
@@ -25,7 +26,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
-        android:textColor="@android:color/primary_text_dark"
         android:layout_columnSpan="0"
         android:text="Lunes" 
         android:textSize="18dp" />
@@ -65,7 +65,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textColor="@color/secondaryTextColor"
         android:textStyle="bold"
         android:text="Cargando..."
         android:textSize="20sp" />

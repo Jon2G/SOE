@@ -46,6 +46,10 @@ namespace SchoolOrganizer.Droid.Widgets.TimeLine
             //}
 
         }
+        public override void OnAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions)
+        {
+            base.OnAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
+        }
 
         public override void OnReceive(Context context, Intent intent)
         {

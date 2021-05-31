@@ -159,8 +159,23 @@ namespace SchoolOrganizer.ViewModels.Pages
 
         private async void Galeria()
         {
+            var permiso = new Permissions.Photos();
+            if (!await Permisos.TenemosPermiso(new Permissions.Photos()))
+            {
+                RequestCameraPage request = new RequestCameraPage();
+                await request.ShowDialog();
+                if (await permiso.CheckStatusAsync() != PermissionStatus.Granted)
+                {
+                    await Task.Delay(500);
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("Ha denegado el acceso a su camera, por favor permita el acceso desde ajustes de su dispositivo", "Alerta");
+                    return;
+                }
+                await Task.Delay(500);
+            }
             if (!await Permisos.RequestStorage())
             {
+                await Task.Delay(500);
+                Acr.UserDialogs.UserDialogs.Instance.Alert("Ha denegado el acceso a su camera, por favor permita el acceso desde ajustes de su dispositivo", "Alerta");
                 return;
             }
             AddPhoto(await MediaPicker.PickPhotoAsync(new MediaPickerOptions()));
@@ -168,6 +183,20 @@ namespace SchoolOrganizer.ViewModels.Pages
 
         private async void UsarCamara()
         {
+            var permiso = new Permissions.Camera();
+            if (!await Permisos.TenemosPermiso(permiso))
+            {
+                RequestCameraPage request = new RequestCameraPage();
+                await request.ShowDialog();
+                if (await permiso.CheckStatusAsync() != PermissionStatus.Granted)
+                {
+                    await Task.Delay(500);
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("Ha denegado el acceso a su camera, por favor permita el acceso desde ajustes de su dispositivo", "Alerta");
+                    return;
+                }
+                await Task.Delay(500);
+            }
+
             if ((await Permisos.EnsurePermission<Permissions.Camera>()) != PermissionStatus.Granted)
             {
                 return;

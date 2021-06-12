@@ -7,7 +7,7 @@
              x:Class="SchoolOrganizer.Views.ViewItems.TasksViews.BySubjectGroupView">
   <ContentView.Content>
       <Grid ColumnDefinitions="5,*" ColumnSpacing="0">
-                <BoxView BackgroundColor="{StaticResource secondaryColor }"/>
+                <BoxView />
                 <StackLayout Grid.Column="1" BackgroundColor="{Binding Subject.Color}" Margin="0">
                 <views:Expander x:Name="Expander">
                         <views:Expander.Header>

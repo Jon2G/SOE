@@ -6,7 +6,7 @@
              xmlns:models="clr-namespace:SchoolOrganizer.ViewModels.ViewItems;assembly=SchoolOrganizer"
              x:Class="SchoolOrganizer.Views.ViewItems.TimelineBar"
              HorizontalOptions="FillAndExpand" x:Name="Me" x:DataType="models:TimelineBarViewModel"
-             VerticalOptions="FillAndExpand" BackgroundColor="White" 
+             VerticalOptions="FillAndExpand" Background="{DynamicResource Background}"
              WidthRequest="{x:Static models:TimelineBarViewModel.CollapsedWidth}">
     <ContentView.GestureRecognizers>
         <SwipeGestureRecognizer Direction="Left" Command="{Binding ExpandCommand}" CommandParameter="{x:Reference Me}" />
@@ -31,12 +31,18 @@
                                     <StackLayout  Margin="0"  BackgroundColor="{Binding Subject.Color}"
                                                   IsVisible="{Binding IsExpanded, Source={x:Reference Model}}">
                                         <StackLayout Padding="5" >
-                                            <Label TextColor="{DynamicResource secondaryTextColor}" Text="{Binding Subject.Name,Mode=OneWay}" FontFamily="KarlaSB" FontSize="18"/>
-                                            <Label TextColor="{DynamicResource secondaryTextColor}" Text="{Binding Subject.Group}" FontFamily="KarlaSB" FontSize="18"/>
+                                            <Label  Text="{Binding Subject.Name,Mode=OneWay}" FontFamily="KarlaSB" FontSize="18" 
+                                                    TextColor="{StaticResource DarkTextColor}"/>
+                                            <Label  Text="{Binding Subject.Group}" 
+                                                    TextColor="{StaticResource DarkTextColor}"
+                                                    FontFamily="KarlaSB" FontSize="18"/>
                                             <StackLayout Orientation="Horizontal"  >
-                                                <Label TextColor="{DynamicResource secondaryTextColor}" Text="{Binding Begin,StringFormat='{0:hh}:{0:mm}'}" FontFamily="KarlaSB" FontSize="18"/>
-                                                <Label TextColor="{DynamicResource secondaryTextColor}" Text="a" FontFamily="KarlaSB" FontSize="18"/>
-                                                <Label TextColor="{DynamicResource secondaryTextColor}" Text="{Binding End,StringFormat='{0:hh}:{0:mm}'}" FontFamily="KarlaSB" FontSize="18"/>
+                                                <Label TextColor="{StaticResource DarkTextColor}"
+                                                       Text="{Binding Begin,StringFormat='{0:hh}:{0:mm}'}" FontFamily="KarlaSB" FontSize="18"/>
+                                                <Label TextColor="{StaticResource DarkTextColor}"
+                                                       Text="a" FontFamily="KarlaSB" FontSize="18"/>
+                                                <Label TextColor="{StaticResource DarkTextColor}"
+                                                       Text="{Binding End,StringFormat='{0:hh}:{0:mm}'}" FontFamily="KarlaSB" FontSize="18"/>
                                             </StackLayout>
                                         </StackLayout>
                                     </StackLayout>

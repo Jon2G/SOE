@@ -6,12 +6,11 @@
              x:Class="SchoolOrganizer.Views.PopUps.ViewChangePopUp">
 
     <Frame Margin="20" CornerRadius="15" 
-           BackgroundColor="{DynamicResource secondaryLightColor}"
            VerticalOptions="Center" HorizontalOptions="Center" 
-           BorderColor="{DynamicResource primaryLightColor}">
+           BorderColor="{DynamicResource PrimaryLightColor}">
         <StackLayout>
-            <Frame Margin="3"  BorderColor="{DynamicResource primaryLightColor}" 
-                                CornerRadius="10" BackgroundColor="{DynamicResource secondaryColor}">
+            <Frame Margin="3"  BorderColor="{DynamicResource PrimaryLightColor}" 
+                                CornerRadius="10" >
                 <Label  FontFamily="Karla_SemiBold"  TextColor="Black"  Text="FirstPage"
                                      FontSize="14"  FontAttributes="Bold">
                     <Label.GestureRecognizers>
@@ -19,8 +18,8 @@
                     </Label.GestureRecognizers>
                 </Label>
             </Frame>
-            <Frame Margin="3"  BorderColor="{DynamicResource primaryLightColor}" 
-                                CornerRadius="10" BackgroundColor="{DynamicResource secondaryColor}">
+            <Frame Margin="3"  BorderColor="{DynamicResource PrimaryLightColor}" 
+                                CornerRadius="10" >
                 <Label  FontFamily="Karla_SemiBold"  TextColor="Black"  Text="SecondPage"
                                      FontSize="14"  FontAttributes="Bold">
                     <Label.GestureRecognizers>
@@ -28,8 +27,8 @@
                     </Label.GestureRecognizers>
                 </Label>
             </Frame>
-            <Frame Margin="3"  BorderColor="{DynamicResource primaryLightColor}" 
-                                CornerRadius="10" BackgroundColor="{DynamicResource secondaryColor}">
+            <Frame Margin="3"  BorderColor="{DynamicResource PrimaryLightColor}" 
+                                CornerRadius="10" >
                 <Label  FontFamily="Karla_SemiBold"  TextColor="Black"  Text="ThirdPage"
                                      FontSize="14"  FontAttributes="Bold">
                     <Label.GestureRecognizers>

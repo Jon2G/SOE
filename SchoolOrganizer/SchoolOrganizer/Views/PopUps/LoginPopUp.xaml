@@ -3,15 +3,14 @@
                   xmlns="http://xamarin.com/schemas/2014/forms"
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
                   xmlns:view="clr-namespace:SchoolOrganizer.ViewModels.Pages"
+                  xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
                   x:Class="SchoolOrganizer.Views.PopUps.LoginPopUp"
                   x:Name="Me">
     <pages:BasePopUp.BindingContext>
         <view:LoginPopUpViewModel/>
     </pages:BasePopUp.BindingContext>
-<Frame Margin="20" CornerRadius="15" 
-           BackgroundColor="{DynamicResource secondaryLightColor}"
-           VerticalOptions="Center" HorizontalOptions="Center" 
-           BorderColor="{DynamicResource primaryLightColor}">
+<pancakeView:PancakeView Margin="20" CornerRadius="15" 
+                         VerticalOptions="Center" HorizontalOptions="Center" >
         <StackLayout>
             <Frame BackgroundColor="Transparent" Padding="0">
                 <StackLayout>
@@ -22,5 +21,5 @@
             <Entry IsPassword="True" Placeholder="Contraseña" Text="{Binding Password}"/>
             <Button Text="Ingresar" Command="{Binding IngresarCommand}" CommandParameter="{x:Reference Me}" CornerRadius="15"/>
         </StackLayout>
-    </Frame>
+    </pancakeView:PancakeView>
 </pages:BasePopUp>

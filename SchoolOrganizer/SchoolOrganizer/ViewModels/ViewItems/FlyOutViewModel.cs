@@ -65,7 +65,7 @@ namespace SchoolOrganizer.ViewModels.ViewItems
             await Task.Yield();
             //this.AvatarSource = User.GetAvatar();
             string name = AppData.Instance.User.Name;
-            this.UserInitials = Kit.Extensions.Helpers.ExtractInitialsFromName(name);
+            this.UserInitials = name.ExtractInitialsFromName();
         }
 
         private void TapAvatar()

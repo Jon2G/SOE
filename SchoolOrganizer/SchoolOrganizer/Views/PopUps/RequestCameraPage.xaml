@@ -11,7 +11,7 @@
         <viewModels:RequestCameraPageViewModel/>
     </pages:BasePopUp.BindingContext>
     <ContentPage.Content>
-        <pancakeView:PancakeView Style="{StaticResource card}" HorizontalOptions="Center"  VerticalOptions="Center" Margin="5">
+        <pancakeView:PancakeView  HorizontalOptions="Center"  VerticalOptions="Center" Margin="5">
             <StackLayout>
                 <Label Text="Un momento..." BackgroundColor="{StaticResource primaryDarkColor}"
                        VerticalOptions="Start"  Padding="10" FontSize="20" TextColor="White"

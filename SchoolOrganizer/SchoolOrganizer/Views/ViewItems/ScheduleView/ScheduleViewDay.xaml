@@ -5,17 +5,16 @@
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:scheduler="clr-namespace:SchoolOrganizer.Models.Scheduler;assembly=SchoolOrganizer"
              x:Class="SchoolOrganizer.Views.ViewItems.ScheduleView.ScheduleViewDay"
-             x:DataType="scheduleViewModel:SheduleDay" BackgroundColor="WhiteSmoke" x:Name="Me"
+             x:DataType="scheduleViewModel:SheduleDay"
+             Background="{DynamicResource Background}"
+             x:Name="Me"
              VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
     <ContentView.GestureRecognizers>
         <SwipeGestureRecognizer Threshold="10" Direction="Left"  Command="{Binding TomorrowCommand,Source={x:Reference Me}}"/>
         <SwipeGestureRecognizer Threshold="10" Direction="Right" Command="{Binding YesterdayCommand,Source={x:Reference Me}}"/>
     </ContentView.GestureRecognizers>
     <ContentView.Content>
-
-
-        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="5" 
-                     BackgroundColor="WhiteSmoke">
+        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="5" >
 
 
             <Label FontSize="18" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Start"
@@ -26,13 +25,13 @@
                     </Label.GestureRecognizers>
                 </Label>
 
-                <!--<ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
-                            HorizontalScrollBarVisibility="Never" >-->
+                <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
+                            HorizontalScrollBarVisibility="Never">
                     <Grid ColumnDefinitions="25,*" >
 
 
 
-                    <StackLayout Spacing="0" BackgroundColor="WhiteSmoke" VerticalOptions="FillAndExpand" BindingContext="{Binding MainModel,Source={x:Reference Me}}"
+                    <StackLayout Spacing="0" VerticalOptions="FillAndExpand" BindingContext="{Binding MainModel,Source={x:Reference Me}}"
                                      BindableLayout.ItemsSource="{Binding MainModel.WeekHours,Source={x:Reference Me}}">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate x:DataType="scheduler:Hour">
@@ -45,7 +44,8 @@
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
                         </StackLayout>
-                        <ContentView Margin="0" Padding="0" BackgroundColor="White" Grid.Column="1">
+                <ContentView Margin="0" Padding="0" 
+                             Background="{DynamicResource SecondaryBackground}" Grid.Column="1">
                             <StackLayout Spacing="0" Margin="0" Padding="0" 
                                          BindableLayout.ItemsSource="{Binding Class}">
                                     <BindableLayout.ItemTemplate>
@@ -55,13 +55,13 @@
                                                          Padding="0" Margin="0">
                                                 <Frame Margin="6" BackgroundColor="{Binding Subject.Color}" Padding="3">
                                                     <StackLayout>
-                                                        <Label FontSize="16" TextColor="Black"
+                                            <Label FontSize="16" TextColor="{StaticResource DarkTextColor}"
                                                                        HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
                                                                        Text="{Binding Subject.Name}"/>
-                                                        <Label FontSize="16" TextColor="Black"
+                                            <Label FontSize="16" TextColor="{StaticResource DarkTextColor}"
                                                                        HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
                                                                        Text="{Binding Subject.Group}" />
-                                                        <Label FontSize="16" TextColor="Black"
+                                            <Label FontSize="16" TextColor="{StaticResource DarkTextColor}"
                                                                        HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
                                                                        Text="{Binding  FormattedTime}" />
                                                     </StackLayout>
@@ -77,7 +77,7 @@
                             <BoxView BackgroundColor="Blue" HeightRequest="1"/>
                         </StackLayout>
                 </Grid>
-                <!--</ScrollView>-->
+                </ScrollView>
             </StackLayout>
 
     </ContentView.Content>

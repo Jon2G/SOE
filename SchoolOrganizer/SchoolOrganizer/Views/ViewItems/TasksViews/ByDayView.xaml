@@ -8,12 +8,12 @@
              x:Class="SchoolOrganizer.Views.ViewItems.TasksViews.ByDayView">
   <ContentView.Content>
         <ContentView>
-            <pancakeView:PancakeView CornerRadius="0" Style="{StaticResource card}" Margin="5">
+            <pancakeView:PancakeView CornerRadius="0"  Margin="5">
                 <views:Expander>
                     <views:Expander.Header>
                         <Grid ColumnDefinitions="5,80,1,*">
 
-                            <BoxView BackgroundColor="{StaticResource secondaryColor }"/>
+                            <BoxView />
 
 
                             <StackLayout  Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center">

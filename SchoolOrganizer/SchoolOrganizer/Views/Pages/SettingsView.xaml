@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage BackgroundColor="{StaticResource primaryDarkColor}" xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage  xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SchoolOrganizer.Views.Pages.SettingsView"
              xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer" 
@@ -10,7 +10,7 @@
     <ContentPage.BindingContext>
         <viewItems:SettingsViewModel x:Name="Model"/>
     </ContentPage.BindingContext>
-    <Frame BackgroundColor="White" CornerRadius="0" BorderColor="{StaticResource primaryLightColor}" >
+    <Frame  CornerRadius="0">
         <StackLayout >
             <Grid>
                 <BoxView BackgroundColor="WhiteSmoke" CornerRadius="5"/>
@@ -25,7 +25,7 @@
                     <Label Text="{x:Static fonts:FontelloIcons.Lock}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center" />
                     <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="Activar Finger Print" FontSize="15"  TextColor="Black" HorizontalOptions="Start"/>
-                    <Switch  OnColor="{StaticResource secondaryColor}" ThumbColor="{StaticResource primaryLightColor}" HorizontalOptions="EndAndExpand" 
+                    <Switch  HorizontalOptions="EndAndExpand" 
                              IsToggled="{Binding Settings.IsFingerPrintActive}">
 
                         <Switch.Behaviors>
@@ -45,7 +45,7 @@
                     <Label Text="{x:Static fonts:FontelloIcons.Logout}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
                     <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Text="Desactivar Inicio Automatico"  FontSize="15"  TextColor="Black"  HorizontalOptions="Start"/>
-                    <Switch  OnColor="{StaticResource secondaryColor}" ThumbColor="{StaticResource primaryLightColor}" HorizontalOptions="EndAndExpand" />
+                    <Switch   HorizontalOptions="EndAndExpand" />
                 </StackLayout>
                 <BoxView BackgroundColor="LightGray" CornerRadius="5" Grid.Row="1"/>
             </Grid>
@@ -58,7 +58,7 @@
                     <Label Text="{x:Static fonts:FontelloIcons.Notifi}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
                     <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Text="Mostar barra de horario lateral"  FontSize="15"  TextColor="{DynamicResource secondaryTextColor}"  HorizontalOptions="Start"/>
-                    <Switch  OnColor="{StaticResource secondaryColor}" ThumbColor="{StaticResource primaryLightColor}" HorizontalOptions="EndAndExpand" IsToggled="{Binding Settings.ShowTimelineBar}"/>
+                    <Switch HorizontalOptions="EndAndExpand" IsToggled="{Binding Settings.ShowTimelineBar}"/>
                 </StackLayout>
                 <BoxView BackgroundColor="LightGray" CornerRadius="5" Grid.Row="1"/>
             </Grid>

@@ -6,8 +6,6 @@
        xmlns:viewItems="clr-namespace:SchoolOrganizer.Views.ViewItems;assembly=SchoolOrganizer"
        xmlns:scheduleView="clr-namespace:SchoolOrganizer.Views.ViewItems.ScheduleView;assembly=SchoolOrganizer"
        x:Class="SchoolOrganizer.AppShell"
-       BackgroundColor="{DynamicResource primaryLightColor}" 
-       TabBarBackgroundColor="{DynamicResource primaryLightColor}"
        TabBarTitleColor="White"
        TitleColor="White">
 

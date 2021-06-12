@@ -3,38 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              mc:Ignorable="d"
-           
              xmlns:viewModels="clr-namespace:SchoolOrganizer.ViewModels.Pages;assembly=SchoolOrganizer"
              x:Class="SchoolOrganizer.Views.Pages.LoginPage"
              Shell.NavBarIsVisible="False" x:DataType="{x:Type viewModels:LoginViewModel}"
              xmlns:skiaSharp="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              xmlns:saes="clr-namespace:SchoolOrganizer.Saes;assembly=SchoolOrganizer"
-             xmlns:renders="clr-namespace:SchoolOrganizer.Renders;assembly=SchoolOrganizer"
-             BackgroundColor="{DynamicResource primaryLightColor}">
+             xmlns:renders="clr-namespace:SchoolOrganizer.Renders;assembly=SchoolOrganizer">
     <ContentPage.BindingContext>
         <viewModels:LoginViewModel x:Name="Model"/>
     </ContentPage.BindingContext>
     <Grid>
         <saes:SAES x:Name="SAES" IsVisible="True" />
-        <ContentView BackgroundColor="{DynamicResource primaryLightColor}">
+        <ContentView Background="{DynamicResource Background}">
             <pancakeView:PancakeView 
-                Style="{StaticResource card}" 
-                BackgroundColor="{DynamicResource secondaryLightColor}"
                 CornerRadius="10" 
                 Padding="10" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
                 Margin="20,10">
                 <StackLayout>
-                    <Label TextColor="Black" FontFamily="KarlaSB" Text="Organizador Escolar" Margin="10" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                    <Label FontFamily="KarlaSB" Text="Organizador Escolar" Margin="10" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
                     <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                         <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
                             <Grid HeightRequest="100" WidthRequest="100"  HorizontalOptions="Center" VerticalOptions="Center">
                                 <Rectangle x:Name="mainRect" StrokeThickness="1" HorizontalOptions="FillAndExpand"  VerticalOptions="FillAndExpand">
                                     <Rectangle.Stroke>
                                         <LinearGradientBrush>
-                                            <GradientStop x:Name="tealGrad" Color="#56D9BE" Offset="0"/>
+                                            <GradientStop x:Name="tealGrad" 
+                                                          Color="{AppThemeBinding Dark={StaticResource SecondaryDarkColor},Light={StaticResource SecondaryColor}}" Offset="0"/>
                                             <GradientStop x:Name="orangeGrad" Color="MediumBlue" Offset="1"/>
                                         </LinearGradientBrush>
                                     </Rectangle.Stroke>
@@ -44,9 +40,9 @@
                             </Grid>
                         </StackLayout>
                     </Grid>
-                    <Label TextColor="Black" FontFamily="KarlaSB" Text="¡Bienvenido!" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                    <Label FontFamily="KarlaSB" Text="¡Bienvenido!" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
                     <BoxView HeightRequest="1"
-                         BackgroundColor="{DynamicResource primaryLightColor}" />
+                         Background="{DynamicResource PrimaryColor}" />
                     <Grid >
 
                         <skiaSharp:SKCanvasView x:Name="_skCanvasView"
@@ -58,36 +54,38 @@
                                  Orientation="Vertical"
                                  Spacing="1">
 
-                            <renders:NoLineEntry Style="{StaticResource FormEntryStyle} " TextColor="{DynamicResource secondaryTextColor}"  x:Name="Usuario"
+                            <renders:NoLineEntry  TextColor="{DynamicResource secondaryTextColor}"  x:Name="Usuario"
                                             Text="{Binding User.Boleta}"
-                               Focused="EntryFocused" Placeholder="Usuario" PlaceholderColor="Black" Margin="0,10" />
+                               Focused="EntryFocused" Placeholder="Usuario"
+                                            Margin="0,10" />
 
 
-                            <renders:NoLineEntry IsPassword="True" Text="{Binding User.Password}"
-                               Style="{StaticResource FormEntryStyle}" TextColor="{DynamicResource secondaryTextColor}"
-                               Focused="EntryFocused" Placeholder="Contraseña" PlaceholderColor="{DynamicResource secondaryTextColor}" Margin="0,10"/>
+                            <renders:NoLineEntry IsPassword="True" 
+                                                 Text="{Binding User.Password}"
+                                                 Focused="EntryFocused" Placeholder="Contraseña" Margin="0,10"/>
 
                             <Image Source="{Binding CaptchaImg}" HeightRequest="50" />
 
-                            <renders:NoLineEntry IsPassword="False" Text="{Binding Captcha}"
-                                            Style="{StaticResource FormEntryStyle}" TextColor="{DynamicResource secondaryTextColor}"
-                                            Focused="EntryFocused" Placeholder="Captcha" PlaceholderColor="{DynamicResource secondaryTextColor}" Margin="0,10"/>
+                            <renders:NoLineEntry IsPassword="False" 
+                                                 Text="{Binding Captcha}"
+                                                 Focused="EntryFocused" Placeholder="Captcha"
+                                                 Margin="0,10"/>
 
 
 
                             <Button  Text="Iniciar sesión"
                                 FontFamily="KarlaSB"
-                                BackgroundColor="{DynamicResource primaryLightColor}" TextColor="{DynamicResource primaryTextColor}"
+                                TextColor="{DynamicResource primaryTextColor}"
                                 Command="{Binding LoginCommand}"
                                 CommandParameter="{Binding .}"
                                 CornerRadius="20" 
                                 Margin="0, 10, 0, 0"
-                                Style="{StaticResource FormSubmitBtnStyle}"
-                               />
+                            />
                         </StackLayout>
                     </Grid>
                     <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" >
-                        <Label FontFamily="Karla_SemiBold" TextColor="Black" TextDecorations="Underline" Text="Olvide mi contraseña" FontSize="14" HorizontalOptions="EndAndExpand" Margin="0,5"/>
+                        <Label FontFamily="Karla_SemiBold"
+                               TextDecorations="Underline" Text="Olvide mi contraseña" FontSize="14" HorizontalOptions="EndAndExpand" Margin="0,5"/>
                     </StackLayout>
                 </StackLayout>
             </pancakeView:PancakeView>

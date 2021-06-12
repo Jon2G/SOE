@@ -8,7 +8,7 @@
              xmlns:cardViews="clr-namespace:SchoolOrganizer.Views.ViewItems.CardViews;assembly=SchoolOrganizer"
              x:DataType="models:Card">
     <pancakeView:PancakeView  BackgroundColor="#E3E3E3"
-                Style="{StaticResource card}">
+                >
         <Grid Padding="0,1,1,1"
           RowSpacing="1"
           ColumnSpacing="1"

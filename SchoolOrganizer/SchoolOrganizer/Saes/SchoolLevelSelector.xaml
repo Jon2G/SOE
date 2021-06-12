@@ -14,7 +14,7 @@
             <StackLayout Spacing="25" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
                 <Label Text="¡Bienvenido!" HorizontalTextAlignment="Center"  FontAttributes="Bold" FontSize="35" />
                 <Label Text="Selecciona tu nivel educativo"  FontAttributes="Bold" FontSize="30" HorizontalTextAlignment="Center" HorizontalOptions="FillAndExpand" />
-                <pancakeView:PancakeView Margin="30,0" Style="{StaticResource card}" Padding="20">
+                <pancakeView:PancakeView Margin="30,0"  Padding="20">
                     <pancakeView:PancakeView.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding UniversityCommand }"/>
                     </pancakeView:PancakeView.GestureRecognizers>
@@ -25,7 +25,7 @@
 
                 </pancakeView:PancakeView>
 
-                <pancakeView:PancakeView Margin="30,0" Style="{StaticResource card}" Padding="20">
+                <pancakeView:PancakeView Margin="30,0"  Padding="20">
                     <pancakeView:PancakeView.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding HighSchoolCommand}"/>
                     </pancakeView:PancakeView.GestureRecognizers>

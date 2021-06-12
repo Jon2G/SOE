@@ -25,18 +25,19 @@
                         </SwipeItem.IconImageSource>
                     </SwipeItem>
                 </SwipeView.LeftItems>
-                <pancakeView:PancakeView Style="{StaticResource card}" Margin="0" CornerRadius="0" InputTransparent="True" >
+                <pancakeView:PancakeView  Margin="0" CornerRadius="0" InputTransparent="True" >
                     <Grid RowSpacing="0" RowDefinitions="Auto,*" ColumnDefinitions="*,60">
 
                         <StackLayout  Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Padding="0" Spacing="0">
                             <Label Margin="5,0"  Text="{Binding FormattedTime}"  HorizontalTextAlignment="End"
-                                    FontSize="12" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" TextColor="Black"/>
+                                    FontSize="12" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" />
                             <Label  VerticalOptions="Center"  Text="{x:Static fonts:FontelloIcons.Calendar}" FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                    FontSize="12" HorizontalOptions="End" VerticalTextAlignment="Center" TextColor="Black"/>
+                                    FontSize="12" HorizontalOptions="End" VerticalTextAlignment="Center" />
                         </StackLayout>
 
-                        <Label HorizontalOptions="Start" Grid.Row="0" Text="{Binding Title}" FontAttributes="Bold" TextColor="Black" FontSize="14"/>
-                    
+                        <Label HorizontalOptions="Start" Grid.Row="0" Text="{Binding Title}"
+                               FontAttributes="Bold" 
+                               FontSize="14"/>
                         <Label FormattedText="{Binding FormattedString}" Grid.Row="1" Grid.ColumnSpan="2"  FontSize="16" TextColor="Gray"/>
                     </Grid>
                 </pancakeView:PancakeView>

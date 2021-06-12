@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SchoolOrganizer.Views.Pages.SplashScreen"
-             BackgroundColor="{StaticResource primaryLightColor}">
+             BackgroundColor="{StaticResource Primary}">
     <ContentPage.Content>
         <Image Source="logo.jpeg"  x:Name="Logo" HeightRequest="500"
                VerticalOptions="CenterAndExpand" Margin="5"

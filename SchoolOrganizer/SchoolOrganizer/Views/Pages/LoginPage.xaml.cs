@@ -39,8 +39,8 @@ namespace SchoolOrganizer.Views.Pages
             var settings = new HighlightSettings()
             {
                 StrokeWidth = 6,
-                StrokeStartColor = (Color)Application.Current.Resources["secondaryColor"],
-                StrokeEndColor = (Color)Application.Current.Resources["primaryLightColor"],
+                StrokeStartColor = (Color)Application.Current.Resources["SecondaryColor"],
+                StrokeEndColor = (Color)Application.Current.Resources["PrimaryLightColor"],
                 AnimationDuration = TimeSpan.FromMilliseconds(900),
                 AnimationEasing = Easing.CubicInOut,
             };

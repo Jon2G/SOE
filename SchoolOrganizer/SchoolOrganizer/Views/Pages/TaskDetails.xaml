@@ -13,7 +13,7 @@
     <Grid>
         <views:TabView IsSwipeEnabled="True" 
                    Style="{StaticResource CustomTabStyle}" 
-                   TabStripBackgroundColor="{DynamicResource primaryLightColor}" 
+                   TabStripBackgroundColor="{DynamicResource Primary}" 
                    IsTabStripVisible="True" TabStripPlacement="Top">
         <views:TabViewItem TextColor="White" Text="Descripción">
             <views:TabViewItem.Icon>
@@ -71,7 +71,7 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="images:Archive">
                                 <ContentView>
-                                    <pancakeView:PancakeView InputTransparent="True" Style="{StaticResource card}"
+                                    <pancakeView:PancakeView InputTransparent="True" 
                                                              Padding="3" BackgroundColor="LightGray"
                                                              Margin="3"
                                                              views:TouchEffect.PressedScale="1.2"

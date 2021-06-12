@@ -8,7 +8,7 @@
              x:Class="SchoolOrganizer.Views.PopUps.AskForCaptcha" x:DataType="viewmodels:LoginViewModel" 
              CloseWhenBackgroundIsClicked="True" BackgroundColor="#70FFFFFF">
     <ContentPage.Content>
-        <pancakeView:PancakeView BackgroundColor="WhiteSmoke" Style="{StaticResource card}" 
+        <pancakeView:PancakeView BackgroundColor="WhiteSmoke"  
                                  VerticalOptions="CenterAndExpand"
                                  HorizontalOptions="CenterAndExpand" WidthRequest="250" Padding="20">
             <StackLayout>

@@ -8,7 +8,8 @@
              xmlns:data1="clr-namespace:SchoolOrganizer.Data;assembly=SchoolOrganizer"
              xmlns:viewItems="clr-namespace:SchoolOrganizer.ViewModels.ViewItems;assembly=SchoolOrganizer"
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
-             BackgroundColor="{DynamicResource primaryLightColor}"  x:Name="Me">
+             Background="{DynamicResource SecondaryBackground}"
+             x:Name="Me">
     <ContentView.BindingContext>
         <viewItems:FlyOutViewModel x:Name="Model"/>
     </ContentView.BindingContext>
@@ -20,11 +21,12 @@
 
                 <pancakeView:PancakeView Padding="1" 
                                          BackgroundColor="Transparent"
-                                         IsClippedToBounds="True" Style="{StaticResource card}">
+                                         IsClippedToBounds="True" >
 
                     <views:AvatarView BindingContext="{x:Reference Model}" x:DataType="viewItems:FlyOutViewModel"
                                       Text="{Binding UserInitials}"
-                        Source="{Binding AvatarSource}" Aspect="AspectFill" 
+                                      Color="{StaticResource AccentColor}"
+                                      Source="{Binding AvatarSource}" Aspect="AspectFill" 
                          Size="80" views:TouchEffect.Command="{Binding TapAvatarCommand}"
                         views:TouchEffect.NativeAnimation="True" views:TouchEffect.PressedBackgroundImageAspect="AspectFill"/>
                 </pancakeView:PancakeView>
@@ -36,34 +38,34 @@
 
             </Grid>
 
-            <TableView BackgroundColor="White" Intent="Menu">
+            <TableView Intent="Menu">
                 <TableRoot>
-                    <TableSection Title="Menú">
+                    <TableSection Title="Menú"  TextColor="{StaticResource AccentColor}">
                         <ViewCell>
                             <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding UserCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
                                 </StackLayout.GestureRecognizers>
                                 <Label Text="{x:Static fonts:FontelloIcons.User}" 
-                                       FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                                       FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                        FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Perfil" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                                <Label  Margin="10,0,0,0" Text=" Perfil" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                             </StackLayout>
                         </ViewCell>
                         <ViewCell >
                             <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand" >
                                 <Label Text="{x:Static fonts:FontelloIcons.AddressBook}" 
-                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Contactos" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                                <Label  Margin="10,0,0,0" Text=" Contactos" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                             </StackLayout>
                         </ViewCell>
                         <ViewCell >
                             <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
                                 <Label Text="{x:Static fonts:FontelloIcons.Calendar}"
-                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Horario" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                                <Label Margin="10,0,0,0" Text=" Horario" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                             </StackLayout>
                         </ViewCell>
                         <ViewCell>
@@ -72,18 +74,18 @@
                                     <TapGestureRecognizer Command="{Binding TareasCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
                                 </StackLayout.GestureRecognizers>
                                 <Label Text="{x:Static fonts:FontelloIcons.Book}"  
-                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Tareas" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                                <Label  Margin="10,0,0,0" Text=" Tareas" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                             </StackLayout>
                         </ViewCell>
                         <ViewCell >
 
                             <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
                                 <Label Text="{x:Static fonts:FontelloIcons.Award}"  
-                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Logros" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                                <Label  Margin="10,0,0,0" Text=" Logros" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                             </StackLayout>
                         </ViewCell>
                         <ViewCell >
@@ -93,17 +95,17 @@
                                     <TapGestureRecognizer Command="{Binding SettingCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
                                 </StackLayout.GestureRecognizers>
                                 <Label Text="{x:Static fonts:FontelloIcons.Cog}" 
-                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                <Label TextColor="{DynamicResource primaryDarkColor}" Margin="10,0,0,0" Text=" Ajustes" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                                <Label  Margin="10,0,0,0" Text=" Ajustes" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                             </StackLayout>
                         </ViewCell>
                         <ViewCell>
                             <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
                                 <Label Text="{x:Static fonts:FontelloIcons.Logout}" 
-                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource primaryDarkColor}"
+                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                <Label TextColor="{DynamicResource primaryDarkColor}"  Margin="10,0,0,0" Text=" Cerrar Sesión" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                                <Label   Margin="10,0,0,0" Text=" Cerrar Sesión" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                             </StackLayout>
                         </ViewCell>
                     </TableSection>

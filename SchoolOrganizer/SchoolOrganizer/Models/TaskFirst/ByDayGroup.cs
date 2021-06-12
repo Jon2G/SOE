@@ -18,7 +18,7 @@ namespace SchoolOrganizer.Models.TaskFirst
     {
         public ByDayView View { get; set; }
         public DateTime FDateTime { get; set; }
-        public string Month { get => Kit.Extensions.Helpers.Mes(FDateTime.Month); }
+        public string Month { get => FDateTime.Month.Mes(); }
         public ObservableCollection<BySubjectGroup> SubjectGroups { get; set; }
         public int Tareas => SubjectGroups.Sum(x => x.ToDoS.Count);
 

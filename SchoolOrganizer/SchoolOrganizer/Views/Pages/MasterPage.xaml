@@ -12,8 +12,7 @@
              xmlns:viewPage="clr-namespace:SchoolOrganizer.Views.Pages"
              xmlns:pages2="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
              xmlns:data="clr-namespace:SchoolOrganizer.Data;assembly=SchoolOrganizer"
-             x:DataType="pages:MasterPageViewModel"
-             BackgroundColor="{DynamicResource primaryLightColor}" >
+             x:DataType="pages:MasterPageViewModel">
     <ContentPage.BindingContext>
         <pages:MasterPageViewModel/>
     </ContentPage.BindingContext>
@@ -39,7 +38,7 @@
                 <ImageButton 
                     x:Name="BagBtn"
                     Padding="24"
-                    BackgroundColor="{DynamicResource primaryLightColor}"
+                    
                     HeightRequest="72"
                     HorizontalOptions="Center"
                     InputTransparent="True"
@@ -59,7 +58,6 @@
         <Style x:Key="TabItemStyle" TargetType="toolkit:TabViewItem">
             <Setter Property="TextColor" Value="#979797" />
             <Setter Property="TextColor" Value="#979797" />
-            <Setter Property="TextColorSelected" Value="{DynamicResource secondaryColor}" />
             <Setter Property="Scale" Value="0.85" />
         </Style>
 
@@ -79,8 +77,8 @@
                     <FontImageSource
                         FontFamily="{x:Static fonts:FontelloIcons.Font}"
                         Glyph="{x:Static fonts:FontelloIcons.Cal}"
-                        Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
-                                                Light={StaticResource secondaryTextColor}}" />
+                        Color="{AppThemeBinding Dark={StaticResource  LightTextColor},
+                                                Light={StaticResource DarkTextColor}}" />
                 </toolkit:TabViewItem.Icon>
                 <viewItems:SchoolGrades x:Name="SchoolGrades"/>
             </toolkit:TabViewItem>
@@ -93,8 +91,8 @@
                     <FontImageSource 
                         FontFamily="{x:Static fonts:FontelloIcons.Font}"
                         Glyph="{x:Static fonts:FontelloIcons.Book}"
-                        Color="{AppThemeBinding Dark={StaticResource  secondaryTextColor},
-                                                Light={StaticResource secondaryLightColor}}" />
+                        Color="{AppThemeBinding Dark={StaticResource  LightTextColor},
+                                                Light={StaticResource DarkTextColor}}" />
                 </toolkit:TabViewItem.Icon>
 
                 <Grid>
@@ -114,8 +112,8 @@
                     <FontImageSource
                         FontFamily="{x:Static fonts:FontelloIcons.Font}"
                         Glyph="{x:Static fonts:FontelloIcons.Calendar}"
-                        Color="{AppThemeBinding Dark={StaticResource  secondaryLightColor},
-                                                Light={StaticResource secondaryTextColor}}" />
+                        Color="{AppThemeBinding Dark={StaticResource  LightTextColor},
+                                                Light={StaticResource DarkTextColor}}" />
                 </toolkit:TabViewItem.Icon>
                 <scheduleView:ScheduleViewMain x:Name="ScheduleViewMain"/>
             </toolkit:TabViewItem>

@@ -8,14 +8,12 @@
              x:DataType="viewModels:SubjectViewModel" x:Name="Me">
 
     <Frame Margin="20" CornerRadius="15" 
-           BackgroundColor="{DynamicResource secondaryLightColor}"
-           VerticalOptions="Center" HorizontalOptions="Center" 
-           BorderColor="{DynamicResource primaryLightColor}">
+           VerticalOptions="Center" HorizontalOptions="Center" >
         <CollectionView ItemsSource="{Binding subjects}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="scheduler:Subject">
                     <ContentView>
-                        <Frame Margin="3"  BorderColor="{DynamicResource primaryLightColor}" 
+                        <Frame Margin="3"  
                                 CornerRadius="10" BackgroundColor="{Binding Color}">
                             <Label  FontFamily="Karla_SemiBold"  TextColor="Black"  Text="{Binding Name}"
                                      FontSize="14"  FontAttributes="Bold">

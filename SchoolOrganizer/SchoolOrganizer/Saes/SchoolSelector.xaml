@@ -10,14 +10,14 @@
     <ContentPage.Content>
         <Grid>
             <saes:SAES x:Name="SAES" IsVisible="True"/>
-            <ContentView IsVisible="True" BackgroundColor="WhiteSmoke">
+            <ContentView IsVisible="True" Background="{DynamicResource Background}">
                 <pancakeView:PancakeView 
-                Style="{StaticResource card}" 
+                 
                 CornerRadius="10" 
                 Padding="10" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
                 Margin="20,10">
                     <StackLayout>
-                        <Label Text="Selecciona tu escuela" HorizontalOptions="Center" FontSize="18" TextColor="Black"/>
+                        <Label Text="Selecciona tu escuela" HorizontalOptions="Center" FontSize="18" />
                         <CollectionView  ItemsSource="{Binding Schools}">
                             <CollectionView.ItemsLayout>
                                 <GridItemsLayout Orientation="Vertical" Span="1" />
@@ -25,7 +25,7 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="saes:School">
                                     <ContentView HorizontalOptions="Center">
-                                        <pancakeView:PancakeView Margin="5" IsClippedToBounds="True" Style="{StaticResource card}" Padding="0">
+                                        <pancakeView:PancakeView Margin="5" IsClippedToBounds="True"  Padding="0">
                                             <pancakeView:PancakeView.GestureRecognizers>
                                                 <TapGestureRecognizer 
                                                     Command="{Binding Model.SelectSchoolCommand ,Source={x:Reference Me}}"

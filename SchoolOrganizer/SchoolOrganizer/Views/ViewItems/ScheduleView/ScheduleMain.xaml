@@ -10,6 +10,7 @@
              xmlns:scheduleView="clr-namespace:SchoolOrganizer.Views.ViewItems.ScheduleView;assembly=SchoolOrganizer"
              xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
              x:Class="SchoolOrganizer.Views.ViewItems.ScheduleView.ScheduleViewMain"
+             Background="{DynamicResource Background}"
              x:DataType="viewItems:ScheduleMainViewModel" x:Name="Me"> 
     <ContentView.BindingContext>
         <viewItems:ScheduleMainViewModel x:Name="Model" x:FieldModifier="public"/>
@@ -21,18 +22,19 @@
                     <ContentView  HeightRequest="{Binding HoursHeigthRequest}" 
                                   BackgroundColor="#9D7AB4" TabIndex="0"
                                   MinimumHeightRequest="{Binding HoursHeigthRequest}" >
-                        <pancakeView:PancakeView Style="{StaticResource card}" Margin="3"  
+                        <pancakeView:PancakeView  Margin="3"  
                                                  BackgroundColor="#E1CEEE" CornerRadius="0"
                                                  Padding="3">
                             <StackLayout >
-                                <Label Text="HORA LIBRE" FontSize="20" TextColor="Black"
+                                <Label Text="HORA LIBRE" FontSize="20" TextColor="{StaticResource DarkTextColor}"
                                        FontAttributes="Bold" VerticalOptions="Center" 
                                        VerticalTextAlignment="Center" HorizontalOptions="Center" 
                                        HorizontalTextAlignment="Center"/>
                                 <Image>
                                     <Image.Source>
                                         <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                                         Glyph="{Binding Icon}" Size="30" Color="Black"/>
+                                                         Glyph="{Binding Icon}" Size="30"
+                                                         Color="{AppThemeBinding Dark={StaticResource  LightTextColor},Light={StaticResource DarkTextColor}}"/>
                                     </Image.Source>
                                 </Image>
                             </StackLayout>
@@ -45,21 +47,22 @@
                     <ContentView  HeightRequest="{Binding HoursHeigthRequest}" 
                                                                       BackgroundColor="{Binding Subject.Color}" TabIndex="0"
                                                                       MinimumHeightRequest="{Binding HoursHeigthRequest}" >
-                        <pancakeView:PancakeView Style="{StaticResource card}" Margin="3"  BackgroundColor="{Binding Subject.Color}"
+                        <pancakeView:PancakeView  Margin="3"  BackgroundColor="{Binding Subject.Color}"
                                                                    Padding="3">
                             <View.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"/>
                             </View.GestureRecognizers>
                             <StackLayout >
-                                <Label FontSize="10" TextColor="Black"
-                                                                           HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
-                                                                           Text="{Binding Subject.Name}"/>
-                                <Label FontSize="10" TextColor="Black"
-                                                                       HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
-                                                                       Text="{Binding Subject.Group}" />
-                                <Label FontSize="8" TextColor="Black"
-                                                                       HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
-                                                                       Text="{Binding  FormattedTime}" />
+                                <Label FontSize="10" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                                       Text="{Binding Subject.Name}" 
+                                       TextColor="{StaticResource DarkTextColor}"/>
+                                <Label FontSize="10" 
+                                       TextColor="{StaticResource DarkTextColor}"
+                                       HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
+                                       Text="{Binding Subject.Group}" />
+                                <Label FontSize="8" HorizontalTextAlignment="Start"  VerticalTextAlignment="Center" 
+                                       TextColor="{StaticResource DarkTextColor}"
+                                       Text="{Binding  FormattedTime}" />
                             </StackLayout>
                         </pancakeView:PancakeView>
                     </ContentView>
@@ -76,7 +79,8 @@
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="scheduleViewModel:SheduleDay">
                                 <ContentView>
-                                    <Label TextColor="Black" FontSize="14" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Binding Day.ShortName}">
+                                    <Label 
+                                           FontSize="14" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Binding Day.ShortName}">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer 
                                                 Command="{Binding OnDayTappedCommand,Source={x:Reference Me}}"
@@ -105,19 +109,19 @@
                                 </BindableLayout.ItemTemplate>
                             </views:UniformGrid>
                         </StackLayout>
-                        <StackLayout Grid.Column="0" BackgroundColor="WhiteSmoke" VerticalOptions="FillAndExpand"  Spacing="0"
+                        <StackLayout Grid.Column="0"  VerticalOptions="FillAndExpand"  Spacing="0"
                                      BindableLayout.ItemsSource="{Binding WeekHours}">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate x:DataType="scheduler:Hour">
                                     <ContentView>
-                                        <Label TextColor="Black"  Margin="0"  HeightRequest="{x:Static scheduler:Hour.HourHeigth}" FontSize="10" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Text="{Binding ShortName}"/>
+                                        <Label   Margin="0"  HeightRequest="{x:Static scheduler:Hour.HourHeigth}" FontSize="10" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Text="{Binding ShortName}"/>
                                     </ContentView>
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
                         </StackLayout>
                         <StackLayout Grid.ColumnSpan="2" InputTransparent="True" CascadeInputTransparent="False">
                             <StackLayout InputTransparent="True" CascadeInputTransparent="False" HeightRequest="{Binding TimeLineOffset}"/>
-                            <BoxView BackgroundColor="Blue" HeightRequest="1"/>
+                            <BoxView BackgroundColor="{StaticResource AccentColor}" HeightRequest="1"/>
                         </StackLayout>
                     </Grid>
                 </ScrollView>

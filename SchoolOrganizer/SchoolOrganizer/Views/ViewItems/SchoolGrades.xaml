@@ -4,38 +4,39 @@
              xmlns:academic="clr-namespace:SchoolOrganizer.Models.Academic;assembly=SchoolOrganizer"
              xmlns:viewModels="clr-namespace:SchoolOrganizer.ViewModels;assembly=SchoolOrganizer"
              x:Class="SchoolOrganizer.Views.ViewItems.SchoolGrades"
-             x:DataType="viewModels:SchoolGradesViewModel">
+             x:DataType="viewModels:SchoolGradesViewModel" Background="{DynamicResource Background}">
     <ContentView.Content>
         <StackLayout Grid.Column="0" Padding="0" Spacing="0" VerticalOptions="StartAndExpand" HorizontalOptions="Start">
             <Grid ColumnDefinitions="50,120,*,*,*,*,*" ColumnSpacing="0" HeightRequest="35" >
-                    <Label Padding="3,0" Text="Grupo" BackgroundColor="{DynamicResource primaryDarkColor}" Grid.Column="0"
-                           TextColor="{DynamicResource secondaryLightColor}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                    <Label Padding="3,0" Text="Materia" BackgroundColor="{DynamicResource primaryDarkColor}" Grid.Column="1" 
-                           TextColor="{DynamicResource secondaryLightColor}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                    <Label Padding="3,5" Text="#1" BackgroundColor="{DynamicResource primaryDarkColor}" Grid.Column="2" 
-                           TextColor="{DynamicResource secondaryLightColor}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                    <Label Padding="3,5" Text="#2" BackgroundColor="{DynamicResource primaryDarkColor}" Grid.Column="3" 
-                           TextColor="{DynamicResource secondaryLightColor}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                    <Label Padding="3,5" Text="#3" BackgroundColor="{DynamicResource primaryDarkColor}" Grid.Column="4" 
-                           TextColor="{DynamicResource secondaryLightColor}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                    <Label Padding="3,5" Text="Ext." BackgroundColor="{DynamicResource primaryDarkColor}" Grid.Column="5" 
-                           TextColor="{DynamicResource secondaryLightColor}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                    <Label Padding="3,5" Text="Final" BackgroundColor="{DynamicResource primaryDarkColor}" Grid.Column="6" 
-                           TextColor="{DynamicResource secondaryLightColor}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    <Label Padding="3,0" Text="Grupo"  Grid.Column="0"
+                            HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    <Label Padding="3,0" Text="Materia"  Grid.Column="1" 
+                            HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    <Label Padding="3,5" Text="#1"  Grid.Column="2" 
+                            HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    <Label Padding="3,5" Text="#2"  Grid.Column="3" 
+                            HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    <Label Padding="3,5" Text="#3"  Grid.Column="4" 
+                            HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    <Label Padding="3,5" Text="Ext."  Grid.Column="5" 
+                            HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    <Label Padding="3,5" Text="Final"  Grid.Column="6" 
+                            HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                 </Grid>
                 <StackLayout>
                     <CollectionView ItemsSource="{Binding Grades}" >
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="academic:SchoolGrade">
-                                <Grid ColumnDefinitions="50,120,*,*,*,*,*" ColumnSpacing="0" BackgroundColor="{Binding Subject.Color}">
-                                    <Label Padding="3,5" Text="{Binding Subject.Group }" TextColor="{DynamicResource primaryDarkColor}" Grid.Column="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                                <Label Padding="3,5" Text="{Binding Subject.Name}" TextColor="{DynamicResource primaryDarkColor}" Grid.Column="1"
-                                       HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                                <Label Padding="3,5" Text="{Binding Grades[0].Score}" TextColor="{DynamicResource primaryDarkColor}" Grid.Column="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                                <Label Padding="3,5" Text="{Binding Grades[1].Score}" TextColor="{DynamicResource primaryDarkColor}" Grid.Column="3" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                                <Label Padding="3,5" Text="{Binding Grades[2].Score}" TextColor="{DynamicResource primaryDarkColor}" Grid.Column="4" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                                <Label Padding="3,5" Text="{Binding Grades[3].Score}" TextColor="{DynamicResource primaryDarkColor}" Grid.Column="5" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                                <Label Padding="3,5" Text="{Binding Grades[4].Score}" TextColor="{DynamicResource primaryDarkColor}" Grid.Column="6"  HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                <Grid ColumnDefinitions="50,120,*,*,*,*,*" ColumnSpacing="0" 
+                                      BackgroundColor="{Binding Subject.Color}">
+                                <Label Padding="3,5" Text="{Binding Subject.Group }"  Grid.Column="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="{StaticResource DarkTextColor}"/>
+                                <Label Padding="3,5" Text="{Binding Subject.Name}"  Grid.Column="1"
+                                       HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="{StaticResource DarkTextColor}"/>
+                                <Label Padding="3,5" Text="{Binding Grades[0].Score}"  Grid.Column="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="{StaticResource DarkTextColor}"/>
+                                <Label Padding="3,5" Text="{Binding Grades[1].Score}"  Grid.Column="3" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="{StaticResource DarkTextColor}"/>
+                                <Label Padding="3,5" Text="{Binding Grades[2].Score}"  Grid.Column="4" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="{StaticResource DarkTextColor}"/>
+                                <Label Padding="3,5" Text="{Binding Grades[3].Score}"  Grid.Column="5" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="{StaticResource DarkTextColor}"/>
+                                <Label Padding="3,5" Text="{Binding Grades[4].Score}"  Grid.Column="6"  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="{StaticResource DarkTextColor}"/>
                                 </Grid>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>

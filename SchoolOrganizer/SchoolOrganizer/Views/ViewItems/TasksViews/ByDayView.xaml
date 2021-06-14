@@ -23,7 +23,7 @@
                                                    TextColor="{DynamicResource secondaryTextColor}"/>
                             </StackLayout>
                             <BoxView Grid.Column="2" Background="LightGray"/>
-                            <Label Grid.Column="3" Text="{Binding Tareas,StringFormat='{0} tareas para hoy.'}" FontSize="Large" TextColor="{DynamicResource secondaryTextColor} " 
+                            <Label Grid.Column="3" Text="{Binding Tareas,StringFormat='{0} tareas.'}" FontSize="Large" TextColor="{DynamicResource secondaryTextColor} " 
                                                VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  Margin="5" FontAttributes="Italic" />
                         </Grid>
                     </views:Expander.Header>

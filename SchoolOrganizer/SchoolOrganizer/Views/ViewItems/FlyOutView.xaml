@@ -14,10 +14,10 @@
         <viewItems:FlyOutViewModel x:Name="Model"/>
     </ContentView.BindingContext>
     <ContentView.Content>
-        <StackLayout >
+        <StackLayout         BackgroundColor="{StaticResource Primary}" >
             <Grid BindingContext="{Binding User, Source={x:Static data1:AppData.Instance}}" 
                   x:DataType="data:User" Margin="10,0,0,0"
-                  ColumnDefinitions="Auto,*" Padding="10" >
+                  ColumnDefinitions="Auto,*" Padding="10">
 
                 <pancakeView:PancakeView Padding="1" 
                                          BackgroundColor="Transparent"
@@ -38,7 +38,7 @@
 
             </Grid>
 
-            <TableView Intent="Menu">
+            <TableView Intent="Menu" Background="{DynamicResource SecondaryBackground}">
                 <TableRoot>
                     <TableSection Title="Menú"  TextColor="{StaticResource AccentColor}">
                         <ViewCell>

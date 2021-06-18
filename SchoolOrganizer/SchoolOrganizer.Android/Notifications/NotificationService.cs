@@ -23,6 +23,11 @@ namespace SchoolOrganizer.Droid.Notifications
     [IntentFilter(new[] { ".NotificationService" })]
     public class NotificationService : Service
     {
+        public override ComponentName? StartForegroundService(Intent? service)
+        {
+            return base.StartForegroundService(service);
+        }
+
         public override IBinder? OnBind(Intent? intent) => null;
         public override StartCommandResult OnStartCommand(Intent? intent, StartCommandFlags flags, int startId)
         {

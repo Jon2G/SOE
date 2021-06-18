@@ -46,16 +46,18 @@ namespace SchoolOrganizer.Droid.Notifications
 
             try
             {
-                if (Build.VERSION.SdkInt < BuildVersionCodes.Q)
+                //if (Build.VERSION.SdkInt < BuildVersionCodes.Q)
+                //{
+                if (!context.IsServiceRunning(typeof(NotificationService)))
                 {
                     context.StartService(new Intent(context, typeof(NotificationService)));
+                }
+                //}
+                //else
+                //{
+                //    context.StartForegroundService(new Intent(context, typeof(NotificationService)));
+                //}
 
-                }
-                else
-                {
-                    context.StartForegroundService(new Intent(context, typeof(NotificationService)));
-                }
-           
             }
             catch (Exception)
             {
@@ -63,6 +65,7 @@ namespace SchoolOrganizer.Droid.Notifications
                 chanel?.Notify("OnReceive", $"{intent?.Action}");
             }
         }
+
 
         internal static void ProgramFor(Bundle extras, DateTime date, Context context, int requestId)
         {

@@ -5,6 +5,7 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Kit;
+using Kit.Droid;
 using PanCardView.Droid;
 using Plugin.CurrentActivity;
 using Plugin.Fingerprint;
@@ -40,10 +41,7 @@ namespace SchoolOrganizer.Droid.Activities
 
         protected override async void OnCreate(Bundle savedInstanceState)
         {
-
-           
-
-            if (!IsServiceRunning(typeof(NotificationService)))
+            if (!this.IsServiceRunning(typeof(NotificationService)))
             {
                 if (Build.VERSION.SdkInt < BuildVersionCodes.Q)
                 {

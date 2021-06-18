@@ -37,10 +37,10 @@ namespace SchoolOrganizer.Models.TaskFirst
         {
             SubjectGroups.Clear();
             SubjectGroups.AddRange(AppData.Instance.LiteConnection.Lista<int>(
-                    $"SELECT Distinct {nameof(ToDo.SubjectId)} from {nameof(ToDo)} where {nameof(ToDo.Date)}={this.FDateTime.Ticks}")
+                    $"SELECT Distinct {nameof(ToDo.SubjectId)} from {nameof(ToDo)}")
                 .Select(x => new BySubjectGroup(Subject.Get(x))));
-            //???????????????????????
-            
+            //??????????????????????? le movi aqui where {nameof(ToDo.Date)}<{this.FDateTime.Ticks}
+
             foreach (var group in this.SubjectGroups)
             {
                 group.Refresh(this.FDateTime);

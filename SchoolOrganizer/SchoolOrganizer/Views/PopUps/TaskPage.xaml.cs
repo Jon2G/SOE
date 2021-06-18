@@ -24,7 +24,7 @@ namespace SchoolOrganizer.Views.PopUps
         {
 
             InitializeComponent();
-            DatePick.MinimumDate = DateTime.Now;
+            //DatePick.MinimumDate = DateTime.Now;
 
         }
         public TaskPage(ToDo toDo)

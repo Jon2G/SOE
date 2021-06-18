@@ -17,8 +17,8 @@
 
             <Color x:Key="PrimaryDarkColor">#0d0d33</Color>
             <Color x:Key="PrimaryLightColor">#102e6c</Color>
-           
-           
+
+
 
             <Color x:Key="SecondaryColor">#04d6be</Color>
             <Color x:Key="SecondaryDarkColor">#00766c</Color>

@@ -29,7 +29,7 @@
     <ContentPage>
         <ContentPage.Content>
             <Grid Margin="25"  VerticalOptions="FillAndExpand" Background="#0d0d33">
-                <Grid BackgroundColor="Black" Opacity=".2"></Grid>
+                <Grid ></Grid>
                 <Grid Padding="15">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="20*"/>
@@ -45,7 +45,7 @@
     <ContentPage>
         <ContentPage.Content>
             <Grid Margin="25"  VerticalOptions="FillAndExpand" Background="#0d0d33">
-                <Grid BackgroundColor="Black" Opacity=".2"></Grid>
+                <Grid ></Grid>
                 <Grid Padding="15">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="20*"/>
@@ -61,7 +61,7 @@
     <ContentPage>
         <ContentPage.Content>
             <Grid Margin="25"  VerticalOptions="FillAndExpand" Background="#0d0d33">
-                <Grid BackgroundColor="Black" Opacity=".2"></Grid>
+                <Grid ></Grid>
                 <Grid Padding="15">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="20*"/>

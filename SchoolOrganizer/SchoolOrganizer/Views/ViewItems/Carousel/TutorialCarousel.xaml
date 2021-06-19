@@ -2,13 +2,13 @@
 <CarouselPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Shell.NavBarIsVisible="False"
-              xmlns:tool="http://xamarin.com/schemas/2020/toolkit"
-             x:Class="SchoolOrganizer.Views.ViewItems.TutorialCarousel"
+              xmlns:tool="http://xamarin.com/schemas/2020/toolkit" xmlns:viewItems="clr-namespace:SchoolOrganizer.ViewModels.Pages"
+              x:Class="SchoolOrganizer.Views.ViewItems.TutorialCarousel"
                Background="#0d0d33">
-    <ContentPage>
+    <ContentPage   Background="#0d0d33">
         <ContentPage.Content>
             <Grid Margin="25"  VerticalOptions="FillAndExpand" Background="#0d0d33">
-                <Grid BackgroundColor="Black" Opacity=".2"></Grid>
+                <Grid ></Grid>
                 <Grid Padding="15">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -26,7 +26,7 @@
         </ContentPage.Content>
     </ContentPage>
 
-    <ContentPage>
+    <ContentPage   Background="#0d0d33">
         <ContentPage.Content>
             <Grid Margin="25"  VerticalOptions="FillAndExpand" Background="#0d0d33">
                 <Grid ></Grid>
@@ -42,7 +42,7 @@
         </ContentPage.Content>
     </ContentPage>
 
-    <ContentPage>
+    <ContentPage   Background="#0d0d33">
         <ContentPage.Content>
             <Grid Margin="25"  VerticalOptions="FillAndExpand" Background="#0d0d33">
                 <Grid ></Grid>
@@ -58,17 +58,25 @@
         </ContentPage.Content>
     </ContentPage>
 
-    <ContentPage>
+    <ContentPage   Background="#0d0d33">
+        <ContentPage.BindingContext>
+            <viewItems:SettingsViewModel x:Name="Model"/>
+        </ContentPage.BindingContext>
         <ContentPage.Content>
             <Grid Margin="25"  VerticalOptions="FillAndExpand" Background="#0d0d33">
                 <Grid ></Grid>
                 <Grid Padding="15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60*"/>
+                        <ColumnDefinition Width="50*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="20*"/>
                         <RowDefinition Height="80*"/>
                     </Grid.RowDefinitions>
-                    <Label Text="Consulta tus calificaciones dentro de la aplicación" Grid.Row="0" TextColor="White" FontSize="30" FontAttributes="Bold"/>
-                    <tool:MediaElement Grid.Row="1"  Source="ms-appx:///calificaciones.mp4" HeightRequest="800" WidthRequest="400"   ShowsPlaybackControls="False" AutoPlay="True" Volume="0" IsLooping="True" />
+                    <Label Text="Consulta tus calificaciones dentro de la aplicación" Grid.Row="0" TextColor="White" FontSize="25" FontAttributes="Bold"/>
+                    <tool:MediaElement Grid.Row="1" Grid.ColumnSpan="2"  Source="ms-appx:///calificaciones.mp4" HeightRequest="800" WidthRequest="400"   ShowsPlaybackControls="False" AutoPlay="True" Volume="0" IsLooping="True" />
+                    <Button Grid.Row="0" Grid.Column="1" Margin="5" VerticalOptions="StartAndExpand" BackgroundColor="Transparent" BorderColor="White" BorderWidth="1" Text="Comenzar!!!" TextColor="White" Command="{Binding TutorialCommand}"/>
                 </Grid>
             </Grid>
         </ContentPage.Content>

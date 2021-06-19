@@ -39,6 +39,16 @@ namespace SchoolOrganizer.Models.Data
                 Raise(() => IsFingerPrintActive);
             }
         }
+        //private bool _IsTutorialActive;
+        //public bool IsTutorialActive
+        //{
+        //    get => _IsTutorialActive;
+        //    set
+        //    {
+        //        _IsTutorialActive = value;
+        //        Raise(() => IsTutorialActive);
+        //    }
+        //}
 
         public Settings()
         {

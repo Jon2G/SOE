@@ -8,6 +8,7 @@ using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Data;
 using SchoolOrganizer.ViewModels.Pages;
 using SchoolOrganizer.Views.PopUps;
+using SchoolOrganizer.Views.ViewItems;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -74,6 +75,7 @@ namespace SchoolOrganizer.Views.Pages
             else
             {
                 App.Current.MainPage = new LoginPage();
+                
             }
         }
 
@@ -88,6 +90,13 @@ namespace SchoolOrganizer.Views.Pages
         private void GotoApp(User user, Settings settings)
         {
             AppData.Instance.User = user;
+            //if (settings.IsTutorialActive)
+            //{
+            //    App.Current.MainPage = new AppShell();
+            //}else
+            //{
+            //    App.Current.MainPage = new TutorialCarousel();
+            //}
             App.Current.MainPage = new AppShell();
             settings.Notifications();
         }

@@ -10,11 +10,13 @@ using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Data;
 using SchoolOrganizer.Saes;
 using SkiaSharp.Views.Forms;
+using SchoolOrganizer.Views.ViewItems;
 
 namespace SchoolOrganizer.ViewModels.Pages
 {
     public class LoginViewModel : BaseViewModel
     {
+        
         private User _User;
         public User User
         {
@@ -64,6 +66,7 @@ namespace SchoolOrganizer.ViewModels.Pages
             LoginCommand = new Command<LoginViewModel>(LoginRequested, LoginCanExecute);
             FingerCommand = new Command(FingerClicked);
             OnLoginSuccess = new Command(LoginSuccess);
+         
 
         }
 
@@ -94,7 +97,7 @@ namespace SchoolOrganizer.ViewModels.Pages
                 Acr.UserDialogs.UserDialogs.Instance.Alert($"Hemos notado que es tu primer inicio de sesión, te damos la bienvenida.", $"!Bienvenido,{AppData.Instance.User.Name}¡", "Vamos allá");
             }
             AppData.Instance.LiteConnection.InsertOrReplace(this.User);
-            Application.Current.MainPage = new AppShell();
+            Application.Current.MainPage = new TutorialCarousel();
         }
 
         private bool LoginCanExecute(object arg)

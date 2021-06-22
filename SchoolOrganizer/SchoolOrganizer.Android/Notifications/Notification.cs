@@ -70,7 +70,7 @@ namespace SchoolOrganizer.Droid.Notifications
 #pragma warning restore CS0618 // Type or member is obsolete
             }
             builder
-                .SetSmallIcon(Resource.Drawable.xamagonblue)
+                .SetSmallIcon(Resource.Drawable.logo_soe_fill)
                 .SetContentTitle(this.Title)
                 .SetContentText(this.Content)
                 .SetStyle(new NotificationCompat.BigTextStyle()

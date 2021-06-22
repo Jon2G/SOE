@@ -6,7 +6,7 @@
   </item>
 
   <item>
-    <bitmap android:src="@drawable/logo"
+    <bitmap android:src="@drawable/logo_soe"
             android:tileMode="disabled"
             android:gravity="center"/>
 

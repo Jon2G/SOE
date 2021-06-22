@@ -2,6 +2,7 @@
 using System.Security;
 using System.Threading.Tasks;
 using Kit;
+using Kit.Forms.Extensions;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 using SchoolOrganizer.Data;
@@ -17,6 +18,17 @@ namespace SchoolOrganizer.Views.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SplashScreen : ContentPage
     {
+        private string _Status;
+
+        public string Status
+        {
+            get => _Status;
+            set
+            {
+                _Status = value;
+                OnPropertyChanged();
+            }
+        }
 
         public SplashScreen()
         {
@@ -25,7 +37,9 @@ namespace SchoolOrganizer.Views.Pages
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await Task.Run(() => { while (Logo.IsLoading) { } });
+            await Task.Run(() => { while (ImgLogo.IsLoading) { } });
+            SetStatus("Comprobando permisos de escritura...");
+            await Permisos.RequestStorage();
             AppData.Init();
             User user = User.Get();
             Settings settings = new Settings();
@@ -33,7 +47,6 @@ namespace SchoolOrganizer.Views.Pages
             {
                 settings = user.GetSettings();
             }
-
             if (user != null)
             {
                 if (settings.IsFingerPrintActive)
@@ -74,29 +87,36 @@ namespace SchoolOrganizer.Views.Pages
             }
             else
             {
-                App.Current.MainPage = new LoginPage();
-                
+                App.Current.MainPage = new WalkthroughPage();
+
             }
         }
 
         private async void GotoManualLogin(User user, Settings settings)
         {
             var a = new LoginPopUp();
-               await a.LockModal()
-                .ShowDialog();
+            await a.LockModal()
+             .ShowDialog();
             GotoApp(user, settings);
         }
-
+        public void SetStatus(string NewStatus)
+        {
+            try
+            {
+                this.Status = NewStatus;
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Error(ex, "Al establecer el progreso en SpashScreen");
+            }
+        }
+        private async void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
+        {
+            await Acr.UserDialogs.UserDialogs.Instance.AlertAsync((sender as Label).Text);
+        }
         private void GotoApp(User user, Settings settings)
         {
             AppData.Instance.User = user;
-            //if (settings.IsTutorialActive)
-            //{
-            //    App.Current.MainPage = new AppShell();
-            //}else
-            //{
-            //    App.Current.MainPage = new TutorialCarousel();
-            //}
             App.Current.MainPage = new AppShell();
             settings.Notifications();
         }

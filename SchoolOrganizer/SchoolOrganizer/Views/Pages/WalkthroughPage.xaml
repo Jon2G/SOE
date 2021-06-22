@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CarouselPage xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              Shell.NavBarIsVisible="False"
+              xmlns:tool="http://xamarin.com/schemas/2020/toolkit" 
+              xmlns:viewItems="clr-namespace:SchoolOrganizer.ViewModels.Pages"
+              x:Class="SchoolOrganizer.Views.Pages.WalkthroughPage"
+              x:DataType="viewItems:WalkthroughPageViewModel">
+    <CarouselPage.BindingContext>
+        <viewItems:WalkthroughPageViewModel/>
+    </CarouselPage.BindingContext>
+    <CarouselPage.Resources>
+        <Style TargetType="ContentPage">
+            <Setter Property="BackgroundColor" Value="#0d0d33"/>
+            <Setter Property="Padding" Value="10"/>
+        </Style>
+    </CarouselPage.Resources>
+    <ContentPage>
+        <StackLayout VerticalOptions="FillAndExpand">
+            <StackLayout VerticalOptions="CenterAndExpand">
+                <Label Text="Bienvenido a la comunidad de  SOE" 
+                       Margin="20,0"  TextColor="White" FontSize="40" FontAttributes="Bold"/>
+                <Image Source="logo_soe.png" 
+                       HeightRequest="150" Aspect="AspectFit" VerticalOptions="StartAndExpand" />
+            </StackLayout>
+            <Label 
+                TextColor="White" FontSize="20" FontAttributes="Bold" >
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Estamos aquí para ayudarte."/>
+                        <Span Text="&#x0a;"/>
+                        <Span Text="¡Veamos todo lo que puedes hacer!"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        </StackLayout>
+    </ContentPage>
+
+    <ContentPage>
+        <tool:DockLayout VerticalOptions="FillAndExpand" >
+            <Label tool:DockLayout.Dock="Top" Text="Seguimiento de tareas pendientes" VerticalOptions="Start" 
+                   TextColor="White" FontSize="40" FontAttributes="Bold" Margin="20,10"/>
+            <tool:MediaElement  tool:DockLayout.Dock="Bottom"  Source="ms-appx:///tareas.mp4" 
+                                VerticalOptions="FillAndExpand" HeightRequest="800" 
+                                ShowsPlaybackControls="False" AutoPlay="True" Volume="0" IsLooping="True" />
+        </tool:DockLayout>
+    </ContentPage>
+
+    <ContentPage>
+        <tool:DockLayout VerticalOptions="FillAndExpand">
+            <Label tool:DockLayout.Dock="Top" Text="Horario escolar" VerticalOptions="Start" 
+                   TextColor="White" FontSize="40" FontAttributes="Bold" Margin="20"/>
+            <tool:MediaElement  tool:DockLayout.Dock="Bottom"  Source="ms-appx:///horario.mp4" 
+                                VerticalOptions="FillAndExpand" HeightRequest="800" Margin="20"
+                                ShowsPlaybackControls="False" AutoPlay="True" Volume="0" IsLooping="True" />
+        </tool:DockLayout>
+    </ContentPage>
+    <ContentPage>
+        <tool:DockLayout VerticalOptions="FillAndExpand">
+            <Label tool:DockLayout.Dock="Top" Text="Consulta tus calificaciones" VerticalOptions="Start" 
+                   TextColor="White" FontSize="40" FontAttributes="Bold" Margin="20,10"/>
+            <tool:MediaElement  tool:DockLayout.Dock="Bottom"  Source="ms-appx:///calificaciones.mp4" 
+                                VerticalOptions="FillAndExpand" HeightRequest="800" Margin="20"
+                                ShowsPlaybackControls="False" AutoPlay="True" Volume="0" IsLooping="True" />
+        </tool:DockLayout>
+    </ContentPage>
+    <ContentPage>
+        <StackLayout VerticalOptions="Center">
+            <Image Source="logo_soe" 
+                   HeightRequest="150" Aspect="AspectFit" VerticalOptions="StartAndExpand" />
+            <Button Text="Comenzar" Margin="10"
+                    Command="{Binding ContinueCommand}" />
+        </StackLayout>
+    </ContentPage>
+</CarouselPage>

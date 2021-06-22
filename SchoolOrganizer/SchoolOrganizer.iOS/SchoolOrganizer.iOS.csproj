@@ -169,10 +169,6 @@
       <IsAppExtension>false</IsAppExtension>
       <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
-    <ProjectReference Include="..\SchoolOrganizer\SchoolOrganizer.csproj">
-      <Project>{20CCEA58-74B4-41B0-9E9E-22B7B328C798}</Project>
-      <Name>SchoolOrganizer</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\Images\icon.png">

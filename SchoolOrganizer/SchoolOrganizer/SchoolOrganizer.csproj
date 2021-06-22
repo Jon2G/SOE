@@ -41,6 +41,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Kit\Kit.Forms\Kit.Forms.csproj" />
     <ProjectReference Include="..\..\..\..\Kit\Kit\Kit.csproj" />
+    <ProjectReference Include="..\..\APIModels\APIModels.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,9 +52,6 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Controls\FilterMenu.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Saes\SchoolLevelSelector.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Saes\SchoolSelector.xaml">
@@ -146,7 +144,7 @@
     <EmbeddedResource Update="Views\ViewItems\FlyOutView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ViewItems\Carousel\TutorialCarousel.xaml">
+    <EmbeddedResource Update="Views\Pages\WalkthroughPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
@@ -157,6 +155,9 @@
     </Compile>
     <Compile Update="Views\ViewItems\CardViews\DateTimeView.xaml.cs">
       <DependentUpon>DateTimeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Pages\WalkthroughPage.xaml.cs">
+      <DependentUpon>WalkthroughPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\ViewItems\ScheduleView\ScheduleMain.xaml.cs">
       <DependentUpon>ScheduleMain.xaml</DependentUpon>

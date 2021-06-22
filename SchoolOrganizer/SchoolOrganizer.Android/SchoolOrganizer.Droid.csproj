@@ -17,7 +17,7 @@
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidUseAapt2>true</AndroidUseAapt2>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
@@ -142,16 +142,6 @@
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\mipmap-anydpi-v26\icon.xml" />
     <AndroidResource Include="Resources\mipmap-anydpi-v26\icon_round.xml" />
-    <AndroidResource Include="Resources\mipmap-hdpi\icon.png" />
-    <AndroidResource Include="Resources\mipmap-hdpi\launcher_foreground.png" />
-    <AndroidResource Include="Resources\mipmap-mdpi\icon.png" />
-    <AndroidResource Include="Resources\mipmap-mdpi\launcher_foreground.png" />
-    <AndroidResource Include="Resources\mipmap-xhdpi\icon.png" />
-    <AndroidResource Include="Resources\mipmap-xhdpi\launcher_foreground.png" />
-    <AndroidResource Include="Resources\mipmap-xxhdpi\icon.png" />
-    <AndroidResource Include="Resources\mipmap-xxhdpi\launcher_foreground.png" />
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Kit\Kit.Droid\Kit.Droid.csproj">
@@ -167,7 +157,7 @@
       <Name>Kit</Name>
     </ProjectReference>
     <ProjectReference Include="..\SchoolOrganizer\SchoolOrganizer.csproj">
-      <Project>{20CCEA58-74B4-41B0-9E9E-22B7B328C798}</Project>
+      <Project>{20ccea58-74b4-41b0-9e9e-22b7b328c798}</Project>
       <Name>SchoolOrganizer</Name>
     </ProjectReference>
   </ItemGroup>
@@ -175,18 +165,13 @@
     <AndroidResource Include="Resources\layout\widget_timetable_subject.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="..\Images\icon.png">
-      <Link>Resources\drawable\icon.png</Link>
+    <AndroidResource Include="..\Images\logo_soe.png">
+      <Link>Resources\drawable\logo_soe.png</Link>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="..\Images\logo.jpeg">
-      <Link>Resources\drawable\logo.jpeg</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\Images\xamarin_logo.png">
-      <Link>Resources\drawable\xamarin_logo.png</Link>
+    <AndroidResource Include="..\Images\logo_soe_fill.png">
+      <Link>Resources\drawable\logo_soe_fill.png</Link>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
@@ -200,23 +185,8 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="..\Images\strong_donkey.jpg">
-      <Link>Resources\drawable\strong_donkey.jpg</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\Images\happy_donkey.jpg">
-      <Link>Resources\drawable\happy_donkey.jpg</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="..\Images\outer_circle.png">
       <Link>Resources\drawable\outer_circle.png</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\Images\xamagonblue.png">
-      <Link>Resources\drawable\xamagonblue.png</Link>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
@@ -259,9 +229,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\LogoSOE.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\raw\tareas.mp4" />
   </ItemGroup>
   <ItemGroup>
@@ -269,6 +236,22 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\raw\calificaciones.mp4" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>

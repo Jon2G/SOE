@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using APIModels;
 using HtmlAgilityPack;
 using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Academic;
@@ -60,17 +61,8 @@ namespace SchoolOrganizer.Saes
             this.School = School;
             this.Navigated += Browser_Navigated;
             this.NavigationQueue = new Queue<NavigationRequest>();
-            Init();
-        }
-
-        private async void Init()
-        {
-            NavigateAsync();
-            if (this.School.IsSchoolSelected)
-                await GoTo(this.School.HomePage);
 
         }
-      
 
         protected override void OnParentSet()
         {
@@ -236,17 +228,18 @@ namespace SchoolOrganizer.Saes
             await GoTo(School.HomePage);
 
         }
-        public async Task<bool> LogIn(LoginViewModel login, bool ShouldGetUserData = true)
+        public async Task<bool> LogIn(User user, string captcha,int AttemptCount, bool ShouldGetUserData = true)
         {
-            if (login.AttemptCount++ < 3)
+            if (AttemptCount < 3)
             {
                 Regex regex = new Regex("[\"\\\\]");
-                string Password = regex.Replace(login.User.Password, "\\");
+                string Password = regex.Replace(user.Password, "\\");
                 //binding.captchaDisplayer.visibility = View.GONE
                 await this.EvaluateJavaScriptAsync(
-                    $"document.getElementById('ctl00_leftColumn_LoginUser_UserName').value = '{login.User.Boleta}';" +
-                    $"document.getElementById('ctl00_leftColumn_LoginUser_Password').value = '{Password}';" +
-                    $"document.getElementById('ctl00_leftColumn_LoginUser_CaptchaCodeTextBox').value ='{login.Captcha}';");
+                    $"document.getElementById('ctl00_leftColumn_LoginUser_UserName').value = '{user.Boleta}';" +
+                    $"document.getElementById('ctl00_leftColumn_LoginUser_Password').value = '{user.Password}';" +
+                    $"document.getElementById('ctl00_leftColumn_LoginUser_CaptchaCodeTextBox').value ='{captcha}';"
+                    );
                 await Task.Delay(100);
                 await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_leftColumn_LoginUser_LoginButton').click();");
                 await Task.Delay(TimeSpan.FromSeconds(2));
@@ -254,7 +247,7 @@ namespace SchoolOrganizer.Saes
                 if (await IsLoggedIn())
                 {
                     if (ShouldGetUserData)
-                        await GetUserData(login.User);
+                        await GetUserData(user);
                     return true;
                 }
             }
@@ -278,7 +271,7 @@ namespace SchoolOrganizer.Saes
             await GetSchoolGrades();
             AppData.Instance.LiteConnection.InsertOrReplace(AppData.Instance.User);
         }
-        private async Task GetName()
+        public async Task GetName()
         {
             await GoTo(AlumnosPage);
             AppData.Instance.User.Name = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_FormView1_nombrelabel').innerHTML;");
@@ -523,30 +516,6 @@ namespace SchoolOrganizer.Saes
             return
                 await this.EvaluateJavaScriptAsync(script);
         }
-        public async Task<IEnumerable<School>> GetSchools(SchoolLevel Level)
-        {
-            List<School> schools = new List<School>();
-            await GoTo(Level == SchoolLevel.University ? UniversitiesPage : HighSchoolsPage);
-            string html = await _EvaluateJavaScriptAsync(
-                "document.getElementById(\"botones_esc\").outerHTML;");
-            Unescape(ref html);
-            if (!string.IsNullOrEmpty(html))
-            {
-                HtmlAgilityPack.HtmlDocument doc = GetHtmlDoc(html);
-                var ul = doc.DocumentNode.SelectSingleNode("//ul");
-                var lis = ul.Descendants("li");
-                foreach (var li in lis)
-                {
-                    var a = li.Descendants("a").First();
-                    var img = a.Descendants("img").First();
-                    schools.Add(new School(a.Attributes["href"].Value, img.Attributes["alt"].Value.Trim(),
-                        SaesHomePage + "/" + img.Attributes["src"].Value.Trim()));
-                }
-            }
-            return schools;
-        }
-
-
 
     }
 }

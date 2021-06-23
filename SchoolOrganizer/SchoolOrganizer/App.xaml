@@ -29,11 +29,16 @@
             <Color x:Key="BackgroundSecondaryLightColor">WhiteSmoke</Color>
             <Color x:Key="BackgroundSecondaryDarkColor">#2A2B2C</Color>
 
+            <Color x:Key="BackgroundTertiaryLightColor">FloralWhite</Color>
+            <Color x:Key="BackgroundTertiaryDarkColor">#393A3B</Color>
+
             <Color x:Key="BackgroundLightColor">White</Color>
             <Color x:Key="BackgroundDarkColor">#161A1C</Color>
 
             <Color x:Key="DisabledDarkAccentColor">#335E8DB3</Color>
             <Color x:Key="DisabledLightAccentColor">#332196F3</Color>
+
+
 
             <!--Colores para materias-->
             <Color x:Key="SubjectColor_1">#fff2cc</Color>
@@ -55,6 +60,8 @@
                              Color="{AppThemeBinding Dark={StaticResource BackgroundDarkColor},Light={StaticResource BackgroundLightColor}}"/>
             <SolidColorBrush x:Key="SecondaryBackground"
                              Color="{AppThemeBinding Dark={StaticResource BackgroundSecondaryDarkColor},Light={StaticResource BackgroundSecondaryLightColor}}"/>
+            <SolidColorBrush x:Key="TertiaryBackground"
+                             Color="{AppThemeBinding Dark={StaticResource BackgroundTertiaryDarkColor},Light={StaticResource BackgroundTertiaryLightColor}}"/>
             <SolidColorBrush x:Key="PrimaryColor"
                              Color="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"/>
             <SolidColorBrush x:Key="SecondaryColorBrush"
@@ -105,11 +112,16 @@
                 </Setter>
             </Style>
             <Style TargetType="renders:NoLineEntry">
-                <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource BackgroundSecondaryDarkColor},Light={StaticResource BackgroundSecondaryLightColor}}" />
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource BackgroundTertiaryDarkColor},Light={StaticResource BackgroundTertiaryLightColor}}" />
                 <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource  BackgroundSecondaryDarkColor},Dark={StaticResource BackgroundSecondaryLightColor}}"/>
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource  DarkTextColor},Dark={StaticResource LightTextColor}}"/>
             </Style>
             <Style TargetType="Entry">
+                <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource  BackgroundSecondaryDarkColor},Dark={StaticResource BackgroundSecondaryLightColor}}"/>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource BackgroundSecondaryDarkColor},Light={StaticResource BackgroundSecondaryLightColor}}" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource  DarkTextColor},Dark={StaticResource LightTextColor}}"/>
+            </Style>
+            <Style TargetType="SearchBar">
                 <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource  BackgroundSecondaryDarkColor},Dark={StaticResource BackgroundSecondaryLightColor}}"/>
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource BackgroundSecondaryDarkColor},Light={StaticResource BackgroundSecondaryLightColor}}" />
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource  DarkTextColor},Dark={StaticResource LightTextColor}}"/>

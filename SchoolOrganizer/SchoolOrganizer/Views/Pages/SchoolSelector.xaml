@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:saes="clr-namespace:SchoolOrganizer.Saes;assembly=SchoolOrganizer"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:views="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:forms1="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:apiModels="clr-namespace:APIModels;assembly=APIModels"
+             x:Name="Me"
+             x:Class="SchoolOrganizer.Saes.SchoolSelector"
+             x:DataType="saes:SchoolSelectorViewModel">
+    <ContentPage.BindingContext>
+        <saes:SchoolSelectorViewModel x:Name="Model"/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <Grid>
+            <ContentView IsVisible="True" Background="{DynamicResource Background}">
+                <pancakeView:PancakeView 
+                    CornerRadius="10" 
+                Padding="10" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
+                Margin="20,10">
+                    <StackLayout>
+                        <Label Text="Selecciona tu escuela" HorizontalOptions="Center" FontSize="20" FontAttributes="Bold" />
+                        <SearchBar Placeholder="Buscar mi escuela" x:Name="SearchBar">
+                            <SearchBar.Behaviors>
+                                <views:EventToCommandBehavior
+                                    EventName="TextChanged" 
+                                    Command="{Binding TextChangedCommand}"
+                                    CommandParameter="{Binding Text,Source={x:Reference SearchBar}}"/>
+                            </SearchBar.Behaviors>
+                        </SearchBar>
+                        <CollectionView  ItemsSource="{Binding SchoolSearch}">
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout Orientation="Vertical" Span="1" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="apiModels:School">
+                                    <ContentView HorizontalOptions="Center">
+                                        <pancakeView:PancakeView Margin="5" IsClippedToBounds="True"  Padding="0">
+                                            <pancakeView:PancakeView.GestureRecognizers>
+                                                <TapGestureRecognizer 
+                                                    Command="{Binding SelectSchoolCommand ,Source={x:Reference Model}}"
+                                                    CommandParameter="{Binding .}"/>
+                                            </pancakeView:PancakeView.GestureRecognizers>
+                                            <StackLayout Orientation="Horizontal">
+                                                <forms1:CachedImage Aspect="AspectFit" Source="{Binding ImgPath}" HeightRequest="70"/>
+                                                <Label VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="20" FontAttributes="Bold" Text="{Binding Name}"/>
+                                            </StackLayout>
+                                        </pancakeView:PancakeView>
+                                    </ContentView>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                    </StackLayout>
+                </pancakeView:PancakeView>
+            </ContentView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

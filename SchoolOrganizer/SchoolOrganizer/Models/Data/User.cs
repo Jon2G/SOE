@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using APIModels;
 using Kit;
 using Kit.Model;
 using Kit.Sql.Attributes;
@@ -21,27 +22,14 @@ namespace SchoolOrganizer.Models.Data
 
         private string _Name;
         private string _Career;
+        private string _Email;
+
         [PrimaryKey, MaxLength(10)]
         public string Boleta { get => _Boleta; set { _Boleta = value; Raise(() => Boleta); } }
         public string Password { get => _Password; set { _Password = value; Raise(() => Password); } }
         [Ignore]
         public School School { get; set; }
-        public string HomePage
-        {
-            get => School?.HomePage;
-            set
-            {
-                if (School is null)
-                {
-                    School = new School(value, String.Empty, String.Empty);
-                }
-                else
-                {
-                    School.HomePage = value;
-                }
 
-            }
-        }
 
 
         public string Career
@@ -53,6 +41,16 @@ namespace SchoolOrganizer.Models.Data
                 Raise(() => Career);
             }
         }
+        public string Email
+        {
+            get => _Email;
+            set
+            {
+                _Email = value;
+                Raise(() => Email);
+            }
+        }
+        
 
         private Settings _Settings;
         [Ignore]

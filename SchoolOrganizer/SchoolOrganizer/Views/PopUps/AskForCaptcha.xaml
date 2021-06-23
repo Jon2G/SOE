@@ -13,10 +13,10 @@
                                  HorizontalOptions="CenterAndExpand" WidthRequest="250" Padding="20">
             <StackLayout>
                 <Label Text="Debes ingresar el captcha primero." FontSize="20" />
-                <Image Source="{Binding CaptchaImg}" HeightRequest="120" />
+                <!--<Image Source="{Binding CaptchaImg}" HeightRequest="120" />
 
                 <Entry Completed="Button_OnClicked"  IsPassword="False" Text="{Binding Captcha}"
-                       Placeholder="Captcha" Margin="0,10"/>
+                       Placeholder="Captcha" Margin="0,10"/>-->
                 <Button Text="¡Listo!" Clicked="Button_OnClicked"/>
             </StackLayout>
         </pancakeView:PancakeView>

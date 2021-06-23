@@ -28,22 +28,17 @@ namespace SchoolOrganizer.ViewModels.Pages
         public ICommand ViewChangeCommand { get; set; }
         public ICommand ShareDatabaseCommand { get; set; }
         public ICommand OnFingerPrintToogledCommand { get; set; }
-        public ICommand TutorialCommand { get; set; }
 
         public SettingsViewModel()
         {
             this.OnFingerPrintToogledCommand = new Command(OnFingerPrintToogled);
             this.SaveCommand = new Command(Save);
             ViewChangeCommand = new Command(ViewOpen);
-            TutorialCommand = new Command(TutorialView);
             this.ShareDatabaseCommand = new Command(ShareDatabase);
             Settings = AppData.Instance.User.Settings;
         }
 
-        private void TutorialView(object obj)
-        {
-            Application.Current.MainPage = new AppShell();
-        }
+
 
         private async void ShareDatabase()
         {

@@ -10,21 +10,24 @@ using System.Threading.Tasks;
 using APIModels;
 using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Data;
+using SchoolOrganizer.Views.PopUps;
 using Xamarin.Forms.Xaml;
 
 namespace SchoolOrganizer.Views.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : ContentPage
+    public partial class UserSignUpPage
     {
-        public LoginViewModel Model { get; set; }
+        public UserSignUpPageViewModel Model { get; set; }
         private HighlightForm _highlightForm;
 
-        public LoginPage(School School)
+        public UserSignUpPage(School School, User User)
         {
-            this.Model = new LoginViewModel(School);
-            this.BindingContext = this.Model;
             InitializeComponent();
+            this.Model = new UserSignUpPageViewModel(School, User,this.FirstForm, this.SecondForm);
+            this.BindingContext = this.Model;
+            AppData.Instance.SAES = this.SAES;
+            AppData.Instance.User.School = School;
             InitAnimation();
         }
 
@@ -60,24 +63,27 @@ namespace SchoolOrganizer.Views.Pages
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            //await SAES.GoTo(SAES.School.HomePage);
-            //if (await SAES.IsLoggedIn())
-            //{
-            //    string boleta = await SAES.GetCurrentUser();
-            //    AppData.Instance.User = AppData.Instance.LiteConnection.Get<User>(boleta);
-            //    if (AppData.Instance.User is not null)
-            //    {
-            //        this.Model.OnLoginSuccess.Execute(this.SAES);
-            //    }
-            //    else
-            //    {
-            //        await SAES.LogOut();
-            //    }
-            //}
+            SAESPrivacyAlert alert = new SAESPrivacyAlert();
+            await alert.ShowDialog();
+            AppData.Instance.SAES.School = this.Model.School;
+            await AppData.Instance.SAES.GoTo(this.Model.School.HomePage);
+            if (await SAES.IsLoggedIn())
+            {
+                string boleta = await SAES.GetCurrentUser();
+                AppData.Instance.User = AppData.Instance.LiteConnection.Get<User>(boleta);
+                if (AppData.Instance.User is not null)
+                {
+                    this.Model.OnValidationSuccessCommand.Execute(null);
+                }
+                else
+                {
+                    await SAES.LogOut();
+                }
+            }
             Usuario.Focus();
-            //this.Model.CaptchaImg = await this.SAES.GetCaptcha();
-
+            this.Model.CaptchaImg = await this.SAES.GetCaptcha();
         }
+
         private async void AnimateBorder()
         {
             Action<double> tealMovement = tInput => tealGrad.Offset = (float)tInput;

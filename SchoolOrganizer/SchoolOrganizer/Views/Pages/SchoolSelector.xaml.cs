@@ -12,19 +12,9 @@ namespace SchoolOrganizer.Saes
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SchoolSelector : ContentPage
     {
-        public SchoolSelectorViewModel Model { get; set; }
-        public SchoolSelector(SchoolLevel schoolLevel)
+        public SchoolSelector()
         {
-            this.Model = new SchoolSelectorViewModel(schoolLevel);
-            this.BindingContext = this.Model;
             InitializeComponent();
-            AppData.Instance.SAES = this.SAES;
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            this.Model.Init();
         }
     }
 }

@@ -192,10 +192,6 @@
       <Project>{FBDD1DCC-B804-4690-8113-98D775DE9A88}</Project>
       <Name>Kit</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SchoolOrganizer\SchoolOrganizer.csproj">
-      <Project>{20ccea58-74b4-41b0-9e9e-22b7b328c798}</Project>
-      <Name>SchoolOrganizer</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

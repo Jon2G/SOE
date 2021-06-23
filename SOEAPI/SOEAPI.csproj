@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Kit\Kit\Kit.csproj" />
+    <ProjectReference Include="..\APIModels\APIModels.csproj" />
   </ItemGroup>
 
 </Project>

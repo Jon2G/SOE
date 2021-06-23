@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Kit.Model;
 using SchoolOrganizer.Models.Scheduler;
 using SchoolOrganizer.Views.ViewItems;
 using Xamarin.Forms;
 
 namespace SchoolOrganizer.ViewModels.ViewItems
 {
-    public class TimelineBarViewModel : ViewModels.Pages.BaseViewModel
+    public class TimelineBarViewModel : ModelBase
     {
         public const double CollapsedWidth = 20;
         private const uint Speed = 150;

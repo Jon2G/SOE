@@ -20,7 +20,7 @@ using SchoolOrganizer.Views.ViewItems;
 
 namespace SchoolOrganizer.ViewModels.Pages
 {
-    public class LoginViewModel : ModelBase
+    public class UserSignUpPageViewModel : ModelBase
     {
 
         private User _User;
@@ -30,58 +30,117 @@ namespace SchoolOrganizer.ViewModels.Pages
             set
             {
                 _User = value;
-                this.LoginCommand?.ChangeCanExecute();
+                this.ValidateCommand?.ChangeCanExecute();
 
+            }
+        }
+
+        private string _Password;
+
+        public string Password
+        {
+            get => _Password;
+            set
+            {
+                _Password = value;
+                Raise(() => Password);
+                this.SignUpRequestedCommand.ChangeCanExecute();
             }
         }
 
         public School School { get; private set; }
         public int AttemptCount { get; set; }
 
-        public Command<LoginViewModel> LoginCommand { get; }
-        public ICommand RegisterCommand { get; }
+        public Command ValidateCommand { get; }
+        public Command SignUpRequestedCommand { get; }
         public ICommand FingerCommand { get; }
-        public ICommand OnLoginSuccess { get; }
-
-
-        public LoginViewModel(School School)
+        public ICommand OnSignUpSuccessCommand { get; }
+        public ICommand OnValidationSuccessCommand { get; }
+        public string _Captcha;
+        public string Captcha
         {
+            get => _Captcha;
+            set
+            {
+                _Captcha = value;
+                OnPropertyChanged();
+                this.ValidateCommand.ChangeCanExecute();
+            }
+        }
+
+        public ImageSource _CaptchaImg;
+        public ImageSource CaptchaImg
+        {
+            get => _CaptchaImg;
+            set
+            {
+                _CaptchaImg = value;
+                OnPropertyChanged();
+            }
+        }
+        private readonly View SecondForm;
+        private readonly View FirstForm;
+        public UserSignUpPageViewModel(School School, User User, View FirstForm, View SecondForm)
+        {
+            this.FirstForm = FirstForm;
+            this.SecondForm = SecondForm;
             this.School = School;
-            this.User = new User();
+            this.User = User;
             this.User.PropertyChanged += User_PropertyChanged;
-            LoginCommand = new Command<LoginViewModel>(LoginRequested, LoginCanExecute);
+            this.ValidateCommand = new Command(Validate, ValidateCanExecute);
+            SignUpRequestedCommand = new Command(SignUpRequested, SignUpCanExecute);
             FingerCommand = new Command(FingerClicked);
-            OnLoginSuccess = new Command(LoginSuccess);
-            RegisterCommand = new Command(Register);
+            OnSignUpSuccessCommand = new Command(SignUpSuccess);
+            OnValidationSuccessCommand = new Command(OnValidationSuccess);
 
 
         }
 
-        private  void Register()
+        private async void Validate()
         {
-            this.User.Password = string.Empty;
-            App.Current.MainPage.Navigation.PushModalAsync(new UserSignUpPage(this.School, this.User)).SafeFireAndForget();
+            this.AttemptCount++;
+            AppData.Instance.User = this.User;
+            if (await AppData.Instance.SAES.LogIn(this.User,this.Captcha,this.AttemptCount,false))
+            {
+                OnValidationSuccessCommand.Execute(null);
+                AppData.Instance.SAES.GetName().SafeFireAndForget();
+            }
+            else
+            {
+                this.Captcha = string.Empty;
+                this.User.Password = string.Empty;
+                this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
+                Acr.UserDialogs.UserDialogs.Instance.Alert("Usuario o contraseña invalidos", "Atención", "Ok");
+            }
         }
-        private async void LoginRequested(LoginViewModel obj)
+
+        private void OnValidationSuccess()
+        {
+            SecondForm.IsEnabled = true;
+            SecondForm.IsVisible = true;
+            SecondForm.FadeTo(1, 500).SafeFireAndForget();
+            FirstForm.FadeTo(0, 500).SafeFireAndForget();
+            FirstForm.IsEnabled = false;
+
+        }
+        private async void SignUpRequested()
         {
             Response response = Response.Error;
             APIService apiService = new APIService();
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Iniciando sesión..."))
             {
-                response = await apiService.Login(obj.User.Boleta, obj.User.Password, School.Name);
+                response = await apiService.SignUp(User.Boleta,User.Email, Password, School.Name);
             }
             switch (response.ResponseResult)
             {
                 case APIResponseResult.SHOULD_ENROLL:
-                    this.User.Password = string.Empty;
                     App.Current.MainPage.Navigation.PushModalAsync(new UserSignUpPage(this.School,this.User)).SafeFireAndForget();
                     break;
                 case APIResponseResult.KO:
-                    this.User.Password = string.Empty;
                     App.Current.MainPage.DisplayAlert("Mensaje informativo", response.Message, "Ok").SafeFireAndForget();
                     break;
                 case APIResponseResult.OK:
-                    this.OnLoginSuccess.Execute(AppData.Instance.SAES);
+                    this.OnSignUpSuccessCommand.Execute(AppData.Instance.SAES);
                     break;
                 case APIResponseResult.DEVICE_NOT_TRUSTED:
                     //WHO ARE YOU?!
@@ -95,10 +154,10 @@ namespace SchoolOrganizer.ViewModels.Pages
 
         private void User_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            this.LoginCommand?.ChangeCanExecute();
+            this.SignUpRequestedCommand?.ChangeCanExecute();
         }
 
-        private void LoginSuccess()
+        private void SignUpSuccess()
         {
             AppShell shell = new AppShell();
             if (AppData.Instance.LiteConnection.Table<User>().Any(x => x.Boleta == this.User.Boleta))
@@ -109,9 +168,13 @@ namespace SchoolOrganizer.ViewModels.Pages
             Application.Current.MainPage = shell;
         }
 
-        private bool LoginCanExecute(object arg)
+        private bool SignUpCanExecute()
         {
-            return !string.IsNullOrEmpty(User.Boleta) && (Validations.IsValidEmail(User.Boleta) || Validations.IsValidBoleta(User.Boleta)) && !string.IsNullOrEmpty(User.Password);
+            return !string.IsNullOrEmpty(this.Password) && !string.IsNullOrEmpty(User.Email)&&Password.Length>=8;
+        }
+        private bool ValidateCanExecute()
+        {
+            return !string.IsNullOrEmpty(User.Boleta) && Validations.IsValidBoleta(User.Boleta) && !string.IsNullOrEmpty(User.Password);
         }
 
 

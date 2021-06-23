@@ -7,13 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+using Kit.Model;
 using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Scheduler;
 using Xamarin.Forms;
 
 namespace SchoolOrganizer.ViewModels.Pages
 {
-    public class SubjectViewModel : BaseViewModel
+    public class SubjectViewModel : ModelBase
     {
         public List<Subject> subjects { get; }
 

@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace SchoolOrganizer.Saes
+namespace SchoolOrganizer.Views.PopUps
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SchoolLevelSelector : ContentPage
+    public partial class SAESPrivacyAlert
     {
-        public SchoolLevelSelector()
+        public SAESPrivacyAlert()
         {
+            this.LockModal();
             InitializeComponent();
         }
     }

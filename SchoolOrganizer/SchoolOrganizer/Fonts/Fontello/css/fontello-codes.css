@@ -27,6 +27,9 @@
 .icon-emo-beer:before { content: '\e819'; } /* '' */
 .icon-emo-sunglasses:before { content: '\e81a'; } /* '' */
 .icon-emo-thumbsup:before { content: '\e81b'; } /* '' */
+.icon-key-inv:before { content: '\e81c'; } /* '' */
 .icon-angle-right:before { content: '\f105'; } /* '' */
 .icon-file-pdf:before { content: '\f1c1'; } /* '' */
 .icon-paper-plane:before { content: '\f1d8'; } /* '' */
+.icon-user-secret:before { content: '\f21b'; } /* '' */
+.icon-hand-paper-o:before { content: '\f256'; } /* '' */

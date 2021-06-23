@@ -4,7 +4,7 @@ using System.Text;
 using SchoolOrganizer.Fonts;
 using Xamarin.Forms;
 
-[assembly: ExportFont("fontello_9.ttf", Alias = FontelloIcons.Font)]
+[assembly: ExportFont("fontello_10.ttf", Alias = FontelloIcons.Font)]
 namespace SchoolOrganizer.Fonts
 {
     public static class FontelloIcons
@@ -39,6 +39,10 @@ namespace SchoolOrganizer.Fonts
         public const string HappyBeer = "\uE819";
         public const string HappyGlasses = "\uE81a";
         public const string HappyLike = "\uE81b";
+
+        public const string Stop = "\uF256";
+        public const string Spy = "\uF21B";
+        public const string Key = "\uE81C";
 
         public const string Font = "FontIcon";
     }

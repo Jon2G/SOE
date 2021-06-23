@@ -5,7 +5,7 @@ using Android.OS;
 
 namespace SchoolOrganizer.Droid.Activities
 {
-    [Activity(Label = "Organizador Escolar", Theme = "@style/SplashTheme",
+    [Activity(Label = "SOE", Theme = "@style/SplashTheme",
         MainLauncher = true, NoHistory = true, ConfigurationChanges = ConfigChanges.ScreenSize)]
     public class SplashActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {

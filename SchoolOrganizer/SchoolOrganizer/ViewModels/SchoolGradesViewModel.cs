@@ -53,25 +53,24 @@ namespace SchoolOrganizer.ViewModels
             await saes.GoTo(saes.School.HomePage);
             if (!await saes.IsLoggedIn())
             {
-                LoginViewModel loginViewModel = new LoginViewModel()
-                {
-                    User = AppData.Instance.User,
-                    CaptchaImg = await saes.GetCaptcha()
-                };
-                AskForCaptcha captcha = new AskForCaptcha(loginViewModel);
+                //LoginViewModel loginViewModel = new LoginViewModel(saes.School)
+                //{
+                //    User = AppData.Instance.User
+                //};
+                //AskForCaptcha captcha = new AskForCaptcha(loginViewModel);
 
-                await captcha.ShowDialog();
+                //await captcha.ShowDialog();
 
-                if (!await saes.LogIn(loginViewModel, false))
-                {
-                    UserDialogs.Instance.Alert("Usuario o contraseña invalidos", "Atención", "Ok");
-                    return;
-                }
-                else
-                {
-                    Refresh();
-                }
-                return;
+                //if (!await saes.LogIn(loginViewModel, false))
+                //{
+                //    UserDialogs.Instance.Alert("Usuario o contraseña invalidos", "Atención", "Ok");
+                //    return;
+                //}
+                //else
+                //{
+                //    Refresh();
+                //}
+                //return;
             }
 
             using (UserDialogs.Instance.Loading("Actualizando calificaciones...."))

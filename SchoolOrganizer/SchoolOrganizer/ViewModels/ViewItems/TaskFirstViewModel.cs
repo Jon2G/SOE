@@ -12,12 +12,13 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Kit.Model;
 using P42.Utils;
 using Xamarin.Forms;
 
 namespace SchoolOrganizer.ViewModels.ViewItems
 {
-    public class TaskFirstViewModel : BaseViewModel
+    public class TaskFirstViewModel : ModelBase
     {
         public ObservableCollection<ByDayGroup> DayGroups { get; set; }
        

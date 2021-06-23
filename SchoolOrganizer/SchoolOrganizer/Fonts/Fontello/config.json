@@ -191,6 +191,24 @@
       "css": "emo-thumbsup",
       "code": 59419,
       "src": "fontelico"
+    },
+    {
+      "uid": "abf08be829659c02d1f9a711daefa8ce",
+      "css": "hand-paper-o",
+      "code": 62038,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "f9c8ea86275ca16128235c6452b67b8e",
+      "css": "user-secret",
+      "code": 61979,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "c6ecc52b6db2a649a08ff54e5ea62886",
+      "css": "key-inv",
+      "code": 59420,
+      "src": "iconic"
     }
   ]
 }

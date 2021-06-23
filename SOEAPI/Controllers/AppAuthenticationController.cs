@@ -6,10 +6,15 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Kit;
 using Kit.Sql.Helpers;
 using Kit.Sql.SqlServer;
+using APIModels;
+using APIModels.Enums;
+using DocumentFormat.OpenXml.Vml.Spreadsheet;
+using Newtonsoft.Json;
 
 namespace SOEAPI.Controllers
 {
@@ -72,8 +77,8 @@ namespace SOEAPI.Controllers
             }
         }
 
-        [HttpGet("EnrollDevice/{DeviceKey}/{DeviceBrand}/{Platform}/{Name}/{Model}/{AppKey}/{Boleta}/{Password}")]
-        public ActionResult<string> EnrollDevice(string DeviceKey, string DeviceBrand, string Platform, string Name, string Model, string AppKey, string Boleta, string Password)
+        //[HttpGet("EnrollDevice/{DeviceKey}/{DeviceBrand}/{Platform}/{Name}/{Model}/{AppKey}/{Boleta}/{Password}")]
+        private string EnrollDevice(string DeviceKey, string DeviceBrand, string Platform, string Name, string Model, string AppKey, string Boleta, string Password, string School)
         {
             if (string.IsNullOrEmpty(DeviceKey) || string.IsNullOrEmpty(AppKey) || string.IsNullOrEmpty(Boleta))
             {
@@ -81,11 +86,11 @@ namespace SOEAPI.Controllers
             }
             try
             {
-                if (UserLogin(Boleta, Password) != "OK")
+                if (UserLogin(Boleta, Password, School).ResponseResult != APIResponseResult.OK)
                 {
                     return "INVALID_REQUEST";
                 }
-                User User =SOEAPI.User.GetByBoleta(Connection,Boleta);
+                User User = SOEAPI.User.GetByBoleta(Connection, Boleta);
                 if (User is null)
                 {
                     return "USER_NOT_FOUND";
@@ -125,42 +130,46 @@ namespace SOEAPI.Controllers
             }
         }
 
-        [HttpGet("LogIn/{UserName}/{Password}")]
-        public ActionResult<string> LogIn(string UserName, string Password)
+        [HttpGet("LogIn/{UserName}/{Password}/{School}")]
+        public ActionResult<Response> LogIn(string UserName, string Password, string School)
         {
-            return UserLogin(UserName, Password);
+            return UserLogin(UserName, Password, School);
         }
-        private string UserLogin(string Boleta, string PasswordPin)
+        private Response UserLogin(string Boleta, string PasswordPin, string School)
         {
-            if (string.IsNullOrEmpty(Boleta) || string.IsNullOrEmpty(PasswordPin))
+            if (string.IsNullOrEmpty(Boleta) || string.IsNullOrEmpty(PasswordPin)
+            || (!Validations.IsValidEmail(Boleta) && !Validations.IsValidBoleta(Boleta))
+            || string.IsNullOrEmpty(School))
             {
-                return "INVALID_REQUEST";
+                return new Response(APIResponseResult.INVALID_REQUEST,
+                    "!Solicitud invalida!");
             }
             try
             {
-                int id = Connection.Single<int>(
-                     @"select ID From USERS where (MAIL=@MAIL OR BOLETA=@BOLETA) and PASSWORD_PIN=@PASSWORD_PIN"
-                     , System.Data.CommandType.Text
-                      , new SqlParameter("BOLETA", Boleta)
-                      , new SqlParameter("PASSWORD_PIN", PasswordPin)
-                      );
-                if (id > 0)
+                Response response = APIModels.Response.From(Connection.Tuple<string, string>("SP_LOGIN"
+                    , CommandType.StoredProcedure
+                    , new SqlParameter("MAIL", Boleta)
+                    , new SqlParameter("PASSWORD_PIN", PasswordPin)
+                    , new SqlParameter("SCHOOL_NAME", School)
+                ));
+                switch (response.ResponseResult)
                 {
-                    return "OK";
-                }
-                else
-                {
-                    return "KO";
+                    case APIResponseResult.SHOULD_ENROLL:
+                        if (!Validations.IsValidBoleta(Boleta))
+                        {
+                            return new Response(APIResponseResult.KO, "Usuario o contraseña incorrectos");
+                        }
+                        break;
                 }
 
+                return response;
             }
             catch (Exception ex)
             {
                 _logger.Log(LogLevel.Error, ex, ex?.Message);
-                return ex.Message;
+                return new Response(APIResponseResult.INTERNAL_ERROR, ex.Message);
             }
         }
-
 
 
 

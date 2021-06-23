@@ -22,10 +22,10 @@ namespace SchoolOrganizer.Views.PopUps
 
         private async void Button_OnClicked(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(this.Model.Captcha))
-            {
-                return;
-            }
+            //if (string.IsNullOrEmpty(this.Model.Captcha))
+            //{
+            //    return;
+            //}
             await this.Close();
         }
     }

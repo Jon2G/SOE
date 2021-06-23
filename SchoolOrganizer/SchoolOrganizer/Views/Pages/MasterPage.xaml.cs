@@ -58,7 +58,7 @@ namespace SchoolOrganizer.Views.Pages
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            InitBrowser();
+  
     
             //this.SchoolGrades.OnAppearing();
 
@@ -120,14 +120,5 @@ namespace SchoolOrganizer.Views.Pages
             }
         }
 
-        private void InitBrowser()
-        {
-            if (AppData.Instance.SAES is null)
-            {
-                AppData.Instance.SAES = new SAES();
-
-            }
-            this.BrowserHolder.Content = AppData.Instance.SAES;
-        }
     }
 }

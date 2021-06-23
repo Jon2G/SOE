@@ -14,6 +14,7 @@ namespace SchoolOrganizer
         {
 
             InitializeComponent();
+            
             App.Current.MainPage = new SplashScreen();
 
         }

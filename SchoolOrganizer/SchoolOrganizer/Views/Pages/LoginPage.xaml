@@ -10,12 +10,9 @@
              Shell.NavBarIsVisible="False" x:DataType="{x:Type viewModels:LoginViewModel}"
              xmlns:skiaSharp="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              xmlns:saes="clr-namespace:SchoolOrganizer.Saes;assembly=SchoolOrganizer"
-             xmlns:renders="clr-namespace:SchoolOrganizer.Renders;assembly=SchoolOrganizer">
-    <ContentPage.BindingContext>
-        <viewModels:LoginViewModel x:Name="Model"/>
-    </ContentPage.BindingContext>
+             xmlns:renders="clr-namespace:SchoolOrganizer.Renders;assembly=SchoolOrganizer"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
     <Grid>
-        <saes:SAES x:Name="SAES" IsVisible="True" />
         <ContentView Background="{DynamicResource Background}">
             <pancakeView:PancakeView 
                 CornerRadius="10" 
@@ -35,12 +32,23 @@
                                         </LinearGradientBrush>
                                     </Rectangle.Stroke>
                                 </Rectangle>
-                                <Image Source="icon" Aspect="AspectFill" Margin="10" HorizontalOptions="FillAndExpand" 
-                                VerticalOptions="FillAndExpand"/>
+                                <Grid RowDefinitions="Auto,*" ColumnDefinitions="*,Auto">
+                                    <Image Source="logo_soe_fill"
+                                           Aspect="AspectFill" 
+                                           Grid.ColumnSpan="2"
+                                           Grid.RowSpan="2"
+                                           HorizontalOptions="FillAndExpand" 
+                                           VerticalOptions="FillAndExpand"/>
+                                    <forms:CachedImage Grid.Row="0" 
+                                           Grid.Column="1"
+                                           HeightRequest="40"
+                                           Aspect="AspectFill" 
+                                           Source="{Binding School.ImgPath}"/>
+                                </Grid>
                             </Grid>
                         </StackLayout>
                     </Grid>
-                    <Label FontFamily="KarlaSB" Text="¡Bienvenido!" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                    <Label FontFamily="KarlaSB" Text="{Binding School.Name}" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
                     <BoxView HeightRequest="1"
                          Background="{DynamicResource PrimaryColor}" />
                     <Grid >
@@ -63,27 +71,31 @@
                             <renders:NoLineEntry IsPassword="True" 
                                                  Text="{Binding User.Password}"
                                                  Focused="EntryFocused" Placeholder="Contraseña" Margin="0,10"/>
-
-                            <Image Source="{Binding CaptchaImg}" HeightRequest="50" />
+                            <Label Text="{Binding User.Password}" FontSize="12"
+                                   Background="{DynamicResource SecondaryBackground}" Margin="0,0,0,10"/>
+                            <!--<Image Source="{Binding CaptchaImg}" HeightRequest="50" />
 
                             <renders:NoLineEntry IsPassword="False" 
                                                  Text="{Binding Captcha}"
                                                  Focused="EntryFocused" Placeholder="Captcha"
-                                                 Margin="0,10"/>
-
-
-
+                                                 Margin="0,10"/>-->
                             <Button  Text="Iniciar sesión"
-                                FontFamily="KarlaSB"
-                                TextColor="{DynamicResource primaryTextColor}"
-                                Command="{Binding LoginCommand}"
-                                CommandParameter="{Binding .}"
-                                CornerRadius="20" 
-                                Margin="0, 10, 0, 0"
+                                     FontFamily="KarlaSB"
+                                     TextColor="{DynamicResource primaryTextColor}"
+                                     Command="{Binding LoginCommand}"
+                                     CommandParameter="{Binding .}"
+                                     CornerRadius="20" 
+                                     Margin="0, 10, 0, 0"
                             />
                         </StackLayout>
                     </Grid>
                     <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" >
+                        <Label FontFamily="Karla_SemiBold" 
+                               TextDecorations="Underline" Text="No tengo cuenta" FontSize="14" HorizontalOptions="StartAndExpand" Margin="0,5">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding RegisterCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
                         <Label FontFamily="Karla_SemiBold"
                                TextDecorations="Underline" Text="Olvide mi contraseña" FontSize="14" HorizontalOptions="EndAndExpand" Margin="0,5"/>
                     </StackLayout>

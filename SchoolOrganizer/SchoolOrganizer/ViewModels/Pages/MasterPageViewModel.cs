@@ -9,10 +9,13 @@ using System.Linq;
 using System.Windows.Input;
 using Kit.Model;
 using Xamarin.Forms;
+using System.Threading.Tasks;
+using Acr.UserDialogs;
+using System.Collections.Generic;
 
 namespace SchoolOrganizer.ViewModels.Pages
 {
-    class MasterPageViewModel : ModelBase
+    public class MasterPageViewModel : ModelBase
     {
         //private ObservableCollection<Models.Task> _tasks;
 
@@ -33,20 +36,39 @@ namespace SchoolOrganizer.ViewModels.Pages
         //    }
         //}
 
-        public ICommand ItemSelectedCommand => new Command<string>(ItemSelected);
+        public ICommand ItemSelectedCommand => new Command(TaskpageC);
+        public ICommand Taskcommand => new Command(TapMenu);
+
+
 
         private void LoadData()
         {
-            //var tasks = TaskService.Instance.GetTasks();
-
-            //Tasks.Clear();
-            //foreach (var task in tasks)
-            //{
-            //    Tasks.Add(task);
-            //}
         }
+        private void TapMenu()
+        {
+            var config = new ActionSheetConfig()
+            {
+                Cancel = new ActionSheetOption("Cancelar"),
+                Title = "Opcines de Tareas",
+                Message = "Seleccione una opción",
+                Options = new List<ActionSheetOption>()
+                {
+                    new ActionSheetOption("Completadas",null),
+                    new ActionSheetOption("Pendientes", null),
+                    new ActionSheetOption("Archivadas", null)
+                },
+                UseBottomSheet = true
+                
+            };
+            Acr.UserDialogs.UserDialogs.Instance.ActionSheet(config);
 
-        private void ItemSelected(string parameter)
+
+        }
+        private void TaskpageC()
+        {
+            App.Current.MainPage.Navigation.PushAsync(new TaskPage(), true);
+        }
+            private void ItemSelected(string parameter)
         {
             // App.Current.MainPage = new TaskPage();
             switch (parameter)

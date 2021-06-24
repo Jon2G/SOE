@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Kit;
 using Kit.Extensions;
+using Rg.Plugins.Popup.Services;
 using SchoolOrganizer.Data;
 using SchoolOrganizer.Models.Scheduler;
 using SchoolOrganizer.Views.Pages;
@@ -25,6 +27,7 @@ namespace SchoolOrganizer.Models.TaskFirst
         public ICommand DeleteCommand { get; set; }
         public ICommand OpenTaskCommand { get; set; }
         public ICommand DetailCommand { get; set; }
+        public ICommand MenuCommand { get; set; }
         public BySubjectGroup(Subject Subject)
         {
             this.Subject = Subject;
@@ -32,8 +35,19 @@ namespace SchoolOrganizer.Models.TaskFirst
             DetailCommand = new Xamarin.Forms.Command<ToDo>(Detail);
             DeleteCommand = new Xamarin.Forms.Command<ToDo>(Eliminar);
             OpenTaskCommand = new Xamarin.Forms.Command<ToDo>(OpenTask);
+            MenuCommand = new Xamarin.Forms.Command(MenuClicked);
         }
 
+        private async Task MenuOpen()
+        {
+            var pr = new MenuPopUp();
+            await pr.ShowDialog();
+
+        }
+        private async void MenuClicked()
+        {
+            await MenuOpen();
+        }
         public BySubjectGroup(TaskPage taskPage)
         {
             this.taskPage = taskPage;
@@ -59,7 +73,7 @@ namespace SchoolOrganizer.Models.TaskFirst
         internal void Refresh(DateTime date)
         {
             this.ToDoS.AddRange(AppData.Instance.LiteConnection.Table<ToDo>()//le movi aqui
-                .Where(x=>x.SubjectId==this.Subject.Id/*&&x.Date<date*/));
+                .Where(x=>x.SubjectId==this.Subject.Id /*&& x.Date<=date*/));
             foreach (var todo in ToDoS)
             {
                 todo.Subject = Subject;

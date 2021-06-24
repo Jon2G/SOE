@@ -8,14 +8,12 @@
              x:Class="SchoolOrganizer.Views.ViewItems.TasksViews.ByDayView">
   <ContentView.Content>
         <ContentView>
-            <pancakeView:PancakeView CornerRadius="0"  Margin="5">
+            <pancakeView:PancakeView CornerRadius="5"  Margin="1">
                 <views:Expander>
                     <views:Expander.Header>
                         <Grid ColumnDefinitions="5,80,1,*">
 
                             <BoxView />
-
-
                             <StackLayout  Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center">
                                 <Label Text="{Binding FDateTime.Day,StringFormat='{0:00}'}"  FontSize="Title"  HorizontalOptions="Center" HorizontalTextAlignment="Center"
                                                    TextColor="{DynamicResource secondaryTextColor}"/>
@@ -23,8 +21,11 @@
                                                    TextColor="{DynamicResource secondaryTextColor}"/>
                             </StackLayout>
                             <BoxView Grid.Column="2" Background="LightGray"/>
-                            <Label Grid.Column="3" Text="{Binding Tareas,StringFormat='{0} tareas.'}" FontSize="Large" TextColor="{DynamicResource secondaryTextColor} " 
+                            <StackLayout Grid.Column="3" Orientation="Horizontal">
+                                <Label Text="Tareas pendientes:" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  Margin="5" FontAttributes="Italic" FontSize="Large" TextColor="{DynamicResource secondaryTextColor}"/>
+                                <Label Text="{Binding Tareas,StringFormat='{0}'}" FontSize="Large" TextColor="{DynamicResource secondaryTextColor} " 
                                                VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  Margin="5" FontAttributes="Italic" />
+                            </StackLayout>
                         </Grid>
                     </views:Expander.Header>
                     <StackLayout Spacing="0" BindableLayout.ItemsSource="{Binding SubjectGroups}">

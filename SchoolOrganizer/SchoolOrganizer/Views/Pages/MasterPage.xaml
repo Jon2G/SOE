@@ -14,7 +14,7 @@
              xmlns:data="clr-namespace:SchoolOrganizer.Data;assembly=SchoolOrganizer"
              x:DataType="pages:MasterPageViewModel">
     <ContentPage.BindingContext>
-        <pages:MasterPageViewModel/>
+        <pages:MasterPageViewModel x:Name="Model" x:FieldModifier="public"/>
     </ContentPage.BindingContext>
     <ContentPage.Resources>
 
@@ -96,6 +96,10 @@
                 </toolkit:TabViewItem.Icon>
 
                 <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="94*"/>
+                        <RowDefinition Height="5*"/>
+                    </Grid.RowDefinitions>
                     <Grid  Margin="0,0,20,0">
                         <viewPage:TaskFirstPage x:Name="TaskFirstPage" x:FieldModifier="public"/>
                     </Grid>
@@ -103,6 +107,11 @@
                         <viewItems:TimelineBar Grid.Column="1" 
                                                IsVisible="{Binding User.Settings.ShowTimelineBar ,Source={x:Static data:AppData.Instance}}"/>
                     </Grid>
+                    <Label Grid.Row="1" BackgroundColor="#15386f" Text="{x:Static fonts:FontelloIcons.UpArrow}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="Large">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Taskcommand}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
                 </Grid>
             </toolkit:TabViewItem>
 
@@ -120,7 +129,7 @@
 
 
         </toolkit:TabView>
-        <!-- RADIAL MENU FILTER -->
+        <!-- RADIAL MENU FILTER --><!--
         <Grid        
             HorizontalOptions="End" VerticalOptions="End"
             Margin="0, 0, -50, 50">
@@ -128,7 +137,7 @@
                 SelectedCommand="{Binding ItemSelectedCommand}"
                 HorizontalOptions="Center" 
                 VerticalOptions="Center" />
-        </Grid>
+        </Grid>-->
     </Grid>
 
 </pages2:BasePage>

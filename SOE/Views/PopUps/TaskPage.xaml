@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage  xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SOE.Views.PopUps.TaskPage"
+             xmlns:viewModels="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
+             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+             xmlns:views="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+              xmlns:images="clr-namespace:SOE.Data.Images;assembly=SOE" 
+              x:DataType="viewModels:TaskViewModel" Title="Tarea">
+    <ContentPage.BindingContext>
+        <viewModels:TaskViewModel x:Name="Modelo"/>
+    </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Confirmar" Command="{Binding SaveCommand}"/>
+    </ContentPage.ToolbarItems>
+    <StackLayout>
+        <!--<StackLayout Orientation="Horizontal" BackgroundColor="{DynamicResource PrimaryLightColor}">
+          
+            <Button  Text="Confirmar" HeightRequest="40"  HorizontalOptions="EndAndExpand" BackgroundColor="Transparent"  TextColor="White" FontSize="15" FontAttributes="Bold"/>
+        </StackLayout>-->
+        <views:TabView IsSwipeEnabled="True" 
+                       Style="{StaticResource CustomTabStyle}" 
+                       TabStripBackgroundColor="{DynamicResource Primary}" 
+                       IsTabStripVisible="True" TabStripPlacement="Top">
+            <views:TabViewItem TextColor="White" Text="Descripción">
+                <views:TabViewItem.Icon>
+                    <FontImageSource 
+                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                        Glyph="{x:Static fonts:FontelloIcons.Book1}"
+                        Color="{DynamicResource primaryTextColor}" Size="20" />
+                </views:TabViewItem.Icon>
+                <ScrollView Background="{DynamicResource Background}">
+                    <StackLayout Spacing="10" Margin="5" >
+                        <StackLayout Spacing="10">
+                            <!--<Frame BorderColor="{StaticResource PrimaryLightColor}" CornerRadius="60" HeightRequest="39" WidthRequest="1">-->
+                            <Editor AutoSize="TextChanges" Placeholder="Agregar titulo"  TextColor="Black" Text="{Binding Tarea.Title}" MaxLength="100"/>
+                            <!--</Frame>-->
+
+                            <Label  VerticalTextAlignment="Center" 
+                               Text="Materia:" TextColor="{DynamicResource secondaryTextColor}" FontSize="17"
+                               FontAttributes="Italic"/>
+                            <Button Text="{Binding Tarea.Subject.Name}" 
+                                BackgroundColor="{Binding Tarea.Subject.Color}"
+                                CornerRadius="5" BorderColor="{StaticResource PrimaryLightColor}" 
+                                BorderWidth="1" TextColor="{DynamicResource PrimaryLightColor}" 
+                                Command="{Binding TaskCommand}"/>
+
+
+                            <!--<Frame Grid.Row="2" CornerRadius="10" Padding="3" BackgroundColor="{DynamicResource PrimaryLightBackground}" 
+                       BorderColor="#12396F" >-->
+                            <StackLayout  Orientation="Horizontal" Spacing="0" Padding="0">
+                                <Label Margin="10,0" Text="Fecha:" VerticalTextAlignment="Center" TextColor="{StaticResource secondaryTextColor}" HorizontalOptions="Start" FontAttributes="Italic" FontSize="18"/>
+                                <DatePicker DateSelected="DatePick_OnDateSelected" HorizontalOptions="StartAndExpand" Margin="0"  FontAttributes="Bold" 
+                                    TextColor="{DynamicResource secondaryTextColor}" Format="dd/MM/yyyy" 
+                                    Date="{Binding Tarea.Date}" x:Name="DatePick"/>
+                                <Label Margin="10,0" Text="Hora:" VerticalTextAlignment="Center" TextColor="{StaticResource secondaryTextColor}" HorizontalOptions="Start" FontAttributes="Italic" FontSize="18"/>
+                                <TimePicker HorizontalOptions="End" Margin="0" Time="{Binding Tarea.Time}"
+                                    FontFamily="Italic" />
+                            </StackLayout>
+
+                            <!--</Frame>-->
+
+                        </StackLayout>
+                        <!--<Image x:Name="MyImg"/>-->
+                        <Frame VerticalOptions="FillAndExpand"  BorderColor="{StaticResource PrimaryLightColor}"
+                       CornerRadius="5" Padding="3">
+                            <Editor AutoSize="TextChanges" Placeholder="Nota"
+                                    VerticalOptions="FillAndExpand" 
+                            Text="{Binding Tarea.Description}" />
+                        </Frame>
+
+
+
+                    </StackLayout>
+                </ScrollView>
+            </views:TabViewItem>
+            <views:TabViewItem Text="Imagenes" TextColor="White">
+                <views:TabViewItem.Icon>
+                    <FontImageSource
+                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                        Glyph="{x:Static fonts:FontelloIcons.Photo}"
+                        Color="{DynamicResource primaryTextColor}" Size="20" />
+                </views:TabViewItem.Icon>
+                <StackLayout Background="{DynamicResource Background}">
+                    <Grid Margin="5" ColumnDefinitions="*,Auto,Auto">
+                        <Button Grid.Column="1" Text="{x:Static fonts:FontelloIcons.Camera}" 
+                                FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                TextColor="{DynamicResource PrimaryLightColor}"  
+                                 HeightRequest="40"
+                                BorderColor="{DynamicResource PrimaryLightColor}" 
+                                BorderWidth="2" Padding="0" CornerRadius="30" 
+                                FontSize="18" Command="{Binding CameraImageCommand}" />
+
+                        <Button  Grid.Column="2" Padding="0" Text="{x:Static fonts:FontelloIcons.Photo}" 
+                                 FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                 TextColor="{DynamicResource PrimaryLightColor}"
+                                 HeightRequest="40"
+                                 BorderColor="{DynamicResource PrimaryLightColor}" 
+                                 BorderWidth="2" 
+                                 CornerRadius="30" FontSize="18" Command="{Binding GaleryImageCommand}"/>
+                    </Grid>
+                    <CollectionView ItemsSource="{Binding Photos}">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical"  Span="2"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.EmptyView>
+                            <Grid>
+                                <Label 
+                                            VerticalTextAlignment="Start"
+                                            Text="Ninguna imagen"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center" FontSize="Large" FontAttributes="Bold"/>
+                               
+                            </Grid>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="images:Archive">
+                                <ContentView>
+                                    <Grid RowDefinitions="Auto,*">
+
+                                        <pancakeView:PancakeView InputTransparent="True" Grid.RowSpan="2" 
+                                                                     Padding="3" BackgroundColor="LightGray"
+                                                                     Margin="3" Content="{Binding Value}"/>
+                                        <Label Text="{x:Static fonts:FontelloIcons.Del}" FontSize="20"
+                                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" HorizontalOptions="End" Margin="0,10,10,0" TextColor="Red" >
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding DeleteImageCommand,Source={x:Reference Modelo}}"
+                                                                      CommandParameter="{Binding .}"/>
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                    </Grid>
+                                </ContentView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </views:TabViewItem>
+        </views:TabView>
+
+ 
+    </StackLayout>
+
+</ContentPage>

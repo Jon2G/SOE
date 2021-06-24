@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
+             x:Class="SOE.Views.ViewItems.CardViews.CardStatusView" 
+             x:DataType="models:Card">
+  <ContentView.Content>
+        <BoxView BackgroundColor="{Binding SubjectColor }"  VerticalOptions="Fill" HorizontalOptions="Fill"/>
+    </ContentView.Content>
+</ContentView>

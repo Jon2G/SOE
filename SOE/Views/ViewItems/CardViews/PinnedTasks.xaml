@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
+             xmlns:cardViews="clr-namespace:SOE.Views.ViewItems.CardViews;assembly=SOE"
+             xmlns:viewItems1="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
+             x:Class="SOE.Views.ViewItems.CardViews.PinnedTasks"
+             x:DataType="viewItems1:PinnedTasksViewModel">
+    <ContentView.BindingContext>
+        <viewItems1:PinnedTasksViewModel/>
+    </ContentView.BindingContext>
+  <ContentView.Content>
+      <CollectionView VerticalScrollBarVisibility="Always" Margin="5" ItemsSource="{Binding Tasks}">
+                <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Card">
+                            <ContentView Padding="3">
+                                <cardViews:CardView Margin="5"/>
+                            </ContentView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+  </ContentView.Content>
+</ContentView>

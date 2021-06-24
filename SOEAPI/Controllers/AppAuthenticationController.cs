@@ -131,31 +131,49 @@ namespace SOEAPI.Controllers
         }
 
         [HttpGet("LogIn/{UserName}/{Password}/{School}")]
-        public ActionResult<Response> LogIn(string UserName, string Password, string School)
+        [HttpGet("LogIn/{UserName}/{Password}")]
+        public ActionResult<Response> LogIn(string UserName, string Password, string School = null)
         {
             return UserLogin(UserName, Password, School);
         }
-        private Response UserLogin(string Boleta, string PasswordPin, string School)
+        private Response UserLogin(string Usuario, string PasswordPin, string School)
         {
-            if (string.IsNullOrEmpty(Boleta) || string.IsNullOrEmpty(PasswordPin)
-            || (!Validations.IsValidEmail(Boleta) && !Validations.IsValidBoleta(Boleta))
-            || string.IsNullOrEmpty(School))
+            if (string.IsNullOrEmpty(Usuario) || string.IsNullOrEmpty(PasswordPin)
+                                              || PasswordPin.Length < 8)
+            {
+                return new Response(APIResponseResult.INVALID_REQUEST,
+                    "!Solicitud invalida!");
+            }
+
+            object mail = DBNull.Value;
+            object boleta = DBNull.Value;
+
+            if (Validations.IsValidBoleta(Usuario))
+            {
+                boleta = Usuario;
+            }
+            else if (Validations.IsValidEmail(Usuario))
+            {
+                mail = Usuario;
+            }
+            else
             {
                 return new Response(APIResponseResult.INVALID_REQUEST,
                     "!Solicitud invalida!");
             }
             try
             {
-                Response response = APIModels.Response.From(Connection.Tuple<string, string>("SP_LOGIN"
+                Response response = APIModels.Response.From(Connection.Read("SP_LOGIN"
                     , CommandType.StoredProcedure
-                    , new SqlParameter("MAIL", Boleta)
+                    , new SqlParameter("Mail", mail)
+                    , new SqlParameter("Boleta", boleta)
                     , new SqlParameter("PASSWORD_PIN", PasswordPin)
-                    , new SqlParameter("SCHOOL_NAME", School)
+                    , new SqlParameter("SCHOOL_NAME", (object)School ?? DBNull.Value)
                 ));
                 switch (response.ResponseResult)
                 {
                     case APIResponseResult.SHOULD_ENROLL:
-                        if (!Validations.IsValidBoleta(Boleta))
+                        if (boleta != DBNull.Value)
                         {
                             return new Response(APIResponseResult.KO, "Usuario o contraseña incorrectos");
                         }
@@ -171,8 +189,60 @@ namespace SOEAPI.Controllers
             }
         }
 
+        [HttpGet("SignUp/{Boleta}/{Nombre}/{Email}/{Password}/{School}/{PasswordSAES}/{Type}/{Device}")]
+        public ActionResult<Response> SignUp(string Boleta, string Nombre, string Email, string Password, string School, string PasswordSAES, int Type, string Device)
+        {
+            try
+            {
+                return SignUp(Boleta, Nombre, Email, Password, School, PasswordSAES, (UserType)Type, JsonConvert.DeserializeObject<Device>(Device));
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogLevel.Error, ex, ex?.Message);
+                return new Response(APIResponseResult.INTERNAL_ERROR, ex.Message);
+            }
+        }
 
+        private Response SignUp(string Boleta, string Nombre, string Email, string Password, string School, string PasswordSAES, UserType Type, Device Device)
+        {
+            if (string.IsNullOrEmpty(Boleta) || string.IsNullOrEmpty(Password) || Password.Length < 8
+                || string.IsNullOrEmpty(PasswordSAES)
+                || !Validations.IsValidEmail(Email)
+                || !Validations.IsValidBoleta(Boleta)
+                || string.IsNullOrEmpty(School)
+                || string.IsNullOrEmpty(Device.DeviceKey)
+                || Type == UserType.INVALID)
+            {
+                return new Response(APIResponseResult.INVALID_REQUEST,
+                    "!Solicitud invalida!");
+            }
+            try
+            {
+                Response response = APIModels.Response.From(
+                    Connection.Read("SP_SIGNUP"
+                    , CommandType.StoredProcedure
+                    , new SqlParameter("BOLETA", Boleta)
+                    , new SqlParameter("NAME", Nombre)
+                    , new SqlParameter("MAIL", Email)
+                    , new SqlParameter("PASSWORD_PIN", Password)
+                    , new SqlParameter("PASSWORD_SAES", PasswordSAES)
+                    , new SqlParameter("SCHOOL_NAME", School)
+                    , new SqlParameter("DEVICE_KEY", Device.DeviceKey)
+                    , new SqlParameter("BRAND", Device.Brand)
+                    , new SqlParameter("PLATFORM", Device.Platform)
+                    , new SqlParameter("MODEL", Device.Model)
+                    , new SqlParameter("D_NAME", Device.Name)
+                    , new SqlParameter("TYPE", (int)Type)
+                ));
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogLevel.Error, ex, ex?.Message);
+                return new Response(APIResponseResult.INTERNAL_ERROR, ex.Message);
+            }
 
+        }
 
 
     }

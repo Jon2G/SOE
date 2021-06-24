@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:BasePopUp  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms" 
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                  xmlns:pages1="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
+                  x:Class="SOE.Views.PopUps.LoginPopUp"
+                  x:Name="Me">
+    <pages:BasePopUp.BindingContext>
+        <pages1:LoginPopUpViewModel/>
+    </pages:BasePopUp.BindingContext>
+<pancakeView:PancakeView Margin="20" CornerRadius="15" 
+                         VerticalOptions="Center" HorizontalOptions="Center" >
+        <StackLayout>
+            <Frame BackgroundColor="Transparent" Padding="0">
+                <StackLayout>
+                    <Label Text="Usuario" FontAttributes="Bold" TextColor="Black"  HorizontalOptions="Center"/>
+                    <Label Text="{Binding Boleta}" TextColor="Black"  HorizontalOptions="Center" />
+                </StackLayout>
+            </Frame>
+            <Entry IsPassword="True" Placeholder="Contraseña" Text="{Binding Password}"/>
+            <Button Text="Ingresar" Command="{Binding IngresarCommand}" CommandParameter="{x:Reference Me}" CornerRadius="15"/>
+        </StackLayout>
+    </pancakeView:PancakeView>
+</pages:BasePopUp>

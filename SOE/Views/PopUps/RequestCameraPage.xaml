@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:BasePopUp  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                  xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+                  xmlns:pages1="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
+                  x:Class="SOE.Views.PopUps.RequestCameraPage"
+             x:DataType="pages1:RequestCameraPageViewModel">
+    <pages:BasePopUp.BindingContext>
+        <pages1:RequestCameraPageViewModel/>
+    </pages:BasePopUp.BindingContext>
+    <ContentPage.Content>
+        <pancakeView:PancakeView  HorizontalOptions="Center"  VerticalOptions="Center" Margin="5">
+            <StackLayout>
+                <Label Text="Un momento..." BackgroundColor="{StaticResource Primary}"
+                       VerticalOptions="Start"  Padding="10" FontSize="20" TextColor="White"
+                       HorizontalOptions="FillAndExpand" />
+                <StackLayout Margin="5" Padding="5">
+
+                    <StackLayout Orientation="Horizontal" Margin="3" Padding="10">
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                                 Glyph="{x:Static fonts:FontelloIcons.Camera}" 
+                                                 Color="Black"/>
+                            </Image.Source>
+                        </Image>
+
+                        <Label TextColor="Black" Text="Permite el acceso a la galeria para que puedas seleccionar fotos de tu dispositivo y colocarlas en tu actividad."/>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" Margin="3" Padding="10">
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                                 Glyph="{x:Static fonts:FontelloIcons.Photo}" 
+                                                 Color="Black"/>
+                            </Image.Source>
+                        </Image>
+
+                        <Label TextColor="Black" Text="Permite el acceso a la camara para que puedas tomar fotos de tu alrededor y adjuntarlas en tu actividad."/>
+                    </StackLayout>
+
+                    <Button 
+                        Text="Continuar" Command="{Binding ContinueCommand}"/>
+                    <Label TextColor="Black" VerticalOptions="End" Text="*Puede modificar el acceso en cualquier momento desde la aplicación de ajustes."/>
+                </StackLayout>
+            </StackLayout>
+        </pancakeView:PancakeView>
+    </ContentPage.Content>
+</pages:BasePopUp>
+

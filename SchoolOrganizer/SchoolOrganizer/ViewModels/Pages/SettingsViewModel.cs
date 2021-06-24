@@ -27,11 +27,13 @@ namespace SchoolOrganizer.ViewModels.Pages
         public ICommand SaveCommand { get; }
         public ICommand ViewChangeCommand { get; set; }
         public ICommand ShareDatabaseCommand { get; set; }
+        public User User { get; }
         public ICommand OnFingerPrintToogledCommand { get; set; }
         public ICommand TutorialCommand { get; set; }
 
         public SettingsViewModel()
         {
+           
             this.OnFingerPrintToogledCommand = new Command(OnFingerPrintToogled);
             this.SaveCommand = new Command(Save);
             ViewChangeCommand = new Command(ViewOpen);
@@ -42,6 +44,7 @@ namespace SchoolOrganizer.ViewModels.Pages
 
         private void TutorialView(object obj)
         {
+            
             Application.Current.MainPage = new AppShell();
         }
 

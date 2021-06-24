@@ -99,6 +99,17 @@ namespace SchoolOrganizer.Views.Pages
                 case 1:
                     this.Title = "Tareas";
                     this.ToolbarItems.Clear();
+                    this.ToolbarItems.Add(new ToolbarItem
+                    {
+                        Command = Model.ItemSelectedCommand,
+                        CommandParameter = this,
+                        IconImageSource = new FontImageSource()
+                        {
+                            FontFamily = FontelloIcons.Font,
+                            Glyph = FontelloIcons.Attach
+                        }
+                    });
+                    
                     break;
                 case 2:
                     this.Title = "Horario";

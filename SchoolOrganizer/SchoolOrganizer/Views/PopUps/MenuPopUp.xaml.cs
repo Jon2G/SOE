@@ -4,6 +4,7 @@ using Rg.Plugins.Popup.Enums;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using SchoolOrganizer.Models.TaskFirst;
+using SchoolOrganizer.ViewModels.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,14 +19,13 @@ namespace SchoolOrganizer.Views.PopUps
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MenuPopUp 
     {
-        
+        public MenuPopUpViewModel Model { get; set; }
+
         public MenuPopUp()
         {
+            this.Model = new MenuPopUpViewModel(this);
+            this.BindingContext = Model;
             InitializeComponent();
-        }
-        public MenuPopUp(ToDo todo)
-        {
-                
         }
         public override async Task<BasePopUp> Show()
         {

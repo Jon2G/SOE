@@ -109,7 +109,7 @@
                     </Grid>
                     <Label Grid.Row="1" BackgroundColor="#15386f" Text="{x:Static fonts:FontelloIcons.UpArrow}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="Large">
                         <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding Taskcommand}"/>
+                            <TapGestureRecognizer Command="{Binding OpenMenuCommand}"/>
                         </Label.GestureRecognizers>
                     </Label>
                 </Grid>

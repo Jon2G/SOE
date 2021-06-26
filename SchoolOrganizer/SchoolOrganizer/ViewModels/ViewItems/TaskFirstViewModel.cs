@@ -19,32 +19,33 @@ namespace SchoolOrganizer.ViewModels.ViewItems
 {
     public class TaskFirstViewModel : BaseViewModel
     {
+        public static TaskFirstViewModel Instance { get; private set; }
         public ObservableCollection<ByDayGroup> DayGroups { get; set; }
        
         public TaskFirstViewModel()
         {
-
+            Instance = this;
             DayGroups = new ObservableCollection<ByDayGroup>();
-            Task.Run(Refresh);
-           
+            Task.Run(()=>Refresh());
+          
         }
 
       
 
-        public async Task Refresh()
+        public async Task Refresh(string condition="")
         {
             await Task.Yield();
             DayGroups.Clear();
             DayGroups.AddRange(
             AppData.Instance.LiteConnection.
-                Lista<long>($"SELECT Distinct {nameof(ToDo.Date)} from {nameof(ToDo)} where {nameof(ToDo.Date)}>={DateTime.Today.Ticks} order by date")
+                Lista<long>($"SELECT Distinct {nameof(ToDo.Date)} from {nameof(ToDo)} where {nameof(ToDo.Date)}>={DateTime.Today.Ticks} {condition} order by date")
                 .Select((x) => new ByDayGroup()
                 {
                     FDateTime =new DateTime(x)
                 }).ToList());
             foreach (var day in DayGroups)
             {
-                day.Refresh();
+                day.Refresh(condition);
             }
         }
 

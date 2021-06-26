@@ -13,7 +13,7 @@
               xmlns:images="clr-namespace:SchoolOrganizer.Data.Images;assembly=SchoolOrganizer" 
               x:DataType="viewModels:TaskViewModel" Title="Tarea">
     <ContentPage.BindingContext>
-        <viewModels:TaskViewModel x:Name="Modelo"/>
+        <viewModels:TaskPageViewModel x:Name="Modelo"/>
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Confirmar" Command="{Binding SaveCommand}"/>
@@ -38,7 +38,7 @@
                     <StackLayout Spacing="10" Margin="5" >
                         <StackLayout Spacing="10">
                             <!--<Frame BorderColor="{StaticResource PrimaryLightColor}" CornerRadius="60" HeightRequest="39" WidthRequest="1">-->
-                            <Editor AutoSize="TextChanges" Placeholder="Agregar titulo"  TextColor="Black" Text="{Binding Tarea.Title}" MaxLength="100"/>
+                            <Editor AutoSize="TextChanges" Placeholder="Agregar titulo"   Text="{Binding Tarea.Title}" MaxLength="100"/>
                             <!--</Frame>-->
 
                             <Label  VerticalTextAlignment="Center" 

@@ -12,6 +12,8 @@ using Xamarin.Forms;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
 using System.Collections.Generic;
+using SchoolOrganizer.ViewModels.ViewItems;
+using AsyncAwaitBestPractices;
 
 namespace SchoolOrganizer.ViewModels.Pages
 {
@@ -37,57 +39,54 @@ namespace SchoolOrganizer.ViewModels.Pages
         //}
 
         public ICommand ItemSelectedCommand => new Command(TaskpageC);
-        public ICommand Taskcommand => new Command(TapMenu);
-
-
+        public ICommand _OpenMenuCommand;
+        public ICommand OpenMenuCommand => _OpenMenuCommand ??= new Command(OpenMenu);
 
         private void LoadData()
         {
         }
-        private void TapMenu()
+        private async void OpenMenu(object obj)
         {
-            var config = new ActionSheetConfig()
+            var pr = new MasterPopUp();
+            await pr.ShowDialog();
+            switch (pr.Model.Action)
             {
-                Cancel = new ActionSheetOption("Cancelar"),
-                Title = "Opcines de Tareas",
-                Message = "Seleccione una opción",
-                Options = new List<ActionSheetOption>()
-                {
-                    new ActionSheetOption("Completadas",null),
-                    new ActionSheetOption("Pendientes", null),
-                    new ActionSheetOption("Archivadas", null)
-                },
-                UseBottomSheet = true
-                
-            };
-            Acr.UserDialogs.UserDialogs.Instance.ActionSheet(config);
+                case "Completadas":
+                    TaskFirstViewModel.Instance.Refresh("AND DONE=1").SafeFireAndForget();
+                    break;
+                case "Pendientes":
+                    TaskFirstViewModel.Instance.Refresh("AND DONE=0").SafeFireAndForget();
+                    break;
+                case "Archivadas":
+                    TaskFirstViewModel.Instance.Refresh("AND ARCHIVED=1").SafeFireAndForget();
+                    break;
 
-
+            }
         }
         private void TaskpageC()
         {
             App.Current.MainPage.Navigation.PushAsync(new TaskPage(), true);
         }
-            private void ItemSelected(string parameter)
-        {
-            // App.Current.MainPage = new TaskPage();
-            switch (parameter)
-            {
-                case "Delayed":
-                    //App.Current.MainPage = new TaskPage();
-                    App.Current.MainPage.Navigation.PushAsync(new TaskPage(), true);
-                    //var pr = new TaskPage();
-                    //var scaleAnimation = new ScaleAnimation
-                    //{
-                    //    PositionIn = MoveAnimationOptions.Right,
-                    //    PositionOut = MoveAnimationOptions.Left
-                    //};
+        //    private void ItemSelected(string parameter)
+        //{
+        //    // App.Current.MainPage = new TaskPage();
+        //    switch (parameter)
+        //    {
+        //        case "Delayed":
+        //            //App.Current.MainPage = new TaskPage();
+        //            App.Current.MainPage.Navigation.PushAsync(new TaskPage(), true);
+        //            //var pr = new TaskPage();
+        //            //var scaleAnimation = new ScaleAnimation
+        //            //{
+        //            //    PositionIn = MoveAnimationOptions.Right,
+        //            //    PositionOut = MoveAnimationOptions.Left
+        //            //};
 
-                    //pr.Animation = scaleAnimation;
-                    //await PopupNavigation.Instance.PushAsync(pr);
-                    break;
-            }
+        //            //pr.Animation = scaleAnimation;
+        //            //await PopupNavigation.Instance.PushAsync(pr);
+        //            break;
+        //    }
 
-        }
+        
     }
 }

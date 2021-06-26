@@ -32,10 +32,6 @@ namespace SchoolOrganizer.Views.Pages
         }
 
 
-        //private async void Button_Clicked(object sender, EventArgs e)
-        //{
-
-        //}
         protected override bool OnBackButtonPressed()
         {
             if (TabView.SelectedIndex < 0)

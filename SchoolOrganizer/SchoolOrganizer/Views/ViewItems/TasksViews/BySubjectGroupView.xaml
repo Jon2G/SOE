@@ -3,8 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:tasksViews="clr-namespace:SchoolOrganizer.Views.ViewItems.TasksViews;assembly=SchoolOrganizer"
-             xmlns:taskFirst="clr-namespace:SchoolOrganizer.Models.TaskFirst;assembly=SchoolOrganizer"
+             xmlns:taskFirst="clr-namespace:SchoolOrganizer.Models.TaskFirst;assembly=SchoolOrganizer" 
+             xmlns:pages="clr-namespace:SchoolOrganizer.ViewModels.Pages"
              x:Class="SchoolOrganizer.Views.ViewItems.TasksViews.BySubjectGroupView"
+             x:DataType="taskFirst:BySubjectGroup"
              Background="Red">
     <ContentView.Content>
         <views:Expander x:Name="Expander" BackgroundColor="{Binding Subject.Color}">
@@ -17,7 +19,7 @@
             <StackLayout>
                 <StackLayout  Spacing="0" BindableLayout.ItemsSource="{Binding ToDoS}">
                     <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="taskFirst:ToDo">
+                        <DataTemplate x:DataType="pages:TaskViewModel">
                             <tasksViews:TaskView/>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>

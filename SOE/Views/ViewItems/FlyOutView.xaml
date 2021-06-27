@@ -14,7 +14,7 @@
         <viewItems:FlyOutViewModel x:Name="Model"/>
     </ContentView.BindingContext>
     <ContentView.Content>
-        <StackLayout         BackgroundColor="{StaticResource Primary}" >
+        <StackLayout Background="{StaticResource PrimaryColor}" >
             <Grid BindingContext="{Binding User, Source={x:Static data1:AppData.Instance}}" 
                   x:DataType="data:User" Margin="10,0,0,0"
                   ColumnDefinitions="Auto,*" Padding="10">

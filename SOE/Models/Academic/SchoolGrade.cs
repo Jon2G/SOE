@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using APIModels;
+using APIModels.Enums;
 using Kit.Model;
 using SOE.Data;
 using SOE.Models.Scheduler;
@@ -18,7 +20,7 @@ namespace SOE.Models.Academic
             int i = this.Grades.Count;
             while (this.Grades.Count < 5)
             {
-                this.Grades.Add(new Grade((Partial)i, "-", this.Subject.Id));
+                this.Grades.Add(new Grade((GradePartial)i, "-",Grade.Undefined, this.Subject.Id));
             }
         }
     }

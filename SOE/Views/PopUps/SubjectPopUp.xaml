@@ -4,14 +4,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SOE.Views.PopUps.SubjectPopUp"            
              xmlns:viewModels="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
-             xmlns:scheduler="clr-namespace:SOE.Models.Scheduler;assembly=SOE" 
+             xmlns:scheduler="clr-namespace:SOE.Models.Scheduler;assembly=SOE"
+             xmlns:apiModels="clr-namespace:APIModels;assembly=APIModels"
              x:DataType="viewModels:SubjectViewModel" x:Name="Me">
 
     <Frame Margin="20" CornerRadius="15" 
            VerticalOptions="Center" HorizontalOptions="Center" >
         <CollectionView ItemsSource="{Binding subjects}">
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="scheduler:Subject">
+                <DataTemplate x:DataType="apiModels:Subject">
                     <ContentView>
                         <Frame Margin="3"  
                                 CornerRadius="10" BackgroundColor="{Binding Color}">

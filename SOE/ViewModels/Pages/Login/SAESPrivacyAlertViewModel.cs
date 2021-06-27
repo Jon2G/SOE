@@ -6,7 +6,7 @@ using Rg.Plugins.Popup.Services;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
-namespace SOE.ViewModels.Pages
+namespace SOE.ViewModels.Pages.Login
 {
     public class SAESPrivacyAlertViewModel
     {

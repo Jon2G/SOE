@@ -1,13 +1,17 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Acr.UserDialogs;
+using APIModels;
 using Kit;
 using Kit.Model;
 using SOE.Data;
 using SOE.Models.Academic;
 using SOE.Models.Scheduler;
 using SOE.Saes;
+using SOE.Services;
+using Xamarin.Forms;
 
 namespace SOE.ViewModels
 {
@@ -31,12 +35,19 @@ namespace SOE.ViewModels
             this.Grades = new ObservableCollection<SchoolGrade>();
             GetGrades();
             this.RefreshCommand = new Xamarin.Forms.Command(Refresh);
+            App.Current.RequestedThemeChanged += Current_RequestedThemeChanged;
+        }
+
+        private void Current_RequestedThemeChanged(object sender, AppThemeChangedEventArgs e)
+        {
+            GetGrades();
+            Raise(()=>Grades);
         }
 
         private void GetGrades()
         {
             this.Grades.Clear();
-            this.Grades.AddRange(Subject.ToList().Select(s => new SchoolGrade(s)));
+            this.Grades.AddRange(SubjectService.ToList().Select(s => new SchoolGrade(s)));
         }
 
         private async void Refresh()
@@ -67,7 +78,7 @@ namespace SOE.ViewModels
 
             using (UserDialogs.Instance.Loading("Actualizando calificaciones...."))
             {
-                await AppData.Instance.SAES.GetSchoolGrades();
+                await AppData.Instance.SAES.GetGrades();
             }
             GetGrades();
         }

@@ -1,4 +1,7 @@
 ﻿using System;
+using APIModels;
+using SOE.Models.Academic;
+using SOE.Services;
 using FontelloIcons = SOE.Fonts.FontelloIcons;
 
 namespace SOE.Models.Scheduler
@@ -34,7 +37,7 @@ namespace SOE.Models.Scheduler
         }
 
         public FreeClass(TimeSpan Begin, TimeSpan End, DayOfWeek Day) :
-            base(Subject.FreeHour(), Begin, End, Day)
+            base(SubjectService.FreeHour(), Begin, End, Day)
         {
           
         }

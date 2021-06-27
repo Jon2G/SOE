@@ -1,34 +1,23 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using APIModels;
 using SkiaSharp.Views.Forms;
-using SOE.Data;
-using SOE.Models.Data;
 using SOE.Models.SkiaSharp;
-using SOE.Saes;
-using SOE.ViewModels.Pages;
-using SOE.Views.PopUps;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace SOE.Views.Pages
+namespace SOE.Views.Pages.Login
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SignUpSucessPage
+    public partial class LoginPage : ContentPage
     {
-        public SignUpSucessPage()
+        private HighlightForm _highlightForm;
+
+        public LoginPage()
         {
             InitializeComponent();
-            AppData.Instance.SAES = this.SAES;
-            AppData.Instance.SAES.ShowLoading = false;
             InitAnimation();
         }
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            Model.GetUserData();
-        }
+
         private void InitAnimation()
         {
             Task.Run(AnimateBorder);
@@ -40,6 +29,28 @@ namespace SOE.Views.Pages
                 AnimationDuration = TimeSpan.FromMilliseconds(900),
                 AnimationEasing = Easing.CubicInOut,
             };
+            _highlightForm = new HighlightForm(settings);
+        }
+
+        void EntryFocused(object sender, FocusEventArgs e)
+        {
+            _highlightForm.HighlightElement((View)sender, _skCanvasView, _formLayout);
+        }
+
+        void SkCanvasViewPaintSurfaceRequested(object sender, SKPaintSurfaceEventArgs e)
+        {
+            _highlightForm.Draw(_skCanvasView, e.Surface.Canvas);
+        }
+
+        void SkCanvasViewSizeChanged(object sender, EventArgs e)
+        {
+            _highlightForm.Invalidate(_skCanvasView, _formLayout);
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Usuario.Focus();
         }
         private async void AnimateBorder()
         {

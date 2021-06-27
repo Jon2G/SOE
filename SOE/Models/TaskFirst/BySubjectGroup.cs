@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using APIModels;
 using Kit;
 using SOE.Data;
 using SOE.Models.Scheduler;

@@ -6,6 +6,7 @@ using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 using SOE.Data;
 using SOE.Models.Data;
+using SOE.Views.Pages.Login;
 using SOE.Views.PopUps;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,7 +14,7 @@ using Xamarin.Forms.Xaml;
 namespace SOE.Views.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SplashScreen : ContentPage
+    public partial class SplashScreen
     {
         private string _Status;
 
@@ -29,23 +30,20 @@ namespace SOE.Views.Pages
 
         public SplashScreen()
         {
+            this.BindingContext = this;
             InitializeComponent();
         }
         protected override async void OnAppearing()
         {
             base.OnAppearing();
             await Task.Run(() => { while (ImgLogo.IsLoading) { } });
-            SetStatus("Comprobando permisos de escritura...");
-            await Permisos.RequestStorage();
+            //SetStatus("Comprobando permisos de escritura...");
+            //await Permisos.RequestStorage();
             AppData.Init();
-            User user = User.Get();
-            Settings settings = new Settings();
-            if (user != null)
+            AppData.Instance.LiteConnection.CreateTable<User>();
+            if (AppData.Instance.LiteConnection.TableExists<User>() && User.Get() is User user)
             {
-                settings = user.GetSettings();
-            }
-            if (user != null)
-            {
+                Settings settings = user.GetSettings();
                 if (settings.IsFingerPrintActive)
                 {
                     if (!await CrossFingerprint.Current.IsAvailableAsync(true))
@@ -55,12 +53,12 @@ namespace SOE.Views.Pages
                         return;
                     }
                     var authResult = await Device.InvokeOnMainThreadAsync(() =>
-                    CrossFingerprint.Current.AuthenticateAsync(
-                        new AuthenticationRequestConfiguration("Bloqueo de aplicación",
-                        "Inicio de sesíon por huella")
-                        {
-                            AllowAlternativeAuthentication = true
-                        }, new System.Threading.CancellationToken(false)));
+                        CrossFingerprint.Current.AuthenticateAsync(
+                            new AuthenticationRequestConfiguration("Bloqueo de aplicación",
+                                "Inicio de sesíon por huella")
+                            {
+                                AllowAlternativeAuthentication = true
+                            }, new System.Threading.CancellationToken(false)));
 
                     if (authResult.Status == FingerprintAuthenticationResultStatus.Failed &&
                         authResult.ErrorMessage == "Authentication canceled")
@@ -85,7 +83,6 @@ namespace SOE.Views.Pages
             else
             {
                 App.Current.MainPage = new LoginPage();
-
             }
         }
 

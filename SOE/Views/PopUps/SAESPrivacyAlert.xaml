@@ -5,18 +5,19 @@
                   xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
                   xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
                   xmlns:pages1="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
+                  xmlns:login="clr-namespace:SOE.ViewModels.Pages.Login;assembly=SOE"
                   x:Class="SOE.Views.PopUps.SAESPrivacyAlert"
-             x:DataType="pages1:SAESPrivacyAlertViewModel">
+             x:DataType="login:SAESPrivacyAlertViewModel">
     <pages:BasePopUp.BindingContext>
-        <pages1:SAESPrivacyAlertViewModel/>
+        <login:SAESPrivacyAlertViewModel/>
     </pages:BasePopUp.BindingContext>
     <ContentPage.Content>
         <pancakeView:PancakeView  HorizontalOptions="Center"  VerticalOptions="Center" Margin="5">
             <StackLayout>
-                
-                <Label  BackgroundColor="{StaticResource Primary}"
-                       VerticalOptions="Start"  Padding="10" FontSize="20" TextColor="White"
-                       HorizontalOptions="FillAndExpand" >
+
+                <Label  Background="{StaticResource PrimaryColor}" 
+                        VerticalOptions="Start"  Padding="10" FontSize="20" TextColor="White"
+                        HorizontalOptions="FillAndExpand" >
                     <Label.FormattedText>
                         <FormattedString>
                             <Span Text="{x:Static fonts:FontelloIcons.Stop}" FontFamily="{x:Static fonts:FontelloIcons.Font}" FontSize="20"/>

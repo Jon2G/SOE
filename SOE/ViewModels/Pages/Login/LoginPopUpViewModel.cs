@@ -5,7 +5,7 @@ using SOE.Models.Data;
 using SOE.Views.PopUps;
 using Xamarin.Forms;
 
-namespace SOE.ViewModels.Pages
+namespace SOE.ViewModels.Pages.Login
 {
 
     class LoginPopUpViewModel : ModelBase

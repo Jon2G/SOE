@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 using Kit.Model;
 using SOE.Models.Scheduler;
@@ -38,6 +39,13 @@ namespace SOE.ViewModels.ViewItems
             this.ExpandCommand = new Command(Expand);
             this.CollapseCommand = new Command(Collapse);
             this.ToggleCommand = new Command(ToggleMenu);
+            App.Current.RequestedThemeChanged += Current_RequestedThemeChanged;
+        }
+
+        private void Current_RequestedThemeChanged(object sender, AppThemeChangedEventArgs e)
+        {
+            ClassSquares = Day.GetTimeLine();
+            Raise(()=>ClassSquares);
         }
 
         private void ToggleMenu(object obj)

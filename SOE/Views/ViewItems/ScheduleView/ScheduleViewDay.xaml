@@ -51,15 +51,16 @@
                                             <ContentView HeightRequest="{Binding HoursHeigthRequest}"
                                                          MinimumHeightRequest="{Binding HoursHeigthRequest}" 
                                                          Padding="0" Margin="0">
-                                                <Frame Margin="6" BackgroundColor="{Binding Subject.Color}" Padding="3">
+                                        <Frame Margin="6" BackgroundColor="{Binding Subject,Converter={x:StaticResource SubjectColorAppThemeConverter}}"
+                                               Padding="3">
                                                     <StackLayout>
-                                            <Label FontSize="16" TextColor="{StaticResource DarkTextColor}"
+                                            <Label FontSize="16" 
                                                                        HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
                                                                        Text="{Binding Subject.Name}"/>
-                                            <Label FontSize="16" TextColor="{StaticResource DarkTextColor}"
+                                            <Label FontSize="16" 
                                                                        HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
                                                                        Text="{Binding Subject.Group}" />
-                                            <Label FontSize="16" TextColor="{StaticResource DarkTextColor}"
+                                            <Label FontSize="16"
                                                                        HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
                                                                        Text="{Binding  FormattedTime}" />
                                                     </StackLayout>

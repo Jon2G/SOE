@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using SOE.Interfaces;
 using SOE.Views.ViewItems.ScheduleView;
 using SOE.Widgets;
 using Xamarin.Forms;
@@ -55,6 +56,7 @@ namespace SOE
         }
         private void MasterPage_OnAppearing(object sender, EventArgs e)
         {
+            DependencyService.Get<IStartNotificationsService>()?.StartNotificationsService();
             if (WidgetPendingAction != null)
             {
                 Execute(WidgetPendingAction);

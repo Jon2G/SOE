@@ -91,7 +91,7 @@
       <Version>7.1.0.514</Version>
     </PackageReference>
     <PackageReference Include="CardsView">
-      <Version>2.7.8</Version>
+      <Version>2.7.9</Version>
     </PackageReference>
     <PackageReference Include="Forms9Patch">
       <Version>2.4.9</Version>
@@ -100,7 +100,7 @@
       <Version>2.1.4</Version>
     </PackageReference>
     <PackageReference Include="Rg.Plugins.Popup">
-      <Version>2.0.0.11</Version>
+      <Version>2.0.0.12</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.CommunityToolkit">
       <Version>1.1.0</Version>
@@ -155,6 +155,10 @@
     <ProjectReference Include="..\..\..\Kit\Kit\Kit.csproj">
       <Project>{fbdd1dcc-b804-4690-8113-98d775de9a88}</Project>
       <Name>Kit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\APIModels\APIModels.csproj">
+      <Project>{2a23810f-e1dc-4005-a55e-bdd18b341790}</Project>
+      <Name>APIModels</Name>
     </ProjectReference>
     <ProjectReference Include="..\SOE\SOE.csproj">
       <Project>{20ccea58-74b4-41b0-9e9e-22b7b328c798}</Project>

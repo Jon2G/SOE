@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using APIModels;
 using Kit;
 using Kit.Model;
 using SOE.Data;
+using SOE.Models.Academic;
 using SOE.Models.Scheduler;
+using SOE.Services;
 using SOE.Views.ViewItems.TasksViews;
 
 namespace SOE.Models.TaskFirst
@@ -33,7 +36,7 @@ namespace SOE.Models.TaskFirst
             SubjectGroups.Clear();
             SubjectGroups.AddRange(AppData.Instance.LiteConnection.Lista<int>(
                     $"SELECT Distinct {nameof(ToDo.SubjectId)} from {nameof(ToDo)}")
-                .Select(x => new BySubjectGroup(Subject.Get(x))));
+                .Select(x => new BySubjectGroup(SubjectService.Get(x))));
             //??????????????????????? le movi aqui where {nameof(ToDo.Date)}<{this.FDateTime.Ticks}
 
             foreach (var group in this.SubjectGroups)

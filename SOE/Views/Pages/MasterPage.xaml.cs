@@ -61,7 +61,7 @@ namespace SOE.Views.Pages
             }
         }
 
-        private void TabView_OnSelectionChanged(object? sender, TabSelectionChangedEventArgs e)
+        private void TabView_OnSelectionChanged(object sender, TabSelectionChangedEventArgs e)
         {
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using APIModels;
 using Kit.Model;
 using Kit.Sql.Sqlite;
 using SOE.Data.Images;
@@ -14,6 +15,7 @@ namespace SOE.Data
 {
     public class AppData : ModelBase
     {
+        public const string Version = "1.0.0 BETA";
         public static bool IsInitialized => Instance is not null;
         public static AppData Instance { get; private set; }
 
@@ -47,14 +49,19 @@ namespace SOE.Data
             AppData.Instance = new AppData
             {
                 User = new User(),
-                LiteConnection = new SQLiteConnection(LiteDbPath, 116)
+                LiteConnection = new SQLiteConnection(LiteDbPath, 100)
             };
+
+        }
+
+        public static void CreateDatabase()
+        {
             AppData.Instance.LiteConnection.CheckTables(
-                typeof(Teacher), typeof(Subject), typeof(User),
-                typeof(ClassTime), typeof(Grade), typeof(Credits),
-                typeof(ToDo), typeof(Settings), typeof(NotificationsHistory),
-                typeof(Document), typeof(DocumentPart), typeof(Archive),
-                typeof(Keeper));
+                typeof(Teacher), typeof(Subject), typeof(User), 
+                typeof(Career), typeof(ClassTime), typeof(Grade), 
+                typeof(Credits), typeof(ToDo), typeof(Settings), 
+                typeof(NotificationsHistory), typeof(Document), 
+                typeof(DocumentPart), typeof(Archive), typeof(Keeper));
         }
     }
 }

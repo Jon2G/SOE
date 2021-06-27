@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 using Kit.Sql.Attributes;
 
-namespace SOE.Models.Scheduler
+namespace APIModels
 {
     public class ClassTime
     {
@@ -11,8 +13,23 @@ namespace SOE.Models.Scheduler
         public int IdSubject { get; set; }
         public string Group { get; set; }
         public DayOfWeek Day { get; set; }
+
+        [XmlIgnore]
         public TimeSpan Begin { get; set; }
+        [Ignore]
+        public long BeginTicks
+        {
+            get => Begin.Ticks;
+            set => Begin = TimeSpan.FromTicks(value);
+        }
+        [XmlIgnore]
         public TimeSpan End { get; set; }
+        [Ignore]
+        public long EndTicks
+        {
+            get=>End.Ticks;
+            set => End = TimeSpan.FromTicks(value);
+        }
 
         public ClassTime()
         {

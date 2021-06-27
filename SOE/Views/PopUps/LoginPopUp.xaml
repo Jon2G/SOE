@@ -4,10 +4,11 @@
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                   xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
                   xmlns:pages1="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
+                  xmlns:login="clr-namespace:SOE.ViewModels.Pages.Login;assembly=SOE"
                   x:Class="SOE.Views.PopUps.LoginPopUp"
                   x:Name="Me">
     <pages:BasePopUp.BindingContext>
-        <pages1:LoginPopUpViewModel/>
+        <login:LoginPopUpViewModel/>
     </pages:BasePopUp.BindingContext>
 <pancakeView:PancakeView Margin="20" CornerRadius="15" 
                          VerticalOptions="Center" HorizontalOptions="Center" >

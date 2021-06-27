@@ -5,6 +5,7 @@
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
              xmlns:renders="clr-namespace:SOE.Renders;assembly=SOE"
+             xmlns:converters="clr-namespace:SOE.Converters;assembly=SOE"
              x:Class="SOE.App">
     <!--
         Define global resources and styles here, that apply to all pages in your app.
@@ -12,7 +13,7 @@
     <Application.Resources>
         <ResourceDictionary>
 
-            <Color x:Key="Primary">#080821</Color>
+            <!--<Color x:Key="Primary">#080821</Color>-->
             <Color x:Key="AccentColor">#0277bd</Color>
 
             <Color x:Key="PrimaryDarkColor">#0d0d33</Color>
@@ -37,23 +38,6 @@
 
             <Color x:Key="DisabledDarkAccentColor">#335E8DB3</Color>
             <Color x:Key="DisabledLightAccentColor">#332196F3</Color>
-
-
-
-            <!--Colores para materias-->
-            <Color x:Key="SubjectColor_1">#fff2cc</Color>
-            <Color x:Key="SubjectColor_2">#ffdac1</Color>
-            <Color x:Key="SubjectColor_3">#e2F0cb</Color>
-            <Color x:Key="SubjectColor_4">#b5ead7</Color>
-            <Color x:Key="SubjectColor_5">#c7ceea</Color>
-            <Color x:Key="SubjectColor_6">#d9d2e9</Color>
-
-            <Color x:Key="SubjectColor_Aux1">#FEC1FF</Color>
-            <Color x:Key="SubjectColor_Aux2">#F9C5A2</Color>
-            <Color x:Key="SubjectColor_Aux3">#98FFB4</Color>
-            <Color x:Key="SubjectColor_Aux4">#6EEABE</Color>
-            <Color x:Key="SubjectColor_Aux5">#A2B4FF</Color>
-            <Color x:Key="SubjectColor_Aux6">#A783F9</Color>
 
 
             <SolidColorBrush x:Key="Background"
@@ -177,6 +161,7 @@
                 <Setter Property="TabContentBackgroundColor" Value="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}" />
                 <Setter Property="TabStripPlacement" Value="Bottom" />
             </Style>
+            <converters:SubjectColorAppThemeConverter x:Key="SubjectColorAppThemeConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

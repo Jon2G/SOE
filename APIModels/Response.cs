@@ -23,6 +23,7 @@ namespace APIModels
             
         }
         public static Response Error => new Response(APIResponseResult.INTERNAL_ERROR, "ERROR");
+        public static Response InvalidRequest => new Response(APIResponseResult.INVALID_REQUEST, "!Solicitud invalida!");
         public static Response From(IReader reader)
         {
             if (reader.Read())

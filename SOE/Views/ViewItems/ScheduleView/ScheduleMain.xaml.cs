@@ -27,8 +27,11 @@ namespace SOE.Views.ViewItems.ScheduleView
         {
             this.OnDayTappedCommand = new Command<SheduleDay>(OnDayTapped);
             InitializeComponent();
-            this.IsDayViewVisible = false;
+            this.IsDayViewVisible = false; 
+
         }
+
+  
 
         private void OnDayTapped(SheduleDay day)
         {

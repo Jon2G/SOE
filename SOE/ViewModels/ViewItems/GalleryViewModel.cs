@@ -37,8 +37,7 @@ namespace SOE.ViewModels.ViewItems
         public ObservableCollection<CachedImage> Items { get; }
 
         private int _currentIndex;
-        private int _imageCount = 1078;
-
+ 
         public GalleryViewModel()
         {
             Items = new ObservableCollection<CachedImage>();

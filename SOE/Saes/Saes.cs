@@ -5,13 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 using APIModels;
+using APIModels.Enums;
 using HtmlAgilityPack;
 using Kit;
+using SOE.API;
 using SOE.Data;
 using SOE.Models.Academic;
 using SOE.Models.Data;
 using SOE.Models.Scheduler;
+using SOE.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
@@ -22,15 +27,12 @@ namespace SOE.Saes
 {
     public class SAES : WebView
     {
-        private const string SaesHomePage = "https://www.saes.ipn.mx";
-        //public const string HomePage = "https://www.saes.esimecu.ipn.mx";
         private const string AlumnosPage = "/alumnos/default.aspx";
         private const string HorariosPage = "/alumnos/informacion_semestral/horario_alumno.aspx";
         private const string KardexPage = "/alumnos/boleta/kardex.aspx";
         private const string CitaReinscripcionPage = "/alumnos/reinscripciones/fichas_reinscripcion.aspx";
         private const string CalificacionesPage = "/alumnos/informacion_semestral/calificaciones_sem.aspx";
-        private const string UniversitiesPage = "https://www.saes.ipn.mx/ns.html";
-        private const string HighSchoolsPage = "https://www.saes.ipn.mx/nms.html";
+
         private NavigationRequest CurrentRequest;
         private readonly Queue<NavigationRequest> NavigationQueue;
 
@@ -70,7 +72,7 @@ namespace SOE.Saes
                     "No fue posible conectarse al SAES, verifique si el sitio esta activo", "Sin conexión");
                 return;
             }
-            await this.EvaluateJavaScriptAsync(@"window.onerror = function myErrorHandler(errorMsg, url, lineNumber) { alert('Error occured: ' + errorMsg); return false; }");
+            await this.EvaluateJavaScriptAsync(@"window.onerror = function myErrorHandler(errorMsg, url, lineNumber) { console.log('Error occured: ' + errorMsg); return false; }");
             if (e.Url is null)
             {
                 await GoTo(AppData.Instance.User.School.HomePage);
@@ -106,7 +108,7 @@ namespace SOE.Saes
             var request = new NavigationRequest(navigateUrl);
             NavigationQueue.Enqueue(request);
             NavigateAsync();
-            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Espere un momento...",show:ShowLoading))
+            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Espere un momento...", show: ShowLoading))
             {
                 await request.Wait();
                 await Task.Run(() =>
@@ -149,7 +151,7 @@ namespace SOE.Saes
         public async Task<ImageSource> GetCaptcha()
         {
             ImageSource ImageSource = null;
-            await GoTo(AppData.Instance.User.School.HomePage);
+            await GoHome();
             await Task.Delay(TimeSpan.FromSeconds(2)); //dale tiempo al captcha para cargar
             StringBuilder sb = new StringBuilder();
             sb.Append("var getDataUrl = function (img) {")
@@ -168,6 +170,10 @@ namespace SOE.Saes
             if (!string.IsNullOrEmpty(sb.ToString()))
             {
                 string base_64 = await EvaluateJavaScriptAsync(sb.ToString());
+                if (string.IsNullOrEmpty(base_64))
+                {
+                    return null;
+                }
                 base_64 = base_64.Replace("data:image/png;base64,", string.Empty);
                 ImageSource =
                     Xamarin.Forms.ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(base_64)));
@@ -222,7 +228,7 @@ namespace SOE.Saes
             await GoTo(AppData.Instance.User.School.HomePage);
 
         }
-        public async Task<bool> LogIn(string captcha,int AttemptCount, bool ShouldGetUserData = true)
+        public async Task<bool> LogIn(string captcha, int AttemptCount, bool ShouldGetUserData = true)
         {
             if (AttemptCount < 3)
             {
@@ -261,7 +267,7 @@ namespace SOE.Saes
             await GetHorario();
             await GetKardexInfo();
             await GetCitasReinscripcionInfo();
-            await GetSchoolGrades();
+            await GetGrades();
             AppData.Instance.LiteConnection.InsertOrReplace(AppData.Instance.User);
         }
         public async Task GetName()
@@ -282,87 +288,25 @@ namespace SOE.Saes
 
             if (!string.IsNullOrEmpty(horario_html))
             {
-
-                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-                doc.LoadHtml(horario_html);
-
-                var htable = doc.DocumentNode.SelectSingleNode("//table");
-
-                List<List<string>> table = htable
-                    .Descendants("tr")
-                    .Skip(1)
-                    .Where(tr => tr.Elements("td").Count() > 1)
-                    .Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
-                    .ToList();
-
-
-                Regex time = new Regex(@"(?<begin_hour>\d\d):(?<begin_minutes>\d\d)\s*-\s*(?<end_hour>\d\d):(?<end_minutes>\d\d)");
-                Regex teacher_name = new Regex(@"//");
-                int aux_suffix = 1;
-                foreach (var row in table)
+                Response response = await APIService.PostClassTime(horario_html.ToBase64Encode(), AppData.Instance.User.Boleta);
+                if (response.ResponseResult == APIResponseResult.OK)
                 {
-                    string TeacherName = row[3];
-                    if (teacher_name.IsMatch(TeacherName))
+                    XmlDocument xmlDoc = new XmlDocument();
+                    xmlDoc.LoadXml(response.Message);
+                    XmlNodeList nodes = xmlDoc.SelectNodes("//Teachers/Teacher");
+                    foreach (XmlNode t_node in nodes)
+                        TeacherService.Save(t_node.ConvertNode<Teacher>());
+
+                    nodes = xmlDoc.SelectNodes("//Subjects/Subject");
+                    foreach (XmlNode t_node in nodes)
+                        SubjectService.Save(t_node.ConvertNode<Subject>());
+
+                    nodes = xmlDoc.SelectNodes("//ClassTimes/ClassTime");
+                    foreach (XmlNode t_node in nodes)
                     {
-                        TeacherName = teacher_name.Split(TeacherName).First();
+                        var class_time = t_node.ConvertNode<ClassTime>();
+                        ClassTimeService.Save(class_time);
                     }
-                    Teacher teacher = new Teacher()
-                    {
-                        Name = TeacherName
-                    };
-                    AppData.Instance.LiteConnection.Insert(teacher);
-
-                    for (int i = 6; i < 12; i++)
-                    {
-                        var match = time.Match(row[i]);
-                        if (match.Success)
-                        {
-                            string group = row[0];
-                            Subject subject;
-
-                            subject = (AppData.Instance.LiteConnection.Table<Subject>().FirstOrDefault(x =>
-                                x.Group == group));
-                            if (subject is null)
-                            {
-
-                                int suffix = Convert.ToInt32(group.Last().ToString());
-                                subject = new Subject()
-                                {
-                                    Name = row[2],
-                                    Color = ((Color)Application.Current.Resources[$"SubjectColor_{suffix}"]).ToHex(),
-                                    Group = group,
-                                    IdTeacher = teacher.Id
-                                };
-                                if (AppData.Instance.LiteConnection.Table<Subject>().Where(x =>
-                                    x.Color == subject.Color && x.Group != subject.Group).Any())
-                                {
-                                    subject.Color =
-                                        ((Color)Application.Current.Resources[$"SubjectColor_Aux{aux_suffix}"])
-                                        .ToHex();
-                                    aux_suffix++;
-                                }
-
-                                AppData.Instance.LiteConnection.Insert(subject);
-                            }
-
-                            int begin_hour = Convert.ToInt32(match.Groups["begin_hour"].Value);
-                            int begin_minutes = Convert.ToInt32(match.Groups["begin_minutes"].Value);
-                            int end_hour = Convert.ToInt32(match.Groups["end_hour"].Value);
-                            int end_minutes = Convert.ToInt32(match.Groups["end_minutes"].Value);
-
-                            TimeSpan begin = TimeSpan.FromHours(begin_hour).Add(TimeSpan.FromMinutes(begin_minutes));
-                            TimeSpan end = TimeSpan.FromHours(end_hour).Add(TimeSpan.FromMinutes(end_minutes));
-                            ClassTime classTime = new ClassTime()
-                            {
-                                Begin = begin,
-                                End = end,
-                                Day = (DayOfWeek)i - 5,
-                                IdSubject = subject.Id
-                            };
-                            AppData.Instance.LiteConnection.Insert(classTime);
-                        }
-                    }
-
 
                 }
             }
@@ -372,6 +316,16 @@ namespace SOE.Saes
             await GoTo(KardexPage);
             string carrera = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_Lbl_Carrera').innerHTML");
             AppData.Instance.User.Career = carrera;
+            Response response = await APIService.PostCareer(carrera, AppData.Instance.User.Boleta);
+            if (response.ResponseResult == APIResponseResult.OK)
+            {
+                AppData.Instance.LiteConnection.DeleteAll<Career>();
+                AppData.Instance.LiteConnection.Insert(new Career()
+                {
+                    Name = carrera,
+                    Id = Convert.ToInt32(response.Message)
+                });
+            }
         }
         private async Task GetCitasReinscripcionInfo()
         {
@@ -421,9 +375,8 @@ namespace SOE.Saes
                 .Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
                 .ToList();
         }
-        public async Task GetSchoolGrades()
+        public async Task GetGrades()
         {
-
             await GoTo(CalificacionesPage);
             string grades_html = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_GV_Calif').outerHTML");
             if (string.IsNullOrEmpty(grades_html))
@@ -431,56 +384,16 @@ namespace SOE.Saes
                 return;
             }
             Unescape(ref grades_html);
-            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-            doc.LoadHtml(grades_html);
-            HtmlNode htable = doc.DocumentNode.SelectSingleNode("//table");
-            List<List<string>> table = htable
-                .Descendants("tr")
-                .Skip(1)
-                .Where(tr => tr.Elements("td").Count() > 1)
-                .Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
-                .ToList();
-            List<Grade> grades = new List<Grade>();
-            foreach (var row in table)
+            Response response = await APIService.PostGrades(grades_html.ToBase64Encode());
+
+            if (response.ResponseResult == APIResponseResult.OK)
             {
-                string grupo = row[0];
-                Grade[] row_grades = new Grade[5];
-                for (int j = 2; j <= 6; j++)
-                {
-                    int index = j - 2;
-                    string score = row[j];
-                    if (score == "&nbsp;")
-                    {
-                        score = "-";
-                    }
-                    row_grades[index] = new Grade((Partial)index, score, Subject.GetId(grupo));
-                }
-                grades.AddRange(row_grades);
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(response.Message);
+                XmlNodeList nodes = xmlDoc.SelectNodes("//Grades/Grade");
+                foreach (XmlNode t_node in nodes)
+                    GradeService.Save(t_node.ConvertNode<Grade>());
             }
-
-            foreach (var grade in grades)
-            {
-                AppData.Instance.LiteConnection.Table<Grade>()
-                    .Delete(x => x.Partial == grade.Partial && x.SubjectId == grade.SubjectId);
-                AppData.Instance.LiteConnection.Insert(grade);
-            }
-
-            //if (AppShell.Current is AppShell shell)
-            //{
-            //    if (shell.MasterPage.TabView.TabItems[0].Content is SchoolGrades view)
-            //    {
-            //        view.Model.HasBeenRefreshedCommand?.Execute(this);
-            //    }
-            //}
-            //if (OnFinished is null)
-            //{
-            //    //Reboot app
-            //    App.Current.MainPage = new SplashScreen();
-            //}
-            //else
-            //{
-
-            //}
         }
 
         private static void Unescape(ref string html)
@@ -490,17 +403,6 @@ namespace SOE.Saes
                 return;
             }
             html = System.Text.RegularExpressions.Regex.Unescape(html);
-        }
-        private HtmlDocument GetHtmlDoc(string html)
-        {
-            Unescape(ref html);
-            var doc = new HtmlAgilityPack.HtmlDocument();
-            if (string.IsNullOrEmpty(html))
-            {
-                return doc;
-            }
-            doc.LoadHtml(html);
-            return doc;
         }
 
         private async Task<string> _EvaluateJavaScriptAsync(string script)

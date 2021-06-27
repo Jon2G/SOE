@@ -4,6 +4,7 @@
              xmlns:horario="clr-namespace:SOE.Models.Scheduler;assembly=SOE"
              xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
              xmlns:models="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
+             xmlns:converters="clr-namespace:SOE.Converters;assembly=SOE"
              x:Class="SOE.Views.ViewItems.TimelineBar"
              HorizontalOptions="FillAndExpand" x:Name="Me" x:DataType="models:TimelineBarViewModel"
              VerticalOptions="FillAndExpand" Background="{DynamicResource Background}"
@@ -27,21 +28,24 @@
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="{x:Type horario:ClassSquare}">
                                 <Grid>
-                                    <BoxView HeightRequest="120"  BackgroundColor="{Binding Subject.Color}"/>
-                                    <StackLayout  Margin="0"  BackgroundColor="{Binding Subject.Color}"
+                                    <BoxView HeightRequest="120"  
+                                             BackgroundColor="{Binding Subject,Converter={x:StaticResource SubjectColorAppThemeConverter},Mode=OneWay}"
+                                             />
+
+                                    <StackLayout  Margin="0"  BackgroundColor="{Binding Subject,Converter={x:StaticResource SubjectColorAppThemeConverter},Mode=OneWay}"
                                                   IsVisible="{Binding IsExpanded, Source={x:Reference Model}}">
                                         <StackLayout Padding="5" >
                                             <Label  Text="{Binding Subject.Name,Mode=OneWay}" FontFamily="KarlaSB" FontSize="18" 
-                                                    TextColor="{StaticResource DarkTextColor}"/>
+                                                    />
                                             <Label  Text="{Binding Subject.Group}" 
-                                                    TextColor="{StaticResource DarkTextColor}"
+                                                    
                                                     FontFamily="KarlaSB" FontSize="18"/>
                                             <StackLayout Orientation="Horizontal"  >
-                                                <Label TextColor="{StaticResource DarkTextColor}"
+                                                <Label 
                                                        Text="{Binding Begin,StringFormat='{0:hh}:{0:mm}'}" FontFamily="KarlaSB" FontSize="18"/>
-                                                <Label TextColor="{StaticResource DarkTextColor}"
+                                                <Label 
                                                        Text="a" FontFamily="KarlaSB" FontSize="18"/>
-                                                <Label TextColor="{StaticResource DarkTextColor}"
+                                                <Label 
                                                        Text="{Binding End,StringFormat='{0:hh}:{0:mm}'}" FontFamily="KarlaSB" FontSize="18"/>
                                             </StackLayout>
                                         </StackLayout>

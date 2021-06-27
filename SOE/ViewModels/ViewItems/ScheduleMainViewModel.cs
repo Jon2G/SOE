@@ -5,9 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Input;
+using APIModels;
 using Kit.Model;
 using Kit.Sql.Reflection;
+using SOE.Models.Academic;
 using SOE.Models.Scheduler;
+using SOE.Services;
 using SOE.Views.Pages;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -29,7 +32,17 @@ namespace SOE.ViewModels.ViewItems
             this.UpateOffsetTimer = new Timer(CalculateTimeLineOffset);
             WeekDays = new ObservableCollection<SheduleDay>();
             WeekHours = new ObservableCollection<Hour>();
+            App.Current.RequestedThemeChanged += Current_RequestedThemeChanged;
             GetWeek();
+        }
+
+        private void Current_RequestedThemeChanged(object sender, AppThemeChangedEventArgs e)
+        {
+            WeekDays = new ObservableCollection<SheduleDay>();
+            WeekHours = new ObservableCollection<Hour>();
+            GetWeek();
+            Raise(()=> WeekDays);
+            Raise(()=>WeekHours);
         }
 
         private async void ExportToPdf()
@@ -255,7 +268,7 @@ namespace SOE.ViewModels.ViewItems
                 if (cl.Begin != FirstWeekClass.Begin)
                 {
                     day.Class.Insert(0, new ClassSquare(
-                        Subject.FreeHour(),
+                        SubjectService.FreeHour(),
                         FirstWeekClass.Begin,
                         cl.Begin,
                         day.Day.DayOfWeek));

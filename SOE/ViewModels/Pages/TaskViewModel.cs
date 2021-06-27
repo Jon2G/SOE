@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using APIModels;
 using FFImageLoading.Forms;
 using Kit.Forms.Extensions;
 using Kit.Model;
@@ -28,7 +29,6 @@ namespace SOE.ViewModels.Pages
         public ICommand CameraImageCommand { get; set; }
         public ICommand GaleryImageCommand { get; set; }
 
-        private Subject _selectedSubject;
 
 
         public ObservableCollection<Archive<CachedImage>> Photos { get; }

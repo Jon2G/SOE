@@ -1,5 +1,6 @@
 ﻿using System;
 using SOE.ViewModels.Pages;
+using SOE.ViewModels.Pages.Login;
 using Xamarin.Forms.Xaml;
 
 namespace SOE.Views.PopUps

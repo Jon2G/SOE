@@ -99,7 +99,7 @@ namespace SOE.ViewModels.Pages
         private void SelectSchool(School School)
         {
             AppData.Instance.User.School = School;
-            Current.MainPage.Navigation.PopModalAsync(true).SafeFireAndForget();
+            Current.MainPage.Navigation.PushModalAsync(new UserSignUpPage(),true);
         }
     }
 }

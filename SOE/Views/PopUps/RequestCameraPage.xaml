@@ -13,7 +13,7 @@
     <ContentPage.Content>
         <pancakeView:PancakeView  HorizontalOptions="Center"  VerticalOptions="Center" Margin="5">
             <StackLayout>
-                <Label Text="Un momento..." BackgroundColor="{StaticResource Primary}"
+                <Label Text="Un momento..." Background="{StaticResource PrimaryColor}" 
                        VerticalOptions="Start"  Padding="10" FontSize="20" TextColor="White"
                        HorizontalOptions="FillAndExpand" />
                 <StackLayout Margin="5" Padding="5">

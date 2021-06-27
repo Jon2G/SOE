@@ -9,8 +9,22 @@ namespace APIModels
     public class UserBase : ModelBase
     {
         private string _Boleta;
+
         [PrimaryKey, MaxLength(10)]
-        public string Boleta { get => _Boleta; set { _Boleta = value; Raise(() => Boleta); } }
+        public string Boleta
+        {
+            get => _Boleta;
+            set
+            {
+                if (!Validations.IsValidBoleta(value))
+                {
+                    return;
+                }
+                _Boleta = value;
+                Raise(() => Boleta);
+
+            }
+        }
         private string _Password;
         public string Password { get => _Password; set { _Password = value; Raise(() => Password); } }
         [Ignore]

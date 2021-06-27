@@ -16,7 +16,7 @@
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.1.0.514" />
     <PackageReference Include="AsyncAwaitBestPractices" Version="5.1.0" />
-    <PackageReference Include="CardsView" Version="2.7.8" />
+    <PackageReference Include="CardsView" Version="2.7.9" />
     <PackageReference Include="Forms9Patch" Version="2.4.9" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.34" />
     <PackageReference Include="Plugin.Fingerprint" Version="2.1.4" />
@@ -43,6 +43,9 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Controls\FilterMenu.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Pages\Login\SAESLoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\SchoolSelector.xaml">
@@ -141,10 +144,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\Pages\SignUpSucessPage.xaml.cs">
-      <DependentUpon>SignUpSucessPage.xaml</DependentUpon>
+    <Compile Update="Views\Pages\Login\SAESLoginPage.xaml.cs">
+      <DependentUpon>SAESLoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Pages\UserSignUpPage.xaml.cs">
+    <Compile Update="Views\Pages\Login\RefreshDataPage.xaml.cs">
+      <DependentUpon>RefreshDataPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Pages\Login\UserSignUpPage.xaml.cs">
       <DependentUpon>UserSignUpPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Pages\SettingsView.xaml.cs">

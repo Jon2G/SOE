@@ -8,7 +8,7 @@
              xmlns:viewModels="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
              x:Class="SOE.Views.Pages.UserSignUpPage"
              Shell.NavBarIsVisible="False"
-             x:DataType="{x:Type viewModels:UserSignUpPageViewModel}"
+             x:DataType="{x:Type login:UserSignUpPageViewModel}"
              xmlns:skiaSharp="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              xmlns:saes="clr-namespace:SOE.Saes;assembly=SOE"
              xmlns:renders="clr-namespace:SOE.Renders;assembly=SOE"
@@ -16,6 +16,7 @@
              xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
              xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
              xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
+             xmlns:login="clr-namespace:SOE.ViewModels.Pages.Login;assembly=SOE"
              Background="{DynamicResource Background}"
              x:Name="Me">
     <Grid>
@@ -64,29 +65,25 @@
                         <StackLayout>
 
                             <Grid >
-
-                                <skiaSharp:SKCanvasView x:Name="_skCanvasView"
-                                            PaintSurface="SkCanvasViewPaintSurfaceRequested"
-                                            SizeChanged="SkCanvasViewSizeChanged"/>
-
                                 <StackLayout x:Name="_formLayout"
-                                 Padding="30, 30, 30, 60"
-                                 Orientation="Vertical"
-                                 Spacing="1">
+                                             Padding="30, 30, 30, 60"
+                                             Orientation="Vertical"
+                                             Spacing="1">
 
                                     <Grid>
                                         <StackLayout x:Name="FirstForm">
                                             <Label FontSize="18" FontAttributes="Bold" Text="Credenciales de acceso al sistema SAES"/>
                                             <renders:NoLineEntry  TextColor="{DynamicResource secondaryTextColor}"  x:Name="Usuario"
-                                                          Text="{Binding User.Boleta,Source={x:Static data:AppData.Instance}}"
-                                                          Focused="EntryFocused" Placeholder="Boleta"
+                                                                  IsTextPredictionEnabled="False"
+                                                          Text="{Binding Boleta}"
+                                                          Placeholder="Boleta"
                                                           Margin="0,3" IsReadOnly="False" />
 
                                             <renders:NoLineEntry IsPassword="True" 
-                                                         Text="{Binding User.Password,Source={x:Static data:AppData.Instance}}"
-                                                         Focused="EntryFocused" Placeholder="Contraseña" Margin="0"/>
+                                                         Text="{Binding Password}"
+                                                         Placeholder="Contraseña" Margin="0"/>
 
-                                            <Label Text="{Binding User.Password,Source={x:Static data:AppData.Instance}}" FontSize="12"
+                                            <Label Text="{Binding Password}" FontSize="12"
                                            Background="{DynamicResource SecondaryBackground}" Margin="0,0,0,10"/>
                                             <Label Text="*Debe utilizar la misma contraseña que utiliza para accesar al sistema SAES" FontSize="16" FontAttributes="Bold"/>
                                             <Label Text="*Tus datos de acceso NUNCA saldrán tu dispositivo y nosotros no tendremos conocimiento de los mismos." FontSize="16" FontAttributes="Bold"/>
@@ -107,13 +104,13 @@
 
                                             <renders:NoLineEntry IsPassword="False" 
                                                          Text="{Binding Captcha}"
-                                                         Focused="EntryFocused" Placeholder="Captcha"
+                                                         Placeholder="Captcha" IsTextPredictionEnabled="False"
                                                          Margin="0,10"/>
 
                                             <Button  Text="Soy un alumno!"
                                              FontFamily="KarlaSB"
                                              TextColor="{DynamicResource primaryTextColor}"
-                                             Command="{Binding ValidateCommand}"
+                                             Command="{Binding SignInCommand}"
                                              CommandParameter="{Binding .}"
                                              CornerRadius="20" 
                                              Margin="0, 10, 0, 0"/>
@@ -121,17 +118,17 @@
 
                                         <StackLayout Background="{DynamicResource SecondaryBackground}" x:Name="SecondForm" IsEnabled="False" IsVisible="False" Opacity="0">
                                             <Label FontSize="18" FontAttributes="Bold" Text="{Binding User.Name,StringFormat='Bienvenido {0},ahora vamos a create un nuevo usuario.',Source={x:Static data:AppData.Instance}}"/>
-                                            <renders:NoLineEntry  TextColor="{DynamicResource secondaryTextColor}" 
-                                                          Text="{Binding User.Email,Source={x:Static data:AppData.Instance}}"
-                                                          Focused="EntryFocused" Placeholder="Email"
+                                            <renders:NoLineEntry  TextColor="{DynamicResource secondaryTextColor}" IsTextPredictionEnabled="False"
+                                                          Text="{Binding Email}"
+                                                          Placeholder="Email"
                                                           Margin="0,10" />
                                             <Label Text="*Puedes utilizar cualquier correo electrónico" FontSize="16" FontAttributes="Bold"/>
 
-                                            <renders:NoLineEntry  TextColor="{DynamicResource secondaryTextColor}" 
-                                                          Text="{Binding Model.Password,Source={x:Reference Me}}"
-                                                          Focused="EntryFocused" Placeholder="Contraseña"
+                                            <renders:NoLineEntry  TextColor="{DynamicResource secondaryTextColor}" IsTextPredictionEnabled="False"
+                                                          Text="{Binding SOEPassword}"
+                                                          Placeholder="Contraseña"
                                                           Margin="0,10" IsPassword="True"/>
-                                            <Label Text="{Binding Model.Password,Source={x:Reference Me}}" FontSize="12"
+                                            <Label Text="{Binding SOEPassword}" FontSize="12"
                                            Background="{DynamicResource SecondaryBackground}" Margin="0,0,0,10"/>
 
                                             <Label Text="Por seguridad te aconsejamos que esta contraseña sea diferente de la que usas en el SAES." FontSize="16" FontAttributes="Bold"/>
@@ -140,7 +137,7 @@
                                             <Button  Text="Finalizar"
                                              FontFamily="KarlaSB"
                                              TextColor="{DynamicResource primaryTextColor}"
-                                             Command="{Binding SignUpRequestedCommand}"
+                                             Command="{Binding SignUpCommand}"
                                              CommandParameter="{Binding .}"
                                              CornerRadius="20" 
                                              Margin="0, 10, 0, 0"/>

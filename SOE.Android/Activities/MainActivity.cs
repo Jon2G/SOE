@@ -4,23 +4,27 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Kit.Droid;
+using Kit.Droid.Services;
 using PanCardView.Droid;
 using Plugin.CurrentActivity;
 using Plugin.Fingerprint;
 using Plugin.Media;
 using SOE.Droid.Notifications;
+using SOE.Interfaces;
 using SOE.Models.Scheduler;
 using SOE.Widgets;
+using Xamarin.Forms;
 
+[assembly: Dependency(typeof(MainActivity))]
 namespace SOE.Droid.Activities
 {
     [Activity(Label = "SOE", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
-    public class MainActivity : Kit.Droid.Services.MainActivity// global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    public class MainActivity : Kit.Droid.Services.MainActivity, IStartNotificationsService
     {
         protected override void OnStart()
         {
 
-           
+
             base.OnStart();
         }
 
@@ -34,7 +38,7 @@ namespace SOE.Droid.Activities
             base.OnResume();
         }
 
-        protected override async void OnCreate(Bundle savedInstanceState)
+        public void StartNotificationsService()
         {
             if (!this.IsServiceRunning(typeof(NotificationService)))
             {
@@ -49,16 +53,14 @@ namespace SOE.Droid.Activities
                     StartService(new Intent(this, typeof(NotificationService)));
                 }
             }
+        }
 
-
+        protected override async void OnCreate(Bundle savedInstanceState)
+        {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             await CrossMedia.Current.Initialize();//
             base.OnCreate(savedInstanceState);
-
-          //  SetTheme(Android.Resource.Style.DarkTheme);
-            
-
             Kit.Droid.Tools.Init(this, savedInstanceState);
             CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
             CardsViewRenderer.Preserve();

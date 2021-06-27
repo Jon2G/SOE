@@ -13,7 +13,7 @@
     <Grid>
         <views:TabView IsSwipeEnabled="True" 
                    Style="{StaticResource CustomTabStyle}" 
-                   TabStripBackgroundColor="{DynamicResource Primary}" 
+                   TabStripBackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
                    IsTabStripVisible="True" TabStripPlacement="Top">
         <views:TabViewItem TextColor="White" Text="Descripción">
             <views:TabViewItem.Icon>

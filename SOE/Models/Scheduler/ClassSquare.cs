@@ -1,4 +1,5 @@
 ﻿using System;
+using APIModels;
 
 namespace SOE.Models.Scheduler
 {

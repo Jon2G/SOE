@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolOrganizer.Droid", "SchoolOrganizer\SchoolOrganizer.Android\SchoolOrganizer.Droid.csproj", "{0D12415A-E622-42C1-80A6-7EDC3F13711C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOE.Droid", "SOE\SOE.Android\SOE.Droid.csproj", "{0D12415A-E622-42C1-80A6-7EDC3F13711C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolOrganizer.iOS", "SchoolOrganizer\SchoolOrganizer.iOS\SchoolOrganizer.iOS.csproj", "{E5E516B2-E4AD-4602-9540-090D4A9435BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOE.iOS", "SOE\SOE.iOS\SOE.iOS.csproj", "{E5E516B2-E4AD-4602-9540-090D4A9435BC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolOrganizer", "SchoolOrganizer\SchoolOrganizer\SchoolOrganizer.csproj", "{20CCEA58-74B4-41B0-9E9E-22B7B328C798}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SOE", "SOE\SOE\SOE.csproj", "{20CCEA58-74B4-41B0-9E9E-22B7B328C798}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolOrganizer.UWP", "SchoolOrganizer\SchoolOrganizer.UWP\SchoolOrganizer.UWP.csproj", "{D3E819D0-0C8B-4DA4-B162-5098D17A22E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOE.UWP", "SOE\SOE.UWP\SOE.UWP.csproj", "{D3E819D0-0C8B-4DA4-B162-5098D17A22E5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kit", "Kit", "{9D14DDBA-90B4-4137-A336-68FB507876DE}"
 EndProject

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:BasePopUp  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+                 xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms" 
+                  xmlns:pages1="clr-namespace:SchoolOrganizer.ViewModels.Pages"
+                  x:Class="SchoolOrganizer.Views.PopUps.MasterPopUp"
+                  xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts"
+                  x:DataType="pages1:MasterPopUpViewModel">
+    <StackLayout Spacing="0" Padding="0" VerticalOptions="End" Background="{DynamicResource SecondaryBackground}">
+
+
+        <controls:ArrowButton  Title="Completadas"     Command="{Binding TapedCommand}" CommandParameter="Completadas"/>
+        <controls:ArrowButton  Title="Pendientes"    Command="{Binding TapedCommand}" CommandParameter="Pendientes"/>
+        <controls:ArrowButton  Title="Archivadas"  Command="{Binding TapedCommand}" CommandParameter="Archivadas"/>
+
+        <Button Margin="3" CornerRadius="2" VerticalOptions="End" Text="Cerrar" Clicked="OnClose"/>
+    </StackLayout>
+</pages:BasePopUp>

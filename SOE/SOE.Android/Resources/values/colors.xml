@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <color name="colorAccent">#0277bd</color>
+  <color name="colorPrimary">#102e6c</color>
+  <color name="colorPrimaryVariant">#080821</color>
+  <color name="colorSecondary">#64d8cb</color>
+  <color name="colorOnBackground">#ffffff</color>
+  <color name="launcher_background">#102e6c</color>
+  <color name="colorTextPrimary">#000000</color>
+  <color name="colorTextSecondary">#B6B6B6</color>
+  <color name="colorOnSecondary">#F5F5F5</color>
+</resources>

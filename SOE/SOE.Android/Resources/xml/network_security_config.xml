@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+  <domain-config>
+    <domain includeSubdomains="true">saes.ipn.mx</domain>
+    <domain includeSubdomains="true">saes</domain>
+    <domain includeSubdomains="true">www.saes.ipn.mx</domain>
+  </domain-config>
+  <base-config cleartextTrafficPermitted="true">
+    <trust-anchors>
+      <certificates src="system" />
+      <certificates src="user" />
+    </trust-anchors>
+  </base-config>
+</network-security-config>

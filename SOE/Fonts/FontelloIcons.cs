@@ -41,6 +41,9 @@ namespace SOE.Fonts
         public const string Spy = "\uF21B";
         public const string Key = "\uE81C";
 
+        public const string ThreeDots = "\uE81D";
+        public const string UpArrow = "\uE81E";
+
         public const string Font = "FontIcon";
     }
 }

@@ -4,29 +4,25 @@
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:tasksViews="clr-namespace:SOE.Views.ViewItems.TasksViews;assembly=SOE"
              xmlns:taskFirst="clr-namespace:SOE.Models.TaskFirst;assembly=SOE"
+             xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
              x:Class="SOE.Views.ViewItems.TasksViews.BySubjectGroupView">
-  <ContentView.Content>
-      <Grid ColumnDefinitions="5,*" ColumnSpacing="0">
-                <BoxView />
-                <StackLayout Grid.Column="1" BackgroundColor="{Binding Subject.Color}" Margin="0">
-                <views:Expander x:Name="Expander">
-                        <views:Expander.Header>
-                            <Label VerticalOptions="Center" VerticalTextAlignment="Center"
-                                                                       Text="{Binding Subject.Name}" 
-                                                                       TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" 
-                                                                       FontAttributes="Bold"/>
-                        </views:Expander.Header>
-                        <StackLayout>
-                        <StackLayout Spacing="0" BindableLayout.ItemsSource="{Binding ToDoS}">
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate x:DataType="taskFirst:ToDo">
-                                        <tasksViews:TaskView/>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </StackLayout>
-                        </StackLayout>
-                    </views:Expander>
+    <ContentView.Content>
+        <views:Expander x:Name="Expander" BackgroundColor="{Binding Subject.Color}">
+            <views:Expander.Header>
+                <Label VerticalOptions="Center" VerticalTextAlignment="Center"
+                       Text="{Binding Subject.Name}" 
+                       TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" 
+                       FontAttributes="Bold"/>
+            </views:Expander.Header>
+            <StackLayout>
+                <StackLayout  Spacing="0" BindableLayout.ItemsSource="{Binding ToDoS}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="pages:TaskViewModel">
+                            <tasksViews:TaskView/>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
                 </StackLayout>
-            </Grid>
-  </ContentView.Content>
+            </StackLayout>
+        </views:Expander>
+    </ContentView.Content>
 </ContentView>

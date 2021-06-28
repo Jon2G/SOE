@@ -9,7 +9,7 @@
               xmlns:images="clr-namespace:SOE.Data.Images;assembly=SOE" 
               x:DataType="viewModels:TaskViewModel" Title="Tarea">
     <ContentPage.BindingContext>
-        <viewModels:TaskViewModel x:Name="Modelo"/>
+        <viewModels:TaskPageViewModel x:Name="Modelo"/>
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Confirmar" Command="{Binding SaveCommand}"/>
@@ -21,7 +21,7 @@
         </StackLayout>-->
         <views:TabView IsSwipeEnabled="True" 
                        Style="{StaticResource CustomTabStyle}" 
-                       TabStripBackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
+                       TabStripBackgroundColor="{DynamicResource Primary}" 
                        IsTabStripVisible="True" TabStripPlacement="Top">
             <views:TabViewItem TextColor="White" Text="Descripción">
                 <views:TabViewItem.Icon>
@@ -34,7 +34,7 @@
                     <StackLayout Spacing="10" Margin="5" >
                         <StackLayout Spacing="10">
                             <!--<Frame BorderColor="{StaticResource PrimaryLightColor}" CornerRadius="60" HeightRequest="39" WidthRequest="1">-->
-                            <Editor AutoSize="TextChanges" Placeholder="Agregar titulo"  TextColor="Black" Text="{Binding Tarea.Title}" MaxLength="100"/>
+                            <Editor AutoSize="TextChanges" Placeholder="Agregar titulo"   Text="{Binding Tarea.Title}" MaxLength="100"/>
                             <!--</Frame>-->
 
                             <Label  VerticalTextAlignment="Center" 
@@ -111,7 +111,7 @@
                                             Text="Ninguna imagen"
                                             HorizontalOptions="Center"
                                             VerticalOptions="Center" FontSize="Large" FontAttributes="Bold"/>
-                               
+
                             </Grid>
                         </CollectionView.EmptyView>
                         <CollectionView.ItemTemplate>
@@ -138,7 +138,7 @@
             </views:TabViewItem>
         </views:TabView>
 
- 
+
     </StackLayout>
 
 </ContentPage>

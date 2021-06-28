@@ -1,20 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using APIModels;
-using AsyncAwaitBestPractices;
-using SkiaSharp.Views.Forms;
+﻿using AsyncAwaitBestPractices;
 using SOE.Data;
-using SOE.Models.Data;
-using SOE.Models.SkiaSharp;
 using SOE.Saes;
-using SOE.ViewModels.Pages;
 using SOE.ViewModels.Pages.Login;
-using SOE.Views.Pages.Login;
 using SOE.Views.PopUps;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace SOE.Views.Pages
+namespace SOE.Views.Pages.Login
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UserSignUpPage

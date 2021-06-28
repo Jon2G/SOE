@@ -14,14 +14,25 @@ namespace SOE.Views.PopUps
     {
 
         private int _position;
-        public int Position { get { return _position; } set { _position = value; OnPropertyChanged(); } }
+
+        public int Position
+        {
+            get { return _position; }
+            set
+            {
+                _position = value;
+                OnPropertyChanged();
+            }
+        }
+
         public TaskPage()
         {
 
             InitializeComponent();
-            //DatePick.MinimumDate = DateTime.Now;
+            DatePick.MinimumDate = DateTime.Now;
 
         }
+
         public TaskPage(ToDo toDo)
         {
             InitializeComponent();
@@ -41,6 +52,7 @@ namespace SOE.Views.PopUps
         {
             this.Modelo?.OnDateChangedCommand?.Execute(sender);
         }
+
         private async void GetPhotos(ToDo toDo)
         {
             await Task.Yield();

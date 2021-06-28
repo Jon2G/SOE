@@ -7,6 +7,7 @@ using Kit.Model;
 using SOE.Data;
 using SOE.Models.Data;
 using SOE.Views.Pages;
+using SOE.Views.Pages.Login;
 using static Xamarin.Forms.Application;
 
 namespace SOE.ViewModels.Pages

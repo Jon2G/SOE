@@ -1,18 +1,24 @@
-﻿using System;
-using System.Windows.Input;
-using APIModels;
-using Kit.Model;
+﻿using Kit.Model;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Text;
+using Kit.Forms.Pages;
 using Kit.Sql.Attributes;
 using Kit.Sql.Interfaces;
-using SOE.Models.Scheduler;
-using Xamarin.Essentials;
+using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
+using System.Windows.Input;
+using APIModels;
+using Xamarin.Essentials;
 
 namespace SOE.Models.TaskFirst
 {
     public class ToDo : ModelBase, IGuid
     {
         private string _Title;
+        private int _Archived;
+        private int _Done;
         private TimeSpan _Time;
         private DateTime _Date;
         private Subject subject;
@@ -62,8 +68,9 @@ namespace SOE.Models.TaskFirst
         }
         [Ignore]
         public string FormattedTime => $"{Time:hh}:{Time:mm}";
-       
+
         private FormattedString _FormattedString;
+
         [Ignore]
         public FormattedString FormattedString
         {
@@ -118,32 +125,41 @@ namespace SOE.Models.TaskFirst
                 Subject.Id = value;
             }
         }
+        public int Done
+        {
+            get => _Done;
+            set
+            {
+                _Done = value;
+                Raise(() => Done);
+            }
+        }
+        public int Archived
+        {
+            get => _Archived;
+            set
+            {
+                _Archived = value;
+                Raise(() => Archived);
+            }
+        }
+
         public int IdDocument { get; set; }
         public int IdKeeper { get; set; }
         public ToDo()
         {
+            Done = 0;
+            Archived = 0;
             OpenBrowserCommand = new Command<string>(OpenBrowser);
 
         }
-        //public ToDo(ToDo toDo)
-        //{
-        //        this.Id = toDo.Id;
-        //        this.Title = toDo.Title;
-        //        this.SubjectId = toDo.SubjectId;
-        //        this.Date = toDo.Date;
-        //        this.Time = toDo.Time;
-        //        this.Description = toDo.Description;
-        //        this.IdDocument = toDo.IdDocument;
-        //        this.IdKeeper = toDo.IdKeeper;
-
-        //}
         private async void OpenBrowser(string zelda)
         {
             UriBuilder builder = new UriBuilder(zelda);
             await Browser.OpenAsync(builder.Uri, BrowserLaunchMode.SystemPreferred);
         }
 
-     
+
 
     }
 }

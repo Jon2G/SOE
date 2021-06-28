@@ -316,6 +316,7 @@ namespace SOE.Saes
             await GoTo(KardexPage);
             string carrera = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_Lbl_Carrera').innerHTML");
             AppData.Instance.User.Career = carrera;
+
             Response response = await APIService.PostCareer(carrera, AppData.Instance.User.Boleta);
             if (response.ResponseResult == APIResponseResult.OK)
             {
@@ -385,7 +386,6 @@ namespace SOE.Saes
             }
             Unescape(ref grades_html);
             Response response = await APIService.PostGrades(grades_html.ToBase64Encode());
-
             if (response.ResponseResult == APIResponseResult.OK)
             {
                 XmlDocument xmlDoc = new XmlDocument();

@@ -49,7 +49,7 @@
                             </Image.Source>
                         </Image>
 
-                        <Label Text="Tus datos personales y de acceso NUNCA saldrán tu dispositivo y nosotros no tendremos conocimiento de los mismos."/>
+                        <Label Text="Tus datos personales y de acceso NUNCA saldrán de tu dispositivo y nosotros no tendremos conocimiento de los mismos."/>
                     </StackLayout>
 
 

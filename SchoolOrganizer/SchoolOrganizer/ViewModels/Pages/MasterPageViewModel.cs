@@ -52,13 +52,13 @@ namespace SchoolOrganizer.ViewModels.Pages
             switch (pr.Model.Action)
             {
                 case "Completadas":
-                    TaskFirstViewModel.Instance.Refresh("AND DONE=1").SafeFireAndForget();
+                    TaskFirstViewModel.Instance.Refresh(TaskFirstViewModel.Done ).SafeFireAndForget();
                     break;
                 case "Pendientes":
-                    TaskFirstViewModel.Instance.Refresh("AND DONE=0").SafeFireAndForget();
+                    TaskFirstViewModel.Instance.Refresh(TaskFirstViewModel.Pending ).SafeFireAndForget();
                     break;
                 case "Archivadas":
-                    TaskFirstViewModel.Instance.Refresh("AND ARCHIVED=1").SafeFireAndForget();
+                    TaskFirstViewModel.Instance.Refresh(TaskFirstViewModel.Archived ).SafeFireAndForget();
                     break;
 
             }

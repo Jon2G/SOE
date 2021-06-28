@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
+             xmlns:views="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+             xmlns:images="clr-namespace:SOE.Data.Images;assembly=SOE"
+             xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
+             x:Class="SOE.Views.Pages.TaskDetails" 
+             Title="{Binding ToDo.Title}" x:DataType="pages:TaskDetailsViewModel"
+             x:Name="Me">
+    <Grid>
+        <views:TabView IsSwipeEnabled="True" 
+                   Style="{StaticResource CustomTabStyle}" 
+                   TabStripBackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
+                   IsTabStripVisible="True" TabStripPlacement="Top">
+        <views:TabViewItem TextColor="White" Text="Descripción">
+            <views:TabViewItem.Icon>
+                <FontImageSource 
+                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                        Glyph="{x:Static fonts:FontelloIcons.Book1}"
+                        Color="{DynamicResource primaryTextColor}" Size="20" />
+            </views:TabViewItem.Icon>
+            <ScrollView>
+                <StackLayout Margin="20">
+
+                            <Label Text="Title:"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
+                            <Label Text= "{Binding ToDo.Title}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}" />
+
+                            <Label Text="Materia:"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
+                            <Label Text= "{Binding ToDo.Subject.Name}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
+
+                            <Label Text="Fecha:"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
+                    <Label Text= "{Binding ToDo.Date,StringFormat='{0:dd/ MM/ yyyy}'}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
+
+                            <Label Text="Entrega"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
+                            <Label Text= "{Binding ToDo.Time,StringFormat='{0:hh:mm}'}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
+
+                            <Label Text="Descripcion"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
+                    <Label FormattedText="{Binding ToDo.FormattedString}"  FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
+
+
+                        </StackLayout>
+                
+            </ScrollView>
+        </views:TabViewItem>
+        <views:TabViewItem Text="Imagenes" TextColor="White">
+            <views:TabViewItem.Icon>
+                <FontImageSource
+                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                        Glyph="{x:Static fonts:FontelloIcons.Photo}"
+                        Color="{DynamicResource primaryTextColor}" Size="20" />
+            </views:TabViewItem.Icon>
+            <StackLayout Padding="3">
+                <CollectionView BackgroundColor="WhiteSmoke" ItemsSource="{Binding Photos}">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical"  Span="2"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.EmptyView>
+                            <Grid>
+
+                                <Label 
+                                    Text="Sin imagenes que mostrar"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center" FontSize="Large" FontAttributes="Bold" TextColor="Black" />
+
+
+                            </Grid>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="images:Archive">
+                                <ContentView>
+                                    <pancakeView:PancakeView InputTransparent="True" 
+                                                             Padding="3" BackgroundColor="LightGray"
+                                                             Margin="3"
+                                                             views:TouchEffect.PressedScale="1.2"
+                                                             views:TouchEffect.Command="{Binding GalleryViewCommand,Source ={x:Reference Me} }"
+                                                             views:TouchEffect.CommandParameter="{Binding .}"
+                                                             Content="{Binding Value}"/>
+                                </ContentView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+            </StackLayout>
+        </views:TabViewItem>
+        </views:TabView>
+        <viewItems:GalleryView x:Name="GalleryView"/>
+    </Grid>
+</ContentPage>

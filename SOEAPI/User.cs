@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Kit.Sql.Attributes;
@@ -21,17 +23,22 @@ namespace SOEAPI
         public string Boleta { get; set; }
         [Column("MAIL"), MaxLength(100)]
         public string Mail { get; set; }
-        [Column("PASSWORD_PIN"), MaxLength(5),NotNull]
+        [Column("PASSWORD_PIN"), MaxLength(5), NotNull]
         public string PasswordPin { get; set; }
         public int Strikes { get; set; }
         public bool Banned { get; set; }
         public bool Deleted { get; set; }
 
-        internal static User GetByDevice(SQLServerConnection Connection, Device device) =>
-            Connection.Table<User>().FirstOrDefault(x => x.Id == device.UserId);
+        //internal static User GetByDevice(SQLServerConnection Connection, Device device) =>
+        //    Connection.Table<User>().FirstOrDefault(x => x.Id == device.UserId);
 
-        public static User GetByBoleta(SQLServerConnection Connection, string boleta)
-            => Connection.Table<User>().FirstOrDefault(x => x.Boleta == boleta || x.Mail == boleta);
+        //public static User GetByBoleta(SQLServerConnection Connection, string boleta)
+        //    => Connection.Table<User>().FirstOrDefault(x => x.Boleta == boleta || x.Mail == boleta);
 
+        internal static int GetId(SQLServerConnection Connection, string user)
+        {
+            return Connection.Single<int>("SP_GET_USER_ID", CommandType.StoredProcedure,
+                new SqlParameter("USER", user));
+        }
     }
 }

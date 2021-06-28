@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms" 
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       Title="OrganizadorEscolar"
+       xmlns:pages="clr-namespace:SOE.Views.Pages;assembly=SOE"
+       xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
+       x:Class="SOE.AppShell"
+       TabBarTitleColor="White"
+       Shell.BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
+       Shell.Background="{DynamicResource PrimaryColor}"
+       TitleColor="White">
+
+    <Shell.FlyoutContent>
+        <viewItems:FlyOutView/>
+    </Shell.FlyoutContent>
+    <ShellContent>
+        <pages:MasterPage x:Name="MasterPage" Appearing="MasterPage_OnAppearing" x:FieldModifier="public"/>
+    </ShellContent>
+</Shell>

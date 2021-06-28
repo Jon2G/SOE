@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:BasePopUp  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SOE.Views.PopUps.ViewChangePopUp">
+
+    <Frame Margin="20" CornerRadius="15" 
+           VerticalOptions="Center" HorizontalOptions="Center" 
+           BorderColor="{DynamicResource PrimaryLightColor}">
+        <StackLayout>
+            <Frame Margin="3"  BorderColor="{DynamicResource PrimaryLightColor}" 
+                                CornerRadius="10" >
+                <Label  FontFamily="Karla_SemiBold"  TextColor="Black"  Text="FirstPage"
+                                     FontSize="14"  FontAttributes="Bold">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Frame>
+            <Frame Margin="3"  BorderColor="{DynamicResource PrimaryLightColor}" 
+                                CornerRadius="10" >
+                <Label  FontFamily="Karla_SemiBold"  TextColor="Black"  Text="SecondPage"
+                                     FontSize="14"  FontAttributes="Bold">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Frame>
+            <Frame Margin="3"  BorderColor="{DynamicResource PrimaryLightColor}" 
+                                CornerRadius="10" >
+                <Label  FontFamily="Karla_SemiBold"  TextColor="Black"  Text="ThirdPage"
+                                     FontSize="14"  FontAttributes="Bold">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Frame>
+        </StackLayout>
+    </Frame>
+</pages:BasePopUp>

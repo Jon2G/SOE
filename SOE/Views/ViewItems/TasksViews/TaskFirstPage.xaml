@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:tasksViews="clr-namespace:SOE.Views.ViewItems.TasksViews;assembly=SOE"
+             xmlns:taskFirst="clr-namespace:SOE.Models.TaskFirst;assembly=SOE"
+             x:Name="Me" Background="{DynamicResource Background}"
+             x:Class="SOE.Views.ViewItems.TasksViews.TaskFirstPage">
+    <Grid  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <CollectionView  Margin="10"
+                        SelectionMode="None"  ItemsSource="{Binding DayGroups}" x:Name="Coleccion">
+            <CollectionView.EmptyView>
+                <ContentView>
+                    <StackLayout VerticalOptions="CenterAndExpand">
+                        <Label HorizontalTextAlignment="Center" FontSize="20" 
+                               FontAttributes="Bold" Text="No hay mas tareas"/>
+                    </StackLayout>
+                </ContentView>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="20"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate >
+                <DataTemplate x:DataType="taskFirst:ByDayGroup">
+                    <tasksViews:ByDayView/>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentView>

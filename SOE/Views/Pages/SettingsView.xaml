@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage  xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SOE.Views.Pages.SettingsView"
+             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+             xmlns:behaviors="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
+             xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
+             Title="Ajustes">
+    <ContentPage.BindingContext>
+        <pages:SettingsViewModel x:Name="Model"/>
+    </ContentPage.BindingContext>
+    <Frame  CornerRadius="0">
+        <StackLayout >
+            <Grid>
+                <BoxView BackgroundColor="WhiteSmoke" CornerRadius="5"/>
+                <Label HorizontalTextAlignment="Center" Text="Ajustes Principales" FontSize="Title" FontAttributes="Bold" TextColor="Black"/>
+            </Grid>
+            <Grid Padding="5" >
+                <Grid.RowDefinitions >
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2"/>
+                </Grid.RowDefinitions>
+                <StackLayout Orientation="Horizontal" Grid.Row="0">
+                    <Label Text="{x:Static fonts:FontelloIcons.Lock}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
+                                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Center" />
+                    <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="Activar Finger Print" FontSize="15"  TextColor="Black" HorizontalOptions="Start"/>
+                    <Switch  HorizontalOptions="EndAndExpand" 
+                             IsToggled="{Binding Settings.IsFingerPrintActive}">
+
+                        <Switch.Behaviors>
+                            <behaviors:EventToCommandBehavior EventName="Toggled" Command="{Binding OnFingerPrintToogledCommand}" />
+                        </Switch.Behaviors>
+
+                    </Switch>
+                </StackLayout>
+                <BoxView BackgroundColor="LightGray"  Grid.Row="1"/>
+            </Grid>
+            <Grid Padding="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2"/>
+                </Grid.RowDefinitions>
+                <StackLayout Orientation="Horizontal" Grid.Row="0">
+                    <Label Text="{x:Static fonts:FontelloIcons.Logout}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
+                                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                    <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Text="Desactivar Inicio Automatico"  FontSize="15"  TextColor="Black"  HorizontalOptions="Start"/>
+                    <Switch   HorizontalOptions="EndAndExpand" />
+                </StackLayout>
+                <BoxView BackgroundColor="LightGray" CornerRadius="5" Grid.Row="1"/>
+            </Grid>
+            <Grid Padding="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2"/>
+                </Grid.RowDefinitions>
+                <StackLayout Orientation="Horizontal" Grid.Row="0">
+                    <Label Text="{x:Static fonts:FontelloIcons.Notifi}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
+                                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                    <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Text="Mostar barra de horario lateral"  FontSize="15"  TextColor="{DynamicResource secondaryTextColor}"  HorizontalOptions="Start"/>
+                    <Switch HorizontalOptions="EndAndExpand" IsToggled="{Binding Settings.ShowTimelineBar}"/>
+                </StackLayout>
+                <BoxView BackgroundColor="LightGray" CornerRadius="5" Grid.Row="1"/>
+            </Grid>
+            <Grid >
+                <BoxView BackgroundColor="WhiteSmoke" CornerRadius="5"/>
+                <Label HorizontalTextAlignment="Center" Text="Ajustes Principales" FontSize="Title" FontAttributes="Bold" TextColor="{DynamicResource secondaryTextColor}"/>
+            </Grid>
+            <Button Grid.Row="5" TextColor="{DynamicResource secondaryTextColor}" BackgroundColor="WhiteSmoke"  CornerRadius="5"  Text="Cambiar ventanas principales" FontSize="12"  HeightRequest="35" Command="{Binding ViewChangeCommand}"/>
+            <controls:ArrowButton Title="Extraer base de datos local" Command="{Binding ShareDatabaseCommand}">
+                <controls:ArrowButton.Icon>
+                    <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Share}"
+                                     FontFamily="{x:Static fonts:FontelloIcons.Font}"/>
+                </controls:ArrowButton.Icon>
+            </controls:ArrowButton>
+        </StackLayout>
+    </Frame>
+</ContentPage>

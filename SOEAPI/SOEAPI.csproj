@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.34" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Kit\Kit\Kit.csproj" />
+    <ProjectReference Include="..\APIModels\APIModels.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
+             x:Class="SOE.Views.ViewItems.CardViews.DateTimeView"
+             x:DataType="models:Card">
+  <ContentView.Content>
+        <StackLayout VerticalOptions = "Center" HeightRequest = "20" Padding = "0" Orientation = "Horizontal">
+            <Image Source="Calendarmini.png" VerticalOptions="Center" WidthRequest="10" HeightRequest="10"/>
+            <Label FontAttributes="Bold" Text="{Binding DueDate,StringFormat='{0:dd/MM/yyyy}'}" FontSize="8" TextColor="#9F9F9F" VerticalOptions="Center" />
+            <BoxView Color="Transparent" WidthRequest="20"/>
+            <Image Source="Clockmini.png" VerticalOptions="Center" WidthRequest="10" HeightRequest="10"/>
+            <Label FontAttributes="Bold" Text="{Binding DueDate,StringFormat='{0:hh:mm tt}'}" FontSize="8" TextColor="#9F9F9F" VerticalOptions="Center"/>
+        </StackLayout>
+  </ContentView.Content>
+</ContentView>

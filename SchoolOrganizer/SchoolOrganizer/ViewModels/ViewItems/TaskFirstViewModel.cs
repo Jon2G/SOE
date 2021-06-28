@@ -12,6 +12,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using AsyncAwaitBestPractices;
 using P42.Utils;
 using Xamarin.Forms;
 
@@ -21,13 +22,15 @@ namespace SchoolOrganizer.ViewModels.ViewItems
     {
         public static TaskFirstViewModel Instance { get; private set; }
         public ObservableCollection<ByDayGroup> DayGroups { get; set; }
-       
+        public const string Done = "AND DONE=1 AND ARCHIVED=0";
+        public const string Pending = "AND DONE=0 AND ARCHIVED=0";
+        public const string Archived = "AND ARCHIVED=1";
+
         public TaskFirstViewModel()
         {
             Instance = this;
             DayGroups = new ObservableCollection<ByDayGroup>();
-            Task.Run(()=>Refresh());
-          
+            Refresh(Pending).SafeFireAndForget();
         }
 
       

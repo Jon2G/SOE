@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:BasePopUp  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:models="clr-namespace:SchoolOrganizer.ViewModels.Pages"
+                  xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
+                  x:Class="SchoolOrganizer.Views.PopUps.MenuPopUp"
+                  x:DataType="models:MenuPopUpViewModel"
+                   xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts"
+                  x:Name="Me" >
+    <StackLayout Spacing="0" Padding="0" VerticalOptions="End" Background="{DynamicResource SecondaryBackground}">
+
+        <controls:ArrowButton  Title="Ver"        Command="{Binding TapedCommand}" CommandParameter="Ver">
+            <controls:ArrowButton.Icon>
+                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.HappyBeer}" 
+                                             FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                             Color="{AppThemeBinding Dark=White,Light=Black}"
+                                             />
+            </controls:ArrowButton.Icon>
+        </controls:ArrowButton>
+        <controls:ArrowButton  Title="Hecho"     Command="{Binding TapedCommand}" CommandParameter="Hecho"/>
+        <controls:ArrowButton  Title="Editar"    Command="{Binding TapedCommand}" CommandParameter="Editar"/>
+        <controls:ArrowButton  Title="Archivar"  Command="{Binding TapedCommand}" CommandParameter="Archivar"/>
+        <controls:ArrowButton  Title="Eliminar"  Command="{Binding TapedCommand}" CommandParameter="Eliminar"/>
+        <controls:ArrowButton  Title="Compartir" Command="{Binding TapedCommand}" CommandParameter="Compartir"/>
+
+        <Button Margin="3" CornerRadius="2" VerticalOptions="End" Text="Cerrar" Clicked="OnClose"/>
+    </StackLayout>
+</pages:BasePopUp>

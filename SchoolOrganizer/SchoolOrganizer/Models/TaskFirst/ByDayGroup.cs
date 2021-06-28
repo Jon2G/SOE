@@ -33,17 +33,17 @@ namespace SchoolOrganizer.Models.TaskFirst
             Raise(() => Tareas);
         }
 
-        internal void Refresh()
+        internal void Refresh(string condition)
         {
             SubjectGroups.Clear();
             SubjectGroups.AddRange(AppData.Instance.LiteConnection.Lista<int>(
-                    $"SELECT Distinct {nameof(ToDo.SubjectId)} from {nameof(ToDo)}")
+                    $"SELECT Distinct {nameof(ToDo.SubjectId)} from {nameof(ToDo)} where {nameof(ToDo.Date)}={this.FDateTime.Ticks} {condition}")
                 .Select(x => new BySubjectGroup(Subject.Get(x))));
-            //??????????????????????? le movi aqui where {nameof(ToDo.Date)}<{this.FDateTime.Ticks}
+            //??????????????????????? le movi aqui where {nameof(ToDo.Date)}<={this.FDateTime.Ticks}
 
             foreach (var group in this.SubjectGroups)
             {
-                group.Refresh(this.FDateTime);
+                group.Refresh(this.FDateTime,condition);
             }
             RefreshCount();
         }

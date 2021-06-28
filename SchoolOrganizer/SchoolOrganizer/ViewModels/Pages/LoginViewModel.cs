@@ -97,7 +97,7 @@ namespace SchoolOrganizer.ViewModels.Pages
                 Acr.UserDialogs.UserDialogs.Instance.Alert($"Hemos notado que es tu primer inicio de sesión, te damos la bienvenida.", $"!Bienvenido,{AppData.Instance.User.Name}¡", "Vamos allá");
             }
             AppData.Instance.LiteConnection.InsertOrReplace(this.User);
-            Application.Current.MainPage = new TutorialCarousel();
+            Application.Current.MainPage = new AppShell();
         }
 
         private bool LoginCanExecute(object arg)

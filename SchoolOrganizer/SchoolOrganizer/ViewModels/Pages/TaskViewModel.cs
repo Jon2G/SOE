@@ -1,228 +1,76 @@
-﻿
+﻿using AsyncAwaitBestPractices;
+using SchoolOrganizer.Data;
+using SchoolOrganizer.Models.TaskFirst;
+using SchoolOrganizer.Views.Pages;
 using SchoolOrganizer.Views.PopUps;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using Xamarin.Forms;
+using System.Text;
 using System.Windows.Input;
-using Kit.Sql.Base;
-using Kit.Sql.Helpers;
-using SchoolOrganizer.Data;
-using SchoolOrganizer.Models.Scheduler;
-using SchoolOrganizer.Models.TaskFirst;
-using System.Text.RegularExpressions;
-using System.Linq;
-using System.Threading.Tasks;
-using FFImageLoading.Forms;
-using Kit.Model;
-using SchoolOrganizer.Data.Images;
-using SchoolOrganizer.Enums;
-using SchoolOrganizer.Models;
-using Xamarin.Essentials;
-using Kit.Forms.Extensions;
+using Xamarin.Forms;
 
 namespace SchoolOrganizer.ViewModels.Pages
 {
-
-    public class TaskViewModel : ModelBase
+    public class TaskViewModel
     {
-
-        public Command TaskCommand { get; }
-        public ICommand SaveCommand { get; }
-        public ICommand OnDateChangedCommand { get; }
-        public ICommand DeleteImageCommand { get; set; }
-        public ICommand CameraImageCommand { get; set; }
-        public ICommand GaleryImageCommand { get; set; }
-
-        private Subject _selectedSubject;
-
-
-        public ObservableCollection<Archive<CachedImage>> Photos { get; }
-
-
-
-        private ToDo _Tarea;
-
-        public ToDo Tarea
+        public ICommand _OpenMenuCommand;
+        public ICommand OpenMenuCommand => _OpenMenuCommand ??= new Command(OpenMenu);
+        public ToDo ToDo { get; set; }
+        private readonly BySubjectGroup BySubjectGroup;
+        public TaskViewModel(ToDo ToDo,BySubjectGroup BySubjectGroup)
         {
-            get => _Tarea;
-            set
-            {
-                _Tarea = value;
-                Raise(() => Tarea);
-            }
+            this.BySubjectGroup = BySubjectGroup;
+            this.ToDo = ToDo;
         }
-        private FileImageSource _TaskImage;
-        public FileImageSource TaskImage
+        private async void OpenMenu(object obj)
         {
-            get => _TaskImage;
-            set
-            {
-                _TaskImage = value;
-                Raise(() => TaskImage);
-            }
-        }
-        public TaskViewModel()
-        {
-            Tarea = new ToDo();
-            TaskCommand = new Command(TaskClicked);
-            SaveCommand = new Command(Save);
-            CameraImageCommand = new Command(UsarCamara);
-            GaleryImageCommand = new Command(Galeria);
-            OnDateChangedCommand = new Command(OnDateChanged);
-            DeleteImageCommand = new Command<Archive<CachedImage>>(DeleteImage);
-            this.Photos = new ObservableCollection<Archive<CachedImage>>();
-        }
-
-        private void OnDateChanged()
-        {
-            if (this.Tarea is not null && this.Tarea.Subject != null && this.Tarea.Date != null)
-            {
-                this.Tarea.Time =
-                    TimeSpan.FromTicks(AppData.Instance.LiteConnection.Single<long>
-                        ($"SELECT BEGIN FROM ClassTime WHERE IdSubject={this.Tarea.Subject.Id} AND DAY={(int)this.Tarea.Date.DayOfWeek}"));
-            }
-        }
-
-        private void DeleteImage(Archive<CachedImage> img)
-        {
-            this.Photos.Remove(img);
-        }
-
-        private async Task Save()
-        {
-            Document.Delete(this.Tarea.IdDocument);
-            if (this.Tarea.Description == null)
-            {
-                this.Tarea.Description = "";
-            }
-            Document doc = Document.PaseAndSave(this.Tarea.Description);
-            this.Tarea.IdDocument = doc.Id;
-
-
-            Keeper.Delete(this.Tarea.IdKeeper);
-            Keeper keeper = Keeper.New();
-            foreach (Archive<CachedImage> archive in Photos)
-            {
-                CachedImage image = archive.Value;
-                using (FileStream file = new FileStream(archive.Path, FileMode.OpenOrCreate))
-                {
-                    using (MemoryStream memory = new MemoryStream(await image.GetImageAsPngAsync()))
-                    {
-                        await memory.CopyToAsync(file);
-                    }
-                }
-                await keeper.Save(archive);
-            }
-            this.Tarea.IdKeeper = keeper.Id;
-            /////////////
-
-
-
-            AppData.Instance.LiteConnection.InsertOrReplace(this.Tarea);
-            /////////////
-            if (Shell.Current is AppShell app)
-            {
-                await app.MasterPage.TaskFirstPage.Model.Refresh();
-            }
-
-            await Shell.Current.Navigation.PopToRootAsync(true);
-            //photos ?
-        }
-        private async void Save(object obj)
-        {
-            if (Tarea.Subject == null)
-            {
-                Acr.UserDialogs.UserDialogs.Instance.Alert("Por favor seleccione una materia");
-                await SelectSubject();
-                if (Tarea.Subject is not null)
-                    Save(obj);
-                return;
-            }
-            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Guardando tarea..."))
-            {
-                await Save();
-            }
-        }
-
-        private async Task SelectSubject()
-        {
-            var pr = new SubjectPopUp();
+            var pr = new MenuPopUp();
             await pr.ShowDialog();
-            this.Tarea.Subject = pr.Modelo.SelectedSubject;
+            switch(pr.Model.Action)
+            {
+                case "Ver":
+                    Detail();
+                    break;
+                case "Hecho":
+                    Completada();
+                    break;
+                case "Editar":
+                    OpenTask();
+                    break;
+                case "Archivar":
+                    Archivar();
+                    break;
+                case "Eliminar":
+                    Eliminar();
+                    break;
+                case "Compartir":
+                    break;
+            }
         }
-        private async void TaskClicked()
+        public void Eliminar()
         {
-            await SelectSubject();
+            AppData.Instance.LiteConnection.Delete(this.ToDo);
+            BySubjectGroup.ToDoS.Remove(this);
+            BySubjectGroup.View?.Resize();
         }
-
-        private async void Galeria()
+        private void OpenTask()
         {
-            var permiso = new Permissions.Photos();
-            if (!await Permisos.TenemosPermiso(new Permissions.Photos()))
-            {
-                RequestCameraPage request = new RequestCameraPage();
-                await request.ShowDialog();
-                if (await permiso.CheckStatusAsync() != PermissionStatus.Granted)
-                {
-                    await Task.Delay(500);
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Ha denegado el acceso a su camera, por favor permita el acceso desde ajustes de su dispositivo", "Alerta");
-                    return;
-                }
-                await Task.Delay(500);
-            }
-            if (!await Permisos.RequestStorage())
-            {
-                await Task.Delay(500);
-                Acr.UserDialogs.UserDialogs.Instance.Alert("Ha denegado el acceso a su camera, por favor permita el acceso desde ajustes de su dispositivo", "Alerta");
-                return;
-            }
-            AddPhoto(await MediaPicker.PickPhotoAsync(new MediaPickerOptions()));
+            App.Current.MainPage.Navigation.PushAsync(new TaskPage(this.ToDo), true);
         }
-
-        private async void UsarCamara()
+        private void Detail()
         {
-            var permiso = new Permissions.Camera();
-            if (!await Permisos.TenemosPermiso(permiso))
-            {
-                RequestCameraPage request = new RequestCameraPage();
-                await request.ShowDialog();
-                if (await permiso.CheckStatusAsync() != PermissionStatus.Granted)
-                {
-                    await Task.Delay(500);
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Ha denegado el acceso a su camera, por favor permita el acceso desde ajustes de su dispositivo", "Alerta");
-                    return;
-                }
-                await Task.Delay(500);
-            }
-
-            if ((await Permisos.EnsurePermission<Permissions.Camera>()) != PermissionStatus.Granted)
-            {
-                return;
-            }
-            AddPhoto(await MediaPicker.CapturePhotoAsync(new MediaPickerOptions()));
+            App.Current.MainPage.Navigation.PushAsync(new TaskDetails(this.ToDo), true);
         }
-
-        private void AddPhoto(FileResult result)
+        private void Archivar()
         {
-            if (result is null)
-            {
-                return;
-            }
-            Archive<CachedImage> archive = new Archive<CachedImage>(result, FileType.Photo)
-            {
-                Value = new CachedImage()
-                {
-                    DownsampleToViewSize = true,
-                    Aspect = Aspect.AspectFit,
-                    Source = ImageSource.FromFile(result.FullPath)
-                }
-            };
-            Photos.Add(archive);
+            this.ToDo.Archived = 1;
+            AppData.Instance.LiteConnection.Update(this.ToDo);
         }
-
-
+        private void Completada()
+        {
+            this.ToDo.Done = 1;
+            AppData.Instance.LiteConnection.Update(this.ToDo);
+        }
 
     }
 }

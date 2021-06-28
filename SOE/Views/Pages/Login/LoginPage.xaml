@@ -23,7 +23,7 @@
                 Padding="10" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
                 Margin="20,10">
                 <StackLayout>
-                    <Label FontFamily="KarlaSB" Text="Organizador Escolar" Margin="10" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                    <Label FontFamily="KarlaSB" Text="SOE" Margin="10" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
                     <Grid HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
                         <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
                             <Grid HeightRequest="100" WidthRequest="100"  HorizontalOptions="Center" VerticalOptions="Center">

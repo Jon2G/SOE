@@ -59,7 +59,6 @@ namespace SOE.API
             }
             return JsonConvert.DeserializeObject<Response>(result.Response);
         }
-
         public static async Task<Response> PostClassTime(string HTML,string User)
         {
             WebService WebService = new WebService(Url);

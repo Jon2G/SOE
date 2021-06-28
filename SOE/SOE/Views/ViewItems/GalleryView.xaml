@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+             xmlns:proc="clr-namespace:PanCardView.Processors;assembly=PanCardView"
+             xmlns:ffimage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView"
+             xmlns:viewItems="clr-namespace:SchoolOrganizer.ViewModels.ViewItems;assembly=SchoolOrganizer"
+             xmlns:fonts="clr-namespace:SchoolOrganizer.Fonts;assembly=SchoolOrganizer"
+             xmlns:controls1="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
+             x:Class="SchoolOrganizer.Views.ViewItems.GalleryView" 
+             BackgroundColor="Black" Opacity="0" IsVisible="False" 
+             x:DataType="viewItems:GalleryViewModel">
+    <ContentView.BindingContext>
+        <viewItems:GalleryViewModel x:Name="Model"/>
+    </ContentView.BindingContext>
+    <Grid>
+        <cards:CarouselView 
+        ItemsSource="{Binding Items}"
+        IsPanSwipeEnabled="False" IsPanInteractionEnabled="False" 
+        SwipeThresholdTime="0"
+        SelectedIndex="{Binding CurrentIndex}">
+        <cards:CarouselView.ItemTemplate>
+            <DataTemplate x:DataType="ffimage:CachedImage">
+                    <controls1:ZoomGestureContainer Margin="5">
+                        <ffimage:CachedImage Source="{Binding Source}" DownsampleToViewSize="True"/>
+                    </controls1:ZoomGestureContainer>
+            </DataTemplate>
+        </cards:CarouselView.ItemTemplate>
+        <controls:IndicatorsControl ToFadeDuration="1500"/>
+        <controls:LeftArrowControl ToFadeDuration="2500"/>
+        <controls:RightArrowControl ToFadeDuration="2500"/>
+    </cards:CarouselView>
+        <Label FontSize="25" TextColor="White" Text="{x:Static fonts:FontelloIcons.Share}" 
+               FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+               HorizontalOptions="End" VerticalOptions="Start" Margin="20">
+               <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ShareCommand}"/>
+            </Label.GestureRecognizers>
+        </Label>
+        <Label FontSize="25" TextColor="White" Text="{x:Static fonts:FontelloIcons.GoBack}" FontFamily="{x:Static fonts:FontelloIcons.Font}"
+               HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Margin="20">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="GoBack_Tapped"/>
+                </Label.GestureRecognizers>
+        </Label>
+    </Grid>
+</ContentView>

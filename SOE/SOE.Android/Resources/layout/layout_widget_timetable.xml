@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_gravity="center_horizontal"
+  android:id="@+id/widget_timetable"
+  style="@style/MainTheme"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:layout_margin="@dimen/widget_margin">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"  
+    android:layout_height="match_parent"
+    android:background="@color/colorOnBackground"
+    android:orientation="vertical"
+    android:elevation="4dp" android:padding="0dp">
+
+<GridLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:columnCount="3" android:background="@color/colorOnBackground"
+    android:padding="0dp">
+    <TextView android:layout_marginLeft="15dp"
+        android:id="@+id/widget_timetable_TextViewCurrent_day"
+        android:textColor="@color/colorTextPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="0"
+        android:text="Lunes" 
+        android:textSize="18dp" />
+
+    <Button 
+      android:padding="0dp"
+        android:background="@android:color/transparent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/widget_timetable_Btnyesterday"
+        android:textColor="@color/colorTextPrimary"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:text="👈"
+        android:textSize="20dp"
+        android:tooltipText="Ayer" />
+    <Button
+      android:padding="0dp"
+      android:background="@android:color/transparent"
+      android:id="@+id/widget_timetable_Btntomorrow"
+      android:textColor="@color/colorTextPrimary"
+      android:layout_width="40dp"
+      android:layout_height="wrap_content"
+      android:layout_column="2"
+      android:text="👉"
+      android:textSize="20dp"
+                android:tooltipText="Mañana" />
+</GridLayout>
+  <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/stack_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:clickable="true"
+            android:loopViews="true"
+            android:orientation="vertical" />
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/colorTextPrimary"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="Cargando..."
+        android:textSize="20sp" />
+
+</LinearLayout>
+</LinearLayout>

@@ -156,7 +156,7 @@
       <Project>{fbdd1dcc-b804-4690-8113-98d775de9a88}</Project>
       <Name>Kit</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SchoolOrganizer\SchoolOrganizer.csproj">
+    <ProjectReference Include="..\SOE\SOE.csproj">
       <Project>{20ccea58-74b4-41b0-9e9e-22b7b328c798}</Project>
       <Name>SchoolOrganizer</Name>
     </ProjectReference>

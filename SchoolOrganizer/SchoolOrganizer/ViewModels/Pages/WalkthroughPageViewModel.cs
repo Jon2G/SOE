@@ -14,6 +14,6 @@ namespace SchoolOrganizer.ViewModels.Pages
         private ICommand _ContinueCommand;
         public ICommand ContinueCommand => _ContinueCommand ??= new Command(Continue);
 
-        private void Continue() => App.Current.MainPage = new SchoolSelector();
+        private void Continue() => App.Current.MainPage = new SchoolSelector(SchoolLevel.University);
     }
 }

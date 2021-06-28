@@ -32,10 +32,6 @@ namespace SchoolOrganizer.Views.Pages
         }
 
 
-        //private async void Button_Clicked(object sender, EventArgs e)
-        //{
-
-        //}
         protected override bool OnBackButtonPressed()
         {
             if (TabView.SelectedIndex < 0)
@@ -99,6 +95,17 @@ namespace SchoolOrganizer.Views.Pages
                 case 1:
                     this.Title = "Tareas";
                     this.ToolbarItems.Clear();
+                    this.ToolbarItems.Add(new ToolbarItem
+                    {
+                        Command = Model.ItemSelectedCommand,
+                        CommandParameter = this,
+                        IconImageSource = new FontImageSource()
+                        {
+                            FontFamily = FontelloIcons.Font,
+                            Glyph = FontelloIcons.Attach
+                        }
+                    });
+                    
                     break;
                 case 2:
                     this.Title = "Horario";

@@ -3,30 +3,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:tasksViews="clr-namespace:SchoolOrganizer.Views.ViewItems.TasksViews;assembly=SchoolOrganizer"
-             xmlns:taskFirst="clr-namespace:SchoolOrganizer.Models.TaskFirst;assembly=SchoolOrganizer"
-             x:Class="SchoolOrganizer.Views.ViewItems.TasksViews.BySubjectGroupView">
-  <ContentView.Content>
-      <Grid ColumnDefinitions="5,*" ColumnSpacing="0">
-                <BoxView />
-                <StackLayout Grid.Column="1" BackgroundColor="{Binding Subject.Color}" Margin="0">
-                <views:Expander x:Name="Expander">
-                        <views:Expander.Header>
-                            <Label VerticalOptions="Center" VerticalTextAlignment="Center"
+             xmlns:taskFirst="clr-namespace:SchoolOrganizer.Models.TaskFirst;assembly=SchoolOrganizer" 
+             xmlns:pages="clr-namespace:SchoolOrganizer.ViewModels.Pages"
+             x:Class="SchoolOrganizer.Views.ViewItems.TasksViews.BySubjectGroupView"
+             x:DataType="taskFirst:BySubjectGroup"
+             Background="Red">
+    <ContentView.Content>
+        <views:Expander x:Name="Expander" BackgroundColor="{Binding Subject.Color}">
+            <views:Expander.Header>
+                <Label VerticalOptions="Center" VerticalTextAlignment="Center"
                                                                        Text="{Binding Subject.Name}" 
                                                                        TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" 
                                                                        FontAttributes="Bold"/>
-                        </views:Expander.Header>
-                        <StackLayout>
-                        <StackLayout Spacing="0" BindableLayout.ItemsSource="{Binding ToDoS}">
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate x:DataType="taskFirst:ToDo">
-                                        <tasksViews:TaskView/>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </StackLayout>
-                        </StackLayout>
-                    </views:Expander>
+            </views:Expander.Header>
+            <StackLayout>
+                <StackLayout  Spacing="0" BindableLayout.ItemsSource="{Binding ToDoS}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="pages:TaskViewModel">
+                            <tasksViews:TaskView/>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
                 </StackLayout>
-            </Grid>
-  </ContentView.Content>
+            </StackLayout>
+        </views:Expander>
+    </ContentView.Content>
 </ContentView>

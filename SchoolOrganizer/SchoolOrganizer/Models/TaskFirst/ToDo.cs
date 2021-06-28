@@ -19,6 +19,8 @@ namespace SchoolOrganizer.Models.TaskFirst
     public class ToDo : ModelBase, IGuid
     {
         private string _Title;
+        private int _Archived;
+        private int _Done;
         private TimeSpan _Time;
         private DateTime _Date;
         private Subject subject;
@@ -70,6 +72,7 @@ namespace SchoolOrganizer.Models.TaskFirst
         public string FormattedTime => $"{Time:hh}:{Time:mm}";
        
         private FormattedString _FormattedString;
+       
         [Ignore]
         public FormattedString FormattedString
         {
@@ -124,25 +127,34 @@ namespace SchoolOrganizer.Models.TaskFirst
                 Subject.Id = value;
             }
         }
+        public int Done
+        {
+            get => _Done;
+            set
+            {
+                _Done = value;
+                Raise(() => Done);
+            }
+        }
+        public int Archived
+        {
+            get => _Archived;
+            set
+            {
+                _Archived = value;
+                Raise(() => Archived);
+            }
+        }
+        
         public int IdDocument { get; set; }
         public int IdKeeper { get; set; }
         public ToDo()
         {
+            Done = 0;
+            Archived = 0;
             OpenBrowserCommand = new Command<string>(OpenBrowser);
 
         }
-        //public ToDo(ToDo toDo)
-        //{
-        //        this.Id = toDo.Id;
-        //        this.Title = toDo.Title;
-        //        this.SubjectId = toDo.SubjectId;
-        //        this.Date = toDo.Date;
-        //        this.Time = toDo.Time;
-        //        this.Description = toDo.Description;
-        //        this.IdDocument = toDo.IdDocument;
-        //        this.IdKeeper = toDo.IdKeeper;
-
-        //}
         private async void OpenBrowser(string zelda)
         {
             UriBuilder builder = new UriBuilder(zelda);

@@ -113,6 +113,9 @@
     <PackageReference Include="Xamarin.Forms.PancakeView">
       <Version>2.3.0.759</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Forms.Visual.Material">
+      <Version>5.0.0.2012</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activities\MainActivity.cs" />
@@ -179,18 +182,18 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="..\Images\menu_circle.png">
-      <Link>Resources\drawable\menu_circle.png</Link>
+    <AndroidResource Include="..\Images\tareas.mp4">
+      <Link>Resources\raw\tareas.mp4</Link>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="..\Images\close_circle.png">
-      <Link>Resources\drawable\close_circle.png</Link>
+    <AndroidResource Include="..\Images\horario.mp4">
+      <Link>Resources\raw\horario.mp4</Link>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="..\Images\outer_circle.png">
-      <Link>Resources\drawable\outer_circle.png</Link>
+    <AndroidResource Include="..\Images\calificaciones.mp4">
+      <Link>Resources\raw\calificaciones.mp4</Link>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
@@ -231,15 +234,6 @@
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\raw\tareas.mp4" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\raw\horario.mp4" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\raw\calificaciones.mp4" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher.png" />

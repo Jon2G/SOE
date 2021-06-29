@@ -1,5 +1,5 @@
 ﻿using Foundation;
-using OrganizadorEscolar.iOS.Renders;
+using SOE.iOS.Renders;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
 [assembly: ExportRenderer(typeof(BorderlessDatePicker), typeof(BorderlessDatePickerRenderer))]
-namespace OrganizadorEscolar.iOS.Renders
+namespace SOE.iOS.Renders
 {
     class BorderlessDatePickerRenderer : DatePickerRenderer
     {

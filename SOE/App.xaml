@@ -105,12 +105,23 @@
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource BackgroundSecondaryDarkColor},Light={StaticResource BackgroundSecondaryLightColor}}" />
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource  DarkTextColor},Dark={StaticResource LightTextColor}}"/>
             </Style>
+            <Style TargetType="DatePicker">
+               
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource BackgroundSecondaryDarkColor},Light={StaticResource BackgroundSecondaryLightColor}}" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource  DarkTextColor},Dark={StaticResource LightTextColor}}"/>
+            </Style>
+            <Style TargetType="TimePicker">
+             
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource BackgroundSecondaryDarkColor},Light={StaticResource BackgroundSecondaryLightColor}}" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource  DarkTextColor},Dark={StaticResource LightTextColor}}"/>
+            </Style>
             <Style TargetType="SearchBar">
                 <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource  BackgroundSecondaryDarkColor},Dark={StaticResource BackgroundSecondaryLightColor}}"/>
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource BackgroundSecondaryDarkColor},Light={StaticResource BackgroundSecondaryLightColor}}" />
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource  DarkTextColor},Dark={StaticResource LightTextColor}}"/>
             </Style>
             <Style TargetType="Editor">
+                <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource  BackgroundSecondaryDarkColor},Dark={StaticResource BackgroundSecondaryLightColor}}"/>
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource BackgroundSecondaryDarkColor},Light={StaticResource BackgroundSecondaryLightColor}}" />
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource  DarkTextColor},Dark={StaticResource LightTextColor}}"/>
             </Style>

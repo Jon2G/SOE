@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:BasePopUp xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+             x:Class="SOE.Views.PopUps.ComingSoon" CloseWhenBackgroundIsClicked="True">
+    <ContentPage.Content>
+        <pancakeView:PancakeView  HorizontalOptions="Center"  VerticalOptions="Center" Margin="5">
+            <StackLayout>
+
+                <Label  Background="{StaticResource PrimaryColor}" 
+                        VerticalOptions="Start"  Padding="10" FontSize="20" TextColor="White"
+                        HorizontalOptions="FillAndExpand" >
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{x:Static fonts:FontelloIcons.Hourglass}"
+                                  FontFamily="{x:Static fonts:FontelloIcons.Font}" FontSize="20"/>
+                            <Span Text="  "/>
+                            <Span Text="Proximamente..."/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label Margin="10" 
+                       Text="Gracias por ayudarnos a probar esta aplicación, estaremos resolviendo esto en futuras actualizaciones "/>
+
+
+                    <Image x:Name="ImgLogo" HeightRequest="150" Margin="0"
+                           Source="logo_soe_fill.png" VerticalOptions="CenterAndExpand"/>
+
+            </StackLayout>
+        </pancakeView:PancakeView>
+    </ContentPage.Content>
+</pages:BasePopUp>

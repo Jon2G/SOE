@@ -12,26 +12,32 @@ namespace SOE.ViewModels.Pages
 {
     public class SubjectViewModel : ModelBase
     {
-        public List<Subject> subjects { get; }
+        public List<Subject> Subjects { get; set; }
 
         public ICommand ClosePopUpCommand { get; }
 
-        SubjectPopUp subjectPop;
-       public Subject SelectedSubject { get; private set; }
+        SubjectPopUp SubjectsPopUp;
+        public Subject SelectedSubject { get; private set; }
         public SubjectViewModel(SubjectPopUp sub)
         {
             ClosePopUpCommand = new Command<Subject>(ClosePopUp);
-            subjects =AppData.Instance.LiteConnection.Table<Subject>()
-                .GroupBy(x=>x.Group)
-                .Select(g=>g.First())
+            Refresh();
+            SubjectsPopUp = sub;
+        }
+
+        internal void Refresh()
+        {
+            this.Subjects = AppData.Instance.LiteConnection.Table<Subject>()
+                .GroupBy(x => x.Group)
+                .Select(g => g.First())
                 .ToList();
-            subjectPop = sub;
+            Raise(() => Subjects);
         }
 
         public async void ClosePopUp(Subject subject)
         {
             SelectedSubject = subject;
-           await subjectPop.Close();
+            await SubjectsPopUp.Close();
             //?
         }
     }

@@ -79,10 +79,7 @@ namespace SOE.ViewModels.Pages
                 await AppData.Instance.SAES.GetUserData(AppData.Instance.User);
                 AppData.Instance.User.Save();
 
-                AppShell shell = new AppShell();
-                //Acr.UserDialogs.UserDialogs.Instance.Alert($"Hemos notado que es tu primer inicio de sesión, te damos la bienvenida.", $"!Bienvenido,{AppData.Instance.User.Name}¡", "Vamos allá");
-                //AppData.Instance.LiteConnection.InsertOrReplace(this.User);
-                Application.Current.MainPage = shell;
+                Application.Current.MainPage = new WalkthroughPage();
             }
             else
             {

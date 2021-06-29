@@ -8,7 +8,9 @@
              xmlns:images="clr-namespace:SOE.Data.Images;assembly=SOE"
              xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
              x:Class="SOE.Views.Pages.TaskDetails" 
-             Title="{Binding ToDo.Title}" x:DataType="pages:TaskDetailsViewModel"
+             Title="{Binding ToDo.Title}" 
+             x:DataType="pages:TaskDetailsViewModel"
+             Shell.NavBarIsVisible="True"
              x:Name="Me">
     <Grid>
         <views:TabView IsSwipeEnabled="True" 
@@ -53,7 +55,8 @@
                         Color="{DynamicResource primaryTextColor}" Size="20" />
             </views:TabViewItem.Icon>
             <StackLayout Padding="3">
-                <CollectionView BackgroundColor="WhiteSmoke" ItemsSource="{Binding Photos}">
+                <CollectionView Background="{DynamicResource SecondaryBackground}" 
+                                ItemsSource="{Binding Photos}">
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Vertical"  Span="2"/>
                         </CollectionView.ItemsLayout>
@@ -63,7 +66,7 @@
                                 <Label 
                                     Text="Sin imagenes que mostrar"
                                     HorizontalOptions="Center"
-                                    VerticalOptions="Center" FontSize="Large" FontAttributes="Bold" TextColor="Black" />
+                                    VerticalOptions="Center" FontSize="Large" FontAttributes="Bold"/>
 
 
                             </Grid>

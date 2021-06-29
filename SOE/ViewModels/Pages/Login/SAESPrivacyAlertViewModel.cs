@@ -3,6 +3,7 @@ using System.Windows.Input;
 using AsyncAwaitBestPractices;
 using Kit.Forms.Pages;
 using Rg.Plugins.Popup.Services;
+using SOE.Views.PopUps;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -18,7 +19,11 @@ namespace SOE.ViewModels.Pages.Login
             this.OpenPrivacyCommand = new Command(OpenPrivacy);
         }
 
-        private  void OpenPrivacy() => Browser.OpenAsync("www.google.com").SafeFireAndForget();
+        private void OpenPrivacy()
+        {
+            //=> Browser.OpenAsync("www.google.com").SafeFireAndForget();
+            ComingSoon.Show();
+        }
         private  void Continue() => (PopupNavigation.Instance.PopupStack.First() as BasePopUp)?.Close().SafeFireAndForget();
     }
 }

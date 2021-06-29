@@ -29,8 +29,6 @@ namespace SOE.Views.PopUps
         {
 
             InitializeComponent();
-            DatePick.MinimumDate = DateTime.Now;
-
         }
 
         public TaskPage(ToDo toDo)

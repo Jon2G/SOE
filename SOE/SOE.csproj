@@ -8,9 +8,13 @@
     <UserSecretsId>2e4b0392-c909-4468-9569-fccdfaa16cda</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Fonts\Fontello\font\fontello_11.ttf" />
+    <None Remove="Fonts\Fontello\font\fontello_12.ttf" />
+  </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Fonts\Fontello\font\fontello_10.ttf" />
+    <EmbeddedResource Include="Fonts\Fontello\font\fontello_12.ttf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -64,6 +68,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\UserProfile.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\PopUps\ComingSoon.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\PopUps\LoginPopUp.xaml">

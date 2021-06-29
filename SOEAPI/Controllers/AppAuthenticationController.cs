@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -28,7 +29,12 @@ namespace SOEAPI.Controllers
         private readonly ILogger<AppAuthenticationController> _logger;
         public AppAuthenticationController(ILogger<AppAuthenticationController> logger)
         {
-            Connection = new SQLServerConnection("APP_AUTHENTICATION", "192.168.0.32\\SQLEXPRESS", "1433", "sa", "12345678");
+            Connection = new SQLServerConnection(
+                DataBaseName:"APP_AUTHENTICATION",
+                Server: "mssql-36088-0.cloudclusters.net\\SQLEXPRESS", 
+                Port: "36096", 
+                User: "SOE_ADMIN", 
+                Password: "Octopus$2021.");
             _logger = logger;
 
         }
@@ -36,6 +42,18 @@ namespace SOEAPI.Controllers
         public ActionResult<string> Hello()
         {
             return $"Hello there, it's {DateTime.Now.ToShortTimeString()} o'clock , {DateTime.Now.ToShortDateString()}";
+        }
+        [HttpGet("TestDb")]
+        public ActionResult<Response> TestDb()
+        {
+            Stopwatch sp = new Stopwatch();
+            sp.Start();
+            if (Connection.TestConnection() is Exception ex)
+            {
+                return new Response(APIResponseResult.INTERNAL_ERROR, ex.ToString());
+            }
+            sp.Stop();
+            return new Response(APIResponseResult.OK, $"Time elapsed:{sp.Elapsed:G}");
         }
 
         [HttpGet("LogIn/{UserName}/{Password}/{DeviceKey}/{School}")]

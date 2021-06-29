@@ -50,6 +50,7 @@ namespace SOE.Views.Pages
             if (Device.RuntimePlatform != Device.iOS && TabView.SelectedIndex <= 0)
             {
                 TabView.SelectedIndex = 1;
+                ShowTodoIcon();
             }
             else if(TabView.SelectedIndex <= 0)
             {
@@ -59,6 +60,22 @@ namespace SOE.Views.Pages
                     TabView.SelectedIndex = 1;
                 });
             }
+        }
+
+        private void ShowTodoIcon()
+        {
+            this.Title = "Tareas";
+            this.ToolbarItems.Clear();
+            this.ToolbarItems.Add(new ToolbarItem
+            {
+                Command = Model.ItemSelectedCommand,
+                CommandParameter = this,
+                IconImageSource = new FontImageSource()
+                {
+                    FontFamily = FontelloIcons.Font,
+                    Glyph = FontelloIcons.CirclePlus
+                }
+            });
         }
 
         private void TabView_OnSelectionChanged(object sender, TabSelectionChangedEventArgs e)
@@ -82,18 +99,7 @@ namespace SOE.Views.Pages
                     });
                     break;
                 case 1:
-                    this.Title = "Tareas";
-                    this.ToolbarItems.Clear();
-                    this.ToolbarItems.Add(new ToolbarItem
-                    {
-                        Command = Model.ItemSelectedCommand,
-                        CommandParameter = this,
-                        IconImageSource = new FontImageSource()
-                        {
-                            FontFamily = FontelloIcons.Font,
-                            Glyph = FontelloIcons.Attach
-                        }
-                    });
+                    ShowTodoIcon();
                     break;
                 case 2:
                     this.Title = "Horario";

@@ -10,13 +10,14 @@
 
     <Frame Margin="20" CornerRadius="15" 
            VerticalOptions="Center" HorizontalOptions="Center" >
-        <CollectionView ItemsSource="{Binding subjects}">
+        <CollectionView ItemsSource="{Binding Subjects}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="apiModels:Subject">
                     <ContentView>
                         <Frame Margin="3"  
-                                CornerRadius="10" BackgroundColor="{Binding Color}">
-                            <Label  FontFamily="Karla_SemiBold"  TextColor="Black"  Text="{Binding Name}"
+                                CornerRadius="10" BackgroundColor="{Binding Converter={x:StaticResource SubjectColorAppThemeConverter }}">
+                            <Label  FontFamily="Karla_SemiBold" 
+                                    Text="{Binding Name}"
                                      FontSize="14"  FontAttributes="Bold">
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer 

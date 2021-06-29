@@ -22,7 +22,16 @@ namespace SOE.Converters
                     return subject.Color;
                 }
             }
-            return Color.White.ToHex();
+
+            if (App.Current.RequestedTheme == OSAppTheme.Dark)
+            {
+                return App.Current.Resources["BackgroundSecondaryDarkColor"];
+            }
+            else
+            {
+                return App.Current.Resources["BackgroundSecondaryLightColor"];
+            }
+               
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -16,14 +16,16 @@
                             <BoxView />
                             <StackLayout  Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center">
                                 <Label Text="{Binding FDateTime.Day,StringFormat='{0:00}'}"  FontSize="Title"  HorizontalOptions="Center" HorizontalTextAlignment="Center"
-                                                   TextColor="{DynamicResource secondaryTextColor}"/>
+                                                   />
                                 <Label Text="{Binding Month}" FontSize="15"   HorizontalOptions="Center" HorizontalTextAlignment="Center"
-                                                   TextColor="{DynamicResource secondaryTextColor}"/>
+                                                   />
                             </StackLayout>
                             <BoxView Grid.Column="2" Background="LightGray"/>
                             <StackLayout Grid.Column="3" Orientation="Horizontal">
-                                <Label Text="Tareas pendientes:" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  Margin="5" FontAttributes="Italic" FontSize="Large" TextColor="{DynamicResource secondaryTextColor}"/>
-                                <Label Text="{Binding Tareas,StringFormat='{0}'}" FontSize="Large" TextColor="{DynamicResource secondaryTextColor} " 
+                                <Label Text="Tareas:" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  
+                                       Margin="5" FontAttributes="Italic" FontSize="Large"
+                                      />
+                                <Label Text="{Binding Tareas,StringFormat='{0}'}" FontSize="Large" 
                                                VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  Margin="5" FontAttributes="Italic" />
                             </StackLayout>
                         </Grid>

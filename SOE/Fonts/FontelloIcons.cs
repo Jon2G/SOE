@@ -1,7 +1,8 @@
-﻿using SOE.Fonts;
+﻿using System.CodeDom;
+using SOE.Fonts;
 using Xamarin.Forms;
 
-[assembly: ExportFont("fontello_10.ttf", Alias = FontelloIcons.Font)]
+[assembly: ExportFont("fontello_12.ttf", Alias = FontelloIcons.Font)]
 namespace SOE.Fonts
 {
     public static class FontelloIcons
@@ -44,6 +45,15 @@ namespace SOE.Fonts
         public const string ThreeDots = "\uE81D";
         public const string UpArrow = "\uE81E";
 
+
+        public const string Eye = "\uE81F";
+        public const string CheckBox = "\uE820";
+        public const string TrashBin = "\uE821";
+        public const string Pencil = "\uE822";
+        public const string Archive = "\uE823";
+        public const string Folder = "\uE824";
+        public const string Hourglass = "\uE825";
+        public const string CirclePlus = "\uE826";
         public const string Font = "FontIcon";
     }
 }

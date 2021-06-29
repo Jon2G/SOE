@@ -5,7 +5,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
-namespace OrganizadorEscolar.iOS
+namespace SOE.iOS
 {
     public class Application
     {

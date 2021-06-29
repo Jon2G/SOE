@@ -18,7 +18,8 @@
        
         <Label Grid.Row="1"  LineBreakMode="WordWrap" Text="{Binding Status}" TextColor="White" FontSize="Medium" />
 
-        <Label Text="{x:Static data:AppData.Version}" Margin="10" VerticalTextAlignment="End" HorizontalOptions="End" FontSize="12">
+        <Label Text="{x:Static data:AppData.Version}"
+               TextColor="White" Margin="10" VerticalTextAlignment="End" HorizontalOptions="End" FontSize="12">
             <Label.GestureRecognizers>
                 <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped" />
             </Label.GestureRecognizers>

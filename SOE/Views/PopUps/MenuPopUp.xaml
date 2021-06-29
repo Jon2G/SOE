@@ -7,19 +7,50 @@
                  x:Class="SOE.Views.PopUps.MenuPopUp">
     <StackLayout Spacing="0" Padding="0" VerticalOptions="End" Background="{DynamicResource SecondaryBackground}">
 
-        <controls:ArrowButton  Title="Ver"        Command="{Binding TapedCommand}" CommandParameter="Ver">
+        <controls:ArrowButton  Title="Ver"        Command="{Binding TapedCommand}" CommandParameter="Ver"
+                               ArrowColor="{StaticResource AccentColor}">
             <controls:ArrowButton.Icon>
-                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.HappyBeer}" 
+                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Eye}" 
                                  FontFamily="{x:Static fonts:FontelloIcons.Font}"
                                  Color="{AppThemeBinding Dark=White,Light=Black}"
                 />
             </controls:ArrowButton.Icon>
         </controls:ArrowButton>
-        <controls:ArrowButton  Title="Hecho"     Command="{Binding TapedCommand}" CommandParameter="Hecho"/>
-        <controls:ArrowButton  Title="Editar"    Command="{Binding TapedCommand}" CommandParameter="Editar"/>
-        <controls:ArrowButton  Title="Archivar"  Command="{Binding TapedCommand}" CommandParameter="Archivar"/>
-        <controls:ArrowButton  Title="Eliminar"  Command="{Binding TapedCommand}" CommandParameter="Eliminar"/>
-        <controls:ArrowButton  Title="Compartir" Command="{Binding TapedCommand}" CommandParameter="Compartir"/>
+        <controls:ArrowButton  Title="Hecho"     Command="{Binding TapedCommand}" CommandParameter="Hecho"  ArrowColor="{StaticResource AccentColor}">
+            <controls:ArrowButton.Icon>
+                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.CheckBox}" 
+                                 FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                 Color="{AppThemeBinding Dark=White,Light=Black}"/>
+            </controls:ArrowButton.Icon>
+        </controls:ArrowButton>
+        <controls:ArrowButton  Title="Editar"    Command="{Binding TapedCommand}" CommandParameter="Editar"  ArrowColor="{StaticResource AccentColor}">
+            <controls:ArrowButton.Icon>
+                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Pencil}" 
+                                 FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                 Color="{AppThemeBinding Dark=White,Light=Black}"/>
+            </controls:ArrowButton.Icon>
+        </controls:ArrowButton>
+        <controls:ArrowButton  Title="Archivar"  Command="{Binding TapedCommand}" CommandParameter="Archivar" ArrowColor="{StaticResource AccentColor}">
+            <controls:ArrowButton.Icon>
+                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Archive}" 
+                                 FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                 Color="{AppThemeBinding Dark=White,Light=Black}"/>
+            </controls:ArrowButton.Icon>
+        </controls:ArrowButton>
+        <controls:ArrowButton  Title="Eliminar"  Command="{Binding TapedCommand}" CommandParameter="Eliminar" ArrowColor="{StaticResource AccentColor}">
+            <controls:ArrowButton.Icon>
+                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.TrashBin}" 
+                                 FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                 Color="Firebrick"/>
+            </controls:ArrowButton.Icon>
+        </controls:ArrowButton>
+        <controls:ArrowButton  Title="Compartir" Command="{Binding TapedCommand}" CommandParameter="Compartir" ArrowColor="{StaticResource AccentColor}">
+            <controls:ArrowButton.Icon>
+                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Share}" 
+                                 FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                 Color="ForestGreen"/>
+            </controls:ArrowButton.Icon>
+        </controls:ArrowButton>
 
         <Button Margin="3" CornerRadius="2" VerticalOptions="End" Text="Cerrar" Clicked="OnClose"/>
     </StackLayout>

@@ -12,8 +12,12 @@ namespace SOE.Views.PopUps
             this.Modelo=new SubjectViewModel(this); 
             InitializeComponent();
             this.BindingContext = this.Modelo;
+            App.Current.RequestedThemeChanged += Current_RequestedThemeChanged;
         }
 
-
+        private void Current_RequestedThemeChanged(object sender, Xamarin.Forms.AppThemeChangedEventArgs e)
+        {
+            this.Modelo.Refresh();
+        }
     }
 }

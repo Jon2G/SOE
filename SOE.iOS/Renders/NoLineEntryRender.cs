@@ -1,5 +1,5 @@
 ﻿using Foundation;
-using OrganizadorEscolar.iOS.Renders;
+using SOE.iOS.Renders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using Xamarin.Forms.Platform.iOS;
 
 [assembly: ExportRenderer(typeof(Entry), typeof(NoLineEntryRender))]
 
-namespace OrganizadorEscolar.iOS.Renders
+namespace SOE.iOS.Renders
 {
     class NoLineEntryRender: EntryRenderer
     {

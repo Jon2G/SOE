@@ -21,7 +21,7 @@
         </StackLayout>-->
         <views:TabView IsSwipeEnabled="True" 
                        Style="{StaticResource CustomTabStyle}" 
-                       TabStripBackgroundColor="{DynamicResource Primary}" 
+                       TabStripBackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
                        IsTabStripVisible="True" TabStripPlacement="Top">
             <views:TabViewItem TextColor="White" Text="Descripción">
                 <views:TabViewItem.Icon>
@@ -34,28 +34,36 @@
                     <StackLayout Spacing="10" Margin="5" >
                         <StackLayout Spacing="10">
                             <!--<Frame BorderColor="{StaticResource PrimaryLightColor}" CornerRadius="60" HeightRequest="39" WidthRequest="1">-->
-                            <Editor AutoSize="TextChanges" Placeholder="Agregar titulo"   Text="{Binding Tarea.Title}" MaxLength="100"/>
+                            <Editor AutoSize="TextChanges" Placeholder="Agregar titulo"  
+                                    Text="{Binding Tarea.Title}" MaxLength="100"/>
                             <!--</Frame>-->
 
                             <Label  VerticalTextAlignment="Center" 
-                               Text="Materia:" TextColor="{DynamicResource secondaryTextColor}" FontSize="17"
+                               Text="Materia:" 
+                               TextColor="{DynamicResource secondaryTextColor}" FontSize="17"
                                FontAttributes="Italic"/>
                             <Button Text="{Binding Tarea.Subject.Name}" 
-                                BackgroundColor="{Binding Tarea.Subject.Color}"
-                                CornerRadius="5" BorderColor="{StaticResource PrimaryLightColor}" 
-                                BorderWidth="1" TextColor="{DynamicResource PrimaryLightColor}" 
+
+                                BackgroundColor="{Binding Tarea.Subject,Converter={StaticResource SubjectColorAppThemeConverter}}"
+
+                                CornerRadius="5" BorderColor="{AppThemeBinding Light={StaticResource BackgroundTertiaryLightColor},Dark={StaticResource BackgroundTertiaryDarkColor}}" 
+                                BorderWidth="1" 
                                 Command="{Binding TaskCommand}"/>
 
 
                             <!--<Frame Grid.Row="2" CornerRadius="10" Padding="3" BackgroundColor="{DynamicResource PrimaryLightBackground}" 
                        BorderColor="#12396F" >-->
                             <StackLayout  Orientation="Horizontal" Spacing="0" Padding="0">
-                                <Label Margin="10,0" Text="Fecha:" VerticalTextAlignment="Center" TextColor="{StaticResource secondaryTextColor}" HorizontalOptions="Start" FontAttributes="Italic" FontSize="18"/>
-                                <DatePicker DateSelected="DatePick_OnDateSelected" HorizontalOptions="StartAndExpand" Margin="0"  FontAttributes="Bold" 
-                                    TextColor="{DynamicResource secondaryTextColor}" Format="dd/MM/yyyy" 
-                                    Date="{Binding Tarea.Date}" x:Name="DatePick"/>
-                                <Label Margin="10,0" Text="Hora:" VerticalTextAlignment="Center" TextColor="{StaticResource secondaryTextColor}" HorizontalOptions="Start" FontAttributes="Italic" FontSize="18"/>
-                                <TimePicker HorizontalOptions="End" Margin="0" Time="{Binding Tarea.Time}"
+                                <Label Margin="10,0" Text="Fecha:" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Italic" FontSize="18"/>
+                                <DatePicker DateSelected="DatePick_OnDateSelected" 
+                                            HorizontalOptions="StartAndExpand" Margin="0"  FontAttributes="Bold" 
+                                    Format="dd/MM/yyyy" 
+                                    Date="{Binding Tarea.Date}" 
+                                            MinimumDate="{x:Static x:DateTime.Now}"
+                                />
+                                <Label Margin="10,0" Text="Hora:" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Italic" FontSize="18"/>
+                                <TimePicker HorizontalOptions="End" Margin="0" 
+                                            Time="{Binding Tarea.Time}"
                                     FontFamily="Italic" />
                             </StackLayout>
 

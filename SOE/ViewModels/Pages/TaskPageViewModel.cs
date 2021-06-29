@@ -29,7 +29,6 @@ namespace SOE.ViewModels.Pages
         public ICommand CameraImageCommand { get; set; }
         public ICommand GaleryImageCommand { get; set; }
 
-        private Subject _selectedSubject;
 
 
         public ObservableCollection<Archive<CachedImage>> Photos { get; }
@@ -112,7 +111,8 @@ namespace SOE.ViewModels.Pages
             this.Tarea.IdKeeper = keeper.Id;
             /////////////
 
-
+            //le quita las horas y segundos a la fecha
+            this.Tarea.Date = new DateTime(this.Tarea.Date.Year, this.Tarea.Date.Month, this.Tarea.Date.Day);
 
             AppData.Instance.LiteConnection.InsertOrReplace(this.Tarea);
             /////////////

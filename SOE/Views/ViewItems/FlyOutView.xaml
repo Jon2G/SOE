@@ -100,14 +100,6 @@
                                 <Label  Margin="10,0,0,0" Text=" Ajustes" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                             </StackLayout>
                         </ViewCell>
-                        <ViewCell>
-                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
-                                <Label Text="{x:Static fonts:FontelloIcons.Logout}" 
-                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" 
-                                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                <Label   Margin="10,0,0,0" Text=" Cerrar Sesión" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
-                            </StackLayout>
-                        </ViewCell>
                     </TableSection>
                 </TableRoot>
             </TableView>

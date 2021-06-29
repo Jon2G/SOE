@@ -151,6 +151,7 @@ namespace SOE.Models.TaskFirst
             Done = 0;
             Archived = 0;
             OpenBrowserCommand = new Command<string>(OpenBrowser);
+            Date=DateTime.Now;
 
         }
         private async void OpenBrowser(string zelda)

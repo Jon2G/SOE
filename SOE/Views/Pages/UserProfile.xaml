@@ -82,7 +82,7 @@
                         <ProgressBar ProgressColor="{StaticResource AccentColor}" Progress="{Binding Progress}"/>
                     </StackLayout>
                 </pancakeView:PancakeView>
-                <Image Source="happy_donkey.jpg" HeightRequest="200"/>
+                <Image Source="logo_soe_fill.jpg" HeightRequest="150"/>
                 <Label Text="*Porcentaje de creditos aproximado"  FontSize="13"  VerticalTextAlignment="End" VerticalOptions="EndAndExpand"/>
             </StackLayout>
         </ScrollView>

@@ -163,7 +163,7 @@
       <Project>{34efec99-a6e9-4c5e-a4a3-cf62c8d2a3e1}</Project>
       <Name>Kit.Forms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Kit\Kit.iOS\Kit.iOS.csproj">
+    <ProjectReference Include="..\..\..\Kit\Kit.iOS\Kit.iOS.csproj">
       <Project>{de4b3620-b011-4ab8-84d8-05e073dab97e}</Project>
       <Name>Kit.iOS</Name>
       <IsAppExtension>false</IsAppExtension>

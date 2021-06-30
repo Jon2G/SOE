@@ -7,6 +7,7 @@ using Kit.Forms.Extensions;
 using Kit.Model;
 using SOE.Data;
 using SOE.Views.Pages;
+using SOE.Views.PopUps;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -15,6 +16,7 @@ namespace SOE.ViewModels.ViewItems
     public class FlyOutViewModel : ModelBase
     {
         public ICommand TareasCommand { get; }
+        public ICommand ComingCommand { get; }
         public ICommand SettingCommand { get; set; }
         public ICommand TapAvatarCommand { get; set; }
         public ICommand UserCommand { get; set; }
@@ -47,6 +49,7 @@ namespace SOE.ViewModels.ViewItems
             this.TareasCommand = new Command(Tareas);
             this.TapAvatarCommand = new Command(TapAvatar);
             this.UserCommand = new Command(UserProfile);
+            this.ComingCommand = new Command(Coming);
             GetAvatar();
         }
 
@@ -133,7 +136,11 @@ namespace SOE.ViewModels.ViewItems
         {
             //Shell.Current.Navigation.PushAsync(new TaskFirstPage(), true);
         }
-
+        private void Coming()
+        {
+            ComingSoon.Show();
+        }
+        
         private void OpenSettings()
         {
             Shell.Current.FlyoutIsPresented = false;

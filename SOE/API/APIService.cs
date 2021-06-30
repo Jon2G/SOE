@@ -16,7 +16,7 @@ namespace SOE.API
 {
     public static class APIService
     {
-        private const string Url = "https://aspnetclusters-36090-0.cloudclusters.net/AppAuthentication";
+        private const string Url ="http://aspnetclusters-36090-0.cloudclusters.net/AppAuthentication";
         //"https://192.168.0.32:44371/AppAuthentication";
         public static async Task<Response> Login(string Usuario, string PasswordPin, string school = null)
         {

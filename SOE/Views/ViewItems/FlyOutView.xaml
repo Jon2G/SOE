@@ -54,6 +54,9 @@
                         </ViewCell>
                         <ViewCell >
                             <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand" >
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ComingCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
+                                </StackLayout.GestureRecognizers>
                                 <Label Text="{x:Static fonts:FontelloIcons.AddressBook}" 
                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
@@ -62,6 +65,9 @@
                         </ViewCell>
                         <ViewCell >
                             <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ComingCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
+                                </StackLayout.GestureRecognizers>
                                 <Label Text="{x:Static fonts:FontelloIcons.Calendar}"
                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
@@ -71,7 +77,7 @@
                         <ViewCell>
                             <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
                                 <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding TareasCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
+                                    <TapGestureRecognizer Command="{Binding ComingCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
                                 </StackLayout.GestureRecognizers>
                                 <Label Text="{x:Static fonts:FontelloIcons.Book}"  
                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" 
@@ -82,6 +88,9 @@
                         <ViewCell >
 
                             <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ComingCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
+                                </StackLayout.GestureRecognizers>
                                 <Label Text="{x:Static fonts:FontelloIcons.Award}"  
                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>

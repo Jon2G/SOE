@@ -23,7 +23,7 @@ namespace SOE.ViewModels.Pages
         }
         private async void OpenMenu(object obj)
         {
-            var pr = new MenuPopUp();
+            var pr = new MenuPopUp(ToDo);
             await pr.ShowDialog();
             switch (pr.Model.Action)
             {
@@ -33,10 +33,18 @@ namespace SOE.ViewModels.Pages
                 case "Hecho":
                     Completada();
                     break;
+                case "Pendiente":
+                    Pendiente();
+                    break;
                 case "Editar":
                     OpenTask();
                     break;
                 case "Archivar":
+                    if (ToDo.Archived)
+                    {
+                        Desarchivar();
+                        break;
+                    }
                     Archivar();
                     break;
                 case "Eliminar":
@@ -62,14 +70,23 @@ namespace SOE.ViewModels.Pages
         }
         private void Archivar()
         {
-            this.ToDo.Archived = 1;
+            this.ToDo.Archived = true;
             AppData.Instance.LiteConnection.Update(this.ToDo);
         }
         private void Completada()
         {
-            this.ToDo.Done = 1;
+            this.ToDo.Done = true;
             AppData.Instance.LiteConnection.Update(this.ToDo);
         }
-
+        private void Desarchivar()
+        {
+            this.ToDo.Archived = false;
+            AppData.Instance.LiteConnection.Update(this.ToDo);
+        }
+        private void Pendiente()
+        {
+            this.ToDo.Done = false;
+            AppData.Instance.LiteConnection.Update(this.ToDo);
+        }
     }
 }

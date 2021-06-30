@@ -3,8 +3,10 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
                  xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
-                 xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
-                 x:Class="SOE.Views.PopUps.MenuPopUp">
+                 xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE" 
+                 xmlns:pages1="clr-namespace:SOE.ViewModels.Pages"
+                 x:Class="SOE.Views.PopUps.MenuPopUp"
+                 x:DataType="pages1:MenuPopUpViewModel">
     <StackLayout Spacing="0" Padding="0" VerticalOptions="End" Background="{DynamicResource SecondaryBackground}">
 
         <controls:ArrowButton  Title="Ver"        Command="{Binding TapedCommand}" CommandParameter="Ver"
@@ -23,6 +25,13 @@
                                  Color="{AppThemeBinding Dark=White,Light=Black}"/>
             </controls:ArrowButton.Icon>
         </controls:ArrowButton>
+        <controls:ArrowButton  Title="Pendiente"    Command="{Binding TapedCommand}" CommandParameter="Pendiente"  ArrowColor="{StaticResource AccentColor}">
+            <controls:ArrowButton.Icon>
+                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Hourglass}" 
+                                 FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                 Color="{AppThemeBinding Dark=White,Light=Black}"/>
+            </controls:ArrowButton.Icon>
+        </controls:ArrowButton>
         <controls:ArrowButton  Title="Editar"    Command="{Binding TapedCommand}" CommandParameter="Editar"  ArrowColor="{StaticResource AccentColor}">
             <controls:ArrowButton.Icon>
                 <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Pencil}" 
@@ -30,13 +39,9 @@
                                  Color="{AppThemeBinding Dark=White,Light=Black}"/>
             </controls:ArrowButton.Icon>
         </controls:ArrowButton>
-        <controls:ArrowButton  Title="Archivar"  Command="{Binding TapedCommand}" CommandParameter="Archivar" ArrowColor="{StaticResource AccentColor}">
-            <controls:ArrowButton.Icon>
-                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Archive}" 
-                                 FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                 Color="{AppThemeBinding Dark=White,Light=Black}"/>
-            </controls:ArrowButton.Icon>
-        </controls:ArrowButton>
+        <controls:ArrowButton Icon="{Binding Icon}" Title="{Binding ArchiveText}"  Command="{Binding TapedCommand}" CommandParameter="Archivar" ArrowColor="{StaticResource AccentColor}"/>
+
+
         <controls:ArrowButton  Title="Eliminar"  Command="{Binding TapedCommand}" CommandParameter="Eliminar" ArrowColor="{StaticResource AccentColor}">
             <controls:ArrowButton.Icon>
                 <FontImageSource Glyph="{x:Static fonts:FontelloIcons.TrashBin}" 

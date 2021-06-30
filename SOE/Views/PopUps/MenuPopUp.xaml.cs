@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using SOE.ViewModels.Pages;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using SOE.Models.TaskFirst;
+using SOE.Fonts;
 
 namespace SOE.Views.PopUps
 {
@@ -18,9 +20,9 @@ namespace SOE.Views.PopUps
     {
         public MenuPopUpViewModel Model { get; set; }
 
-        public MenuPopUp()
+        public MenuPopUp(ToDo todo)
         {
-            this.Model = new MenuPopUpViewModel(this);
+            this.Model = new MenuPopUpViewModel(this,todo);
             this.BindingContext = Model;
             InitializeComponent();
         }

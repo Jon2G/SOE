@@ -17,8 +17,8 @@ namespace SOE.Models.TaskFirst
     public class ToDo : ModelBase, IGuid
     {
         private string _Title;
-        private int _Archived;
-        private int _Done;
+        private bool _Archived;
+        private bool _Done;
         private TimeSpan _Time;
         private DateTime _Date;
         private Subject subject;
@@ -125,7 +125,7 @@ namespace SOE.Models.TaskFirst
                 Subject.Id = value;
             }
         }
-        public int Done
+        public bool Done
         {
             get => _Done;
             set
@@ -134,7 +134,7 @@ namespace SOE.Models.TaskFirst
                 Raise(() => Done);
             }
         }
-        public int Archived
+        public bool Archived
         {
             get => _Archived;
             set
@@ -148,8 +148,8 @@ namespace SOE.Models.TaskFirst
         public int IdKeeper { get; set; }
         public ToDo()
         {
-            Done = 0;
-            Archived = 0;
+            Done = false;
+            Archived = false;
             OpenBrowserCommand = new Command<string>(OpenBrowser);
             Date=DateTime.Now;
 

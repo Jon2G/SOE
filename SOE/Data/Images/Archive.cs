@@ -1,19 +1,35 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using FFImageLoading.Forms;
 using Kit.Sql.Attributes;
 using Kit.Sql.Interfaces;
 using SOE.Enums;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 using Log = Kit.Log;
 
 namespace SOE.Data.Images
 {
     [Table("Archive")]
+    public class PhotoArchive : Archive<CachedImage>
+    {
+        [Ignore]
+        public override CachedImage Value { get; set; }
+
+        public PhotoArchive(string PhotoPath, FileType FileType) : base(new FileResult(PhotoPath), FileType)
+        {
+            this.Value = new CachedImage()
+            {
+                Source = ImageSource.FromFile(PhotoPath)
+            };
+        }
+    }
+    [Table("Archive")]
     public class Archive<T> : Archive
     {
         [Ignore]
-        public T Value { get; set; }
+        public virtual T Value { get; set; }
 
         public Archive(FileResult FileResult, FileType FileType) : base(FileResult, FileType)
         {
@@ -28,8 +44,6 @@ namespace SOE.Data.Images
     [Table("Archive")]
     public class Archive : IGuid
     {
-
-
         public Guid Guid { get; set; }
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }

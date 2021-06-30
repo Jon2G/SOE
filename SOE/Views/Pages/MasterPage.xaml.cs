@@ -11,8 +11,10 @@ namespace SOE.Views.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MasterPage
     {
+        public static MasterPage Instance { get; private set; }
         public MasterPage()
         {
+            Instance = this;
             InitializeComponent();
         }
 
@@ -62,7 +64,22 @@ namespace SOE.Views.Pages
             }
         }
 
-        private void ShowTodoIcon()
+        public void ShowHorarioIcon()
+        {
+            this.Title = "Horario";
+            this.ToolbarItems.Clear();
+            this.ToolbarItems.Add(new ToolbarItem
+            {
+                Command = ScheduleViewMain.Model.ExportToPdfCommand,
+                CommandParameter = ScheduleViewMain,
+                IconImageSource = new FontImageSource()
+                {
+                    FontFamily = FontelloIcons.Font,
+                    Glyph = FontelloIcons.PDF
+                }
+            });
+        }
+        public void ShowTodoIcon()
         {
             this.Title = "Tareas";
             this.ToolbarItems.Clear();
@@ -80,8 +97,6 @@ namespace SOE.Views.Pages
 
         private void TabView_OnSelectionChanged(object sender, TabSelectionChangedEventArgs e)
         {
-
-
             switch (TabView.SelectedIndex)
             {
                 case 0:
@@ -102,18 +117,7 @@ namespace SOE.Views.Pages
                     ShowTodoIcon();
                     break;
                 case 2:
-                    this.Title = "Horario";
-                    this.ToolbarItems.Clear();
-                    this.ToolbarItems.Add(new ToolbarItem
-                    {
-                        Command = ScheduleViewMain.Model.ExportToPdfCommand,
-                        CommandParameter = ScheduleViewMain,
-                        IconImageSource = new FontImageSource()
-                        {
-                            FontFamily = FontelloIcons.Font,
-                            Glyph = FontelloIcons.PDF
-                        }
-                    });
+                    ShowHorarioIcon();
                     break;
                 default:
                     this.ToolbarItems.Clear();

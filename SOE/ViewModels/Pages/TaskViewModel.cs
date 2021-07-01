@@ -31,10 +31,12 @@ namespace SOE.ViewModels.Pages
                     Detail();
                     break;
                 case "Hecho":
+                    if (ToDo.Done)
+                    {
+                        Pendiente();
+                        break;
+                    }
                     Completada();
-                    break;
-                case "Pendiente":
-                    Pendiente();
                     break;
                 case "Editar":
                     OpenTask();

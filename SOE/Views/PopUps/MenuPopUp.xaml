@@ -18,20 +18,8 @@
                 />
             </controls:ArrowButton.Icon>
         </controls:ArrowButton>
-        <controls:ArrowButton  Title="Hecho"     Command="{Binding TapedCommand}" CommandParameter="Hecho"  ArrowColor="{StaticResource AccentColor}">
-            <controls:ArrowButton.Icon>
-                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.CheckBox}" 
-                                 FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                 Color="{AppThemeBinding Dark=White,Light=Black}"/>
-            </controls:ArrowButton.Icon>
-        </controls:ArrowButton>
-        <controls:ArrowButton  Title="Pendiente"    Command="{Binding TapedCommand}" CommandParameter="Pendiente"  ArrowColor="{StaticResource AccentColor}">
-            <controls:ArrowButton.Icon>
-                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Hourglass}" 
-                                 FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                 Color="{AppThemeBinding Dark=White,Light=Black}"/>
-            </controls:ArrowButton.Icon>
-        </controls:ArrowButton>
+        <controls:ArrowButton  Icon="{Binding Icon2}" Title="{Binding DoneText}"   Command="{Binding TapedCommand}" CommandParameter="Hecho"  ArrowColor="{StaticResource AccentColor}"/>
+        
         <controls:ArrowButton  Title="Editar"    Command="{Binding TapedCommand}" CommandParameter="Editar"  ArrowColor="{StaticResource AccentColor}">
             <controls:ArrowButton.Icon>
                 <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Pencil}" 

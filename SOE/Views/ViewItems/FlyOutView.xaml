@@ -9,6 +9,7 @@
              xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              Background="{DynamicResource SecondaryBackground}"
+             x:DataType="viewItems:FlyOutViewModel"
              x:Name="Me">
     <ContentView.BindingContext>
         <viewItems:FlyOutViewModel x:Name="Model"/>
@@ -64,9 +65,9 @@
                             </StackLayout>
                         </ViewCell>
                         <ViewCell >
-                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
+                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding ComingCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
+                                    <TapGestureRecognizer Command="{Binding HorarioCommand}"/>
                                 </StackLayout.GestureRecognizers>
                                 <Label Text="{x:Static fonts:FontelloIcons.Calendar}"
                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" 
@@ -75,9 +76,9 @@
                             </StackLayout>
                         </ViewCell>
                         <ViewCell>
-                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
+                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding ComingCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
+                                    <TapGestureRecognizer Command="{Binding TareasCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
                                 </StackLayout.GestureRecognizers>
                                 <Label Text="{x:Static fonts:FontelloIcons.Book}"  
                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" 
@@ -87,7 +88,7 @@
                         </ViewCell>
                         <ViewCell >
 
-                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
+                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding ComingCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
                                 </StackLayout.GestureRecognizers>
@@ -99,7 +100,7 @@
                         </ViewCell>
                         <ViewCell >
 
-                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="Start">
+                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding SettingCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
                                 </StackLayout.GestureRecognizers>

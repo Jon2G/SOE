@@ -15,7 +15,10 @@ namespace SOE.ViewModels.ViewItems
 {
     public class FlyOutViewModel : ModelBase
     {
-        public ICommand TareasCommand { get; }
+        private ICommand _TareasCommand;
+        public ICommand TareasCommand => _TareasCommand ??= new Command((x) => Goto(1));
+        private ICommand _HorarioCommand;
+        public ICommand HorarioCommand => _HorarioCommand ??= new Command((x) => Goto(2));
         public ICommand ComingCommand { get; }
         public ICommand SettingCommand { get; set; }
         public ICommand TapAvatarCommand { get; set; }
@@ -46,7 +49,6 @@ namespace SOE.ViewModels.ViewItems
         public FlyOutViewModel()
         {
             this.SettingCommand = new Command(OpenSettings);
-            this.TareasCommand = new Command(Tareas);
             this.TapAvatarCommand = new Command(TapAvatar);
             this.UserCommand = new Command(UserProfile);
             this.ComingCommand = new Command(Coming);
@@ -132,15 +134,28 @@ namespace SOE.ViewModels.ViewItems
 
 
 
-        private void Tareas()
+        private void Goto(int index)
         {
-            //Shell.Current.Navigation.PushAsync(new TaskFirstPage(), true);
+            App.Current.Dispatcher.BeginInvokeOnMainThread(() =>
+            {
+                MasterPage.Instance.TabView.SelectedIndex = index;
+                switch (index)
+                {
+                    case 1:
+                        MasterPage.Instance.ShowTodoIcon();
+                        break;
+                    case 2:
+                        MasterPage.Instance.ShowHorarioIcon();
+                        break;
+                }
+            });
+            AppShell.Current.FlyoutIsPresented = false;
         }
         private void Coming()
         {
             ComingSoon.Show();
         }
-        
+
         private void OpenSettings()
         {
             Shell.Current.FlyoutIsPresented = false;

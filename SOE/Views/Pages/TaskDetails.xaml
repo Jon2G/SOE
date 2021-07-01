@@ -72,7 +72,7 @@
                             </Grid>
                         </CollectionView.EmptyView>
                         <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="images:Archive">
+                            <DataTemplate x:DataType="images:PhotoArchive">
                                 <ContentView>
                                     <pancakeView:PancakeView InputTransparent="True" 
                                                              Padding="3" BackgroundColor="LightGray"

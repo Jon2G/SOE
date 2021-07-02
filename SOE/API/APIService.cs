@@ -61,32 +61,29 @@ namespace SOE.API
             }
             return JsonConvert.DeserializeObject<Response>(result.Response);
         }
-        public static async Task<Response> PostClassTime(StringBuilder HTML,string User)
+        public static async Task<Response> PostClassTime(byte[] byteArray, string User)
         {
             WebService WebService = new WebService(Url);
-            if (HTML.Length<=0)
+            if (byteArray.Length<=0)
             {
                 return Response.Error;
             }
-            Kit.Services.Web.ResponseResult result = await WebService.PostAsBody(HTML, "PostClassTime", User);
+            Kit.Services.Web.ResponseResult result = await WebService.PostAsBody(byteArray, "PostClassTime", User);
             if (result.Response == "ERROR")
             {
                 return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
             }
             return JsonConvert.DeserializeObject<Response>(result.Response);
         }
-        public static async Task<Response> PostGrades(string HTML)
+        public static async Task<Response> PostGrades(byte[] HTML)
         {
             WebService WebService = new WebService(Url);
-            if (string.IsNullOrEmpty(HTML))
+            if (HTML.Length<=0)
             {
                 return Response.Error;
             }
-            Kit.Services.Web.ResponseResult result = await WebService.GET("PostGrades",
-                new Dictionary<string, string>()
-                {
-                    {"HTML",HTML}
-                }, AppData.Instance.User.Boleta);
+            Kit.Services.Web.ResponseResult result = 
+                await WebService.PostAsBody(HTML,"PostGrades", AppData.Instance.User.Boleta);
             if (result.Response == "ERROR")
             {
                 return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);

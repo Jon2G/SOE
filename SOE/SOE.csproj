@@ -20,7 +20,7 @@
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.1.0.514" />
     <PackageReference Include="AsyncAwaitBestPractices" Version="5.1.0" />
-    <PackageReference Include="CardsView" Version="2.7.9" />
+    <PackageReference Include="CardsView" Version="2.8.0" />
     <PackageReference Include="Forms9Patch" Version="2.4.9" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.34" />
     <PackageReference Include="Plugin.Fingerprint" Version="2.1.4" />
@@ -83,6 +83,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ViewItems\GalleryView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ViewItems\NoInscriptionView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ViewItems\TasksViews\ByDayView.xaml">

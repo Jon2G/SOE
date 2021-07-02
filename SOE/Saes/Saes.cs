@@ -27,11 +27,11 @@ namespace SOE.Saes
 {
     public class SAES : WebView
     {
-        private const string AlumnosPage = "/alumnos/default.aspx";
-        private const string HorariosPage = "/alumnos/informacion_semestral/horario_alumno.aspx";
-        private const string KardexPage = "/alumnos/boleta/kardex.aspx";
-        private const string CitaReinscripcionPage = "/alumnos/reinscripciones/fichas_reinscripcion.aspx";
-        private const string CalificacionesPage = "/alumnos/informacion_semestral/calificaciones_sem.aspx";
+        private const string AlumnosPage = "alumnos/default.aspx";
+        private const string HorariosPage = "alumnos/informacion_semestral/horario_alumno.aspx";
+        private const string KardexPage = "alumnos/boleta/kardex.aspx";
+        private const string CitaReinscripcionPage = "alumnos/reinscripciones/fichas_reinscripcion.aspx";
+        private const string CalificacionesPage = "alumnos/informacion_semestral/calificaciones_sem.aspx";
 
         private NavigationRequest CurrentRequest;
         private readonly Queue<NavigationRequest> NavigationQueue;
@@ -97,7 +97,12 @@ namespace SOE.Saes
             string navigateUrl = url;
             if (url != AppData.Instance.User.School.HomePage)
             {
-                navigateUrl = AppData.Instance.User.School.HomePage + url;
+                navigateUrl = AppData.Instance.User.School.HomePage;
+                if (!navigateUrl.EndsWith("/"))
+                {
+                    navigateUrl +='/';
+                }
+                navigateUrl += url;
             }
             await Task.Run(() =>
             {
@@ -132,6 +137,7 @@ namespace SOE.Saes
                     {
                         Url = this.CurrentRequest.Url.AbsoluteUri
                     };
+                    OnPropertyChanged(nameof(Source));
                     Log.Logger.Debug("Requested:{0}", CurrentRequest);
                     await this.CurrentRequest.Wait();
                     this.CurrentRequest.IsComplete = true;
@@ -262,12 +268,16 @@ namespace SOE.Saes
         public async Task GetUserData(User user)
         {
             AppData.Instance.User = user;
-            user.IsLogedIn = true;
             await GetName();
-            await GetHorario();
+            bool HasSubjects = await GetSubjects();
             await GetKardexInfo();
             await GetCitasReinscripcionInfo();
-            await GetGrades();
+            if (HasSubjects)
+            {
+                await GetGrades();
+            }
+
+            AppData.Instance.User.HasSubjects = HasSubjects;
             AppData.Instance.LiteConnection.InsertOrReplace(AppData.Instance.User);
         }
         public async Task GetName()
@@ -276,40 +286,49 @@ namespace SOE.Saes
             AppData.Instance.User.Name = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_FormView1_nombrelabel').innerHTML;");
             AppData.Instance.User.Boleta = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_leftColumn_LoginNameSession').innerHTML;");
         }
-        private async Task GetHorario()
+        private async Task<bool> GetSubjects()
         {
             await GoTo(HorariosPage);
-            if (DataInfo.HasTimeTable())
-            {
-                return;
-            }
+            //if (DataInfo.HasTimeTable())
+            //{
+            //    return;
+            //}
             string horario_html = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_GV_Horario').outerHTML");
             Unescape(ref horario_html);
-
-            if (!string.IsNullOrEmpty(horario_html))
+            if (string.IsNullOrEmpty(horario_html))
             {
-                Response response = await APIService.PostClassTime(horario_html.ToBase64Encode(), AppData.Instance.User.Boleta);
-                if (response.ResponseResult == APIResponseResult.OK)
-                {
-                    XmlDocument xmlDoc = new XmlDocument();
-                    xmlDoc.LoadXml(response.Message);
-                    XmlNodeList nodes = xmlDoc.SelectNodes("//Teachers/Teacher");
-                    foreach (XmlNode t_node in nodes)
-                        TeacherService.Save(t_node.ConvertNode<Teacher>());
-
-                    nodes = xmlDoc.SelectNodes("//Subjects/Subject");
-                    foreach (XmlNode t_node in nodes)
-                        SubjectService.Save(t_node.ConvertNode<Subject>());
-
-                    nodes = xmlDoc.SelectNodes("//ClassTimes/ClassTime");
-                    foreach (XmlNode t_node in nodes)
-                    {
-                        var class_time = t_node.ConvertNode<ClassTime>();
-                        ClassTimeService.Save(class_time);
-                    }
-
-                }
+                return false;
             }
+            Response response = await APIService.PostClassTime(System.Text.Encoding.UTF8.GetBytes(horario_html), AppData.Instance.User.Boleta);
+            if (response.ResponseResult == APIResponseResult.OK)
+            {
+                Log.Logger.Debug(response.Extra);
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(response.Message);
+                XmlNodeList nodes = xmlDoc.SelectNodes("//Teachers/Teacher");
+                foreach (XmlNode t_node in nodes)
+                {
+                    TeacherService.Save(t_node.ConvertNode<Teacher>());
+                }
+                nodes = xmlDoc.SelectNodes("//Subjects/Subject");
+                foreach (XmlNode t_node in nodes)
+                {
+                    SubjectService.Save(t_node.ConvertNode<Subject>());
+                }
+                if (nodes.Count <= 0)
+                {
+                    return false;
+                }
+                nodes = xmlDoc.SelectNodes("//ClassTimes/ClassTime");
+                foreach (XmlNode t_node in nodes)
+                {
+                    var class_time = t_node.ConvertNode<ClassTime>();
+                    ClassTimeService.Save(class_time);
+                }
+
+                return true;
+            }
+            return false;
         }
         private async Task GetKardexInfo()
         {
@@ -362,8 +381,10 @@ namespace SOE.Saes
                 UserId = AppData.Instance.User.Boleta
             };
             AppData.Instance.LiteConnection.InsertOrReplace(credits);
-        }
 
+            //Save fecha de reinscripción
+
+        }
         private List<List<string>> HtmlToTable(string html)
         {
             HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
@@ -380,22 +401,24 @@ namespace SOE.Saes
         {
             await GoTo(CalificacionesPage);
             string grades_html = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_GV_Calif').outerHTML");
+            Unescape(ref grades_html);
             if (string.IsNullOrEmpty(grades_html))
             {
                 return;
             }
-            Unescape(ref grades_html);
-            Response response = await APIService.PostGrades(grades_html.ToBase64Encode());
+            Response response = await APIService.PostGrades(System.Text.Encoding.UTF8.GetBytes(grades_html));
             if (response.ResponseResult == APIResponseResult.OK)
             {
+                Log.Logger.Debug(response.Extra);
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(response.Message);
                 XmlNodeList nodes = xmlDoc.SelectNodes("//Grades/Grade");
                 foreach (XmlNode t_node in nodes)
+                {
                     GradeService.Save(t_node.ConvertNode<Grade>());
+                }
             }
         }
-
         private static void Unescape(ref string html)
         {
             if (string.IsNullOrEmpty(html))
@@ -404,7 +427,6 @@ namespace SOE.Saes
             }
             html = System.Text.RegularExpressions.Regex.Unescape(html);
         }
-
         private async Task<string> _EvaluateJavaScriptAsync(string script)
         {
             await Task.Delay(TimeSpan.FromSeconds(1)); //dale tiempo para cargar

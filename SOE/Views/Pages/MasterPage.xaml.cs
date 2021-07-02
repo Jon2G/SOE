@@ -104,7 +104,7 @@ namespace SOE.Views.Pages
                     this.ToolbarItems.Clear();
                     this.ToolbarItems.Add(new ToolbarItem
                     {
-                        Command = SchoolGrades.Model.RefreshCommand,
+                        Command = this.SchoolGrades.Model?.RefreshCommand,
                         CommandParameter = this,
                         IconImageSource = new FontImageSource()
                         {

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using SOE.Data;
 using SOE.ViewModels;
 using Xamarin.Forms.Xaml;
 
@@ -15,6 +16,11 @@ namespace SOE.Views.ViewItems
         public SchoolGrades()
         {
             InitializeComponent();
+            if (!AppData.Instance.User.HasSubjects)
+            {
+                this.Content = new NoInscriptionView();
+                return;
+            }
             Init();
         }
         private async void Init()

@@ -47,7 +47,7 @@ namespace SOE.ViewModels.Pages.Login
         public Command LoginCommand => _LoginCommand ??= new Command(LoginRequested, LoginCanExecute);
 
         private ICommand _RegisterCommand;
-        public ICommand RegisterCommand => _RegisterCommand = new Command(Register);
+        public ICommand RegisterCommand => _RegisterCommand ??= new Command(Register);
 
         public LoginViewModel() { }
 

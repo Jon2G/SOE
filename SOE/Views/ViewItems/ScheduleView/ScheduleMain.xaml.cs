@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using SOE.Data;
 using SOE.Models.Scheduler;
 using SOE.Views.Pages;
 using Xamarin.Forms;
@@ -22,16 +23,21 @@ namespace SOE.Views.ViewItems.ScheduleView
             }
         }
 
-        public ICommand OnDayTappedCommand { get; }
+        private ICommand _OnDayTappedCommand;
+        public ICommand OnDayTappedCommand => _OnDayTappedCommand ??= new Command<SheduleDay>(OnDayTapped);
         public ScheduleViewMain()
         {
-            this.OnDayTappedCommand = new Command<SheduleDay>(OnDayTapped);
             InitializeComponent();
-            this.IsDayViewVisible = false; 
+            if (!AppData.Instance.User.HasSubjects)
+            {
+                this.Content = new NoInscriptionView();
+                return;
+            }
+            this.IsDayViewVisible = false;
 
         }
 
-  
+
 
         private void OnDayTapped(SheduleDay day)
         {

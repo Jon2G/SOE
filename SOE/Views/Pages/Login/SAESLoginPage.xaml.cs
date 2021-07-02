@@ -17,6 +17,7 @@ namespace SOE.Views.Pages.Login
             InitializeComponent(); 
             InitAnimation();
             AppData.Instance.SAES = this.SAES;
+            AppData.Instance.SAES.ShowLoading = false;
         }
 
         private void InitAnimation()

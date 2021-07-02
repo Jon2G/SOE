@@ -4,21 +4,41 @@
              xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
              xmlns:viewmodels="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-             xmlns:login="clr-namespace:SOE.ViewModels.Pages.Login;assembly=SOE"
-             x:Class="SOE.Views.PopUps.AskForCaptcha" x:DataType="login:LoginViewModel" 
+             xmlns:saes="clr-namespace:SOE.Saes;assembly=SOE"
+             xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
+             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+             xmlns:renders="clr-namespace:SOE.Renders;assembly=SOE"
+             x:Class="SOE.Views.PopUps.AskForCaptcha" 
+             x:DataType="viewItems:AskForCaptchaViewModel" 
              CloseWhenBackgroundIsClicked="True" BackgroundColor="#70FFFFFF">
     <ContentPage.Content>
-        <pancakeView:PancakeView   
-                                 VerticalOptions="CenterAndExpand"
-                                 HorizontalOptions="CenterAndExpand" WidthRequest="250" Padding="20">
-            <StackLayout>
-                <Label Text="Debes ingresar el captcha primero." FontSize="20" />
-                <!--<Image Source="{Binding CaptchaImg}" HeightRequest="120" />
-
-                <Entry Completed="Button_OnClicked"  IsPassword="False" Text="{Binding Captcha}"
-                       Placeholder="Captcha" Margin="0,10"/>-->
-                <Button Text="¡Listo!" Clicked="Button_OnClicked"/>
-            </StackLayout>
-        </pancakeView:PancakeView>
+        <!--<Grid VerticalOptions="CenterAndExpand"
+              HorizontalOptions="FillAndExpand">
+            
+            <pancakeView:PancakeView IsVisible="False" VerticalOptions="FillAndExpand"  Padding="20">
+                <StackLayout>
+                    <Label Text="Debes ingresar el captcha primero." FontSize="20" />
+                    <Grid RowDefinitions="Auto,*">
+                        <Image Source="{Binding CaptchaImg}" 
+                               HeightRequest="80" Grid.RowSpan="2" />
+                        <Label HorizontalOptions="End" Margin="5,0" HeightRequest="30"
+                               Background="{StaticResource SecondaryBackground}"
+                               FontFamily="{x:Static fonts:FontelloIcons.Font}" FontSize="30"
+                               Text="{x:Static fonts:FontelloIcons.Refresh}" TextColor="ForestGreen"
+                               IsEnabled="True" >
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding RefreshCaptchaCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Grid>
+                    <renders:NoLineEntry IsPassword="False" 
+                                         Text="{Binding Captcha}"
+                                         Placeholder="Captcha" IsTextPredictionEnabled="False"
+                                         Margin="0,10"/>
+                    <Button Text="¡Listo!" Command="{Binding SignInCommand}"/>
+                </StackLayout>
+            </pancakeView:PancakeView>
+        </Grid>-->
+        <saes:SAES x:Name="SAES" IsVisible="True" VerticalOptions="FillAndExpand" />
     </ContentPage.Content>
 </pages:BasePopUp>

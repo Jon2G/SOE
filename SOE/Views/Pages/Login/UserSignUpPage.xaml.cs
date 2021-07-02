@@ -18,6 +18,7 @@ namespace SOE.Views.Pages.Login
             this.Model = new UserSignUpPageViewModel(this.FirstForm, this.SecondForm);
             this.BindingContext = this.Model;
             AppData.Instance.SAES = this.SAES;
+            AppData.Instance.SAES.ShowLoading = false;
         }
         protected override async void OnAppearing()
         {

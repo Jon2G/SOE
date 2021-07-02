@@ -18,10 +18,10 @@ namespace SOE.Views.PopUps
             InitializeComponent();
         }
 
-        public static void Show()
+        public static void Alert()
         {
             ComingSoon coming = new ComingSoon();
-            ((BasePopUp) coming).Show().SafeFireAndForget();
+            coming.Show().SafeFireAndForget();
         }
     }
 }

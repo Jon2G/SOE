@@ -61,7 +61,8 @@ namespace SOE.Data
                 typeof(Career), typeof(ClassTime), typeof(Grade), 
                 typeof(Credits), typeof(ToDo), typeof(Settings), 
                 typeof(NotificationsHistory), typeof(Document), 
-                typeof(DocumentPart), typeof(Archive), typeof(Keeper));
+                typeof(DocumentPart), typeof(Archive),
+                typeof(Keeper),typeof(School));
         }
     }
 }

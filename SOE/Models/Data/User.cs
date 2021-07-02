@@ -3,6 +3,7 @@ using DocumentFormat.OpenXml.Drawing.Charts;
 using Kit.Model;
 using Kit.Sql.Attributes;
 using SOE.Data;
+using SOE.Services;
 
 namespace SOE.Models.Data
 {
@@ -47,12 +48,16 @@ namespace SOE.Models.Data
         internal static User Get()
         {
             User User = AppData.Instance.LiteConnection.Table<User>().FirstOrDefault();
+            if (User is not null)
+            {
+                User.School = SchoolService.Get();
+            }
             return User;
         }
 
         public string Name { get => _Name; set { _Name = value; Raise(() => Name); } }
-        [Ignore]
-        public bool IsLogedIn { get; set; }
+
+        public bool HasSubjects { get; internal set; }
 
         public User() { }
 
@@ -83,18 +88,16 @@ namespace SOE.Models.Data
         {
             AppData.Instance.LiteConnection.DeleteAll<User>();
             AppData.Instance.LiteConnection.Insert(this);
+            SchoolService.Save(this.School);
         }
         public Settings GetSettings()
         {
             var settings = AppData.Instance.LiteConnection
                 .Table<Settings>()
-                .FirstOrDefault(x => x.Boleta == this.Boleta);
+                .FirstOrDefault();
             if (settings is null)
             {
-                settings = new Settings()
-                {
-                    Boleta = this.Boleta
-                };
+                settings = new Settings();
                 settings.Save();
             }
 

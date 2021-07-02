@@ -70,7 +70,6 @@
         <toolkit:TabView Style="{StaticResource CustomTabStyle}" IsTabStripVisible="True" 
                          x:Name="TabView" x:FieldModifier="public" SelectionChanged="TabView_OnSelectionChanged" IsSwipeEnabled="False">
 
-            <!--  FAVOURITE TAB  -->
             <toolkit:TabViewItem HeightRequest="60" >
                 <toolkit:TabViewItem.Icon>
                     <FontImageSource
@@ -82,7 +81,6 @@
                 <viewItems:SchoolGrades x:Name="SchoolGrades"/>
             </toolkit:TabViewItem>
 
-            <!--  HOME TAB  -->
             <toolkit:TabViewItem IsSelected="True"  BadgeText="1" BadgeBackgroundColor="Red" BadgeTextColor="White" 
                 ControlTemplate="{StaticResource BasketTabItemTemplate}"
                 Style="{StaticResource TabItemStyle}">

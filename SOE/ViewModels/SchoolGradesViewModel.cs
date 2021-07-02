@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
 using APIModels;
+using AsyncAwaitBestPractices;
+using AsyncAwaitBestPractices.MVVM;
 using Kit;
 using Kit.Model;
+using Rg.Plugins.Popup.Services;
 using SOE.Data;
 using SOE.Models.Academic;
 using SOE.Models.Scheduler;
 using SOE.Saes;
 using SOE.Services;
+using SOE.Views.PopUps;
 using Xamarin.Forms;
 
 namespace SOE.ViewModels
@@ -34,14 +39,14 @@ namespace SOE.ViewModels
         {
             this.Grades = new ObservableCollection<SchoolGrade>();
             GetGrades();
-            this.RefreshCommand = new Xamarin.Forms.Command(Refresh);
+            this.RefreshCommand = new AsyncCommand(Refresh);
             App.Current.RequestedThemeChanged += Current_RequestedThemeChanged;
         }
 
         private void Current_RequestedThemeChanged(object sender, AppThemeChangedEventArgs e)
         {
             GetGrades();
-            Raise(()=>Grades);
+            Raise(() => Grades);
         }
 
         private void GetGrades()
@@ -50,37 +55,26 @@ namespace SOE.ViewModels
             this.Grades.AddRange(SubjectService.ToList().Select(s => new SchoolGrade(s)));
         }
 
-        private async void Refresh()
+        private async Task Refresh()
         {
-            SAES saes = AppData.Instance.SAES;
-            await saes.GoHome();
-            if (!await saes.IsLoggedIn())
+            if (AppData.Instance.SAES is null || await AppData.Instance.SAES.IsLoggedIn())
             {
-                //LoginViewModel loginViewModel = new LoginViewModel(saes.School)
-                //{
-                //    User = AppData.Instance.User
-                //};
-                //AskForCaptcha captcha = new AskForCaptcha(loginViewModel);
-
-                //await captcha.ShowDialog();
-
-                //if (!await saes.LogIn(loginViewModel, false))
-                //{
-                //    UserDialogs.Instance.Alert("Usuario o contraseña invalidos", "Atención", "Ok");
-                //    return;
-                //}
-                //else
-                //{
-                //    Refresh();
-                //}
-                //return;
+                AskForCaptcha ask = new AskForCaptcha(RefreshGrades);
+                ask.Show().SafeFireAndForget();
             }
+        }
 
+        private async Task<bool> RefreshGrades(AskForCaptcha captcha)
+        {
+            AppData.Instance.SAES.ShowLoading = false;
+            await AppData.Instance.SAES.GoHome();
             using (UserDialogs.Instance.Loading("Actualizando calificaciones...."))
             {
                 await AppData.Instance.SAES.GetGrades();
             }
+            await captcha.Close();
             GetGrades();
+            return true;
         }
     }
 }

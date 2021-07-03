@@ -37,7 +37,7 @@ namespace SOE.Saes
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append(this.RequestGuid).Append(this.Url.AbsoluteUri);
+            sb.Append(this.RequestGuid).Append(" - ").Append(this.Url.AbsoluteUri);
             return sb.ToString();
         }
     }

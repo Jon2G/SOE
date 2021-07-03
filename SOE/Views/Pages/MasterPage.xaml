@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pages2:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit"
              x:Class="SOE.Views.Pages.MasterPage"
@@ -10,133 +10,63 @@
              xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
              xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
              xmlns:tasksViews="clr-namespace:SOE.Views.ViewItems.TasksViews;assembly=SOE"
-             xmlns:controls1="clr-namespace:SOE.Controls;assembly=SOE"
              x:DataType="pages:MasterPageViewModel">
     <ContentPage.BindingContext>
         <pages:MasterPageViewModel x:Name="Model" x:FieldModifier="public"/>
     </ContentPage.BindingContext>
-    <ContentPage.Resources>
-
-
-        <ControlTemplate x:Key="TabItemTemplate">
-            <Grid>
-                <Image
-                    x:Name="TabIcon"
-                    Grid.Row="0"
-                    Margin="6"
-                    HeightRequest="24"
-                    HorizontalOptions="Center"
-                    Source="{TemplateBinding CurrentIcon}"
-                    VerticalOptions="Center"
-                    WidthRequest="24" />
-            </Grid>
-        </ControlTemplate>
-
-        <ControlTemplate x:Key="BasketTabItemTemplate">
-            <Grid>
-                <ImageButton 
-                    x:Name="BagBtn"
-                    Padding="24"
-                    
-                    HeightRequest="72"
-                    HorizontalOptions="Center"
-                    InputTransparent="True"
-                    Source="{TemplateBinding CurrentIcon}"
-                    VerticalOptions="Start"
-                    WidthRequest="72">
-                    <ImageButton.CornerRadius>
-                        <OnPlatform x:TypeArguments="x:Int32">
-                            <On Platform="iOS, UWP" Value="36" />
-                            <On Platform="Android" Value="60" />
-                        </OnPlatform>
-                    </ImageButton.CornerRadius>
-                </ImageButton>
-            </Grid>
-        </ControlTemplate>
-
-        <Style x:Key="TabItemStyle" TargetType="toolkit:TabViewItem">
-            <Setter Property="TextColor" Value="#979797" />
-            <Setter Property="TextColor" Value="#979797" />
-            <Setter Property="Scale" Value="0.85" />
-        </Style>
-
-
-
-    </ContentPage.Resources>
-
-    <Grid IsClippedToBounds="False" RowSpacing="0">
-        <ContentView x:Name="BrowserHolder" IsVisible="True"  x:FieldModifier="public" />
-
-        <toolkit:TabView Style="{StaticResource CustomTabStyle}" IsTabStripVisible="True" 
+    <toolkit:TabView Style="{StaticResource CustomTabStyle}" IsTabStripVisible="True" TabContentHeight="30"
                          x:Name="TabView" x:FieldModifier="public" SelectionChanged="TabView_OnSelectionChanged" IsSwipeEnabled="False">
 
-            <!--  FAVOURITE TAB  -->
-            <toolkit:TabViewItem HeightRequest="60" >
-                <toolkit:TabViewItem.Icon>
-                    <FontImageSource
-                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                        Glyph="{x:Static fonts:FontelloIcons.Cal}"
-                        Color="{AppThemeBinding Dark={StaticResource  LightTextColor},
+        <toolkit:TabViewItem HeightRequest="20" >
+            <toolkit:TabViewItem.Icon>
+                <FontImageSource Size="20"
+                                     FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                     Glyph="{x:Static fonts:FontelloIcons.Cal}"
+                                     Color="{AppThemeBinding Dark={StaticResource  LightTextColor},
                                                 Light={StaticResource DarkTextColor}}" />
-                </toolkit:TabViewItem.Icon>
-                <viewItems:SchoolGrades x:Name="SchoolGrades"/>
-            </toolkit:TabViewItem>
+            </toolkit:TabViewItem.Icon>
+            <viewItems:SchoolGrades x:Name="SchoolGrades"/>
+        </toolkit:TabViewItem>
 
-            <!--  HOME TAB  -->
-            <toolkit:TabViewItem IsSelected="True"  BadgeText="1" BadgeBackgroundColor="Red" BadgeTextColor="White" 
-                ControlTemplate="{StaticResource BasketTabItemTemplate}"
-                Style="{StaticResource TabItemStyle}">
-                <toolkit:TabViewItem.Icon >
-                    <FontImageSource 
-                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                        Glyph="{x:Static fonts:FontelloIcons.Book}"
-                        Color="{AppThemeBinding Dark={StaticResource  LightTextColor},
+        <toolkit:TabViewItem HeightRequest="20" IsSelected="True"  BadgeText="1" BadgeBackgroundColor="Red" BadgeTextColor="White">
+            <toolkit:TabViewItem.Icon >
+                <FontImageSource Size="20"
+                                     FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                     Glyph="{x:Static fonts:FontelloIcons.Book}"
+                                     Color="{AppThemeBinding Dark={StaticResource  LightTextColor},
                                                 Light={StaticResource DarkTextColor}}" />
-                </toolkit:TabViewItem.Icon>
+            </toolkit:TabViewItem.Icon>
 
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="94*"/>
-                        <RowDefinition Height="5*"/>
-                    </Grid.RowDefinitions>
-                    <Grid  Margin="0,0,20,0">
-                        <tasksViews:TaskFirstPage x:Name="TaskFirstPage" x:FieldModifier="public"/>
-                    </Grid>
-                    <Grid ColumnDefinitions="10,Auto" HorizontalOptions="End" >
-                        <viewItems:TimelineBar Grid.Column="1" 
-                                               IsVisible="{Binding User.Settings.ShowTimelineBar ,Source={x:Static data:AppData.Instance}}"/>
-                    </Grid>
-                    <Label Grid.Row="1" BackgroundColor="#15386f" Text="{x:Static fonts:FontelloIcons.UpArrow}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="Large">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding OpenMenuCommand}"/>
-                        </Label.GestureRecognizers>
-                    </Label>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="94*"/>
+                    <RowDefinition Height="5*"/>
+                </Grid.RowDefinitions>
+                <Grid  Margin="0,0,20,0">
+                    <tasksViews:TaskFirstPage x:Name="TaskFirstPage" x:FieldModifier="public"/>
                 </Grid>
-            </toolkit:TabViewItem>
+                <Grid ColumnDefinitions="10,Auto" HorizontalOptions="End" >
+                    <viewItems:TimelineBar Grid.Column="1" 
+                                               IsVisible="{Binding User.Settings.ShowTimelineBar ,Source={x:Static data:AppData.Instance}}"/>
+                </Grid>
+                <Label Grid.Row="1" BackgroundColor="#15386f" Text="{x:Static fonts:FontelloIcons.UpArrow}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="Large">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenMenuCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+        </toolkit:TabViewItem>
 
-            <!--  FINANCE TAB  -->
-            <toolkit:TabViewItem HeightRequest="60">
-                <toolkit:TabViewItem.Icon>
-                    <FontImageSource
+        <!--  FINANCE TAB  -->
+        <toolkit:TabViewItem HeightRequest="20">
+            <toolkit:TabViewItem.Icon>
+                <FontImageSource Size="20"
                         FontFamily="{x:Static fonts:FontelloIcons.Font}"
                         Glyph="{x:Static fonts:FontelloIcons.Calendar}"
                         Color="{AppThemeBinding Dark={StaticResource  LightTextColor},
                                                 Light={StaticResource DarkTextColor}}" />
-                </toolkit:TabViewItem.Icon>
-                <scheduleView:ScheduleViewMain x:Name="ScheduleViewMain"/>
-            </toolkit:TabViewItem>
-
-
-        </toolkit:TabView>
-        <!-- RADIAL MENU FILTER -->
-        <!--
-        <Grid        
-            HorizontalOptions="End" VerticalOptions="End"
-            Margin="0, 0, -50, 50">
-            <controls:FilterMenu 
-                SelectedCommand="{Binding ItemSelectedCommand}"
-                HorizontalOptions="Center" 
-                VerticalOptions="Center" />
-        </Grid>-->
-    </Grid>
-</pages2:BasePage>
+            </toolkit:TabViewItem.Icon>
+            <scheduleView:ScheduleViewMain x:Name="ScheduleViewMain"/>
+        </toolkit:TabViewItem>
+    </toolkit:TabView>
+</ContentPage>

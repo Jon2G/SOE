@@ -153,7 +153,7 @@ namespace SOE.ViewModels.ViewItems
         }
         private void Coming()
         {
-            ComingSoon.Show();
+            ComingSoon.Alert();
         }
 
         private void OpenSettings()

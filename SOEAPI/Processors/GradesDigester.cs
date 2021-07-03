@@ -42,7 +42,7 @@ namespace SOEAPI.Processors
             try
             {
                 HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-                doc.LoadHtml(HTML.ToBase64Decode());
+                doc.LoadHtml(HTML);
                 HtmlNode htable = doc.DocumentNode.SelectSingleNode("//table");
                 List<List<string>> table = htable
                     .Descendants("tr")

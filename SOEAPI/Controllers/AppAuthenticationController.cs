@@ -29,12 +29,7 @@ namespace SOEAPI.Controllers
         private readonly ILogger<AppAuthenticationController> _logger;
         public AppAuthenticationController(ILogger<AppAuthenticationController> logger)
         {
-            Connection = new SQLServerConnection(
-                DataBaseName:"APP_AUTHENTICATION",
-                Server: "mssql-36088-0.cloudclusters.net\\SQLEXPRESS", 
-                Port: "36096", 
-                User: "SOE_ADMIN", 
-                Password: "Octopus$2021.");
+            Connection = new SQLServerConnection(@"Server=tcp:soe-app.database.windows.net,1433;Initial Catalog=SOE_DATABASE;Persist Security Info=False;User ID=soeapp.soporte;Password=Octopus$2021.;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             _logger = logger;
 
         }
@@ -166,20 +161,23 @@ namespace SOEAPI.Controllers
             }
 
         }
-        [HttpGet("PostClassTime/{User}")]
-        public ActionResult<Response> PostClassTime(string HTML, string User)
+        [HttpPost("PostClassTime/{User}")]
+        public ActionResult<Response> PostClassTime(string User,[FromBody] byte[] HTML)
         {
-            string xml = ClassTimeDigester.Digest(HTML, User, Connection, this._logger);
+            Stopwatch sp = new Stopwatch();
+            sp.Start();
+            string xml = ClassTimeDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), User, Connection, this._logger);
             if (string.IsNullOrEmpty(xml))
             {
                 return APIModels.Response.Error;
             }
-            return new Response(APIResponseResult.OK, xml);
+            sp.Stop();
+            return new Response(APIResponseResult.OK, xml, $"Time elapsed:{sp.Elapsed:G}");
         }
-        [HttpGet("PostGrades/{User}")]
-        public ActionResult<Response> PostGrades(string HTML,string User)
+        [HttpPost("PostGrades/{User}")]
+        public ActionResult<Response> PostGrades(string User, [FromBody] byte[] HTML)
         {
-            string xml = GradesDigester.Digest(HTML, User, Connection, this._logger);
+            string xml = GradesDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), User, Connection, this._logger);
             if (string.IsNullOrEmpty(xml))
             {
                 return APIModels.Response.Error;

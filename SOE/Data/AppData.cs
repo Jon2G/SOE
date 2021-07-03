@@ -16,8 +16,18 @@ namespace SOE.Data
     public class AppData : ModelBase
     {
         public const string Version = "1.0.0 BETA";
-        public static bool IsInitialized => Instance is not null;
-        public static AppData Instance { get; private set; }
+        public static bool IsInitialized => _Instance is not null;
+        private static AppData _Instance;
+
+        public static AppData Instance
+        {
+            get
+            {
+                if (IsInitialized)
+                    return _Instance;
+                return Init();
+            }
+        }
 
         private User _User;
         public User User
@@ -44,14 +54,14 @@ namespace SOE.Data
         private static FileInfo LiteDbPath => new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SOE.db"));
 
 
-        public static void Init()
+        public static AppData Init()
         {
-            AppData.Instance = new AppData
+            AppData._Instance = new AppData
             {
                 User = new User(),
                 LiteConnection = new SQLiteConnection(LiteDbPath, 100)
             };
-
+            return Instance;
         }
 
         public static void CreateDatabase()
@@ -61,7 +71,8 @@ namespace SOE.Data
                 typeof(Career), typeof(ClassTime), typeof(Grade), 
                 typeof(Credits), typeof(ToDo), typeof(Settings), 
                 typeof(NotificationsHistory), typeof(Document), 
-                typeof(DocumentPart), typeof(Archive), typeof(Keeper));
+                typeof(DocumentPart), typeof(Archive),
+                typeof(Keeper),typeof(School));
         }
     }
 }

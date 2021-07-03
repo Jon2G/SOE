@@ -2,11 +2,14 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using AsyncAwaitBestPractices;
 using Kit.Model;
 using P42.Utils;
 using SOE.Data;
 using SOE.Models.TaskFirst;
+using SOE.Views.PopUps;
+using Xamarin.Forms;
 
 namespace SOE.ViewModels.ViewItems
 {
@@ -17,6 +20,11 @@ namespace SOE.ViewModels.ViewItems
         public const string Done = "AND DONE=1 AND ARCHIVED=0";
         public const string Pending = "AND DONE=0 AND ARCHIVED=0";
         public const string Archived = "AND ARCHIVED=1";
+        private ICommand _AddTaskCommand;
+
+        public ICommand AddTaskCommand => _AddTaskCommand ??= new Command(AddTask);
+
+        private void AddTask() => App.Current.MainPage.Navigation.PushAsync(new TaskPage(), true).SafeFireAndForget();
 
         public TaskFirstViewModel()
         {
@@ -24,8 +32,6 @@ namespace SOE.ViewModels.ViewItems
             DayGroups = new ObservableCollection<ByDayGroup>();
             Refresh(Pending).SafeFireAndForget();
         }
-
-
 
         public async Task Refresh(string condition = "")
         {

@@ -10,6 +10,8 @@ using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
 using System.Windows.Input;
 using APIModels;
+using Kit;
+using SOE.Services;
 using Xamarin.Essentials;
 
 namespace SOE.Models.TaskFirst
@@ -21,7 +23,7 @@ namespace SOE.Models.TaskFirst
         private bool _Done;
         private TimeSpan _Time;
         private DateTime _Date;
-        private Subject subject;
+        private Subject _Subject;
         private string _Description;
         public Guid Guid { get; set; }
         [PrimaryKey, AutoIncrement]
@@ -68,6 +70,8 @@ namespace SOE.Models.TaskFirst
         }
         [Ignore]
         public string FormattedTime => $"{Time:hh}:{Time:mm}";
+        [Ignore]
+        public string FormattedDate => $"{Date.DayOfWeek.Dia()} - {Date:dd/MM}";
 
         private FormattedString _FormattedString;
 
@@ -106,10 +110,10 @@ namespace SOE.Models.TaskFirst
         [Ignore]
         public Subject Subject
         {
-            get => subject;
+            get => _Subject;
             set
             {
-                subject = value;
+                _Subject = value;
                 Raise(() => Subject);
             }
         }
@@ -146,6 +150,9 @@ namespace SOE.Models.TaskFirst
 
         public int IdDocument { get; set; }
         public int IdKeeper { get; set; }
+
+
+
         public ToDo()
         {
             Done = false;
@@ -160,7 +167,11 @@ namespace SOE.Models.TaskFirst
             await Browser.OpenAsync(builder.Uri, BrowserLaunchMode.SystemPreferred);
         }
 
-
+        public ToDo LoadSubject()
+        {
+            this.Subject = SubjectService.Get(this.SubjectId);
+            return this;
+        }
 
     }
 }

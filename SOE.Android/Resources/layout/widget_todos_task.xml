@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="5dp"
+    android:id="@+id/widget_todo_item"
+    android:layout_width="match_parent"
+    android:layout_margin="3dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:layout_height="wrap_content"
+
+    android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <FrameLayout
+            android:id="@+id/widget_todos_StatusColor"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"/>
+        <LinearLayout
+          android:id="@+id/widget_todos_TaskColor"
+            android:layout_marginLeft="5dp"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+          <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:orientation="horizontal">
+            <TextView
+              android:layout_column="0"
+              android:id="@+id/widget_todos_TaskEmoji"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textColor="@color/colorTextPrimary"
+              android:text="❤️"
+              android:layout_margin="0dp"
+              android:textSize="12sp"
+              android:textStyle="bold" />
+            <TextView
+              android:layout_column="1"
+                android:id="@+id/widget_todos_TaskName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorTextPrimary"
+                android:text="Tarea 1"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+          </GridLayout>
+
+            <TextView
+              android:id="@+id/widget_todos_SubjectName"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:textColor="@color/colorTextPrimary"
+              android:text="Nombre materia"
+              android:textSize="14sp"
+              android:textStyle="bold" />
+
+
+
+
+
+            
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="4"
+                android:orientation="horizontal">
+
+              <TextView
+                android:id="@+id/widget_todos_TaskDate"
+                android:layout_width="wrap_content"
+                android:layout_column="0"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorTextPrimary"
+                android:text="Lunes 5/03"
+                android:layout_margin="5dp"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+              <TextView
+                android:layout_column="1"
+                android:layout_gravity="left|center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorTextPrimary"
+                android:text="🕑"
+                android:layout_margin="3dp"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+             
+
+              <TextView
+                android:layout_column="2"
+                android:layout_gravity="left|center"
+                android:id="@+id/widget_todos_TaskTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorTextPrimary"
+                android:text="00:30"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+              <TextView
+                android:layout_column="3"
+                android:layout_margin="5dp"
+                android:layout_gravity="left|center"
+                android:id="@+id/widget_todos_SubjectGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorTextPrimary"
+                android:text="7CV14"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            </GridLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
+

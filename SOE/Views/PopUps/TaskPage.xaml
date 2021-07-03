@@ -42,13 +42,12 @@
                                Text="Materia:" 
                                TextColor="{DynamicResource secondaryTextColor}" FontSize="17"
                                FontAttributes="Italic"/>
-                            <Button Text="{Binding Tarea.Subject.Name}" 
-
-                                BackgroundColor="{Binding Tarea.Subject,Converter={StaticResource SubjectColorAppThemeConverter}}"
-
-                                CornerRadius="5" BorderColor="{AppThemeBinding Light={StaticResource BackgroundTertiaryLightColor},Dark={StaticResource BackgroundTertiaryDarkColor}}" 
-                                BorderWidth="1" 
-                                Command="{Binding TaskCommand}"/>
+                            <Button Text="{Binding Tarea.Subject.Name}"
+                                    TextColor="{AppThemeBinding Dark=White,Light=Black}"
+                                    BackgroundColor="{Binding Tarea.Subject,Converter={StaticResource SubjectColorAppThemeConverter}}"
+                                    CornerRadius="5" BorderColor="{AppThemeBinding Light={StaticResource BackgroundTertiaryLightColor},Dark={StaticResource BackgroundTertiaryDarkColor}}" 
+                                    BorderWidth="1" 
+                                    Command="{Binding TaskCommand}"/>
 
 
                             <!--<Frame Grid.Row="2" CornerRadius="10" Padding="3" BackgroundColor="{DynamicResource PrimaryLightBackground}" 

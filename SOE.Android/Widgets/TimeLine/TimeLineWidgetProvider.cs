@@ -7,6 +7,7 @@ using APIModels;
 using SOE.Droid.Activities;
 using SOE.Models.Scheduler;
 using SOE.Widgets;
+using SQLitePCL;
 using String = System.String;
 
 namespace SOE.Droid.Widgets.TimeLine
@@ -16,6 +17,7 @@ namespace SOE.Droid.Widgets.TimeLine
         AppWidgetManager.ActionAppwidgetEnabled, AppWidgetManager.ActionAppwidgetDeleted,
         AppWidgetManager.ActionAppwidgetDisabled,TimeLineWidget.ITEM_CLICK,TimeLineWidget.DAY_CLICK })]
     [MetaData(AppWidgetManager.MetaDataAppwidgetProvider, Resource = "@xml/widget_timetable_appwidgetprovider")]
+    [Preserve]
     public class TimeLineWidgetProvider : AppWidgetProvider
     {
         public override void OnDeleted(Context context, int[] appWidgetIds)

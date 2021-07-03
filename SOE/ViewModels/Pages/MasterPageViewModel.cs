@@ -19,32 +19,17 @@ namespace SOE.ViewModels.Pages
 {
     public class MasterPageViewModel : ModelBase
     {
-        //private ObservableCollection<Models.Task> _tasks;
-
+    
         public MasterPageViewModel()
         {
-            // Tasks = new ObservableCollection<Models.Task>();
 
-            LoadData();
+     
         }
 
-        //public ObservableCollection<Models.Task> Tasks
-        //{
-        //    get { return _tasks; }
-        //    set
-        //    {
-        //        _tasks = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
-        public ICommand ItemSelectedCommand => new Command(TaskpageC);
         public ICommand _OpenMenuCommand;
         public ICommand OpenMenuCommand => _OpenMenuCommand ??= new Command(OpenMenu);
 
-        private void LoadData()
-        {
-        }
+  
         private async void OpenMenu(object obj)
         {
             var pr = new MasterPopUp();
@@ -63,29 +48,8 @@ namespace SOE.ViewModels.Pages
 
             }
         }
-        private void TaskpageC()
-        {
-            App.Current.MainPage.Navigation.PushAsync(new TaskPage(), true);
-        }
-        //    private void ItemSelected(string parameter)
-        //{
-        //    // App.Current.MainPage = new TaskPage();
-        //    switch (parameter)
-        //    {
-        //        case "Delayed":
-        //            //App.Current.MainPage = new TaskPage();
-        //            App.Current.MainPage.Navigation.PushAsync(new TaskPage(), true);
-        //            //var pr = new TaskPage();
-        //            //var scaleAnimation = new ScaleAnimation
-        //            //{
-        //            //    PositionIn = MoveAnimationOptions.Right,
-        //            //    PositionOut = MoveAnimationOptions.Left
-        //            //};
+ 
 
-        //            //pr.Animation = scaleAnimation;
-        //            //await PopupNavigation.Instance.PushAsync(pr);
-        //            break;
-        //    }
 
 
     }

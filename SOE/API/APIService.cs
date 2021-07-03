@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using APIModels;
 using APIModels.Enums;
@@ -16,8 +17,8 @@ namespace SOE.API
 {
     public static class APIService
     {
-        private const string Url ="http://aspnetclusters-36090-0.cloudclusters.net/AppAuthentication";
-        //"https://192.168.0.32:44371/AppAuthentication";
+       // private const string Url = "https://soe-api.azurewebsites.net/AppAuthentication";
+        private const string Url = "https://192.168.0.32:5555/AppAuthentication";
         public static async Task<Response> Login(string Usuario, string PasswordPin, string school = null)
         {
             WebService WebService = new WebService(Url);
@@ -60,36 +61,29 @@ namespace SOE.API
             }
             return JsonConvert.DeserializeObject<Response>(result.Response);
         }
-        public static async Task<Response> PostClassTime(string HTML,string User)
+        public static async Task<Response> PostClassTime(byte[] byteArray, string User)
         {
             WebService WebService = new WebService(Url);
-            if (string.IsNullOrEmpty(HTML))
+            if (byteArray.Length<=0)
             {
                 return Response.Error;
             }
-            Kit.Services.Web.ResponseResult result = await WebService.GET("PostClassTime",
-                new Dictionary<string, string>() 
-                {
-                    {"HTML",HTML}
-                }, User);
+            Kit.Services.Web.ResponseResult result = await WebService.PostAsBody(byteArray, "PostClassTime", User);
             if (result.Response == "ERROR")
             {
                 return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
             }
             return JsonConvert.DeserializeObject<Response>(result.Response);
         }
-        public static async Task<Response> PostGrades(string HTML)
+        public static async Task<Response> PostGrades(byte[] HTML)
         {
             WebService WebService = new WebService(Url);
-            if (string.IsNullOrEmpty(HTML))
+            if (HTML.Length<=0)
             {
                 return Response.Error;
             }
-            Kit.Services.Web.ResponseResult result = await WebService.GET("PostGrades",
-                new Dictionary<string, string>()
-                {
-                    {"HTML",HTML}
-                }, AppData.Instance.User.Boleta);
+            Kit.Services.Web.ResponseResult result = 
+                await WebService.PostAsBody(HTML,"PostGrades", AppData.Instance.User.Boleta);
             if (result.Response == "ERROR")
             {
                 return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);

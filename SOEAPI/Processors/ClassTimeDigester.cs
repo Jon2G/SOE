@@ -87,7 +87,7 @@ namespace SOEAPI.Processors
                 int UserId = User.GetId(connection, user);
                 HtmlAgilityPack.HtmlDocument doc
                     = new HtmlAgilityPack.HtmlDocument();
-                doc.LoadHtml(HTML.ToBase64Decode());
+                doc.LoadHtml(HTML);
 
                 HtmlNode htable =
                     doc.DocumentNode.SelectSingleNode("//table");
@@ -116,6 +116,11 @@ namespace SOEAPI.Processors
                     if (teacher_name.IsMatch(TeacherName))
                     {
                         TeacherName = teacher_name.Split(TeacherName).First();
+                    }
+
+                    if (TeacherName == "&nbsp;")
+                    {
+                        continue;
                     }
 
                     Teacher teacher = TeacherFrom(connection.Read("SP_GET_ADD_TEACHER"

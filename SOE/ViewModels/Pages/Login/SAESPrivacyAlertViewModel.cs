@@ -22,7 +22,7 @@ namespace SOE.ViewModels.Pages.Login
         private void OpenPrivacy()
         {
             //=> Browser.OpenAsync("www.google.com").SafeFireAndForget();
-            ComingSoon.Show();
+            ComingSoon.Alert();
         }
         private  void Continue() => (PopupNavigation.Instance.PopupStack.First() as BasePopUp)?.Close().SafeFireAndForget();
     }

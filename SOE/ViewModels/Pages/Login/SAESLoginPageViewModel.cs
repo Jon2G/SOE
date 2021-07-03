@@ -98,7 +98,10 @@ namespace SOE.ViewModels.Pages.Login
         }
         private bool ValidateCanExecute()
         {
-            return !string.IsNullOrEmpty(Boleta) && Validations.IsValidBoleta(Boleta) && !string.IsNullOrEmpty(Password);
+            return !string.IsNullOrEmpty(Boleta)
+                   && Validations.IsValidBoleta(Boleta) 
+                   && !string.IsNullOrEmpty(Password)
+                   &&!string.IsNullOrEmpty(Captcha);
         }
         internal void LoginSucceed()
         {

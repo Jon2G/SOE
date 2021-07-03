@@ -6,12 +6,12 @@ using SOE.Data;
 
 namespace SOE.Models.Data
 {
+    [Preserve]
     public class Settings : ModelBase,IGuid
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
-        [Unique, MaxLength(10)]
-        public string Boleta { get; set; }
+
         private bool _ShowTimelineBar;
         public bool ShowTimelineBar
         {

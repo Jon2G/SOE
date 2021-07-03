@@ -44,6 +44,7 @@
     <BundleAssemblies>false</BundleAssemblies>
     <AndroidHttpClientHandlerType>
     </AndroidHttpClientHandlerType>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -91,7 +92,7 @@
       <Version>7.1.0.514</Version>
     </PackageReference>
     <PackageReference Include="CardsView">
-      <Version>2.7.9</Version>
+      <Version>2.8.0</Version>
     </PackageReference>
     <PackageReference Include="Forms9Patch">
       <Version>2.4.9</Version>
@@ -132,6 +133,9 @@
     <Compile Include="Widgets\TimeLine\TimeLineRemoteViewsFactory.cs" />
     <Compile Include="Widgets\TimeLine\TimeLineWidgetProvider.cs" />
     <Compile Include="Widgets\TimeLine\TimeLineWidgetService.cs" />
+    <Compile Include="Widgets\ToDos\ToDosRemoteViewsFactory.cs" />
+    <Compile Include="Widgets\ToDos\ToDosWidgetService.cs" />
+    <Compile Include="Widgets\ToDos\ToDosWidgetProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -237,7 +241,12 @@
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\xml\widget_todos_appwidgetprovider.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher.png" />
   </ItemGroup>
@@ -249,6 +258,18 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\layout_widget_todos.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\widget_todos_task.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>

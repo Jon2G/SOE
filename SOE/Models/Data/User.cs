@@ -57,32 +57,9 @@ namespace SOE.Models.Data
 
         public string Name { get => _Name; set { _Name = value; Raise(() => Name); } }
 
-        public bool HasSubjects { get; internal set; }
+        public bool HasSubjects { get;  set; }
 
         public User() { }
-
-        //internal static async Task<FileImageSource> SaveAvatar(FileResult result)
-        //{
-        //    FileInfo avatar = new FileInfo(Path.Combine(AppData.Instance.ImagesDirectory.FullName, $"{AppData.Instance.User.Boleta}.png"));
-        //    await Keeper.Save(result.OpenReadAsync(), avatar);
-        //    return GetAvatar();
-        //}
-        //internal static FileImageSource GetAvatar()
-        //{
-        //    DirectoryInfo directory = AppData.Instance.ImagesDirectory;
-        //    if (!directory.Exists)
-        //    {
-        //        directory.Create();
-        //        return null;
-        //    }
-
-        //    FileInfo avatar = new FileInfo(Path.Combine(directory.FullName, $"{AppData.Instance.User.Boleta}.png"));
-        //    if (!avatar.Exists)
-        //    {
-        //        return null;
-        //    }
-        //    return (FileImageSource)FileImageSource.FromFile(avatar.FullName);
-        //}
 
         public void Save()
         {

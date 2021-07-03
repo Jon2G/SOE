@@ -1,10 +1,15 @@
 ﻿using System.Threading.Tasks;
+using AsyncAwaitBestPractices;
+using Kit.Extensions;
 using SOE.Fonts;
+using SOE.ViewModels.ViewItems;
+using SOE.Views.PopUps;
 using SOE.Views.ViewItems;
 using SOE.Views.ViewItems.ScheduleView;
 using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Command = Xamarin.Forms.Command;
 
 namespace SOE.Views.Pages
 {
@@ -85,7 +90,7 @@ namespace SOE.Views.Pages
             this.ToolbarItems.Clear();
             this.ToolbarItems.Add(new ToolbarItem
             {
-                Command = Model.ItemSelectedCommand,
+                Command = TaskFirstViewModel.Instance?.AddTaskCommand,
                 CommandParameter = this,
                 IconImageSource = new FontImageSource()
                 {

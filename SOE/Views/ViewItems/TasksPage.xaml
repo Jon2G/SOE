@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:cardViews="clr-namespace:SOE.Views.ViewItems.CardViews;assembly=SOE"
              xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
-             xmlns:controls="clr-namespace:SOE.Controls;assembly=SOE"
+            
              x:Class="SOE.Views.ViewItems.TasksPage">
 
         <Grid>
@@ -18,10 +18,10 @@
         <Grid        
                 HorizontalOptions="End" VerticalOptions="End"
                 Margin="0, 0, -50, 0">
-                <controls:FilterMenu 
+                <!--<controls:FilterMenu 
                     SelectedCommand="{Binding ItemSelectedCommand}"
                     HorizontalOptions="Center" 
-                    VerticalOptions="Center" />
+                    VerticalOptions="Center" />-->
             </Grid>
     </Grid>
   

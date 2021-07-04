@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using APIModels;
+using Kit.Forms.Services.Interfaces;
 using Kit.Model;
 using Kit.Sql.Sqlite;
 using SOE.Data.Images;
@@ -10,6 +11,8 @@ using SOE.Models.Scheduler;
 using SOE.Models.TaskFirst;
 using SOE.Notifications;
 using SOE.Saes;
+using Xamarin.Forms;
+using Device = Xamarin.Forms.Device;
 
 namespace SOE.Data
 {
@@ -74,5 +77,8 @@ namespace SOE.Data
                 typeof(DocumentPart), typeof(Archive),
                 typeof(Keeper),typeof(School));
         }
+
+
+  
     }
 }

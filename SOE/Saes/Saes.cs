@@ -17,6 +17,7 @@ using SOE.Models.Academic;
 using SOE.Models.Data;
 using SOE.Models.Scheduler;
 using SOE.Services;
+using SOE.Widgets;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
@@ -325,7 +326,7 @@ namespace SOE.Saes
                     var class_time = t_node.ConvertNode<ClassTime>();
                     ClassTimeService.Save(class_time);
                 }
-
+                TimeLineWidget.UpdateWidget();
                 return true;
             }
             return false;

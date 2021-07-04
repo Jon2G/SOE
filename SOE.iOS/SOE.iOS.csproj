@@ -172,6 +172,10 @@
       <IsAppExtension>false</IsAppExtension>
       <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
+    <ProjectReference Include="..\SOE\SOE.csproj">
+      <Project>{20ccea58-74b4-41b0-9e9e-22b7b328c798}</Project>
+      <Name>SOE</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\Images\tareas.mp4">

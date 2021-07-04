@@ -50,34 +50,43 @@ namespace SOE.Droid.Widgets.ToDos
             base.OnReceive(context, intent);
             AppWidgetManager mgr = AppWidgetManager.GetInstance(context);
             String IntentAction = intent.Action;
-            int appWidgetId = intent.GetIntExtra(AppWidgetManager.ExtraAppwidgetId, 0);
-            if (appWidgetId == 0) { return; }
-            switch (IntentAction)
+            int[]? appWidgetIds = intent.GetIntArrayExtra(AppWidgetManager.ExtraAppwidgetIds);
+            if (appWidgetIds is null|| appWidgetIds.Length <= 0)
             {
-                case AppWidgetManager.ActionAppwidgetOptionsChanged:
-                case AppWidgetManager.ActionAppwidgetEnabled:
-                case AppWidgetManager.ActionAppwidgetUpdate:
-                    ToDosWidget.Refresh(appWidgetId);
-                    OnUpdate(context, mgr, new int[] { appWidgetId });
-                    break;
-                case AppWidgetManager.ActionAppwidgetDeleted:
-                    ToDosWidget.Unload(appWidgetId);
-                    break;
-                case ToDosWidget.ITEM_CLICK:
-                    Intent OpenClassTimeDetails = new Intent(context, typeof(SplashActivity));
-                    int itemPosition = intent.GetIntExtra(ToDosWidget.EXTRA_ITEM, 0);
-                    ToDo classItem = ToDosWidget.GetItemAt(appWidgetId, itemPosition);
-                    OpenClassTimeDetails.PutExtra(nameof(ToDo.Id), classItem.Subject.Id);
-                    //OpenClassTimeDetails.SetFlags(ActivityFlags.NewTask);
-                    OpenClassTimeDetails.SetAction(IntentAction);
-                    OpenClassTimeDetails.SetFlags(ActivityFlags.SingleTop | ActivityFlags.BroughtToFront | ActivityFlags.NewTask);
-                    context.StartActivity(OpenClassTimeDetails);
-                    break;
-                default:
-                    OnUpdate(context, mgr,new []{ appWidgetId } );
-                    break;
+                appWidgetIds = new[] { intent.GetIntExtra(AppWidgetManager.ExtraAppwidgetId, 0) };
             }
-
+            foreach (int appWidgetId in appWidgetIds)
+            {
+                switch (IntentAction)
+                {
+                    case AppWidgetManager.ActionAppwidgetUpdate:
+                        ToDosWidget.Refresh(appWidgetId);
+                        OnUpdate(context, mgr, new int[] {appWidgetId});
+                        break;
+                    case AppWidgetManager.ActionAppwidgetOptionsChanged:
+                    case AppWidgetManager.ActionAppwidgetEnabled:
+                        ToDosWidget.Refresh(appWidgetId);
+                        OnUpdate(context, mgr, new int[] {appWidgetId});
+                        break;
+                    case AppWidgetManager.ActionAppwidgetDeleted:
+                        ToDosWidget.Unload(appWidgetId);
+                        break;
+                    case ToDosWidget.ITEM_CLICK:
+                        Intent OpenClassTimeDetails = new Intent(context, typeof(SplashActivity));
+                        int itemPosition = intent.GetIntExtra(ToDosWidget.EXTRA_ITEM, 0);
+                        ToDo classItem = ToDosWidget.GetItemAt(appWidgetId, itemPosition);
+                        OpenClassTimeDetails.PutExtra(nameof(ToDo.Id), classItem.Subject.Id);
+                        //OpenClassTimeDetails.SetFlags(ActivityFlags.NewTask);
+                        OpenClassTimeDetails.SetAction(IntentAction);
+                        OpenClassTimeDetails.SetFlags(ActivityFlags.SingleTop | ActivityFlags.BroughtToFront |
+                                                      ActivityFlags.NewTask);
+                        context.StartActivity(OpenClassTimeDetails);
+                        break;
+                    default:
+                        OnUpdate(context, mgr, new[] {appWidgetId});
+                        break;
+                }
+            }
 
         }
 

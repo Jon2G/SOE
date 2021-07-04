@@ -67,7 +67,6 @@ namespace SOE.Droid.Activities
             LoadApplication(new SOE.App());
             if (this.Intent != null)
                 OnNewIntent(this.Intent);
-
         }
 
         protected override void OnNewIntent(Intent intent)

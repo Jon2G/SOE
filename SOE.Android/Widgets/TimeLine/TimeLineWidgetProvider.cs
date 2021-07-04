@@ -49,58 +49,65 @@ namespace SOE.Droid.Widgets.TimeLine
             base.OnReceive(context, intent);
             AppWidgetManager mgr = AppWidgetManager.GetInstance(context);
             String IntentAction = intent.Action;
-            int appWidgetId = intent.GetIntExtra(AppWidgetManager.ExtraAppwidgetId, 0);
-            if (appWidgetId == 0) { return; }
-            switch (IntentAction)
+            int[]? appWidgetIds = intent.GetIntArrayExtra(AppWidgetManager.ExtraAppwidgetIds);
+            if (appWidgetIds is null || appWidgetIds.Length <= 0)
             {
-                case TimeLineWidget.BACKWARD_ACTION:
-                    TimeLineWidget.Yesterday(appWidgetId);
-                    Intent updateIntentb = new Intent(intent.Action);
-                    context.SendBroadcast(updateIntentb);
-                    OnUpdate(context, mgr, new int[] { appWidgetId });
-                    mgr.NotifyAppWidgetViewDataChanged(appWidgetId, Resource.Id.stack_view);
-                    break;
-                case TimeLineWidget.FOWARD_ACTION:
-                    TimeLineWidget.Tomorrow(appWidgetId);
-                    Intent updateIntentf = new Intent(intent.Action);
-                    context.SendBroadcast(updateIntentf);
-                    OnUpdate(context, mgr, new int[] { appWidgetId });
-                    mgr.NotifyAppWidgetViewDataChanged(appWidgetId, Resource.Id.stack_view);
-                    break;
-                case AppWidgetManager.ActionAppwidgetOptionsChanged:
-                case AppWidgetManager.ActionAppwidgetEnabled:
-                case AppWidgetManager.ActionAppwidgetUpdate:
-                    TimeLineWidget.Today(appWidgetId);
-                    OnUpdate(context, mgr, new int[] { appWidgetId });
-                    break;
-                case AppWidgetManager.ActionAppwidgetDeleted:
-                    TimeLineWidget.Unload(appWidgetId);
-                    break;
-                case TimeLineWidget.ITEM_CLICK:
-                    Intent OpenClassTimeDetails = new Intent(context, typeof(SplashActivity));
-                    int itemPosition = intent.GetIntExtra(TimeLineWidget.EXTRA_ITEM, 0);
-                    ClassSquare classItem = TimeLineWidget.GetItemAt(appWidgetId, itemPosition);
-                    OpenClassTimeDetails.PutExtra(nameof(ClassTime.Group), classItem.Subject.Group);
-                    OpenClassTimeDetails.PutExtra(nameof(ClassTime.Begin), classItem.Begin.Ticks);
-                    OpenClassTimeDetails.PutExtra(nameof(ClassTime.Day), (int)classItem.Day);
-                    //OpenClassTimeDetails.SetFlags(ActivityFlags.NewTask);
-                    OpenClassTimeDetails.SetAction(IntentAction);
-                    OpenClassTimeDetails.SetFlags(ActivityFlags.SingleTop | ActivityFlags.BroughtToFront | ActivityFlags.NewTask);
-                    context.StartActivity(OpenClassTimeDetails);
-                    break;
-                case TimeLineWidget.DAY_CLICK:
-                    Intent OpenDayDetails = new Intent(context, typeof(SplashActivity));
-                    OpenDayDetails.SetAction(IntentAction);
-                    OpenDayDetails.PutExtra(nameof(ClassTime.Day), (int)TimeLineWidget.GetDay(appWidgetId).DayOfWeek);
-                    OpenDayDetails.SetFlags(ActivityFlags.SingleTop | ActivityFlags.BroughtToFront | ActivityFlags.NewTask);
-                    context.StartActivity(OpenDayDetails);
-                    break;
-                default:
-                    OnUpdate(context, mgr,new []{ appWidgetId } );
-                    break;
+                appWidgetIds = new[] {intent.GetIntExtra(AppWidgetManager.ExtraAppwidgetId, 0)};
             }
-
-
+            foreach (int appWidgetId in appWidgetIds)
+            {
+                switch (IntentAction)
+                {
+                    case TimeLineWidget.BACKWARD_ACTION:
+                        TimeLineWidget.Yesterday(appWidgetId);
+                        Intent updateIntentb = new Intent(intent.Action);
+                        context.SendBroadcast(updateIntentb);
+                        OnUpdate(context, mgr, new int[] { appWidgetId });
+                        mgr.NotifyAppWidgetViewDataChanged(appWidgetId, Resource.Id.stack_view);
+                        break;
+                    case TimeLineWidget.FOWARD_ACTION:
+                        TimeLineWidget.Tomorrow(appWidgetId);
+                        Intent updateIntentf = new Intent(intent.Action);
+                        context.SendBroadcast(updateIntentf);
+                        OnUpdate(context, mgr, new int[] { appWidgetId });
+                        mgr.NotifyAppWidgetViewDataChanged(appWidgetId, Resource.Id.stack_view);
+                        break;
+                    case AppWidgetManager.ActionAppwidgetUpdate:
+                        TimeLineWidget.Refresh(appWidgetId);
+                        OnUpdate(context, mgr, new int[] { appWidgetId });
+                        break;
+                    case AppWidgetManager.ActionAppwidgetOptionsChanged:
+                    case AppWidgetManager.ActionAppwidgetEnabled:
+                        TimeLineWidget.Today(appWidgetId);
+                        OnUpdate(context, mgr, new int[] { appWidgetId });
+                        break;
+                    case AppWidgetManager.ActionAppwidgetDeleted:
+                        TimeLineWidget.Unload(appWidgetId);
+                        break;
+                    case TimeLineWidget.ITEM_CLICK:
+                        Intent OpenClassTimeDetails = new Intent(context, typeof(SplashActivity));
+                        int itemPosition = intent.GetIntExtra(TimeLineWidget.EXTRA_ITEM, 0);
+                        ClassSquare classItem = TimeLineWidget.GetItemAt(appWidgetId, itemPosition);
+                        OpenClassTimeDetails.PutExtra(nameof(ClassTime.Group), classItem.Subject.Group);
+                        OpenClassTimeDetails.PutExtra(nameof(ClassTime.Begin), classItem.Begin.Ticks);
+                        OpenClassTimeDetails.PutExtra(nameof(ClassTime.Day), (int)classItem.Day);
+                        //OpenClassTimeDetails.SetFlags(ActivityFlags.NewTask);
+                        OpenClassTimeDetails.SetAction(IntentAction);
+                        OpenClassTimeDetails.SetFlags(ActivityFlags.SingleTop | ActivityFlags.BroughtToFront | ActivityFlags.NewTask);
+                        context.StartActivity(OpenClassTimeDetails);
+                        break;
+                    case TimeLineWidget.DAY_CLICK:
+                        Intent OpenDayDetails = new Intent(context, typeof(SplashActivity));
+                        OpenDayDetails.SetAction(IntentAction);
+                        OpenDayDetails.PutExtra(nameof(ClassTime.Day), (int)TimeLineWidget.GetDay(appWidgetId).DayOfWeek);
+                        OpenDayDetails.SetFlags(ActivityFlags.SingleTop | ActivityFlags.BroughtToFront | ActivityFlags.NewTask);
+                        context.StartActivity(OpenDayDetails);
+                        break;
+                    default:
+                        OnUpdate(context, mgr, new[] { appWidgetId });
+                        break;
+                }
+            }
         }
 
         private PendingIntent GetIntent(Context context, int widgetId, string action)

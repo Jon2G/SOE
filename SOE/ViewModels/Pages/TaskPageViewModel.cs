@@ -6,6 +6,7 @@ using System.Windows.Input;
 using APIModels;
 using FFImageLoading.Forms;
 using Kit.Forms.Extensions;
+using Kit.Forms.Services.Interfaces;
 using Kit.Model;
 using SOE.Data;
 using SOE.Data.Images;
@@ -13,6 +14,7 @@ using SOE.Enums;
 using SOE.Models.Scheduler;
 using SOE.Models.TaskFirst;
 using SOE.Views.PopUps;
+using SOE.Widgets;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -137,6 +139,8 @@ namespace SOE.ViewModels.Pages
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Guardando tarea..."))
             {
                 await Save();
+                ToDosWidget.UpdateWidget();
+
             }
         }
 

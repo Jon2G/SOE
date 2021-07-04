@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Kit.Forms.Services.Interfaces;
 using SOE.Data;
 using SOE.Models.Scheduler;
 using SOE.Models.TaskFirst;
@@ -24,7 +25,7 @@ namespace SOE.Widgets
         {
             if (!WidgetsTodos.ContainsKey(WidgetId))
             {
-                return GetTasks(WidgetId);
+                return WidgetsTodos[WidgetId] = GetTasks(WidgetId);
             }
             return WidgetsTodos[WidgetId] = GetTasks();
         }
@@ -106,6 +107,18 @@ namespace SOE.Widgets
 
                 default:
                     return Color.LightBlue.ToHex();
+            }
+        }
+        public static void UpdateWidget()
+        {
+            IUpdateWidget iWidget = DependencyService.Get<IUpdateWidget>();
+            switch (Device.RuntimePlatform)
+            {
+                case Device.Android:
+                    iWidget?.UpdateWidget("SOE.Droid", "SOE.Droid.Widgets.ToDos.ToDosWidgetProvider");
+                    break;
+                case Device.iOS:
+                    break;
             }
         }
     }

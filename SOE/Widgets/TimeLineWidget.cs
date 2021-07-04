@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Kit.Forms.Services.Interfaces;
 using SOE.Models.Scheduler;
+using Xamarin.Forms;
 
 namespace SOE.Widgets
 {
@@ -79,6 +81,27 @@ namespace SOE.Widgets
         public static ClassSquare GetItemAt(int appWidgetId, int itemPosition)
         {
             return GetTimeLine(appWidgetId)[itemPosition];
+        }
+        public static void UpdateWidget()
+        {
+            IUpdateWidget iWidget = DependencyService.Get<IUpdateWidget>(DependencyFetchTarget.GlobalInstance);
+            switch (Device.RuntimePlatform)
+            {
+                case Device.Android:
+                    iWidget?.UpdateWidget("SOE.Droid", " SOE.Droid.Widgets.TimeLine.TimeLineWidgetProvider");
+                    break;
+                case Device.iOS:
+                    break;
+            }
+        }
+
+        public static Day Refresh(int WidgetId)
+        {
+            if (!WidgetsDays.ContainsKey(WidgetId))
+            {
+                return WidgetsDays[WidgetId] = GetDay(WidgetId);
+            }
+            return WidgetsDays[WidgetId] = GetDay(WidgetId);
         }
     }
 }

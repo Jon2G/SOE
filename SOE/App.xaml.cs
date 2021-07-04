@@ -1,4 +1,6 @@
-﻿using SOE.Views.Pages;
+﻿using SOE.Data;
+using SOE.Views.Pages;
+using SOE.Widgets;
 using Xamarin.Forms;
 
 namespace SOE
@@ -10,9 +12,8 @@ namespace SOE
         {
 
             InitializeComponent();
-            
-            App.Current.MainPage = new SplashScreen();
 
+            App.Current.MainPage = new SplashScreen();
         }
 
         protected override void OnStart()

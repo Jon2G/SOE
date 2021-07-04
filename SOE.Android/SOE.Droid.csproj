@@ -126,7 +126,6 @@
     <Compile Include="Notifications\Notification.cs" />
     <Compile Include="Notifications\NotificationChannel.cs" />
     <Compile Include="Notifications\NotificationService.cs" />
-    <Compile Include="Renders\BorderlessDatePickerRenderer.cs" />
     <Compile Include="Renders\NoLineEntryRender.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

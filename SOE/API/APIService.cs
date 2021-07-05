@@ -17,8 +17,8 @@ namespace SOE.API
 {
     public static class APIService
     {
-       // private const string Url = "https://soe-api.azurewebsites.net/AppAuthentication";
-        private const string Url = "https://192.168.0.32:5555/AppAuthentication";
+        private const string Url = "https://soe-api.azurewebsites.net/AppAuthentication";
+        //private const string Url = "https://192.168.0.32:5555/AppAuthentication";
         public static async Task<Response> Login(string Usuario, string PasswordPin, string school = null)
         {
             WebService WebService = new WebService(Url);

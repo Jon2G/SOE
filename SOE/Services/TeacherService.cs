@@ -12,5 +12,8 @@ namespace SOE.Services
         {
             AppData.Instance.LiteConnection.InsertOrReplace(teacher);
         }
+
+        internal static Teacher Get(int idTeacher) =>
+            AppData.Instance.LiteConnection.Table<Teacher>().FirstOrDefault(x => x.Id == idTeacher);
     }
 }

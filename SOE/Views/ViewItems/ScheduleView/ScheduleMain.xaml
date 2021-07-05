@@ -50,7 +50,8 @@
                         <pancakeView:PancakeView  Margin="3" BackgroundColor="{Binding Subject,Converter={x:StaticResource SubjectColorAppThemeConverter}}"
                                                                    Padding="3">
                             <View.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"/>
+                                <TapGestureRecognizer Command="{Binding OpenMenuCommand,Source={x:Reference Me}}"
+                                                CommandParameter="{Binding }"/>
                             </View.GestureRecognizers>
                             <StackLayout >
                                 <Label FontSize="10" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"

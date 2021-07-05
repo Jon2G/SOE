@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 using AsyncAwaitBestPractices;
-
 using Kit.Model;
 using SOE.Fonts;
 using SOE.Models.TaskFirst;

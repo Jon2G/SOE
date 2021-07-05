@@ -4,6 +4,7 @@ using System.Windows.Input;
 using SOE.Data;
 using SOE.Models.Scheduler;
 using SOE.Views.Pages;
+using SOE.Views.PopUps;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -26,6 +27,44 @@ namespace SOE.Views.ViewItems.ScheduleView
 
         private ICommand _OnDayTappedCommand;
         public ICommand OnDayTappedCommand => _OnDayTappedCommand ??= new Command<SheduleDay>(OnDayTapped);
+
+
+        public ICommand _OpenMenuCommand;
+        public ICommand OpenMenuCommand => _OpenMenuCommand ??= new Command<ClassSquare>(OpenMenu);
+
+        private async void OpenMenu(ClassSquare classSquare)
+        {
+            var pr = new MenuHorarioPopUp(classSquare);
+            await pr.ShowDialog();
+                switch (pr.Model.Action)
+                {
+                    case "Nueva tarea":
+                        Newtask();
+                        break;
+                    case "Recordatorio":
+                        Remember();
+                        break;
+                 case "Info Materia":
+                     InfoSub();
+                    break;   
+            }
+        }
+
+        private void InfoSub()
+        {
+            
+        }
+
+        private void Remember()
+        {
+            
+        }
+
+        private void Newtask()
+        {
+            App.Current.MainPage.Navigation.PushAsync(new TaskPage());
+        }
+
         public ScheduleViewMain()
         {
             Instance = this;
@@ -79,9 +118,6 @@ namespace SOE.Views.ViewItems.ScheduleView
             this.IsDayViewVisible = IsDayViewVisible;
         }
 
-        private void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
-        {
-            Acr.UserDialogs.UserDialogs.Instance.Alert("Hola :)");
-        }
+
     }
 }

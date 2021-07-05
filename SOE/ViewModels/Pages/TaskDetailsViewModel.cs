@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using FFImageLoading.Forms;
+using P42.Utils;
 using SOE.Data;
 using SOE.Data.Images;
 using SOE.Enums;
@@ -24,11 +25,7 @@ namespace SOE.ViewModels.Pages
         private async void GetPhotos()
         {
             await Task.Yield();
-            foreach (Archive archive in AppData.Instance.LiteConnection.Table<Archive>()
-                .Where(x => x.IdKeeper == ToDo.IdKeeper))
-            {
-                this.Photos.Add(new PhotoArchive(archive.Path, FileType.Photo));
-            }
+            this.Photos.AddRange(Models.TaskFirst.ToDo.GetPhotos(this.ToDo));
         }
     }
 }

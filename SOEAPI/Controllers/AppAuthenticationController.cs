@@ -16,6 +16,7 @@ using Kit.Sql.SqlServer;
 using APIModels;
 using APIModels.Enums;
 using DocumentFormat.OpenXml.Vml.Spreadsheet;
+using Kit.Services.Web;
 using Newtonsoft.Json;
 using SOEAPI.Processors;
 
@@ -50,7 +51,6 @@ namespace SOEAPI.Controllers
             sp.Stop();
             return new Response(APIResponseResult.OK, $"Time elapsed:{sp.Elapsed:G}");
         }
-
         [HttpGet("LogIn/{UserName}/{Password}/{DeviceKey}/{School}")]
         [HttpGet("LogIn/{UserName}/{Password}/{DeviceKey}")]
         public ActionResult<Response> LogIn(string UserName, string Password, string DeviceKey, string School = null)
@@ -162,7 +162,7 @@ namespace SOEAPI.Controllers
 
         }
         [HttpPost("PostClassTime/{User}")]
-        public ActionResult<Response> PostClassTime(string User,[FromBody] byte[] HTML)
+        public ActionResult<Response> PostClassTime(string User, [FromBody] byte[] HTML)
         {
             Stopwatch sp = new Stopwatch();
             sp.Start();
@@ -204,6 +204,64 @@ namespace SOEAPI.Controllers
                 _logger.Log(LogLevel.Error, ex, ex?.Message);
                 return new Response(APIResponseResult.INTERNAL_ERROR, ex.Message);
             }
+        }
+        [HttpGet("PostToDo/{User}/{Todo}")]
+        public Response PostToDo(string User, TodoBase Todo)
+        {
+            if (Todo is null || string.IsNullOrEmpty(Todo.Title)
+                             || Guid.Empty == Todo.Guid
+                             || Todo.Subject is null
+                             || Todo.Subject.Id <= 0
+                             || Todo.Subject.IdTeacher <= 0)
+            {
+                return APIModels.Response.Error;
+            }
+            if (Todo.Date > DateTime.Now)
+            {
+                return new Response(APIResponseResult.INVALID_REQUEST,
+                    "Esta tarea ya ha expirado, cambie la fecha de entrega si desea compartirla");
+            }
+
+            try
+            {
+                return APIModels.Response.From(Connection.Read("SP_POST_TODO"
+                    , CommandType.StoredProcedure
+                    , new SqlParameter("GUID", Todo.Guid)
+                    , new SqlParameter("SUBJECT_ID", Todo.Subject.Id)
+                    , new SqlParameter("TEACHER_ID", Todo.Subject.IdTeacher)
+                    , new SqlParameter("USER", User)
+                    , new SqlParameter("TITLE", Todo.Title)
+                    , new SqlParameter("DESCRIPTION", Todo.Description)
+                    , new SqlParameter("T_DATE", Todo.Date)
+                    , new SqlParameter("T_TIME", Todo.Time)
+                    , new SqlParameter("GROUP", Todo.Subject.Group)
+                ));
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogLevel.Error, ex, ex?.Message);
+                return new Response(APIResponseResult.INTERNAL_ERROR, ex.Message);
+            }
+        }
+
+        [HttpPost("PostTodoPicture/{ToDoGuid}")]
+        public Response PostTodoPicture(Guid ToDoGuid,[FromBody] byte[] Img)
+        {
+            if (Img is null || Img.Length <= 0 || Guid.Empty == ToDoGuid)
+            {
+                return APIModels.Response.Error;
+            }
+            return APIModels.Response.From(Connection.Read("SP_POST_TODO_PICTURE"
+                , CommandType.StoredProcedure
+                , new SqlParameter("TODO_GUID", ToDoGuid)
+                , new SqlParameter("IMG",Img)
+            ));
+        }
+        [HttpPost("ShareTodo/{ToDoGuid}")]
+        public Response ShareTodo(Guid ToDoGuid)
+        {
+
         }
     }
 }

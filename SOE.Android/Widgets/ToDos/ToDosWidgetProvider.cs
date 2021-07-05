@@ -72,10 +72,10 @@ namespace SOE.Droid.Widgets.ToDos
                         ToDosWidget.Unload(appWidgetId);
                         break;
                     case ToDosWidget.ITEM_CLICK:
-                        Intent OpenClassTimeDetails = new Intent(context, typeof(SplashActivity));
+                        Intent OpenClassTimeDetails = new Intent(context, typeof(MainActivity));
                         int itemPosition = intent.GetIntExtra(ToDosWidget.EXTRA_ITEM, 0);
-                        ToDo classItem = ToDosWidget.GetItemAt(appWidgetId, itemPosition);
-                        OpenClassTimeDetails.PutExtra(nameof(ToDo.Id), classItem.Subject.Id);
+                        ToDo todoItem = ToDosWidget.GetItemAt(appWidgetId, itemPosition);
+                        OpenClassTimeDetails.PutExtra(nameof(ToDo.Id), todoItem.Id);
                         //OpenClassTimeDetails.SetFlags(ActivityFlags.NewTask);
                         OpenClassTimeDetails.SetAction(IntentAction);
                         OpenClassTimeDetails.SetFlags(ActivityFlags.SingleTop | ActivityFlags.BroughtToFront |

@@ -86,47 +86,7 @@ namespace SOE.ViewModels.Pages
             this.Photos.Remove(img);
         }
 
-        private async Task Save()
-        {
-            Document.Delete(this.Tarea.IdDocument);
-            if (this.Tarea.Description == null)
-            {
-                this.Tarea.Description = "";
-            }
-            Document doc = Document.PaseAndSave(this.Tarea.Description);
-            this.Tarea.IdDocument = doc.Id;
 
-
-            Keeper.Delete(this.Tarea.IdKeeper);
-            Keeper keeper = Keeper.New();
-            foreach (Archive<CachedImage> archive in Photos)
-            {
-                CachedImage image = archive.Value;
-                using (FileStream file = new FileStream(archive.Path, FileMode.OpenOrCreate))
-                {
-                    using (MemoryStream memory = new MemoryStream(await image.GetImageAsPngAsync()))
-                    {
-                        await memory.CopyToAsync(file);
-                    }
-                }
-                await keeper.Save(archive);
-            }
-            this.Tarea.IdKeeper = keeper.Id;
-            /////////////
-
-            //le quita las horas y segundos a la fecha
-            this.Tarea.Date = new DateTime(this.Tarea.Date.Year, this.Tarea.Date.Month, this.Tarea.Date.Day);
-
-            AppData.Instance.LiteConnection.InsertOrReplace(this.Tarea);
-            /////////////
-            if (Shell.Current is AppShell app)
-            {
-                await app.MasterPage.TaskFirstPage.Model.Refresh();
-            }
-
-            await Shell.Current.Navigation.PopToRootAsync(true);
-            //photos ?
-        }
         private async void Save(object obj)
         {
             if (Tarea.Subject == null)
@@ -139,7 +99,7 @@ namespace SOE.ViewModels.Pages
             }
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Guardando tarea..."))
             {
-                await Save();
+                await ToDo.Save(this.Tarea,Photos);
                 ToDosWidget.UpdateWidget();
                 DependencyService.Get<IStartNotificationsService>()?.ReSheduleTask(this.Tarea);
 

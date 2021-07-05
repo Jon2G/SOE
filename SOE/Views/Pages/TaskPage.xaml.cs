@@ -7,7 +7,7 @@ using SOE.Models.TaskFirst;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace SOE.Views.PopUps
+namespace SOE.Views.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Skip)]
     public partial class TaskPage : ContentPage

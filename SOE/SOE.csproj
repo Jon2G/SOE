@@ -106,7 +106,7 @@
     <EmbeddedResource Update="Views\PopUps\SubjectPopUp.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\PopUps\TaskPage.xaml">
+    <EmbeddedResource Update="Views\Pages\TaskPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\PopUps\ViewChangePopUp.xaml">

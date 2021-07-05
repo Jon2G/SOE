@@ -12,6 +12,7 @@ namespace SOE.Views.ViewItems.ScheduleView
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ScheduleViewMain : ContentView
     {
+        public static ScheduleViewMain Instance { get; private set; }
         private bool IsDayViewVisible
         {
             get => DayView.IsVisible;
@@ -27,6 +28,7 @@ namespace SOE.Views.ViewItems.ScheduleView
         public ICommand OnDayTappedCommand => _OnDayTappedCommand ??= new Command<SheduleDay>(OnDayTapped);
         public ScheduleViewMain()
         {
+            Instance = this;
             InitializeComponent();
             if (!AppData.Instance.User.HasSubjects)
             {

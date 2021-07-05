@@ -85,7 +85,7 @@ namespace SOE.Droid.Widgets.TimeLine
                         TimeLineWidget.Unload(appWidgetId);
                         break;
                     case TimeLineWidget.ITEM_CLICK:
-                        Intent OpenClassTimeDetails = new Intent(context, typeof(SplashActivity));
+                        Intent OpenClassTimeDetails = new Intent(context, typeof(MainActivity));
                         int itemPosition = intent.GetIntExtra(TimeLineWidget.EXTRA_ITEM, 0);
                         ClassSquare classItem = TimeLineWidget.GetItemAt(appWidgetId, itemPosition);
                         OpenClassTimeDetails.PutExtra(nameof(ClassTime.Group), classItem.Subject.Group);
@@ -97,7 +97,7 @@ namespace SOE.Droid.Widgets.TimeLine
                         context.StartActivity(OpenClassTimeDetails);
                         break;
                     case TimeLineWidget.DAY_CLICK:
-                        Intent OpenDayDetails = new Intent(context, typeof(SplashActivity));
+                        Intent OpenDayDetails = new Intent(context, typeof(MainActivity));
                         OpenDayDetails.SetAction(IntentAction);
                         OpenDayDetails.PutExtra(nameof(ClassTime.Day), (int)TimeLineWidget.GetDay(appWidgetId).DayOfWeek);
                         OpenDayDetails.SetFlags(ActivityFlags.SingleTop | ActivityFlags.BroughtToFront | ActivityFlags.NewTask);

@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
+using AsyncAwaitBestPractices;
+using SOE.API;
 using SOE.Data;
 using SOE.Models.TaskFirst;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace SOE.ViewModels.Pages
@@ -53,6 +56,14 @@ namespace SOE.ViewModels.Pages
                     Eliminar();
                     break;
                 case "Compartir":
+                    bool IncludeFiles=await App.Current.MainPage.DisplayAlert(ToDo.Title,
+                        "¿Compartir también las imágenes de esta tarea?", "Sí", "No");
+                    string link = await Models.TaskFirst.ToDo.Share(ToDo, IncludeFiles);
+                    if (!string.IsNullOrEmpty(link))
+                    {
+                        Share.RequestAsync(link, "Compartir tarea").SafeFireAndForget();
+                    }
+
                     break;
             }
         }

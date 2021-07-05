@@ -8,6 +8,7 @@ using Kit.Model;
 using P42.Utils;
 using SOE.Data;
 using SOE.Models.TaskFirst;
+using SOE.Views.Pages;
 using SOE.Views.PopUps;
 using Xamarin.Forms;
 

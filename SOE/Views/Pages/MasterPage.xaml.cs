@@ -2,9 +2,14 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AsyncAwaitBestPractices;
+using Kit;
 using Kit.Extensions;
+using SOE.API;
+using SOE.Data;
 using SOE.Fonts;
 using SOE.Interfaces;
+using SOE.Models.TaskFirst;
+using SOE.Services.ActionResponse;
 using SOE.ViewModels.ViewItems;
 using SOE.Views.PopUps;
 using SOE.Views.ViewItems;
@@ -12,6 +17,7 @@ using SOE.Views.ViewItems.ScheduleView;
 using SOE.Widgets;
 using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 using Command = Xamarin.Forms.Command;
 
@@ -69,48 +75,53 @@ namespace SOE.Views.Pages
             }
 
             DependencyService.Get<IStartNotificationsService>()?.StartNotificationsService();
-            if (WidgetPendingAction != null)
-            {
-                Execute(WidgetPendingAction);
-            }
         }
-        #region WidgetsResponse
 
-        private static WidgetPendingAction WidgetPendingAction;
-        public static void ResponseTo(WidgetPendingAction WidgetPendingAction)
-        {
-            if (WidgetPendingAction is null) { return; }
-            MasterPage.WidgetPendingAction = WidgetPendingAction;
-            MasterPage.Instance.Execute(WidgetPendingAction);
+        public static void ResponseTo(PendingAction PendingAction) => App.Current.Dispatcher.BeginInvokeOnMainThread(action: () => Execute(PendingAction));
 
-        }
-        #endregion
-        private void Execute(WidgetPendingAction PendingAction)
+        private static async void Execute(PendingAction pendingAction)
         {
-            switch (PendingAction.Action)
+            switch (pendingAction)
             {
-                case TimeLineWidget.ITEM_CLICK:
-                    DateTime begin = (DateTime)PendingAction.Parameters[0];
-                    string group = (string)PendingAction.Parameters[1];
-                    DayOfWeek dayOfClass = (DayOfWeek)PendingAction.Parameters[2];
+                case TimeLineWidgetDayAction dayAction:
+                    MasterPage.Instance.TabView.SelectedIndex = 2;
+                    ViewItems.ScheduleView.ScheduleViewMain.Instance
+                        .Model.WeekDays.FirstOrDefault(x => x.Day.DayOfWeek == dayAction.Day);
+                    ViewItems.ScheduleView.ScheduleViewMain.Instance.OnDayTappedCommand?.Execute(dayAction.Day);
+                    break;
+                case TimeLineWidgetSubjectAction subjectAction:
                     MasterPage.Instance.TabView.SelectedIndex = 2;
                     Acr.UserDialogs.UserDialogs.Instance.Alert(
-                        $"Ya se que presionaste:\nGrupo:{group}\nDia:{dayOfClass}\nHora:{begin:HH:mm}\npero, aún no estoy programado para abrir el menú de esta materia :)",
+                        $"Ya se que presionaste:\nGrupo:{subjectAction.Group}\nDia:{subjectAction.Day.Dia()}\nHora:{subjectAction.Date:HH:mm}\npero, aún no estoy programado para abrir el menú de esta materia :)",
                         "ToDo", "Vale, apurale!");
                     break;
-                case TimeLineWidget.DAY_CLICK:
-                    MasterPage.Instance.TabView.SelectedIndex = 2;
-                    if (MasterPage.Instance.TabView.TabItems[2].Content is ScheduleViewMain schedule)
-                    {
-                        DayOfWeek dayOfWeek = (DayOfWeek)PendingAction.Parameters[0];
-                        var scheduleDay = schedule.Model.WeekDays.FirstOrDefault(x => x.Day.DayOfWeek == dayOfWeek);
-                        schedule.OnDayTappedCommand?.Execute(scheduleDay);
-                    }
+                case TodoWidgetAction todoAction:
+                    AppData.Instance.LiteConnection.CreateTable<ToDo>();
+                    ToDo todo = ToDo.GetById(todoAction.Id);
+                    if (todo is null) { break; }
+                    TaskDetails task = new TaskDetails(todo);
+                    Shell.Current.Navigation.PushAsync(task, false).SafeFireAndForget();
                     break;
+                case UrlAction urlAction:
+                    string[] segments = urlAction.Url.Segments;
+                    int indexOfAction = segments.IndexOf(x => x.Contains(nameof(APIService.ShareTodo)));
+                    if (indexOfAction > 0 && segments.Length >= indexOfAction+1)
+                    {
+                        Guid guid = Guid.Parse(segments[indexOfAction+1]);
+                        bool IncludeFiles = await App.Current.MainPage.DisplayAlert("Descargar tarea",
+                            "¿Descargar también las imágenes de esta tarea?", "Sí", "No");
 
+                        using (Acr.UserDialogs.UserDialogs.Instance.Loading("Descargando tarea..."))
+                        {
+                            await APIService.DownloadSharedTodo(guid, IncludeFiles);
+                        }
+                    }
+
+
+                    break;
             }
-            WidgetPendingAction = null;
         }
+
         public void ShowHorarioIcon()
         {
             this.Title = "Horario";

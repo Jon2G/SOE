@@ -11,6 +11,7 @@ using Kit.Model;
 using SOE.Data;
 using SOE.Data.Images;
 using SOE.Enums;
+using SOE.Interfaces;
 using SOE.Models.Scheduler;
 using SOE.Models.TaskFirst;
 using SOE.Views.PopUps;
@@ -140,6 +141,7 @@ namespace SOE.ViewModels.Pages
             {
                 await Save();
                 ToDosWidget.UpdateWidget();
+                DependencyService.Get<IStartNotificationsService>()?.ReSheduleTask(this.Tarea);
 
             }
         }

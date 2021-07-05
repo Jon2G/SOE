@@ -30,7 +30,7 @@ namespace SOE.Widgets
             return WidgetsTodos[WidgetId] = GetTasks();
         }
 
-        private static List<ToDo> GetTasks()=> AppData.Instance.LiteConnection.DeferredQuery<ToDo>
+        public static List<ToDo> GetTasks()=> AppData.Instance.LiteConnection.DeferredQuery<ToDo>
                 ($"SELECT * from {nameof(ToDo)} where DONE=0 AND ARCHIVED=0 order by Date,Time,SubjectId")
             .Select(x => x.LoadSubject()).ToList();
 
@@ -52,10 +52,9 @@ namespace SOE.Widgets
         {
             return GetTasks(appWidgetId)[itemPosition];
         }
-        private static int DaysLeft(ToDo toDo) => DaysLeft(toDo.Date.Add(toDo.Time));
-        private static int DaysLeft(DateTime date) => (date - DateTime.Now).Days;
-        public static string GetColor(ToDo toDo) => GetColor(DaysLeft(toDo));
-        public static string GetEmoji(ToDo toDo) => GetEmoji(DaysLeft(toDo));
+      
+        public static string GetColor(ToDo toDo) => GetColor(ToDo.DaysLeft(toDo));
+        public static string GetEmoji(ToDo toDo) => GetEmoji(ToDo.DaysLeft(toDo));
 
         public static string GetEmoji(int DaysLeft)
         {

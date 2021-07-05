@@ -25,6 +25,7 @@ namespace SOE.Droid.Notifications
             {
                 Notification notification = Notification.FromExtras(intent.Extras, context);
                 notification.Notify();
+                intent.Extras.Clear();
             }
 
             try

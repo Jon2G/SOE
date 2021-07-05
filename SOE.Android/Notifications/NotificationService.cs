@@ -27,6 +27,7 @@ namespace SOE.Droid.Notifications
             var Context = MainActivity.GetAppContext();
             //start a separate thread and start listening to your network object
             ClassAlarm.ProgramAlarms(Context);
+            ToDoAlarm.ProgramAlarms(Context);
             base.OnCreate();
         }
     }

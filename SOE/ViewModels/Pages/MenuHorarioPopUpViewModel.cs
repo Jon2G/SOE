@@ -39,5 +39,6 @@ namespace SOE.ViewModels.Pages
             PopUp.Close().SafeFireAndForget();
 
         }
+        
     }
 }

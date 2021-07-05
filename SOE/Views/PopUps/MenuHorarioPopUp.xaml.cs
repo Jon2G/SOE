@@ -26,10 +26,7 @@ namespace SOE.Views.PopUps
             this.BindingContext = Model;
             InitializeComponent();
         }
+
         
-        private void OnClose(object sender, EventArgs e)
-        {
-            this.Close().SafeFireAndForget();
-        }
     }
 }

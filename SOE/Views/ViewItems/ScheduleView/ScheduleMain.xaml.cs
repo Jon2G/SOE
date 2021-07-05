@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using SOE.Data;
 using SOE.Models.Scheduler;
+using SOE.Models.TaskFirst;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
 using Xamarin.Forms;
@@ -39,7 +40,7 @@ namespace SOE.Views.ViewItems.ScheduleView
                 switch (pr.Model.Action)
                 {
                     case "Nueva tarea":
-                        Newtask();
+                        Newtask(classSquare);
                         break;
                     case "Recordatorio":
                         Remember();
@@ -60,9 +61,12 @@ namespace SOE.Views.ViewItems.ScheduleView
             
         }
 
-        private void Newtask()
+        private void Newtask(ClassSquare classSquare)
         {
-            App.Current.MainPage.Navigation.PushAsync(new TaskPage());
+            var Tarea = new ToDo();
+            Tarea.Subject = classSquare.Subject;
+            Tarea.Time = classSquare.Begin;
+            App.Current.MainPage.Navigation.PushAsync(new TaskPage(Tarea));
         }
 
         public ScheduleViewMain()

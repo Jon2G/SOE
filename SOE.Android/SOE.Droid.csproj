@@ -122,6 +122,8 @@
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Notifications\Alarm.cs" />
     <Compile Include="Notifications\AutoStart.cs" />
+    <Compile Include="Notifications\StartNotificationsService.cs" />
+    <Compile Include="Notifications\ToDoAlarm.cs" />
     <Compile Include="Notifications\ClassAlarm.cs" />
     <Compile Include="Notifications\Notification.cs" />
     <Compile Include="Notifications\NotificationChannel.cs" />

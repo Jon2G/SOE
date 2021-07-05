@@ -12,6 +12,7 @@ using Plugin.Media;
 using SOE.Droid.Notifications;
 using SOE.Interfaces;
 using SOE.Models.Scheduler;
+using SOE.Views.Pages;
 using SOE.Widgets;
 using Xamarin.Forms;
 
@@ -19,7 +20,7 @@ using Xamarin.Forms;
 namespace SOE.Droid.Activities
 {
     [Activity(Label = "SOE", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
-    public class MainActivity : Kit.Droid.Services.MainActivity, IStartNotificationsService
+    public class MainActivity : Kit.Droid.Services.MainActivity
     {
         protected override void OnStart()
         {
@@ -38,22 +39,7 @@ namespace SOE.Droid.Activities
             base.OnResume();
         }
 
-        public void StartNotificationsService()
-        {
-            if (!this.IsServiceRunning(typeof(NotificationService)))
-            {
-                if (Build.VERSION.SdkInt < BuildVersionCodes.Q)
-                {
-                    StartService(new Intent(this, typeof(NotificationService)));
 
-                }
-                else
-                {
-                    StartForegroundService(new Intent(this, typeof(NotificationService)));
-                    StartService(new Intent(this, typeof(NotificationService)));
-                }
-            }
-        }
 
         protected override async void OnCreate(Bundle savedInstanceState)
         {
@@ -87,7 +73,7 @@ namespace SOE.Droid.Activities
                     break;
             }
             if (pendingAction != null)
-                SOE.AppShell.ResponseTo(pendingAction);
+                MasterPage.ResponseTo(pendingAction);
         }
     }
 }

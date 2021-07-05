@@ -14,6 +14,6 @@
         <viewItems:FlyOutView/>
     </Shell.FlyoutContent>
     <ShellContent>
-        <pages:MasterPage x:Name="MasterPage" Appearing="MasterPage_OnAppearing" x:FieldModifier="public"/>
+        <pages:MasterPage x:Name="MasterPage" x:FieldModifier="public"/>
     </ShellContent>
 </Shell>

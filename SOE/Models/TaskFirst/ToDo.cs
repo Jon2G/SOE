@@ -152,7 +152,8 @@ namespace SOE.Models.TaskFirst
         public int IdKeeper { get; set; }
 
 
-
+        public static int DaysLeft(ToDo toDo) => DaysLeft(toDo.Date.Add(toDo.Time));
+        private static int DaysLeft(DateTime date) => (date - DateTime.Now).Days;
         public ToDo()
         {
             Done = false;

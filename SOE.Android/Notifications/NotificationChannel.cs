@@ -8,6 +8,7 @@ namespace SOE.Droid.Notifications
 {
     public class NotificationChannel
     {
+        public const string ToDoChannelId = "todo_channel_id_school_organizer";
         public const string ClassChannelId = "class_channel_id_school_organizer";
         public readonly string ChannelId;
         public readonly string Name;

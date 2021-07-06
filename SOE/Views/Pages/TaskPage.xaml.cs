@@ -57,7 +57,7 @@ namespace SOE.Views.Pages
             foreach (Archive archive in AppData.Instance.LiteConnection.Table<Archive>()
                 .Where(x => x.IdKeeper == toDo.IdKeeper))
             {
-                this.Modelo.Photos.Add(new Archive<CachedImage>(
+                this.Modelo.Photos.Add(new PhotoArchive(
                     archive,
                     new CachedImage()
                     {

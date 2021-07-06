@@ -10,18 +10,18 @@
     <ContentView.Content>
         <StackLayout   Spacing="0" Padding="0" >
             <pancakeView:PancakeView  Margin="0" CornerRadius="0,0,5,5" Padding="0,5"  >
-                <Grid ColumnDefinitions="*,*,Auto">
+                <Grid ColumnDefinitions="*,Auto,Auto">
                     <StackLayout>
                         <Label HorizontalOptions="Start" Text="{Binding ToDo.Title}"
                                FontAttributes="Bold" 
                                FontSize="14"/>
                         <Label FormattedText="{Binding ToDo.FormattedString}"   FontSize="16" TextColor="Gray"/>
                     </StackLayout>
-                    <StackLayout  Grid.Column="1">
+                    <StackLayout  Grid.Column="1" Grid.ColumnSpan="2">
                         <StackLayout Margin="5,0,0,5" Orientation="Horizontal" Padding="0" Spacing="5" HorizontalOptions="End" >
                             <Label Margin="0"  Text="{Binding ToDo.FormattedTime}"  HorizontalTextAlignment="End"
                                     FontSize="12" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" />
-                            <Label  VerticalOptions="Center"  Text="{x:Static fonts:FontelloIcons.Calendar}" FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                            <Label Margin="3"  VerticalOptions="Center"  Text="{x:Static fonts:FontelloIcons.Calendar}" FontFamily="{x:Static fonts:FontelloIcons.Font}"
                                     FontSize="12" HorizontalOptions="End" VerticalTextAlignment="Center" 
                                     />
                         </StackLayout>

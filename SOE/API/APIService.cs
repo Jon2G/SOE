@@ -1,26 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using APIModels;
 using APIModels.Enums;
 using FFImageLoading;
+using FFImageLoading.Forms;
 using Kit;
 using Kit.Daemon.Devices;
 using Kit.Services.Web;
 using Kit.Sql.Base;
 using Newtonsoft.Json;
 using SOE.Data;
+using SOE.Data.Images;
+using SOE.Enums;
 using SOE.Models.Data;
 using SOE.Models.TaskFirst;
+using Xamarin.Forms;
 using Device = Kit.Daemon.Devices.Device;
+using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace SOE.API
 {
     public static class APIService
     {
         public const string ShareTodo = "ShareTodo";
+        //public const string NonHttpsUrl = "192.168.0.32:5555";
         public const string NonHttpsUrl = "soe-api.azurewebsites.net";
         public static string BaseUrl => $"https://{NonHttpsUrl}";
         public static string Url => $"{BaseUrl}/AppAuthentication";
@@ -111,14 +120,14 @@ namespace SOE.API
             return JsonConvert.DeserializeObject<Response>(result.Response);
         }
 
-        internal static async Task<Response> DownloadSharedTodo(Guid TodoGuid, bool includeFiles)
+        internal static async Task<Response> DownloadSharedTodo(Guid TodoGuid, bool IncludeFiles)
         {
             if (Guid.Empty == TodoGuid)
             {
                 return Response.Error;
             }
             WebService WebService = new WebService(Url);
-            Kit.Services.Web.ResponseResult result = await WebService.GET("DownloadSharedTodo",
+            Kit.Services.Web.ResponseResult result = await WebService.GET("ShareTodo",
                 TodoGuid.ToString("N"));
             if (result.Response == "ERROR")
             {
@@ -127,11 +136,43 @@ namespace SOE.API
             var response = JsonConvert.DeserializeObject<Response>(result.Response);
             if (!string.IsNullOrEmpty(response.Extra))
             {
-                ToDo todo =  JsonConvert.DeserializeObject<ToDo>(response.Extra);
-                todo.Id = 0;
-               await ToDo.Save(todo, null);
+                ToDo todo = JsonConvert.DeserializeObject<ToDo>(response.Extra);
+                List<PhotoArchive> Photos = null;
+                if (IncludeFiles)
+                {
+                    Photos = new List<PhotoArchive>();
+                    foreach (int Id in await GetArchieveIds(todo.Guid))
+                    {
+                        var file_result= await DownloadPictureById(Id);
+                        Photos.Add(new PhotoArchive(file_result,FileType.Photo)); 
+                    }
+                }
+                await ToDo.Save(todo, Photos);
             }
             return response;
+        }
+
+        internal static async Task<List<int>> GetArchieveIds(Guid Guid)
+        {
+            if (Guid == Guid.Empty)
+            {
+                return new List<int>();
+            }
+            WebService WebService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = await WebService.GET("GetArchieveIds", Guid.ToString("N"));
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+            {
+                return new List<int>();
+            }
+            var response = JsonConvert.DeserializeObject<Response>(result.Response);
+            return new List<int>(JsonConvert.DeserializeObject<int[]>(response.Extra));
+        }
+
+        internal static async Task<string> DownloadPictureById(int Id)
+        {
+            WebService webService = new WebService(Url);
+            FileInfo file= await Keeper.Save(webService.DownloadFile("GetArchieveById", Id.ToString()));
+            return file.FullName;
         }
 
         public static async Task<Response> PostToDo(TodoBase Todo)
@@ -144,16 +185,12 @@ namespace SOE.API
             {
                 return Response.Error;
             }
-            if (Todo.Date > DateTime.Now)
-            {
-                return new Response(APIResponseResult.INVALID_REQUEST,
-                    "Esta tarea ya ha expirado, cambie la fecha de entrega si desea compartirla");
-            }
+            string json_todo = Todo.JsonSerializeObject<TodoBase>();
             WebService WebService = new WebService(Url);
-            Kit.Services.Web.ResponseResult result = await WebService.GET(
-                "PostToDo", AppData.Instance.User.Boleta
-                , JsonConvert.SerializeObject(Todo));
-            if (result.Response == "ERROR")
+            Kit.Services.Web.ResponseResult result = await WebService.PostAsBody(
+                System.Text.Encoding.UTF8.GetBytes(json_todo),
+                "PostToDo", AppData.Instance.User.Boleta);
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
             {
                 return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
             }
@@ -167,9 +204,9 @@ namespace SOE.API
             }
             WebService WebService = new WebService(Url);
             Kit.Services.Web.ResponseResult result = await WebService.PostAsBody(
-                Img, "PostTodoPicture", AppData.Instance.User.Boleta, ToDoGuid.ToString());
+                Img, "PostTodoPicture", ToDoGuid.ToString());
 
-            if (result.Response == "ERROR")
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
             {
                 return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
             }

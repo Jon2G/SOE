@@ -12,11 +12,14 @@ using Kit.Sql.Interfaces;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
 using System.Windows.Input;
+using System.Xml.Serialization;
 using APIModels;
 using APIModels.Enums;
 using AsyncAwaitBestPractices;
+using FFImageLoading;
 using FFImageLoading.Forms;
 using Kit;
+using Newtonsoft.Json;
 using SOE.API;
 using SOE.Data;
 using SOE.Data.Images;
@@ -28,12 +31,6 @@ namespace SOE.Models.TaskFirst
 {
     public class ToDo : TodoBase
     {
-        [PrimaryKey, AutoIncrement]
-        public int Id
-        {
-            get;
-            set;
-        }
         [Ignore]
         public string FormattedTime => $"{Time:hh}:{Time:mm}";
         [Ignore]
@@ -52,7 +49,7 @@ namespace SOE.Models.TaskFirst
 
         private FormattedString _FormattedString;
 
-        [Ignore]
+        [Ignore, XmlIgnore, JsonIgnore]
         public FormattedString FormattedString
         {
             get => _FormattedString; set
@@ -61,6 +58,7 @@ namespace SOE.Models.TaskFirst
                 Raise(() => FormattedString);
             }
         }
+        [XmlIgnore]
         public ICommand OpenBrowserCommand { get; }
         internal void LoadDocument()
         {
@@ -83,26 +81,6 @@ namespace SOE.Models.TaskFirst
                 FormattedString.Spans.Add(span);
             }
         }
-
-        internal static async Task<string> Share(ToDo toDo, bool IncludeFiles)
-        {
-            Response Response = await APIService.PostToDo(toDo);
-            if (Response.ResponseResult != APIResponseResult.OK)
-            {
-                App.Current.MainPage.DisplayAlert("Opps...", Response.Message, "Ok").SafeFireAndForget();
-                return null;
-            }
-            if (IncludeFiles)
-            {
-                foreach (PhotoArchive photo in GetPhotos(toDo))
-                {
-                    await APIService.PostTodoPicture(await photo.Value.GetImageAsJpgAsync(), toDo.Guid);
-                }
-            }
-            return $"{APIService.Url}/{APIService.ShareTodo}/{toDo.Guid:N}"; 
-
-        }
-
         public int SubjectId
         {
             get => Subject.Id;
@@ -125,7 +103,7 @@ namespace SOE.Models.TaskFirst
                 Raise(() => Archived);
             }
         }
-        public int IdDocument { get; set; }
+        public Guid IdDocument { get; set; }
         public int IdKeeper { get; set; }
         private bool _Done;
         public bool Done
@@ -137,6 +115,37 @@ namespace SOE.Models.TaskFirst
                 Raise(() => Done);
             }
         }
+        public int Index { get; set; }
+        public void SetNextIndex()
+        {
+            int index = AppData.Instance.LiteConnection.Single<int>("SELECT MAX([INDEX]) FROM TODO");
+            index++;
+            AppData.Instance.LiteConnection.Execute("UPDATE TODO SET [INDEX]=? WHERE GUID=?", index, this.Guid);
+            this.Index = index;
+        }
+        internal static async Task<string> Share(ToDo toDo, bool IncludeFiles)
+        {
+            Response Response = await APIService.PostToDo(toDo);
+            if (Response.ResponseResult != APIResponseResult.OK)
+            {
+                App.Current.MainPage.DisplayAlert("Opps...", Response.Message, "Ok").SafeFireAndForget();
+                return null;
+            }
+            if (IncludeFiles)
+            {
+                foreach (PhotoArchive photo in GetPhotos(toDo))
+                {
+                    using (FileStream photo_file = new FileStream(photo.Path, FileMode.Open))
+                    {
+                        await APIService.PostTodoPicture(photo_file.ToByteArray(), toDo.Guid);
+                    }
+
+                }
+            }
+            return $"{APIService.Url}/{APIService.ShareTodo}/{toDo.Guid:N}";
+
+        }
+
         public static int DaysLeft(ToDo toDo) => DaysLeft(toDo.Date.Add(toDo.Time));
         private static int DaysLeft(DateTime date) => (date - DateTime.Now).Days;
         public ToDo()
@@ -159,42 +168,50 @@ namespace SOE.Models.TaskFirst
             return this;
         }
 
-        public static ToDo GetById(int Id) =>
-            AppData.Instance.LiteConnection.DeferredQuery<ToDo>($"SELECT * FROM {nameof(ToDo)} WHERE ID={Id} LIMIT 1")
+        public static ToDo GetById(Guid Id) =>
+            AppData.Instance.LiteConnection.DeferredQuery<ToDo>($"SELECT * FROM {nameof(ToDo)} WHERE Guid=? LIMIT 1", Id)
                 .ToList().FirstOrDefault();
 
-        public static async Task Save(ToDo Todo, IEnumerable<Archive<CachedImage>> Photos = null)
+        public static async Task Save(ToDo Todo, IEnumerable<PhotoArchive> Photos = null)
         {
-            Document.Delete(Todo.IdDocument);
+            if (Todo.IdDocument != Guid.Empty)
+            {
+                Document.Delete(Todo.IdDocument);
+            }
             if (Todo.Description == null)
             {
                 Todo.Description = "";
             }
             Document doc = Document.PaseAndSave(Todo.Description);
-            Todo.IdDocument = doc.Id;
-
-
-            Keeper.Delete(Todo.IdKeeper);
-            Keeper keeper = Keeper.New();
-            foreach (Archive<CachedImage> archive in Photos)
+            Todo.IdDocument = doc.Guid;
+            if (Photos is not null)
             {
-                CachedImage image = archive.Value;
-                using (FileStream file = new FileStream(archive.Path, FileMode.OpenOrCreate))
+                Keeper.Delete(Todo.IdKeeper);
+                Keeper keeper = Keeper.New();
+                foreach (Archive<CachedImage> archive in Photos)
                 {
-                    using (MemoryStream memory = new MemoryStream(await image.GetImageAsPngAsync()))
+                    CachedImage image = archive.Value;
+                    using (FileStream file = new FileStream(archive.Path, FileMode.OpenOrCreate))
                     {
-                        await memory.CopyToAsync(file);
+                        if (image is not null)
+                        {
+                            using (MemoryStream memory = new MemoryStream(await image.GetImageAsPngAsync()))
+                            {
+                                await memory.CopyToAsync(file);
+                            }
+                        }
                     }
+                    await keeper.Save(archive);
                 }
-                await keeper.Save(archive);
+                Todo.IdKeeper = keeper.Id;
             }
-            Todo.IdKeeper = keeper.Id;
             /////////////
 
             //le quita las horas y segundos a la fecha
             Todo.Date = new DateTime(Todo.Date.Year, Todo.Date.Month, Todo.Date.Day);
 
             AppData.Instance.LiteConnection.InsertOrReplace(Todo);
+            Todo.SetNextIndex();
             /////////////
             if (Shell.Current is AppShell app)
             {

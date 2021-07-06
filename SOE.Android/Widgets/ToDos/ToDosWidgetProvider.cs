@@ -75,7 +75,7 @@ namespace SOE.Droid.Widgets.ToDos
                         Intent OpenClassTimeDetails = new Intent(context, typeof(MainActivity));
                         int itemPosition = intent.GetIntExtra(ToDosWidget.EXTRA_ITEM, 0);
                         ToDo todoItem = ToDosWidget.GetItemAt(appWidgetId, itemPosition);
-                        OpenClassTimeDetails.PutExtra(nameof(ToDo.Id), todoItem.Id);
+                        OpenClassTimeDetails.PutExtra(nameof(ToDo.Guid), todoItem.Guid.ToString());
                         //OpenClassTimeDetails.SetFlags(ActivityFlags.NewTask);
                         OpenClassTimeDetails.SetAction(IntentAction);
                         OpenClassTimeDetails.SetFlags(ActivityFlags.SingleTop | ActivityFlags.BroughtToFront |

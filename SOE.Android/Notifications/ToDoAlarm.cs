@@ -61,7 +61,14 @@ namespace SOE.Droid.Notifications
             return channel;
         }
 
-        private static int GetProgrammedId(ToDo todo) =>
-            Convert.ToInt32($"{Notification.ClassTimeCode}{todo.Subject.Id}{todo.Id}");
+        private static int GetProgrammedId(ToDo todo)
+        {
+            if (todo.Index <= 0)
+            {
+                todo.SetNextIndex();
+            }
+            return Convert.ToInt32($"{Notification.ClassTimeCode}{todo.Subject.Id}{todo.Index}");
+        }
+            
     }
 }

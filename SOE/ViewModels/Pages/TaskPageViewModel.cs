@@ -34,7 +34,7 @@ namespace SOE.ViewModels.Pages
 
 
 
-        public ObservableCollection<Archive<CachedImage>> Photos { get; }
+        public ObservableCollection<PhotoArchive> Photos { get; }
 
 
 
@@ -67,8 +67,8 @@ namespace SOE.ViewModels.Pages
             CameraImageCommand = new Command(UsarCamara);
             GaleryImageCommand = new Command(Galeria);
             OnDateChangedCommand = new Command(OnDateChanged);
-            DeleteImageCommand = new Command<Archive<CachedImage>>(DeleteImage);
-            this.Photos = new ObservableCollection<Archive<CachedImage>>();
+            DeleteImageCommand = new Command<PhotoArchive>(DeleteImage);
+            this.Photos = new ObservableCollection<PhotoArchive>();
         }
 
         private void OnDateChanged()
@@ -81,7 +81,7 @@ namespace SOE.ViewModels.Pages
             }
         }
 
-        private void DeleteImage(Archive<CachedImage> img)
+        private void DeleteImage(PhotoArchive img)
         {
             this.Photos.Remove(img);
         }
@@ -99,7 +99,7 @@ namespace SOE.ViewModels.Pages
             }
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Guardando tarea..."))
             {
-                await ToDo.Save(this.Tarea,Photos);
+                await ToDo.Save(this.Tarea, Photos);
                 ToDosWidget.UpdateWidget();
                 DependencyService.Get<IStartNotificationsService>()?.ReSheduleTask(this.Tarea);
 
@@ -170,7 +170,7 @@ namespace SOE.ViewModels.Pages
             {
                 return;
             }
-            Archive<CachedImage> archive = new Archive<CachedImage>(result, FileType.Photo)
+            PhotoArchive archive = new PhotoArchive(result.FullPath, FileType.Photo)
             {
                 Value = new CachedImage()
                 {

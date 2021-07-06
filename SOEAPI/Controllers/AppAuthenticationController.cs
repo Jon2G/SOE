@@ -3,10 +3,12 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
@@ -17,6 +19,7 @@ using APIModels;
 using APIModels.Enums;
 using DocumentFormat.OpenXml.Vml.Spreadsheet;
 using Kit.Services.Web;
+using Kit.Sql.Readers;
 using Newtonsoft.Json;
 using SOEAPI.Processors;
 
@@ -30,6 +33,7 @@ namespace SOEAPI.Controllers
         private readonly ILogger<AppAuthenticationController> _logger;
         public AppAuthenticationController(ILogger<AppAuthenticationController> logger)
         {
+            //Connection = new SQLServerConnection("SOE_DATABASE","192.168.0.32\\SQLEXPRESS","1433","sa","12345678");
             Connection = new SQLServerConnection(@"Server=tcp:soe-app.database.windows.net,1433;Initial Catalog=SOE_DATABASE;Persist Security Info=False;User ID=soeapp.soporte;Password=Octopus$2021.;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             _logger = logger;
 
@@ -205,25 +209,27 @@ namespace SOEAPI.Controllers
                 return new Response(APIResponseResult.INTERNAL_ERROR, ex.Message);
             }
         }
-        [HttpGet("PostToDo/{User}/{Todo}")]
-        public Response PostToDo(string User, TodoBase Todo)
+        [HttpPost("PostToDo/{User}")]
+        public ActionResult<Response> PostToDo(string User,[FromBody]byte[] TodoBytes)
         {
-            if (Todo is null || string.IsNullOrEmpty(Todo.Title)
-                             || Guid.Empty == Todo.Guid
-                             || Todo.Subject is null
-                             || Todo.Subject.Id <= 0
-                             || Todo.Subject.IdTeacher <= 0)
-            {
-                return APIModels.Response.Error;
-            }
-            if (Todo.Date > DateTime.Now)
-            {
-                return new Response(APIResponseResult.INVALID_REQUEST,
-                    "Esta tarea ya ha expirado, cambie la fecha de entrega si desea compartirla");
-            }
-
             try
             {
+                string todo_json = Encoding.UTF8.GetString(TodoBytes);
+                TodoBase Todo = JsonConvert.DeserializeObject<TodoBase>(todo_json);
+                if (Todo is null || string.IsNullOrEmpty(Todo.Title)
+                                 || Guid.Empty == Todo.Guid
+                                 || Todo.Subject is null
+                                 || Todo.Subject.Id <= 0
+                                 || Todo.Subject.IdTeacher <= 0)
+                {
+                    return APIModels.Response.Error;
+                }
+                if (DateTime.Now > Todo.Date)
+                {
+                    return new Response(APIResponseResult.INVALID_REQUEST,
+                        "Esta tarea ya ha expirado, cambie la fecha de entrega si desea compartirla");
+                }
+
                 return APIModels.Response.From(Connection.Read("SP_POST_TODO"
                     , CommandType.StoredProcedure
                     , new SqlParameter("GUID", Todo.Guid)
@@ -246,7 +252,7 @@ namespace SOEAPI.Controllers
         }
 
         [HttpPost("PostTodoPicture/{ToDoGuid}")]
-        public Response PostTodoPicture(Guid ToDoGuid,[FromBody] byte[] Img)
+        public ActionResult<Response> PostTodoPicture(Guid ToDoGuid, [FromBody] byte[] Img)
         {
             if (Img is null || Img.Length <= 0 || Guid.Empty == ToDoGuid)
             {
@@ -255,13 +261,68 @@ namespace SOEAPI.Controllers
             return APIModels.Response.From(Connection.Read("SP_POST_TODO_PICTURE"
                 , CommandType.StoredProcedure
                 , new SqlParameter("TODO_GUID", ToDoGuid)
-                , new SqlParameter("IMG",Img)
+                , new SqlParameter("IMG", Img)
             ));
         }
-        [HttpPost("ShareTodo/{ToDoGuid}")]
-        public Response ShareTodo(Guid ToDoGuid)
-        {
 
+        private TodoBase TodoFrom(IReader reader)
+        {
+            if (reader.Read())
+            {
+                return new TodoBase()
+                {
+                    Guid = Guid.Parse(Convert.ToString(reader[0])),
+                    Title = Convert.ToString(reader[1]),
+                    Description = Convert.ToString(reader[2]),
+                    Date = Convert.ToDateTime(reader[3]),
+                    Time = TimeSpan.Parse(Convert.ToString(reader[4])),
+                    Subject = new Subject()
+                    {
+                        Id = Convert.ToInt32(reader[5]),
+                        IdTeacher = Convert.ToInt32(Convert.ToInt32(reader[6]))
+                    }
+                };
+            }
+
+            return null;
+        }
+
+        [HttpGet("ShareTodo/{ToDoGuid}")]
+        public ActionResult<Response> ShareTodo(Guid ToDoGuid)
+        {
+            TodoBase todo = TodoFrom(Connection.Read(
+                "SP_GET_TODO_BY_GUID", 
+                CommandType.StoredProcedure, 
+                new SqlParameter("GUID", ToDoGuid)));
+            if (todo is null)
+            {
+                return APIModels.Response.Error;
+            }
+            return new Response(
+                APIResponseResult.OK,
+                "Ok",
+                JsonConvert.SerializeObject(todo));
+        }
+
+        [HttpGet("GetArchieveIds/{ArchieveGuid}")]
+        public ActionResult<Response> GetArchieveIds(Guid ArchieveGuid)
+        {
+            int[] ids = Connection.Lista<int>(
+                "SP_GET_ARCHIEVE_ID_BY_GUID",
+                CommandType.StoredProcedure,0,
+                new SqlParameter("GUID", ArchieveGuid))
+                .ToArray();
+            return new Response(
+                APIResponseResult.OK,
+                "Ok",
+                JsonConvert.SerializeObject(ids));
+        }
+        [HttpGet("GetArchieveById/{Id}")]
+        public FileContentResult GetArchieveById(int Id)
+        {
+            byte[] result = (byte[])Connection.Single("SP_GET_ARCHIEVE_BY_ID"
+                ,CommandType.StoredProcedure,new SqlParameter("ID",Id));
+            return File(result, "application/pdf", "picture.png");
         }
     }
 }

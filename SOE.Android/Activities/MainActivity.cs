@@ -78,8 +78,7 @@ namespace SOE.Droid.Activities
                     }
                     break;
                 case ToDosWidget.ITEM_CLICK:
-                    int TodoId = intent.GetIntExtra(nameof(ToDo.Id), 0);
-                    if (TodoId > 0)
+                    if (Guid.TryParse(intent.GetStringExtra(nameof(ToDo.Guid)), out Guid TodoId))
                     {
                         pendingAction = new TodoWidgetAction(TodoId);
                     }

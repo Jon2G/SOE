@@ -9,6 +9,7 @@ namespace APIModels
 {
     public class TodoBase : ModelBase, IGuid
     {
+        [PrimaryKey,AutoIncrement]
         public Guid Guid { get; set; }
         private string _Title;
         public string Title

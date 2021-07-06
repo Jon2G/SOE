@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using FFImageLoading.Cache;
 using FFImageLoading.Forms;
 using Kit.Sql.Attributes;
 using Kit.Sql.Interfaces;
@@ -19,10 +20,17 @@ namespace SOE.Data.Images
 
         public PhotoArchive(string PhotoPath, FileType FileType) : base(new FileResult(PhotoPath), FileType)
         {
-            this.Value = new CachedImage()
+            Value = new CachedImage()
             {
-                Source = ImageSource.FromFile(PhotoPath)
+                Source = FileImageSource.FromFile(PhotoPath),
+                DownsampleToViewSize = true,
+                CacheType = CacheType.Disk
             };
+        }
+
+        public PhotoArchive(Archive archive, CachedImage Value) : base(archive, Value)
+        {
+
         }
     }
     [Table("Archive")]

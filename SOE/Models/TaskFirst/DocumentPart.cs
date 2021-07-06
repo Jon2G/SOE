@@ -12,14 +12,9 @@ namespace SOE.Models.TaskFirst
     public class DocumentPart : ModelBase, IGuid
     {
         private string _Content;
+        [PrimaryKey, AutoIncrement]
         public Guid Guid { get; set; }
 
-        [PrimaryKey, AutoIncrement]
-        public int Id
-        {
-            get;
-            set;
-        }
         public string Content
         {
             get => _Content;
@@ -29,15 +24,15 @@ namespace SOE.Models.TaskFirst
                 Raise(() => Content);
             }
         }
-        public int IdDocumento { get; set; }
+        public Guid IdDocumento { get; set; }
         public DocType DocType { get; set; }
         public void Save(Document origin)
         {
-            this.IdDocumento = origin.Id;
+            this.IdDocumento = origin.Guid;
             AppData.Instance.LiteConnection.Insert(this);
         }
 
-        internal static IEnumerable<DocumentPart> GetDoc(int idDocument)
+        internal static IEnumerable<DocumentPart> GetDoc(Guid idDocument)
         {
             return AppData.Instance.LiteConnection.Table<DocumentPart>().Where(x => x.IdDocumento == idDocument);
         }

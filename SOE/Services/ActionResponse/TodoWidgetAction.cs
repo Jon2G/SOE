@@ -6,8 +6,8 @@ namespace SOE.Services.ActionResponse
 {
    public class TodoWidgetAction:PendingAction
    {
-       public readonly int Id;
-       public TodoWidgetAction(int Id)
+       public readonly Guid Id;
+       public TodoWidgetAction(Guid Id)
        {
            this.Id = Id;
        }

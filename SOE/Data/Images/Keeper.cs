@@ -46,6 +46,12 @@ namespace SOE.Data.Images
 
 
 
+        public static Task<FileInfo> Save(Task<Stream> GetStream,string FileExtension=".png")
+        {
+            FileInfo TargetFile =
+                new FileInfo(System.IO.Path.Combine(Keeper.Directory.FullName, $"{Guid.NewGuid():N}{FileExtension}"));
+            return Save(GetStream, TargetFile);
+        }
         public static async Task<FileInfo> Save(Task<Stream> GetStream, FileInfo TargetFile)
         {
             //await Task.Yield();

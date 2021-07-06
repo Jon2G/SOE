@@ -17,7 +17,7 @@ namespace SOE.Services
         }
         internal static int GetId(string group)
         {
-            return AppData.Instance.LiteConnection.Table<Subject>().FirstOrDefault(x => x.Group == group)?.Id ?? -1;
+            return GetByGroup(group)?.Id?? -1;
         }
 
         internal static Subject FreeHour()
@@ -29,5 +29,8 @@ namespace SOE.Services
         {
             AppData.Instance.LiteConnection.InsertOrReplace(subject);
         }
+
+        internal static Subject GetByGroup(string group) 
+            => AppData.Instance.LiteConnection.Table<Subject>().FirstOrDefault();
     }
 }

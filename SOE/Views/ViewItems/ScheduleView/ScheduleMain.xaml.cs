@@ -8,6 +8,7 @@ using SOE.Views.Pages;
 using SOE.Views.PopUps;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Kit;
 
 namespace SOE.Views.ViewItems.ScheduleView
 {
@@ -66,6 +67,7 @@ namespace SOE.Views.ViewItems.ScheduleView
             var Tarea = new ToDo();
             Tarea.Subject = classSquare.Subject;
             Tarea.Time = classSquare.Begin;
+            Tarea.Date = classSquare.Day.GetNearest();
             App.Current.MainPage.Navigation.PushAsync(new TaskPage(Tarea));
         }
 

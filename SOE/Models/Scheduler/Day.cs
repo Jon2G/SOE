@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using APIModels;
 using Kit.Model;
 using SOE.Data;
-
+using Kit;
 namespace SOE.Models.Scheduler
 {
     public class Day : ModelBase
@@ -92,22 +92,6 @@ namespace SOE.Models.Scheduler
             return Day;
         }
 
-        public static Day GetNearest(DayOfWeek day)
-        {
-            DateTime date = DateTime.Today;
-            while (date.DayOfWeek != day)
-            {
-                if (date.DayOfWeek > day)
-                {
-                    date = date.AddDays(-1);
-                }
-                else
-                {
-                    date = date.AddDays(+1);
-                }
-            }
-
-            return new Day(date);
-        }
+        public static Day GetNearest(DayOfWeek day) => new Day(day.GetNearest());
     }
 }

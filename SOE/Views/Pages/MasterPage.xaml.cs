@@ -9,6 +9,7 @@ using SOE.Data;
 using SOE.Fonts;
 using SOE.Interfaces;
 using SOE.Models.TaskFirst;
+using SOE.Services;
 using SOE.Services.ActionResponse;
 using SOE.ViewModels.ViewItems;
 using SOE.Views.PopUps;
@@ -91,9 +92,13 @@ namespace SOE.Views.Pages
                     break;
                 case TimeLineWidgetSubjectAction subjectAction:
                     MasterPage.Instance.TabView.SelectedIndex = 2;
-                    Acr.UserDialogs.UserDialogs.Instance.Alert(
-                        $"Ya se que presionaste:\nGrupo:{subjectAction.Group}\nDia:{subjectAction.Day.Dia()}\nHora:{subjectAction.Date:HH:mm}\npero, aún no estoy programado para abrir el menú de esta materia :)",
-                        "ToDo", "Vale, apurale!");
+                    var Tarea = new ToDo
+                    {
+                        Date = subjectAction.Day.GetNearest(),
+                        Subject = SubjectService.GetByGroup(subjectAction.Group),
+                        Time = subjectAction.Date.TimeOfDay
+                    };
+                     Shell.Current.Navigation.PushAsync(new TaskPage(Tarea)).SafeFireAndForget();
                     break;
                 case TodoWidgetAction todoAction:
                     AppData.Instance.LiteConnection.CreateTable<ToDo>();

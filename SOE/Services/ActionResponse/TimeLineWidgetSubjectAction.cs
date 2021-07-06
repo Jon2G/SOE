@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using APIModels;
 
 namespace SOE.Services.ActionResponse
 {
@@ -9,6 +10,7 @@ namespace SOE.Services.ActionResponse
         public readonly DateTime Date;
         public readonly string Group;
         public readonly DayOfWeek Day;
+
         public TimeLineWidgetSubjectAction(DateTime Date, string Group, DayOfWeek Day)
         {
             this.Date = Date;

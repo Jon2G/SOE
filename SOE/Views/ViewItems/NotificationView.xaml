@@ -1,11 +1,38 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <models:IconView xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
-             x:Class="SOE.Views.ViewItems.NotificationView">
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:models="clr-namespace:SOE.Models;assembly=SOE" 
+                 xmlns:behaviors="http://xamarin.com/schemas/2020/toolkit"
+                 xmlns:viewitems="clr-namespace:SOE.Views.ViewItems" 
+                 x:DataType="viewitems:NotificationView"
+                 x:Class="SOE.Views.ViewItems.NotificationView">
     <models:IconView.Content>
-      <StackLayout>
-          <Label VerticalOptions="Center" HorizontalOptions="Center" Text="Have fun!! :)" />
-      </StackLayout>
-  </models:IconView.Content>
+        <CollectionView  Margin="30" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                        SelectionMode="None" ItemsSource="{Binding notificacions}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Notificacion">
+                    <Frame HasShadow="True" BackgroundColor="Transparent" VerticalOptions="StartAndExpand" 
+                                    HorizontalOptions="FillAndExpand" Padding="0">
+                        <Grid VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
+                            <Grid HorizontalOptions="FillAndExpand" BackgroundColor="WhiteSmoke" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                </Grid.ColumnDefinitions>
+                                <BoxView BackgroundColor="#A0A4C9" Opacity="0.2"/>
+                                <Image Source="{Binding Image}"/>
+                                <StackLayout Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Margin="20">
+                                    <Label Text="{Binding Title}" TextColor="{AppThemeBinding Dark=White,Light=Black}" FontSize="23"/>
+                                    <Label Text="{Binding Description}" Opacity="0.5" TextColor="{AppThemeBinding Dark=White,Light=Black}" FontSize="12" Margin="0,-5,0,0"/>
+                                </StackLayout>
+                            </Grid>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </models:IconView.Content>
 </models:IconView>

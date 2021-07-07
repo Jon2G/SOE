@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<models:IconView xmlns="http://xamarin.com/schemas/2014/forms" 
+          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
+          xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+          xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
+          x:Class="SOE.Views.ViewItems.SubjectNotesView"
+          x:DataType="viewItems:SubjectNotesViewModel">
+    <models:IconView.Content>
+        <ScrollView VerticalOptions="FillAndExpand">
+            <StackLayout Spacing="0">
+                <StackLayout Padding="10" Spacing="3"
+                             BackgroundColor="{Binding Subject.ColorDark}">
+                    <Label FontSize="25" TextColor="White"
+                           Text="{Binding Subject.Name}"/>
+                    <Label Text="{Binding Subject.Group}"
+                           FontAttributes="Bold" TextColor="GhostWhite"
+                           FontSize="20" Margin="0,0,0,0"/>
+                    <StackLayout Orientation="Horizontal" Margin="0,5">
+                        <Image HeightRequest="20">
+                            <Image.Source>
+                                <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                                 Glyph="{x:Static fonts:FontelloIcons.CredentialsCard}"
+                                                 Color="White"/>
+                            </Image.Source>
+                        </Image>
+                        <Label TextColor="White" Text="{Binding Teacher.Name}"/>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </models:IconView.Content>
+</models:IconView>

@@ -25,6 +25,7 @@ using SOE.Data;
 using SOE.Data.Images;
 using SOE.Enums;
 using SOE.Services;
+using SOE.Views.ViewItems.TasksViews;
 using Xamarin.Essentials;
 
 namespace SOE.Models.TaskFirst
@@ -215,7 +216,7 @@ namespace SOE.Models.TaskFirst
             /////////////
             if (Shell.Current is AppShell app)
             {
-                await app.MasterPage.TaskFirstPage.Model.Refresh();
+                await TaskFirstPage.Instance?.Model.Refresh();
             }
 
             await Shell.Current.Navigation.PopToRootAsync(true);

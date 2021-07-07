@@ -9,9 +9,11 @@ namespace SOE.Views.ViewItems.TasksViews
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TaskFirstPage : ContentView
     {
+        public static TaskFirstPage Instance { get; private set; }
        public TaskFirstViewModel Model { get; set; }
         public TaskFirstPage()
         {
+            Instance = this;
             this.Model= new TaskFirstViewModel();
             BindingContext = this.Model;
             InitializeComponent();

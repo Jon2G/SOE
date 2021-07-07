@@ -136,19 +136,7 @@ namespace SOE.ViewModels.ViewItems
 
         private void Goto(int index)
         {
-            App.Current.Dispatcher.BeginInvokeOnMainThread(() =>
-            {
-                MasterPage.Instance.TabView.SelectedIndex = index;
-                switch (index)
-                {
-                    case 1:
-                        MasterPage.Instance.ShowTodoIcon();
-                        break;
-                    case 2:
-                        MasterPage.Instance.ShowHorarioIcon();
-                        break;
-                }
-            });
+            App.Current.Dispatcher.BeginInvokeOnMainThread(() => MasterPage.Instance.TabView.SelectedIndex = index);
             AppShell.Current.FlyoutIsPresented = false;
         }
         private void Coming()

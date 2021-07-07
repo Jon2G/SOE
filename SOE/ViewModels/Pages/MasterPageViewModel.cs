@@ -12,45 +12,65 @@ using System.Threading.Tasks;
 using Acr.UserDialogs;
 using System.Collections.Generic;
 using AsyncAwaitBestPractices;
+using Kit.Extensions;
+using P42.Utils;
+using SOE.Models;
 using SOE.ViewModels.ViewItems;
+using SOE.Views.Pages;
 using SOE.Views.PopUps;
+using SOE.Views.ViewItems;
+using SOE.Views.ViewItems.ScheduleView;
 
 namespace SOE.ViewModels.Pages
 {
     public class MasterPageViewModel : ModelBase
     {
-    
-        public MasterPageViewModel()
+        private IconView _SelectedView;
+
+        public IconView SelectedView
         {
-
-     
-        }
-
-        public ICommand _OpenMenuCommand;
-        public ICommand OpenMenuCommand => _OpenMenuCommand ??= new Command(OpenMenu);
-
-  
-        private async void OpenMenu(object obj)
-        {
-            var pr = new MasterPopUp();
-            await pr.ShowDialog();
-            switch (pr.Model.Action)
+            get => _SelectedView;
+            set
             {
-                case "Completadas":
-                    TaskFirstViewModel.Instance.Refresh(TaskFirstViewModel.Done).SafeFireAndForget();
-                    break;
-                case "Pendientes":
-                    TaskFirstViewModel.Instance.Refresh(TaskFirstViewModel.Pending).SafeFireAndForget();
-                    break;
-                case "Archivadas":
-                    TaskFirstViewModel.Instance.Refresh(TaskFirstViewModel.Archived).SafeFireAndForget();
-                    break;
-
+                _SelectedView = value;
+                Raise(() => SelectedView);
             }
         }
- 
+        public ObservableCollection<IconView> Views { get; }
+
+        private ICommand _SelectionChangedCommand;
+        public ICommand SelectionChangedCommand
+            => _SelectionChangedCommand ??= new Xamarin.Forms.Command<int>(SelectionChanged);
 
 
 
+        public MasterPageViewModel()
+        {
+            Views = new ObservableCollection<IconView>();
+            Load().SafeFireAndForget();
+        }
+
+        private void SelectionChanged(int Index)
+        {
+            this.SelectedView = this.Views[Index];
+            ContentPage page = MasterPage.Instance;
+            lock (page.ToolbarItems)
+            {
+                page.ToolbarItems.Clear();
+                if (SelectedView.ToolbarItem is null)
+                {
+                    return;
+                }
+                page.ToolbarItems.Add(SelectedView.ToolbarItem);
+            }
+        }
+        private async Task Load()
+        {
+            await Task.Yield();
+            Views.Add(new SchoolGrades());
+            Views.Add(new MainView());
+            Views.Add(new ScheduleViewMain());
+            Views.Add(new NotificationView());
+        }
     }
 }

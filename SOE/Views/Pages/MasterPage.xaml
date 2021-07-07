@@ -10,63 +10,45 @@
              xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
              xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
              xmlns:tasksViews="clr-namespace:SOE.Views.ViewItems.TasksViews;assembly=SOE"
-             x:DataType="pages:MasterPageViewModel">
+             xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
+             x:DataType="pages:MasterPageViewModel" x:Name="Me"
+             Title="{Binding SelectedView.Title}">
     <ContentPage.BindingContext>
         <pages:MasterPageViewModel x:Name="Model" x:FieldModifier="public"/>
     </ContentPage.BindingContext>
-    <toolkit:TabView Style="{StaticResource CustomTabStyle}" IsTabStripVisible="True" TabContentHeight="30"
-                         x:Name="TabView" x:FieldModifier="public" SelectionChanged="TabView_OnSelectionChanged" IsSwipeEnabled="False">
-
-        <toolkit:TabViewItem HeightRequest="20" >
-            <toolkit:TabViewItem.Icon>
-                <FontImageSource Size="20"
-                                     FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                     Glyph="{x:Static fonts:FontelloIcons.Cal}"
-                                     Color="{AppThemeBinding Dark={StaticResource  LightTextColor},
-                                                Light={StaticResource DarkTextColor}}" />
-            </toolkit:TabViewItem.Icon>
-            <viewItems:SchoolGrades x:Name="SchoolGrades"/>
-        </toolkit:TabViewItem>
-
-        <toolkit:TabViewItem HeightRequest="20" IsSelected="True"  BadgeText="1" BadgeBackgroundColor="Red" BadgeTextColor="White">
-            <toolkit:TabViewItem.Icon >
-                <FontImageSource Size="20"
-                                     FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                     Glyph="{x:Static fonts:FontelloIcons.Book}"
-                                     Color="{AppThemeBinding Dark={StaticResource  LightTextColor},
-                                                Light={StaticResource DarkTextColor}}" />
-            </toolkit:TabViewItem.Icon>
-
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="94*"/>
-                    <RowDefinition Height="5*"/>
-                </Grid.RowDefinitions>
-                <Grid  Margin="0,0,20,0">
-                    <tasksViews:TaskFirstPage x:Name="TaskFirstPage" x:FieldModifier="public"/>
-                </Grid>
-                <Grid ColumnDefinitions="10,Auto" HorizontalOptions="End" >
-                    <viewItems:TimelineBar Grid.Column="1" 
-                                               IsVisible="{Binding User.Settings.ShowTimelineBar ,Source={x:Static data:AppData.Instance}}"/>
-                </Grid>
-                <Label Grid.Row="1" BackgroundColor="#15386f" Text="{x:Static fonts:FontelloIcons.UpArrow}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="Large">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding OpenMenuCommand}"/>
-                    </Label.GestureRecognizers>
-                </Label>
-            </Grid>
-        </toolkit:TabViewItem>
-
-        <!--  FINANCE TAB  -->
-        <toolkit:TabViewItem HeightRequest="20">
-            <toolkit:TabViewItem.Icon>
-                <FontImageSource Size="20"
-                        FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                        Glyph="{x:Static fonts:FontelloIcons.Calendar}"
-                        Color="{AppThemeBinding Dark={StaticResource  LightTextColor},
-                                                Light={StaticResource DarkTextColor}}" />
-            </toolkit:TabViewItem.Icon>
-            <scheduleView:ScheduleViewMain x:Name="ScheduleViewMain"/>
-        </toolkit:TabViewItem>
+    <toolkit:TabView IsTabStripVisible="True" TabStripHeight="40"
+                     TabIndicatorColor="{AppThemeBinding Dark={StaticResource BackgroundSecondaryLightColor},Light={StaticResource BackgroundSecondaryDarkColor}}"
+                     TabStripBackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
+                     x:Name="TabView" x:FieldModifier="public"
+                     TabStripPlacement="Bottom" 
+                     IsSwipeEnabled="False"
+                     TabItemsSource="{Binding Views}">
+        <toolkit:TabView.Behaviors>
+            <toolkit:EventToCommandBehavior 
+                EventName="SelectionChanged" 
+                Command="{Binding SelectionChangedCommand}"
+                CommandParameter="{Binding SelectedIndex,Source={x:Reference TabView}}"/>
+        </toolkit:TabView.Behaviors>
+        <toolkit:TabView.TabViewItemDataTemplate>
+            <DataTemplate x:DataType="models:IconView">
+                <StackLayout Padding="0" Spacing="0" VerticalOptions="End">
+                    <Image HeightRequest="20" VerticalOptions="End">
+                        <Image.Source>
+                            <FontImageSource Size="10" FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                             Glyph="{Binding Icon}"
+                                             Color="White"/>
+                        </Image.Source>
+                    </Image>
+                </StackLayout>
+            </DataTemplate>
+        </toolkit:TabView.TabViewItemDataTemplate>
+        <toolkit:TabView.TabContentDataTemplate>
+            <DataTemplate x:DataType="ContentView">
+                <ContentView VerticalOptions="FillAndExpand" Margin="0" 
+                             HorizontalOptions="FillAndExpand" Padding="0"
+                             Background="{DynamicResource Background}" 
+                             Content="{Binding .}"/>
+            </DataTemplate>
+        </toolkit:TabView.TabContentDataTemplate>
     </toolkit:TabView>
 </ContentPage>

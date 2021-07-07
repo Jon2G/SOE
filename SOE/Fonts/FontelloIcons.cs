@@ -2,7 +2,7 @@
 using SOE.Fonts;
 using Xamarin.Forms;
 
-[assembly: ExportFont("fontello_12.ttf", Alias = FontelloIcons.Font)]
+[assembly: ExportFont("fontello_16.ttf", Alias = FontelloIcons.Font)]
 namespace SOE.Fonts
 {
     public static class FontelloIcons
@@ -23,7 +23,7 @@ namespace SOE.Fonts
         public const string Photo = "\uE80D";
         public const string Lock = "\uE80E";
 
-        public const string Notifi= "\uE810";
+        public const string Message= "\uE810";
         public const string Share = "\uE811";
         public const string Refresh = "\uE812";
         public const string Off = "\uE813";
@@ -54,6 +54,12 @@ namespace SOE.Fonts
         public const string Folder = "\uE824";
         public const string Hourglass = "\uE825";
         public const string CirclePlus = "\uE826";
+        public const string Community = "\uE827";
+
+        public const string CredentialsCard = "\uF2BC";
+        public const string Bell = "\uF0F3";
+
+
         public const string Font = "FontIcon";
     }
 }

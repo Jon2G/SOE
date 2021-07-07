@@ -12,10 +12,10 @@
              x:DataType="viewItems:AskForCaptchaViewModel" 
              CloseWhenBackgroundIsClicked="True" BackgroundColor="#70FFFFFF">
     <ContentPage.Content>
-        <!--<Grid VerticalOptions="CenterAndExpand"
+        <Grid VerticalOptions="CenterAndExpand"
               HorizontalOptions="FillAndExpand">
-            
-            <pancakeView:PancakeView IsVisible="False" VerticalOptions="FillAndExpand"  Padding="20">
+            <saes:SAES x:Name="SAES" IsVisible="True" VerticalOptions="Center" />
+            <pancakeView:PancakeView IsVisible="True" VerticalOptions="FillAndExpand"  Padding="20">
                 <StackLayout>
                     <Label Text="Debes ingresar el captcha primero." FontSize="20" />
                     <Grid RowDefinitions="Auto,*">
@@ -38,7 +38,6 @@
                     <Button Text="¡Listo!" Command="{Binding SignInCommand}"/>
                 </StackLayout>
             </pancakeView:PancakeView>
-        </Grid>-->
-        <saes:SAES x:Name="SAES" IsVisible="True" VerticalOptions="FillAndExpand" />
+        </Grid>
     </ContentPage.Content>
 </pages:BasePopUp>

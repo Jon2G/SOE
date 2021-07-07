@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using APIModels;
 using SOE.Data;
 using SOE.Models.Scheduler;
 using SOE.Models.TaskFirst;
@@ -9,12 +10,15 @@ using SOE.Views.PopUps;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Kit;
+using SOE.Fonts;
 
 namespace SOE.Views.ViewItems.ScheduleView
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ScheduleViewMain : ContentView
+    public partial class ScheduleViewMain
     {
+        public override string Title => "Horario";
+        public override string Icon => FontelloIcons.Calendar;
         public static ScheduleViewMain Instance { get; private set; }
         private bool IsDayViewVisible
         {
@@ -33,7 +37,19 @@ namespace SOE.Views.ViewItems.ScheduleView
 
         public ICommand _OpenMenuCommand;
         public ICommand OpenMenuCommand => _OpenMenuCommand ??= new Command<ClassSquare>(OpenMenu);
+        public ScheduleViewMain()
+        {
+            Instance = this;
+            InitializeComponent();
+            this.ToolbarItem.Command = this.Model.ExportToPdfCommand;
+            if (!AppData.Instance.User.HasSubjects)
+            {
+                this.Content = new NoInscriptionView();
+                return;
+            }
+            this.IsDayViewVisible = false;
 
+        }
         private async void OpenMenu(ClassSquare classSquare)
         {
             var pr = new MenuHorarioPopUp(classSquare);
@@ -47,15 +63,13 @@ namespace SOE.Views.ViewItems.ScheduleView
                         Remember();
                         break;
                  case "Info Materia":
-                     InfoSub();
+                     InfoSub(classSquare.Subject);
                     break;   
             }
         }
 
-        private void InfoSub()
-        {
-            
-        }
+        private void InfoSub(Subject subject) => 
+            Shell.Current.Navigation.PushAsync(new SubjectPage(subject));
 
         private void Remember()
         {
@@ -71,18 +85,7 @@ namespace SOE.Views.ViewItems.ScheduleView
             App.Current.MainPage.Navigation.PushAsync(new TaskPage(Tarea));
         }
 
-        public ScheduleViewMain()
-        {
-            Instance = this;
-            InitializeComponent();
-            if (!AppData.Instance.User.HasSubjects)
-            {
-                this.Content = new NoInscriptionView();
-                return;
-            }
-            this.IsDayViewVisible = false;
 
-        }
 
 
 

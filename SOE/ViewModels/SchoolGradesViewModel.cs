@@ -33,13 +33,12 @@ namespace SOE.ViewModels
             }
         }
 
-        public ICommand RefreshCommand { get; }
+        private ICommand _RefreshCommand;
+        public ICommand RefreshCommand => _RefreshCommand??= new AsyncCommand(Refresh);
 
         public SchoolGradesViewModel()
         {
             this.Grades = new ObservableCollection<SchoolGrade>();
-            GetGrades();
-            this.RefreshCommand = new AsyncCommand(Refresh);
             App.Current.RequestedThemeChanged += Current_RequestedThemeChanged;
         }
 
@@ -49,7 +48,7 @@ namespace SOE.ViewModels
             Raise(() => Grades);
         }
 
-        private void GetGrades()
+        public void GetGrades()
         {
             this.Grades.Clear();
             this.Grades.AddRange(SubjectService.ToList().Select(s => new SchoolGrade(s)));

@@ -7,7 +7,7 @@
              xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
              x:Class="SOE.Views.Pages.SplashScreen"
              x:DataType="pages:SplashScreen"
-             Background="{DynamicResource PrimaryColor}">
+             BackgroundColor="{StaticResource PrimaryLightColor}">
 
     <StackLayout>
      

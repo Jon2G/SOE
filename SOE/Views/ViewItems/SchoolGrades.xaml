@@ -1,11 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+<models:IconView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:academic="clr-namespace:SOE.Models.Academic;assembly=SOE"
              xmlns:viewModels="clr-namespace:SOE.ViewModels;assembly=SOE"
+             xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
+             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
              x:Class="SOE.Views.ViewItems.SchoolGrades"
-             x:DataType="viewModels:SchoolGradesViewModel" Background="{DynamicResource Background}">
-    <ContentView.Content>
+             x:DataType="viewModels:SchoolGradesViewModel"
+             Background="{DynamicResource Background}">
+    <models:IconView.ToolbarItem>
+        <ToolbarItem Command="{Binding RefreshCommand}">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                 Glyph="{x:Static fonts:FontelloIcons.Refresh}"/>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </models:IconView.ToolbarItem>
+    <models:IconView.Content>
         <StackLayout Grid.Column="0" Padding="0" Spacing="0" VerticalOptions="StartAndExpand" HorizontalOptions="Start">
             <Grid ColumnDefinitions="50,120,*,*,*,*,*" ColumnSpacing="0" HeightRequest="35" >
                     <Label Padding="3,0" Text="Grupo"  Grid.Column="0"
@@ -43,5 +54,5 @@
                     </CollectionView>
                 </StackLayout>
             </StackLayout>
-    </ContentView.Content>
-</ContentView>
+    </models:IconView.Content>
+</models:IconView>

@@ -42,7 +42,7 @@
                     <RowDefinition Height="2"/>
                 </Grid.RowDefinitions>
                 <StackLayout Orientation="Horizontal" Grid.Row="0">
-                    <Label Text="{x:Static fonts:FontelloIcons.Notifi}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
+                    <Label Text="{x:Static fonts:FontelloIcons.Message}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
                     <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Text="Mostar barra de horario lateral"  FontSize="15"  TextColor="{DynamicResource secondaryTextColor}"  HorizontalOptions="Start"/>
                     <Switch HorizontalOptions="EndAndExpand" IsToggled="{Binding Settings.ShowTimelineBar}"/>

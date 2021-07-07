@@ -20,6 +20,7 @@ using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
+using ZXing.QrCode.Internal;
 using Command = Xamarin.Forms.Command;
 
 namespace SOE.Views.Pages
@@ -33,20 +34,9 @@ namespace SOE.Views.Pages
             Instance = this;
             InitializeComponent();
         }
-
-
-        //private async void Button_Clicked(object sender, EventArgs e)
-        //{
-
-        //}
         protected override bool OnBackButtonPressed()
         {
-            if (TabView.SelectedIndex < 0)
-            {
-                TabView.SelectedIndex = 0;
-            }
-            TabViewItem selectedView = this.TabView.TabItems[TabView.SelectedIndex];
-            switch (selectedView.Content)
+            switch (Model.SelectedView)
             {
                 case ScheduleViewMain schedule:
                     if (schedule.OnBackButtonPressed())
@@ -57,14 +47,12 @@ namespace SOE.Views.Pages
             }
             return base.OnBackButtonPressed();
         }
-
         protected override void OnAppearing()
         {
             base.OnAppearing();
             if (Device.RuntimePlatform != Device.iOS && TabView.SelectedIndex <= 0)
             {
                 TabView.SelectedIndex = 1;
-                Dispatcher.BeginInvokeOnMainThread(ShowTodoIcon);
             }
             else if (TabView.SelectedIndex <= 0)
             {
@@ -74,12 +62,9 @@ namespace SOE.Views.Pages
                     TabView.SelectedIndex = 1;
                 });
             }
-
             DependencyService.Get<IStartNotificationsService>()?.StartNotificationsService();
         }
-
         public static void ResponseTo(PendingAction PendingAction) => App.Current.Dispatcher.BeginInvokeOnMainThread(action: () => Execute(PendingAction));
-
         private static async void Execute(PendingAction pendingAction)
         {
             switch (pendingAction)
@@ -126,67 +111,5 @@ namespace SOE.Views.Pages
                     break;
             }
         }
-
-        public void ShowHorarioIcon()
-        {
-            this.Title = "Horario";
-            this.ToolbarItems.Clear();
-            this.ToolbarItems.Add(new ToolbarItem
-            {
-                Command = ScheduleViewMain.Model.ExportToPdfCommand,
-                CommandParameter = ScheduleViewMain,
-                IconImageSource = new FontImageSource()
-                {
-                    FontFamily = FontelloIcons.Font,
-                    Glyph = FontelloIcons.PDF
-                }
-            });
-        }
-        public void ShowTodoIcon()
-        {
-            this.Title = "Tareas";
-            this.ToolbarItems.Clear();
-            this.ToolbarItems.Add(new ToolbarItem
-            {
-                Command = TaskFirstViewModel.Instance?.AddTaskCommand,
-                CommandParameter = this,
-                IconImageSource = new FontImageSource()
-                {
-                    FontFamily = FontelloIcons.Font,
-                    Glyph = FontelloIcons.CirclePlus
-                }
-            });
-        }
-
-        private void TabView_OnSelectionChanged(object sender, TabSelectionChangedEventArgs e)
-        {
-            switch (TabView.SelectedIndex)
-            {
-                case 0:
-                    this.Title = "Calificaciones";
-                    this.ToolbarItems.Clear();
-                    this.ToolbarItems.Add(new ToolbarItem
-                    {
-                        Command = this.SchoolGrades.Model?.RefreshCommand,
-                        CommandParameter = this,
-                        IconImageSource = new FontImageSource()
-                        {
-                            FontFamily = FontelloIcons.Font,
-                            Glyph = FontelloIcons.Refresh
-                        }
-                    });
-                    break;
-                case 1:
-                    ShowTodoIcon();
-                    break;
-                case 2:
-                    ShowHorarioIcon();
-                    break;
-                default:
-                    this.ToolbarItems.Clear();
-                    break;
-            }
-        }
-
     }
 }

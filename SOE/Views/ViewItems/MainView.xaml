@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<models:IconView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:tasksViews="clr-namespace:SOE.Views.ViewItems.TasksViews;assembly=SOE"
+             xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
+             xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
+             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+             xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
+             xmlns:viewItems1="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
+             x:Class="SOE.Views.ViewItems.MainView"
+             x:DataType="viewItems1:MainViewModel">
+    <models:IconView.BindingContext>
+        <viewItems1:MainViewModel x:Name="Model"/>
+    </models:IconView.BindingContext>
+    <models:IconView.ToolbarItem>
+        <ToolbarItem Command="{Binding AddTaskCommand}">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                 Glyph="{x:Static fonts:FontelloIcons.CirclePlus}"/>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </models:IconView.ToolbarItem>
+    <models:IconView.Content>
+      <Grid>
+          <Grid.RowDefinitions>
+              <RowDefinition Height="94*"/>
+              <RowDefinition Height="5*"/>
+          </Grid.RowDefinitions>
+          <Grid  Margin="0,0,20,0">
+              <tasksViews:TaskFirstPage x:Name="TaskFirstPage" x:FieldModifier="public"/>
+          </Grid>
+          <Grid ColumnDefinitions="10,Auto" HorizontalOptions="End" >
+              <viewItems:TimelineBar Grid.Column="1" 
+                                     IsVisible="{Binding User.Settings.ShowTimelineBar ,Source={x:Static data:AppData.Instance}}"/>
+          </Grid>
+          <Label Grid.Row="1" BackgroundColor="#15386f" Text="{x:Static fonts:FontelloIcons.UpArrow}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="Large">
+              <Label.GestureRecognizers>
+                  <TapGestureRecognizer Command="{Binding OpenMenuCommand}"/>
+              </Label.GestureRecognizers>
+          </Label>
+      </Grid>
+    </models:IconView.Content>
+</models:IconView>

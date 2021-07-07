@@ -67,7 +67,7 @@
                         <Label Text="Info Materia" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                         <Image>
                             <Image.Source>
-                                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Notifi}" FontFamily="{x:Static fonts:FontelloIcons.Font}" Color="Black"/>
+                                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Book1}" FontFamily="{x:Static fonts:FontelloIcons.Font}" Color="Black"/>
                             </Image.Source>
                         </Image>
                     </StackLayout>

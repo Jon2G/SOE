@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+<models:IconView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
@@ -8,13 +8,22 @@
              xmlns:scheduleView="clr-namespace:SOE.Views.ViewItems.ScheduleView;assembly=SOE"
              xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
              xmlns:converters="clr-namespace:SOE.Converters;assembly=SOE"
+             xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
              x:Class="SOE.Views.ViewItems.ScheduleView.ScheduleViewMain"
              Background="{DynamicResource Background}"
-             x:DataType="viewItems:ScheduleMainViewModel" x:Name="Me"> 
-    <ContentView.BindingContext>
+             x:DataType="viewItems:ScheduleMainViewModel" x:Name="Me">
+    <models:IconView.ToolbarItem>
+        <ToolbarItem Command="{Binding ExportToPdfCommand}">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                 Glyph="{x:Static fonts:FontelloIcons.PDF}"/>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </models:IconView.ToolbarItem>
+    <models:IconView.BindingContext>
         <viewItems:ScheduleMainViewModel x:Name="Model" x:FieldModifier="public"/>
-    </ContentView.BindingContext>
-    <ContentView.Resources>
+    </models:IconView.BindingContext>
+    <models:IconView.Resources>
         <scheduleView:ClassSquareDataTemplateSelector x:Key="ClassSquareDataTemplateSelector">
             <scheduleView:ClassSquareDataTemplateSelector.FreeHourTemplate>
                 <DataTemplate x:DataType="scheduler:FreeClass">
@@ -68,8 +77,8 @@
                 </DataTemplate>
             </scheduleView:ClassSquareDataTemplateSelector.ClassSquareTemplate>
         </scheduleView:ClassSquareDataTemplateSelector>
-    </ContentView.Resources>
-    <ContentView.Content>
+    </models:IconView.Resources>
+    <models:IconView.Content>
         <Grid>
             <StackLayout BindingContext="{x:Reference Model}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="5">
                 <Grid  ColumnDefinitions="20,*" >
@@ -129,5 +138,5 @@
                                           VerticalOptions="FillAndExpand" 
                                           HorizontalOptions="FillAndExpand"/>
         </Grid>
-    </ContentView.Content>
-</ContentView>
+    </models:IconView.Content>
+</models:IconView>

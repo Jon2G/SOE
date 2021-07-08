@@ -3,36 +3,63 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:models="clr-namespace:SOE.Models;assembly=SOE" 
                  xmlns:behaviors="http://xamarin.com/schemas/2020/toolkit"
-                 xmlns:viewitems="clr-namespace:SOE.Views.ViewItems" 
-                 x:DataType="viewitems:NotificationView"
+                 xmlns:viewitems="clr-namespace:SOE.Views.ViewItems"
+                 xmlns:viewModels="clr-namespace:SOE.ViewModels;assembly=SOE"
+                 xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+                 xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                 x:DataType="viewModels:NotificationViewModel"
                  x:Class="SOE.Views.ViewItems.NotificationView">
+    <models:IconView.BindingContext>
+        <viewModels:NotificationViewModel/>
+    </models:IconView.BindingContext>
     <models:IconView.Content>
-        <CollectionView  Margin="30" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                        SelectionMode="None" ItemsSource="{Binding notificacions}">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Notificacion">
-                    <Frame HasShadow="True" BackgroundColor="Transparent" VerticalOptions="StartAndExpand" 
-                                    HorizontalOptions="FillAndExpand" Padding="0">
-                        <Grid VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
-                            <Grid HorizontalOptions="FillAndExpand" BackgroundColor="WhiteSmoke" >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="3*"/>
-                                </Grid.ColumnDefinitions>
-                                <BoxView BackgroundColor="#A0A4C9" Opacity="0.2"/>
-                                <Image Source="{Binding Image}"/>
-                                <StackLayout Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Margin="20">
-                                    <Label Text="{Binding Title}" TextColor="{AppThemeBinding Dark=White,Light=Black}" FontSize="23"/>
-                                    <Label Text="{Binding Description}" Opacity="0.5" TextColor="{AppThemeBinding Dark=White,Light=Black}" FontSize="12" Margin="0,-5,0,0"/>
+        <ScrollView>
+            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                         BindableLayout.ItemsSource="{Binding Notificacions}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="models:Notificacion">
+                        <pancakeView:PancakeView
+                                                 VerticalOptions="StartAndExpand" CornerRadius="0"
+                                                 HorizontalOptions="FillAndExpand" Padding="0">
+                            <pancakeView:PancakeView.Style>
+                                <Style TargetType="pancakeView:PancakeView">
+                                    <Style.Triggers>
+                                        <DataTrigger TargetType="pancakeView:PancakeView" Binding="{Binding Unread}" Value="True">
+                                            <Setter Property="BackgroundColor" 
+                                                    Value="{AppThemeBinding Light=#6F9EC3,Dark=#607687}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </pancakeView:PancakeView.Style>
+                            <StackLayout Orientation="Horizontal" Spacing="5" Padding="0" >
+                                <Grid BackgroundColor="#7FA0A4C9">
+                                    <forms:CachedImage WidthRequest="40" Source="logo_soe_fill"/>
+                                </Grid>
+                                <StackLayout Spacing="0" Margin="3">
+                                    <Label Text="{Binding Title}" 
+                                           TextColor="{AppThemeBinding Dark=White,Light=Black}"
+                                           FontSize="20"/>
+                                    <Label Text="{Binding Description}" 
+                                           TextColor="Gray" 
+                                           FontSize="12">
+                                        <Label.Style>
+                                            <Style TargetType="Label">
+                                                <Style.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding Unread}" Value="True">
+                                                        <Setter Property="TextColor" 
+                                                                Value="{AppThemeBinding Light=Black,Dark=White}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Label.Style>
+                                    </Label>
                                 </StackLayout>
-                            </Grid>
-                        </Grid>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                            </StackLayout>
+
+                        </pancakeView:PancakeView>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+        </ScrollView>
     </models:IconView.Content>
 </models:IconView>

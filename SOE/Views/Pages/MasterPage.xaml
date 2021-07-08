@@ -17,7 +17,7 @@
         <pages:MasterPageViewModel x:Name="Model" x:FieldModifier="public"/>
     </ContentPage.BindingContext>
     <toolkit:TabView IsTabStripVisible="True" TabStripHeight="40"
-                     TabIndicatorColor="{AppThemeBinding Dark={StaticResource BackgroundSecondaryLightColor},Light={StaticResource BackgroundSecondaryDarkColor}}"
+                     TabIndicatorColor="White"
                      TabStripBackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
                      x:Name="TabView" x:FieldModifier="public"
                      TabStripPlacement="Bottom" 

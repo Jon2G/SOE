@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Kit.Forms.Services.Interfaces;
 using SOE.Data;
+using SOE.Enums;
 using SOE.Models.Scheduler;
 using SOE.Models.TaskFirst;
 using SOE.ViewModels.ViewItems;
@@ -31,7 +32,7 @@ namespace SOE.Widgets
         }
 
         public static List<ToDo> GetTasks()=> AppData.Instance.LiteConnection.DeferredQuery<ToDo>
-                ($"SELECT * from {nameof(ToDo)} where DONE=0 AND ARCHIVED=0 order by Date,Time,SubjectId")
+                ($"SELECT * from {nameof(ToDo)} where STATUS={(int)ToDoStatus.Pending} order by Date,Time,SubjectId")
             .Select(x => x.LoadSubject()).ToList();
 
         public static List<ToDo> GetTasks(int WidgetId)

@@ -34,7 +34,7 @@ namespace SOE.Models.TaskFirst
         internal void Refresh(DateTime date, ToDoStatus status)
         {
             this.ToDoS.AddRange(AppData.Instance.LiteConnection
-                .DeferredQuery<ToDo>($"SELECT * from {nameof(ToDo)} where {nameof(ToDo.SubjectId)}=? STATUS=? AND {nameof(ToDo.Date)}=? order by Time", this.Subject.Id,status, date)
+                .DeferredQuery<ToDo>($"SELECT * from {nameof(ToDo)} where {nameof(ToDo.SubjectId)}=? AND STATUS=? AND {nameof(ToDo.Date)}=? order by Time", this.Subject.Id,status, date)
                 .Select(x => new TaskViewModel(x, this)));
             foreach (var todo in ToDoS)
             {

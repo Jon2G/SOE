@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 using AsyncAwaitBestPractices;
+using SOE.Enums;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
 using Xamarin.Forms;
@@ -17,7 +18,7 @@ namespace SOE.ViewModels.ViewItems
         private ICommand _AddTaskCommand;
         public ICommand AddTaskCommand => _AddTaskCommand ??= new Command(AddTask);
         private void AddTask() => App.Current.MainPage.Navigation.PushAsync(new TaskPage(), true).SafeFireAndForget();
-
+        
         private async void OpenMenu(object obj)
         {
             var pr = new MasterPopUp();
@@ -25,13 +26,13 @@ namespace SOE.ViewModels.ViewItems
             switch (pr.Model.Action)
             {
                 case "Completadas":
-                    TaskFirstViewModel.Instance.Refresh(TaskFirstViewModel.Done).SafeFireAndForget();
+                    TaskFirstViewModel.Instance.Refresh(ToDoStatus.Done).SafeFireAndForget();
                     break;
                 case "Pendientes":
-                    TaskFirstViewModel.Instance.Refresh(TaskFirstViewModel.Pending).SafeFireAndForget();
+                    TaskFirstViewModel.Instance.Refresh(ToDoStatus.Pending).SafeFireAndForget();
                     break;
                 case "Archivadas":
-                    TaskFirstViewModel.Instance.Refresh(TaskFirstViewModel.Archived).SafeFireAndForget();
+                    TaskFirstViewModel.Instance.Refresh(ToDoStatus.Archived).SafeFireAndForget();
                     break;
 
             }

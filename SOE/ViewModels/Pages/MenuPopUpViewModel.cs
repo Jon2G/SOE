@@ -23,8 +23,8 @@ namespace SOE.ViewModels.Pages
         private ICommand _TapedCommand;
         public ICommand TapedCommand => _TapedCommand ??= new Command<string>(Tapped);
         public string Action { get; private set; }
-        public string ArchiveText => todo.Archived ? "Desarchivar" : "Archivar";
-        public string DoneText => todo.Done ? "Pendiente" : "Completado";
+        public string ArchiveText => todo.Status.HasFlag(Enums.ToDoStatus.Archived) ? "Desarchivar" : "Archivar";
+        public string DoneText => todo.Status.HasFlag(Enums.ToDoStatus.Pending) ? "Pendiente" : "Completado";
         public FontImageSource Icon
         {
             get
@@ -32,7 +32,7 @@ namespace SOE.ViewModels.Pages
                var Icon= new FontImageSource()
                 {
                     FontFamily = FontelloIcons.Font,
-                    Glyph = todo.Archived ? FontelloIcons.Folder : FontelloIcons.Archive
+                    Glyph = todo.Status.HasFlag(Enums.ToDoStatus.Archived) ? FontelloIcons.Folder : FontelloIcons.Archive
                };
                 Icon.SetOnAppTheme(FontImageSource.ColorProperty, Color.Black, Color.White);
 
@@ -46,7 +46,7 @@ namespace SOE.ViewModels.Pages
                 var Icon = new FontImageSource()
                 {
                     FontFamily = FontelloIcons.Font,
-                    Glyph = todo.Archived ? FontelloIcons.Hourglass : FontelloIcons.CheckBox
+                    Glyph = todo.Status.HasFlag(Enums.ToDoStatus.Archived) ? FontelloIcons.Hourglass : FontelloIcons.CheckBox
                 };
                 Icon.SetOnAppTheme(FontImageSource.ColorProperty, Color.Black, Color.White);
 

@@ -5,6 +5,7 @@ using APIModels;
 using Kit;
 using Kit.Model;
 using SOE.Data;
+using SOE.Enums;
 using SOE.Models.Academic;
 using SOE.Models.Scheduler;
 using SOE.Services;
@@ -31,17 +32,17 @@ namespace SOE.Models.TaskFirst
             Raise(() => Tareas);
         }
 
-        internal void Refresh(string condition)
+        internal void Refresh(ToDoStatus status)
         {
             SubjectGroups.Clear();
             SubjectGroups.AddRange(AppData.Instance.LiteConnection.Lista<int>(
-                    $"SELECT Distinct {nameof(ToDo.SubjectId)} from {nameof(ToDo)} where {nameof(ToDo.Date)}={this.FDateTime.Ticks} {condition}")
+                    $"SELECT Distinct {nameof(ToDo.SubjectId)} from {nameof(ToDo)} where {nameof(ToDo.Date)}={this.FDateTime.Ticks} AND STATUS={status}")
                 .Select(x => new BySubjectGroup(SubjectService.Get(x))));
             //??????????????????????? le movi aqui where {nameof(ToDo.Date)}<={this.FDateTime.Ticks}
 
             foreach (var group in this.SubjectGroups)
             {
-                group.Refresh(this.FDateTime, condition);
+                group.Refresh(this.FDateTime, status);
             }
             RefreshCount();
         }

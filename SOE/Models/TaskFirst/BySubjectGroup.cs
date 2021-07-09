@@ -11,6 +11,7 @@ using Kit;
 using Kit.Extensions;
 using Rg.Plugins.Popup.Services;
 using SOE.Data;
+using SOE.Enums;
 using SOE.ViewModels.Pages;
 using SOE.Views.ViewItems.TasksViews;
 using Xamarin.Forms;
@@ -30,10 +31,10 @@ namespace SOE.Models.TaskFirst
             ToDoS = new ObservableCollection<TaskViewModel>();
         }
 
-        internal void Refresh(DateTime date, string condition)
+        internal void Refresh(DateTime date, ToDoStatus status)
         {
             this.ToDoS.AddRange(AppData.Instance.LiteConnection
-                .DeferredQuery<ToDo>($"SELECT * from {nameof(ToDo)} where {nameof(ToDo.SubjectId)}=? {condition} AND {nameof(ToDo.Date)}=? order by Time", this.Subject.Id, date)
+                .DeferredQuery<ToDo>($"SELECT * from {nameof(ToDo)} where {nameof(ToDo.SubjectId)}=? STATUS=? AND {nameof(ToDo.Date)}=? order by Time", this.Subject.Id,status, date)
                 .Select(x => new TaskViewModel(x, this)));
             foreach (var todo in ToDoS)
             {

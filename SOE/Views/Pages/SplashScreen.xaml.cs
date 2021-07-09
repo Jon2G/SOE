@@ -42,6 +42,7 @@ namespace SOE.Views.Pages
             //SetStatus("Comprobando permisos de escritura...");
             //await Permisos.RequestStorage();
             AppData.Init();
+            //AppData.CreateDatabase();
             AppData.Instance.LiteConnection.CreateTable<User>();
             if (AppData.Instance.LiteConnection.TableExists<User>() && User.Get() is User user)
             {

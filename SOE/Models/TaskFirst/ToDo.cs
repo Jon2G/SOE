@@ -94,28 +94,20 @@ namespace SOE.Models.TaskFirst
                 Subject.Id = value;
             }
         }
-        private bool _Archived;
-        public bool Archived
+        private ToDoStatus _Status;
+       
+        public  ToDoStatus Status
         {
-            get => _Archived;
+            get => _Status;
             set
             {
-                _Archived = value;
-                Raise(() => Archived);
+                _Status = value;
+                Raise(() => Status);
             }
         }
         public Guid IdDocument { get; set; }
         public int IdKeeper { get; set; }
-        private bool _Done;
-        public bool Done
-        {
-            get => _Done;
-            set
-            {
-                _Done = value;
-                Raise(() => Done);
-            }
-        }
+
         public int Index { get; set; }
         public void SetNextIndex()
         {
@@ -151,8 +143,7 @@ namespace SOE.Models.TaskFirst
         private static int DaysLeft(DateTime date) => (date - DateTime.Now).Days;
         public ToDo()
         {
-            Done = false;
-            Archived = false;
+            Status = ToDoStatus.Pending;
             OpenBrowserCommand = new Command<string>(OpenBrowser);
             Date = DateTime.Now;
 
@@ -194,7 +185,7 @@ namespace SOE.Models.TaskFirst
                     CachedImage image = archive.Value;
                     using (FileStream file = new FileStream(archive.Path, FileMode.OpenOrCreate))
                     {
-                        if (image is not null)
+                        if (image is not null && image.Height > 0)
                         {
                             using (MemoryStream memory = new MemoryStream(await image.GetImageAsPngAsync()))
                             {

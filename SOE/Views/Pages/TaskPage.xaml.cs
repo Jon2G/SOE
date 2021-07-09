@@ -24,7 +24,6 @@ namespace SOE.Views.Pages
                 OnPropertyChanged();
             }
         }
-
         public TaskPage()
         {
 

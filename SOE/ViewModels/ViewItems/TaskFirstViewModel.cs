@@ -7,6 +7,7 @@ using AsyncAwaitBestPractices;
 using Kit.Model;
 using P42.Utils;
 using SOE.Data;
+using SOE.Enums;
 using SOE.Models.TaskFirst;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
@@ -18,31 +19,33 @@ namespace SOE.ViewModels.ViewItems
     {
         public static TaskFirstViewModel Instance { get; private set; }
         public ObservableCollection<ByDayGroup> DayGroups { get; set; }
-        public const string Done = "AND DONE=1 AND ARCHIVED=0";
-        public const string Pending = "AND DONE=0 AND ARCHIVED=0";
-        public const string Archived = "AND ARCHIVED=1";
-        
+        public ToDoStatus Status { get; set; }
         public TaskFirstViewModel()
         {
+            this.Status = ToDoStatus.Pending;
             Instance = this;
             DayGroups = new ObservableCollection<ByDayGroup>();
-            Refresh(Pending).SafeFireAndForget();
+            Refresh(ToDoStatus.Pending).SafeFireAndForget();
         }
 
-        public async Task Refresh(string condition = "")
+        public async Task Refresh(ToDoStatus status=ToDoStatus.Invalido)
         {
+            if (status == ToDoStatus.Invalido)
+            {
+                status = this.Status;
+            }
             await Task.Yield();
             DayGroups.Clear();
             DayGroups.AddRange(
                 AppData.Instance.LiteConnection.
-                    Lista<long>($"SELECT Distinct {nameof(ToDo.Date)} from {nameof(ToDo)} where {nameof(ToDo.Date)}>={DateTime.Today.Ticks} {condition} order by date")
+                    Lista<long>($"SELECT Distinct {nameof(ToDo.Date)} from {nameof(ToDo)} where {nameof(ToDo.Date)}>={DateTime.Today.Ticks} AND STATUS={status} order by date")
                     .Select((x) => new ByDayGroup()
                     {
                         FDateTime = new DateTime(x)
                     }).ToList());
             foreach (var day in DayGroups)
             {
-                day.Refresh(condition);
+                day.Refresh(status);
             }
         }
 

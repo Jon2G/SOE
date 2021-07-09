@@ -3,33 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
              xmlns:system="clr-namespace:System;assembly=netstandard"
-             x:Class="SOE.Views.ViewItems.SubjectClassmatesView">
+             xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
+             xmlns:apiModels="clr-namespace:APIModels;assembly=APIModels"
+             x:Class="SOE.Views.ViewItems.SubjectClassmatesView"
+             x:DataType="viewItems:SubjectClassmatesViewModel">
+    <models:IconView.BindingContext>
+        <viewItems:SubjectClassmatesViewModel/>
+    </models:IconView.BindingContext>
     <models:IconView.Content>
       <StackLayout Margin="0"
                    Spacing="0" VerticalOptions="FillAndExpand">
           <SearchBar Margin="0" 
                      VerticalOptions="Start" HeightRequest="30"/>
-          <ListView SelectionMode="None" SeparatorColor="Gray">
-              <ListView.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                      <x:String>Jonathan</x:String>
-                      <x:String>Jonathan</x:String>
-                      <x:String>Jonathan</x:String>
-                      <x:String>Jonathan</x:String>
-                      <x:String>Jonathan</x:String>
-                  </x:Array>
-              </ListView.ItemsSource>
-              <ListView.ItemTemplate>
-                  <DataTemplate>
-                      <ViewCell>
+          <ScrollView>
+              <StackLayout
+                  BindableLayout.ItemsSource="{Binding Classmates}">
+                  <BindableLayout.ItemTemplate>
+                      <DataTemplate x:DataType="apiModels:Classmate">
                           <StackLayout>
-                              <Label Text="{Binding .}"/>
+                              <Label Text="{Binding Name}"/>
+                              <Label Text="{Binding Mail}"/>
                           </StackLayout>
-                        </ViewCell>
-                  </DataTemplate>
-              </ListView.ItemTemplate>
-
-          </ListView>
+                        </DataTemplate>
+                  </BindableLayout.ItemTemplate>
+              </StackLayout>
+          </ScrollView>
       </StackLayout>
   </models:IconView.Content>
 </models:IconView>

@@ -187,6 +187,11 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="..\Images\logo_moneda.png">
+      <Link>Resources\drawable\logo_moneda.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
     <AndroidResource Include="..\Images\tareas.mp4">
       <Link>Resources\raw\tareas.mp4</Link>
     </AndroidResource>
@@ -201,6 +206,8 @@
       <Link>Resources\raw\calificaciones.mp4</Link>
     </AndroidResource>
   </ItemGroup>
+
+  
   <ItemGroup>
     <AndroidResource Include="Resources\xml\file_paths.xml" />
   </ItemGroup>

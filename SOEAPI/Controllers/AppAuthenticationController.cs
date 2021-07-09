@@ -324,5 +324,18 @@ namespace SOEAPI.Controllers
                 ,CommandType.StoredProcedure,new SqlParameter("ID",Id));
             return File(result, "application/pdf", "picture.png");
         }
+        [HttpGet("GetClassMates/{ArchieveGuid}")]
+        public ActionResult<Response> GetArchieveIds(Guid ArchieveGuid)
+        {
+            int[] ids = Connection.Lista<int>(
+                    "SP_GET_ARCHIEVE_ID_BY_GUID",
+                    CommandType.StoredProcedure, 0,
+                    new SqlParameter("GUID", ArchieveGuid))
+                .ToArray();
+            return new Response(
+                APIResponseResult.OK,
+                "Ok",
+                JsonConvert.SerializeObject(ids));
+        }
     }
 }

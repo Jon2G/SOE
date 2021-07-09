@@ -12,53 +12,60 @@
     <models:IconView.BindingContext>
         <viewModels:NotificationViewModel/>
     </models:IconView.BindingContext>
-    <models:IconView.Content>
-        <ScrollView>
-            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                         BindableLayout.ItemsSource="{Binding Notificacions}">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate x:DataType="models:Notificacion">
-                        <pancakeView:PancakeView
+    <models:IconView.Resources>
+        <DataTemplate x:DataType="models:Notificacion" x:Key="NotificationTemplate">
+            <Frame
                                                  VerticalOptions="StartAndExpand" CornerRadius="0"
                                                  HorizontalOptions="FillAndExpand" Padding="0">
-                            <pancakeView:PancakeView.Style>
-                                <Style TargetType="pancakeView:PancakeView">
-                                    <Style.Triggers>
-                                        <DataTrigger TargetType="pancakeView:PancakeView" Binding="{Binding Unread}" Value="True">
-                                            <Setter Property="BackgroundColor" 
+                <Frame.Style>
+                    <Style TargetType="Frame">
+                        <Style.Triggers>
+                            <DataTrigger TargetType="Frame" Binding="{Binding Unread}" Value="True">
+                                <Setter Property="BackgroundColor" 
                                                     Value="{AppThemeBinding Light=#6F9EC3,Dark=#607687}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Frame.Style>
+                <StackLayout Orientation="Horizontal" Spacing="5" Padding="0" >
+                    <Grid BackgroundColor="#7FA0A4C9">
+                        <forms:CachedImage WidthRequest="40" Source="{Binding Image}"/>
+                    </Grid>
+                    <StackLayout Spacing="0" Margin="3">
+                        <Label Text="{Binding Title}" 
+                                           TextColor="{AppThemeBinding Dark=White,Light=Black}"
+                                           FontSize="20"/>
+                        <Label Text="{Binding Description}" 
+                                           TextColor="Gray" 
+                                           FontSize="12">
+                            <Label.Style>
+                                <Style TargetType="Label">
+                                    <Style.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding Unread}" Value="True">
+                                            <Setter Property="TextColor" 
+                                                                Value="{AppThemeBinding Light=Black,Dark=White}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </pancakeView:PancakeView.Style>
-                            <StackLayout Orientation="Horizontal" Spacing="5" Padding="0" >
-                                <Grid BackgroundColor="#7FA0A4C9">
-                                    <forms:CachedImage WidthRequest="40" Source="logo_soe_fill"/>
-                                </Grid>
-                                <StackLayout Spacing="0" Margin="3">
-                                    <Label Text="{Binding Title}" 
-                                           TextColor="{AppThemeBinding Dark=White,Light=Black}"
-                                           FontSize="20"/>
-                                    <Label Text="{Binding Description}" 
-                                           TextColor="Gray" 
-                                           FontSize="12">
-                                        <Label.Style>
-                                            <Style TargetType="Label">
-                                                <Style.Triggers>
-                                                    <DataTrigger TargetType="Label" Binding="{Binding Unread}" Value="True">
-                                                        <Setter Property="TextColor" 
-                                                                Value="{AppThemeBinding Light=Black,Dark=White}"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Label.Style>
-                                    </Label>
-                                </StackLayout>
-                            </StackLayout>
-
-                        </pancakeView:PancakeView>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
+                            </Label.Style>
+                        </Label>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+        </DataTemplate>
+    </models:IconView.Resources>
+    <models:IconView.Content>
+        <ScrollView>
+            <StackLayout VerticalOptions="FillAndExpand" Spacing="0">
+                <Label Text="Nuevas" Margin="5,0" FontSize="16"/>
+            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Spacing="3"
+                             BindableLayout.ItemsSource="{Binding NewNotificacions}"
+                             BindableLayout.ItemTemplate="{StaticResource NotificationTemplate}"/>
+            <BoxView BackgroundColor="Gray" HeightRequest="1" Margin="0,3"/>
+            
+                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Spacing="3"
+                             BindableLayout.ItemsSource="{Binding Notificacions}"
+                             BindableLayout.ItemTemplate="{StaticResource NotificationTemplate}"/>
             </StackLayout>
         </ScrollView>
     </models:IconView.Content>

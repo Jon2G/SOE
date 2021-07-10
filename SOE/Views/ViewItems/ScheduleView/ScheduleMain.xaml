@@ -53,7 +53,6 @@
             <scheduleView:ClassSquareDataTemplateSelector.ClassSquareTemplate>
                 <DataTemplate x:DataType="scheduler:ClassSquare">
                     <ContentView  HeightRequest="{Binding HoursHeigthRequest}" 
-                                  BackgroundColor="{Binding Subject,Converter={x:StaticResource SubjectColorAppThemeConverter}}"
                                   TabIndex="0"
                                                                       MinimumHeightRequest="{Binding HoursHeigthRequest}" >
                         <pancakeView:PancakeView  Margin="3" BackgroundColor="{Binding Subject,Converter={x:StaticResource SubjectColorAppThemeConverter}}"

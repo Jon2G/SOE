@@ -29,7 +29,7 @@ namespace SOE.ViewModels.Pages
         {
             await Task.Yield();
             Views.Add(new SubjectNotesView(this.Subject));
-            Views.Add(new SubjectClassmatesView());
+            Views.Add(new SubjectClassmatesView(this.Subject));
 
         }
     }

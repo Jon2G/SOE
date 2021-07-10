@@ -8,13 +8,13 @@
              x:Class="SOE.Views.Pages.SubjectPage"
              x:DataType="pages:SubjectPageViewModel"
              Title="{Binding Subject.Group}"
-             Shell.BackgroundColor="{Binding Subject.ColorDark}"
-             Background="{DynamicResource SecondaryBackground}">
+             Shell.BackgroundColor="{Binding Subject,Converter={StaticResource SubjectColorAppThemeConverter}}"
+             Background="{DynamicResource Background}">
     <ContentPage.Content>
 
             <views:TabView IsSwipeEnabled="False" TabStripHeight="30"
                            TabIndicatorColor="White"
-                           TabStripBackgroundColor="{Binding Subject.ColorDark}"
+                           TabStripBackgroundColor="{Binding Subject,Converter={StaticResource SubjectColorAppThemeConverter}}"
                            IsTabStripVisible="True" TabStripPlacement="Bottom" 
                            TabItemsSource="{Binding Views}"
             >

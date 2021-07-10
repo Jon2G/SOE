@@ -6,10 +6,9 @@
              xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
              xmlns:apiModels="clr-namespace:APIModels;assembly=APIModels"
              x:Class="SOE.Views.ViewItems.SubjectClassmatesView"
-             x:DataType="viewItems:SubjectClassmatesViewModel">
-    <models:IconView.BindingContext>
-        <viewItems:SubjectClassmatesViewModel/>
-    </models:IconView.BindingContext>
+             x:DataType="viewItems:SubjectClassmatesViewModel"
+             x:Name="Me"
+             Background="{DynamicResource Background}">
     <models:IconView.Content>
       <StackLayout Margin="0"
                    Spacing="0" VerticalOptions="FillAndExpand">
@@ -20,11 +19,19 @@
                   BindableLayout.ItemsSource="{Binding Classmates}">
                   <BindableLayout.ItemTemplate>
                       <DataTemplate x:DataType="apiModels:Classmate">
-                          <StackLayout>
-                              <Label Text="{Binding Name}"/>
-                              <Label Text="{Binding Mail}"/>
-                          </StackLayout>
-                        </DataTemplate>
+                          <ContentView>
+                              <Frame Padding="0" CornerRadius="3" Margin="3" HorizontalOptions="FillAndExpand">
+                                  <StackLayout Orientation="Horizontal" Spacing="0" HorizontalOptions="FillAndExpand">
+                                      <BoxView WidthRequest="3" HorizontalOptions="Start"
+                                               BackgroundColor="{Binding Model.Subject,Source={x:Reference Me},Converter={StaticResource SubjectColorAppThemeConverter} }"/>
+                                      <StackLayout Spacing="3" Padding="0" Margin="3" HorizontalOptions="FillAndExpand">
+                                          <Label FontAttributes="Bold" FontSize="18" Text="{Binding Name}"/>
+                                          <Label FontSize="16" Text="{Binding Mail}"/>
+                                      </StackLayout>
+                                  </StackLayout>
+                              </Frame>
+                            </ContentView>
+                      </DataTemplate>
                   </BindableLayout.ItemTemplate>
               </StackLayout>
           </ScrollView>

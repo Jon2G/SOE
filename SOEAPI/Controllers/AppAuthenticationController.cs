@@ -210,7 +210,7 @@ namespace SOEAPI.Controllers
             }
         }
         [HttpPost("PostToDo/{User}")]
-        public ActionResult<Response> PostToDo(string User,[FromBody]byte[] TodoBytes)
+        public ActionResult<Response> PostToDo(string User, [FromBody] byte[] TodoBytes)
         {
             try
             {
@@ -291,8 +291,8 @@ namespace SOEAPI.Controllers
         public ActionResult<Response> ShareTodo(Guid ToDoGuid)
         {
             TodoBase todo = TodoFrom(Connection.Read(
-                "SP_GET_TODO_BY_GUID", 
-                CommandType.StoredProcedure, 
+                "SP_GET_TODO_BY_GUID",
+                CommandType.StoredProcedure,
                 new SqlParameter("GUID", ToDoGuid)));
             if (todo is null)
             {
@@ -309,7 +309,7 @@ namespace SOEAPI.Controllers
         {
             int[] ids = Connection.Lista<int>(
                 "SP_GET_ARCHIEVE_ID_BY_GUID",
-                CommandType.StoredProcedure,0,
+                CommandType.StoredProcedure, 0,
                 new SqlParameter("GUID", ArchieveGuid))
                 .ToArray();
             return new Response(
@@ -321,21 +321,27 @@ namespace SOEAPI.Controllers
         public FileContentResult GetArchieveById(int Id)
         {
             byte[] result = (byte[])Connection.Single("SP_GET_ARCHIEVE_BY_ID"
-                ,CommandType.StoredProcedure,new SqlParameter("ID",Id));
+                , CommandType.StoredProcedure, new SqlParameter("ID", Id));
             return File(result, "application/pdf", "picture.png");
         }
-        [HttpGet("GetClassMates/{ArchieveGuid}")]
-        public ActionResult<Response> GetArchieveIds(Guid ArchieveGuid)
+        [HttpGet("GetClassmates/{Group}")]
+        public ActionResult<Response> GetClassmates(string Group)
         {
-            int[] ids = Connection.Lista<int>(
-                    "SP_GET_ARCHIEVE_ID_BY_GUID",
-                    CommandType.StoredProcedure, 0,
-                    new SqlParameter("GUID", ArchieveGuid))
-                .ToArray();
+            List<Classmate> Classmates = new List<Classmate>();
+            using (var reader = Connection.Read(
+                "SP_GET_CLASSMATES",
+                CommandType.StoredProcedure,
+                new SqlParameter("GROUP", Group)))
+            {
+                while (reader.Read())
+                {
+                    Classmates.Add(new Classmate(Convert.ToString(reader[0]), Convert.ToString(reader[1])));
+                }
+            }
             return new Response(
                 APIResponseResult.OK,
                 "Ok",
-                JsonConvert.SerializeObject(ids));
+                JsonConvert.SerializeObject(Classmates.ToArray()));
         }
     }
 }

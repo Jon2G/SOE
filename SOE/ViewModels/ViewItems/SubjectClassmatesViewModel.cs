@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using APIModels;
 using AsyncAwaitBestPractices;
+using Kit;
 using SOE.Models;
 
 namespace SOE.ViewModels.ViewItems
@@ -12,9 +13,11 @@ namespace SOE.ViewModels.ViewItems
     public class SubjectClassmatesViewModel
     {
         public ObservableCollection<Classmate> Classmates { get; set; }
+        public Subject Subject { get; set; }
 
-        public SubjectClassmatesViewModel()
+        public SubjectClassmatesViewModel(Subject subject)
         {
+            this.Subject = subject;
             Classmates = new ObservableCollection<Classmate>();
             Load().SafeFireAndForget();
         }
@@ -22,10 +25,8 @@ namespace SOE.ViewModels.ViewItems
         private async Task Load()
         {
             await Task.Yield();
-            for (int i = 0; i <35; i++)
-            {
-                Classmates.Add(new Classmate("Jonathan ", "jgarciaj1404@alumno.ipn.mx"));
-            }
+            var class_mates = await API.APIService.GetClassmates(this.Subject.Group);
+            this.Classmates.AddRange(class_mates);
         }
     }
 }

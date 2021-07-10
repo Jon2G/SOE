@@ -213,6 +213,20 @@ namespace SOE.API
 
             return JsonConvert.DeserializeObject<Response>(result.Response);
         }
-
+        internal static async Task<List<Classmate>> GetClassmates(string group)
+        {
+            if (string.IsNullOrEmpty(group))
+            {
+                return new List<Classmate>();
+            }
+            WebService WebService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = await WebService.GET("GetClassmates", group);
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+            {
+                return new List<Classmate>();
+            }
+            var response = JsonConvert.DeserializeObject<Response>(result.Response);
+            return new List<Classmate>(JsonConvert.DeserializeObject<Classmate[]>(response.Extra));
+        }
     }
 }

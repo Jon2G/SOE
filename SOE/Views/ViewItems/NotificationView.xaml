@@ -14,14 +14,17 @@
     </models:IconView.BindingContext>
     <models:IconView.Resources>
         <DataTemplate x:DataType="models:Notificacion" x:Key="NotificationTemplate">
-            <Frame
-                                                 VerticalOptions="StartAndExpand" CornerRadius="0"
-                                                 HorizontalOptions="FillAndExpand" Padding="0">
+            <Frame VerticalOptions="StartAndExpand" CornerRadius="0"
+                   HorizontalOptions="FillAndExpand" Padding="0"
+                   behaviors:TouchEffect.PressedScale="0.97"
+                   behaviors:TouchEffect.NormalBackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundSecondaryDarkColor},Light={StaticResource BackgroundSecondaryLightColor}}"
+                   behaviors:TouchEffect.PressedBackgroundColor="{AppThemeBinding Dark=#667078,Light=#B1CEE5}"
+                   >
                 <Frame.Style>
                     <Style TargetType="Frame">
                         <Style.Triggers>
                             <DataTrigger TargetType="Frame" Binding="{Binding Unread}" Value="True">
-                                <Setter Property="BackgroundColor" 
+                                <Setter Property="behaviors:TouchEffect.NormalBackgroundColor" 
                                                     Value="{AppThemeBinding Light=#6F9EC3,Dark=#607687}"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -55,15 +58,14 @@
         </DataTemplate>
     </models:IconView.Resources>
     <models:IconView.Content>
-        <ScrollView>
+        <ScrollView VerticalOptions="FillAndExpand" Margin="3">
             <StackLayout VerticalOptions="FillAndExpand" Spacing="0">
                 <Label Text="Nuevas" Margin="5,0" FontSize="16"/>
-            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Spacing="3"
+                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Start" Spacing="2"
                              BindableLayout.ItemsSource="{Binding NewNotificacions}"
                              BindableLayout.ItemTemplate="{StaticResource NotificationTemplate}"/>
-            <BoxView BackgroundColor="Gray" HeightRequest="1" Margin="0,3"/>
-            
-                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Spacing="3"
+                <BoxView BackgroundColor="Gray" HeightRequest="1" Margin="0,3"/>
+                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" Spacing="2"
                              BindableLayout.ItemsSource="{Binding Notificacions}"
                              BindableLayout.ItemTemplate="{StaticResource NotificationTemplate}"/>
             </StackLayout>

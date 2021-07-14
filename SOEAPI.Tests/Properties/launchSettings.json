@@ -3,8 +3,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:64855",
-      "sslPort": 5555
+      "applicationUrl": "http://localhost:64856/",
+      "sslPort": 44390
     }
   },
   "profiles": {
@@ -13,22 +13,15 @@
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "ancmHostingModel": "InProcess"
+      }
     },
-    "SOEAPI": {
+    "SOEAPI.Tests": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:5555;http://localhost:5000"
-    },
-    "Mock Lambda Test Tool": {
-      "commandName": "Executable",
-      "executablePath": "%USERPROFILE%\\.dotnet\\tools\\dotnet-lambda-test-tool-5.0.exe",
-      "commandLineArgs": "--port 5050",
-      "workingDirectory": ".\\bin\\$(Configuration)\\net5.0"
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
     }
   }
 }

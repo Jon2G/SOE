@@ -18,6 +18,7 @@ namespace SOE.ViewModels.Pages
         }
         private ICommand _TapedCommand;
         public ICommand TapedCommand => _TapedCommand ??= new Command<string>(Tapped);
+
         public string Action { get; private set; }
         private void Tapped(string Action)
         {

@@ -49,6 +49,10 @@ namespace SOE.ViewModels.Pages.Login
         private ICommand _RegisterCommand;
         public ICommand RegisterCommand => _RegisterCommand ??= new Command(Register);
 
+        private Command _DeveloperCommand;
+
+        public Command DeveloperCommand => _DeveloperCommand ??= new Command(Developer);
+
         public LoginViewModel() { }
 
 
@@ -107,6 +111,8 @@ namespace SOE.ViewModels.Pages.Login
                                                && !string.IsNullOrEmpty(Password)
                                                && Password.Length >= 8;
         }
+
+        private async void Developer() => await Application.Current.MainPage.Navigation.PushModalAsync(new DeveloperOptions());
 
 
     }

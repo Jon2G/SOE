@@ -85,8 +85,44 @@ namespace SOE.ViewModels.Pages
         /// <summary>
         /// Esta función importará una base de datos manualmente.
         /// </summary>
-        private void ImportDatabase()
+        private async void ImportDatabase()
         {
+            //Espera el resultado de las función pickAsync 
+            FileResult source = await FilePicker.PickAsync();
+            if (source is null)
+            {
+                await UserDialogs.Instance.AlertAsync("Debe seleccionar un archivo", "¡Alerta!", "Intenta de nuevo");
+                return;
+            }
+            FileInfo sourceInfo = new FileInfo(source.FullPath);
+            if (!sourceInfo.Exists)
+            {
+                await UserDialogs.Instance.AlertAsync("El archivo seleccionado no existe", "¡Alerta!", "Intenta de nuevo");
+                return;
+            }
+            if (sourceInfo.Extension != ".db")
+            {
+                await UserDialogs.Instance.AlertAsync("No has seleccionado un archivo compatible", "¡Alerta!", "Intenta de nuevo");
+                return;
+            }
+
+            string target = AppData.Instance.LiteConnection.DatabasePath;
+            FileInfo targetInfo = new FileInfo(target);
+            if (targetInfo.Exists)
+            {
+                File.Delete(target);
+            }
+
+
+            using (Stream stream = await source.OpenReadAsync())
+            {
+                using (FileStream fileStream = new FileStream(target, FileMode.Create))
+                {
+                    stream.Position = 0;
+                    await stream.CopyToAsync(fileStream);
+
+                }
+            }
 
         }
     }

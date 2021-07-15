@@ -4,26 +4,85 @@
              xmlns:tasksViews="clr-namespace:SOE.Views.ViewItems.TasksViews;assembly=SOE"
              xmlns:taskFirst="clr-namespace:SOE.Models.TaskFirst;assembly=SOE"
              x:Name="Me" Background="{DynamicResource Background}"
-             x:Class="SOE.Views.ViewItems.TasksViews.TaskFirstPage">
-    <Grid  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-        <CollectionView  Margin="10"
+             x:Class="SOE.Views.ViewItems.TasksViews.TaskFirstPage"
+             xmlns:xtc="http://xamarin.com/schemas/2020/toolkit" 
+               xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+             xmlns:viewModels="clr-namespace:SOE.ViewModels.ViewItems">
+    <ContentView.BindingContext>
+        <viewModels:ReminderViewModel x:Name="Modelo"/>
+    </ContentView.BindingContext>
+    <xtc:TabView TabStripPlacement="Top">
+        <xtc:TabViewItem Text="Tareas" TextColor="{AppThemeBinding Dark=White,Light=Black}" FontAttributes="Bold">
+            <xtc:TabViewItem.Content >
+
+                <Grid  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <CollectionView Margin="10"
                         SelectionMode="None"  ItemsSource="{Binding DayGroups}" x:Name="Coleccion">
-            <CollectionView.EmptyView>
-                <ContentView>
-                    <StackLayout VerticalOptions="CenterAndExpand">
-                        <Label HorizontalTextAlignment="Center" FontSize="20" 
+                        <CollectionView.EmptyView>
+                            <ContentView>
+                                <StackLayout VerticalOptions="CenterAndExpand">
+                                    <Label HorizontalTextAlignment="Center" FontSize="20" 
                                FontAttributes="Bold" Text="No hay mas tareas"/>
-                    </StackLayout>
-                </ContentView>
-            </CollectionView.EmptyView>
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="20"/>
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate >
-                <DataTemplate x:DataType="taskFirst:ByDayGroup">
-                    <tasksViews:ByDayView/>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </Grid>
+                                </StackLayout>
+                            </ContentView>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="20"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate >
+                            <DataTemplate x:DataType="taskFirst:ByDayGroup">
+                                <tasksViews:ByDayView/>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+
+            </xtc:TabViewItem.Content>
+        </xtc:TabViewItem>
+        <xtc:TabViewItem Text="Recordatorios" TextColor="{AppThemeBinding Dark=White,Light=Black}" FontAttributes="Bold">
+            <xtc:TabViewItem.Content>
+                <CollectionView  Grid.Row="1" Margin="3"  HorizontalOptions= "FillAndExpand" VerticalOptions= "FillAndExpand"
+                        SelectionMode= "None" ItemsSource= "{Binding Reminders}" >
+
+                    <CollectionView.ItemsLayout >
+                        <LinearItemsLayout Orientation= "Vertical" ItemSpacing= "10" />
+                    </CollectionView.ItemsLayout >
+                    <CollectionView.ItemTemplate >
+                        <DataTemplate >
+                            <Frame HasShadow= "True" BackgroundColor= "Transparent" VerticalOptions= "StartAndExpand"
+                                    HorizontalOptions= "FillAndExpand" Padding= "0" >
+                                <Grid VerticalOptions= "StartAndExpand" HorizontalOptions= "FillAndExpand" >
+                                    <Grid HorizontalOptions = "FillAndExpand" BackgroundColor= "WhiteSmoke" >
+                                                <Grid.ColumnDefinitions >
+                                                    <ColumnDefinition Width= "auto" />
+                                                    <ColumnDefinition Width= "3*" />
+                                                </Grid.ColumnDefinitions >
+                                        <BoxView BackgroundColor= "{StaticResource AccentColor}" Opacity= "0.2" />
+                                        <StackLayout HorizontalOptions= "Center" VerticalOptions= "Center" >
+                                            <CheckBox Color="#15386f" />
+                                        </StackLayout >
+                                        <StackLayout Grid.Column= "1" HorizontalOptions= "StartAndExpand" VerticalOptions= "CenterAndExpand" Margin= "10" >
+                                            <Label Text= "{Binding Title}" TextColor= "Black" FontSize= "20"  FontAttributes="Bold"/>
+                                            <Label Text="{Binding dateTime,StringFormat='{0:dd/MM/yyyy         hh:mm tt}'}"/>
+                                        </StackLayout >
+                                        <Image Rotation="90" Grid.Column="1" HorizontalOptions="EndAndExpand"   >
+                                            <Image.Source>
+                                                <FontImageSource
+                                                    Glyph="{x:Static fonts:FontelloIcons.ThreeDots}" 
+                                                    FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                                    Color="{AppThemeBinding Dark=White,Light=Black}"/>  
+                                            </Image.Source>
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer />
+                                            </Image.GestureRecognizers>
+                                        </Image>
+                                    </Grid >
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </xtc:TabViewItem.Content>
+        </xtc:TabViewItem>
+    </xtc:TabView>
 </ContentView>

@@ -36,7 +36,13 @@
                                  Color="{AppThemeBinding Dark=White,Light=Black}"/>
             </controls:ArrowButton.Icon>
         </controls:ArrowButton>
-
+        <controls:ArrowButton Title="Recordatorios"  Command="{Binding TapedCommand}" CommandParameter="Recordatorios" ArrowColor="{StaticResource AccentColor}">
+            <controls:ArrowButton.Icon>
+                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Bell}"
+                                 FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                 Color="{AppThemeBinding Dark=White,Light=Black}"/>
+            </controls:ArrowButton.Icon>
+        </controls:ArrowButton>
         <Button Margin="3" CornerRadius="2" VerticalOptions="End" Text="Cerrar" Clicked="OnClose"/>
     </StackLayout>
 </pages:BasePopUp>

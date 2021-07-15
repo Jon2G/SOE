@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:BasePopUp  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms" 
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                  xmlns:pankk="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                  xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+                  xmlns:pages1="clr-namespace:SOE.ViewModels.Pages"
+                  x:DataType="pages1:PrincipalPopUpViewModel"
+                  xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+                  x:Class="SOE.Views.PopUps.PrincipalPopUp">
+    <pankk:PancakeView HorizontalOptions="End" VerticalOptions="Start" >
+        <StackLayout Margin="0" Spacing="4" BackgroundColor="WhiteSmoke">
+           
+                <pankk:PancakeView 
+                BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundTertiaryDarkColor},Light={StaticResource BackgroundTertiaryLightColor}}"
+                xct:TouchEffect.PressedScale="0.9"
+                xct:TouchEffect.PressedRotationY="0.1" >
+                    <pankk:PancakeView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding AddTaskCommand}" 
+                           />
+                    </pankk:PancakeView.GestureRecognizers>
+                    <StackLayout VerticalOptions="Center" Margin="5">
+                        <Label Text="Nueva tarea" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.CirclePlus}" 
+                                                 FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                                 Color="Black"/>
+                            </Image.Source>
+                        </Image>
+                    </StackLayout>
+                </pankk:PancakeView>
+            <pankk:PancakeView 
+                BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundTertiaryDarkColor},Light={StaticResource BackgroundTertiaryLightColor}}"
+                xct:TouchEffect.PressedScale="0.9"
+                xct:TouchEffect.PressedRotationY="0.1">
+                <pankk:PancakeView.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding AddReminderCommand}" 
+                          />
+                </pankk:PancakeView.GestureRecognizers>
+                <StackLayout VerticalOptions="Center" Margin="5">
+                    <Label Text="Nuevo Recordatorio" FontSize="18" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    <Image>
+                        <Image.Source>
+                            <FontImageSource Glyph="{x:Static fonts:FontelloIcons.CirclePlus}" 
+                                             FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                             Color="Black"/>
+                        </Image.Source>
+                    </Image>
+                </StackLayout>
+            </pankk:PancakeView>
+        </StackLayout>
+    </pankk:PancakeView>
+</pages:BasePopUp>

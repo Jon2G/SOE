@@ -6,6 +6,7 @@ using AsyncAwaitBestPractices;
 using SOE.Enums;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
+using SOE.Views.ViewItems;
 using Xamarin.Forms;
 
 namespace SOE.ViewModels.ViewItems
@@ -15,10 +16,15 @@ namespace SOE.ViewModels.ViewItems
     {
         public ICommand _OpenMenuCommand;
         public ICommand OpenMenuCommand => _OpenMenuCommand ??= new Command(OpenMenu);
+
         private ICommand _AddTaskCommand;
         public ICommand AddTaskCommand => _AddTaskCommand ??= new Command(AddTask);
-        private void AddTask() => App.Current.MainPage.Navigation.PushAsync(new TaskPage(), true).SafeFireAndForget();
-        
+        private async void AddTask()
+        {
+            var pr = new PrincipalPopUp();
+            await pr.ShowDialog();
+           
+        }
         private async void OpenMenu(object obj)
         {
             var pr = new MasterPopUp();
@@ -34,7 +40,6 @@ namespace SOE.ViewModels.ViewItems
                 case "Archivadas":
                     TaskFirstViewModel.Instance.Refresh(ToDoStatus.Archived).SafeFireAndForget();
                     break;
-
             }
         }
     }

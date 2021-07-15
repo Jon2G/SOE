@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:BasePopUp  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                  xmlns:pankk="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                  x:Class="SOE.Views.Pages.ReminderPage"
+              Title="Recordatorios">
+    <pankk:PancakeView HorizontalOptions="Center" VerticalOptions="Center" >
+        <StackLayout Margin="0" Spacing="4" BackgroundColor="WhiteSmoke">
+            <Label Text="Recordatorios" TextColor="{AppThemeBinding Dark=Black,Light=White}" FontSize="20"
+                   FontAttributes="Bold" HorizontalTextAlignment="Center"
+                   BackgroundColor="{DynamicResource PrimaryLightColor}" Padding="5"/>
+            <StackLayout Spacing="10">
+                <Editor AutoSize="TextChanges" Placeholder="Titulo"  
+                                     MaxLength="100"/>
+                <Label  VerticalTextAlignment="Center" 
+                               Text="Materia:" 
+                               TextColor="{DynamicResource secondaryTextColor}" FontSize="17"
+                               FontAttributes="Italic"/>
+                <Button             TextColor="{AppThemeBinding Dark=White,Light=Black}"
+                                    BackgroundColor="{Binding Tarea.Subject,Converter={StaticResource SubjectColorAppThemeConverter}}"
+                                    CornerRadius="5" BorderColor="{AppThemeBinding Light={StaticResource BackgroundTertiaryLightColor},Dark={StaticResource BackgroundTertiaryDarkColor}}" 
+                                    BorderWidth="1" 
+                                    />
+                <StackLayout  Orientation="Horizontal" Spacing="0" Padding="0">
+                    <Label Margin="10,0" Text="Fecha:" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Italic" FontSize="18"/>
+                    <DatePicker  HorizontalOptions="StartAndExpand" Margin="0"  FontAttributes="Bold"  Format="dd/MM/yyyy"  MinimumDate="{x:Static x:DateTime.Now}" />
+                    <Label Margin="10,0" Text="Hora:" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Italic" FontSize="18"/>
+                    <TimePicker HorizontalOptions="End" Margin="0" FontFamily="Italic" />
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+    </pankk:PancakeView>
+</pages:BasePopUp>

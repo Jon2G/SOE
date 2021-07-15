@@ -12,7 +12,11 @@
              xmlns:renders="clr-namespace:SOE.Renders;assembly=SOE"
              xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
-             xmlns:login="clr-namespace:SOE.ViewModels.Pages.Login;assembly=SOE">
+             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+             xmlns:login="clr-namespace:SOE.ViewModels.Pages.Login;assembly=SOE" 
+             xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
+             xmlns:kit="clr-namespace:Kit;assembly=Kit">
+             
     <ContentPage.BindingContext>
         <login:LoginViewModel/>
     </ContentPage.BindingContext>
@@ -80,6 +84,12 @@
                         <Label FontFamily="Karla_SemiBold"
                                TextDecorations="Underline" Text="Olvide mi contraseña" FontSize="14" HorizontalOptions="EndAndExpand" Margin="0,5"/>
                     </StackLayout>
+                    <controls:ArrowButton Title="Opciones de desarrollador" Command="{Binding DeveloperCommand}" IsVisible="{x:Static kit:Tools.Debugging}">
+                        <controls:ArrowButton.Icon>
+                            <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}" Glyph="{Static fonts:FontelloIcons.HappyBeer}" Color="{x:StaticResource AccentColor}" />
+                        </controls:ArrowButton.Icon>
+                    </controls:ArrowButton>
+                    <!--D-->
                 </StackLayout>
             </pancakeView:PancakeView>
         </ContentView>

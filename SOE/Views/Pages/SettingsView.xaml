@@ -54,12 +54,6 @@
                 <Label HorizontalTextAlignment="Center" Text="Ajustes Principales" FontSize="Title" FontAttributes="Bold" TextColor="{DynamicResource secondaryTextColor}"/>
             </Grid>
             <controls:ArrowButton  Grid.Row="5" TextColor="{DynamicResource secondaryTextColor}" BackgroundColor="WhiteSmoke"    Title="Cambiar ventanas principales"  HeightRequest="35" Command="{Binding ViewChangeCommand}"/>
-            <controls:ArrowButton Title="Extraer base de datos local" Command="{Binding ShareDatabaseCommand}">
-                <controls:ArrowButton.Icon>
-                    <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Share}"
-                                     FontFamily="{x:Static fonts:FontelloIcons.Font}"/>
-                </controls:ArrowButton.Icon>
-            </controls:ArrowButton>
         </StackLayout>
     </Frame>
 </ContentPage>

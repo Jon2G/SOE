@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+    
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms" xmlns:pages="clr-namespace:SOE.ViewModels.Pages"
+             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+             x:Class="SOE.Views.Pages.DeveloperOptions"
+             x:DataType="pages:DeveloperOptionsViewModel">
+    <ContentPage.BindingContext>
+        <pages:DeveloperOptionsViewModel/>
+    </ContentPage.BindingContext>   
+
+    <StackLayout>
+        <Label Text="Opciones de desarrollador"
+                VerticalOptions="Start" 
+                HorizontalOptions="CenterAndExpand" />
+        <controls:ArrowButton Title="Extraer base de datos local" Command="{Binding ExportDatabaseCommand}">
+            <controls:ArrowButton.Icon>
+                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Share}"
+                                     FontFamily="{x:Static fonts:FontelloIcons.Font}" Color="{x:StaticResource AccentColor}"/>
+            </controls:ArrowButton.Icon>
+        </controls:ArrowButton>
+        <controls:ArrowButton Title="Importar una base de datos" Command="{Binding ImportDatabaseCommand}">
+            <controls:ArrowButton.Icon>
+                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Share}"
+                                     FontFamily="{x:Static fonts:FontelloIcons.Font}" Color="{x:StaticResource AccentColor}" />
+            </controls:ArrowButton.Icon>
+        </controls:ArrowButton>
+    </StackLayout>
+   
+    
+</ContentPage>

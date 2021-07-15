@@ -30,9 +30,9 @@ namespace SOE.API
     {
         public const string ShareTodo = "ShareTodo";
         //public const string NonHttpsUrl = "192.168.0.32:5555";
-        public const string NonHttpsUrl = "soe-api.azurewebsites.net";
+        public const string NonHttpsUrl = "kq8tb2poo8.execute-api.us-east-2.amazonaws.com";
         public static string BaseUrl => $"https://{NonHttpsUrl}";
-        public static string Url => $"{BaseUrl}/AppAuthentication";
+        public static string Url => $"{BaseUrl}/Prod/App";
 
         public static async Task<Response> Login(string Usuario, string PasswordPin, string school = null)
         {

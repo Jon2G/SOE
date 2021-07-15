@@ -1,0 +1,20 @@
+
+{
+    "region" : "us-east-2",
+    "configuration" : "Release",
+    "framework"     : "net5.0",
+    "self-contained" : false,
+    "application"    : "SOEAPI",
+    "environment"    : "SOEAPI-prod",
+    "enable-xray"    : false,
+    "enhanced-health-type" : "basic",
+    "additional-options"   : "\"aws:autoscaling:launchconfiguration,SecurityGroups\"=\"sg-b42e59fd\";\"aws:ec2:vpc,Subnets\"=\"subnet-0c795b40\"",
+    "solution-stack"       : "64bit Amazon Linux 2 v2.2.2 running .NET Core",
+    "environment-type"     : "SingleInstance",
+    "cname"                : "soeapi-prod",
+    "instance-type"        : "t3a.medium",
+    "key-pair"             : "",
+    "instance-profile"     : "aws-elasticbeanstalk-ec2-role",
+    "service-role"         : "aws-elasticbeanstalk-service-role",
+    "proxy-server"         : "nginx"
+}

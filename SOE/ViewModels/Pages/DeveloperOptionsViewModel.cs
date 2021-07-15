@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
 using Kit;
-using Kit.Extensions;
 using Kit.Forms.Extensions;
 using Kit.Model;
 using SOE.Data;
+using SOE.Views.Pages;
 using Xamarin.Essentials;
+using Xamarin.Forms;
+using Command = Kit.Extensions.Command;
 
 namespace SOE.ViewModels.Pages
 {
@@ -123,6 +125,8 @@ namespace SOE.ViewModels.Pages
 
                 }
             }
+
+            Application.Current.MainPage = new SplashScreen();
 
         }
     }

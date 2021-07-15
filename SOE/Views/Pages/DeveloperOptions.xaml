@@ -2,6 +2,7 @@
     
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms" xmlns:pages="clr-namespace:SOE.ViewModels.Pages"
+             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
              x:Class="SOE.Views.Pages.DeveloperOptions"
              x:DataType="pages:DeveloperOptionsViewModel">
     <ContentPage.BindingContext>
@@ -10,7 +11,7 @@
 
     <StackLayout>
         <Label Text="Opciones de desarrollador"
-                VerticalOptions="CenterAndExpand" 
+                VerticalOptions="Start" 
                 HorizontalOptions="CenterAndExpand" />
         <controls:ArrowButton Title="Extraer base de datos local" Command="{Binding ExportDatabaseCommand}">
             <controls:ArrowButton.Icon>

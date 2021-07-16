@@ -23,7 +23,7 @@ namespace SOE.ViewModels.Pages
         public ICommand AddReminderCommand => _AddReminderCommand ??= new Command(AddReminder);
         private void AddTask()
         {
-            App.Current.MainPage.Navigation.PushAsync(new TaskPage(), true).SafeFireAndForget();
+            App.Current.MainPage.Navigation.PushAsync(new NewTaskPage(), true).SafeFireAndForget();
             PopUp.Close().SafeFireAndForget();
         }
         private async void AddReminder()

@@ -15,12 +15,12 @@ using Xamarin.Forms;
 
 namespace SOE.ViewModels.ViewItems
 {
-    public class TaskFirstViewModel : ModelBase
+    public class PendingTasksViewModel : ModelBase
     {
-        public static TaskFirstViewModel Instance { get; private set; }
+        public static PendingTasksViewModel Instance { get; private set; }
         public ObservableCollection<ByDayGroup> DayGroups { get; set; }
         public ToDoStatus Status { get; set; }
-        public TaskFirstViewModel()
+        public PendingTasksViewModel()
         {
             this.Status = ToDoStatus.Pending;
             Instance = this;

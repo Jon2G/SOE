@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace SOE.ViewModels.ViewItems
 {
-    public class ReminderViewModel : ModelBase
+    public class PendingRemindersViewModel : ModelBase
     {
-        private ObservableCollection<Reminders> _Reminders;
-        public ObservableCollection<Reminders> Reminders
+        private ObservableCollection<Reminder> _Reminders;
+        public ObservableCollection<Reminder> Reminders
         {
             get => _Reminders;
             set
@@ -21,9 +21,9 @@ namespace SOE.ViewModels.ViewItems
                 Raise(() => Reminders);
             }
         }
-        public ReminderViewModel()
+        public PendingRemindersViewModel()
         {
-            Reminders = new ObservableCollection<Reminders>();
+            Reminders = new ObservableCollection<Reminder>();
             Load().SafeFireAndForget();
         }
         private async Task Load()
@@ -31,7 +31,7 @@ namespace SOE.ViewModels.ViewItems
             await Task.Yield();
             for (int i = 0; i < 10; i++)
             {
-                Reminders.Add(new Reminders("Preguntar sobre evaluación", DateTime.Now));
+                Reminders.Add(new Reminder("Preguntar sobre evaluación", DateTime.Now));
             }
         }
     }

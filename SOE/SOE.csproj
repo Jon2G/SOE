@@ -113,6 +113,12 @@
     <EmbeddedResource Update="Views\ViewItems\NotificationView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\ViewItems\PendingRemindersView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ViewItems\PendingTasksView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\ViewItems\SubjectClassmatesView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -125,7 +131,7 @@
     <EmbeddedResource Update="Views\ViewItems\TasksViews\BySubjectGroupView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ViewItems\TasksViews\TaskFirstPage.xaml">
+    <EmbeddedResource Update="Views\ViewItems\MainTaskView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\WebViewPage.xaml">
@@ -137,7 +143,7 @@
     <EmbeddedResource Update="Views\PopUps\SubjectPopUp.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Pages\TaskPage.xaml">
+    <EmbeddedResource Update="Views\Pages\NewTaskPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\PopUps\ViewChangePopUp.xaml">
@@ -200,6 +206,9 @@
     <Compile Update="Views\Pages\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Pages\NewTaskPage.xaml.cs">
+      <DependentUpon>NewTaskPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\PopUps\SAESPrivacyAlert.xaml.cs">
       <DependentUpon>SAESPrivacyAlert.xaml</DependentUpon>
     </Compile>
@@ -214,6 +223,9 @@
     </Compile>
     <Compile Update="Views\ViewItems\FlyOutView.xaml.cs">
       <DependentUpon>FlyOutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ViewItems\MainTaskView.xaml.cs">
+      <DependentUpon>MainTaskView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 

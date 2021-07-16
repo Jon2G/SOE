@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace SOE.Views.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Skip)]
-    public partial class TaskPage : ContentPage
+    public partial class NewTaskPage : ContentPage
     {
 
         private int _position;
@@ -24,13 +24,13 @@ namespace SOE.Views.Pages
                 OnPropertyChanged();
             }
         }
-        public TaskPage()
+        public NewTaskPage()
         {
 
             InitializeComponent();
         }
 
-        public TaskPage(ToDo toDo)
+        public NewTaskPage(ToDo toDo)
         {
             InitializeComponent();
             this.Modelo.Tarea = toDo;

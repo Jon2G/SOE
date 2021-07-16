@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<models:IconView xmlns="http://xamarin.com/schemas/2014/forms" 
+          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
+          xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+          xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
+          x:Class="SOE.Views.ViewItems.PendingRemindersView"
+          x:DataType="viewItems:PendingRemindersViewModel">
+    <ContentView.BindingContext>
+        <viewItems:PendingRemindersViewModel/>
+    </ContentView.BindingContext>
+    <CollectionView  Margin="3"  HorizontalOptions= "FillAndExpand" VerticalOptions= "FillAndExpand"
+                     SelectionMode= "None" ItemsSource= "{Binding Reminders}" >
+        <CollectionView.ItemsLayout >
+                <LinearItemsLayout Orientation= "Vertical" ItemSpacing= "10" />
+            </CollectionView.ItemsLayout >
+            <CollectionView.ItemTemplate >
+                <DataTemplate x:DataType="models:Reminder">
+                    <Frame HasShadow= "True" BackgroundColor= "Transparent" VerticalOptions= "StartAndExpand"
+                                    HorizontalOptions= "FillAndExpand" Padding= "0" >
+                    <StackLayout HorizontalOptions = "FillAndExpand" 
+                                 Background="{DynamicResource SecondaryBackground}"
+                                 Orientation="Horizontal">
+                        <StackLayout HorizontalOptions= "FillAndExpand" VerticalOptions= "FillAndExpand" 
+                                     BackgroundColor= "#320277BD" 
+                                     Grid.Column="0">
+                            <CheckBox HorizontalOptions="CenterAndExpand"
+                                      VerticalOptions="CenterAndExpand" Color="#15386f" />
+                        </StackLayout >
+                        <StackLayout Grid.Column= "1" HorizontalOptions= "StartAndExpand"
+                                             VerticalOptions= "CenterAndExpand" Margin= "10" >
+                            <Label Text= "{Binding Title}"
+                                           TextColor="{AppThemeBinding Dark=White,Light=Black}"
+                                           FontSize= "20"  FontAttributes="Bold"/>
+                            <Label Text="{Binding DateTime,StringFormat='{0:dd/MM/yyyy         hh:mm tt}'}"/>
+                        </StackLayout >
+                        <Image Rotation="90" Grid.Column="1" HorizontalOptions="EndAndExpand"   >
+                            <Image.Source>
+                                <FontImageSource
+                                                    Glyph="{x:Static fonts:FontelloIcons.ThreeDots}" 
+                                                    FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                                    Color="{AppThemeBinding Dark=White,Light=Black}"/>
+                            </Image.Source>
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer />
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </StackLayout >
+                </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+</models:IconView>

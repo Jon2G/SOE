@@ -206,8 +206,6 @@
       <Link>Resources\raw\calificaciones.mp4</Link>
     </AndroidResource>
   </ItemGroup>
-
-  
   <ItemGroup>
     <AndroidResource Include="Resources\xml\file_paths.xml" />
   </ItemGroup>

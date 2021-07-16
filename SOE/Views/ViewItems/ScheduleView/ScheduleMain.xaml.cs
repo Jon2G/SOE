@@ -82,7 +82,7 @@ namespace SOE.Views.ViewItems.ScheduleView
             Tarea.Subject = classSquare.Subject;
             Tarea.Time = classSquare.Begin;
             Tarea.Date = classSquare.Day.GetNearest();
-            App.Current.MainPage.Navigation.PushAsync(new TaskPage(Tarea));
+            App.Current.MainPage.Navigation.PushAsync(new NewTaskPage(Tarea));
         }
 
 

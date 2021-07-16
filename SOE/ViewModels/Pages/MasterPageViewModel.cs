@@ -54,6 +54,7 @@ namespace SOE.ViewModels.Pages
         {
             this.SelectedView = this.Views[Index];
             ContentPage page = MasterPage.Instance;
+            Shell.SetNavBarIsVisible(page,Index!=1);
             lock (page.ToolbarItems)
             {
                 page.ToolbarItems.Clear();

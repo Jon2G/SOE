@@ -26,13 +26,7 @@
               <RowDefinition Height="94*"/>
               <RowDefinition Height="5*"/>
           </Grid.RowDefinitions>
-          <Grid  Margin="0,0,20,0">
-              <tasksViews:TaskFirstPage x:Name="TaskFirstPage" x:FieldModifier="public"/>
-          </Grid>
-          <Grid ColumnDefinitions="10,Auto" HorizontalOptions="End" >
-              <viewItems:TimelineBar Grid.Column="1" 
-                                     IsVisible="{Binding User.Settings.ShowTimelineBar ,Source={x:Static data:AppData.Instance}}"/>
-          </Grid>
+          <tasksViews:MainTaskView/>
           <Label Grid.Row="1" BackgroundColor="#15386f" Text="{x:Static fonts:FontelloIcons.UpArrow}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="Large">
               <Label.GestureRecognizers>
                   <TapGestureRecognizer Command="{Binding OpenMenuCommand}"/>

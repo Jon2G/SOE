@@ -83,7 +83,7 @@ namespace SOE.Views.Pages
                         Subject = SubjectService.GetByGroup(subjectAction.Group),
                         Time = subjectAction.Date.TimeOfDay
                     };
-                     Shell.Current.Navigation.PushAsync(new TaskPage(Tarea)).SafeFireAndForget();
+                     Shell.Current.Navigation.PushAsync(new NewTaskPage(Tarea)).SafeFireAndForget();
                     break;
                 case TodoWidgetAction todoAction:
                     AppData.Instance.LiteConnection.CreateTable<ToDo>();

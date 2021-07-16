@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:tasksViews="clr-namespace:SOE.Views.ViewItems.TasksViews;assembly=SOE"
+             xmlns:taskFirst="clr-namespace:SOE.Models.TaskFirst;assembly=SOE"
+             x:Name="Me" Background="{DynamicResource Background}"
+             x:Class="SOE.Views.ViewItems.TasksViews.MainTaskView"
+             xmlns:xtc="http://xamarin.com/schemas/2020/toolkit" 
+             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+             xmlns:viewModels="clr-namespace:SOE.ViewModels.ViewItems"
+             xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
+             xmlns:fonts1="clr-namespace:Kit.Forms.Fonts;assembly=Kit.Forms"
+             xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
+             xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
+             x:DataType="viewModels:MainTaskViewModel">
+    <ContentView.BindingContext>
+        <viewModels:MainTaskViewModel/>
+    </ContentView.BindingContext>
+    <StackLayout VerticalOptions="FillAndExpand">
+        <StackLayout Background="{DynamicResource PrimaryColor}"
+                     Padding="5" Orientation="Horizontal"
+                     HeightRequest="40">
+            <Image Margin="15,0">
+                <Image.Source>
+                    <FontImageSource 
+                        FontFamily="{x:Static fonts1:FontelloIcons.Font}" 
+                        Glyph="{x:Static fonts1:FontelloIcons.ThreeDots}"
+                        Size="21"
+                        Color="White"/>
+                </Image.Source>
+            </Image>
+
+            <StackLayout VerticalOptions="FillAndExpand"
+                         Padding="5" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Margin="3,0">
+                <Frame Padding="3" HorizontalOptions="FillAndExpand"
+                       xtc:TouchEffect.Command="{Binding TareasViewCommand}"
+                       xtc:TouchEffect.CommandParameter="{x:Reference TabView}"
+                       xtc:TouchEffect.PressedScale="0.9" BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
+                    <Label Text="TAREAS" TextColor="White" FontAttributes="Bold" FontSize="16"
+                           VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                    <Frame.Style>
+                        <Style TargetType="Frame">
+                            <Style.Triggers>
+                                <DataTrigger TargetType="Frame"
+                                             Binding="{Binding SelectedView.Title}"
+                                             Value="TAREAS">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource AccentColor}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Frame.Style>
+                </Frame>
+                <Frame Padding="3" HorizontalOptions="FillAndExpand"
+                       xtc:TouchEffect.Command="{Binding RemindersViewCommand}"
+                       xtc:TouchEffect.CommandParameter="{x:Reference TabView}"
+                       xtc:TouchEffect.PressedScale="0.9" BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
+                    <Label Text="RECORDATORIOS" TextColor="White" FontAttributes="Bold" FontSize="16"
+                           VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                    <Frame.Style>
+                        <Style TargetType="Frame">
+                            <Style.Triggers>
+                                <DataTrigger TargetType="Frame"
+                                             Binding="{Binding SelectedView.Title}"
+                                             Value="RECORDATORIOS">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource AccentColor}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Frame.Style>
+                </Frame>
+            </StackLayout>
+            <Image Margin="15,0"
+                   xtc:TouchEffect.Command="{Binding AddCommand}">
+                <Image.Source>
+                    <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                     Glyph="{x:Static fonts:FontelloIcons.CirclePlus}"
+                                     Size="21"
+                                     Color="White"/>
+                </Image.Source>
+            </Image>
+        </StackLayout>
+        <xtc:TabView IsTabStripVisible="False"
+                     TabStripHeight="0"
+                     x:Name="TabView" x:FieldModifier="public"
+                     IsSwipeEnabled="True" 
+                     TabItemsSource="{Binding Views}">
+            <xtc:TabView.Behaviors>
+                <xtc:EventToCommandBehavior 
+                    EventName="SelectionChanged" 
+                    Command="{Binding SelectionChangedCommand}"
+                    CommandParameter="{Binding SelectedIndex,Source={x:Reference TabView}}"/>
+            </xtc:TabView.Behaviors>
+            <xtc:TabView.TabViewItemDataTemplate>
+                <DataTemplate x:DataType="models:IconView">
+                    <StackLayout Padding="0" Spacing="0" BackgroundColor="Red" InputTransparent="True" IsVisible="False" IsEnabled="False" HeightRequest="0"/>
+                </DataTemplate>
+            </xtc:TabView.TabViewItemDataTemplate>
+            <xtc:TabView.TabContentDataTemplate>
+                <DataTemplate x:DataType="ContentView">
+                    <ContentView VerticalOptions="FillAndExpand" Margin="0" 
+                                 HorizontalOptions="FillAndExpand" Padding="0"
+                                 Background="{DynamicResource Background}" 
+                                 Content="{Binding .}"/>
+                </DataTemplate>
+            </xtc:TabView.TabContentDataTemplate>
+        </xtc:TabView>
+    </StackLayout>
+</ContentView>

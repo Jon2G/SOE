@@ -11,7 +11,7 @@ namespace SOE.Views.ViewItems.TasksViews
     {
         public ByDayGroup Model => BindingContext as ByDayGroup;
 
-        public TaskFirstViewModel Group => this.Parent?.BindingContext as TaskFirstViewModel;
+        public PendingTasksViewModel Group => this.Parent?.BindingContext as PendingTasksViewModel;
 
         public ByDayView()
         {

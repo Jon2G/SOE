@@ -32,13 +32,13 @@ namespace SOE.ViewModels.ViewItems
             switch (pr.Model.Action)
             {
                 case "Completadas":
-                    TaskFirstViewModel.Instance.Refresh(ToDoStatus.Done).SafeFireAndForget();
+                    PendingTasksViewModel.Instance.Refresh(ToDoStatus.Done).SafeFireAndForget();
                     break;
                 case "Pendientes":
-                    TaskFirstViewModel.Instance.Refresh(ToDoStatus.Pending).SafeFireAndForget();
+                    PendingTasksViewModel.Instance.Refresh(ToDoStatus.Pending).SafeFireAndForget();
                     break;
                 case "Archivadas":
-                    TaskFirstViewModel.Instance.Refresh(ToDoStatus.Archived).SafeFireAndForget();
+                    PendingTasksViewModel.Instance.Refresh(ToDoStatus.Archived).SafeFireAndForget();
                     break;
             }
         }

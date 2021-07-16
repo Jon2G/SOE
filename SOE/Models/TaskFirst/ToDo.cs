@@ -207,7 +207,7 @@ namespace SOE.Models.TaskFirst
             /////////////
             if (Shell.Current is AppShell app)
             {
-                await TaskFirstPage.Instance?.Model.Refresh();
+                await MainTaskView.Instance?.Model.Refresh();
             }
 
             await Shell.Current.Navigation.PopToRootAsync(true);

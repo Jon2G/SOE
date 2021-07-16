@@ -22,7 +22,7 @@ using Xamarin.Forms;
 namespace SOE.ViewModels.Pages
 {
 
-    public class TaskPageViewModel : ModelBase
+    public class NewTaskPageViewModel : ModelBase
     {
 
         public Command TaskCommand { get; }
@@ -59,7 +59,7 @@ namespace SOE.ViewModels.Pages
                 Raise(() => TaskImage);
             }
         }
-        public TaskPageViewModel()
+        public NewTaskPageViewModel()
         {
             Tarea = new ToDo();
             TaskCommand = new Command(TaskClicked);

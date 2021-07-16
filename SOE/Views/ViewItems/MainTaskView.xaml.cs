@@ -10,14 +10,14 @@ namespace SOE.Views.ViewItems.TasksViews
 {
     [DesignTimeVisible(false)]
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TaskFirstPage : ContentView
+    public partial class MainTaskView 
     {
-        public static TaskFirstPage Instance { get; private set; }
-       public TaskFirstViewModel Model { get; set; }
-        public TaskFirstPage()
+        public static MainTaskView Instance { get; private set; }
+       public PendingTasksViewModel Model { get; set; }
+        public MainTaskView()
         {
             Instance = this;
-            this.Model= new TaskFirstViewModel();
+            this.Model= new PendingTasksViewModel();
             BindingContext = this.Model;
             InitializeComponent();
 

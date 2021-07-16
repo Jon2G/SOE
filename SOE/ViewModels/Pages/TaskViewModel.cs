@@ -73,7 +73,7 @@ namespace SOE.ViewModels.Pages
                     }
                     return;
             }
-            TaskFirstPage.Instance.Model.Refresh().SafeFireAndForget();
+            MainTaskView.Instance.Model.Refresh().SafeFireAndForget();
         }
         public void Eliminar()
         {
@@ -83,7 +83,7 @@ namespace SOE.ViewModels.Pages
         }
         private void OpenTask()
         {
-            App.Current.MainPage.Navigation.PushAsync(new TaskPage(this.ToDo), true);
+            App.Current.MainPage.Navigation.PushAsync(new NewTaskPage(this.ToDo), true);
         }
         private void Detail()
         {

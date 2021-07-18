@@ -1,0 +1,54 @@
+﻿@using Radzen
+@using Radzen.Blazor
+@page "/materias"
+
+<RadzenCard style="background: darkslateblue">
+    <div class="row">
+        <div class="col-md-12">
+            <label class="subject-blog-card-title">TEORIA DE LA INFORMACION Y LA CODIFICACION</label>
+        </div>
+        <div class="col-md-12">
+            <label class="subject-blog-card-group">7CV21</label>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <RadzenRating ReadOnly="true" Value="4" />
+            </div>
+            <div class="col-md-6">
+                <RadzenRadialGauge Style="height: 300px;">
+                    <RadzenRadialGaugeScale StartAngle="-150" EndAngle="150" Step="1" Min="0" Max="10" TickPosition=GaugeTickPosition.Inside>
+                        <RadzenRadialGaugeScalePointer Value=8.5 Length="0.6" ShowValue=true>
+                            <Template Context="pointer">
+                                <h4>
+                                    @pointer.Value
+                                </h4>
+                            </Template>
+                        </RadzenRadialGaugeScalePointer>
+                        <RadzenRadialGaugeScaleRange From="0" To="5" Fill="red" />
+                        <RadzenRadialGaugeScaleRange From="5" To="7" Fill="orange" />
+                        <RadzenRadialGaugeScaleRange From="7" To="10" Fill="green" />
+                    </RadzenRadialGaugeScale>
+                </RadzenRadialGauge>
+            </div>
+        </div>
+    </div>
+
+
+
+</RadzenCard>
+
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}

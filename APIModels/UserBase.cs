@@ -1,10 +1,7 @@
 ﻿using Kit.Model;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Kit.Sql.Attributes;
 
-namespace APIModels
+namespace SOEWeb.Shared
 {
     public class UserBase : ModelBase
     {
@@ -13,28 +10,28 @@ namespace APIModels
         [PrimaryKey, MaxLength(10)]
         public string Boleta
         {
-            get => _Boleta;
+            get => this._Boleta;
             set
             {
                 if (!Validations.IsValidBoleta(value))
                 {
                     return;
                 }
-                _Boleta = value;
-                Raise(() => Boleta);
+                this._Boleta = value;
+                this.Raise(() => this.Boleta);
 
             }
         }
         private string _Password;
-        public string Password { get => _Password; set { _Password = value; Raise(() => Password); } }
+        public string Password { get => this._Password; set { this._Password = value; this.Raise(() => this.Password); } }
         [Ignore]
         public School School
         {
-            get => _School;
+            get => this._School;
             set
             {
-                _School = value;
-                Raise(() => School);
+                this._School = value;
+                this.Raise(() => this.School);
             }
         }
         private School _School;

@@ -164,7 +164,7 @@
       <Project>{fbdd1dcc-b804-4690-8113-98d775de9a88}</Project>
       <Name>Kit</Name>
     </ProjectReference>
-    <ProjectReference Include="..\APIModels\APIModels.csproj">
+    <ProjectReference Include="..\APIModels\SOEWeb.Shared.csproj">
       <Project>{2a23810f-e1dc-4005-a55e-bdd18b341790}</Project>
       <Name>APIModels</Name>
     </ProjectReference>

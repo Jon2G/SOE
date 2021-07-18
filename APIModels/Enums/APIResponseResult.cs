@@ -1,4 +1,4 @@
-﻿namespace APIModels.Enums
+﻿namespace SOEWeb.Shared.Enums
 {
     public enum APIResponseResult
     {

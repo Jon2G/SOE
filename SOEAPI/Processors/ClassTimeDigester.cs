@@ -1,23 +1,20 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using Kit.Sql.Readers;
+using Kit.Sql.SqlServer;
+using Microsoft.Extensions.Logging;
+using SOEWeb.Server.Models;
+using SOEWeb.Shared;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
-using APIModels;
-using HtmlAgilityPack;
-using Kit;
-using Kit.Sql.Readers;
-using Kit.Sql.SqlServer;
-using Microsoft.Extensions.Logging;
-using Serilog.Events;
 
-namespace SOEAPI.Processors
+namespace SOEWeb.Server.Processors
 {
     internal static class ClassTimeDigester
     {

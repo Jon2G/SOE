@@ -1,4 +1,4 @@
-﻿namespace APIModels
+﻿namespace SOEWeb.Shared
 {
     public class Classmate
     {

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
-using Kit.Sql.Attributes;
+﻿using Kit.Sql.Attributes;
 using Kit.Sql.Interfaces;
 using Kit.Sql.SqlServer;
 using Microsoft.Extensions.Logging;
-using SOEAPI.Controllers;
+using System;
+using System.Data.SqlClient;
 
-namespace SOEAPI
+namespace SOEWeb.Server.Models
 {
     public class Device:IGuid
     {
@@ -45,7 +41,7 @@ namespace SOEAPI
             try
             {
                 Connection.EXEC(@"UPDATE DEVICES SET LAST_TIME_SEEN=GETDATE() WHERE ID=@ID", System.Data.CommandType.Text
-                    , new SqlParameter("ID", Id));
+                    , new SqlParameter("ID", this.Id));
             }
             catch (Exception ex)
             {

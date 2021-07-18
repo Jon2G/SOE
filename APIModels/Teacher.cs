@@ -1,8 +1,6 @@
 ﻿using Kit.Sql.Attributes;
-using Kit.Sql.Readers;
-using System;
 
-namespace APIModels
+namespace SOEWeb.Shared
 {
     public class Teacher
     {

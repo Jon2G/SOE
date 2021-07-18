@@ -8,14 +8,6 @@
     <UserSecretsId>2e4b0392-c909-4468-9569-fccdfaa16cda</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Fonts\Fontello\font\fontello_11.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_12.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_13.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_14.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_15.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_16.ttf" />
-  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Fonts\Fontello\font\fontello_16.ttf" />
@@ -40,7 +32,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Kit\Kit.Forms\Kit.Forms.csproj" />
     <ProjectReference Include="..\..\..\Kit\Kit\Kit.csproj" />
-    <ProjectReference Include="..\APIModels\APIModels.csproj" />
+    <ProjectReference Include="..\APIModels\SOEWeb.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

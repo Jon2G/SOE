@@ -1,8 +1,8 @@
-﻿using APIModels.Enums;
-using Kit.Daemon.Sync;
+﻿using Kit.Daemon.Sync;
 using Kit.Sql.Attributes;
+using SOEWeb.Shared.Enums;
 
-namespace APIModels
+namespace SOEWeb.Shared
 {
 
     [Table("Grades")]

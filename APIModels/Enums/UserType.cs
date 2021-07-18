@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace APIModels.Enums
+﻿namespace SOEWeb.Shared.Enums
 {
     public enum UserType
     {

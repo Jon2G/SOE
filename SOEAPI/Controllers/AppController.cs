@@ -1,22 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Amazon.Lambda.Core;
-using APIModels;
-using APIModels.Enums;
 using Kit.Sql.Readers;
 using Kit.Sql.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using SOEAPI.Processors;
+using SOEWeb.Server.Processors;
+using SOEWeb.Shared;
+using SOEWeb.Shared.Enums;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Text;
+using Device = SOEWeb.Server.Models.Device;
+
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
-namespace SOEAPI.Controllers
+namespace SOEWeb.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -27,8 +27,8 @@ namespace SOEAPI.Controllers
         public AppController(ILogger<AppController> logger)
         {
             //Connection = new SQLServerConnection("SOE_DATABASE","192.168.0.32\\SQLEXPRESS","1433","sa","12345678");
-            Connection = new SQLServerConnection(@"Data Source=soe-database-instance.c5kv8sy96hgu.us-east-2.rds.amazonaws.com,1433;Initial Catalog=SOE_DATABASE;Integrated Security=False;Persist Security Info=True;User ID=admin;Encrypt=False;Password=Octopus$2021.;");
-            _logger = logger;
+            this.Connection = new SQLServerConnection(@"Data Source=soe-database-instance.c5kv8sy96hgu.us-east-2.rds.amazonaws.com,1433;Initial Catalog=SOE_DATABASE;Integrated Security=False;Persist Security Info=True;User ID=admin;Encrypt=False;Password=Octopus$2021.;");
+            this._logger = logger;
 
         }
         [HttpGet()]
@@ -42,7 +42,7 @@ namespace SOEAPI.Controllers
         {
             Stopwatch sp = new Stopwatch();
             sp.Start();
-            if (Connection.TestConnection() is Exception ex)
+            if (this.Connection.TestConnection() is Exception ex)
             {
                 return new Response(APIResponseResult.INTERNAL_ERROR, ex.ToString());
             }
@@ -53,7 +53,7 @@ namespace SOEAPI.Controllers
         [HttpGet("LogIn/{UserName}/{Password}/{DeviceKey}")]
         public ActionResult<Response> LogIn(string UserName, string Password, string DeviceKey, string School = null)
         {
-            return UserLogin(UserName, Password, DeviceKey, School);
+            return this.UserLogin(UserName, Password, DeviceKey, School);
         }
         private Response UserLogin(string Usuario, string PasswordPin, string DeviceKey, string School)
         {
@@ -61,7 +61,7 @@ namespace SOEAPI.Controllers
                                               || PasswordPin.Length < 8
                                               || string.IsNullOrEmpty(DeviceKey))
             {
-                return APIModels.Response.InvalidRequest;
+                return SOEWeb.Shared.Response.InvalidRequest;
             }
 
             object mail = DBNull.Value;
@@ -82,7 +82,7 @@ namespace SOEAPI.Controllers
             }
             try
             {
-                Response response = APIModels.Response.From(Connection.Read("SP_LOGIN"
+                Response response = SOEWeb.Shared.Response.From(this.Connection.Read("SP_LOGIN"
                     , CommandType.StoredProcedure
                     , new SqlParameter("Mail", mail)
                     , new SqlParameter("Boleta", boleta)
@@ -104,7 +104,7 @@ namespace SOEAPI.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, ex, ex?.Message);
+                this._logger.Log(LogLevel.Error, ex, ex?.Message);
                 return new Response(APIResponseResult.INTERNAL_ERROR, ex.Message);
             }
         }
@@ -113,11 +113,11 @@ namespace SOEAPI.Controllers
         {
             try
             {
-                return SignUp(Boleta, Nombre, Email, Password, School, (UserType)Type, JsonConvert.DeserializeObject<Device>(Device));
+                return this.SignUp(Boleta, Nombre, Email, Password, School, (UserType)Type, JsonConvert.DeserializeObject<Device>(Device));
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, ex, ex?.Message);
+                this._logger.Log(LogLevel.Error, ex, ex?.Message);
                 return new Response(APIResponseResult.INTERNAL_ERROR, ex.Message);
             }
         }
@@ -135,8 +135,8 @@ namespace SOEAPI.Controllers
             }
             try
             {
-                Response response = APIModels.Response.From(
-                    Connection.Read("SP_SIGNUP"
+                Response response = SOEWeb.Shared.Response.From(
+                    this.Connection.Read("SP_SIGNUP"
                     , CommandType.StoredProcedure
                     , new SqlParameter("BOLETA", Boleta)
                     , new SqlParameter("NAME", Nombre)
@@ -154,7 +154,7 @@ namespace SOEAPI.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, ex, ex?.Message);
+                this._logger.Log(LogLevel.Error, ex, ex?.Message);
                 return new Response(APIResponseResult.INTERNAL_ERROR, ex.Message);
             }
 
@@ -164,10 +164,10 @@ namespace SOEAPI.Controllers
         {
             Stopwatch sp = new Stopwatch();
             sp.Start();
-            string xml = ClassTimeDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), User, Connection, this._logger);
+            string xml = ClassTimeDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), User, this.Connection, this._logger);
             if (string.IsNullOrEmpty(xml))
             {
-                return APIModels.Response.Error;
+                return SOEWeb.Shared.Response.Error;
             }
             sp.Stop();
             return new Response(APIResponseResult.OK, xml, $"Time elapsed:{sp.Elapsed:G}");
@@ -175,10 +175,10 @@ namespace SOEAPI.Controllers
         [HttpPost("PostGrades/{User}")]
         public ActionResult<Response> PostGrades(string User, [FromBody] byte[] HTML)
         {
-            string xml = GradesDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), User, Connection, this._logger);
+            string xml = GradesDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), User, this.Connection, this._logger);
             if (string.IsNullOrEmpty(xml))
             {
-                return APIModels.Response.Error;
+                return SOEWeb.Shared.Response.Error;
             }
             return new Response(APIResponseResult.OK, xml);
         }
@@ -187,11 +187,11 @@ namespace SOEAPI.Controllers
         {
             if (!Validations.IsValidBoleta(User) && !Validations.IsValidEmail(User))
             {
-                return APIModels.Response.InvalidRequest;
+                return SOEWeb.Shared.Response.InvalidRequest;
             }
             try
             {
-                return APIModels.Response.From(Connection.Read("SP_GET_ADD_CAREER"
+                return SOEWeb.Shared.Response.From(this.Connection.Read("SP_GET_ADD_CAREER"
                     , CommandType.StoredProcedure
                     , new SqlParameter("CAREER_NAME", CareerName)
                     , new SqlParameter("USER", User)
@@ -199,7 +199,7 @@ namespace SOEAPI.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, ex, ex?.Message);
+                this._logger.Log(LogLevel.Error, ex, ex?.Message);
                 return new Response(APIResponseResult.INTERNAL_ERROR, ex.Message);
             }
         }
@@ -216,7 +216,7 @@ namespace SOEAPI.Controllers
                                  || Todo.Subject.Id <= 0
                                  || Todo.Subject.IdTeacher <= 0)
                 {
-                    return APIModels.Response.Error;
+                    return SOEWeb.Shared.Response.Error;
                 }
                 if (DateTime.Now > Todo.Date)
                 {
@@ -224,7 +224,7 @@ namespace SOEAPI.Controllers
                         "Esta tarea ya ha expirado, cambie la fecha de entrega si desea compartirla");
                 }
 
-                return APIModels.Response.From(Connection.Read("SP_POST_TODO"
+                return SOEWeb.Shared.Response.From(this.Connection.Read("SP_POST_TODO"
                     , CommandType.StoredProcedure
                     , new SqlParameter("GUID", Todo.Guid)
                     , new SqlParameter("SUBJECT_ID", Todo.Subject.Id)
@@ -240,7 +240,7 @@ namespace SOEAPI.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, ex, ex?.Message);
+                this._logger.Log(LogLevel.Error, ex, ex?.Message);
                 return new Response(APIResponseResult.INTERNAL_ERROR, ex.Message);
             }
         }
@@ -250,9 +250,9 @@ namespace SOEAPI.Controllers
         {
             if (Img is null || Img.Length <= 0 || Guid.Empty == ToDoGuid)
             {
-                return APIModels.Response.Error;
+                return SOEWeb.Shared.Response.Error;
             }
-            return APIModels.Response.From(Connection.Read("SP_POST_TODO_PICTURE"
+            return SOEWeb.Shared.Response.From(this.Connection.Read("SP_POST_TODO_PICTURE"
                 , CommandType.StoredProcedure
                 , new SqlParameter("TODO_GUID", ToDoGuid)
                 , new SqlParameter("IMG", Img)
@@ -284,13 +284,13 @@ namespace SOEAPI.Controllers
         [HttpGet("ShareTodo/{ToDoGuid}")]
         public ActionResult<Response> ShareTodo(Guid ToDoGuid)
         {
-            TodoBase todo = TodoFrom(Connection.Read(
+            TodoBase todo = this.TodoFrom(this.Connection.Read(
                 "SP_GET_TODO_BY_GUID",
                 CommandType.StoredProcedure,
                 new SqlParameter("GUID", ToDoGuid)));
             if (todo is null)
             {
-                return APIModels.Response.Error;
+                return SOEWeb.Shared.Response.Error;
             }
             return new Response(
                 APIResponseResult.OK,
@@ -301,7 +301,7 @@ namespace SOEAPI.Controllers
         [HttpGet("GetArchieveIds/{ArchieveGuid}")]
         public ActionResult<Response> GetArchieveIds(Guid ArchieveGuid)
         {
-            int[] ids = Connection.Lista<int>(
+            int[] ids = this.Connection.Lista<int>(
                 "SP_GET_ARCHIEVE_ID_BY_GUID",
                 CommandType.StoredProcedure, 0,
                 new SqlParameter("GUID", ArchieveGuid))
@@ -314,19 +314,19 @@ namespace SOEAPI.Controllers
         [HttpGet("GetArchieveById/{Id}")]
         public FileContentResult GetArchieveById(int Id)
         {
-            byte[] result = (byte[])Connection.Single("SP_GET_ARCHIEVE_BY_ID"
+            byte[] result = (byte[])this.Connection.Single("SP_GET_ARCHIEVE_BY_ID"
                 , CommandType.StoredProcedure, new SqlParameter("ID", Id));
             if (result is null)
             {
                 return null;
             }
-            return File(result, "application/pdf", "picture.png");
+            return this.File(result, "application/pdf", "picture.png");
         }
         [HttpGet("GetClassmates/{Group}")]
         public ActionResult<Response> GetClassmates(string Group)
         {
             List<Classmate> Classmates = new List<Classmate>();
-            using (var reader = Connection.Read(
+            using (var reader = this.Connection.Read(
                 "SP_GET_CLASSMATES",
                 CommandType.StoredProcedure,
                 new SqlParameter("GROUP", Group)))

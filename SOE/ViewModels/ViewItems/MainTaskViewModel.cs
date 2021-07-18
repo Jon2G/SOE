@@ -44,6 +44,17 @@ namespace SOE.ViewModels.ViewItems
             => _AddCommand ??= new Xamarin.Forms.Command(Add);
 
 
+        private ICommand _FlyOutCommand;
+        public ICommand FlyOutCommand
+            => _FlyOutCommand ??= new Command(OpenFlyOut);
+
+        private void OpenFlyOut()
+        {
+            Shell.Current.FlyoutIsPresented = true;
+        }
+
+
+       
         private void Add()
         {
             switch (SelectedView)

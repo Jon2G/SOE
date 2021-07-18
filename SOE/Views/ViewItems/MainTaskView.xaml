@@ -12,7 +12,8 @@
              xmlns:fonts1="clr-namespace:Kit.Forms.Fonts;assembly=Kit.Forms"
              xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
-             x:DataType="viewModels:MainTaskViewModel">
+             x:DataType="viewModels:MainTaskViewModel"
+            >
     <ContentView.BindingContext>
         <viewModels:MainTaskViewModel/>
     </ContentView.BindingContext>
@@ -20,7 +21,9 @@
         <StackLayout Background="{DynamicResource PrimaryColor}"
                      Padding="5" Orientation="Horizontal"
                      HeightRequest="40">
-            <Image Margin="15,0">
+            <Image Margin="15,0"
+                       xtc:TouchEffect.Command="{Binding FlyOutCommand}"
+                       xtc:TouchEffect.PressedScale="0.9" BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
                 <Image.Source>
                     <FontImageSource 
                         FontFamily="{x:Static fonts1:FontelloIcons.Font}" 

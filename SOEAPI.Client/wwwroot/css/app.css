@@ -48,3 +48,9 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
+.rz-rating {
+    position: absolute;
+}
+.text-accent {
+    color: #0277bd;
+}

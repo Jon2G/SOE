@@ -1,54 +1,94 @@
 ﻿@using Radzen
 @using Radzen.Blazor
+@using Serilog
 @page "/materias"
 
 <RadzenCard style="background: darkslateblue">
     <div class="row">
         <div class="col-md-12">
-            <label class="subject-blog-card-title">TEORIA DE LA INFORMACION Y LA CODIFICACION</label>
-        </div>
-        <div class="col-md-12">
-            <label class="subject-blog-card-group">7CV21</label>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <RadzenRating ReadOnly="true" Value="4" />
-            </div>
-            <div class="col-md-6">
-                <RadzenRadialGauge Style="height: 300px;">
-                    <RadzenRadialGaugeScale StartAngle="-150" EndAngle="150" Step="1" Min="0" Max="10" TickPosition=GaugeTickPosition.Inside>
-                        <RadzenRadialGaugeScalePointer Value=8.5 Length="0.6" ShowValue=true>
-                            <Template Context="pointer">
-                                <h4>
-                                    @pointer.Value
-                                </h4>
-                            </Template>
-                        </RadzenRadialGaugeScalePointer>
-                        <RadzenRadialGaugeScaleRange From="0" To="5" Fill="red" />
-                        <RadzenRadialGaugeScaleRange From="5" To="7" Fill="orange" />
-                        <RadzenRadialGaugeScaleRange From="7" To="10" Fill="green" />
-                    </RadzenRadialGaugeScale>
-                </RadzenRadialGauge>
-            </div>
+            <label class="subject-blog-card-title">TEORIA DE LA INFORMACION Y LA CODIFICACION - 7CV21</label>
         </div>
     </div>
-
-
-
+    <div class="row">
+        <div class="col-md-12">
+            <span class="oi oi-person subject-blog-card-group" data-inline="false"></span>
+            &nbsp;
+            <label class="subject-blog-card-group">Tapia Sanchez Daniel</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label class="subject-blog-card-group">Opinión general:</label>
+            &nbsp;
+            <RadzenRating ReadOnly="true" Value="4" class="vertical-center" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label class="subject-blog-card-group">Facilidad:</label>
+            &nbsp;
+            <RadzenRating ReadOnly="true" Value="4" class="vertical-center" />
+        </div>
+    </div>
+</RadzenCard>
+<RadzenCard>
+    <div class="row">
+        <div class="col-md-12">
+            <label>Comentar como</label>
+            <label class="text-accent">Jon2G</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <RadzenTextArea Cols="25" Style="width: 100%" Placeholder="Participa en la discusión" 
+                            Rows="4" MaxLength="MAX_TEXT_COUNT"
+                            @bind-Value="@CommentText" @oninput="@CommentTextChanged" />
+            <label>@CommentText.Length/@MAX_TEXT_COUNT</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <RadzenButton Text="Comentar" IsBusy="@IsCommentBusy" Click="PostComment" />
+        </div>
+    </div>
 </RadzenCard>
 
+<InfiniteScrolling>
 
-<h1>Counter</h1>
+</InfiniteScrolling>
 
-<p>Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
 @code {
-    private int currentCount = 0;
+    const int MAX_TEXT_COUNT = 140;
+    private string CommentText = String.Empty;
+    public bool IsCommentBusy { get; set; }
 
-    private void IncrementCount()
+
+    private void CommentTextChanged(ChangeEventArgs obj)
     {
-        currentCount++;
+        if (obj.Value is string s)
+        {
+            CommentText = s;
+            StateHasChanged();
+        }
     }
+
+    private async Task PostComment()
+    {
+        await Task.Yield();
+        try
+        {
+            IsCommentBusy = true;
+            await Task.Delay(100);
+        }
+        catch (Exception ex)
+        {
+            Log.Logger.Error(ex, "At post comment");
+        }
+        finally
+        {
+            IsCommentBusy = false;
+        }
+    }
+
 }

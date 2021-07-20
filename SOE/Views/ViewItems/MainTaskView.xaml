@@ -85,7 +85,7 @@
         <xtc:TabView IsTabStripVisible="False"
                      TabStripHeight="0"
                      x:Name="TabView" x:FieldModifier="public"
-                     IsSwipeEnabled="True" 
+                     IsSwipeEnabled="False"  VerticalOptions="FillAndExpand"
                      TabItemsSource="{Binding Views}">
             <xtc:TabView.Behaviors>
                 <xtc:EventToCommandBehavior 

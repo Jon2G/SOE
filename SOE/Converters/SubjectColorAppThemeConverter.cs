@@ -11,7 +11,7 @@ namespace SOE.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is Subject subject)
+            if (value is Subject subject && subject.Id > 0)
             {
                 if (App.Current.RequestedTheme == OSAppTheme.Dark)
                 {
@@ -22,6 +22,10 @@ namespace SOE.Converters
                     return subject.Color;
                 }
             }
+            else if (parameter is Color color)
+            {
+                return color;
+            }
 
             if (App.Current.RequestedTheme == OSAppTheme.Dark)
             {
@@ -31,7 +35,7 @@ namespace SOE.Converters
             {
                 return App.Current.Resources["BackgroundSecondaryLightColor"];
             }
-               
+
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -17,14 +17,7 @@ namespace SOE.ViewModels.ViewItems
         public ICommand _OpenMenuCommand;
         public ICommand OpenMenuCommand => _OpenMenuCommand ??= new Command(OpenMenu);
 
-        private ICommand _AddTaskCommand;
-        public ICommand AddTaskCommand => _AddTaskCommand ??= new Command(AddTask);
-        private async void AddTask()
-        {
-            var pr = new PrincipalPopUp();
-            await pr.ShowDialog();
-           
-        }
+
         private async void OpenMenu(object obj)
         {
             var pr = new MasterPopUp();

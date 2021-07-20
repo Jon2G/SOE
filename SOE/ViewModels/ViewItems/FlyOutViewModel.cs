@@ -45,7 +45,9 @@ namespace SOE.ViewModels.ViewItems
                 Raise(() => AvatarSource);
             }
         }
+        private Command _DeveloperCommand;
 
+        public Command DeveloperCommand => _DeveloperCommand ??= new Command(Developer);
         public FlyOutViewModel()
         {
             this.SettingCommand = new Command(OpenSettings);
@@ -54,6 +56,7 @@ namespace SOE.ViewModels.ViewItems
             this.ComingCommand = new Command(Coming);
             GetAvatar();
         }
+        private async void Developer() => await Application.Current.MainPage.Navigation.PushModalAsync(new DeveloperOptions());
 
         private async void GetAvatar()
         {

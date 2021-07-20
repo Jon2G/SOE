@@ -13,7 +13,7 @@
         <viewItems1:MainViewModel x:Name="Model"/>
     </models:IconView.BindingContext>
     <models:IconView.ToolbarItem>
-        <ToolbarItem Command="{Binding AddTaskCommand}">
+        <ToolbarItem >
             <ToolbarItem.IconImageSource>
                 <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
                                  Glyph="{x:Static fonts:FontelloIcons.CirclePlus}"/>

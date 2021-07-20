@@ -1,15 +1,9 @@
-﻿using Kit.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Kit.Forms.Pages;
 using Kit.Sql.Attributes;
-using Kit.Sql.Interfaces;
-using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
 using System.Windows.Input;
 using System.Xml.Serialization;
@@ -128,10 +122,8 @@ namespace SOE.Models.TaskFirst
             {
                 foreach (PhotoArchive photo in GetPhotos(toDo))
                 {
-                    using (FileStream photo_file = new FileStream(photo.Path, FileMode.Open))
-                    {
-                        await APIService.PostTodoPicture(photo_file.ToByteArray(), toDo.Guid);
-                    }
+                    using FileStream photo_file = new FileStream(photo.Path, FileMode.Open);
+                    await APIService.PostTodoPicture(photo_file.ToByteArray(), toDo.Guid);
 
                 }
             }
@@ -187,10 +179,8 @@ namespace SOE.Models.TaskFirst
                     {
                         if (image is not null && image.Height > 0)
                         {
-                            using (MemoryStream memory = new MemoryStream(await image.GetImageAsPngAsync()))
-                            {
-                                await memory.CopyToAsync(file);
-                            }
+                            using MemoryStream memory = new MemoryStream(await image.GetImageAsPngAsync());
+                            await memory.CopyToAsync(file);
                         }
                     }
                     await keeper.Save(archive);
@@ -207,7 +197,7 @@ namespace SOE.Models.TaskFirst
             /////////////
             if (Shell.Current is AppShell app)
             {
-                await MainTaskView.Instance?.Model.Refresh();
+                MainTaskView.Instance?.Model.Refresh().SafeFireAndForget();
             }
 
             await Shell.Current.Navigation.PopToRootAsync(true);

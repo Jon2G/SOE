@@ -18,7 +18,7 @@ namespace SOE.Views.ViewItems
         public MainView()
         {
             InitializeComponent();
-            this.ToolbarItem.Command = this.Model.AddTaskCommand;
+            
         }
     }
 }

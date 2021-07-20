@@ -17,7 +17,10 @@ namespace APIModels
         public int IdTeacher { get; set; }
         public Guid Guid { get; set; }
 
-        public Subject() { }
+        public Subject() 
+        {
+
+        }
         public Subject(int Id, int IdTeacher, string Name, string Color,string ColorDark, string Group)
         {
             this.Id = Id;

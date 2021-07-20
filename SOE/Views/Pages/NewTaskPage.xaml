@@ -16,10 +16,7 @@
         <ToolbarItem Text="Confirmar" Command="{Binding SaveCommand}"/>
     </ContentPage.ToolbarItems>
     <StackLayout>
-        <!--<StackLayout Orientation="Horizontal" BackgroundColor="{DynamicResource PrimaryLightColor}">
-          
-            <Button  Text="Confirmar" HeightRequest="40"  HorizontalOptions="EndAndExpand" BackgroundColor="Transparent"  TextColor="White" FontSize="15" FontAttributes="Bold"/>
-        </StackLayout>-->
+
         <views:TabView IsSwipeEnabled="True" 
                        Style="{StaticResource CustomTabStyle}" 
                        TabStripBackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
@@ -34,10 +31,9 @@
                 <ScrollView Background="{DynamicResource Background}">
                     <StackLayout Spacing="10" Margin="5" >
                         <StackLayout Spacing="10">
-                            <!--<Frame BorderColor="{StaticResource PrimaryLightColor}" CornerRadius="60" HeightRequest="39" WidthRequest="1">-->
+
                             <Editor AutoSize="TextChanges" Placeholder="Agregar titulo"  
                                     Text="{Binding Tarea.Title}" MaxLength="100"/>
-                            <!--</Frame>-->
 
                             <Label  VerticalTextAlignment="Center" 
                                Text="Materia:" 
@@ -49,10 +45,6 @@
                                     CornerRadius="5" BorderColor="{AppThemeBinding Light={StaticResource BackgroundTertiaryLightColor},Dark={StaticResource BackgroundTertiaryDarkColor}}" 
                                     BorderWidth="1" 
                                     Command="{Binding TaskCommand}"/>
-
-
-                            <!--<Frame Grid.Row="2" CornerRadius="10" Padding="3" BackgroundColor="{DynamicResource PrimaryLightBackground}" 
-                       BorderColor="#12396F" >-->
                             <StackLayout  Orientation="Horizontal" Spacing="0" Padding="0">
                                 <Label Margin="10,0" Text="Fecha:" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Italic" FontSize="18"/>
                                 <DatePicker DateSelected="DatePick_OnDateSelected" 
@@ -67,10 +59,7 @@
                                     FontFamily="Italic" />
                             </StackLayout>
 
-                            <!--</Frame>-->
-
                         </StackLayout>
-                        <!--<Image x:Name="MyImg"/>-->
                         <Frame VerticalOptions="FillAndExpand"  BorderColor="{StaticResource PrimaryLightColor}"
                        CornerRadius="5" Padding="3">
                             <Editor AutoSize="TextChanges" Placeholder="Nota"

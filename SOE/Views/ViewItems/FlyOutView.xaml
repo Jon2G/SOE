@@ -10,6 +10,7 @@
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              Background="{DynamicResource SecondaryBackground}"
              x:DataType="viewItems:FlyOutViewModel"
+             xmlns:kit="clr-namespace:Kit;assembly=Kit" xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
              x:Name="Me">
     <ContentView.BindingContext>
         <viewItems:FlyOutViewModel x:Name="Model"/>
@@ -113,6 +114,11 @@
                     </TableSection>
                 </TableRoot>
             </TableView>
+            <controls:ArrowButton Title="Opciones de desarrollador" Command="{Binding DeveloperCommand}" IsVisible="{x:Static kit:Tools.Debugging}">
+                <controls:ArrowButton.Icon>
+                    <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}" Glyph="{Static fonts:FontelloIcons.HappyBeer}" Color="{x:StaticResource AccentColor}" />
+                </controls:ArrowButton.Icon>
+            </controls:ArrowButton>
         </StackLayout>
     </ContentView.Content>
 </ContentView>

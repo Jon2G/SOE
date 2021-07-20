@@ -2,31 +2,52 @@
 <pages:BasePopUp  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
                   xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-                  xmlns:pankk="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                  xmlns:pankk="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
+                  xmlns:viewitems="clr-namespace:SOE.ViewModels.ViewItems"
+                   xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
                   x:Class="SOE.Views.Pages.ReminderPage"
-              Title="Recordatorios">
-    <pankk:PancakeView HorizontalOptions="Center" VerticalOptions="Center" >
-        <StackLayout Margin="0" Spacing="4" BackgroundColor="WhiteSmoke">
-            <Label Text="Recordatorios" TextColor="{AppThemeBinding Dark=Black,Light=White}" FontSize="20"
-                   FontAttributes="Bold" HorizontalTextAlignment="Center"
-                   BackgroundColor="{DynamicResource PrimaryLightColor}" Padding="5"/>
-            <StackLayout Spacing="10">
-                <Editor AutoSize="TextChanges" Placeholder="Titulo"  
+                  x:DataType="viewitems:ReminderPageVIewModel" 
+                  Title="Recordatorios">
+    <pankk:PancakeView HorizontalOptions="Center"
+                       VerticalOptions="Center" Margin="10"
+                       BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDarkColor},Light={StaticResource BackgroundLightColor}}">
+        <StackLayout Margin="0" Spacing="4" >
+            <StackLayout Padding="0" Orientation="Horizontal"  BackgroundColor="{DynamicResource PrimaryLightColor}">
+                <Label Text="Recordatorios" TextColor="{AppThemeBinding Dark=Black,Light=White}" 
+                       FontSize="20" HorizontalOptions="StartAndExpand"
+                   FontAttributes="Bold" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                  Padding="5"/>
+                <Label Text="{x:Static fonts:FontelloIcons.CirclePlus}" 
+                       FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                       TextColor="{AppThemeBinding Dark=Black,Light=White}" 
+                       FontSize="40" HorizontalOptions="End"
+                   FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                       Padding="5" >
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SaveReminderCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+            <StackLayout Spacing="10" Padding="10" >
+                <Editor Text="{Binding PReminder.Title}" AutoSize="TextChanges" Placeholder="Titulo"  
                                      MaxLength="100"/>
                 <Label  VerticalTextAlignment="Center" 
                                Text="Materia:" 
                                TextColor="{DynamicResource secondaryTextColor}" FontSize="17"
                                FontAttributes="Italic"/>
-                <Button             TextColor="{AppThemeBinding Dark=White,Light=Black}"
-                                    BackgroundColor="{Binding Tarea.Subject,Converter={StaticResource SubjectColorAppThemeConverter}}"
+                
+                <Button           Text="{Binding PReminder.Subject.Name}"
+                                    TextColor="{AppThemeBinding Dark=White,Light=Black}"
+                                    BackgroundColor="{Binding PReminder.Subject,Converter={StaticResource SubjectColorAppThemeConverter}}"
                                     CornerRadius="5" BorderColor="{AppThemeBinding Light={StaticResource BackgroundTertiaryLightColor},Dark={StaticResource BackgroundTertiaryDarkColor}}" 
-                                    BorderWidth="1" 
-                                    />
+                                    BorderWidth="2" 
+                                    Command="{Binding SubjectCommand}"/>
+
                 <StackLayout  Orientation="Horizontal" Spacing="0" Padding="0">
                     <Label Margin="10,0" Text="Fecha:" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Italic" FontSize="18"/>
-                    <DatePicker  HorizontalOptions="StartAndExpand" Margin="0"  FontAttributes="Bold"  Format="dd/MM/yyyy"  MinimumDate="{x:Static x:DateTime.Now}" />
+                    <DatePicker  HorizontalOptions="StartAndExpand" Margin="0"  FontAttributes="Bold"  Format="dd/MM/yyyy"  MinimumDate="{x:Static x:DateTime.Now}" Date="{Binding PReminder.Date}"/>
                     <Label Margin="10,0" Text="Hora:" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Italic" FontSize="18"/>
-                    <TimePicker HorizontalOptions="End" Margin="0" FontFamily="Italic" />
+                    <TimePicker HorizontalOptions="End" Margin="0" FontFamily="Italic" Time="{Binding PReminder.Time}" />
                 </StackLayout>
             </StackLayout>
         </StackLayout>

@@ -5,6 +5,7 @@ using Kit.Forms.Services.Interfaces;
 using Kit.Model;
 using Kit.Sql.Sqlite;
 using SOE.Data.Images;
+using SOE.Models;
 using SOE.Models.Academic;
 using SOE.Models.Data;
 using SOE.Models.Scheduler;
@@ -75,10 +76,8 @@ namespace SOE.Data
                 typeof(Credits), typeof(ToDo), typeof(Settings), 
                 typeof(NotificationsHistory), typeof(Document), 
                 typeof(DocumentPart), typeof(Archive),
-                typeof(Keeper),typeof(School));
+                typeof(Keeper),typeof(School),typeof(Reminder));
         }
-
-
   
     }
 }

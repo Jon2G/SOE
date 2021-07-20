@@ -6,8 +6,6 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using APIModels;
-using APIModels.Enums;
 using FFImageLoading;
 using FFImageLoading.Forms;
 using Kit;
@@ -20,6 +18,8 @@ using SOE.Data.Images;
 using SOE.Enums;
 using SOE.Models.Data;
 using SOE.Models.TaskFirst;
+using SOEWeb.Shared;
+using SOEWeb.Shared.Enums;
 using Xamarin.Forms;
 using Device = Kit.Daemon.Devices.Device;
 using JsonSerializer = Newtonsoft.Json.JsonSerializer;
@@ -50,7 +50,7 @@ namespace SOE.API
             }
             return JsonConvert.DeserializeObject<Response>(result.Response);
         }
-        public static async Task<Response> SignUp(string PasswordPin, UserType Type, APIModels.Device Device)
+        public static async Task<Response> SignUp(string PasswordPin, UserType Type,SOEWeb.Shared.Device Device)
         {
             WebService WebService = new WebService(Url);
             User User = AppData.Instance.User;

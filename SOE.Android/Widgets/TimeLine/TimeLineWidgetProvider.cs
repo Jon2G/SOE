@@ -3,7 +3,7 @@ using Android.Appwidget;
 using Android.Content;
 using Android.OS;
 using Android.Widget;
-using APIModels;
+using SOEWeb.Shared;
 using SOE.Droid.Activities;
 using SOE.Models.Scheduler;
 using SOE.Widgets;

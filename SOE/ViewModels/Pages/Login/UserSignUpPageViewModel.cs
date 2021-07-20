@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
-using APIModels;
-using APIModels.Enums;
+using SOEWeb.Shared;
+using SOEWeb.Shared.Enums;
 using AsyncAwaitBestPractices;
 using Kit.Model;
 using SOE.API;
@@ -152,7 +152,7 @@ namespace SOE.ViewModels.Pages.Login
             {
                 AppData.Instance.User.Email = this.Email;
                 response = await APIService.SignUp(this.SOEPassword, UserType.REGULAR_USER,
-                    new APIModels.Device()
+                    new SOEWeb.Shared.Device()
                     {
                         DeviceKey = Device.Current.DeviceId,
                         Brand = Device.Current.GetDeviceBrand(),

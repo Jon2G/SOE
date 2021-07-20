@@ -89,6 +89,10 @@ namespace SOE.ViewModels.Pages
         /// </summary>
         private async void ImportDatabase()
         {
+            if (!await Permisos.RequestStorage())
+            {
+                return;
+            }
             //Espera el resultado de las función pickAsync 
             FileResult source = await FilePicker.PickAsync();
             if (source is null)

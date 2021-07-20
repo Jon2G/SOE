@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using APIModels;
+using SOEWeb.Shared;
 using Kit;
 using Kit.Model;
 using SOE.Data;

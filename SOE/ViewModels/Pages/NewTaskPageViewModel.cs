@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using APIModels;
+using SOEWeb.Shared;
 using FFImageLoading.Forms;
 using Kit.Forms.Extensions;
 using Kit.Forms.Services.Interfaces;

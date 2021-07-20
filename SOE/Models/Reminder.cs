@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using APIModels;
+using SOEWeb.Shared;
 using Kit;
 using Kit.Model;
 using Kit.Sql.Attributes;

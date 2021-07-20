@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Input;
-using APIModels;
-using APIModels.Enums;
+using SOEWeb.Shared;
+using SOEWeb.Shared.Enums;
 using AsyncAwaitBestPractices;
 using Kit.Model;
 using Plugin.Fingerprint;

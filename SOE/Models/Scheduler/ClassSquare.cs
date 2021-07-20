@@ -1,5 +1,5 @@
 ﻿using System;
-using APIModels;
+using SOEWeb.Shared;
 using Kit;
 namespace SOE.Models.Scheduler
 {

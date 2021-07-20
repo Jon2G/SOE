@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using APIModels;
-using APIModels.Enums;
+using SOEWeb.Shared;
+using SOEWeb.Shared.Enums;
 using Kit.Model;
 using SOE.Data;
 using SOE.Models.Scheduler;

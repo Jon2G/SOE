@@ -4,7 +4,7 @@
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
              xmlns:system="clr-namespace:System;assembly=netstandard"
              xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
-             xmlns:apiModels="clr-namespace:APIModels;assembly=APIModels"
+             xmlns:SOEWeb.Shared="clr-namespace:SOEWeb.Shared;assembly=SOEWeb.Shared"
              x:Class="SOE.Views.ViewItems.SubjectClassmatesView"
              x:DataType="viewItems:SubjectClassmatesViewModel"
              x:Name="Me"
@@ -18,7 +18,7 @@
               <StackLayout
                   BindableLayout.ItemsSource="{Binding Classmates}">
                   <BindableLayout.ItemTemplate>
-                      <DataTemplate x:DataType="apiModels:Classmate">
+                      <DataTemplate x:DataType="SOEWeb.Shared:Classmate">
                           <ContentView>
                               <Frame Padding="0" CornerRadius="3" Margin="3" HorizontalOptions="FillAndExpand">
                                   <StackLayout Orientation="Horizontal" Spacing="0" HorizontalOptions="FillAndExpand">

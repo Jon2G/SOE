@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
-using APIModels;
-using APIModels.Enums;
+using SOEWeb.Shared;
+using SOEWeb.Shared.Enums;
 using AsyncAwaitBestPractices;
 using Kit;
 using Kit.Model;

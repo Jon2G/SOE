@@ -13,6 +13,7 @@
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
              x:DataType="pages:MasterPageViewModel" x:Name="Me"
              Title="{Binding SelectedView.Title}">
+    
     <ContentPage.BindingContext>
         <pages:MasterPageViewModel x:Name="Model" x:FieldModifier="public"/>
     </ContentPage.BindingContext>

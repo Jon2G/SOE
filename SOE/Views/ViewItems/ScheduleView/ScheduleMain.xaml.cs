@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using APIModels;
+using SOEWeb.Shared;
 using SOE.Data;
 using SOE.Models.Scheduler;
 using SOE.Models.TaskFirst;

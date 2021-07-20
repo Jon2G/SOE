@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using APIModels;
 using SOE.Data;
 using SOE.Models.Data;
+using SOEWeb.Shared;
 
 namespace SOE.Services
 {

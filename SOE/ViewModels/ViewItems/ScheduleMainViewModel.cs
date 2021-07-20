@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Input;
-using APIModels;
+using SOEWeb.Shared;
 using Kit.Model;
 using Kit.Sql.Reflection;
 using SOE.Models.Academic;

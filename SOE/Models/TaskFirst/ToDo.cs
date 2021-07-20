@@ -7,8 +7,6 @@ using Kit.Sql.Attributes;
 using Xamarin.Forms;
 using System.Windows.Input;
 using System.Xml.Serialization;
-using APIModels;
-using APIModels.Enums;
 using AsyncAwaitBestPractices;
 using FFImageLoading;
 using FFImageLoading.Forms;
@@ -21,6 +19,8 @@ using SOE.Enums;
 using SOE.Services;
 using SOE.Views.ViewItems.TasksViews;
 using Xamarin.Essentials;
+using SOEWeb.Shared;
+using SOEWeb.Shared.Enums;
 
 namespace SOE.Models.TaskFirst
 {

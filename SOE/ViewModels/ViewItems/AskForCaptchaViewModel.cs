@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using APIModels;
+using SOEWeb.Shared;
 using AsyncAwaitBestPractices;
 using Kit;
 using Kit.Model;

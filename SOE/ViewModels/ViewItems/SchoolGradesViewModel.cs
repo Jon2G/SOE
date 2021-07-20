@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
-using APIModels;
+using SOEWeb.Shared;
 using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
 using Kit;

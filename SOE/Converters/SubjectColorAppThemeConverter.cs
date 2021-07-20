@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Globalization;
-using APIModels;
 using Kit.Model;
+using SOEWeb.Shared;
 using Xamarin.Forms;
 
 namespace SOE.Converters

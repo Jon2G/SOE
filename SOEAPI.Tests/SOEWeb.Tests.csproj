@@ -26,6 +26,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SOEAPI\SOEAPI.csproj" />
+    <ProjectReference Include="..\SOEAPI\SOEWeb.Server.csproj" />
   </ItemGroup>
 </Project>

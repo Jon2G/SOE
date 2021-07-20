@@ -1,9 +1,8 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using Kit.Sql.Attributes;
+using System;
 using System.Xml.Serialization;
-using Kit.Sql.Attributes;
 
-namespace APIModels
+namespace SOEWeb.Shared
 {
     public class ClassTime
     {
@@ -19,16 +18,16 @@ namespace APIModels
         [Ignore]
         public long BeginTicks
         {
-            get => Begin.Ticks;
-            set => Begin = TimeSpan.FromTicks(value);
+            get => this.Begin.Ticks;
+            set => this.Begin = TimeSpan.FromTicks(value);
         }
         [XmlIgnore]
         public TimeSpan End { get; set; }
         [Ignore]
         public long EndTicks
         {
-            get=>End.Ticks;
-            set => End = TimeSpan.FromTicks(value);
+            get=>this.End.Ticks;
+            set => this.End = TimeSpan.FromTicks(value);
         }
 
         public ClassTime()

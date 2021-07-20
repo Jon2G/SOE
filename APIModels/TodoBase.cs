@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Kit.Model;
+﻿using Kit.Model;
 using Kit.Sql.Attributes;
 using Kit.Sql.Interfaces;
+using System;
 
-namespace APIModels
+namespace SOEWeb.Shared
 {
     public class TodoBase : ModelBase, IGuid
     {
@@ -14,52 +12,52 @@ namespace APIModels
         private string _Title;
         public string Title
         {
-            get => _Title;
+            get => this._Title;
             set
             {
-                _Title = value;
-                Raise(() => Title);
+                this._Title = value;
+                this.Raise(() => this.Title);
             }
         }
         private string _Description;
         public string Description
         {
-            get => _Description;
+            get => this._Description;
             set
             {
-                _Description = value;
-                Raise(() => Description);
+                this._Description = value;
+                this.Raise(() => this.Description);
             }
         }
         private DateTime _Date;
         public DateTime Date
         {
-            get => _Date;
+            get => this._Date;
             set
             {
-                _Date = value;
-                Raise(() => Date);
+                this._Date = value;
+                this.Raise(() => this.Date);
             }
         }
         private TimeSpan _Time;
         public TimeSpan Time
         {
-            get => _Time;
+            get => this._Time;
             set
             {
-                _Time = value;
-                Raise(() => Time);
+                this._Time = value;
+                this.Raise(() => this.Time);
             }
         }
         private Subject _Subject;
         [Ignore]
         public Subject Subject
         {
-            get => _Subject;
+            get => this._Subject;
             set
             {
-                _Subject = value;
-                Raise(() => Subject);
+                this._Subject = value;
+                this.Raise(() => this.Subject);
             }
         }
 

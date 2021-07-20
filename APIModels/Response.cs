@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using APIModels.Enums;
-using Kit.Sql.Readers;
+﻿using Kit.Sql.Readers;
+using SOEWeb.Shared.Enums;
+using System;
 
-namespace APIModels
+namespace SOEWeb.Shared
 {
     public class Response
     {

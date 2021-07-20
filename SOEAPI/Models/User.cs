@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Kit.Sql.Attributes;
+using Kit.Sql.SqlServer;
+using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
-using Kit.Sql.Attributes;
-using Kit.Sql.SqlServer;
 
-namespace SOEAPI
+namespace SOEWeb.Server.Models
 {
     public class User
     {

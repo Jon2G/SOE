@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc.Formatters;
+using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Formatters;
 
-namespace SOEAPI.Formaters
+namespace SOEWeb.Server.Formaters
 {
     public class ByteArrayInputFormatter : InputFormatter
     {
         public ByteArrayInputFormatter()
         {
-            SupportedMediaTypes.Add(Microsoft.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/octet-stream"));
+            this.SupportedMediaTypes.Add(Microsoft.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/octet-stream"));
         }
 
         protected override bool CanReadType(Type type)

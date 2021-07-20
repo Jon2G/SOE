@@ -1,21 +1,19 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using Kit.Sql.Readers;
+using Kit.Sql.SqlServer;
+using Microsoft.Extensions.Logging;
+using SOEWeb.Shared;
+using SOEWeb.Shared.Enums;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
-using APIModels;
-using APIModels.Enums;
-using HtmlAgilityPack;
-using Kit;
-using Kit.Sql.Readers;
-using Kit.Sql.SqlServer;
-using Microsoft.Extensions.Logging;
 
-namespace SOEAPI.Processors
+namespace SOEWeb.Server.Processors
 {
     public static class GradesDigester
     {

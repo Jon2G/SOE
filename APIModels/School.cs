@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace APIModels
+namespace SOEWeb.Shared
 {
     public class School
     {

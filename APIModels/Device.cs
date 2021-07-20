@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace APIModels
+namespace SOEWeb.Shared
 {
     public class Device
     {

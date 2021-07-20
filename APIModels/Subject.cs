@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml.Serialization;
-using Kit.Sql.Attributes;
+﻿using Kit.Sql.Attributes;
 using Kit.Sql.Interfaces;
+using System;
 
-namespace APIModels
+namespace SOEWeb.Shared
 {
     public class Subject : IGuid
     {

@@ -13,7 +13,7 @@
              xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
              x:DataType="viewModels:MainTaskViewModel"
-            >
+            VerticalOptions="FillAndExpand">
     <ContentView.BindingContext>
         <viewModels:MainTaskViewModel/>
     </ContentView.BindingContext>

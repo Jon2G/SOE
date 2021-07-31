@@ -21,17 +21,14 @@
         </ToolbarItem>
     </models:IconView.ToolbarItem>
     <models:IconView.Content>
-      <Grid>
-          <Grid.RowDefinitions>
-              <RowDefinition Height="94*"/>
-              <RowDefinition Height="5*"/>
-          </Grid.RowDefinitions>
-          <tasksViews:MainTaskView/>
-          <Label Grid.Row="1" BackgroundColor="#15386f" Text="{x:Static fonts:FontelloIcons.UpArrow}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="Large">
+      <StackLayout>
+
+            <tasksViews:MainTaskView/>
+            <Label HeightRequest="30" VerticalOptions="EndAndExpand" BackgroundColor="#15386f" Text="{x:Static fonts:FontelloIcons.UpArrow}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="Large">
               <Label.GestureRecognizers>
                   <TapGestureRecognizer Command="{Binding OpenMenuCommand}"/>
               </Label.GestureRecognizers>
           </Label>
-      </Grid>
+      </StackLayout>
     </models:IconView.Content>
 </models:IconView>

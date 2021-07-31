@@ -7,7 +7,7 @@
           x:Class="SOE.Views.ViewItems.PendingRemindersView"
           x:DataType="viewItems:PendingRemindersViewModel">
     <ContentView.BindingContext>
-        <viewItems:PendingRemindersViewModel/>
+        <viewItems:PendingRemindersViewModel x:Name="Model"/>
     </ContentView.BindingContext>
     <CollectionView  Margin="3"  HorizontalOptions= "FillAndExpand" VerticalOptions= "FillAndExpand"
                      SelectionMode= "None" ItemsSource= "{Binding Reminders}" >
@@ -25,7 +25,7 @@
                                      BackgroundColor= "{Binding Subject,Converter={StaticResource SubjectColorAppThemeConverter},ConverterParameter={StaticResource AccentColor}}" 
                                      Grid.Column="0">
                             <CheckBox HorizontalOptions="CenterAndExpand"
-                                      VerticalOptions="CenterAndExpand" Color="#15386f" />
+                                      VerticalOptions="CenterAndExpand" Color="#15386f"  />
                         </StackLayout >
                         <StackLayout Grid.Column= "1" HorizontalOptions= "StartAndExpand"
                                              VerticalOptions= "CenterAndExpand" Margin= "10" >
@@ -39,15 +39,15 @@
                             </StackLayout>
                            
                         </StackLayout >
-                        <Image Rotation="90" Grid.Column="1" HorizontalOptions="EndAndExpand"   >
+                        <Image  Rotation="90" Grid.Column="2" HorizontalOptions="EndAndExpand"   >
                             <Image.Source>
                                 <FontImageSource
-                                                    Glyph="{x:Static fonts:FontelloIcons.ThreeDots}" 
-                                                    FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                                    Color="{AppThemeBinding Dark=White,Light=Black}"/>
+                                    Glyph="{x:Static fonts:FontelloIcons.ThreeDots}" 
+                                FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                Color="{AppThemeBinding Dark=White,Light=Black}"/>
                             </Image.Source>
                             <Image.GestureRecognizers>
-                                <TapGestureRecognizer />
+                                <TapGestureRecognizer Command="{Binding OpenMenuCommand,Source={x:Reference Model}}" CommandParameter="{Binding .}" />
                             </Image.GestureRecognizers>
                         </Image>
                     </StackLayout >

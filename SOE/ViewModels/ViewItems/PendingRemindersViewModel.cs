@@ -3,8 +3,11 @@ using AsyncAwaitBestPractices.MVVM;
 using Kit;
 using Kit.Model;
 using SOE.Data;
+using SOE.Enums;
 using SOE.Models;
+using SOE.Models.TaskFirst;
 using SOE.Services;
+using SOE.ViewModels.Pages;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
 using System;
@@ -19,7 +22,13 @@ namespace SOE.ViewModels.ViewItems
 {
     public class PendingRemindersViewModel : ModelBase
     {
+
         public static PendingRemindersViewModel Instance { get; private set; }
+        public bool IsCompleted { get; set; }
+        public ICommand _OpenMenuCommand;
+        public ICommand OpenMenuCommand => this._OpenMenuCommand ??= new Command<Reminder>(ReminderPopUp.ShowPopUp);
+
+
         private ObservableCollection<Reminder> _Reminders;
         public ObservableCollection<Reminder> Reminders
         {
@@ -30,28 +39,18 @@ namespace SOE.ViewModels.ViewItems
                 Raise(() => Reminders);
             }
         }
-        private Reminder _PReminder;
-
-        public Reminder PReminder
-        {
-            get => _PReminder;
-            set
-            {
-                _PReminder = value;
-                Raise(() => PReminder);
-            }
-        }
         public PendingRemindersViewModel()
         {
             Instance = this;
             Reminders = new ObservableCollection<Reminder>();
             Load().SafeFireAndForget();
-
+            
         }
-
+        
         public async Task Load()
         {
             await Task.Yield();
+            Reminders.Clear();
             Reminders.AddRange(AppData.Instance.LiteConnection.Table<Reminder>().ToList());
             foreach (var reminder in Reminders)
             {

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SOE.ViewModels.Pages;
+using SOE.ViewModels.ViewItems;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +17,7 @@ namespace SOE.Views.ViewItems
         public override string Title => "RECORDATORIOS";
         public PendingRemindersView()
         {
+           
             InitializeComponent();
         }
     }

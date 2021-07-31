@@ -1,4 +1,5 @@
-﻿using SOE.ViewModels.ViewItems;
+﻿using SOE.Models;
+using SOE.ViewModels.ViewItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,13 @@ namespace SOE.Views.Pages
         public ReminderPageVIewModel Model { get; set; }
         public ReminderPage()
         {
-            this.Model = new ReminderPageVIewModel(this);
+
+            InitializeComponent();
+        }
+
+        public ReminderPage(Reminder reminder)
+        {
+            this.Model = new ReminderPageVIewModel(this) { PReminder = reminder };
             this.BindingContext = Model;
             InitializeComponent();
         }

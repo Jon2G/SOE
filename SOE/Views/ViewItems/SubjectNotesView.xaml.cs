@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using SOEWeb.Shared;
-using AsyncAwaitBestPractices;
+using SOE.Data;
 using SOE.Fonts;
-using SOE.Services;
 using SOE.ViewModels.ViewItems;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace SOE.Views.ViewItems
@@ -23,6 +17,9 @@ namespace SOE.Views.ViewItems
             this.Model = new SubjectNotesViewModel(Subject);
             this.BindingContext = this.Model;
             InitializeComponent();
+
         }
+        public Task Init() => SoeWebView.GoToSubjectNotesPage(Model.Subject, AppData.Instance.User);
+
     }
 }

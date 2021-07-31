@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using AsyncAwaitBestPractices;
 using SOE.Enums;
-using SOE.Views.Pages;
 using SOE.Views.PopUps;
-using SOE.Views.ViewItems;
 using Xamarin.Forms;
 
 namespace SOE.ViewModels.ViewItems

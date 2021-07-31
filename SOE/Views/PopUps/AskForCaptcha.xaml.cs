@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using AsyncAwaitBestPractices;
 using SOE.Data;
-using SOE.ViewModels.Pages;
-using SOE.ViewModels.Pages.Login;
 using SOE.ViewModels.ViewItems;
 using Xamarin.Forms.Xaml;
 

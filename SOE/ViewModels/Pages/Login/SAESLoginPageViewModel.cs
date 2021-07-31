@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using SOEWeb.Shared;
 using AsyncAwaitBestPractices;
 using Kit.Model;
 using SOE.Data;
-using SOE.Models.Data;
-using SOE.Views.Pages;
 using SOE.Views.Pages.Login;
 using Xamarin.Forms;
 

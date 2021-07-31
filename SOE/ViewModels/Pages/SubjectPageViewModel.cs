@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using SOEWeb.Shared;
 using AsyncAwaitBestPractices;
 using Kit.Model;
 using SOE.Models;
-using SOE.Services;
 using SOE.Views.ViewItems;
 
 namespace SOE.ViewModels.Pages
@@ -16,7 +12,7 @@ namespace SOE.ViewModels.Pages
     {
         public Subject Subject { get; set; }
 
-        public ObservableCollection<IconView> Views {get; private set; }
+        public ObservableCollection<IconView> Views { get; private set; }
 
         public SubjectPageViewModel(Subject Subject)
         {
@@ -28,9 +24,10 @@ namespace SOE.ViewModels.Pages
         private async Task Load()
         {
             await Task.Yield();
-            Views.Add(new SubjectNotesView(this.Subject));
+            var notesview = new SubjectNotesView(this.Subject);
+            Views.Add(notesview);
             Views.Add(new SubjectClassmatesView(this.Subject));
-
+            await notesview.Init();
         }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 using AsyncAwaitBestPractices;
-using SOE.API;
 using SOE.Data;
 using SOE.Models.TaskFirst;
 using SOE.Views.Pages;

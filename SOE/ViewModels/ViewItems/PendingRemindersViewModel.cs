@@ -1,19 +1,11 @@
 ﻿using AsyncAwaitBestPractices;
-using AsyncAwaitBestPractices.MVVM;
 using Kit;
 using Kit.Model;
 using SOE.Data;
 using SOE.Models;
 using SOE.Services;
-using SOE.Views.Pages;
-using SOE.Views.PopUps;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using Xamarin.Forms;
 
 namespace SOE.ViewModels.ViewItems
 {

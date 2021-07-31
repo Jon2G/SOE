@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SOEWeb.Shared
 {
-    public class SubjectComments
+    public class SubjectComment : List<SubjectComment>
     {
         [PrimaryKey, AutoIncrement, NotNull]
         public Guid Id { get; set; }
@@ -14,7 +14,10 @@ namespace SOEWeb.Shared
         public string UserName { get; set; }
         [MaxLength(140)]
         public string Text { get; set; }
-        [Ignore]
-        public List<SubjectComments> Comments { get; set; }
+        public bool HasSubComments { get; set; }
+        public bool OpenSubComments { get; set; }
+        public bool CommentBox { get; set; }
+        public bool? Vote { get; set; }
+        public int Votes { get; set; }
     }
 }

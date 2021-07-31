@@ -1,6 +1,5 @@
 using Amazon.Lambda.Core;
 using Kit.Sql.Readers;
-using Kit.Sql.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -22,14 +21,10 @@ namespace SOEWeb.Server.Controllers
     [Route("[controller]")]
     public class AppController : ControllerBase
     {
-        private readonly SQLServerConnection Connection;
         private readonly ILogger<AppController> _logger;
         public AppController(ILogger<AppController> logger)
         {
-            //Connection = new SQLServerConnection("SOE_DATABASE","192.168.0.32\\SQLEXPRESS","1433","sa","12345678");
-            this.Connection = new SQLServerConnection(@"Data Source=soe-database-instance.c5kv8sy96hgu.us-east-2.rds.amazonaws.com,1433;Initial Catalog=SOE_DATABASE;Integrated Security=False;Persist Security Info=True;User ID=admin;Encrypt=False;Password=Octopus$2021.;");
             this._logger = logger;
-
         }
         [HttpGet()]
         [HttpGet("Hello")]
@@ -42,7 +37,7 @@ namespace SOEWeb.Server.Controllers
         {
             Stopwatch sp = new Stopwatch();
             sp.Start();
-            if (this.Connection.TestConnection() is Exception ex)
+            if (WebData.Connection.TestConnection() is Exception ex)
             {
                 return new Response(APIResponseResult.INTERNAL_ERROR, ex.ToString());
             }
@@ -82,7 +77,7 @@ namespace SOEWeb.Server.Controllers
             }
             try
             {
-                Response response = SOEWeb.Shared.Response.From(this.Connection.Read("SP_LOGIN"
+                Response response = SOEWeb.Shared.Response.From(WebData.Connection.Read("SP_LOGIN"
                     , CommandType.StoredProcedure
                     , new SqlParameter("Mail", mail)
                     , new SqlParameter("Boleta", boleta)
@@ -108,12 +103,12 @@ namespace SOEWeb.Server.Controllers
                 return new Response(APIResponseResult.INTERNAL_ERROR, ex.Message);
             }
         }
-        [HttpGet("SignUp/{Boleta}/{Nombre}/{Email}/{Password}/{School}/{Type}/{Device}")]
-        public ActionResult<Response> SignUp(string Boleta, string Nombre, string Email, string Password, string School, int Type, string Device)
+        [HttpGet("SignUp/{Boleta}/{Nombre}/{NickName}/{Email}/{Password}/{School}/{Type}/{Device}")]
+        public ActionResult<Response> SignUp(string Boleta, string Nombre, string NickName, string Email, string Password, string School, int Type, string Device)
         {
             try
             {
-                return this.SignUp(Boleta, Nombre, Email, Password, School, (UserType)Type, JsonConvert.DeserializeObject<Device>(Device));
+                return this.SignUp(Boleta, Nombre, NickName, Email, Password, School, (UserType)Type, JsonConvert.DeserializeObject<Device>(Device));
             }
             catch (Exception ex)
             {
@@ -121,12 +116,14 @@ namespace SOEWeb.Server.Controllers
                 return new Response(APIResponseResult.INTERNAL_ERROR, ex.Message);
             }
         }
-        private Response SignUp(string Boleta, string Nombre, string Email, string Password, string School, UserType Type, Device Device)
+        private Response SignUp(string Boleta, string Nombre, string NickName, string Email, string Password, string School, UserType Type, Device Device)
         {
             if (string.IsNullOrEmpty(Boleta) || string.IsNullOrEmpty(Password) || Password.Length < 8
                 || !Validations.IsValidEmail(Email)
                 || !Validations.IsValidBoleta(Boleta)
                 || string.IsNullOrEmpty(School)
+                || string.IsNullOrEmpty(Nombre)
+                || string.IsNullOrEmpty(NickName)
                 || string.IsNullOrEmpty(Device.DeviceKey)
                 || Type == UserType.INVALID)
             {
@@ -136,10 +133,11 @@ namespace SOEWeb.Server.Controllers
             try
             {
                 Response response = SOEWeb.Shared.Response.From(
-                    this.Connection.Read("SP_SIGNUP"
+                    WebData.Connection.Read("SP_SIGNUP"
                     , CommandType.StoredProcedure
                     , new SqlParameter("BOLETA", Boleta)
                     , new SqlParameter("NAME", Nombre)
+                    , new SqlParameter("NICK_NAME", NickName)
                     , new SqlParameter("MAIL", Email)
                     , new SqlParameter("PASSWORD_PIN", Password)
                     , new SqlParameter("SCHOOL_NAME", School)
@@ -164,7 +162,7 @@ namespace SOEWeb.Server.Controllers
         {
             Stopwatch sp = new Stopwatch();
             sp.Start();
-            string xml = ClassTimeDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), User, this.Connection, this._logger);
+            string xml = ClassTimeDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), User, WebData.Connection, this._logger);
             if (string.IsNullOrEmpty(xml))
             {
                 return SOEWeb.Shared.Response.Error;
@@ -175,7 +173,7 @@ namespace SOEWeb.Server.Controllers
         [HttpPost("PostGrades/{User}")]
         public ActionResult<Response> PostGrades(string User, [FromBody] byte[] HTML)
         {
-            string xml = GradesDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), User, this.Connection, this._logger);
+            string xml = GradesDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), User, WebData.Connection, this._logger);
             if (string.IsNullOrEmpty(xml))
             {
                 return SOEWeb.Shared.Response.Error;
@@ -191,7 +189,7 @@ namespace SOEWeb.Server.Controllers
             }
             try
             {
-                return SOEWeb.Shared.Response.From(this.Connection.Read("SP_GET_ADD_CAREER"
+                return SOEWeb.Shared.Response.From(WebData.Connection.Read("SP_GET_ADD_CAREER"
                     , CommandType.StoredProcedure
                     , new SqlParameter("CAREER_NAME", CareerName)
                     , new SqlParameter("USER", User)
@@ -224,7 +222,7 @@ namespace SOEWeb.Server.Controllers
                         "Esta tarea ya ha expirado, cambie la fecha de entrega si desea compartirla");
                 }
 
-                return SOEWeb.Shared.Response.From(this.Connection.Read("SP_POST_TODO"
+                return SOEWeb.Shared.Response.From(WebData.Connection.Read("SP_POST_TODO"
                     , CommandType.StoredProcedure
                     , new SqlParameter("GUID", Todo.Guid)
                     , new SqlParameter("SUBJECT_ID", Todo.Subject.Id)
@@ -252,7 +250,7 @@ namespace SOEWeb.Server.Controllers
             {
                 return SOEWeb.Shared.Response.Error;
             }
-            return SOEWeb.Shared.Response.From(this.Connection.Read("SP_POST_TODO_PICTURE"
+            return SOEWeb.Shared.Response.From(WebData.Connection.Read("SP_POST_TODO_PICTURE"
                 , CommandType.StoredProcedure
                 , new SqlParameter("TODO_GUID", ToDoGuid)
                 , new SqlParameter("IMG", Img)
@@ -284,7 +282,7 @@ namespace SOEWeb.Server.Controllers
         [HttpGet("ShareTodo/{ToDoGuid}")]
         public ActionResult<Response> ShareTodo(Guid ToDoGuid)
         {
-            TodoBase todo = this.TodoFrom(this.Connection.Read(
+            TodoBase todo = this.TodoFrom(WebData.Connection.Read(
                 "SP_GET_TODO_BY_GUID",
                 CommandType.StoredProcedure,
                 new SqlParameter("GUID", ToDoGuid)));
@@ -301,7 +299,7 @@ namespace SOEWeb.Server.Controllers
         [HttpGet("GetArchieveIds/{ArchieveGuid}")]
         public ActionResult<Response> GetArchieveIds(Guid ArchieveGuid)
         {
-            int[] ids = this.Connection.Lista<int>(
+            int[] ids = WebData.Connection.Lista<int>(
                 "SP_GET_ARCHIEVE_ID_BY_GUID",
                 CommandType.StoredProcedure, 0,
                 new SqlParameter("GUID", ArchieveGuid))
@@ -314,7 +312,7 @@ namespace SOEWeb.Server.Controllers
         [HttpGet("GetArchieveById/{Id}")]
         public FileContentResult GetArchieveById(int Id)
         {
-            byte[] result = (byte[])this.Connection.Single("SP_GET_ARCHIEVE_BY_ID"
+            byte[] result = (byte[])WebData.Connection.Single("SP_GET_ARCHIEVE_BY_ID"
                 , CommandType.StoredProcedure, new SqlParameter("ID", Id));
             if (result is null)
             {
@@ -326,7 +324,7 @@ namespace SOEWeb.Server.Controllers
         public ActionResult<Response> GetClassmates(string Group)
         {
             List<Classmate> Classmates = new List<Classmate>();
-            using (var reader = this.Connection.Read(
+            using (var reader = WebData.Connection.Read(
                 "SP_GET_CLASSMATES",
                 CommandType.StoredProcedure,
                 new SqlParameter("GROUP", Group)))

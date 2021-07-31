@@ -6,7 +6,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Serialization;
 using SOEWeb.Shared;
 using SOEWeb.Shared.Enums;
 using HtmlAgilityPack;
@@ -15,14 +14,13 @@ using SOE.API;
 using SOE.Data;
 using SOE.Models.Academic;
 using SOE.Models.Data;
-using SOE.Models.Scheduler;
 using SOE.Services;
 using SOE.Widgets;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
-using Application = Xamarin.Forms.Application;
 using WebView = Xamarin.Forms.WebView;
+using Kit.Forms.Controls.WebView;
 
 namespace SOE.Saes
 {

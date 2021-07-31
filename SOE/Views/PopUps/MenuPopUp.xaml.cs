@@ -3,15 +3,10 @@ using Rg.Plugins.Popup.Animations;
 using Rg.Plugins.Popup.Enums;
 using Rg.Plugins.Popup.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using SOE.ViewModels.Pages;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using SOE.Models.TaskFirst;
-using SOE.Fonts;
 
 namespace SOE.Views.PopUps
 {

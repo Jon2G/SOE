@@ -4,7 +4,6 @@ using System.Windows.Input;
 using SOEWeb.Shared;
 using Kit.Model;
 using SOE.Data;
-using SOE.Models.Scheduler;
 using SOE.Views.PopUps;
 using Xamarin.Forms;
 

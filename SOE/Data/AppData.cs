@@ -1,19 +1,14 @@
 ﻿using System;
 using System.IO;
 using SOEWeb.Shared;
-using Kit.Forms.Services.Interfaces;
 using Kit.Model;
 using Kit.Sql.Sqlite;
 using SOE.Data.Images;
 using SOE.Models;
 using SOE.Models.Academic;
 using SOE.Models.Data;
-using SOE.Models.Scheduler;
 using SOE.Models.TaskFirst;
 using SOE.Notifications;
-using SOE.Saes;
-using Xamarin.Forms;
-using Device = Xamarin.Forms.Device;
 
 namespace SOE.Data
 {
@@ -44,7 +39,7 @@ namespace SOE.Data
             }
         }
 
-        public SAES SAES
+        public Saes.SAES SAES
         {
             get;
             set;

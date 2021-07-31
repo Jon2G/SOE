@@ -3,7 +3,6 @@ using SOEWeb.Shared;
 using SOEWeb.Shared.Enums;
 using Kit.Model;
 using SOE.Data;
-using SOE.Models.Scheduler;
 
 namespace SOE.Models.Academic
 {

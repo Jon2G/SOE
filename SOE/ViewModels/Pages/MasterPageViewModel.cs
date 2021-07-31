@@ -1,23 +1,11 @@
-﻿using Kit;
-using Rg.Plugins.Popup.Animations;
-using Rg.Plugins.Popup.Enums;
-using Rg.Plugins.Popup.Services;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Kit.Model;
 using Xamarin.Forms;
 using System.Threading.Tasks;
-using Acr.UserDialogs;
-using System.Collections.Generic;
 using AsyncAwaitBestPractices;
-using Kit.Extensions;
-using P42.Utils;
 using SOE.Models;
-using SOE.ViewModels.ViewItems;
 using SOE.Views.Pages;
-using SOE.Views.PopUps;
 using SOE.Views.ViewItems;
 using SOE.Views.ViewItems.ScheduleView;
 

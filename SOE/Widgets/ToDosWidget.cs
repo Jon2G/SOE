@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Kit.Forms.Services.Interfaces;
 using SOE.Data;
 using SOE.Enums;
-using SOE.Models.Scheduler;
 using SOE.Models.TaskFirst;
-using SOE.ViewModels.ViewItems;
-using SOE.Views.ViewItems.TasksViews;
 using Xamarin.Forms;
 
 namespace SOE.Widgets

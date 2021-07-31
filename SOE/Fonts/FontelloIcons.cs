@@ -1,5 +1,4 @@
-﻿using System.CodeDom;
-using SOE.Fonts;
+﻿using SOE.Fonts;
 using Xamarin.Forms;
 
 [assembly: ExportFont("fontello_16.ttf", Alias = FontelloIcons.Font)]

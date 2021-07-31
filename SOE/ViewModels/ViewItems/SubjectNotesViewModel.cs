@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using SOEWeb.Shared;
 using AsyncAwaitBestPractices;
 using Kit.Model;
-using SOE.Models;
 using SOE.Services;
 
 namespace SOE.ViewModels.ViewItems

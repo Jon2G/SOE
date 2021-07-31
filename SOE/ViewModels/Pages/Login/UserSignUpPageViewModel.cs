@@ -7,6 +7,7 @@ using SOE.API;
 using SOE.Data;
 using SOE.Models.Data;
 using SOE.Views.Pages.Login;
+using System;
 using Xamarin.Forms;
 using Device = Kit.Daemon.Devices.Device;
 
@@ -160,6 +161,7 @@ namespace SOE.ViewModels.Pages.Login
                         Model = Device.Current.GetDeviceModel(),
                         Name = Device.Current.GetDeviceName()
                     });
+                AppData.Instance.User.Id = Convert.ToInt32(response.Extra);
             }
             switch (response.ResponseResult)
             {

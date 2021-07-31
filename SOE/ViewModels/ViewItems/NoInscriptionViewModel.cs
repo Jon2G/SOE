@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows.Input;
 using AsyncAwaitBestPractices;
-using AsyncAwaitBestPractices.MVVM;
 using SOE.Data;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;

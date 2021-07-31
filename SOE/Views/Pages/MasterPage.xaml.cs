@@ -3,25 +3,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using AsyncAwaitBestPractices;
 using Kit;
-using Kit.Extensions;
 using SOE.API;
 using SOE.Data;
-using SOE.Fonts;
 using SOE.Interfaces;
 using SOE.Models.TaskFirst;
 using SOE.Services;
 using SOE.Services.ActionResponse;
-using SOE.ViewModels.ViewItems;
-using SOE.Views.PopUps;
-using SOE.Views.ViewItems;
 using SOE.Views.ViewItems.ScheduleView;
-using SOE.Widgets;
-using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
-using ZXing.QrCode.Internal;
-using Command = Xamarin.Forms.Command;
 
 namespace SOE.Views.Pages
 {

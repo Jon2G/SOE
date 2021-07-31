@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SOEWeb.Shared;
-using AsyncAwaitBestPractices;
+﻿using SOEWeb.Shared;
 using SOE.Fonts;
 using SOE.ViewModels.ViewItems;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace SOE.Views.ViewItems

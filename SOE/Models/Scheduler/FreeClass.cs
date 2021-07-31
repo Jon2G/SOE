@@ -1,6 +1,4 @@
 ﻿using System;
-using SOEWeb.Shared;
-using SOE.Models.Academic;
 using SOE.Services;
 using FontelloIcons = SOE.Fonts.FontelloIcons;
 

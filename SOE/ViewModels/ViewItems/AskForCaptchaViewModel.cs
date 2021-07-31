@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using SOEWeb.Shared;
-using AsyncAwaitBestPractices;
-using Kit;
 using Kit.Model;
-using Rg.Plugins.Popup.Services;
 using SOE.Data;
 using SOE.Views.PopUps;
 using Xamarin.Forms;
+using Command = Xamarin.Forms.Command;
 
 namespace SOE.ViewModels.ViewItems
 {

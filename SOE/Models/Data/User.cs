@@ -1,7 +1,4 @@
-﻿
-using DocumentFormat.OpenXml.Drawing.Charts;
-using Kit.Model;
-using Kit.Sql.Attributes;
+﻿using Kit.Sql.Attributes;
 using SOE.Data;
 using SOE.Services;
 using SOEWeb.Shared;
@@ -10,6 +7,8 @@ namespace SOE.Models.Data
 {
     public class User :UserBase
     {
+
+
         private string _Name;
         private string _Career;
         private string _Email;

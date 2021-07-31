@@ -1,12 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using FFImageLoading.Forms;
 using P42.Utils;
-using SOE.Data;
 using SOE.Data.Images;
-using SOE.Enums;
 using SOE.Models.TaskFirst;
-using Xamarin.Forms;
 
 namespace SOE.ViewModels.Pages
 {

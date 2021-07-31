@@ -44,6 +44,7 @@ namespace SOEWeb.Server
         /// <param name="builder"></param>
         protected override void Init(IHostBuilder builder)
         {
+            
         }
     }
 }

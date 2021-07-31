@@ -10,6 +10,7 @@ using SOE.Views.Pages;
 using SOE.Views.PopUps;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Command = Xamarin.Forms.Command;
 
 namespace SOE.ViewModels.ViewItems
 {

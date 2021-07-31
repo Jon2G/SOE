@@ -1,6 +1,4 @@
-﻿using SOE.Data;
-using SOE.Views.Pages;
-using SOE.Widgets;
+﻿using SOE.Views.Pages;
 using Xamarin.Forms;
 
 namespace SOE

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AsyncAwaitBestPractices;
-using Kit.Forms.Pages;
-using Xamarin.Forms;
+﻿using AsyncAwaitBestPractices;
 using Xamarin.Forms.Xaml;
 
 namespace SOE.Views.PopUps

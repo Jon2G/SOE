@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SOE.Enums
+﻿namespace SOE.Enums
 {
     public enum ToDoStatus
     {

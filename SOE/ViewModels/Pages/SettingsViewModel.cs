@@ -1,17 +1,11 @@
 ﻿using System;
-using System.IO;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Acr.UserDialogs;
-using Kit;
-using Kit.Forms.Extensions;
 using Kit.Model;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 using SOE.Data;
 using SOE.Models.Data;
 using SOE.Views.PopUps;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace SOE.ViewModels.Pages

@@ -1,7 +1,6 @@
 ﻿using System.Windows.Input;
 using Kit.Extensions;
 using Kit.Model;
-using SOE.Views.Pages;
 
 namespace SOE.ViewModels.Pages
 {

@@ -2,16 +2,12 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using AsyncAwaitBestPractices;
 using Kit.Model;
 using P42.Utils;
 using SOE.Data;
 using SOE.Enums;
 using SOE.Models.TaskFirst;
-using SOE.Views.Pages;
-using SOE.Views.PopUps;
-using Xamarin.Forms;
 
 namespace SOE.ViewModels.ViewItems
 {

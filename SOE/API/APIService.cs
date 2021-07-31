@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
-using FFImageLoading;
-using FFImageLoading.Forms;
 using Kit;
-using Kit.Daemon.Devices;
 using Kit.Services.Web;
-using Kit.Sql.Base;
 using Newtonsoft.Json;
 using SOE.Data;
 using SOE.Data.Images;
@@ -21,9 +13,7 @@ using SOE.Models.Data;
 using SOE.Models.TaskFirst;
 using SOEWeb.Shared;
 using SOEWeb.Shared.Enums;
-using Xamarin.Forms;
 using Device = Kit.Daemon.Devices.Device;
-using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace SOE.API
 {

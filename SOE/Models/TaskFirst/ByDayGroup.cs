@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using SOEWeb.Shared;
 using Kit;
 using Kit.Model;
 using SOE.Data;
 using SOE.Enums;
-using SOE.Models.Academic;
-using SOE.Models.Scheduler;
 using SOE.Services;
 using SOE.Views.ViewItems.TasksViews;
 

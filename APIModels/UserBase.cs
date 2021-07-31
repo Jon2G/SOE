@@ -5,6 +5,8 @@ namespace SOEWeb.Shared
 {
     public class UserBase : ModelBase
     {
+        [PrimaryKey]
+        public int Id { get; set; }
         private string _Boleta;
 
         [PrimaryKey, MaxLength(10)]

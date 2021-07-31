@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Text;
 using System.Threading.Tasks;
 using Kit;
-using Kit.Forms.Extensions;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
-using SOE.API;
 using SOE.Data;
 using SOE.Models.Data;
 using SOE.Views.Pages.Login;

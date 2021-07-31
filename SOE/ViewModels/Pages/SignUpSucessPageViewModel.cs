@@ -1,18 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Input;
-using SOEWeb.Shared;
-using SOEWeb.Shared.Enums;
+﻿using System.Windows.Input;
 using AsyncAwaitBestPractices;
 using Kit.Model;
-using Plugin.Fingerprint;
-using Plugin.Fingerprint.Abstractions;
-using SOE.API;
 using SOE.Data;
-using SOE.Models.Data;
 using SOE.Views.Pages;
 using Xamarin.Forms;
-using Device = Kit.Daemon.Devices.Device;
 
 namespace SOE.ViewModels.Pages
 {

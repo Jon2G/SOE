@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SOEWeb.Shared;
+﻿using SOEWeb.Shared;
 using SOE.ViewModels.Pages;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

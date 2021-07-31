@@ -4,7 +4,6 @@ using AsyncAwaitBestPractices;
 using Kit.Forms.Pages;
 using Rg.Plugins.Popup.Services;
 using SOE.Views.PopUps;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace SOE.ViewModels.Pages.Login

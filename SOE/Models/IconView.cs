@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SOE.Fonts;
+﻿using SOE.Fonts;
 using Xamarin.Forms;
 using ContentView = Forms9Patch.ContentView;
 

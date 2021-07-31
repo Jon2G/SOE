@@ -1,0 +1,17 @@
+﻿﻿@using System.Threading
+@using Microsoft.JSInterop
+@typeparam T
+@inject IJSRuntime JSRuntime
+@implements IAsyncDisposable
+@namespace SOEWeb.Server.Components
+
+@foreach (var item in _items)
+{
+@ItemTemplate(item)
+}
+@if (_loading)
+{
+@LoadingTemplate
+}
+
+<div  @ref="_lastItemIndicator" style="height:1px"></div>

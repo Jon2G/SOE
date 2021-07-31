@@ -12,6 +12,7 @@ using SOE.Models.Data;
 using SOE.Views.Pages;
 using SOE.Views.Pages.Login;
 using Xamarin.Forms;
+using Command = Xamarin.Forms.Command;
 
 namespace SOE.ViewModels.Pages.Login
 {

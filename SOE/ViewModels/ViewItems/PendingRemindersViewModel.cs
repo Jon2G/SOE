@@ -74,8 +74,8 @@ namespace SOE.ViewModels.ViewItems
                 var frame = checkBox.FindParent<Frame>();
                 if (frame != null)
                 {
-                    await frame.TranslateTo(100, 0);
-                    await frame.FadeTo(0);
+                    await frame.TranslateTo(300, 0,500);
+                    await frame.FadeTo(0,500);
                 }
                 Reminders.Remove(r);
             }

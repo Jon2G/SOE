@@ -3,8 +3,9 @@
           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
           xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
           xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
-          xmlns:models="clr-namespace:SOE.Models;assembly=SOE" xmlns:behaviors="http://xamarin.com/schemas/2020/toolkit"
-                 x:Class="SOE.Views.ViewItems.PendingRemindersView"
+          xmlns:models="clr-namespace:SOE.Models;assembly=SOE" 
+          xmlns:behaviors="http://xamarin.com/schemas/2020/toolkit"
+          x:Class="SOE.Views.ViewItems.PendingRemindersView"
           x:DataType="viewItems:PendingRemindersViewModel">
     <ContentView.BindingContext>
         <viewItems:PendingRemindersViewModel x:Name="Model"/>
@@ -20,21 +21,22 @@
                                     HorizontalOptions= "FillAndExpand" Padding= "0" >
                     <StackLayout HorizontalOptions = "FillAndExpand" 
                                  Background="{DynamicResource SecondaryBackground}"
-                                 Orientation="Horizontal">
-                        <StackLayout HorizontalOptions= "FillAndExpand" VerticalOptions= "FillAndExpand" 
-                                     WidthRequest="15"
+                                 Orientation="Horizontal" Padding="0" Spacing="0">
+                        <StackLayout HorizontalOptions= "Start" VerticalOptions= "FillAndExpand" 
+                                     WidthRequest="40" 
                                      BackgroundColor= "{Binding Subject,Converter={StaticResource SubjectColorAppThemeConverter},ConverterParameter={StaticResource AccentColor}}" 
-                                     Grid.Column="0">
-                            <CheckBox HorizontalOptions="CenterAndExpand" x:Name="CheckBox"
+                                     Padding="0" Spacing="0">
+                            <CheckBox HorizontalOptions="Center" x:Name="CheckBox" Margin="0"
                                       VerticalOptions="CenterAndExpand" Color="GhostWhite"   >
                                 <CheckBox.Behaviors >
-                                    <behaviors:EventToCommandBehavior EventName="CheckedChanged" CommandParameter="{x:Reference CheckBox}"
-                                                                      Command="{Binding CompleteCommand ,Source={Reference Model}}"/>
+                                    <behaviors:EventToCommandBehavior EventName="CheckedChanged" 
+                                                                      CommandParameter="{x:Reference CheckBox}"
+                                                                      Command="{Binding CompleteCommand ,Source={x:Reference Model}}"/>
                                 </CheckBox.Behaviors>
                             </CheckBox>
                         </StackLayout >
-                        <StackLayout Grid.Column= "1" HorizontalOptions= "StartAndExpand"
-                                             VerticalOptions= "CenterAndExpand" Margin= "10" >
+                        <StackLayout HorizontalOptions= "FillAndExpand"
+                                             VerticalOptions= "CenterAndExpand" Margin= "10,3" >
                             <Label Text= "{Binding Title}"
                                            TextColor="{AppThemeBinding Dark=White,Light=Black}"
                                            FontSize= "16"  
@@ -50,7 +52,7 @@
                             <Image.Source>
                                 <FontImageSource
                                     Glyph="{x:Static fonts:FontelloIcons.ThreeDots}" 
-                                FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                FontFamily="{x:Static fonts:FontelloIcons.Font}" Size="16"
                                 Color="{AppThemeBinding Dark=White,Light=Black}"/>
                             </Image.Source>
                             <Image.GestureRecognizers>

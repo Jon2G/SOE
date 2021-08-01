@@ -13,6 +13,7 @@
              xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
              x:DataType="viewModels:MainTaskViewModel"
+             xmlns:pancard="clr-namespace:PanCardView;assembly=PanCardView"
             >
     <ContentView.BindingContext>
         <viewModels:MainTaskViewModel/>
@@ -37,7 +38,6 @@
                          Padding="5" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Margin="3,0">
                 <Frame Padding="3" HorizontalOptions="FillAndExpand"
                        xtc:TouchEffect.Command="{Binding TareasViewCommand}"
-                       xtc:TouchEffect.CommandParameter="{x:Reference TabView}"
                        xtc:TouchEffect.PressedScale="0.9" BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
                     <Label Text="TAREAS" TextColor="White" FontAttributes="Bold" FontSize="16"
                            VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
@@ -55,7 +55,6 @@
                 </Frame>
                 <Frame Padding="3" HorizontalOptions="FillAndExpand"
                        xtc:TouchEffect.Command="{Binding RemindersViewCommand}"
-                       xtc:TouchEffect.CommandParameter="{x:Reference TabView}"
                        xtc:TouchEffect.PressedScale="0.9" BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
                     <Label Text="RECORDATORIOS" TextColor="White" FontAttributes="Bold" FontSize="16"
                            VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
@@ -82,30 +81,10 @@
                 </Image.Source>
             </Image>
         </StackLayout>
-        <xtc:TabView IsTabStripVisible="False"
-                     TabStripHeight="0"
-                     x:Name="TabView" x:FieldModifier="public"
-                     IsSwipeEnabled="False"  VerticalOptions="FillAndExpand"
-                     TabItemsSource="{Binding Views}">
-            <xtc:TabView.Behaviors>
-                <xtc:EventToCommandBehavior 
-                    EventName="SelectionChanged" 
-                    Command="{Binding SelectionChangedCommand}"
-                    CommandParameter="{Binding SelectedIndex,Source={x:Reference TabView}}"/>
-            </xtc:TabView.Behaviors>
-            <xtc:TabView.TabViewItemDataTemplate>
-                <DataTemplate x:DataType="models:IconView">
-                    <StackLayout Padding="0" Spacing="0" BackgroundColor="Red" InputTransparent="True" IsVisible="False" IsEnabled="False" HeightRequest="0"/>
-                </DataTemplate>
-            </xtc:TabView.TabViewItemDataTemplate>
-            <xtc:TabView.TabContentDataTemplate>
-                <DataTemplate x:DataType="ContentView">
-                    <ContentView VerticalOptions="FillAndExpand" Margin="0" 
-                                 HorizontalOptions="FillAndExpand" Padding="0"
-                                 Background="{DynamicResource Background}" 
-                                 Content="{Binding .}"/>
-                </DataTemplate>
-            </xtc:TabView.TabContentDataTemplate>
-        </xtc:TabView>
+
+        <pancard:CarouselView
+                      SelectedIndex="{Binding SelectedIndex}"
+                      SelectedItem="{Binding SelectedView }"
+                      ItemsSource="{Binding Views}"/>
     </StackLayout>
 </ContentView>

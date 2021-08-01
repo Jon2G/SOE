@@ -13,6 +13,22 @@ namespace SOE.ViewModels.ViewItems
 {
     public class MainTaskViewModel : ModelBase
     {
+        private int _SelectedIndex;
+
+        public int SelectedIndex
+        {
+            get => _SelectedIndex;
+            set
+            {
+                if (value >= 0 && this._SelectedIndex != value)
+                {
+                    _SelectedIndex = value;
+                    SelectedView = Views[value];
+                    Raise(() => SelectedIndex);
+                }
+            }
+        }
+
         private IconView _SelectedView;
 
         public IconView SelectedView
@@ -20,8 +36,12 @@ namespace SOE.ViewModels.ViewItems
             get => _SelectedView;
             set
             {
-                _SelectedView = value;
-                Raise(() => SelectedView);
+                if (_SelectedView != value)
+                {
+                    _SelectedView = value;
+                    SelectedIndex = Views.IndexOf(value);
+                    Raise(() => SelectedView);
+                }
             }
         }
         public ObservableCollection<IconView> Views { get; }
@@ -32,10 +52,10 @@ namespace SOE.ViewModels.ViewItems
 
         private ICommand _TareasViewCommand;
         public ICommand TareasViewCommand
-            => _TareasViewCommand ??= new Xamarin.Forms.Command<TabView>(TareasView);
+            => _TareasViewCommand ??= new Xamarin.Forms.Command(TareasView);
         private ICommand _RemindersViewCommand;
         public ICommand RemindersViewCommand
-            => _RemindersViewCommand ??= new Xamarin.Forms.Command<TabView>(RemindersView);
+            => _RemindersViewCommand ??= new Xamarin.Forms.Command(RemindersView);
         private ICommand _AddCommand;
         public ICommand AddCommand
             => _AddCommand ??= new Xamarin.Forms.Command(Add);
@@ -51,7 +71,7 @@ namespace SOE.ViewModels.ViewItems
         }
 
 
-       
+
         private void Add()
         {
             switch (SelectedView)
@@ -65,16 +85,14 @@ namespace SOE.ViewModels.ViewItems
                     break;
             }
         }
-        private void TareasView(TabView TabView)
+        private void TareasView()
         {
-            TabView.SelectedIndex = 0;
-            this.SelectedView = this.Views[0];
+            SelectedIndex = 0;
         }
 
-        private void RemindersView(TabView TabView)
+        private void RemindersView()
         {
-            TabView.SelectedIndex = 1;
-            this.SelectedView = this.Views[1];
+            SelectedIndex = 1;
         }
         private void SelectionChanged(int Index)
         {

@@ -22,16 +22,19 @@
                                  Background="{DynamicResource SecondaryBackground}"
                                  Orientation="Horizontal">
                         <StackLayout HorizontalOptions= "FillAndExpand" VerticalOptions= "FillAndExpand" 
+                                     WidthRequest="15"
                                      BackgroundColor= "{Binding Subject,Converter={StaticResource SubjectColorAppThemeConverter},ConverterParameter={StaticResource AccentColor}}" 
                                      Grid.Column="0">
                             <CheckBox HorizontalOptions="CenterAndExpand"
-                                      VerticalOptions="CenterAndExpand" Color="#15386f" />
+                                      VerticalOptions="CenterAndExpand" 
+                                      Color="GhostWhite" />
                         </StackLayout >
                         <StackLayout Grid.Column= "1" HorizontalOptions= "StartAndExpand"
                                              VerticalOptions= "CenterAndExpand" Margin= "10" >
                             <Label Text= "{Binding Title}"
                                            TextColor="{AppThemeBinding Dark=White,Light=Black}"
-                                           FontSize= "20"  FontAttributes="Bold"/>
+                                           FontSize= "16"  
+                                           FontAttributes="Bold"/>
                             <StackLayout Orientation="Horizontal">
                                 <Label Text="{Binding Date,StringFormat='{0:dd/MM/yyyy}'}"/>
                                 <Label Text="      "/>

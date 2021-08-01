@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using SOE.Data;
 using SOE.Data.Images;
 using SOE.Enums;
+using SOE.Models;
 using SOE.Models.Data;
 using SOE.Models.TaskFirst;
 using SOEWeb.Shared;
@@ -18,9 +19,10 @@ namespace SOE.API
 {
     public static class APIService
     {
-        public const string ShareTodo = "ShareTodo";
-        public const string NonHttpsUrl = "192.168.0.32:5555";
-        //public const string NonHttpsUrl = "kq8tb2poo8.execute-api.us-east-2.amazonaws.com";
+        public const string ShareTodo = "ShareTodo"; 
+        public const string ShareReminder = "ShareReminder";
+        //public const string NonHttpsUrl = "192.168.0.32:5555";
+        public const string NonHttpsUrl = "kq8tb2poo8.execute-api.us-east-2.amazonaws.com";
         public static string BaseUrl => $"https://{NonHttpsUrl}";
         public static string Url => $"{BaseUrl}/Prod/App";
 
@@ -141,7 +143,27 @@ namespace SOE.API
             }
             return response;
         }
-
+        internal static async Task<Response> DownloadSharedReminder(Guid ReminderGuide)//////Movimiento
+        {
+            if (Guid.Empty == ReminderGuide)
+            {
+                return Response.Error;
+            }
+            WebService WebService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = await WebService.GET("ShareReminder",
+                ReminderGuide.ToString("N"));
+            if (result.Response == "ERROR")
+            {
+                return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
+            }
+            var response = JsonConvert.DeserializeObject<Response>(result.Response);
+            if (!string.IsNullOrEmpty(response.Extra))
+            {
+                Reminder reminder = JsonConvert.DeserializeObject<Reminder>(response.Extra);
+                await Reminder.Save(reminder);
+            }
+            return response;
+        }
         internal static async Task<List<int>> GetArchieveIds(Guid Guid)
         {
             if (Guid == Guid.Empty)
@@ -180,6 +202,27 @@ namespace SOE.API
             Kit.Services.Web.ResponseResult result = await WebService.PostAsBody(
                 System.Text.Encoding.UTF8.GetBytes(json_todo),
                 "PostToDo", AppData.Instance.User.Boleta);
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+            {
+                return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
+            }
+            return JsonConvert.DeserializeObject<Response>(result.Response);
+        }
+        public static async Task<Response> PostReminder(Reminder Reminder)
+        {
+            if (Reminder is null || string.IsNullOrEmpty(Reminder.Title)
+                            || Guid.Empty == Reminder.Guid
+                            || Reminder.Subject is null
+                            || Reminder.Subject.Id <= 0
+                            || Reminder.Subject.IdTeacher <= 0)
+            {
+                return Response.Error;
+            }
+            string json_Reminder = Reminder.JsonSerializeObject<Reminder>();
+            WebService WebService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = await WebService.PostAsBody(
+                System.Text.Encoding.UTF8.GetBytes(json_Reminder),
+                "PostReminder", AppData.Instance.User.Boleta);
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
             {
                 return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);

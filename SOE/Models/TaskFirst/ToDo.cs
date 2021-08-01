@@ -130,6 +130,7 @@ namespace SOE.Models.TaskFirst
             return $"{APIService.Url}/{APIService.ShareTodo}/{toDo.Guid:N}";
 
         }
+        
 
         public static int DaysLeft(ToDo toDo) => DaysLeft(toDo.Date.Add(toDo.Time));
         private static int DaysLeft(DateTime date) => (date - DateTime.Now).Days;

@@ -33,6 +33,11 @@ namespace SOE.ViewModels.ViewItems
             SubjectCommand = new Command(SubjectClicked);
             SaveReminderCommand = new AsyncCommand<Reminder>(Save);
         }
+
+        public ReminderPageVIewModel()
+        {
+        }
+
         private async Task SelectSubject()
         {
             var pr = new SubjectPopUp();

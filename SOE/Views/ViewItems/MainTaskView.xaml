@@ -15,6 +15,7 @@
              x:DataType="viewModels:MainTaskViewModel"
              xmlns:pancard="clr-namespace:PanCardView;assembly=PanCardView"
             >
+            VerticalOptions="FillAndExpand">
     <ContentView.BindingContext>
         <viewModels:MainTaskViewModel/>
     </ContentView.BindingContext>

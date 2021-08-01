@@ -20,5 +20,7 @@ namespace SOE.Views.ViewItems
            
             InitializeComponent();
         }
+
+        
     }
 }

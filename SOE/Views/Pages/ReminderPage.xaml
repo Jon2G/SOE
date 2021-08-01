@@ -35,7 +35,6 @@
                                Text="Materia:" 
                                TextColor="{DynamicResource secondaryTextColor}" FontSize="17"
                                FontAttributes="Italic"/>
-                
                 <Button           Text="{Binding PReminder.Subject.Name}"
                                     TextColor="{AppThemeBinding Dark=White,Light=Black}"
                                     BackgroundColor="{Binding PReminder.Subject,Converter={StaticResource SubjectColorAppThemeConverter}}"

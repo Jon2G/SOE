@@ -26,6 +26,7 @@ namespace SOE.ViewModels
         private ICommand _TappedCommand;
         public ICommand TappedCommand => _TappedCommand ??= new Command<string>(Tapped);
 
+
         public string ArchiveText => reminder.Status.HasFlag(Enums.ReminderStatus.Archived) ? "Desarchivar" : "Archivar";
         public FontImageSource IconTwo
         {
@@ -94,21 +95,12 @@ namespace SOE.ViewModels
             this.reminder.Status |= Enums.ReminderStatus.Archived;
             AppData.Instance.LiteConnection.Update(this.reminder);
         }
-        private void Completada()
-        {
-            this.reminder.Status = Enums.ReminderStatus.Done;
-            AppData.Instance.LiteConnection.Update(this.reminder);
-        }
+        
         private void Desarchivar()
         {
             this.reminder.Status -= Enums.ReminderStatus.Archived;
             AppData.Instance.LiteConnection.Update(this.reminder);
         }
-        private void Pendiente()
-        {
-            this.reminder.Status -= Enums.ReminderStatus.Done;
-            this.reminder.Status |= Enums.ReminderStatus.Pending;
-            AppData.Instance.LiteConnection.Update(this.reminder);
-        }
+       
     }
 }

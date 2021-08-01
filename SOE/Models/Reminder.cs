@@ -11,6 +11,7 @@ using SOE.Enums;
 using SOE.API;
 using SOEWeb.Shared.Enums;
 using AsyncAwaitBestPractices;
+using System.Threading.Tasks;
 
 namespace SOE.Models
 {

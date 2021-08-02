@@ -30,7 +30,7 @@
             </StackLayout>
             <StackLayout Spacing="10" Padding="10" >
                 <Editor Text="{Binding PReminder.Title}" AutoSize="TextChanges" Placeholder="Titulo"  
-                                     MaxLength="100"/>
+                                     MaxLength="100" x:Name="EditorTitle"/>
                 <Label  VerticalTextAlignment="Center" 
                                Text="Materia:" 
                                TextColor="{DynamicResource secondaryTextColor}" FontSize="17"

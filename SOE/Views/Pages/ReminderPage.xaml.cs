@@ -19,5 +19,11 @@ namespace SOE.Views.Pages
             this.BindingContext = Model;
             InitializeComponent();
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            EditorTitle.Focus();
+        }
     }
 }

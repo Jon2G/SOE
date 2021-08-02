@@ -1,5 +1,6 @@
 ﻿using AsyncAwaitBestPractices;
 using SOE.Data;
+using SOE.Enums;
 using SOE.Fonts;
 using SOE.Models;
 using SOE.ViewModels.ViewItems;
@@ -27,7 +28,7 @@ namespace SOE.ViewModels
         public ICommand TappedCommand => _TappedCommand ??= new Command<string>(Tapped);
 
 
-        public string ArchiveText => reminder.Status.HasFlag(Enums.ReminderStatus.Archived) ? "Desarchivar" : "Archivar";
+        public string ArchiveText => reminder.Status.HasFlag(PendingStatus.Archived) ? "Desarchivar" : "Archivar";
         public FontImageSource IconTwo
         {
             get
@@ -35,7 +36,7 @@ namespace SOE.ViewModels
                 var IconTwo = new FontImageSource()
                 {
                     FontFamily = FontelloIcons.Font,
-                    Glyph = reminder.Status.HasFlag(Enums.ReminderStatus.Archived) ? FontelloIcons.Folder : FontelloIcons.Archive
+                    Glyph = reminder.Status.HasFlag(PendingStatus.Archived) ? FontelloIcons.Folder : FontelloIcons.Archive
                 };
                 IconTwo.SetOnAppTheme(FontImageSource.ColorProperty, Color.Black, Color.White);
                 return IconTwo;
@@ -53,7 +54,7 @@ namespace SOE.ViewModels
                     Eliminar();
                     break;
                 case "Archivar":
-                    if (reminder.Status.HasFlag(Enums.ReminderStatus.Archived))
+                    if (reminder.Status.HasFlag(PendingStatus.Archived))
                     {
                         Desarchivar();
                         break;
@@ -92,13 +93,13 @@ namespace SOE.ViewModels
         }
         private void Archivar()
         {
-            this.reminder.Status |= Enums.ReminderStatus.Archived;
+            this.reminder.Status |= PendingStatus.Archived;
             AppData.Instance.LiteConnection.Update(this.reminder);
         }
         
         private void Desarchivar()
         {
-            this.reminder.Status -= Enums.ReminderStatus.Archived;
+            this.reminder.Status -= PendingStatus.Archived;
             AppData.Instance.LiteConnection.Update(this.reminder);
         }
        

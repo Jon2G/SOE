@@ -11,7 +11,15 @@
         <viewItems:PendingRemindersViewModel x:Name="Model"/>
     </ContentView.BindingContext>
     <CollectionView  Margin="3"  HorizontalOptions= "FillAndExpand" VerticalOptions= "FillAndExpand"
-                     SelectionMode= "None" ItemsSource= "{Binding Reminders}" >
+                     SelectionMode= "None" ItemsSource= "{Binding Reminders}"  >
+        <CollectionView.EmptyView >
+            <ContentView>
+                <StackLayout VerticalOptions="CenterAndExpand">
+                    <Label HorizontalTextAlignment="Center" FontSize="20" 
+                                   FontAttributes="Bold" Text="No hay recordatorios"/>
+                </StackLayout>
+            </ContentView>
+        </CollectionView.EmptyView>
         <CollectionView.ItemsLayout >
                 <LinearItemsLayout Orientation= "Vertical" ItemSpacing= "10" />
             </CollectionView.ItemsLayout >
@@ -26,14 +34,14 @@
                                      WidthRequest="40" 
                                      BackgroundColor= "{Binding Subject,Converter={StaticResource SubjectColorAppThemeConverter},ConverterParameter={StaticResource AccentColor}}" 
                                      Padding="0" Spacing="0">
-                            <CheckBox HorizontalOptions="Center" x:Name="CheckBox" Margin="0"
-                                      VerticalOptions="CenterAndExpand" Color="GhostWhite"   >
-                                <CheckBox.Behaviors >
-                                    <behaviors:EventToCommandBehavior EventName="CheckedChanged" 
-                                                                      CommandParameter="{x:Reference CheckBox}"
-                                                                      Command="{Binding CompleteCommand ,Source={x:Reference Model}}"/>
-                                </CheckBox.Behaviors>
-                            </CheckBox>
+                            <CheckBox HorizontalOptions="Center" x:Name="CheckBox"
+                                      Margin="0" 
+                                      VerticalOptions="CenterAndExpand" Color="GhostWhite" 
+                                      IsChecked="{Binding IsComplete}"  
+                                     behaviors:TouchEffect.PressedScale="2"
+                                      behaviors:TouchEffect.Command="{Binding CompleteCommand ,Source={x:Reference Model}}"
+                                      behaviors:TouchEffect.CommandParameter="{x:Reference CheckBox}"
+                                      />
                         </StackLayout >
                         <StackLayout HorizontalOptions= "FillAndExpand"
                                              VerticalOptions= "CenterAndExpand" Margin= "10,3" >

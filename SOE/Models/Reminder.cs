@@ -79,17 +79,21 @@ namespace SOE.Models
                 Subject.Id = value;
             }
         }
-        private ReminderStatus _Status;
+        private PendingStatus _Status;
 
-        public ReminderStatus Status
+        public PendingStatus Status
         {
             get => _Status;
             set
             {
                 _Status = value;
                 Raise(() => Status);
+                Raise(() => IsComplete);
             }
         }
+
+        public bool IsComplete => Status == PendingStatus.Done;
+
         [Ignore]
         public string FormattedTime => $"{this.Time:hh}:{this.Time:mm}";
         [Ignore]
@@ -101,6 +105,7 @@ namespace SOE.Models
         //}
         public Reminder()
         {
+            this.Date = DateTime.Today;
         }
         public static async Task Save(Reminder reminder)
         {

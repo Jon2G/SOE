@@ -28,7 +28,7 @@ namespace SOE.Widgets
         }
 
         public static List<ToDo> GetTasks()=> AppData.Instance.LiteConnection.DeferredQuery<ToDo>
-                ($"SELECT * from {nameof(ToDo)} where STATUS={(int)ToDoStatus.Pending} order by Date,Time,SubjectId")
+                ($"SELECT * from {nameof(ToDo)} where STATUS={(int)PendingStatus.Pending} order by Date,Time,SubjectId")
             .Select(x => x.LoadSubject()).ToList();
 
         public static List<ToDo> GetTasks(int WidgetId)

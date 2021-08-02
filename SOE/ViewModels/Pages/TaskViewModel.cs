@@ -5,6 +5,7 @@ using SOE.Data;
 using SOE.Models.TaskFirst;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
+using SOE.Views.ViewItems;
 using SOE.Views.ViewItems.TasksViews;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -32,7 +33,7 @@ namespace SOE.ViewModels.Pages
                     Detail();
                     break;
                 case "Hecho":
-                    if (ToDo.Status.HasFlag(Enums.ToDoStatus.Done))
+                    if (ToDo.Status.HasFlag(Enums.PendingStatus.Done))
                     {
                         Pendiente();
                         break;
@@ -43,7 +44,7 @@ namespace SOE.ViewModels.Pages
                     OpenTask();
                     break;
                 case "Archivar":
-                    if (ToDo.Status.HasFlag(Enums.ToDoStatus.Archived))
+                    if (ToDo.Status.HasFlag(Enums.PendingStatus.Archived))
                     {
                         Desarchivar();
                         break;
@@ -70,7 +71,7 @@ namespace SOE.ViewModels.Pages
                     }
                     return;
             }
-            MainTaskView.Instance.Model.Refresh().SafeFireAndForget();
+            PendingTasksView.Instance.Model.Refresh().SafeFireAndForget();
         }
         public void Eliminar()
         {
@@ -88,23 +89,23 @@ namespace SOE.ViewModels.Pages
         }
         private void Archivar()
         {
-            this.ToDo.Status |=Enums.ToDoStatus.Archived;
+            this.ToDo.Status |=Enums.PendingStatus.Archived;
             AppData.Instance.LiteConnection.Update(this.ToDo);
         }
         private void Completada()
         {
-            this.ToDo.Status = Enums.ToDoStatus.Done;
+            this.ToDo.Status = Enums.PendingStatus.Done;
             AppData.Instance.LiteConnection.Update(this.ToDo);
         }
         private void Desarchivar()
         {
-            this.ToDo.Status -= Enums.ToDoStatus.Archived;
+            this.ToDo.Status -= Enums.PendingStatus.Archived;
             AppData.Instance.LiteConnection.Update(this.ToDo);
         }
         private void Pendiente()
         {
-            this.ToDo.Status -= Enums.ToDoStatus.Done;
-            this.ToDo.Status |= Enums.ToDoStatus.Pending;
+            this.ToDo.Status -= Enums.PendingStatus.Done;
+            this.ToDo.Status |= Enums.PendingStatus.Pending;
             AppData.Instance.LiteConnection.Update(this.ToDo);
         }
     }

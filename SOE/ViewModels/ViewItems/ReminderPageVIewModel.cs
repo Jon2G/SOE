@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace SOE.ViewModels.ViewItems
 {
-  public  class ReminderPageVIewModel:ModelBase
+    public class ReminderPageVIewModel : ModelBase
     {
         ReminderPage ReminderPage;
         public ICommand SubjectCommand { get; }
@@ -48,7 +48,7 @@ namespace SOE.ViewModels.ViewItems
         {
             await SelectSubject();
         }
-        
+
         private async Task Save(Reminder obj)
         {
             //if (PReminder.Subject == null)
@@ -61,7 +61,7 @@ namespace SOE.ViewModels.ViewItems
             //}
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Guardando recordatorio..."))
             {
-                Reminder.Save(this.PReminder);
+                await Reminder.Save(this.PReminder);
                 ReminderPage.Close().SafeFireAndForget();
                 PendingRemindersViewModel.Instance.Reminders.Clear();
                 PendingRemindersViewModel.Instance.Load().SafeFireAndForget();

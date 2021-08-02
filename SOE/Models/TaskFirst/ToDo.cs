@@ -21,6 +21,7 @@ using SOE.Views.ViewItems.TasksViews;
 using Xamarin.Essentials;
 using SOEWeb.Shared;
 using SOEWeb.Shared.Enums;
+using SOE.Views.ViewItems;
 
 namespace SOE.Models.TaskFirst
 {
@@ -88,9 +89,9 @@ namespace SOE.Models.TaskFirst
                 Subject.Id = value;
             }
         }
-        private ToDoStatus _Status;
+        private Enums.PendingStatus _Status;
        
-        public  ToDoStatus Status
+        public Enums.PendingStatus Status
         {
             get => _Status;
             set
@@ -136,7 +137,7 @@ namespace SOE.Models.TaskFirst
         private static int DaysLeft(DateTime date) => (date - DateTime.Now).Days;
         public ToDo()
         {
-            Status = ToDoStatus.Pending;
+            this.Status = Enums.PendingStatus.Pending;
             OpenBrowserCommand = new Command<string>(OpenBrowser);
             Date = DateTime.Now;
 
@@ -198,7 +199,7 @@ namespace SOE.Models.TaskFirst
             /////////////
             if (Shell.Current is AppShell app)
             {
-                MainTaskView.Instance?.Model.Refresh().SafeFireAndForget();
+                PendingTasksView.Instance?.Model.Refresh().SafeFireAndForget();
             }
 
             await Shell.Current.Navigation.PopToRootAsync(true);

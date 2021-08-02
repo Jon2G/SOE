@@ -29,7 +29,7 @@ namespace SOE.Models.TaskFirst
             Raise(() => Tareas);
         }
 
-        internal void Refresh(ToDoStatus status)
+        internal void Refresh(PendingStatus status)
         {
             SubjectGroups.Clear();
             SubjectGroups.AddRange(AppData.Instance.LiteConnection.Lista<int>(

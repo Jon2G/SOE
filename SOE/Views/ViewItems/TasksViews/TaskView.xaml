@@ -10,14 +10,14 @@
     <ContentView.Content>
         <StackLayout   Spacing="0" Padding="0" >
             <pancakeView:PancakeView  Margin="0" CornerRadius="0,0,5,5" Padding="0,5"  >
-                <Grid ColumnDefinitions="*,Auto,Auto">
-                    <StackLayout>
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackLayout Margin="5,0,0,0">
                         <Label HorizontalOptions="Start" Text="{Binding ToDo.Title}"
                                FontAttributes="Bold" 
                                FontSize="14"/>
                         <Label FormattedText="{Binding ToDo.FormattedString}"   FontSize="16" TextColor="Gray"/>
                     </StackLayout>
-                    <StackLayout  Grid.Column="1" Grid.ColumnSpan="2">
+                    <StackLayout Grid.Column="1" Spacing="0" >
                         <StackLayout Margin="5,0,0,5" Orientation="Horizontal" Padding="0" Spacing="5" HorizontalOptions="End" >
                             <Label Margin="0"  Text="{Binding ToDo.FormattedTime}"  HorizontalTextAlignment="End"
                                     FontSize="12" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" />
@@ -25,18 +25,18 @@
                                     FontSize="12" HorizontalOptions="End" VerticalTextAlignment="Center" 
                                     />
                         </StackLayout>
-                    </StackLayout>
-                    <Image Rotation="90" Grid.Column="2" HorizontalOptions="EndAndExpand"   >
-                        <Image.Source>
-                            <FontImageSource
+                        <Image Rotation="90" Grid.Column="2" HorizontalOptions="EndAndExpand"   >
+                            <Image.Source>
+                                <FontImageSource
                                     Glyph="{x:Static fonts:FontelloIcons.ThreeDots}" 
-                                FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                FontFamily="{x:Static fonts:FontelloIcons.Font}" Size="16"
                                 Color="{AppThemeBinding Dark=White,Light=Black}"/>
-                        </Image.Source>
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer  Command="{Binding OpenMenuCommand}"/>
-                        </Image.GestureRecognizers>
-                    </Image>
+                            </Image.Source>
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer  Command="{Binding OpenMenuCommand}"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </StackLayout>
                 </Grid>
             </pancakeView:PancakeView>
             <BoxView HeightRequest="1" Margin="0" BackgroundColor="LightGray"/>

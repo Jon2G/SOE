@@ -16,7 +16,7 @@
              xmlns:pancard="clr-namespace:PanCardView;assembly=PanCardView"
              VerticalOptions="FillAndExpand">
     <ContentView.BindingContext>
-        <viewModels:MainTaskViewModel/>
+        <viewModels:MainTaskViewModel x:Name="Model" x:FieldModifier="public"/>
     </ContentView.BindingContext>
     <StackLayout VerticalOptions="FillAndExpand">
         <StackLayout Background="{DynamicResource PrimaryColor}"
@@ -82,7 +82,7 @@
             </Image>
         </StackLayout>
 
-        <pancard:CarouselView
+        <pancard:CarouselView IsUserInteractionEnabled="False"
                       SelectedIndex="{Binding SelectedIndex}"
                       SelectedItem="{Binding SelectedView }"
                       ItemsSource="{Binding Views}"/>

@@ -28,17 +28,10 @@
             </controls:ArrowButton.Icon>
         </controls:ArrowButton>
         <controls:ArrowButton  Title="Archivadas"  Command="{Binding TapedCommand}"
-                               CommandParameter="Archivadas"
+                               CommandParameter="Archivadas" IsVisible="{Binding CanArchieve}"
                                ArrowColor="{StaticResource AccentColor}">
             <controls:ArrowButton.Icon>
                 <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Archive}" 
-                                 FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                 Color="{AppThemeBinding Dark=White,Light=Black}"/>
-            </controls:ArrowButton.Icon>
-        </controls:ArrowButton>
-        <controls:ArrowButton Title="Recordatorios"  Command="{Binding TapedCommand}" CommandParameter="Recordatorios" ArrowColor="{StaticResource AccentColor}">
-            <controls:ArrowButton.Icon>
-                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Bell}"
                                  FontFamily="{x:Static fonts:FontelloIcons.Font}"
                                  Color="{AppThemeBinding Dark=White,Light=Black}"/>
             </controls:ArrowButton.Icon>

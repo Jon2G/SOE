@@ -6,11 +6,12 @@
              xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
              xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:viewItems1="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
              x:Class="SOE.Views.ViewItems.MainView"
              x:DataType="viewItems1:MainViewModel">
     <models:IconView.BindingContext>
-        <viewItems1:MainViewModel x:Name="Model"/>
+        <viewItems1:MainViewModel x:Name="Model" x:FieldModifier="public"/>
     </models:IconView.BindingContext>
     <models:IconView.ToolbarItem>
         <ToolbarItem >
@@ -21,14 +22,24 @@
         </ToolbarItem>
     </models:IconView.ToolbarItem>
     <models:IconView.Content>
-      <StackLayout>
+        <StackLayout>
+            <tasksViews:MainTaskView x:Name="Ventana"/>
+            <Grid Padding="3"
+                  ColumnDefinitions="*,*,*"  BackgroundColor="#15386f" HeightRequest="40" Margin="0" ColumnSpacing="0">
+                
+                <Label Margin="10,0,0,0" Grid.Column="0" Text="{Binding Title }" 
+                       HorizontalOptions="Fill" VerticalOptions="Center" FontSize="16" FontAttributes="Bold"
+                       TextColor="White"/>
 
-            <tasksViews:MainTaskView/>
-            <Label HeightRequest="30" VerticalOptions="EndAndExpand" BackgroundColor="#15386f" Text="{x:Static fonts:FontelloIcons.UpArrow}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="Large">
-              <Label.GestureRecognizers>
-                  <TapGestureRecognizer Command="{Binding OpenMenuCommand}"/>
-              </Label.GestureRecognizers>
-          </Label>
-      </StackLayout>
+                <Label Grid.Column="1" HorizontalOptions="CenterAndExpand"  
+                    Text="{x:Static fonts:FontelloIcons.UpArrow}" BackgroundColor="Transparent"
+                    FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                    TextColor="White"  FontSize="16"  
+                       xct:TouchEffect.PressedScale="1.5"   
+                       xct:TouchEffect.Command="{Binding OpenMenuCommand}">
+                </Label>
+            </Grid>
+
+        </StackLayout>
     </models:IconView.Content>
 </models:IconView>

@@ -8,6 +8,8 @@ using P42.Utils;
 using SOE.Data;
 using SOE.Enums;
 using SOE.Models.TaskFirst;
+using SOE.Views.ViewItems;
+using SOE.Views.ViewItems.TasksViews;
 
 namespace SOE.ViewModels.ViewItems
 {
@@ -15,21 +17,16 @@ namespace SOE.ViewModels.ViewItems
     {
         public static PendingTasksViewModel Instance { get; private set; }
         public ObservableCollection<ByDayGroup> DayGroups { get; set; }
-        public ToDoStatus Status { get; set; }
+
         public PendingTasksViewModel()
         {
-            this.Status = ToDoStatus.Pending;
             Instance = this;
             DayGroups = new ObservableCollection<ByDayGroup>();
-            Refresh(ToDoStatus.Pending).SafeFireAndForget();
+            Refresh(PendingStatus.Pending).SafeFireAndForget();
         }
 
-        public async Task Refresh(ToDoStatus status=ToDoStatus.Invalido)
+        public async Task Refresh(Enums.PendingStatus status= Enums.PendingStatus.Pending)
         {
-            if (status == ToDoStatus.Invalido)
-            {
-                status = this.Status;
-            }
             await Task.Yield();
             DayGroups.Clear();
             DayGroups.AddRange(

@@ -23,7 +23,7 @@ namespace SOE.Models.TaskFirst
             ToDoS = new ObservableCollection<TaskViewModel>();
         }
 
-        internal void Refresh(DateTime date, ToDoStatus status)
+        internal void Refresh(DateTime date, PendingStatus status)
         {
             this.ToDoS.AddRange(AppData.Instance.LiteConnection
                 .DeferredQuery<ToDo>($"SELECT * from {nameof(ToDo)} where {nameof(ToDo.SubjectId)}=? AND STATUS=? AND {nameof(ToDo.Date)}=? order by Time", this.Subject.Id,status, date)

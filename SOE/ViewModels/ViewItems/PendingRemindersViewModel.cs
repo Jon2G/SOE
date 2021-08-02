@@ -38,6 +38,7 @@ namespace SOE.ViewModels.ViewItems
                 Raise(() => Reminders);
             }
         }
+
         public PendingRemindersViewModel()
         {
             Instance = this;
@@ -46,7 +47,7 @@ namespace SOE.ViewModels.ViewItems
 
         }
 
-        public async Task Load(ReminderStatus Status = ReminderStatus.Pending)
+        public async Task Load(PendingStatus Status = PendingStatus.Pending)
         {
             await Task.Yield();
             Reminders.Clear();
@@ -60,25 +61,26 @@ namespace SOE.ViewModels.ViewItems
                     reminder.Subject = SubjectService.Get(reminder.SubjectId);
                 }
             }
-
         }
 
         private async void Completada(CheckBox checkBox)
         {
             Reminder r = (Reminder)checkBox.BindingContext;
-            r.Status = checkBox.IsChecked ? ReminderStatus.Done : ReminderStatus.Pending;
+            r.Status = !r.IsComplete ? PendingStatus.Done : PendingStatus.Pending;
             AppData.Instance.LiteConnection.Update(r);
+            checkBox.IsChecked = r.IsComplete;
 
-            if (checkBox.IsChecked)
+            var frame = checkBox.FindParent<Frame>();
+            if (frame != null)
             {
-                var frame = checkBox.FindParent<Frame>();
-                if (frame != null)
-                {
-                    await frame.TranslateTo(300, 0,500);
-                    await frame.FadeTo(0,500);
-                }
-                Reminders.Remove(r);
+                await frame.TranslateTo(300, 0, 500);
+                await frame.FadeTo(0, 500);
             }
+            Reminders.Remove(r);
+            await Task.Delay(300);
+            frame.TranslateTo(0, 0, 0).SafeFireAndForget();
+            frame.FadeTo(1, 0).SafeFireAndForget();
+
 
         }
 

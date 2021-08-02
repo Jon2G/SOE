@@ -10,7 +10,7 @@
           x:Class="SOE.Views.ViewItems.PendingTasksView"
           x:DataType="viewItems1:PendingTasksViewModel">
     <models:IconView.BindingContext>
-        <viewItems1:PendingTasksViewModel/>
+        <viewItems1:PendingTasksViewModel x:Name="Model" x:FieldModifier="public"/>
     </models:IconView.BindingContext>
     <Grid>
         <Grid  Margin="0,0,20,0">
@@ -20,7 +20,7 @@
                     <ContentView>
                         <StackLayout VerticalOptions="CenterAndExpand">
                             <Label HorizontalTextAlignment="Center" FontSize="20" 
-                                   FontAttributes="Bold" Text="No hay mas tareas"/>
+                                   FontAttributes="Bold" Text="No hay más tareas"/>
                         </StackLayout>
                     </ContentView>
                 </CollectionView.EmptyView>

@@ -1,8 +1,10 @@
 ﻿using AsyncAwaitBestPractices;
 using Kit.Model;
+using SOE.Enums;
 using SOE.Models;
 using SOE.Views.Pages;
 using SOE.Views.ViewItems;
+using SOE.Views.ViewItems.TasksViews;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -25,6 +27,12 @@ namespace SOE.ViewModels.ViewItems
                     _SelectedIndex = value;
                     SelectedView = Views[value];
                     Raise(() => SelectedIndex);
+                    if (SelectedIndex == 1&& MainView.Instance.Model.Title=="Archivadas")
+                    {
+                        MainView.Instance.Model.Title = "Pendientes";
+                        PendingRemindersViewModel.Instance.Load(PendingStatus.Pending).SafeFireAndForget();
+                        PendingTasksViewModel.Instance.Refresh(PendingStatus.Pending).SafeFireAndForget();
+                    }
                 }
             }
         }
@@ -55,7 +63,7 @@ namespace SOE.ViewModels.ViewItems
             => _TareasViewCommand ??= new Xamarin.Forms.Command(TareasView);
         private ICommand _RemindersViewCommand;
         public ICommand RemindersViewCommand
-            => _RemindersViewCommand ??= new Xamarin.Forms.Command(RemindersView);
+            => _RemindersViewCommand ??= new Xamarin.Forms.Command(this.RemindersView);
         private ICommand _AddCommand;
         public ICommand AddCommand
             => _AddCommand ??= new Xamarin.Forms.Command(Add);

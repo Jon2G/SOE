@@ -2,6 +2,8 @@
 using AsyncAwaitBestPractices;
 using Kit.Model;
 using SOE.Views.PopUps;
+using SOE.Views.ViewItems;
+using SOE.Views.ViewItems.TasksViews;
 using Xamarin.Forms;
 
 namespace SOE.ViewModels.Pages
@@ -9,6 +11,7 @@ namespace SOE.ViewModels.Pages
     public class MasterPopUpViewModel : ModelBase
     {
         private readonly MasterPopUp PopUp;
+        public bool CanArchieve => MainTaskView.Instance.Model.SelectedIndex == 0;
         public MasterPopUpViewModel(MasterPopUp PopUp)
         {
             this.PopUp = PopUp;

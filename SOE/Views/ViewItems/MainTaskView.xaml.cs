@@ -13,12 +13,10 @@ namespace SOE.Views.ViewItems.TasksViews
     public partial class MainTaskView 
     {
         public static MainTaskView Instance { get; private set; }
-       public PendingTasksViewModel Model { get; set; }
+
         public MainTaskView()
         {
             Instance = this;
-            this.Model= new PendingTasksViewModel();
-            BindingContext = this.Model;
             InitializeComponent();
 
         }

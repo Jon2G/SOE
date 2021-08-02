@@ -35,7 +35,7 @@
                         <Label Text="Nueva tarea" FontSize="20" FontAttributes="Bold"/>
                         <Image>
                             <Image.Source>
-                                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.CirclePlus}" FontFamily="{x:Static fonts:FontelloIcons.Font}" Color="Black"/>
+                                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.CirclePlus}" FontFamily="{x:Static fonts:FontelloIcons.Font}" Color="{AppThemeBinding Dark=White,Light=Black}"/>
                             </Image.Source>
                         </Image>
                     </StackLayout>
@@ -51,7 +51,7 @@
                         <Label Text="Recordatorio" FontSize="20" FontAttributes="Bold"/>
                         <Image>
                             <Image.Source>
-                                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.PaperPlane}" FontFamily="{x:Static fonts:FontelloIcons.Font}" Color="Black"/>
+                                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.PaperPlane}" FontFamily="{x:Static fonts:FontelloIcons.Font}" Color="{AppThemeBinding Dark=White,Light=Black}"/>
                             </Image.Source>
                         </Image>
                     </StackLayout>
@@ -67,7 +67,7 @@
                         <Label Text="Info Materia" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                         <Image>
                             <Image.Source>
-                                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Book1}" FontFamily="{x:Static fonts:FontelloIcons.Font}" Color="Black"/>
+                                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Book1}" FontFamily="{x:Static fonts:FontelloIcons.Font}" Color="{AppThemeBinding Dark=White,Light=Black}"/>
                             </Image.Source>
                         </Image>
                     </StackLayout>

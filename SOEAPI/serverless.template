@@ -14,7 +14,7 @@
             "/lambda-entrypoint.sh"
           ],
           "Command": [
-            "SOEAPI::SOEAPI.LambdaEntryPoint::FunctionHandlerAsync"
+            "SOEWeb.Server::SOEWeb.Server.LambdaEntryPoint::FunctionHandlerAsync"
           ]
         },
         "ImageUri": "",

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
   <domain-config>
-    <domain includeSubdomains="true">192.168.0.32:44371</domain>
+    <domain includeSubdomains="true">192.168.0.32:44380</domain>
     <domain includeSubdomains="true">saes.ipn.mx</domain>
     <domain includeSubdomains="true">saes</domain>
     <domain includeSubdomains="true">www.saes.ipn.mx</domain>

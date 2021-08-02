@@ -34,7 +34,7 @@ namespace SOEWeb.Server
             builder
                 .UseStartup<Startup>();
         }
-
+    
         /// <summary>
         /// Use this override to customize the services registered with the IHostBuilder. 
         /// 

@@ -32,7 +32,7 @@
                            CommandParameter="Nueva tarea"/>
                     </pankk:PancakeView.GestureRecognizers>
                     <StackLayout VerticalOptions="Center" Margin="5">
-                        <Label Text="Nueva tarea" FontSize="20" FontAttributes="Bold"/>
+                        <Label Text="Nueva tarea" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                         <Image>
                             <Image.Source>
                                 <FontImageSource Glyph="{x:Static fonts:FontelloIcons.CirclePlus}" FontFamily="{x:Static fonts:FontelloIcons.Font}" Color="Black"/>
@@ -48,7 +48,7 @@
                         <TapGestureRecognizer Command="{Binding TapedCommand}" CommandParameter="Recordatorio"/>
                     </pankk:PancakeView.GestureRecognizers>
                     <StackLayout VerticalOptions="Center" Margin="5">
-                        <Label Text="Recordatorio" FontSize="20" FontAttributes="Bold"/>
+                        <Label Text="Recordatorio" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                         <Image>
                             <Image.Source>
                                 <FontImageSource Glyph="{x:Static fonts:FontelloIcons.PaperPlane}" FontFamily="{x:Static fonts:FontelloIcons.Font}" Color="Black"/>
@@ -59,7 +59,7 @@
                 <pankk:PancakeView 
                 BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundTertiaryDarkColor},Light={StaticResource BackgroundTertiaryLightColor}}"
                 xct:TouchEffect.PressedScale="0.9"
-                xct:TouchEffect.PressedRotationY="0.1" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
+                xct:TouchEffect.PressedRotationY="0.1" Grid.Column="0" Grid.Row="1" >
                     <pankk:PancakeView.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding TapedCommand}" CommandParameter="Info Materia"/>
                     </pankk:PancakeView.GestureRecognizers>
@@ -68,6 +68,24 @@
                         <Image>
                             <Image.Source>
                                 <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Book1}" FontFamily="{x:Static fonts:FontelloIcons.Font}" Color="Black"/>
+                            </Image.Source>
+                        </Image>
+                    </StackLayout>
+                </pankk:PancakeView>
+                <pankk:PancakeView 
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundTertiaryDarkColor},Light={StaticResource BackgroundTertiaryLightColor}}"
+                    xct:TouchEffect.PressedScale="0.9"
+                    xct:TouchEffect.PressedRotationY="0.1" Grid.Column="1" Grid.Row="1" >
+                    <pankk:PancakeView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding TapedCommand}"
+                                              CommandParameter="Links"/>
+                    </pankk:PancakeView.GestureRecognizers>
+                    <StackLayout VerticalOptions="Center" Margin="5">
+                        <Label Text="Enlaces del grupo" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Link}"
+                                                 FontFamily="{x:Static fonts:FontelloIcons.Font}" Color="{AppThemeBinding Light=Black,Dark=White}"/>
                             </Image.Source>
                         </Image>
                     </StackLayout>

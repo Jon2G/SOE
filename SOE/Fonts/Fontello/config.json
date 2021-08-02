@@ -287,6 +287,12 @@
       "css": "bell-alt",
       "code": 61683,
       "src": "fontawesome"
+    },
+    {
+      "uid": "3c4a596e8ee3584c4c9e7002371db19f",
+      "css": "link",
+      "code": 59432,
+      "src": "websymbols"
     }
   ]
 }

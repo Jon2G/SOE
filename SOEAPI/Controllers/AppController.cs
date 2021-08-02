@@ -1,8 +1,10 @@
 using Amazon.Lambda.Core;
+using Kit;
 using Kit.Sql.Readers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Serilog;
 using SOEWeb.Server.Processors;
 using SOEWeb.Shared;
 using SOEWeb.Shared.Enums;
@@ -212,7 +214,9 @@ namespace SOEWeb.Server.Controllers
                                  || Guid.Empty == Todo.Guid
                                  || Todo.Subject is null
                                  || Todo.Subject.Id <= 0
-                                 || Todo.Subject.IdTeacher <= 0)
+                                 || Todo.Subject.IdTeacher <= 0
+                                 || string.IsNullOrEmpty(User) ||
+                                 (!Validations.IsValidEmail(User) && !Validations.IsValidBoleta(User)))
                 {
                     return SOEWeb.Shared.Response.Error;
                 }
@@ -242,7 +246,6 @@ namespace SOEWeb.Server.Controllers
                 return new Response(APIResponseResult.INTERNAL_ERROR, ex.Message);
             }
         }
-
         [HttpPost("PostTodoPicture/{ToDoGuid}")]
         public ActionResult<Response> PostTodoPicture(Guid ToDoGuid, [FromBody] byte[] Img)
         {
@@ -256,7 +259,6 @@ namespace SOEWeb.Server.Controllers
                 , new SqlParameter("IMG", Img)
             ));
         }
-
         private TodoBase TodoFrom(IReader reader)
         {
             if (reader.Read())
@@ -278,7 +280,6 @@ namespace SOEWeb.Server.Controllers
 
             return null;
         }
-
         [HttpGet("ShareTodo/{ToDoGuid}")]
         public ActionResult<Response> ShareTodo(Guid ToDoGuid)
         {
@@ -295,7 +296,6 @@ namespace SOEWeb.Server.Controllers
                 "Ok",
                 JsonConvert.SerializeObject(todo));
         }
-
         [HttpGet("GetArchieveIds/{ArchieveGuid}")]
         public ActionResult<Response> GetArchieveIds(Guid ArchieveGuid)
         {
@@ -320,14 +320,17 @@ namespace SOEWeb.Server.Controllers
             }
             return this.File(result, "application/pdf", "picture.png");
         }
-        [HttpGet("GetClassmates/{Group}")]
-        public ActionResult<Response> GetClassmates(string Group)
+        [HttpGet("GetClassmates/{Group}/{TeacherId}/{SubjectId}")]
+        public ActionResult<Response> GetClassmates(string Group, string TeacherId, string SubjectId)
         {
             List<Classmate> Classmates = new List<Classmate>();
             using (var reader = WebData.Connection.Read(
                 "SP_GET_CLASSMATES",
                 CommandType.StoredProcedure,
-                new SqlParameter("GROUP", Group)))
+                new SqlParameter("GROUP", Group)
+                , new SqlParameter("SUBJECT_ID", SubjectId)
+                , new SqlParameter("TEACHER_ID", TeacherId)
+            ))
             {
                 while (reader.Read())
                 {
@@ -339,5 +342,84 @@ namespace SOEWeb.Server.Controllers
                 "Ok",
                 JsonConvert.SerializeObject(Classmates.ToArray()));
         }
+        [HttpPost("PostLink/{SubjectId}/{IdTeacher}/{User}/{Group}")]
+        public ActionResult<Response> PostLink(
+            string SubjectId, string IdTeacher, string User, string Group, [FromBody] byte[] JsonLinkBytes)
+        {
+            if (string.IsNullOrEmpty(Group)
+            || string.IsNullOrEmpty(User) ||
+            (!Validations.IsValidEmail(User) 
+             && !Validations.IsValidBoleta(User))
+
+            )
+            {
+                return SOEWeb.Shared.Response.InvalidRequest;
+            }
+            Guid guid = Guid.Empty;
+            try
+            {
+                string JsonLink = Encoding.UTF8.GetString(JsonLinkBytes);
+                if (JsonConvert.DeserializeObject<Link>(JsonLink) is not Link Link)
+                {
+                    return SOEWeb.Shared.Response.InvalidRequest;
+                }
+                if (string.IsNullOrEmpty(Link.Url) || !Validations.IsValidUrl(Link.Url))
+                {
+                    return SOEWeb.Shared.Response.InvalidRequest;
+                }
+
+                using (IReader reader = WebData.Connection.Read(
+                    "SP_POST_LINK",
+                    CommandType.StoredProcedure
+                    , new SqlParameter("SUBJECT_ID", SubjectId)
+                    , new SqlParameter("TEACHER_ID", IdTeacher)
+                    , new SqlParameter("USER", User)
+                    , new SqlParameter("GROUP", Group)
+                    , new SqlParameter("URL", Link.Url)
+                    , new SqlParameter("NAME", Link.Name)
+                    ))
+                {
+                    if (reader.Read())
+                    {
+                        guid = (Guid)reader[0];
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "PostLink");
+            }
+            return new Response(
+               guid == Guid.Empty ?
+                   APIResponseResult.INTERNAL_ERROR : APIResponseResult.OK,
+               guid == Guid.Empty ? "Error" : "Ok",
+               guid.ToString("N"));
+        }
+        [HttpGet("GetLinks/{Group}/{TeacherId}/{SubjectId}")]
+        public ActionResult<Response> GetLinks(string Group, string TeacherId, string SubjectId)
+        {
+            List<Link> Links = new List<Link>();
+            using (var reader = WebData.Connection.Read(
+                "SP_GET_LINKS",
+                CommandType.StoredProcedure
+                , new SqlParameter("SUBJECT_ID", SubjectId)
+                , new SqlParameter("TEACHER_ID", TeacherId),
+                new SqlParameter("GROUP", Group)))
+            {
+                while (reader.Read())
+                {
+                    Links.Add(
+                        new Link(Convert.ToString(reader[0]), Convert.ToString(reader[1]))
+                        {
+                            Guid = (Guid)reader[2]
+                        });
+                }
+            }
+            return new Response(
+                APIResponseResult.OK,
+                "Ok",
+                JsonConvert.SerializeObject(Links.ToArray()));
+        }
+
     }
 }

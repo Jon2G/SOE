@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace SOEWeb.Shared
 {
@@ -6,6 +7,12 @@ namespace SOEWeb.Shared
     {
         public static bool IsValidBoleta(string boleta) => Regex.IsMatch(boleta, "20([0-9]{8})");
 
+        public static bool IsValidUrl(string url)
+        {
+            Uri uriResult;
+            return Uri.TryCreate(url, UriKind.Absolute, out uriResult)
+                          && uriResult.Scheme == Uri.UriSchemeHttps||uriResult.Scheme==Uri.UriSchemeHttp;
+        }
         public static bool IsValidEmail(string email)
         {
             try

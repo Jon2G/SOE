@@ -21,7 +21,7 @@ namespace SOE.ViewModels.ViewItems
         private async Task Load()
         {
             await Task.Yield();
-            var class_mates = await API.APIService.GetClassmates(this.Subject.Group);
+            var class_mates = await API.APIService.GetClassmates(this.Subject.Group,this.Subject.IdTeacher,this.Subject.Id);
             this.Classmates.AddRange(class_mates);
         }
     }

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+             xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:shared="clr-namespace:SOEWeb.Shared;assembly=SOEWeb.Shared"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             x:DataType="pages:LinksPageViewModel"
+             x:Class="SOE.Views.Pages.LinksPage" 
+             Title="Enlaces del grupo" x:Name="Me"
+             Background="{DynamicResource Background}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding AddLinkCommand}">
+            <ToolbarItem.IconImageSource>   
+                <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                 Glyph="{x:Static fonts:FontelloIcons.CirclePlus}"/>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="{Binding ClassSquare.Subject.Name}" FontSize="20"
+                   FontAttributes="Bold" HorizontalTextAlignment="Center"
+                   BackgroundColor="{Binding ClassSquare.Subject,Converter={StaticResource SubjectColorAppThemeConverter}}" Padding="5"/>
+            <CollectionView ItemsSource="{Binding Links}">
+               <CollectionView.ItemTemplate>
+                   <DataTemplate x:DataType="shared:Link">
+                       <ContentView HorizontalOptions="Center">
+                           <pancakeView:PancakeView Margin="5"
+                                                    IsClippedToBounds="True"  Padding="0">
+                               <pancakeView:PancakeView.GestureRecognizers>
+                                   <TapGestureRecognizer 
+                                       Command="{Binding Model.OpenLinkCommand,Source={x:Reference Me}}"
+                                       CommandParameter="{Binding .}"/>
+                               </pancakeView:PancakeView.GestureRecognizers>
+                               <StackLayout Orientation="Horizontal">
+                                   <forms:CachedImage Aspect="AspectFit" 
+                                                      Source="{Binding ImageUrl}" 
+                                                      WidthRequest="40" DownsampleToViewSize="False"
+                                                      HeightRequest="40"/>
+                                   <Label VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="20" FontAttributes="Bold" Text="{Binding Name}"/>
+                               </StackLayout>
+                           </pancakeView:PancakeView>
+                       </ContentView>
+                   </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

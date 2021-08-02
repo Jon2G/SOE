@@ -49,6 +49,10 @@ h6 {
 .nick-name {
     margin: 5px 0px 0px 10px;
 }
+.user-group {
+    margin: 5px 0px 0px 10px;
+    color: gray;
+}
 
 .sub-comment-card {
     margin: 10px;

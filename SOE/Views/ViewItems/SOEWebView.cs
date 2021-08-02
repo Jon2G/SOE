@@ -11,9 +11,9 @@ namespace SOE.Views.ViewItems
     {
 
         private const string SubjectNotesPage = "/materias/{0}/{1}";
-        public override string HomePage => API.APIService.Url;
+        public override string HomePage => API.APIService.BaseUrl;
         public Task GoToSubjectNotesPage(Subject subject,User user) =>
-            GoTo(string.Concat(APIService.BaseUrl ,string.Format(SubjectNotesPage,user.Id,subject.Id)));
+            GoTo(string.Concat(APIService.BaseUrl, string.Format(SubjectNotesPage,user.Id,subject.Id)));
 
         
 

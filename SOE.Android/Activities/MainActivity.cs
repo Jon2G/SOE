@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -18,6 +19,8 @@ using SOE.Models.TaskFirst;
 using SOE.Services.ActionResponse;
 using SOE.Views.Pages;
 using SOE.Widgets;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(MainActivity))]
@@ -34,7 +37,7 @@ namespace SOE.Droid.Activities
         protected override void OnStart()
         {
 
-
+           
             base.OnStart();
         }
 
@@ -52,6 +55,8 @@ namespace SOE.Droid.Activities
 
         protected override async void OnCreate(Bundle savedInstanceState)
         {
+            ServicePointManager.ServerCertificateValidationCallback += ServerCertificateValidationCallback;
+      
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             await CrossMedia.Current.Initialize();//
@@ -62,6 +67,11 @@ namespace SOE.Droid.Activities
             LoadApplication(new SOE.App());
             if (this.Intent != null)
                 OnNewIntent(this.Intent);
+        }
+
+        private bool ServerCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslpolicyerrors)
+        {
+            return true;
         }
 
         protected override void OnNewIntent(Intent intent)

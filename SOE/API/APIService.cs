@@ -13,18 +13,19 @@ using SOE.Models.Data;
 using SOE.Models.TaskFirst;
 using SOEWeb.Shared;
 using SOEWeb.Shared.Enums;
+using System.Text;
 using Device = Kit.Daemon.Devices.Device;
 
 namespace SOE.API
 {
     public static class APIService
     {
-        public const string ShareTodo = "ShareTodo"; 
+        public const string ShareTodo = "ShareTodo";
         public const string ShareReminder = "ShareReminder";
-        //public const string NonHttpsUrl = "192.168.0.32:5555";
-        public const string NonHttpsUrl = "kq8tb2poo8.execute-api.us-east-2.amazonaws.com";
+        public const string NonHttpsUrl = "192.168.0.32:44380";
+        //public const string NonHttpsUrl = "kq8tb2poo8.execute-api.us-east-2.amazonaws.com/Prod";
         public static string BaseUrl => $"https://{NonHttpsUrl}";
-        public static string Url => $"{BaseUrl}/Prod/App";
+        public static string Url => $"{BaseUrl}/App";
 
         public static async Task<Response> Login(string Usuario, string PasswordPin, string school = null)
         {
@@ -42,7 +43,7 @@ namespace SOE.API
             }
             return JsonConvert.DeserializeObject<Response>(result.Response);
         }
-        public static async Task<Response> SignUp(string PasswordPin, UserType Type,SOEWeb.Shared.Device Device)
+        public static async Task<Response> SignUp(string PasswordPin, UserType Type, SOEWeb.Shared.Device Device)
         {
             WebService WebService = new WebService(Url);
             User User = AppData.Instance.User;
@@ -111,7 +112,6 @@ namespace SOE.API
             }
             return JsonConvert.DeserializeObject<Response>(result.Response);
         }
-
         internal static async Task<Response> DownloadSharedTodo(Guid TodoGuid, bool IncludeFiles)
         {
             if (Guid.Empty == TodoGuid)
@@ -135,8 +135,8 @@ namespace SOE.API
                     Photos = new List<PhotoArchive>();
                     foreach (int Id in await GetArchieveIds(todo.Guid))
                     {
-                        var file_result= await DownloadPictureById(Id);
-                        Photos.Add(new PhotoArchive(file_result,FileType.Photo)); 
+                        var file_result = await DownloadPictureById(Id);
+                        Photos.Add(new PhotoArchive(file_result, FileType.Photo));
                     }
                 }
                 await ToDo.Save(todo, Photos);
@@ -179,14 +179,12 @@ namespace SOE.API
             var response = JsonConvert.DeserializeObject<Response>(result.Response);
             return new List<int>(JsonConvert.DeserializeObject<int[]>(response.Extra));
         }
-
         internal static async Task<string> DownloadPictureById(int Id)
         {
             WebService webService = new WebService(Url);
-            FileInfo file= await Keeper.Save(webService.DownloadFile("GetArchieveById", Id.ToString()));
+            FileInfo file = await Keeper.Save(webService.DownloadFile("GetArchieveById", Id.ToString()));
             return file.FullName;
         }
-
         public static async Task<Response> PostToDo(TodoBase Todo)
         {
             if (Todo is null || string.IsNullOrEmpty(Todo.Title)
@@ -246,20 +244,70 @@ namespace SOE.API
 
             return JsonConvert.DeserializeObject<Response>(result.Response);
         }
-        internal static async Task<List<Classmate>> GetClassmates(string group)
+        internal static async Task<List<Classmate>> GetClassmates(string group, int TeacherId, int SubjectId)
         {
-            if (string.IsNullOrEmpty(group))
+            if (string.IsNullOrEmpty(group) || TeacherId <= 0 || SubjectId <= 0)
             {
                 return new List<Classmate>();
             }
             WebService WebService = new WebService(Url);
-            Kit.Services.Web.ResponseResult result = await WebService.GET("GetClassmates", group);
+            Kit.Services.Web.ResponseResult result = await WebService.GET("GetClassmates",
+                group, TeacherId.ToString(), SubjectId.ToString());
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
             {
                 return new List<Classmate>();
             }
-            var response = JsonConvert.DeserializeObject<Response>(result.Response);
+            Response response = JsonConvert.DeserializeObject<Response>(result.Response);
             return new List<Classmate>(JsonConvert.DeserializeObject<Classmate[]>(response.Extra));
+        }
+        public static async Task<Response> PostLink(Subject Subject, Link Link, User User)
+        {
+            await Task.Yield();
+            if (string.IsNullOrEmpty(Link.Name) || Subject.IdTeacher <= 0)
+            {
+                return Response.InvalidRequest;
+            }
+            if (string.IsNullOrEmpty(Link.Url) || !Validations.IsValidUrl(Link.Url))
+            {
+                return Response.InvalidRequest;
+            }
+
+            string jsonlink = JsonConvert.SerializeObject(Link);
+            WebService WebService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result =
+                await WebService.PostAsBody(
+                    byteArray: Encoding.UTF8.GetBytes(jsonlink),
+                    method: "PostLink",
+                    query: null,
+                    parameters: new []
+                    {
+                        Subject.Id.ToString(),
+                        Subject.IdTeacher.ToString(),
+                        User.Boleta,
+                        Subject.Group
+                    });
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+            {
+                return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
+            }
+            return JsonConvert.DeserializeObject<Response>(result.Response);
+
+        }
+        internal static async Task<List<Link>> GetLinks(string group, int TeacherId, int SubjectId)
+        {
+            if (string.IsNullOrEmpty(group) || TeacherId <= 0 || SubjectId <= 0)
+            {
+                return new List<Link>();
+            }
+            WebService WebService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = await WebService.GET("GetLinks",
+                group, TeacherId.ToString(), SubjectId.ToString());
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+            {
+                return new List<Link>();
+            }
+            Response response = JsonConvert.DeserializeObject<Response>(result.Response);
+            return new List<Link>(JsonConvert.DeserializeObject<Link[]>(response.Extra));
         }
     }
 }

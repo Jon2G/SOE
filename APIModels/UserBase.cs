@@ -9,7 +9,7 @@ namespace SOEWeb.Shared
         public int Id { get; set; }
         private string _Boleta;
 
-        [PrimaryKey, MaxLength(10)]
+        [Column("Boleta"),MaxLength(10)]
         public string Boleta
         {
             get => this._Boleta;

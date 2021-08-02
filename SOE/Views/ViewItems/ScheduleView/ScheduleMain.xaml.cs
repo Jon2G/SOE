@@ -10,6 +10,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Kit;
 using SOE.Fonts;
+using System;
 
 namespace SOE.Views.ViewItems.ScheduleView
 {
@@ -47,7 +48,6 @@ namespace SOE.Views.ViewItems.ScheduleView
                 return;
             }
             this.IsDayViewVisible = false;
-
         }
         private async void OpenMenu(ClassSquare classSquare)
         {
@@ -63,8 +63,16 @@ namespace SOE.Views.ViewItems.ScheduleView
                         break;
                  case "Info Materia":
                      InfoSub(classSquare.Subject);
-                    break;   
+                    break;
+                case "Links":
+                    ShowLinks(classSquare);
+                    break;
             }
+        }
+
+        private void ShowLinks(ClassSquare classSquare)
+        {
+            Shell.Current.Navigation.PushAsync(new LinksPage(classSquare));
         }
 
         private void InfoSub(Subject subject) => 

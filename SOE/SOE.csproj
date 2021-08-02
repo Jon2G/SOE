@@ -8,9 +8,12 @@
     <UserSecretsId>2e4b0392-c909-4468-9569-fccdfaa16cda</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Fonts\Fontello\font\fontello_17.ttf" />
+  </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Fonts\Fontello\font\fontello_16.ttf" />
+    <EmbeddedResource Include="Fonts\Fontello\font\fontello_17.ttf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,6 +48,9 @@
     <EmbeddedResource Update="Views\Pages\DeveloperOptions.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Pages\LinksPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\Login\SAESLoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -70,6 +76,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\UserProfile.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\PopUps\AddLinkPopUp.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\PopUps\ComingSoon.xaml">

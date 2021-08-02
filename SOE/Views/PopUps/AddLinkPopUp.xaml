@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:BasePopUp xmlns="http://xamarin.com/schemas/2014/forms"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
+           xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+           xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+           x:Class="SOE.Views.PopUps.AddLinkPopUp"
+           x:DataType="viewItems:AddLinkPopUpViewModel"
+           x:Name="Me">
+
+    <ContentPage.Content>
+        <pancakeView:PancakeView HorizontalOptions="FillAndExpand" VerticalOptions="Center" Margin="10" >
+            <StackLayout Margin="0" Spacing="0">
+                <Label Text="Agregar enlace" FontSize="20"
+                       FontAttributes="Bold" HorizontalTextAlignment="Center"
+                       BackgroundColor="{Binding ClassSquare.Subject,Converter={StaticResource SubjectColorAppThemeConverter}}" Padding="5"/>
+                <Label Text="{Binding ClassSquare.Subject.Group}" FontSize="20"
+                       FontAttributes="Bold" HorizontalTextAlignment="Center"
+                       BackgroundColor="{Binding ClassSquare.Subject,Converter={StaticResource SubjectColorAppThemeConverter}}" Padding="5,0"/>
+               
+                <StackLayout Padding="15" >
+                    <Label Text="Nombre"  FontAttributes="Bold" FontSize="16"/>
+                    <Entry MaxLength="128" 
+                           Text="{Binding Link.Name}"/>
+                    <Label Text="Enlace" FontAttributes="Bold" FontSize="16"/>
+                    <Entry 
+                        Text="{Binding Link.Url}"/>
+                    <Button Text="Confirmar"
+                            Command="{Binding AddLinkCommand}"
+                            CommandParameter="{x:Reference Me}"/>
+                </StackLayout>
+                
+            </StackLayout>
+        </pancakeView:PancakeView>
+    </ContentPage.Content>
+</pages:BasePopUp>

@@ -42,8 +42,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <MandroidI18n>West</MandroidI18n>
     <BundleAssemblies>false</BundleAssemblies>
-    <AndroidHttpClientHandlerType>
-    </AndroidHttpClientHandlerType>
+    <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -128,6 +127,7 @@
     <Compile Include="Notifications\Notification.cs" />
     <Compile Include="Notifications\NotificationChannel.cs" />
     <Compile Include="Notifications\NotificationService.cs" />
+    <Compile Include="Renders\MyWebViewRenderer.cs" />
     <Compile Include="Renders\NoLineEntryRender.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

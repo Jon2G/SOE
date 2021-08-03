@@ -40,7 +40,7 @@ namespace SOE.ViewModels.ViewItems
         public int AttemptCount { get; set; }
         public readonly Func<AskForCaptcha,Task<bool>> OnSucceedAction;
         private readonly AskForCaptcha AskForCaptcha;
-
+        public bool IsLoading { get; private set; }
         public AskForCaptchaViewModel(AskForCaptcha AskForCaptcha, Func<AskForCaptcha,Task<bool>> OnSucceedAction)
         {
             this.AskForCaptcha = AskForCaptcha;
@@ -52,16 +52,33 @@ namespace SOE.ViewModels.ViewItems
         }
         private async void SignIn()
         {
-            this.AttemptCount++;
-            if (await AppData.Instance.SAES.LogIn(this.Captcha, this.AttemptCount, false))
+            if (!this.ValidateCanExecute())
             {
-                await OnSucceedAction.Invoke(this.AskForCaptcha);
+                return;
             }
-            else
+            this.AttemptCount++;
+            IsLoading = true;
+            this.SignInCommand.ChangeCanExecute();
+            try
             {
-                this.Captcha = string.Empty;
-                RefreshCaptcha();
-                Acr.UserDialogs.UserDialogs.Instance.Alert("Usuario o contraseña invalidos", "Atención", "Ok");
+                if (await AppData.Instance.SAES.LogIn(this.Captcha, this.AttemptCount, false))
+                {
+                    await OnSucceedAction.Invoke(this.AskForCaptcha);
+                }
+                else
+                {
+                    this.Captcha = string.Empty;
+                    RefreshCaptcha();
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("Usuario o contraseña invalidos", "Atención", "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                IsLoading = false;
             }
         }
         private bool ValidateCanExecute()
@@ -69,7 +86,7 @@ namespace SOE.ViewModels.ViewItems
             return !string.IsNullOrEmpty(AppData.Instance.User.Boleta)
                    && Validations.IsValidBoleta(AppData.Instance.User.Boleta)
                    && !string.IsNullOrEmpty(AppData.Instance.User.Password)
-                   && !string.IsNullOrEmpty(Captcha);
+                   && !string.IsNullOrEmpty(Captcha)&&!IsLoading;
         }
     }
 }

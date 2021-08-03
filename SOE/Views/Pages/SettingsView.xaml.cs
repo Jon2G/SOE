@@ -17,10 +17,5 @@ namespace SOE.Views.Pages
             base.OnDisappearing();
             this.Model.SaveCommand.Execute(null);
         }
-
-        private void Switch_OnToggled(object sender, ToggledEventArgs e)
-        {
-           
-        }
     }
 }

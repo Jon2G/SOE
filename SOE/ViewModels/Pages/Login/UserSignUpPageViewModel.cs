@@ -2,12 +2,14 @@
 using SOEWeb.Shared;
 using SOEWeb.Shared.Enums;
 using AsyncAwaitBestPractices;
+using AsyncAwaitBestPractices.MVVM;
 using Kit.Model;
 using SOE.API;
 using SOE.Data;
 using SOE.Models.Data;
 using SOE.Views.Pages.Login;
 using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Device = Kit.Daemon.Devices.Device;
 
@@ -15,6 +17,18 @@ namespace SOE.ViewModels.Pages.Login
 {
     public class UserSignUpPageViewModel : ModelBase
     {
+        private string _NickName;
+
+        public string NickName
+        {
+            get => this._NickName;
+            set
+            {
+                this._NickName = value;
+                Raise(() => NickName);
+                this.SignUpCommand.ChangeCanExecute();
+            }
+        }
         private string _Email;
         public string Email
         {
@@ -34,7 +48,7 @@ namespace SOE.ViewModels.Pages.Login
             {
                 _Password = value;
                 Raise(() => Password);
-                this.SignInCommand.ChangeCanExecute();
+                this.SignInCommand.RaiseCanExecuteChanged();
             }
         }
         private string _SOEPassword;
@@ -56,7 +70,7 @@ namespace SOE.ViewModels.Pages.Login
             {
                 _Boleta = value;
                 Raise(() => Boleta);
-                this.SignInCommand.ChangeCanExecute();
+                this.SignInCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -90,8 +104,8 @@ namespace SOE.ViewModels.Pages.Login
 
         private Command _SignUpCommand;
         public Command SignUpCommand => _SignUpCommand ??= new Command(SignUp, SignUpCanExecute);
-        private Command _SignInCommand;
-        public Command SignInCommand => _SignInCommand ??= new Command(SignIn, SignInCanExecute);
+        private AsyncCommand _SignInCommand;
+        public AsyncCommand SignInCommand => _SignInCommand ??= new AsyncCommand(SignIn, SignInCanExecute);
 
         public int AttemptCount { get; set; }
         public UserSignUpPageViewModel(View FirstForm, View SecondForm)
@@ -100,7 +114,7 @@ namespace SOE.ViewModels.Pages.Login
             this.SecondForm = SecondForm;
         }
 
-        private async void SignIn()
+        private async Task SignIn()
         {
             this.AttemptCount++;
             AppData.Instance.User.Boleta = Boleta;
@@ -127,9 +141,11 @@ namespace SOE.ViewModels.Pages.Login
                 Acr.UserDialogs.UserDialogs.Instance.Alert("Usuario o contraseña invalidos", "Atención", "Ok");
             }
         }
-        private bool SignInCanExecute()
+        private bool SignInCanExecute(object obj)
         {
-            return !string.IsNullOrEmpty(Boleta) && Validations.IsValidBoleta(Boleta) && !string.IsNullOrEmpty(Password);
+            return !string.IsNullOrEmpty(Boleta) 
+                   && Validations.IsValidBoleta(Boleta) 
+                   && !string.IsNullOrEmpty(Password);
         }
 
 
@@ -148,6 +164,7 @@ namespace SOE.ViewModels.Pages.Login
         }
         private async void SignUp()
         {
+            AppData.Instance.User.NickName = NickName;
             Response response = Response.Error;
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Iniciando sesión..."))
             {
@@ -177,14 +194,14 @@ namespace SOE.ViewModels.Pages.Login
                     break;
             }
         }
-
-
-
         private bool SignUpCanExecute()
         {
-            return !string.IsNullOrEmpty(this.SOEPassword) && !string.IsNullOrEmpty(Email) && SOEPassword.Length >= 8;
+            return !string.IsNullOrEmpty(this.SOEPassword)
+                   &&
+                   !string.IsNullOrEmpty(Email)
+                   && SOEPassword.Length >= 8
+                   && !string.IsNullOrEmpty(NickName) &&
+                   Validations.IsValidNickName(NickName);
         }
-
-
     }
 }

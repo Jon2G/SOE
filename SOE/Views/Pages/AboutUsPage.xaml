@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
+             xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
+             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+             x:Class="SOE.Views.Pages.AboutUsPage"
+             x:DataType="pages:AboutUsPageViewModel"
+             Title="Acerca de ...">
+    <ContentPage.BindingContext>
+        <pages:AboutUsPageViewModel/>
+    </ContentPage.BindingContext>
+    <StackLayout>
+        <StackLayout 
+            BackgroundColor="{StaticResource AccentColor }" Spacing="0"
+            Padding="10"
+            VerticalOptions="Start" HorizontalOptions="Fill">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" 
+                         VerticalOptions="Start" 
+                         Spacing="0" Padding="0">
+                <Image Margin="5,0" Source="logo_soe_fill" 
+                       WidthRequest="50" VerticalOptions="Center"/>
+                <StackLayout Spacing="0" VerticalOptions="Center">
+                    <Label TextColor="White"
+                           FontAttributes="Bold" Text="SOE" FontSize="20"/>
+                    <Label Text="BETA 2.0.0" FontSize="10" FontAttributes="Bold" 
+                           TextColor="White"/>
+                </StackLayout>
+               
+           
+            </StackLayout>
+        </StackLayout>
+        <ScrollView>
+            <StackLayout>
+
+                <Grid VerticalOptions="FillAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                
+
+                    <StackLayout Grid.Row="1" Orientation="Vertical" Padding="20,12,20,12" Spacing="10" VerticalOptions="FillAndExpand">
+                        <Label Text="Esta App fue desarrollada por estudiantes de la E.S.I.M.E C.U. con fines estudiantiles como parte de un proyecto de titulación para beneficio la comunidad del I.P.N." FontSize="20"  TextColor="{AppThemeBinding Light=Black,Dark=White}"/>
+
+
+                        <controls:ArrowButton Title="Dale un vistazo al proyecto en Github" 
+                                          TextColor="{AppThemeBinding Light=Black,Dark=White}"
+                                              ColorBackground="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
+                                              IsArrowVisible="False" Command="{Binding GitHubCommand}">
+                            <controls:ArrowButton.Icon>
+                                <FontImageSource Color="Black" FontFamily="{x:Static fonts:FontelloIcons.Font}" Glyph="{x:Static fonts:FontelloIcons.GitHub}"/>
+                            </controls:ArrowButton.Icon>
+                        </controls:ArrowButton>
+
+                        <controls:ArrowButton Title="Dale un vistazo al proyecto en Trello" 
+                                          TextColor="{AppThemeBinding Light=Black,Dark=White}"
+                                          ColorBackground="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
+                                          IsArrowVisible="False" Command="{Binding TrelloCommand}">
+                            <controls:ArrowButton.Icon>
+                                <FontImageSource Color="Black" FontFamily="{x:Static fonts:FontelloIcons.Font}" Glyph="{x:Static fonts:FontelloIcons.Trello}"/>
+                            </controls:ArrowButton.Icon>
+                        </controls:ArrowButton>
+
+                        <StackLayout Margin="0,0">
+                            <controls:ArrowButton Title="Reportar un bug"
+                                              TextColor="{AppThemeBinding Light=Black,Dark=White}"
+                                              ColorBackground="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
+                                              IsArrowVisible="False" Command="{Binding ReportBugCommand}">
+                                <controls:ArrowButton.Icon>
+                                    <FontImageSource Color="Black" FontFamily="{x:Static fonts:FontelloIcons.Font}" Glyph="{x:Static fonts:FontelloIcons.GitHub}"/>
+                                </controls:ArrowButton.Icon>
+                            </controls:ArrowButton>
+                            <controls:ArrowButton Title="Solicitar una nueva característica"
+                                              TextColor="{AppThemeBinding Light=Black,Dark=White}"
+                                              ColorBackground="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
+                                                  IsArrowVisible="False" Command="{Binding RequestFeatureCommand}">
+                                <controls:ArrowButton.Icon>
+                                    <FontImageSource Color="Black" FontFamily="{x:Static fonts:FontelloIcons.Font}" Glyph="{x:Static fonts:FontelloIcons.GitHub}"/>
+                                </controls:ArrowButton.Icon>
+                            </controls:ArrowButton>
+                        </StackLayout>
+
+
+                        <controls:ArrowButton Title="Creado con la tecnología multiplataforma Xamarin.Forms" 
+                                          TextColor="{AppThemeBinding Light=Black,Dark=White}"
+                                          ColorBackground="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
+                                              Icon="xamarin_icon.png"
+                                              IsArrowVisible="False" Command="{Binding XamarinCommand}"/>
+
+                        <controls:ArrowButton Title="soeapp.soporte@gmail.com"
+                                          TextColor="{AppThemeBinding Light=Black,Dark=White}"
+                                          ColorBackground="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
+                                              IsArrowVisible="False" Command="{Binding GMailCommand}">
+                            <controls:ArrowButton.Icon>
+                                <FontImageSource Color="Firebrick" FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                             Glyph="{x:Static fonts:FontelloIcons.GMail}"/>
+                            </controls:ArrowButton.Icon>
+                        </controls:ArrowButton>
+
+                        <controls:ArrowButton Title="Cómpranos un café"
+                                          Icon="bmc_logo_yellow.png"  TextColor="{AppThemeBinding Light=Black,Dark=White}"
+                                          ColorBackground="#ffdd00"
+                                          IsArrowVisible="False" 
+                                          Command="{Binding BuyMeACoffeCommand}"/>
+
+                        <controls:ArrowButton Title="Política de privacidad"
+                                              TextColor="{AppThemeBinding Light=Black,Dark=White}"
+                                              IsArrowVisible="False" 
+                                              Command="{Binding PrivacityCommand}"/>
+
+                        <Label Text="Licencias y créditos"/>
+                        <controls:ArrowButton 
+                        ColorBackground="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
+                        TextColor="{AppThemeBinding Light=Black,Dark=White}"
+                            IsArrowVisible="False" Title="App icon designed by Freepik from Flaticon" 
+                                              SubTitle="https://www.flaticon.com/matrix_3815250"/>
+
+                        <controls:ArrowButton 
+                        ColorBackground="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
+                        TextColor="{AppThemeBinding Light=Black,Dark=White}"
+                            IsArrowVisible="False" Title="App menu icons by Fontello" 
+                                              SubTitle="https://github.com/fontello/fontello"/>
+
+                        <!--<Label VerticalOptions="End" Text="{x:Static resource:AppResources.SpecialThanks}" FontSize="18" Padding="0,0,0,0" 
+                           TextColor="{AppThemeBinding Light=Black,Dark=White}"/>-->
+
+                    </StackLayout>
+
+                </Grid>
+                <StackLayout BackgroundColor="{StaticResource AccentColor}" Padding="10" Margin="0">
+                    <Label VerticalOptions="End"  FontSize="18"
+                           Padding="0,0,0,0" Margin="0,5" 
+                           TextColor="White" FontAttributes="Bold">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Desarrollada por:"/>
+                                <Span Text="&#10;"/>
+                                <Span Text="Jonathan Eduardo G.G"/>
+                                <Span Text="&#10;"/>
+                                <Span Text="Santiago Gonzalez S."/>
+                                <Span Text="&#10;"/>
+                                <Span Text="Daniel Antonio J.A."/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+
+            </StackLayout>
+        </ScrollView>
+    </StackLayout>
+
+</ContentPage>

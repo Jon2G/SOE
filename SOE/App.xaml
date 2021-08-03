@@ -163,6 +163,7 @@
                 <Setter Property="BackgroundColor"  Value="{AppThemeBinding Dark={StaticResource BackgroundSecondaryDarkColor},Light={StaticResource BackgroundSecondaryLightColor}}"/>
             </Style>
             <Style TargetType="Switch">
+                <Setter Property="ThumbColor" Value="{StaticResource AccentColor}"/>
                 <Setter Property="OnColor" Value="{AppThemeBinding Light={StaticResource SecondaryColor},Dark={StaticResource SecondaryDarkColor}}"/>
                 <Setter Property="OnColor" Value="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"/>
             </Style>

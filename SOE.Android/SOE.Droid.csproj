@@ -267,6 +267,16 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher.png" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="..\Images\xamarin_icon.png">
+      <Link>Resources\drawable\xamarin_icon.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\Images\bmc_logo_yellow.png">
+      <Link>Resources\drawable\bmc_logo_yellow.png</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
     <AndroidResource Include="Resources\layout\layout_widget_todos.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>

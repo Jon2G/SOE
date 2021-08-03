@@ -22,7 +22,9 @@
               </Image.Source>
           </Image>
             <Label Margin="10" Text="No olvides actualizar tus datos en la aplicación al concluir tu inscripción en el SAES" FontSize="20"  HorizontalTextAlignment="Center"/>
-            <Button Command="{Binding RefreshDataCommand}" Text="Actualizar datos" FontAttributes="Bold" FontSize="20"/>
+            <Label Text="Tu cita de reinscripción es:" FontSize="18" />
+            <Label Text="{Binding InscriptionDate.Date}" FontSize="18"/>
+          <Button Command="{Binding RefreshDataCommand}" Text="Actualizar datos" FontAttributes="Bold" FontSize="20"/>
       </StackLayout>
   </ContentView.Content>
 </ContentView>

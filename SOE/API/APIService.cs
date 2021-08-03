@@ -36,7 +36,9 @@ namespace SOE.API
                 return new Response(APIResponseResult.INVALID_REQUEST,
                     "!Solicitud invalida!");
             }
-            Kit.Services.Web.ResponseResult result = await WebService.GET("LogIn", Usuario, PasswordPin, Device.Current.DeviceId, school);
+            Kit.Services.Web.ResponseResult result = 
+                await WebService.GET("LogIn", 
+                    Usuario, PasswordPin, Device.Current.DeviceId, school);
             if (result.Response == "ERROR")
             {
                 return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
@@ -50,6 +52,7 @@ namespace SOE.API
             if (string.IsNullOrEmpty(User.Boleta)
                 || string.IsNullOrEmpty(PasswordPin)
                 || PasswordPin.Length < 8
+                || !Validations.IsValidNickName(User.NickName)
                 || !Validations.IsValidEmail(User.Email)
                 || !Validations.IsValidBoleta(User.Boleta)
                 || User.School is null
@@ -61,7 +64,7 @@ namespace SOE.API
                     "!Solicitud invalida!");
             }
             Kit.Services.Web.ResponseResult result = await WebService.GET("SignUp",
-                User.Boleta, User.Name, User.Email,
+                User.Boleta, User.Name, User.NickName, User.Email,
                 PasswordPin, User.School.Name, ((int)Type).ToString(), JsonConvert.SerializeObject(Device));
             if (result.Response == "ERROR")
             {
@@ -279,7 +282,7 @@ namespace SOE.API
                     byteArray: Encoding.UTF8.GetBytes(jsonlink),
                     method: "PostLink",
                     query: null,
-                    parameters: new []
+                    parameters: new[]
                     {
                         Subject.Id.ToString(),
                         Subject.IdTeacher.ToString(),

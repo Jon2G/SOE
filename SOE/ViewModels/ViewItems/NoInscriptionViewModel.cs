@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using AsyncAwaitBestPractices;
 using SOE.Data;
+using SOE.Models.Data;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
 using Xamarin.Forms;
@@ -12,7 +13,12 @@ namespace SOE.ViewModels.ViewItems
     {
         private ICommand _RefreshDataCommand;
         public ICommand RefreshDataCommand => _RefreshDataCommand ??= new Command(RefreshData);
+        public InscriptionDate InscriptionDate { get; set; }
 
+        public NoInscriptionViewModel()
+        {
+            InscriptionDate = InscriptionDate.Get();
+        }
         private async void RefreshData()
         {
             AskForCaptcha ask = null;

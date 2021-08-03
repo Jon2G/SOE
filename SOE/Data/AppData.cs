@@ -63,16 +63,26 @@ namespace SOE.Data
             return Instance;
         }
 
+        public void ClearData(params Type[] Tables)
+        {
+            foreach (Type type in Tables)
+            {
+                var table = AppData.Instance.LiteConnection.Table(type);
+                AppData.Instance.LiteConnection.Execute($"DROP TABLE IF EXISTS {table.Table.TableName}");
+                AppData.Instance.LiteConnection.CreateTable(table.Table);
+            }
+        }
         public static void CreateDatabase()
         {
             AppData.Instance.LiteConnection.CheckTables(
-                typeof(Teacher), typeof(Subject), typeof(User), 
-                typeof(Career), typeof(ClassTime), typeof(Grade), 
-                typeof(Credits), typeof(ToDo), typeof(Settings), 
-                typeof(NotificationsHistory), typeof(Document), 
+                typeof(Teacher), typeof(Subject), typeof(User),
+                typeof(Career), typeof(ClassTime), typeof(Grade),
+                typeof(Credits), typeof(ToDo), typeof(Settings),
+                typeof(NotificationsHistory), typeof(Document),
                 typeof(DocumentPart), typeof(Archive),
-                typeof(Keeper),typeof(School),typeof(Reminder));
+                typeof(Keeper), typeof(School), typeof(Reminder),
+                typeof(InscriptionDate));
         }
-  
+
     }
 }

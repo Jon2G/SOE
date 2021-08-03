@@ -3,6 +3,8 @@ using System.IO;
 using System.Threading.Tasks;
 using Kit.Sql.Attributes;
 using Kit.Sql.Interfaces;
+using Xamarin.Forms.Internals;
+using Log = Kit.Log;
 
 namespace SOE.Data.Images
 {
@@ -14,7 +16,6 @@ namespace SOE.Data.Images
 
         public static DirectoryInfo Directory => new DirectoryInfo(Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.Personal), nameof(Keeper)));
-
         internal static void Delete(int IdKeeper)
         {
             foreach (Archive archive in AppData.Instance.LiteConnection.Table<Archive>().Where(x => x.IdKeeper == IdKeeper))
@@ -23,14 +24,12 @@ namespace SOE.Data.Images
             }
             AppData.Instance.LiteConnection.Table<Keeper>().Where(x => x.Id == IdKeeper).Delete();
         }
-
         public static Keeper New()
         {
             Keeper keeper = new Keeper();
             AppData.Instance.LiteConnection.Insert(keeper);
             return keeper;
         }
-
         internal async Task Save(Archive archive)
         {
             archive.IdKeeper = this.Id;
@@ -40,12 +39,6 @@ namespace SOE.Data.Images
             archive.Path = file.FullName;
             AppData.Instance.LiteConnection.Insert(archive);
         }
-
-
-
-
-
-
         public static Task<FileInfo> Save(Task<Stream> GetStream,string FileExtension=".png")
         {
             FileInfo TargetFile =
@@ -68,6 +61,32 @@ namespace SOE.Data.Images
                 }
             }
             return TargetFile;
+        }
+
+        internal static void ClearAllFiles()
+        {
+            try
+            {
+                if (!Directory.Exists)
+                {
+                    Directory.Create();
+                }
+                Directory.GetFiles().ForEach(x =>
+                {
+                    try
+                    {
+                    x.Delete();
+                    }
+                    catch (Exception e)
+                    {
+                       Log.Logger.Error(e, "ClearAllFiles");
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(e, "ClearAllFiles");
+            }
         }
     }
 }

@@ -51,8 +51,11 @@
 .icon-plus-circled { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe826;&nbsp;'); }
 .icon-users-1 { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe827;&nbsp;'); }
 .icon-link { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe828;&nbsp;'); }
+.icon-heart { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe829;&nbsp;'); }
+.icon-github-circled { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe82a;&nbsp;'); }
 .icon-bell-alt { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf0f3;&nbsp;'); }
 .icon-angle-right { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf105;&nbsp;'); }
+.icon-trello { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf181;&nbsp;'); }
 .icon-file-pdf { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf1c1;&nbsp;'); }
 .icon-paper-plane { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf1d8;&nbsp;'); }
 .icon-user-secret { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf21b;&nbsp;'); }

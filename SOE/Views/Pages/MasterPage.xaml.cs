@@ -53,6 +53,7 @@ namespace SOE.Views.Pages
                     TabView.SelectedIndex = 1;
                 });
             }
+            Shell.SetNavBarIsVisible(this, this.TabView.SelectedIndex != 1);
             DependencyService.Get<IStartNotificationsService>()?.StartNotificationsService();
         }
         public static void ResponseTo(PendingAction PendingAction) => App.Current.Dispatcher.BeginInvokeOnMainThread(action: () => Execute(PendingAction));
@@ -74,7 +75,7 @@ namespace SOE.Views.Pages
                         Subject = SubjectService.GetByGroup(subjectAction.Group),
                         Time = subjectAction.Date.TimeOfDay
                     };
-                     Shell.Current.Navigation.PushAsync(new NewTaskPage(Tarea)).SafeFireAndForget();
+                    Shell.Current.Navigation.PushAsync(new NewTaskPage(Tarea)).SafeFireAndForget();
                     break;
                 case TodoWidgetAction todoAction:
                     AppData.Instance.LiteConnection.CreateTable<ToDo>();
@@ -86,9 +87,9 @@ namespace SOE.Views.Pages
                 case UrlAction urlAction:
                     string[] segments = urlAction.Url.Segments;
                     int indexOfAction = segments.IndexOf(x => x.Contains(nameof(APIService.ShareTodo)));
-                    if (indexOfAction > 0 && segments.Length >= indexOfAction+1)
+                    if (indexOfAction > 0 && segments.Length >= indexOfAction + 1)
                     {
-                        Guid guid = Guid.Parse(segments[indexOfAction+1]);
+                        Guid guid = Guid.Parse(segments[indexOfAction + 1]);
                         bool IncludeFiles = await App.Current.MainPage.DisplayAlert("Descargar tarea",
                             "¿Descargar también las imágenes de esta tarea?", "Sí", "No");
 

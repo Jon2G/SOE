@@ -59,7 +59,7 @@ namespace SOE.ViewModels.Pages
             Views.Add(new SchoolGrades());
             Views.Add(new MainView());
             Views.Add(new ScheduleViewMain());
-            Views.Add(new NotificationView());
+            //Views.Add(new NotificationView());
         }
     }
 }

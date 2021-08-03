@@ -7,6 +7,18 @@ namespace SOEWeb.Shared
     {
         [PrimaryKey]
         public int Id { get; set; }
+
+        private string _NickName;
+        public string NickName
+        {
+            get => this._NickName;
+            set
+            {
+                _NickName = value;
+                this.Raise(() => this.NickName);
+            }
+        }
+
         private string _Boleta;
 
         [Column("Boleta"),MaxLength(10)]

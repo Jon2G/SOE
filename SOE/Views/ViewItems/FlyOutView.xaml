@@ -100,7 +100,6 @@
                             </StackLayout>
                         </ViewCell>
                         <ViewCell >
-
                             <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding SettingCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
@@ -111,6 +110,31 @@
                                 <Label  Margin="10,0,0,0" Text=" Ajustes" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                             </StackLayout>
                         </ViewCell>
+                        <ViewCell >
+                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding AboutUsCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
+                                </StackLayout.GestureRecognizers>
+                                <Label Text="{x:Static fonts:FontelloIcons.Heart}" 
+                                       FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                       FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                <Label  Margin="10,0,0,0" Text=" Acerca de..." FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                            </StackLayout>
+                        </ViewCell>
+                        <ViewCell >
+                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding PrivacityCommand}" 
+                                                          CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
+                                </StackLayout.GestureRecognizers>
+                                <Label Text="{x:Static fonts:FontelloIcons.Lock}" 
+                                       FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                       FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                <Label  Margin="10,0,0,0" Text=" Política de privacidad..." FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                            </StackLayout>
+                        </ViewCell>
+
+                        
                     </TableSection>
                 </TableRoot>
             </TableView>

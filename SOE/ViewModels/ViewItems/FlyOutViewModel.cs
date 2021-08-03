@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
+using AsyncAwaitBestPractices;
 using Kit;
 using Kit.Forms.Extensions;
 using Kit.Model;
@@ -24,6 +26,17 @@ namespace SOE.ViewModels.ViewItems
         public ICommand SettingCommand { get; set; }
         public ICommand TapAvatarCommand { get; set; }
         public ICommand UserCommand { get; set; }
+        public ICommand PrivacityCommand { get; }
+
+        private ICommand _AboutUsCommand;
+        public ICommand AboutUsCommand => _AboutUsCommand ??= new Command(AboutUs);
+
+        private void AboutUs()
+        {
+            Shell.Current.FlyoutIsPresented = false;
+            Shell.Current.Navigation.PushAsync(new AboutUsPage()).SafeFireAndForget();
+        } 
+
         private FileImageSource _AvatarSource;
         public string _UserInitials;
 
@@ -55,8 +68,16 @@ namespace SOE.ViewModels.ViewItems
             this.TapAvatarCommand = new Command(TapAvatar);
             this.UserCommand = new Command(UserProfile);
             this.ComingCommand = new Command(Coming);
+            this.PrivacityCommand = new Command(Privacity);
             GetAvatar();
         }
+
+        private void Privacity(object obj)
+        {
+            Shell.Current.FlyoutIsPresented = false;
+            Shell.Current.Navigation.PushAsync(new PrivacityPage()).SafeFireAndForget(); ;
+        }
+
         private async void Developer() => await Application.Current.MainPage.Navigation.PushModalAsync(new DeveloperOptions());
 
         private async void GetAvatar()

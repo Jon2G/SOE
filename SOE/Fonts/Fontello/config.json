@@ -293,6 +293,24 @@
       "css": "link",
       "code": 59432,
       "src": "websymbols"
+    },
+    {
+      "uid": "3b00728aa97ad1a2581d414bd9d650bc",
+      "css": "heart",
+      "code": 59433,
+      "src": "typicons"
+    },
+    {
+      "uid": "ff16079eb4be12c49bf3014d2322acdd",
+      "css": "github-circled",
+      "code": 59434,
+      "src": "zocial"
+    },
+    {
+      "uid": "b846892636bd74112998bb159bdddf27",
+      "css": "trello",
+      "code": 61825,
+      "src": "fontawesome"
     }
   ]
 }

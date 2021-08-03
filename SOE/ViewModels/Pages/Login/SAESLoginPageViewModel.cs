@@ -1,9 +1,13 @@
 ﻿using System.Windows.Input;
 using SOEWeb.Shared;
 using AsyncAwaitBestPractices;
+using AsyncAwaitBestPractices.MVVM;
+using Kit;
 using Kit.Model;
 using SOE.Data;
 using SOE.Views.Pages.Login;
+using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace SOE.ViewModels.Pages.Login
@@ -18,7 +22,7 @@ namespace SOE.ViewModels.Pages.Login
             {
                 _Captcha = value;
                 Raise(() => Captcha);
-                this.SignInCommand.ChangeCanExecute();
+                this.SignInCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -35,8 +39,19 @@ namespace SOE.ViewModels.Pages.Login
 
         private ICommand _RefreshCaptchaCommand;
         public ICommand RefreshCaptchaCommand => _RefreshCaptchaCommand ??= new Command(RefreshCaptcha);
-        private Command _SignInCommand;
-        public Command SignInCommand => _SignInCommand ??= new Command(SignIn, ValidateCanExecute);
+        private AsyncCommand _SignInCommand;
+
+        public AsyncCommand SignInCommand
+        {
+            get
+            {
+                if (this._SignInCommand is null)
+                {
+                    _SignInCommand = new AsyncCommand(SignIn, ValidateCanExecute);
+                }
+                return this._SignInCommand;
+            }
+        }
 
         private string _Boleta;
         public string Boleta
@@ -46,7 +61,7 @@ namespace SOE.ViewModels.Pages.Login
             {
                 _Boleta = value;
                 Raise(() => Boleta);
-                this.SignInCommand?.ChangeCanExecute();
+                this.SignInCommand?.RaiseCanExecuteChanged();
             }
         }
 
@@ -58,9 +73,10 @@ namespace SOE.ViewModels.Pages.Login
             {
                 _Password = value;
                 Raise(() => Password);
-                this.SignInCommand?.ChangeCanExecute();
+                this.SignInCommand?.RaiseCanExecuteChanged();
             }
         }
+        public bool IsLoading { get; private set; }
         public int AttemptCount { get; set; }
         public SAESLoginPageViewModel()
         {
@@ -71,32 +87,47 @@ namespace SOE.ViewModels.Pages.Login
         {
             this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
         }
-        private async void SignIn()
+        private async Task SignIn()
         {
             this.AttemptCount++;
+            IsLoading = true;
+            try
+            {
+                this.SignInCommand?.RaiseCanExecuteChanged();
+                AppData.Instance.User.Boleta = Boleta;
+                AppData.Instance.User.Password = Password;
+                if (await AppData.Instance.SAES.LogIn(this.Captcha, this.AttemptCount, false))
+                {
+                    AppData.Instance.SAES.GetName().SafeFireAndForget();
+                    LoginSucceed();
+                }
+                else
+                {
+                    AppData.Instance.User.Boleta = string.Empty;
+                    AppData.Instance.User.Password = string.Empty;
+                    this.Captcha = string.Empty;
+                    RefreshCaptcha();
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("Usuario o contraseña invalidos", "Atención", "Ok");
+                }
+            }
+            catch (Exception e)
+            {
+                Kit.Log.Logger.Error(e, "SignIn");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
 
-            AppData.Instance.User.Boleta = Boleta;
-            AppData.Instance.User.Password = Password;
-            if (await AppData.Instance.SAES.LogIn(this.Captcha, this.AttemptCount, false))
-            {
-                AppData.Instance.SAES.GetName().SafeFireAndForget();
-                LoginSucceed();
-            }
-            else
-            {
-                AppData.Instance.User.Boleta = string.Empty;
-                AppData.Instance.User.Password = string.Empty;
-                this.Captcha = string.Empty;
-                RefreshCaptcha();
-                Acr.UserDialogs.UserDialogs.Instance.Alert("Usuario o contraseña invalidos", "Atención", "Ok");
-            }
+
         }
-        private bool ValidateCanExecute()
+        private bool ValidateCanExecute(object obj)
         {
             return !string.IsNullOrEmpty(Boleta)
-                   && Validations.IsValidBoleta(Boleta) 
+                   && Validations.IsValidBoleta(Boleta)
                    && !string.IsNullOrEmpty(Password)
-                   &&!string.IsNullOrEmpty(Captcha);
+                   && !string.IsNullOrEmpty(Captcha)
+                   && !IsLoading;
         }
         internal void LoginSucceed()
         {

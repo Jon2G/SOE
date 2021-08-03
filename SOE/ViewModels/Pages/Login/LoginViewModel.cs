@@ -3,6 +3,7 @@ using System.Windows.Input;
 using SOEWeb.Shared;
 using SOEWeb.Shared.Enums;
 using AsyncAwaitBestPractices;
+using AsyncAwaitBestPractices.MVVM;
 using Kit;
 using Kit.Model;
 using Newtonsoft.Json;
@@ -11,6 +12,7 @@ using SOE.Data;
 using SOE.Models.Data;
 using SOE.Views.Pages;
 using SOE.Views.Pages.Login;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Command = Xamarin.Forms.Command;
 
@@ -27,7 +29,7 @@ namespace SOE.ViewModels.Pages.Login
             {
                 _User = value;
                 Raise(() => User);
-                this.LoginCommand?.ChangeCanExecute();
+                this.LoginCommand?.RaiseCanExecuteChanged();
             }
         }
 
@@ -39,13 +41,13 @@ namespace SOE.ViewModels.Pages.Login
             {
                 _Password = value;
                 Raise(() => Password);
-                this.LoginCommand?.ChangeCanExecute();
+                this.LoginCommand?.RaiseCanExecuteChanged();
             }
         }
 
 
-        private Command _LoginCommand;
-        public Command LoginCommand => _LoginCommand ??= new Command(LoginRequested, LoginCanExecute);
+        private AsyncCommand _LoginCommand;
+        public AsyncCommand LoginCommand => _LoginCommand ??= new AsyncCommand(LoginRequested, LoginCanExecute);
 
         private ICommand _RegisterCommand;
         public ICommand RegisterCommand => _RegisterCommand ??= new Command(Register);
@@ -59,7 +61,7 @@ namespace SOE.ViewModels.Pages.Login
 
         private void Register() => Application.Current.MainPage.Navigation.PushModalAsync(new SchoolSelector()).SafeFireAndForget();
 
-        private async void LoginRequested()
+        private async Task LoginRequested()
         {
             try
             {
@@ -76,11 +78,13 @@ namespace SOE.ViewModels.Pages.Login
                         break;
                     case APIResponseResult.KO:
                         AppData.Instance.User.Password = string.Empty;
-                        App.Current.MainPage.DisplayAlert("Mensaje informativo", response.Message, "Ok")
+                        App.Current.MainPage.DisplayAlert("Mensaje informativo",
+                                response.Message, "Ok")
                             .SafeFireAndForget();
                         break;
                     case APIResponseResult.OK:
-                        AppData.Instance.User = JsonConvert.DeserializeObject<User>(response.Extra, new JsonSerializerSettings()
+                        AppData.Instance.User = JsonConvert.DeserializeObject<User>(
+                            response.Extra, new JsonSerializerSettings()
                         {
                             CheckAdditionalContent = true
                         });
@@ -106,7 +110,7 @@ namespace SOE.ViewModels.Pages.Login
             }
         }
 
-        private bool LoginCanExecute()
+        private bool LoginCanExecute(object obj)
         {
             return !string.IsNullOrEmpty(User) && (Validations.IsValidEmail(User) || Validations.IsValidBoleta(User))
                                                && !string.IsNullOrEmpty(Password)

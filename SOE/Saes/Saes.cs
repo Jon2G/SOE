@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AsyncAwaitBestPractices;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,6 +22,10 @@ using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
 using WebView = Xamarin.Forms.WebView;
 using Kit.Forms.Controls.WebView;
+using SOE.Data.Images;
+using SOE.Models;
+using SOE.Models.TaskFirst;
+using Xamarin.CommunityToolkit.Extensions;
 
 namespace SOE.Saes
 {
@@ -266,6 +271,12 @@ namespace SOE.Saes
         }
         public async Task GetUserData(User user)
         {
+            AppData.Instance.ClearData(
+                typeof(Subject), typeof(ClassTime), typeof(Document),
+                typeof(DocumentPart), typeof(Archive), typeof(Grade),
+                typeof(Keeper), typeof(Teacher), typeof(ToDo),typeof(Reminder));
+            Keeper.ClearAllFiles();
+
             AppData.Instance.User = user;
             await GetName();
             bool HasSubjects = await GetSubjects();
@@ -275,7 +286,13 @@ namespace SOE.Saes
             {
                 await GetGrades();
             }
-
+            else
+            {
+                Shell.Current.CurrentPage.DisplayAlert(
+                        title: "Sin inscripción",
+                        message: "Actualmente no estas inscrito en ninguna materia.", "Ok")
+                    .SafeFireAndForget();
+            }
             AppData.Instance.User.HasSubjects = HasSubjects;
             AppData.Instance.LiteConnection.InsertOrReplace(AppData.Instance.User);
         }
@@ -354,6 +371,7 @@ namespace SOE.Saes
 
             string creditos_carrera_html = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_CREDITOSCARRERA').outerHTML");
             string alumno_html = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_alumno').outerHTML");
+            string cita_reinscripcion_html = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_grvEstatus_alumno').outerHTML");
 
             Unescape(ref alumno_html);
             if (!string.IsNullOrEmpty(alumno_html))
@@ -382,7 +400,14 @@ namespace SOE.Saes
             AppData.Instance.LiteConnection.InsertOrReplace(credits);
 
             //Save fecha de reinscripción
-
+            Unescape(ref cita_reinscripcion_html);
+            if (!string.IsNullOrEmpty(cita_reinscripcion_html))
+            {
+                List<List<string>> table = HtmlToTable(cita_reinscripcion_html);
+                string date = table[0][3];
+                InscriptionDate IDate = new InscriptionDate(date);
+                IDate.Save();
+            }
         }
         private List<List<string>> HtmlToTable(string html)
         {

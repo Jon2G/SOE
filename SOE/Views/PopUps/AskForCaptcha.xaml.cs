@@ -16,7 +16,7 @@ namespace SOE.Views.PopUps
         }
         public AskForCaptcha(Func<AskForCaptcha, Task<bool>> OnSucceedAction)
         {
-            this.Model = new AskForCaptchaViewModel(this,OnSucceedAction);
+            this.Model = new AskForCaptchaViewModel(this, OnSucceedAction);
             this.BindingContext = this.Model;
             InitializeComponent();
             AppData.Instance.SAES = this.SAES;
@@ -30,7 +30,7 @@ namespace SOE.Views.PopUps
             await Task.Delay(TimeSpan.FromSeconds(1));
             if (!await AppData.Instance.SAES.IsLoggedIn())
             {
-                await AppData.Instance.SAES.GetCaptcha();
+                Model.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
             }
             else
             {

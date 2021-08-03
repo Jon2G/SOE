@@ -82,6 +82,10 @@ namespace SOE.ViewModels.Pages
         public async void RefreshCaptcha()
         {
             this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
+            if (CaptchaImg is null)
+            {
+                this.GetUserData();
+            }
         }
 
         public SignUpSucessPageViewModel()

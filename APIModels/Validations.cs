@@ -11,7 +11,7 @@ namespace SOEWeb.Shared
         {
             Uri uriResult;
             return Uri.TryCreate(url, UriKind.Absolute, out uriResult)
-                          && uriResult.Scheme == Uri.UriSchemeHttps||uriResult.Scheme==Uri.UriSchemeHttp;
+                          && uriResult.Scheme == Uri.UriSchemeHttps || uriResult.Scheme == Uri.UriSchemeHttp;
         }
         public static bool IsValidEmail(string email)
         {
@@ -25,5 +25,8 @@ namespace SOEWeb.Shared
                 return false;
             }
         }
+
+        public static bool IsValidNickName(string NickName) => 
+            NickName.Length >= 4 && NickName.Length <= 10;
     }
 }

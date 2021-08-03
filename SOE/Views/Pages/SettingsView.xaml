@@ -6,52 +6,57 @@
              xmlns:behaviors="http://xamarin.com/schemas/2020/toolkit"
              xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
              xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
-             Title="Ajustes">
+             xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
+             Title="Ajustes"
+             Background="{DynamicResource Background}">
     <ContentPage.BindingContext>
         <pages:SettingsViewModel x:Name="Model"/>
     </ContentPage.BindingContext>
-    <Frame  CornerRadius="0">
-        <StackLayout >
-            <Grid>
-                <BoxView BackgroundColor="WhiteSmoke" CornerRadius="5"/>
-                <Label HorizontalTextAlignment="Center" Text="Ajustes Principales" FontSize="Title" FontAttributes="Bold" TextColor="{DynamicResource secondaryTextColor}"/>
-            </Grid>
-            <Grid Padding="5" >
-                <Grid.RowDefinitions >
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="2"/>
-                </Grid.RowDefinitions>
-                <StackLayout Orientation="Horizontal" Grid.Row="0">
-                    <Label Text="{x:Static fonts:FontelloIcons.Lock}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
-                                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Center" />
-                    <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="Activar Finger Print" FontSize="15"  TextColor="{DynamicResource secondaryTextColor}" HorizontalOptions="Start"/>
-                    <Switch  HorizontalOptions="EndAndExpand" 
-                             IsToggled="{Binding Settings.IsFingerPrintActive}">
-                        <Switch.Behaviors>
-                            <behaviors:EventToCommandBehavior EventName="Toggled" Command="{Binding OnFingerPrintToogledCommand}" />
-                        </Switch.Behaviors>
-                    </Switch>
-                </StackLayout>
-                <BoxView BackgroundColor="LightGray"  Grid.Row="1"/>
-            </Grid>
-            <Grid Padding="5">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="2"/>
-                </Grid.RowDefinitions>
-                <StackLayout Orientation="Horizontal" Grid.Row="0">
-                    <Label Text="{x:Static fonts:FontelloIcons.Message}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
-                                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                    <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Text="Mostar barra de horario lateral"  FontSize="15"  TextColor="{DynamicResource secondaryTextColor}"  HorizontalOptions="Start"/>
-                    <Switch HorizontalOptions="EndAndExpand" IsToggled="{Binding Settings.ShowTimelineBar}"/>
-                </StackLayout>
-                <BoxView BackgroundColor="LightGray" CornerRadius="5" Grid.Row="1"/>
-            </Grid>
-            <Grid >
+    <StackLayout Padding="20" >
+
+        <StackLayout Orientation="Horizontal">
+            <Label Text="{x:Static fonts:FontelloIcons.Lock}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
+                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Start" />
+            <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="Activar bloqueo con huella digital" 
+                   FontSize="15"  TextColor="{DynamicResource secondaryTextColor}" HorizontalOptions="FillAndExpand"/>
+            <Switch  HorizontalOptions="EndAndExpand" 
+                     IsToggled="{Binding Settings.IsFingerPrintActive}">
+                <Switch.Behaviors>
+                    <behaviors:EventToCommandBehavior EventName="Toggled" Command="{Binding OnFingerPrintToogledCommand}" />
+                </Switch.Behaviors>
+            </Switch>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="{x:Static fonts:FontelloIcons.Calendar}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
+                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Start"/>
+            <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Text="Mostar barra de horario lateral"  
+                   FontSize="15"  TextColor="{DynamicResource secondaryTextColor}"  HorizontalOptions="FillAndExpand"/>
+            <Switch HorizontalOptions="EndAndExpand"
+                    IsToggled="{Binding Settings.ShowTimelineBar}"/>
+        </StackLayout>
+
+
+        <StackLayout Margin="0,5" Spacing="0">
+            <Label Text="Eliminar y actualizar datos" FontAttributes="Bold" FontSize="18"/>
+            <BoxView BackgroundColor="IndianRed" HeightRequest="5"/>
+            <Label Text="Atención!" FontSize="16"/>
+            <Label Text="Esta opción eliminará todas las materias del semestre actual e intentara cargar su nueva inscripción." FontSize="14"/>
+            <Label Text="Solo debe utilizarse al termino de cada semestre o cuando quiera conseguir una instalación limpia." FontSize="14"/>
+            <Button Margin="0,5" BackgroundColor="IndianRed" 
+                    Command="{Binding RefreshDataCommand}" 
+                    Text="Actualizar datos"  HeightRequest="35"
+                    FontAttributes="Bold" FontSize="14">
+                <Button.BindingContext>
+                    <viewItems:NoInscriptionViewModel/>
+                </Button.BindingContext>
+            </Button>
+        </StackLayout>
+
+
+        <!--<Grid >
                 <BoxView BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundTertiaryLightColor},Dark={StaticResource BackgroundTertiaryDarkColor}}" CornerRadius="5"/>
                 <Label HorizontalTextAlignment="Center" Text="Ajustes Principales" FontSize="Title" FontAttributes="Bold" TextColor="{DynamicResource secondaryTextColor}"/>
             </Grid>
-            <controls:ArrowButton  Grid.Row="5" TextColor="{DynamicResource secondaryTextColor}" BackgroundColor="WhiteSmoke"    Title="Cambiar ventanas principales"  HeightRequest="35" Command="{Binding ViewChangeCommand}"/>
-        </StackLayout>
-    </Frame>
+            -->
+    </StackLayout>
 </ContentPage>

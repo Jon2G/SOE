@@ -10,10 +10,12 @@
 
   <ItemGroup>
     <None Remove="Fonts\Fontello\font\fontello_17.ttf" />
+    <None Remove="Fonts\Fontello\font\fontello_18.ttf" />
+    <None Remove="Fonts\Fontello\font\fontello_19.ttf" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Fonts\Fontello\font\fontello_17.ttf" />
+    <EmbeddedResource Include="Fonts\Fontello\font\fontello_19.ttf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,6 +47,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Views\Pages\AboutUsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\DeveloperOptions.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -52,6 +57,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\Login\SAESLoginPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Pages\PrivacityPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\ReminderPage.xaml">

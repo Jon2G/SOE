@@ -40,8 +40,11 @@
 .icon-plus-circled:before { content: '\e826'; } /* '' */
 .icon-users-1:before { content: '\e827'; } /* '' */
 .icon-link:before { content: '\e828'; } /* '' */
+.icon-heart:before { content: '\e829'; } /* '' */
+.icon-github-circled:before { content: '\e82a'; } /* '' */
 .icon-bell-alt:before { content: '\f0f3'; } /* '' */
 .icon-angle-right:before { content: '\f105'; } /* '' */
+.icon-trello:before { content: '\f181'; } /* '' */
 .icon-file-pdf:before { content: '\f1c1'; } /* '' */
 .icon-paper-plane:before { content: '\f1d8'; } /* '' */
 .icon-user-secret:before { content: '\f21b'; } /* '' */

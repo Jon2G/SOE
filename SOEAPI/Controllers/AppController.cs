@@ -368,7 +368,7 @@ namespace SOEWeb.Server.Controllers
                     return SOEWeb.Shared.Response.InvalidRequest;
                 }
 
-                using (IReader reader = WebData.Connection.Read(
+                using IReader reader = WebData.Connection.Read(
                     "SP_POST_LINK",
                     CommandType.StoredProcedure
                     , new SqlParameter("SUBJECT_ID", SubjectId)
@@ -377,12 +377,10 @@ namespace SOEWeb.Server.Controllers
                     , new SqlParameter("GROUP", Group)
                     , new SqlParameter("URL", Link.Url)
                     , new SqlParameter("NAME", Link.Name)
-                    ))
+                    );
+                if (reader.Read())
                 {
-                    if (reader.Read())
-                    {
-                        guid = (Guid)reader[0];
-                    }
+                    guid = (Guid)reader[0];
                 }
             }
             catch (Exception ex)

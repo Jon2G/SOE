@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:BasePopUp  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:pankk="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                   xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+                  x:Class="SOE.Views.PopUps.DeleteLinkPopUP"
+                  Title="Eliminar Link" >
+    <pankk:PancakeView HorizontalOptions="Center"
+                       VerticalOptions="Center" Margin="10"
+                       BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDarkColor},Light={StaticResource BackgroundLightColor}}" Padding="5">
+        <StackLayout Margin="0" Spacing="0" >
+            <StackLayout Padding="0" Orientation="Horizontal"  BackgroundColor="{DynamicResource PrimaryLightColor}">
+                <Label Text="Eliminar Link" TextColor="{AppThemeBinding Dark=Black,Light=White}" 
+                       FontSize="20" HorizontalOptions="Center"
+                   FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                  Padding="5"/>
+            </StackLayout>
+            <Label FontSize="12" FontAttributes="Bold">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="El siguiente elemento que desea eliminar debe haber incumplido con las normas de la comunidad"/>
+                        <Span Text="o por ser irrelevante si no es asi la persona que elimine un link por juego u "/>
+                        <Span Text="otro motivo sin razon sera penalizado"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <pankk:PancakeView 
+                BackgroundColor="Red"
+                xct:TouchEffect.PressedScale="0.9"
+                xct:TouchEffect.PressedRotationY="0.1" Grid.Column="0" >
+                    <Label Text="Cancerlar" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                </pankk:PancakeView>
+                <pankk:PancakeView 
+                BackgroundColor="Green"
+                xct:TouchEffect.PressedScale="0.9"
+                xct:TouchEffect.PressedRotationY="0.1" Grid.Column="1" >
+                    <pankk:PancakeView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding TapedCommand}" 
+                           CommandParameter="Eliminar"/>
+                    </pankk:PancakeView.GestureRecognizers>
+                    <Label Text="Eliminar" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                </pankk:PancakeView>
+            </Grid>
+        </StackLayout>
+    </pankk:PancakeView>
+</pages:BasePopUp>

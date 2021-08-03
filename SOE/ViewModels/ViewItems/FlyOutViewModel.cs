@@ -169,10 +169,11 @@ namespace SOE.ViewModels.ViewItems
             ComingSoon.Alert();
         }
 
-        private void OpenSettings()
+        private  void OpenSettings()
         {
             Shell.Current.FlyoutIsPresented = false;
             Shell.Current.Navigation.PushAsync(new SettingsView(), true);
+           
         }
 
         private void UserProfile(object obj)

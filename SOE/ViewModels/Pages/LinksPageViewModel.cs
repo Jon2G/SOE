@@ -22,10 +22,10 @@ namespace SOE.ViewModels.Pages
         public ClassSquare ClassSquare { get; }
 
         private ICommand _AddLinkCommand;
-        public ICommand AddLinkCommand=> _AddLinkCommand ??= new Command(AddLink);
+        public ICommand AddLinkCommand=> this._AddLinkCommand ??= new Command(AddLink);
 
         private ICommand _OpenLinkCommand;
-        public ICommand OpenLinkCommand => _OpenLinkCommand ??= new Command<Link>(OpenLink);
+        public ICommand OpenLinkCommand => this._OpenLinkCommand ??= new Command<Link>(this.OpenLink);
 
         private void OpenLink(Link link)
         {
@@ -34,7 +34,7 @@ namespace SOE.ViewModels.Pages
 
         private void AddLink()
         {
-            var popup = new AddLinkPopUp(ClassSquare);
+            AddLinkPopUp popup = new AddLinkPopUp(this.ClassSquare);
             popup.Show().SafeFireAndForget();
         }
 

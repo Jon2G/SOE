@@ -3,9 +3,13 @@
     <TargetFramework>net5.0</TargetFramework>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <AWSProjectType>Lambda</AWSProjectType>
+    <RuntimeIdentifiers>win10-x64;ubuntu.16.10-x64</RuntimeIdentifiers>
     <!-- This property makes the build directory similar to a publish directory and helps the AWS .NET Lambda Mock Test Tool find project dependencies. -->
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <StartupObject>SOEWeb.Server.LocalEntryPoint</StartupObject>
+    <ApplicationIcon />
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>SOEWeb.Server</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="wwwroot\InfiniteScrolling.ts" />
@@ -20,6 +24,7 @@
     <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="6.0.3" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.34" />
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="5.0.8" />
+    <PackageReference Include="Microsoft.NETCore.App" Version="2.2.8" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.3.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

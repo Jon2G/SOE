@@ -12,10 +12,12 @@
     <None Remove="Fonts\Fontello\font\fontello_17.ttf" />
     <None Remove="Fonts\Fontello\font\fontello_18.ttf" />
     <None Remove="Fonts\Fontello\font\fontello_19.ttf" />
+    <None Remove="Fonts\Fontello\font\fontello_20.ttf" />
+    <None Remove="Fonts\Fontello\font\fontello_21.ttf" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Fonts\Fontello\font\fontello_19.ttf" />
+    <EmbeddedResource Include="Fonts\Fontello\font\fontello_21.ttf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -92,7 +94,7 @@
     <EmbeddedResource Update="Views\PopUps\ComingSoon.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\PopUps\DeleteLinkPopUP.xaml">
+    <EmbeddedResource Update="Views\PopUps\DeleteLinkPopUp.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\PopUps\LoginPopUp.xaml">
@@ -105,6 +107,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\PopUps\MenuPopUp.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\PopUps\PrivacyPopUp.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\PopUps\ReminderPopUp.xaml">
@@ -132,6 +137,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ViewItems\PendingTasksView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ViewItems\PrivacyView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ViewItems\SubjectClassmatesView.xaml">
@@ -223,6 +231,9 @@
     </Compile>
     <Compile Update="Views\Pages\NewTaskPage.xaml.cs">
       <DependentUpon>NewTaskPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PopUps\DeleteLinkPopUP.xaml.cs">
+      <DependentUpon>DeleteLinkPopUp.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\PopUps\SAESPrivacyAlert.xaml.cs">
       <DependentUpon>SAESPrivacyAlert.xaml</DependentUpon>

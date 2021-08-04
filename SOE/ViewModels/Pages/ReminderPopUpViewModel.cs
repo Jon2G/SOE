@@ -65,16 +65,14 @@ namespace SOE.ViewModels
                     if (DateTime.Now > reminder.Date)
                     {
                         App.Current.MainPage.DisplayAlert(reminder.Title,
-                            "Esta tarea ya ha expirado, cambie la fecha de entrega si desea compartirla", "Ok.")
+                            "Este recordatorio ya ha expirado, cambie la fecha de entrega si desea compartirla", "Ok.")
                             .SafeFireAndForget();
                         return;
                     }
-                    bool IncludeFiles = await App.Current.MainPage.DisplayAlert(reminder.Title,
-                        "¿Compartir también las imágenes de esta tarea?", "Sí", "No");
-                    string link = await Models.Reminder.ShareR(reminder);
+                    string link = await Models.Reminder.ShareReminder(reminder);
                     if (!string.IsNullOrEmpty(link))
                     {
-                        Share.RequestAsync(link, "Compartir tarea").SafeFireAndForget();
+                        Share.RequestAsync(link, "Compartir recordatorio").SafeFireAndForget();
                     }
                     return;
             }

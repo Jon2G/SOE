@@ -11,6 +11,7 @@ namespace SOEWeb.Shared
         public Guid Guid { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
+        public bool IsOwner { get; set; }
 
         [JsonIgnore]
         public string ImageUrl

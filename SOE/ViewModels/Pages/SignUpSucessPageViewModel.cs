@@ -3,6 +3,7 @@ using AsyncAwaitBestPractices;
 using Kit.Model;
 using SOE.Data;
 using SOE.Views.Pages;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace SOE.ViewModels.Pages
@@ -84,6 +85,8 @@ namespace SOE.ViewModels.Pages
             this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
             if (CaptchaImg is null)
             {
+                NeedsCaptcha = false;
+                await Task.Delay(100);
                 this.GetUserData();
             }
         }

@@ -93,7 +93,8 @@
             </Grid>
 
 
-            <Label Text="{Binding Teacher.Name}" BackgroundColor="{Binding ClassSquare.Subject,Converter={StaticResource SubjectColorAppThemeConverter}}" FontSize="20"
+            <Label Text="{Binding Teacher.Name}"
+                   BackgroundColor="{Binding ClassSquare.Subject,Converter={StaticResource SubjectColorAppThemeConverter}}" FontSize="20"
                    FontAttributes="Bold" HorizontalTextAlignment="Center"/>
             <Label BackgroundColor="{Binding ClassSquare.Subject,Converter={StaticResource SubjectColorAppThemeConverter}}" FontSize="20"
                    FontAttributes="Bold" HorizontalTextAlignment="Center">

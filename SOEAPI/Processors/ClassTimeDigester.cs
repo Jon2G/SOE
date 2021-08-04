@@ -2,6 +2,7 @@
 using Kit.Sql.Readers;
 using Kit.Sql.SqlServer;
 using Microsoft.Extensions.Logging;
+using MudBlazor;
 using SOEWeb.Server.Models;
 using SOEWeb.Shared;
 using System;
@@ -26,11 +27,13 @@ namespace SOEWeb.Server.Processors
             }
 
             reader.Read();
-            return new Teacher()
+            Teacher teacher = new Teacher()
             {
                 Id = Convert.ToInt32(reader[0]),
                 Name = Convert.ToString(reader[1])
             };
+            reader.Dispose();
+            return teacher;
         }
         private static Subject SubjectFrom(IReader reader)
         {
@@ -40,7 +43,7 @@ namespace SOEWeb.Server.Processors
             }
 
             reader.Read();
-            return new Subject()
+            Subject subject = new Subject()
             {
                 Id = Convert.ToInt32(reader[0]),
                 Guid = Guid.Parse(reader[1].ToString()),
@@ -50,6 +53,8 @@ namespace SOEWeb.Server.Processors
                 Color = Convert.ToString(reader[5]),
                 ColorDark = Convert.ToString(reader[6])
             };
+            reader.Dispose();
+            return subject;
         }
         private static ClassTime ClassTimeFrom(IReader reader)
         {
@@ -60,7 +65,7 @@ namespace SOEWeb.Server.Processors
 
             if (reader.Read())
             {
-                return new ClassTime()
+                ClassTime classTime = new ClassTime()
                 {
                     Id = Convert.ToInt32(reader[0]),
                     IdSubject = Convert.ToInt32(reader[1]),
@@ -69,12 +74,16 @@ namespace SOEWeb.Server.Processors
                     End = (TimeSpan)reader[4],
                     Group = Convert.ToString(reader[5])
                 };
+                reader.Dispose();
+                return classTime;
+            }
+            else
+            {
+                throw new Exception("ClassTime not read");
             }
 
-            throw new Exception("ClassTime not read");
 
         }
-
 
         public static string Digest(string HTML, string user, SQLServerConnection connection, ILogger Log)
         {
@@ -123,6 +132,10 @@ namespace SOEWeb.Server.Processors
                     Teacher teacher = TeacherFrom(connection.Read("SP_GET_ADD_TEACHER"
                             , CommandType.StoredProcedure
                             , new SqlParameter("NAME", TeacherName)));
+                    if (teacher is null)
+                    {
+                        continue;
+                    }
                     teachers.Add(teacher);
                     for (int i = 6; i < 12; i++)
                     {
@@ -218,7 +231,7 @@ namespace SOEWeb.Server.Processors
             {
                 Log.Log(LogLevel.Error, ex, "At classtimedigester");
             }
-
+            connection.Close();
             return digested_xml;
 
 

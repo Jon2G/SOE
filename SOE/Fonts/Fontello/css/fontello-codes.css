@@ -42,8 +42,13 @@
 .icon-link:before { content: '\e828'; } /* '' */
 .icon-heart:before { content: '\e829'; } /* '' */
 .icon-github-circled:before { content: '\e82a'; } /* '' */
+.icon-cancel:before { content: '\e82b'; } /* '' */
+.icon-flag-filled:before { content: '\e82c'; } /* '' */
+.icon-attention:before { content: '\e82d'; } /* '' */
 .icon-bell-alt:before { content: '\f0f3'; } /* '' */
 .icon-angle-right:before { content: '\f105'; } /* '' */
+.icon-unlink:before { content: '\f127'; } /* '' */
+.icon-mic:before { content: '\f130'; } /* '' */
 .icon-trello:before { content: '\f181'; } /* '' */
 .icon-file-pdf:before { content: '\f1c1'; } /* '' */
 .icon-paper-plane:before { content: '\f1d8'; } /* '' */

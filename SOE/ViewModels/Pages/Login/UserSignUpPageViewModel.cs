@@ -152,6 +152,11 @@ namespace SOE.ViewModels.Pages.Login
         public async void RefreshCaptcha()
         {
             this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
+            if (this.CaptchaImg is null)
+            {
+               await AppData.Instance.SAES.LogOut();
+               this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
+            }
         }
         private void LoginSucceed()
         {
@@ -178,7 +183,10 @@ namespace SOE.ViewModels.Pages.Login
                         Model = Device.Current.GetDeviceModel(),
                         Name = Device.Current.GetDeviceName()
                     });
-                AppData.Instance.User.Id = Convert.ToInt32(response.Extra);
+                if (response.ResponseResult == APIResponseResult.OK)
+                {
+                    AppData.Instance.User.Id = Convert.ToInt32(response.Extra);
+                }
             }
             switch (response.ResponseResult)
             {

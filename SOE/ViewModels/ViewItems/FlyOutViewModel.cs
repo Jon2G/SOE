@@ -161,7 +161,7 @@ namespace SOE.ViewModels.ViewItems
 
         private void Goto(int index)
         {
-            App.Current.Dispatcher.BeginInvokeOnMainThread(() => MasterPage.Instance.TabView.SelectedIndex = index);
+            App.Current.Dispatcher.BeginInvokeOnMainThread(() => MasterPage.Instance.Model.SelectedIndex = index);
             AppShell.Current.FlyoutIsPresented = false;
         }
         private void Coming()

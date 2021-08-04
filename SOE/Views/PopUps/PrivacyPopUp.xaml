@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:BasePopUp xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+                 xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
+                 x:Class="SOE.Views.PopUps.PrivacyPopUp"
+                 Background="{DynamicResource Background}">
+    <ContentPage.Content>
+        <StackLayout Padding="10" Margin="10"
+                     VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <viewItems:PrivacyView/>
+
+            <StackLayout Orientation="Horizontal">
+                <CheckBox x:Name="RadioButton"/>
+                <Label VerticalOptions="Center" Text="Acepto los términos y condiciones"></Label>
+            </StackLayout>
+         
+            <Button Text="Siguiente"  Clicked="Button_OnClicked"
+                       IsEnabled="{Binding IsChecked ,Source={x:Reference RadioButton}}" />
+
+
+        </StackLayout>
+    </ContentPage.Content>
+</pages:BasePopUp>

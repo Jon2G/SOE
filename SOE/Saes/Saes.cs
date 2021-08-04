@@ -104,7 +104,7 @@ namespace SOE.Saes
                 navigateUrl = AppData.Instance.User.School.HomePage;
                 if (!navigateUrl.EndsWith("/"))
                 {
-                    navigateUrl +='/';
+                    navigateUrl += '/';
                 }
                 navigateUrl += url;
             }
@@ -271,10 +271,11 @@ namespace SOE.Saes
         }
         public async Task GetUserData(User user)
         {
+            await Task.Yield();
             AppData.Instance.ClearData(
                 typeof(Subject), typeof(ClassTime), typeof(Document),
                 typeof(DocumentPart), typeof(Archive), typeof(Grade),
-                typeof(Keeper), typeof(Teacher), typeof(ToDo),typeof(Reminder));
+                typeof(Keeper), typeof(Teacher), typeof(ToDo), typeof(Reminder));
             Keeper.ClearAllFiles();
 
             AppData.Instance.User = user;
@@ -285,17 +286,37 @@ namespace SOE.Saes
             if (HasSubjects)
             {
                 await GetGrades();
+
+                AppData.Instance.User.Semester = CalculateSemester();
+
             }
             else
             {
-                Shell.Current.CurrentPage.DisplayAlert(
-                        title: "Sin inscripción",
-                        message: "Actualmente no estas inscrito en ninguna materia.", "Ok")
-                    .SafeFireAndForget();
+                AppData.Instance.User.Semester = "Ninguno";
+                Acr.UserDialogs.UserDialogs.Instance.AlertAsync(
+                        "Actualmente no estas inscrito en ninguna materia.",
+                        "Sin inscripción", "Ok").SafeFireAndForget();
             }
             AppData.Instance.User.HasSubjects = HasSubjects;
             AppData.Instance.LiteConnection.InsertOrReplace(AppData.Instance.User);
         }
+
+        private string CalculateSemester()
+        {
+            string semester = "?";
+            try
+            {
+                semester =
+                    string.Join(",", AppData.Instance.LiteConnection.Lista<string>(@"SELECT ""Group"" FROM ""Subject""")
+                        .Select(x => x.FirstOrDefault()).Distinct());
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(e, "Al calcular el semestre en curso");
+            }
+            return semester;
+        }
+
         public async Task GetName()
         {
             await GoTo(AlumnosPage);
@@ -423,6 +444,7 @@ namespace SOE.Saes
         }
         public async Task GetGrades()
         {
+            await Task.Yield();
             await GoTo(CalificacionesPage);
             string grades_html = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_GV_Calif').outerHTML");
             Unescape(ref grades_html);

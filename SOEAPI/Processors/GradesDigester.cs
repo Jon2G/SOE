@@ -25,7 +25,7 @@ namespace SOEWeb.Server.Processors
             }
 
             reader.Read();
-            return new Grade()
+            Grade grade= new Grade()
             {
                 Id = Convert.ToInt32(reader[0]),
                 SubjectId = Convert.ToInt32(reader[1]),
@@ -33,6 +33,8 @@ namespace SOEWeb.Server.Processors
                 TextScore = Convert.ToString(reader[3]),
                 Partial = (GradePartial)Convert.ToInt32(reader[4])
             };
+            reader.Dispose();
+            return grade;
         }
         public static string Digest(string HTML,string User, SQLServerConnection connection,ILogger Log)
         {

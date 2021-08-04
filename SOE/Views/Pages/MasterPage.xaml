@@ -11,45 +11,89 @@
              xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
              xmlns:tasksViews="clr-namespace:SOE.Views.ViewItems.TasksViews;assembly=SOE"
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
+             xmlns:panCardView="clr-namespace:PanCardView;assembly=PanCardView"
              x:DataType="pages:MasterPageViewModel" x:Name="Me"
              Title="{Binding SelectedView.Title}">
 
     <ContentPage.BindingContext>
         <pages:MasterPageViewModel x:Name="Model" x:FieldModifier="public"/>
     </ContentPage.BindingContext>
-    <toolkit:TabView IsTabStripVisible="True" TabStripHeight="40"
-                     TabIndicatorColor="White"
-                     TabStripBackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
-                     x:Name="TabView" x:FieldModifier="public"
-                     TabStripPlacement="Bottom" 
-                     IsSwipeEnabled="False"
-                     TabItemsSource="{Binding Views}">
-        <toolkit:TabView.Behaviors>
-            <toolkit:EventToCommandBehavior 
-                EventName="SelectionChanged" 
-                Command="{Binding SelectionChangedCommand}"
-                CommandParameter="{Binding SelectedIndex,Source={x:Reference TabView}}"/>
-        </toolkit:TabView.Behaviors>
-        <toolkit:TabView.TabViewItemDataTemplate>
-            <DataTemplate x:DataType="models:IconView">
-                <StackLayout Padding="0" Spacing="0" VerticalOptions="End">
-                    <Image HeightRequest="20" VerticalOptions="End">
-                        <Image.Source>
-                            <FontImageSource Size="10" FontFamily="{x:Static fonts:FontelloIcons.Font}" 
-                                             Glyph="{Binding Icon}"
-                                             Color="White"/>
-                        </Image.Source>
-                    </Image>
-                </StackLayout>
-            </DataTemplate>
-        </toolkit:TabView.TabViewItemDataTemplate>
-        <toolkit:TabView.TabContentDataTemplate>
-            <DataTemplate x:DataType="ContentView">
-                <ContentView VerticalOptions="FillAndExpand" Margin="0" 
-                             HorizontalOptions="FillAndExpand" Padding="0"
-                             Background="{DynamicResource Background}" 
-                             Content="{Binding .}"/>
-            </DataTemplate>
-        </toolkit:TabView.TabContentDataTemplate>
-    </toolkit:TabView>
+
+    <StackLayout VerticalOptions="FillAndExpand" Spacing="0">
+
+        <panCardView:CarouselView IsUserInteractionEnabled="False" 
+                                  SelectedIndex="{Binding SelectedIndex}"
+                                  SelectedItem="{Binding SelectedView }"
+                                  ItemsSource="{Binding Views}"/>
+
+        <StackLayout VerticalOptions="FillAndExpand"
+                     BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
+                         Padding="5" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Margin="0">
+
+            <Frame Padding="3" HorizontalOptions="FillAndExpand"
+                   BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
+                       toolkit:TouchEffect.Command="{Binding GradesViewCommand}"
+                       toolkit:TouchEffect.PressedScale="0.9" >
+                <Image>
+                    <Image.Source>
+                        <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                         Glyph="{x:Static fonts:FontelloIcons.Cal}" Color="White"/>
+                    </Image.Source>
+                </Image>
+                <Frame.Style>
+                    <Style TargetType="Frame">
+                        <Style.Triggers>
+                            <DataTrigger TargetType="Frame"
+                                             Binding="{Binding SelectedView.Title}"
+                                             Value="Calificaciones">
+                                <Setter Property="BackgroundColor" Value="{StaticResource AccentColor}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Frame.Style>
+            </Frame>
+            <Frame Padding="3" HorizontalOptions="FillAndExpand"
+                   toolkit:TouchEffect.Command="{Binding TareasViewCommand}"
+                   toolkit:TouchEffect.PressedScale="0.9" BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
+                <Image>
+                    <Image.Source>
+                        <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                         Glyph="{x:Static fonts:FontelloIcons.Book}" Color="White"/>
+                    </Image.Source>
+                </Image>
+                <Frame.Style>
+                    <Style TargetType="Frame">
+                        <Style.Triggers>
+                            <DataTrigger TargetType="Frame"
+                                         Binding="{Binding SelectedView.Title}"
+                                         Value="Tareas">
+                                <Setter Property="BackgroundColor" Value="{StaticResource AccentColor}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Frame.Style>
+            </Frame>
+            <Frame Padding="3" HorizontalOptions="FillAndExpand"
+                   toolkit:TouchEffect.Command="{Binding ClassTimeViewCommand}"
+                   toolkit:TouchEffect.PressedScale="0.9" BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
+                <Image>
+                    <Image.Source>
+                        <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                         Glyph="{x:Static fonts:FontelloIcons.Calendar}" Color="White"/>
+                    </Image.Source>
+                </Image>
+                <Frame.Style>
+                    <Style TargetType="Frame">
+                        <Style.Triggers>
+                            <DataTrigger TargetType="Frame"
+                                         Binding="{Binding SelectedView.Title}"
+                                         Value="Horario">
+                                <Setter Property="BackgroundColor" Value="{StaticResource AccentColor}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Frame.Style>
+            </Frame>
+        </StackLayout>
+    </StackLayout>
 </ContentPage>

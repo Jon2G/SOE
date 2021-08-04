@@ -34,14 +34,14 @@
             <controls:ArrowButton.Icon>
                 <FontImageSource Glyph="{x:Static fonts:FontelloIcons.TrashBin}" 
                                  FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                 Color="Firebrick"/>
+                                 Color="Black"/>
             </controls:ArrowButton.Icon>
         </controls:ArrowButton>
         <controls:ArrowButton  Title="Compartir" Command="{Binding TapedCommand}" CommandParameter="Compartir" ArrowColor="{StaticResource AccentColor}">
             <controls:ArrowButton.Icon>
                 <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Share}" 
                                  FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                 Color="ForestGreen"/>
+                                 Color="Black"/>
             </controls:ArrowButton.Icon>
         </controls:ArrowButton>
 

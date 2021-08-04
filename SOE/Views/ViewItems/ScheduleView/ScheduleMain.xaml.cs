@@ -102,11 +102,6 @@ namespace SOE.Views.ViewItems.ScheduleView
             DayView.DayModel = day;
             DayView.MainModel = this.Model;
             Fade(true);
-
-            if (Shell.Current?.CurrentPage is MasterPage master)
-            {
-                master.TabView.IsSwipeEnabled = false;
-            }
         }
 
         internal bool OnBackButtonPressed()
@@ -114,10 +109,6 @@ namespace SOE.Views.ViewItems.ScheduleView
             if (IsDayViewVisible)
             {
                 Fade(false);
-                if (Shell.Current.CurrentPage is MasterPage master)
-                {
-                    master.TabView.IsSwipeEnabled = true;
-                }
                 return true;
             }
             return false;

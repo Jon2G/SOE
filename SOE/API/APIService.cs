@@ -22,7 +22,7 @@ namespace SOE.API
     {
         public const string ShareTodo = "ShareTodo";
         public const string ShareReminder = "ShareReminder";
-        public const string NonHttpsUrl = "192.168.0.20:44380";
+        public const string NonHttpsUrl = "192.168.0.32:44380";
         //public const string NonHttpsUrl = "kq8tb2poo8.execute-api.us-east-2.amazonaws.com/Prod";
         public static string BaseUrl => $"https://{NonHttpsUrl}";
         public static string Url => $"{BaseUrl}/App";
@@ -36,8 +36,8 @@ namespace SOE.API
                 return new Response(APIResponseResult.INVALID_REQUEST,
                     "!Solicitud invalida!");
             }
-            Kit.Services.Web.ResponseResult result = 
-                await WebService.GET("LogIn", 
+            Kit.Services.Web.ResponseResult result =
+                await WebService.GET("LogIn",
                     Usuario, PasswordPin, Device.Current.DeviceId, school);
             if (result.Response == "ERROR")
             {
@@ -74,6 +74,7 @@ namespace SOE.API
         }
         public static async Task<Response> PostClassTime(byte[] byteArray, string User)
         {
+            await Task.Yield();
             WebService WebService = new WebService(Url);
             if (byteArray.Length <= 0)
             {
@@ -88,6 +89,7 @@ namespace SOE.API
         }
         public static async Task<Response> PostGrades(byte[] HTML)
         {
+            await Task.Yield();
             WebService WebService = new WebService(Url);
             if (HTML.Length <= 0)
             {
@@ -190,6 +192,7 @@ namespace SOE.API
         }
         public static async Task<Response> PostToDo(TodoBase Todo)
         {
+            await Task.Yield();
             if (Todo is null || string.IsNullOrEmpty(Todo.Title)
                             || Guid.Empty == Todo.Guid
                             || Todo.Subject is null
@@ -211,15 +214,13 @@ namespace SOE.API
         }
         public static async Task<Response> PostReminder(Reminder Reminder)
         {
+            await Task.Yield();
             if (Reminder is null || string.IsNullOrEmpty(Reminder.Title)
-                            || Guid.Empty == Reminder.Guid
-                            || Reminder.Subject is null
-                            || Reminder.Subject.Id <= 0
-                            || Reminder.Subject.IdTeacher <= 0)
+                            || Guid.Empty == Reminder.Guid)
             {
                 return Response.Error;
             }
-            string json_Reminder = Reminder.JsonSerializeObject<Reminder>();
+            string json_Reminder = Reminder.JsonSerializeObject<ReminderBase>();
             WebService WebService = new WebService(Url);
             Kit.Services.Web.ResponseResult result = await WebService.PostAsBody(
                 System.Text.Encoding.UTF8.GetBytes(json_Reminder),
@@ -232,6 +233,7 @@ namespace SOE.API
         }
         public static async Task<Response> PostTodoPicture(byte[] Img, Guid ToDoGuid)
         {
+            await Task.Yield();
             if (Img is null || Img.Length <= 0 || Guid.Empty == ToDoGuid)
             {
                 return Response.Error;
@@ -296,6 +298,40 @@ namespace SOE.API
             return JsonConvert.DeserializeObject<Response>(result.Response);
 
         }
+
+        internal static async Task<bool> ReportLink(Link link, ReportReason reason)
+        {
+            WebService WebService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = await WebService.GET(
+                "ReportLink",
+                AppData.Instance.User.Id.ToString(),
+                link.Guid.ToString("N"),
+                ((int)reason).ToString());
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+            {
+                return false;
+            }
+            else
+            {
+                var r= JsonConvert.DeserializeObject<Response>(result.Response);
+                return r.ResponseResult == APIResponseResult.OK;
+            }
+        }
+        internal static async Task<bool> DeleteLink(Link link,int UserId)
+        {
+            WebService WebService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = await WebService.GET("DeleteLink",
+                UserId.ToString(),link.Guid.ToString("N"));
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+            {
+                return false;
+            }
+            else
+            {
+                var r = JsonConvert.DeserializeObject<Response>(result.Response);
+                return r.ResponseResult == APIResponseResult.OK;
+            }
+        }
         internal static async Task<List<Link>> GetLinks(string group, int TeacherId, int SubjectId)
         {
             if (string.IsNullOrEmpty(group) || TeacherId <= 0 || SubjectId <= 0)
@@ -304,7 +340,7 @@ namespace SOE.API
             }
             WebService WebService = new WebService(Url);
             Kit.Services.Web.ResponseResult result = await WebService.GET("GetLinks",
-                group, TeacherId.ToString(), SubjectId.ToString());
+                group, TeacherId.ToString(), SubjectId.ToString(),AppData.Instance.User.Id.ToString());
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
             {
                 return new List<Link>();

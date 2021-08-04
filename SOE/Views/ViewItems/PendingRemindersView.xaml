@@ -56,7 +56,7 @@
                             </StackLayout>
                            
                         </StackLayout >
-                        <Image  Rotation="90" Grid.Column="2" HorizontalOptions="EndAndExpand"   >
+                        <Image  Rotation="90" HorizontalOptions="EndAndExpand"   >
                             <Image.Source>
                                 <FontImageSource
                                     Glyph="{x:Static fonts:FontelloIcons.ThreeDots}" 

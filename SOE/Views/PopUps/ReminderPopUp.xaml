@@ -19,14 +19,14 @@
             <controls:ArrowButton.Icon>
                 <FontImageSource Glyph="{x:Static fonts:FontelloIcons.TrashBin}"
                                  FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                 Color="Red"/>
+                                 Color="Black"/>
             </controls:ArrowButton.Icon>
         </controls:ArrowButton>
         <controls:ArrowButton Title="Compartir" ArrowColor="{StaticResource AccentColor}" Command="{Binding TappedCommand}"  CommandParameter="Compartir">
             <controls:ArrowButton.Icon>
                 <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Share}"
                                  FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                 Color="GreenYellow"/>
+                                 Color="Black"/>
             </controls:ArrowButton.Icon>
         </controls:ArrowButton>
         <Button Margin="3" CornerRadius="2" VerticalOptions="End" Text="Cerrar" Clicked="Button_Clicked"/>

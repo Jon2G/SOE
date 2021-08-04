@@ -1,7 +1,7 @@
 ﻿using SOE.Fonts;
 using Xamarin.Forms;
 
-[assembly: ExportFont("fontello_19.ttf", Alias = FontelloIcons.Font)]
+[assembly: ExportFont("fontello_21.ttf", Alias = FontelloIcons.Font)]
 namespace SOE.Fonts
 {
     public static class FontelloIcons
@@ -62,6 +62,10 @@ namespace SOE.Fonts
         public const string Bell = "\uF0F3";
         public const string Link = "\uE828";
         public const string Heart = "\uE829";
+        public const string Flag = "\uE82C";
+        public const string Cross = "\uE82B";
+        public const string Warning = "\uE82D";
+        public const string Unlink = "\uF127";
 
         public const string Font = "FontIcon";
     }

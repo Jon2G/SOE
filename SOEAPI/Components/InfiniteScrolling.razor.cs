@@ -1,4 +1,5 @@
-﻿using AsyncAwaitBestPractices;
+﻿#nullable enable
+using AsyncAwaitBestPractices;
 using Kit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -10,10 +11,9 @@ using System.Threading.Tasks;
 
 namespace SOEWeb.Server.Components
 {
+    public delegate Task<IEnumerable<T>> InfiniteScrollingItemsProviderRequestDelegate<T>(InfiniteScrollingItemsProviderRequest context);
     public partial class InfiniteScrolling<T> : IList<T>
     {
-        public delegate Task<IEnumerable<T>> InfiniteScrollingItemsProviderRequestDelegate<T>(InfiniteScrollingItemsProviderRequest context);
-
         private IList<T> _items = new List<T>();
         private ElementReference _lastItemIndicator;
         private DotNetObjectReference<InfiniteScrolling<T>>? _currentComponentReference;
@@ -72,10 +72,11 @@ namespace SOEWeb.Server.Components
                 try
                 {
                     var newItems = await ItemsProvider(new InfiniteScrollingItemsProviderRequest(_items.Count, _loadItemsCts.Token));
-                    if (newItems.Any())
+                    if (newItems?.Any() ?? false)
                     {
                         _items.AddRange(newItems);
-                        await _instance.InvokeVoidAsync("onNewItems");
+                        if (this._instance is not null)
+                            await _instance.InvokeVoidAsync("onNewItems");
                     }
                     else
                     {
@@ -139,7 +140,7 @@ namespace SOEWeb.Server.Components
         public void Insert(int index, T item)
         {
             this._items.Insert(index, item);
-            _instance.InvokeVoidAsync("onNewItems").SafeFireAndForget();
+            _instance?.InvokeVoidAsync("onNewItems").SafeFireAndForget();
         }
 
         public void RemoveAt(int index)
@@ -150,7 +151,7 @@ namespace SOEWeb.Server.Components
         public void Add(T item)
         {
             this._items.Add(item);
-            _instance.InvokeVoidAsync("onNewItems").SafeFireAndForget();
+            _instance?.InvokeVoidAsync("onNewItems").SafeFireAndForget();
         }
 
         public void Clear()

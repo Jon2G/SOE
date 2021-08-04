@@ -8,26 +8,21 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace SOE.Views.Pages
+namespace SOE.Views.PopUps
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PrivacityPage
+    public partial class PrivacyPopUp
     {
-        public PrivacityPage()
+        public bool Accept => this.RadioButton.IsChecked;
+        public PrivacyPopUp()
         {
+            this.LockModal();
             InitializeComponent();
         }
 
         private void Button_OnClicked(object sender, EventArgs e)
         {
-            if (Shell.Current is Shell shell)
-            {
-                shell.Navigation.PopAsync().SafeFireAndForget();
-            }
-            else if (App.Current.MainPage is not null)
-            {
-                App.Current.MainPage.Navigation.PopModalAsync().SafeFireAndForget();
-            }
+            this.Close().SafeFireAndForget();
         }
     }
 }

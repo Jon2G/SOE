@@ -8,9 +8,6 @@
                   xmlns:login="clr-namespace:SOE.ViewModels.Pages.Login;assembly=SOE"
                   x:Class="SOE.Views.PopUps.SAESPrivacyAlert"
              x:DataType="login:SAESPrivacyAlertViewModel">
-    <pages:BasePopUp.BindingContext>
-        <login:SAESPrivacyAlertViewModel/>
-    </pages:BasePopUp.BindingContext>
     <ContentPage.Content>
         <pancakeView:PancakeView  HorizontalOptions="Center"  VerticalOptions="Center" Margin="5">
             <StackLayout>

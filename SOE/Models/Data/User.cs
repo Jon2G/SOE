@@ -7,12 +7,21 @@ namespace SOE.Models.Data
 {
     public class User :UserBase
     {
-
+        private string _Semester;
+        public string Semester
+        {
+            get => _Semester;
+            set
+            {
+                _Semester = value;
+                Raise(() => Semester);
+            }
+        }
 
         private string _Name;
-        private string _Career;
+      
         private string _Email;
-
+        private string _Career;
         public string Career
         {
             get => _Career;

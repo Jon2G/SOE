@@ -162,6 +162,7 @@ namespace SOEWeb.Server.Controllers
         [HttpPost("PostClassTime/{User}")]
         public ActionResult<Response> PostClassTime(string User, [FromBody] byte[] HTML)
         {
+            this._logger.Log(LogLevel.Debug, "PostClassTime");
             Stopwatch sp = new Stopwatch();
             sp.Start();
             string xml = ClassTimeDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), User, WebData.Connection, this._logger);
@@ -175,6 +176,7 @@ namespace SOEWeb.Server.Controllers
         [HttpPost("PostGrades/{User}")]
         public ActionResult<Response> PostGrades(string User, [FromBody] byte[] HTML)
         {
+            this._logger.Log(LogLevel.Debug, "PostGrades");
             string xml = GradesDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), User, WebData.Connection, this._logger);
             if (string.IsNullOrEmpty(xml))
             {
@@ -185,6 +187,7 @@ namespace SOEWeb.Server.Controllers
         [HttpGet("PostCareer/{CareerName}/{User}")]
         public ActionResult<Response> PostCareer(string CareerName, string User)
         {
+            this._logger.Log(LogLevel.Debug, "PostCareer");
             if (!Validations.IsValidBoleta(User) && !Validations.IsValidEmail(User))
             {
                 return SOEWeb.Shared.Response.InvalidRequest;
@@ -261,9 +264,10 @@ namespace SOEWeb.Server.Controllers
         }
         private TodoBase TodoFrom(IReader reader)
         {
+            TodoBase todo = null;
             if (reader.Read())
             {
-                return new TodoBase()
+                todo = new TodoBase()
                 {
                     Guid = Guid.Parse(Convert.ToString(reader[0])),
                     Title = Convert.ToString(reader[1]),
@@ -277,8 +281,32 @@ namespace SOEWeb.Server.Controllers
                     }
                 };
             }
-
-            return null;
+            reader.Dispose();
+            return todo;
+        }
+        private ReminderBase ReminderFrom(IReader reader)
+        {
+            ReminderBase reminder = null;
+            if (reader.Read())
+            {
+                reminder = new ReminderBase()
+                {
+                    Guid = Guid.Parse(Convert.ToString(reader[0])),
+                    Title = Convert.ToString(reader[1]),
+                    Date = Convert.ToDateTime(reader[2]),
+                    Time = TimeSpan.Parse(Convert.ToString(reader[3]))
+                };
+                if (reader[4] != DBNull.Value)
+                {
+                    reminder.Subject = new Subject()
+                    {
+                        Id = Convert.ToInt32(reader[4]), 
+                        IdTeacher = Convert.ToInt32(Convert.ToInt32(reader[5]))
+                    };
+                }
+            }
+            reader.Dispose();
+            return reminder;
         }
         [HttpGet("ShareTodo/{ToDoGuid}")]
         public ActionResult<Response> ShareTodo(Guid ToDoGuid)
@@ -321,6 +349,63 @@ namespace SOEWeb.Server.Controllers
             return this.File(result, "application/pdf", "picture.png");
         }
         [HttpGet("GetClassmates/{Group}/{TeacherId}/{SubjectId}")]
+
+        [HttpPost("PostReminder/{User}")]
+        public ActionResult<Response> PostReminder(string User, [FromBody] byte[] TodoBytes)
+        {
+            try
+            {
+                string reminder_json = Encoding.UTF8.GetString(TodoBytes);
+                ReminderBase Reminder = JsonConvert.DeserializeObject<ReminderBase>(reminder_json);
+
+                if (Reminder is null || string.IsNullOrEmpty(Reminder.Title)
+                                 || Guid.Empty == Reminder.Guid
+                                 || string.IsNullOrEmpty(User) ||
+                                 (!Validations.IsValidEmail(User) && !Validations.IsValidBoleta(User)))
+                {
+                    return SOEWeb.Shared.Response.Error;
+                }
+                if (DateTime.Now > Reminder.Date)
+                {
+                    return new Response(APIResponseResult.INVALID_REQUEST,
+                        "Este recordatorio ya ha expirado, cambie la fecha de entrega si desea compartirla");
+                }
+
+                return SOEWeb.Shared.Response.From(WebData.Connection.Read("SP_POST_REMINDER"
+                    , CommandType.StoredProcedure
+                    , new SqlParameter("GUID", Reminder.Guid)
+                    , new SqlParameter("SUBJECT_ID", (object)Reminder.Subject?.Id ?? DBNull.Value)
+                    , new SqlParameter("TEACHER_ID", (object)Reminder.Subject?.IdTeacher ?? DBNull.Value)
+                    , new SqlParameter("USER", User)
+                    , new SqlParameter("TITLE", Reminder.Title)
+                    , new SqlParameter("R_DATE", Reminder.Date)
+                    , new SqlParameter("R_TIME", Reminder.Time)
+                    , new SqlParameter("GROUP", (object)Reminder.Subject?.Group??DBNull.Value)
+                ));
+
+            }
+            catch (Exception ex)
+            {
+                this._logger.Log(LogLevel.Error, ex, ex?.Message);
+                return new Response(APIResponseResult.INTERNAL_ERROR, ex.Message);
+            }
+        }
+        [HttpGet("ShareReminder/{ToDoGuid}")]
+        public ActionResult<Response> ShareReminder(Guid ToDoGuid)
+        {
+            ReminderBase todo = this.ReminderFrom(WebData.Connection.Read(
+                "SP_GET_REMINDER_BY_GUID",
+                CommandType.StoredProcedure,
+                new SqlParameter("GUID", ToDoGuid)));
+            if (todo is null)
+            {
+                return SOEWeb.Shared.Response.Error;
+            }
+            return new Response(
+                APIResponseResult.OK,
+                "Ok",
+                JsonConvert.SerializeObject(todo));
+        }
         public ActionResult<Response> GetClassmates(string Group, string TeacherId, string SubjectId)
         {
             List<Classmate> Classmates = new List<Classmate>();
@@ -348,7 +433,7 @@ namespace SOEWeb.Server.Controllers
         {
             if (string.IsNullOrEmpty(Group)
             || string.IsNullOrEmpty(User) ||
-            (!Validations.IsValidEmail(User) 
+            (!Validations.IsValidEmail(User)
              && !Validations.IsValidBoleta(User))
 
             )
@@ -393,8 +478,8 @@ namespace SOEWeb.Server.Controllers
                guid == Guid.Empty ? "Error" : "Ok",
                guid.ToString("N"));
         }
-        [HttpGet("GetLinks/{Group}/{TeacherId}/{SubjectId}")]
-        public ActionResult<Response> GetLinks(string Group, string TeacherId, string SubjectId)
+        [HttpGet("GetLinks/{Group}/{TeacherId}/{SubjectId}/{UserId}")]
+        public ActionResult<Response> GetLinks(string Group, string TeacherId, string SubjectId, int UserId)
         {
             List<Link> Links = new List<Link>();
             using (var reader = WebData.Connection.Read(
@@ -409,7 +494,8 @@ namespace SOEWeb.Server.Controllers
                     Links.Add(
                         new Link(Convert.ToString(reader[0]), Convert.ToString(reader[1]))
                         {
-                            Guid = (Guid)reader[2]
+                            Guid = (Guid)reader[2],
+                            IsOwner = Convert.ToInt32(reader[3]) == UserId
                         });
                 }
             }
@@ -418,6 +504,54 @@ namespace SOEWeb.Server.Controllers
                 "Ok",
                 JsonConvert.SerializeObject(Links.ToArray()));
         }
+        [HttpGet("ReportLink/{UserId}/{LinkId}/{ReportReason}")]
+        public ActionResult<Response> ReportLink(int UserId, Guid LinkId, int ReportReason) =>
+            ReportLink(UserId, LinkId, (ReportReason)ReportReason);
+        public ActionResult<Response> ReportLink(int UserId, Guid LinkId, ReportReason ReportReason)
+        {
+            if (LinkId == Guid.Empty || UserId <= 0)
+            {
+                return SOEWeb.Shared.Response.InvalidRequest;
+            }
 
+            try
+            {
+                WebData.Connection.EXEC(
+                    "SP_REPORT_LINK",
+                    CommandType.StoredProcedure
+                    , new SqlParameter("LINK_ID", LinkId)
+                    , new SqlParameter("REPORT_REASON_ID", (int)ReportReason)
+                    , new SqlParameter("USER_ID", UserId));
+                WebData.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "PostLink");
+            }
+            return new Response(APIResponseResult.OK, "Ok");
+        }
+        [HttpGet("DeleteLink/{UserId}/{LinkId}")]
+        public ActionResult<Response> DeleteLink(int UserId, Guid LinkId)
+        {
+            if (LinkId == Guid.Empty || UserId <= 0)
+            {
+                return SOEWeb.Shared.Response.InvalidRequest;
+            }
+
+            try
+            {
+                WebData.Connection.EXEC(
+                    "SP_DELETE_LINK",
+                    CommandType.StoredProcedure
+                    , new SqlParameter("LINK_ID", LinkId)
+                    , new SqlParameter("USER_ID", UserId));
+                WebData.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "PostLink");
+            }
+            return new Response(APIResponseResult.OK, "Ok");
+        }
     }
 }

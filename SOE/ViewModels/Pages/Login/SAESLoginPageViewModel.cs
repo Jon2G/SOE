@@ -86,6 +86,11 @@ namespace SOE.ViewModels.Pages.Login
         public async void RefreshCaptcha()
         {
             this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
+            if (this.CaptchaImg is null)
+            {
+               await AppData.Instance.SAES.LogOut();
+               this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
+            }
         }
         private async Task SignIn()
         {

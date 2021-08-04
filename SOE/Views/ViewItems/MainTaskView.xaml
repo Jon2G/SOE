@@ -14,7 +14,7 @@
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
              x:DataType="viewModels:MainTaskViewModel"
              xmlns:pancard="clr-namespace:PanCardView;assembly=PanCardView"
-             VerticalOptions="FillAndExpand">
+             VerticalOptions="FillAndExpand" >
     <ContentView.BindingContext>
         <viewModels:MainTaskViewModel x:Name="Model" x:FieldModifier="public"/>
     </ContentView.BindingContext>
@@ -82,7 +82,8 @@
             </Image>
         </StackLayout>
 
-        <pancard:CarouselView IsUserInteractionEnabled="False"
+        <pancard:CarouselView IsUserInteractionEnabled="False" VerticalOptions="FillAndExpand" Margin="0"
+                              Padding="0" 
                       SelectedIndex="{Binding SelectedIndex}"
                       SelectedItem="{Binding SelectedView }"
                       ItemsSource="{Binding Views}"/>

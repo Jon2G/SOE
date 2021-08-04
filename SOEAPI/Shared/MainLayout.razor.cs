@@ -4,7 +4,7 @@ namespace SOEWeb.Server.Shared
 {
     public partial class MainLayout : LayoutComponentBase
     {
-        private bool darkMode;
+        //private bool darkMode;
 
     }
 }

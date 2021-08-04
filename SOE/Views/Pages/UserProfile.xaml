@@ -50,7 +50,7 @@
                     <Label.FormattedText>
                         <FormattedString>
                             <Span Text="Semestre: "/>
-                            <Span Text= "{Binding Semester}"/>
+                            <Span Text= "{Binding User.Semester}"/>
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>

@@ -1,15 +1,14 @@
-﻿@inherits LayoutComponentBase
+﻿@using System.Diagnostics
+@inherits LayoutComponentBase
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <div class="main">
-        <div class="top-row px-4">
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+    @if (!Debugger.IsAttached)
+    {
+        <div class="sidebar">
+            <NavMenu/>
         </div>
-
+    }
+    <div class="main">
         <div class="content px-4">
             @Body
         </div>

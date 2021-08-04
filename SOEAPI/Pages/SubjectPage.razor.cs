@@ -19,6 +19,7 @@ namespace SOEWeb.Server.Pages
         #region Atributtes
         [Parameter]
         public string UserId { get; set; }
+        public string NickName { get; set; }
         [Parameter]
         public string SubjectId { get; set; }
         #endregion
@@ -119,13 +120,19 @@ namespace SOEWeb.Server.Pages
             {
                 throw new ArgumentException("Id de materia invalido");
             }
-            if (!int.TryParse(this.UserId, out _))
+            if (!int.TryParse(this.UserId, out int userId))
             {
                 throw new ArgumentException("Usuario invalido");
             }
             this.Subject = SubjectService.GetById(SubjectId);
+            this.NickName = GetNickName();
             this.StateHasChanged();
         }
+
+        public string GetNickName() =>
+            WebData.Connection.Single<string>("SP_GET_NICKNAME", CommandType.StoredProcedure,
+                new SqlParameter("USER_ID", UserId));
+
         #region CommentsService
         public bool IsPostingComment { get; set; }
 

@@ -22,7 +22,7 @@ namespace SOE.API
     {
         public const string ShareTodo = "ShareTodo";
         public const string ShareReminder = "ShareReminder";
-        public const string NonHttpsUrl = "192.168.0.32:44380";
+        public const string NonHttpsUrl = "192.168.0.20:44380";
         //public const string NonHttpsUrl = "kq8tb2poo8.execute-api.us-east-2.amazonaws.com/Prod";
         public static string BaseUrl => $"https://{NonHttpsUrl}";
         public static string Url => $"{BaseUrl}/App";

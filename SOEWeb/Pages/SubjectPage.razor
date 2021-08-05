@@ -1,0 +1,193 @@
+﻿@using SOEWeb.Shared
+@using SOEWeb.Components
+@page "/materias/{UserId}/{SubjectId}"
+@inject NavigationManager NavManager
+
+<style type="text/css">
+    .subject-blog-card {
+       background:@Subject.ColorDark;
+    }
+</style>
+
+<RadzenCard class="subject-blog-card">
+    <div class="row">
+        <div class="col-md-12">
+            <label class="subject-blog-card-title">@Subject.Name</label>
+        </div>
+    </div>
+
+    @*<div class="row">
+            <div class="col-md-12">
+                <span class="oi oi-person subject-blog-card-group" data-inline="false"></span>
+                &nbsp;
+                <label class="subject-blog-card-group">Tapia Sanchez Daniel</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label class="subject-blog-card-group">Opinión general:</label>
+                &nbsp;
+                <RadzenRating ReadOnly="true" Value="4" class="vertical-center" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="subject-blog-card-group">Facilidad:</label>
+                &nbsp;
+                <RadzenRating ReadOnly="true" Value="4" class="vertical-center" />
+            </div>
+        </div>*@
+
+</RadzenCard>
+<RadzenCard>
+    <div class="row">
+        <div class="col-md-12">
+            <label>Comentar como</label>
+            <label class="text-accent">@NickName</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <RadzenTextArea Cols="25" Style="width: 100%" Placeholder="Participa en la discusión"
+                            Rows="4" MaxLength="MAX_TEXT_COUNT"
+                            @bind-Value="@CommentText" @oninput="@CommentTextChanged" />
+            <label>@CommentText.Length/@MAX_TEXT_COUNT</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <RadzenButton Text="Comentar" IsBusy="@IsPostingComment" Click="PostComment" />
+        </div>
+    </div>
+</RadzenCard>
+
+
+<InfiniteScrolling @ref="MainInfiniteScrolling" ItemsProvider="GetComments">
+    <ItemTemplate Context="item">
+        <RadzenCard>
+            <div class="row">
+                <div class="col-md-12" style="display: flex;">
+                    <MudAvatar Size="Size.Small" />
+                    <h6 class="nick-name">@item.UserName</h6>
+                    <h6 class="user-group">7CV22 - Sandra Lúz</h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>@item.Text</h2>
+                </div>
+            </div>
+            <div class="row comment-actions-box">
+
+                <button class="comment-button">
+                    @if (item.Vote is true)
+                    {
+                        <span @onclick="() => Rate(item, null)"
+                              class="oi oi-thumb-up subject-blog-card-group card-icon like" style="color: #5EDB5E;" data-inline="false"></span>
+                    }
+                    else
+                    {
+                        <span @onclick="() => Rate(item, true)"
+                              class="oi oi-thumb-up subject-blog-card-group card-icon like" data-inline="false"></span>
+                    }
+                </button>
+
+
+                <div class="comment-votes">@item.Votes</div>
+
+                <button class="comment-button">
+                    @if (item.Vote is false)
+                    {
+                        <span @onclick="() => Rate(item, null)"
+                              class="oi oi-thumb-down subject-blog-card-group card-icon dislike" style="color: #DE7272;" data-inline="false"></span>
+                    }
+                    else
+                    {
+                        <span @onclick="() => Rate(item, false)"
+                              class="oi oi-thumb-down subject-blog-card-group card-icon dislike" data-inline="false"></span>
+                    }
+                </button>
+
+
+
+
+                <button class="comment-button" @onclick="() => ShowCommentsBox(item)">
+                    <span class="oi oi-comment-square subject-blog-card-group card-icon comment" data-inline="false"></span>
+                    Responder
+                </button>
+
+                <span class="oi oi-flag subject-blog-card-group card-icon report" data-inline="false"></span>
+            </div>
+            @if (item.HasSubComments && !item.OpenSubComments)
+            {
+                <a @onclick="()=>ShowSubComments(item)" class="alert-link clickable">Ver respuestas</a>
+            }
+            else if (item.HasSubComments && item.OpenSubComments)
+            {
+                <a @onclick="()=>ShowSubComments(item)" class="alert-link clickable">Ocultar respuestas</a>
+            }
+
+            @if (item.HasSubComments && item.OpenSubComments)
+            {
+                foreach (SubjectComment subcomment in item)
+                {
+                    <div class="sub-comment-card paper blue">
+                        <div class="top-tape"></div>
+                        <div class="row">
+                            <div class="col-md-12" style="display: flex;">
+                                <MudAvatar Size="Size.Small" />
+                                <h6 class="nick-name">@subcomment.UserName</h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2>@subcomment.Text</h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <span class="oi oi-thumb-up subject-blog-card-group card-icon like" data-inline="false"></span>
+                            <span class="oi oi-thumb-down subject-blog-card-group card-icon dislike" data-inline="false"></span>
+                            <span class="oi oi-flag subject-blog-card-group card-icon report" data-inline="false"></span>
+                        </div>
+                    </div>
+                }
+
+            }
+
+            @if (item.CommentBox)
+            {
+                <div class="sub-comment-card">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Comentar como</label>
+                            <label class="text-accent">@NickName</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <RadzenTextArea Cols="25" Style="width: 100%" Placeholder="Participa en la discusión"
+                                            Rows="4" MaxLength="MAX_TEXT_COUNT"
+                                            @bind-Value="@CommentText" @oninput="@CommentTextChanged" />
+                            <label>@CommentText.Length/@MAX_TEXT_COUNT</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <RadzenButton Text="Comentar" IsBusy="IsPostingComment" Click="()=>PostComment(item)" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+
+        </RadzenCard>
+
+    </ItemTemplate>
+    <LoadingTemplate>
+        <div><span class="oi oi-reload spin"></span> Loading more items...</div>
+    </LoadingTemplate>
+</InfiniteScrolling>
+
+

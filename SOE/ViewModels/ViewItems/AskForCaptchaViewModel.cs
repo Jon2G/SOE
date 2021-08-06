@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AsyncAwaitBestPractices.MVVM;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using SOEWeb.Shared;
@@ -30,18 +31,18 @@ namespace SOE.ViewModels.ViewItems
             {
                 _Captcha = value;
                 Raise(() => Captcha);
-                this.SignInCommand.ChangeCanExecute();
+                this.SignInCommand.RaiseCanExecuteChanged();
             }
         }
         private ICommand _RefreshCaptchaCommand;
         public ICommand RefreshCaptchaCommand => _RefreshCaptchaCommand ??= new Command(RefreshCaptcha);
-        private Command _SignInCommand;
-        public Command SignInCommand => _SignInCommand ??= new Command(SignIn, ValidateCanExecute);
+        private AsyncCommand _SignInCommand;
+        public AsyncCommand SignInCommand => _SignInCommand ??= new AsyncCommand(SignIn, ValidateCanExecute);
         public int AttemptCount { get; set; }
-        public readonly Func<AskForCaptcha,Task<bool>> OnSucceedAction;
+        public readonly Func<AskForCaptcha, Task<bool>> OnSucceedAction;
         private readonly AskForCaptcha AskForCaptcha;
         public bool IsLoading { get; private set; }
-        public AskForCaptchaViewModel(AskForCaptcha AskForCaptcha, Func<AskForCaptcha,Task<bool>> OnSucceedAction)
+        public AskForCaptchaViewModel(AskForCaptcha AskForCaptcha, Func<AskForCaptcha, Task<bool>> OnSucceedAction)
         {
             this.AskForCaptcha = AskForCaptcha;
             this.OnSucceedAction = OnSucceedAction;
@@ -50,15 +51,16 @@ namespace SOE.ViewModels.ViewItems
         {
             this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
         }
-        private async void SignIn()
+        private async Task SignIn()
         {
-            if (!this.ValidateCanExecute())
+            await Task.Yield();
+            if (!this.ValidateCanExecute(null))
             {
                 return;
             }
             this.AttemptCount++;
             IsLoading = true;
-            this.SignInCommand.ChangeCanExecute();
+            this.SignInCommand.RaiseCanExecuteChanged();
             try
             {
                 if (await AppData.Instance.SAES.LogIn(this.Captcha, this.AttemptCount, false))
@@ -81,12 +83,12 @@ namespace SOE.ViewModels.ViewItems
                 IsLoading = false;
             }
         }
-        private bool ValidateCanExecute()
+        private bool ValidateCanExecute(object o)
         {
             return !string.IsNullOrEmpty(AppData.Instance.User.Boleta)
                    && Validations.IsValidBoleta(AppData.Instance.User.Boleta)
                    && !string.IsNullOrEmpty(AppData.Instance.User.Password)
-                   && !string.IsNullOrEmpty(Captcha)&&!IsLoading;
+                   && !string.IsNullOrEmpty(Captcha) && !IsLoading;
         }
     }
 }

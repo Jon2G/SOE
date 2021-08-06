@@ -22,11 +22,19 @@ namespace SOE.API
     {
         public const string ShareTodo = "ShareTodo";
         public const string ShareReminder = "ShareReminder";
-        public const string NonHttpsUrl = "192.168.0.32:44380";
-        //public const string NonHttpsUrl = "kq8tb2poo8.execute-api.us-east-2.amazonaws.com/Prod";
+        //public const string NonHttpsUrl = "192.168.0.32:44313";
+        public const string NonHttpsUrl = "dhokq2d69j.execute-api.us-east-2.amazonaws.com/Prod";
         public static string BaseUrl => $"https://{NonHttpsUrl}";
         public static string Url => $"{BaseUrl}/App";
 
+        public static async Task<Response> Hello()
+        {
+            await Task.Yield();
+            WebService WebService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result =
+                await WebService.GET("Hello");
+            return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
+        }
         public static async Task<Response> Login(string Usuario, string PasswordPin, string school = null)
         {
             WebService WebService = new WebService(Url);
@@ -49,19 +57,11 @@ namespace SOE.API
         {
             WebService WebService = new WebService(Url);
             User User = AppData.Instance.User;
-            if (string.IsNullOrEmpty(User.Boleta)
-                || string.IsNullOrEmpty(PasswordPin)
-                || PasswordPin.Length < 8
-                || !Validations.IsValidNickName(User.NickName)
-                || !Validations.IsValidEmail(User.Email)
-                || !Validations.IsValidBoleta(User.Boleta)
-                || User.School is null
-                || string.IsNullOrEmpty(User.School.Name)
-                || string.IsNullOrEmpty(Device.DeviceKey)
-                || Type == UserType.INVALID)
+            if (Validations.ValidateLogin(User.Boleta,PasswordPin, User.NickName,User.Email,User.School, Device.DeviceKey,Type)
+                    is string v_error
+                &&!string.IsNullOrEmpty(v_error))
             {
-                return new Response(APIResponseResult.INVALID_REQUEST,
-                    "!Solicitud invalida!");
+                return new Response(APIResponseResult.NOT_EXECUTED,v_error, v_error);
             }
             Kit.Services.Web.ResponseResult result = await WebService.GET("SignUp",
                 User.Boleta, User.Name, User.NickName, User.Email,

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AsyncAwaitBestPractices;
+using System;
 using System.Threading.Tasks;
 using SOE.Data;
 using SOE.Models.SkiaSharp;
@@ -12,7 +13,7 @@ namespace SOE.Views.Pages.Login
     {
         public string Text { get; }
         public bool FirstTime { get; set; }
-        public RefreshDataPage(bool FirstTime=true)
+        public RefreshDataPage(bool FirstTime = true)
         {
             this.FirstTime = FirstTime;
             if (FirstTime)
@@ -32,7 +33,8 @@ namespace SOE.Views.Pages.Login
         {
             base.OnAppearing();
             AppData.CreateDatabase();
-            Model.GetUserData();
+            if (FirstTime)
+               Model.GetUserData().SafeFireAndForget();
         }
         private void InitAnimation()
         {

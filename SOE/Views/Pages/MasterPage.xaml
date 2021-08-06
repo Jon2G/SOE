@@ -34,7 +34,7 @@
                    BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
                        toolkit:TouchEffect.Command="{Binding GradesViewCommand}"
                        toolkit:TouchEffect.PressedScale="0.9" >
-                <Image>
+                <Image HeightRequest="30">
                     <Image.Source>
                         <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
                                          Glyph="{x:Static fonts:FontelloIcons.Cal}" Color="White"/>
@@ -55,7 +55,7 @@
             <Frame Padding="3" HorizontalOptions="FillAndExpand"
                    toolkit:TouchEffect.Command="{Binding TareasViewCommand}"
                    toolkit:TouchEffect.PressedScale="0.9" BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
-                <Image>
+                <Image HeightRequest="30">
                     <Image.Source>
                         <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
                                          Glyph="{x:Static fonts:FontelloIcons.Book}" Color="White"/>
@@ -76,7 +76,7 @@
             <Frame Padding="3" HorizontalOptions="FillAndExpand"
                    toolkit:TouchEffect.Command="{Binding ClassTimeViewCommand}"
                    toolkit:TouchEffect.PressedScale="0.9" BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
-                <Image>
+                <Image HeightRequest="30">
                     <Image.Source>
                         <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
                                          Glyph="{x:Static fonts:FontelloIcons.Calendar}" Color="White"/>

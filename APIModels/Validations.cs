@@ -1,17 +1,33 @@
-﻿using System;
+﻿using SOEWeb.Shared.Enums;
+using System;
 using System.Text.RegularExpressions;
 
 namespace SOEWeb.Shared
 {
     public static class Validations
     {
-        public static bool IsValidBoleta(string boleta) => Regex.IsMatch(boleta, "20([0-9]{8})");
+        public static bool IsValidBoleta(string boleta)
+        {
+            if (string.IsNullOrEmpty(boleta))
+            {
+                return false;
+            }
+            return Regex.IsMatch(boleta, "20([0-9]{8})");
+        }
 
         public static bool IsValidUrl(string url)
         {
-            Uri uriResult;
-            return Uri.TryCreate(url, UriKind.Absolute, out uriResult)
-                          && uriResult.Scheme == Uri.UriSchemeHttps || uriResult.Scheme == Uri.UriSchemeHttp;
+            if (string.IsNullOrEmpty(url))
+            {
+                return false;
+            }
+            Uri uri;
+            if ((Uri.TryCreate(url, UriKind.Absolute, out uri) || Uri.TryCreate("http://" + url, UriKind.Absolute, out uri)) &&
+                (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
+            {
+                return true;
+            }
+            return false;
         }
         public static bool IsValidEmail(string email)
         {
@@ -26,7 +42,60 @@ namespace SOEWeb.Shared
             }
         }
 
-        public static bool IsValidNickName(string NickName) => 
-            NickName.Length >= 4 && NickName.Length <= 10;
+        public static bool IsValidNickName(string NickName) =>
+            !string.IsNullOrEmpty(NickName) && NickName.Length >= 4 && NickName.Length <= 10;
+
+        public static string ValidateLogin(string Boleta, string Password, string NickName, string Email, School School, string DeviceKey, UserType UserType)
+        {
+            if (string.IsNullOrEmpty(Boleta))
+            {
+                return "La boleta no puede estar vacia.";
+            }
+            if (!Validations.IsValidBoleta(Boleta))
+            {
+                return "Su boleta parece ser invalida.";
+            }
+
+            if (string.IsNullOrEmpty(Password))
+            {
+                return "El password no debe estar vacio";
+            }
+            if (Password.Length < 8)
+            {
+                return "El password debe contener al menos 8 carácteres";
+            }
+
+            if (!Validations.IsValidNickName(NickName))
+            {
+                return "El password debe contener al menos 8 carácteres";
+            }
+
+            if (!Validations.IsValidEmail(Email))
+            {
+                return "El correo es invalido";
+            }
+
+            if (School is null)
+            {
+                return "Debe seleccionar una escuela";
+            }
+
+            if (string.IsNullOrEmpty(School.Name))
+            {
+                return "La escuela no debe estar vacia";
+            }
+
+            if (string.IsNullOrEmpty(DeviceKey))
+            {
+                return "Dispositivo no soportado";
+            }
+
+            if (UserType == UserType.INVALID)
+            {
+                return "Tipo de usuario no valido";
+            }
+
+            return null;
+        }
     }
 }

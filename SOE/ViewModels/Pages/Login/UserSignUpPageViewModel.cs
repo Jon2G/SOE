@@ -193,12 +193,11 @@ namespace SOE.ViewModels.Pages.Login
                 case APIResponseResult.OK:
                     App.Current.MainPage = new RefreshDataPage();
                     break;
+                case APIResponseResult.NOT_EXECUTED:
                 case APIResponseResult.INVALID_REQUEST:
                     App.Current.MainPage.DisplayAlert("Mensaje informativo", response.Message, "Ok").SafeFireAndForget();
                     break;
-                case APIResponseResult.INTERNAL_ERROR:
-                default:
-                    App.Current.MainPage.DisplayAlert("Mensaje informativo", "Algo ha salido mal,esto no ha sido tu culpa.\nPor favor intenta nuevamente", "Ok").SafeFireAndForget();
+                    App.Current.MainPage.DisplayAlert("Mensaje informativo", $"Algo ha salido mal,esto no ha sido tu culpa.\nPor favor intenta nuevamente\n{response.Extra}", "Ok").SafeFireAndForget();
                     break;
             }
         }

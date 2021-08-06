@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 
 namespace SOEWeb.Shared
 {
+    [Preserve]
     public class ClassTime
     {
         [PrimaryKey, AutoIncrement] 

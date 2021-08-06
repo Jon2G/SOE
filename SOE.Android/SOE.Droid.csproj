@@ -55,25 +55,25 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>Full</AndroidLinkMode>
-    <AotAssemblies>true</AotAssemblies>
-    <EnableLLVM>true</EnableLLVM>
+    <AotAssemblies>false</AotAssemblies>
+    <EnableLLVM>false</EnableLLVM>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <MandroidI18n>West</MandroidI18n>
     <BundleAssemblies>false</BundleAssemblies>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidUseAapt2>true</AndroidUseAapt2>
-    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <AndroidPackageFormat>aab</AndroidPackageFormat>
     <AndroidEnableMultiDex>false</AndroidEnableMultiDex>
-    <AndroidKeyStore>true</AndroidKeyStore>
+    <AndroidKeyStore>false</AndroidKeyStore>
     <AndroidSigningStorePass>SchoolOrganizer</AndroidSigningStorePass>
     <AndroidSigningKeyAlias>SchoolOrganizer</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>SchoolOrganizer</AndroidSigningKeyPass>
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
     <AndroidSupportedAbis>x86_64;arm64-v8a</AndroidSupportedAbis>
-    <AndroidLinkSkip>Kit;Kit.Droid;SchoolOrganizer;SchoolOrganizer.Droid</AndroidLinkSkip>
+    <AndroidLinkSkip>SOE;SOE.Droid;Kit;SOEWeb.Shared</AndroidLinkSkip>
     <LangVersion>latest</LangVersion>
-    <AndroidSigningKeyStore>C:\Users\jonyj\AppData\Local\Xamarin\Mono for Android\Keystore\SchoolOrganizer\SchoolOrganizer.keystore</AndroidSigningKeyStore>
+    <AndroidSigningKeyStore>C:\Users\jonyj\AppData\Local\Xamarin\Mono for Android\Keystore\JonathanEduardoGG\JonathanEduardoGG.keystore</AndroidSigningKeyStore>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AndroidLinkTool>r8</AndroidLinkTool>
   </PropertyGroup>

@@ -3,9 +3,12 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
+using AsyncAwaitBestPractices;
+using AsyncAwaitBestPractices.MVVM;
 using Kit;
 using Kit.Forms.Extensions;
 using Kit.Model;
+using SOE.API;
 using SOE.Data;
 using SOE.Views.Pages;
 using Xamarin.Essentials;
@@ -21,6 +24,17 @@ namespace SOE.ViewModels.Pages
 
         private ICommand _ExportDatabaseCommand;
         public ICommand ExportDatabaseCommand => _ExportDatabaseCommand ??= new Command(ExportDatabase);
+        private ICommand _HelloAPICommand;
+        public ICommand HelloAPICommand => _HelloAPICommand ??= new AsyncCommand(HelloAPI);
+
+        private async Task HelloAPI()
+        {
+           var response=await APIService.Hello();
+           Acr.UserDialogs.UserDialogs.Instance.AlertAsync(
+                   $"Result:{response.ResponseResult}\nMessage:\n{response.Message},Extra:{response.Extra}")
+               .SafeFireAndForget();
+        }
+
         /// <summary>
         /// Esta función exportará una base de datos manualmente.
         /// </summary>

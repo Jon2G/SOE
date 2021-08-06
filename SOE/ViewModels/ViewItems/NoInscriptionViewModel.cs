@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
 using AsyncAwaitBestPractices;
+using AsyncAwaitBestPractices.MVVM;
 using SOE.Data;
 using SOE.Models.Data;
 using SOE.Views.Pages;
@@ -13,14 +14,14 @@ namespace SOE.ViewModels.ViewItems
     public class NoInscriptionViewModel
     {
         private ICommand _RefreshDataCommand;
-        public ICommand RefreshDataCommand => _RefreshDataCommand ??= new Command(RefreshData);
+        public ICommand RefreshDataCommand => _RefreshDataCommand ??= new AsyncCommand(RefreshData);
         public InscriptionDate InscriptionDate { get; set; }
 
         public NoInscriptionViewModel()
         {
             InscriptionDate = InscriptionDate.Get();
         }
-        private async void RefreshData()
+        private async Task RefreshData()
         {
             AskForCaptcha ask = null;
             if (AppData.Instance.SAES is null ||

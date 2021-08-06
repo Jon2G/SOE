@@ -98,6 +98,7 @@ namespace SOE.Saes
         public Task GoHome() => GoTo(AppData.Instance.User.School.HomePage);
         public async Task GoTo(string url)
         {
+            await Task.Yield();
             string navigateUrl = url;
             if (url != AppData.Instance.User.School.HomePage)
             {
@@ -219,6 +220,7 @@ namespace SOE.Saes
 
         public async Task<bool> IsLoggedIn()
         {
+            await Task.Yield();
             try
             {
                 return
@@ -240,6 +242,7 @@ namespace SOE.Saes
         }
         public async Task<bool> LogIn(string captcha, int AttemptCount, bool ShouldGetUserData = true)
         {
+            await Task.Yield();
             if (AttemptCount < 3)
             {
                 Regex regex = new Regex("[\"\\\\]");
@@ -325,6 +328,7 @@ namespace SOE.Saes
         }
         private async Task<bool> GetSubjects()
         {
+            await Task.Yield();
             await GoTo(HorariosPage);
             //if (DataInfo.HasTimeTable())
             //{

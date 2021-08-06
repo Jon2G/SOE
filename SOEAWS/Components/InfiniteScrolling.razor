@@ -1,16 +1,37 @@
 ﻿﻿@using System.Threading
+
+
 @typeparam T
-@inject IJSRuntime JSRuntime
-@using Microsoft.JSInterop
+
+
+
+
+
+
 @implements IAsyncDisposable
+
+
+
 @namespace SOEAWS.Components
+
+
+
 
 @foreach (var item in _items)
 {
+
+
+
 @ItemTemplate(item)
 }
+
+
+
 @if (_loading)
 {
+
+
+
 @LoadingTemplate
 }
 

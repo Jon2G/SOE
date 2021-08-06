@@ -21,10 +21,10 @@
                 <StackLayout Padding="15" >
                     <Label Text="Nombre"  FontAttributes="Bold" FontSize="16"/>
                     <Entry MaxLength="128" 
-                           Text="{Binding Link.Name}"/>
+                           Text="{Binding Name}"/>
                     <Label Text="Enlace" FontAttributes="Bold" FontSize="16"/>
                     <Entry 
-                        Text="{Binding Link.Url}"/>
+                        Text="{Binding Url}"/>
                     <Button Text="Confirmar"
                             Command="{Binding AddLinkCommand}"
                             CommandParameter="{x:Reference Me}"/>

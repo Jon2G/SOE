@@ -14,11 +14,14 @@ namespace SOEAWS.Components
     public delegate Task<IEnumerable<T>> InfiniteScrollingItemsProviderRequestDelegate<T>(InfiniteScrollingItemsProviderRequest context);
     public partial class InfiniteScrolling<T> : IList<T>
     {
+        [Inject] 
+        private IJSRuntime JSRuntime { get; set; }
+
         private IList<T> _items = new List<T>();
         private ElementReference _lastItemIndicator;
         private DotNetObjectReference<InfiniteScrolling<T>>? _currentComponentReference;
-        private IJSRuntime? _module;
-        private IJSRuntime? _instance;
+        //private IJSObjectReference? _module;
+        //private IJSObjectReference? _instance;
         private bool _loading = false;
         private CancellationTokenSource? _loadItemsCts;
 
@@ -75,8 +78,8 @@ namespace SOEAWS.Components
                     if (newItems?.Any() ?? false)
                     {
                         this._items.AddRange(newItems);
-                        if (this._instance is not null)
-                            await this._instance.InvokeVoidAsync("onNewItems");
+                        //if (this._instance is not null)
+                        //    await this._instance.InvokeVoidAsync("onNewItems");
                     }
                     else
                     {
@@ -101,9 +104,9 @@ namespace SOEAWS.Components
             // Initialize the IntersectionObserver
             if (firstRender)
             {
-                this._module = await JSRuntime.InvokeAsync<IJSRuntime>("import", "./InfiniteScrolling.js");
-                this._currentComponentReference = DotNetObjectReference.Create(this);
-                this._instance = await this._module.InvokeAsync<IJSRuntime>("initialize", this._lastItemIndicator, this._currentComponentReference);
+                //_module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./InfiniteScrolling.js");
+                //_currentComponentReference = DotNetObjectReference.Create(this);
+                //_instance = await _module.InvokeAsync<IJSObjectReference>("initialize", _lastItemIndicator, _currentComponentReference);
             }
         }
 
@@ -117,12 +120,12 @@ namespace SOEAWS.Components
             }
 
             // Stop the IntersectionObserver
-            if (this._instance != null)
-            {
-                await this._instance.InvokeVoidAsync("dispose");
-                //await this._instance.DisposeAsync();
-                this._instance = null;
-            }
+            //if (this._instance != null)
+            //{
+            //    await this._instance.InvokeVoidAsync("dispose");
+            //    await this._instance.DisposeAsync();
+            //    this._instance = null;
+            //}
 
             //if (this._module != null)
             //{
@@ -140,7 +143,7 @@ namespace SOEAWS.Components
         public void Insert(int index, T item)
         {
             this._items.Insert(index, item);
-            this._instance?.InvokeVoidAsync("onNewItems").SafeFireAndForget();
+            //this._instance?.InvokeVoidAsync("onNewItems").SafeFireAndForget();
         }
 
         public void RemoveAt(int index)
@@ -151,7 +154,7 @@ namespace SOEAWS.Components
         public void Add(T item)
         {
             this._items.Add(item);
-            this._instance?.InvokeVoidAsync("onNewItems").SafeFireAndForget();
+            //this._instance?.InvokeVoidAsync("onNewItems").SafeFireAndForget();
         }
 
         public void Clear()

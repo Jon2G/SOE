@@ -106,6 +106,12 @@ namespace SOE.ViewModels.ViewItems
                         "Este enlace será revisado por los moderadores para garantizar un entorno seguro en la comunidad.",
                         "Entiendo").SafeFireAndForget();
                 }
+                else
+                {
+                    Shell.Current.CurrentPage.DisplayAlert("Ooops",
+                        "Ocurrio un problema al compartir este enlace por favor intente nuevamente ó reporte este problema",
+                        "Entiendo").SafeFireAndForget();
+                }
             }
             LinksPage.Instance.Model.Init().SafeFireAndForget();
             popUp.Close().SafeFireAndForget();

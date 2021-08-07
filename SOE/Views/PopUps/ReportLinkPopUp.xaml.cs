@@ -1,4 +1,10 @@
-﻿using Rg.Plugins.Popup.Services;
+﻿using AsyncAwaitBestPractices;
+using Kit.Forms.Pages;
+using Rg.Plugins.Popup.Animations;
+using Rg.Plugins.Popup.Enums;
+using Rg.Plugins.Popup.Services;
+using SOE.ViewModels.ViewItems;
+using SOEWeb.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +19,31 @@ namespace SOE.Views.PopUps
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ReportLinkPopUp
     {
-        public ReportLinkPopUp()
+        public ReportLinkPopUpViewModel Model { get; }
+        public ReportLinkPopUp(Link link)
         {
+            Model = new ReportLinkPopUpViewModel(link,this);
+            this.BindingContext = this.Model;
             InitializeComponent();
+        }
+        public static void ShowPopUp(Link link)
+        {
+            ReportLinkPopUp popUp = new ReportLinkPopUp(link);
+            popUp.Show().SafeFireAndForget();
+        }
+        public override async Task<BasePopUp> Show()
+        {
+            ScaleAnimation scaleAnimation = new ScaleAnimation
+            {
+                PositionIn = MoveAnimationOptions.Bottom,
+                PositionOut = MoveAnimationOptions.Bottom,
+                DurationIn = 100,
+                DurationOut = 100,
+                HasBackgroundAnimation = false
+            };
+            this.Animation = scaleAnimation;
+            await PopupNavigation.Instance.PushAsync(this, true);
+            return this;
         }
         private void OnClose(object sender, EventArgs e)
         {

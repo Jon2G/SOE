@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AsyncAwaitBestPractices;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -122,6 +123,10 @@ namespace SOE.ViewModels.Pages
 
         private async void Galeria()
         {
+            if (PhotosLimit())
+            {
+                return;
+            }
             var permiso = new Permissions.Photos();
             if (!await Permisos.TenemosPermiso(new Permissions.Photos()))
             {
@@ -144,8 +149,22 @@ namespace SOE.ViewModels.Pages
             AddPhoto(await MediaPicker.PickPhotoAsync(new MediaPickerOptions()));
         }
 
+        private bool PhotosLimit()
+        {
+            if ((this.Photos?.Count ?? 0) >= 4)
+            {
+                Shell.Current.CurrentPage.DisplayAlert("Alerta", "Solo se permiten 4 fotos por tarea", "Ok").SafeFireAndForget();
+                return true;
+            }
+            return false;
+        }
+
         private async void UsarCamara()
         {
+            if (PhotosLimit())
+            {
+                return;
+            }
             var permiso = new Permissions.Camera();
             if (!await Permisos.TenemosPermiso(permiso))
             {

@@ -25,6 +25,14 @@
                                      FontFamily="{x:Static fonts:FontelloIcons.Font}" Color="{x:StaticResource AccentColor}" />
             </controls:ArrowButton.Icon>
         </controls:ArrowButton>
+        <controls:ArrowButton Title="Hola API" 
+                              Command="{Binding HelloAPICommand}">
+            <controls:ArrowButton.Icon>
+                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.HappyTea}"
+                                 FontFamily="{x:Static fonts:FontelloIcons.Font}" Color="{x:StaticResource AccentColor}" />
+            </controls:ArrowButton.Icon>
+        </controls:ArrowButton>
+
     </StackLayout>
    
     

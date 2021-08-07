@@ -9,12 +9,10 @@ namespace SOE.ViewModels.Pages
     {
         public Credits Credits { get; set; }
         public User User { get; set; }
-        public string Semester { get; set; }
         public double Progress { get; set; }
 
         public UserProfileViewModel()
         {
-            this.Semester = "7";
             this.User = AppData.Instance.User;
             this.Credits =
                 AppData.Instance.LiteConnection.Table<Credits>().First();

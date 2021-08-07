@@ -4,49 +4,65 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                   xmlns:pankk="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
                    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-                  x:Class="SOE.Views.PopUps.DeleteLinkPopUP"
-                  Title="Eliminar Link" >
-    <pankk:PancakeView HorizontalOptions="Center"
-                       VerticalOptions="Center" Margin="10"
-                       BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDarkColor},Light={StaticResource BackgroundLightColor}}" Padding="5">
+                   xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
+                   xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+                   x:Class="SOE.Views.PopUps.DeleteLinkPopUp"
+                  Title="Eliminar Link" 
+                  x:DataType="viewItems:DeleteLinkPopUpViewModel">
+    <pankk:PancakeView HorizontalOptions="FillAndExpand"
+                       VerticalOptions="End" Margin="10"
+                       BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDarkColor},Light={StaticResource BackgroundLightColor}}" Padding="0">
         <StackLayout Margin="0" Spacing="0" >
-            <StackLayout Padding="0" Orientation="Horizontal"  BackgroundColor="{DynamicResource PrimaryLightColor}">
-                <Label Text="Eliminar Link" TextColor="{AppThemeBinding Dark=Black,Light=White}" 
-                       FontSize="20" HorizontalOptions="Center"
+           
+                <Label Text="Eliminar enlace" TextColor="{AppThemeBinding Dark=Black,Light=White}" 
+                       FontSize="20" HorizontalOptions="FillAndExpand" 
+                       BackgroundColor="{DynamicResource PrimaryLightColor}"
                    FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                   Padding="5"/>
+          <StackLayout Padding="10">
+
+                <StackLayout Orientation="Horizontal" Margin="5"
+                             Background="{DynamicResource TertiaryBackground}">
+                  <forms:CachedImage Aspect="AspectFit" 
+                                     Source="{Binding Link.ImageUrl}" 
+                                     WidthRequest="20" DownsampleToViewSize="False"
+                                     HeightRequest="20"/>
+                    <Label 
+                         Text="{Binding Link.Url}"/>
+                </StackLayout>
+
+
+              <Label FontSize="16" FontAttributes="Bold">
+                  <Label.FormattedText>
+                      <FormattedString>
+                          <Span Text="Este enlace dejará de estar disponible para este grupo."/>
+                          <Span Text="&#10;"/>
+                          <Span Text="Gracias por ayudar a mantener los enlaces actualizados"/>
+                      </FormattedString>
+                  </Label.FormattedText>
+              </Label>
+              <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal" Spacing="5" Padding="3" Margin="3">
+                  <pankk:PancakeView HorizontalOptions="StartAndExpand"
+                                     WidthRequest="100" Padding="10"
+                                     BackgroundColor="Firebrick" CornerRadius="3"
+                                     xct:TouchEffect.PressedScale="0.9"
+                                     xct:TouchEffect.PressedRotationY="0.1" 
+                                     xct:TouchEffect.Command="{Binding DeleteCommand}"
+                                     >
+                      <Label Text="Eliminar" TextColor="White" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                  </pankk:PancakeView>
+
+                  <pankk:PancakeView HorizontalOptions="EndAndExpand" 
+                                     WidthRequest="100" Padding="10"
+                                     BackgroundColor="Gray" CornerRadius="3"
+                                     xct:TouchEffect.PressedScale="0.9"
+                                     xct:TouchEffect.PressedRotationY="0.1"
+                                     xct:TouchEffect.Command="{Binding CancelCommand}"
+                                    >
+                      <Label Text="Cancelar" FontSize="20" TextColor="White" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                  </pankk:PancakeView>
+                </StackLayout>
             </StackLayout>
-            <Label FontSize="12" FontAttributes="Bold">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="El siguiente elemento que desea eliminar debe haber incumplido con las normas de la comunidad"/>
-                        <Span Text="o por ser irrelevante si no es asi la persona que elimine un link por juego u "/>
-                        <Span Text="otro motivo sin razon sera penalizado"/>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <pankk:PancakeView 
-                BackgroundColor="Red"
-                xct:TouchEffect.PressedScale="0.9"
-                xct:TouchEffect.PressedRotationY="0.1" Grid.Column="0" >
-                    <Label Text="Cancerlar" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
-                </pankk:PancakeView>
-                <pankk:PancakeView 
-                BackgroundColor="Green"
-                xct:TouchEffect.PressedScale="0.9"
-                xct:TouchEffect.PressedRotationY="0.1" Grid.Column="1" >
-                    <pankk:PancakeView.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding TapedCommand}" 
-                           CommandParameter="Eliminar"/>
-                    </pankk:PancakeView.GestureRecognizers>
-                    <Label Text="Eliminar" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
-                </pankk:PancakeView>
-            </Grid>
         </StackLayout>
     </pankk:PancakeView>
 </pages:BasePopUp>

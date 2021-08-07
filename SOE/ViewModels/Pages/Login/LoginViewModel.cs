@@ -4,7 +4,6 @@ using SOEWeb.Shared;
 using SOEWeb.Shared.Enums;
 using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
-using Kit;
 using Kit.Model;
 using Newtonsoft.Json;
 using SOE.API;
@@ -14,10 +13,13 @@ using SOE.Views.Pages;
 using SOE.Views.Pages.Login;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 using Command = Xamarin.Forms.Command;
+using Log = Kit.Log;
 
 namespace SOE.ViewModels.Pages.Login
 {
+    [Preserve]
     public class LoginViewModel : ModelBase
     {
 

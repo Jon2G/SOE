@@ -41,19 +41,14 @@ namespace SOE.Views.Pages
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            if (Device.RuntimePlatform != Device.iOS && TabView.SelectedIndex <= 0)
+            if (this.Model.SelectedIndex <= 0)
             {
-                TabView.SelectedIndex = 1;
-            }
-            else if (TabView.SelectedIndex <= 0)
-            {
-                Dispatcher.BeginInvokeOnMainThread(async () =>
+                Dispatcher.BeginInvokeOnMainThread( () =>
                 {
-                    await Task.Delay(100);
-                    TabView.SelectedIndex = 1;
+                    this.Model.SelectedIndex = 1;
+                    Shell.SetNavBarIsVisible(this, this.Model.SelectedIndex != 1);
                 });
             }
-            Shell.SetNavBarIsVisible(this, this.TabView.SelectedIndex != 1);
             DependencyService.Get<IStartNotificationsService>()?.StartNotificationsService();
         }
         public static void ResponseTo(PendingAction PendingAction) => App.Current.Dispatcher.BeginInvokeOnMainThread(action: () => Execute(PendingAction));
@@ -62,13 +57,13 @@ namespace SOE.Views.Pages
             switch (pendingAction)
             {
                 case TimeLineWidgetDayAction dayAction:
-                    MasterPage.Instance.TabView.SelectedIndex = 2;
+                    MasterPage.Instance.Model.SelectedIndex = 2;
                     ViewItems.ScheduleView.ScheduleViewMain.Instance
                         .Model.WeekDays.FirstOrDefault(x => x.Day.DayOfWeek == dayAction.Day);
                     ViewItems.ScheduleView.ScheduleViewMain.Instance.OnDayTappedCommand?.Execute(dayAction.Day);
                     break;
                 case TimeLineWidgetSubjectAction subjectAction:
-                    MasterPage.Instance.TabView.SelectedIndex = 2;
+                    MasterPage.Instance.Model.SelectedIndex = 2;
                     var Tarea = new ToDo
                     {
                         Date = subjectAction.Day.GetNearest(),

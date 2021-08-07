@@ -152,6 +152,11 @@ namespace SOE.ViewModels.Pages.Login
         public async void RefreshCaptcha()
         {
             this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
+            if (this.CaptchaImg is null)
+            {
+               await AppData.Instance.SAES.LogOut();
+               this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
+            }
         }
         private void LoginSucceed()
         {
@@ -178,19 +183,21 @@ namespace SOE.ViewModels.Pages.Login
                         Model = Device.Current.GetDeviceModel(),
                         Name = Device.Current.GetDeviceName()
                     });
-                AppData.Instance.User.Id = Convert.ToInt32(response.Extra);
+                if (response.ResponseResult == APIResponseResult.OK)
+                {
+                    AppData.Instance.User.Id = Convert.ToInt32(response.Extra);
+                }
             }
             switch (response.ResponseResult)
             {
                 case APIResponseResult.OK:
                     App.Current.MainPage = new RefreshDataPage();
                     break;
+                case APIResponseResult.NOT_EXECUTED:
                 case APIResponseResult.INVALID_REQUEST:
                     App.Current.MainPage.DisplayAlert("Mensaje informativo", response.Message, "Ok").SafeFireAndForget();
                     break;
-                case APIResponseResult.INTERNAL_ERROR:
-                default:
-                    App.Current.MainPage.DisplayAlert("Mensaje informativo", "Algo ha salido mal,esto no ha sido tu culpa.\nPor favor intenta nuevamente", "Ok").SafeFireAndForget();
+                    App.Current.MainPage.DisplayAlert("Mensaje informativo", $"Algo ha salido mal,esto no ha sido tu culpa.\nPor favor intenta nuevamente\n{response.Extra}", "Ok").SafeFireAndForget();
                     break;
             }
         }

@@ -71,6 +71,9 @@ namespace SOE.Data
                 AppData.Instance.LiteConnection.Execute($"DROP TABLE IF EXISTS {table.Table.TableName}");
                 AppData.Instance.LiteConnection.CreateTable(table.Table);
             }
+
+            AppData.Instance.User.HasSubjects = false;
+            AppData.Instance.User.Save();
         }
         public static void CreateDatabase()
         {

@@ -60,6 +60,7 @@ namespace SOE.ViewModels
 
         private async Task<bool> RefreshGrades(AskForCaptcha captcha)
         {
+            await Task.Yield();
             AppData.Instance.SAES.ShowLoading = false;
             await AppData.Instance.SAES.GoHome();
             using (UserDialogs.Instance.Loading("Actualizando calificaciones...."))

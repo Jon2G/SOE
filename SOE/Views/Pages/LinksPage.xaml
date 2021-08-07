@@ -9,6 +9,7 @@
              x:DataType="pages:LinksPageViewModel"
              x:Class="SOE.Views.Pages.LinksPage" 
              Title="Enlaces del grupo" x:Name="Me"
+             Shell.BackgroundColor="{Binding ClassSquare.Subject,Converter={StaticResource SubjectColorAppThemeConverter}}"
              Background="{DynamicResource Background}">
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding AddLinkCommand}">
@@ -23,29 +24,81 @@
             <Label Text="{Binding ClassSquare.Subject.Name}" FontSize="20"
                    FontAttributes="Bold" HorizontalTextAlignment="Center"
                    BackgroundColor="{Binding ClassSquare.Subject,Converter={StaticResource SubjectColorAppThemeConverter}}" Padding="5"/>
-            <CollectionView ItemsSource="{Binding Links}">
-               <CollectionView.ItemTemplate>
-                   <DataTemplate x:DataType="shared:Link">
-                       <ContentView HorizontalOptions="Center">
-                           <pancakeView:PancakeView Margin="5"
+            
+            <StackLayout Padding="10">
+                <CollectionView ItemsSource="{Binding Links}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="shared:Link">
+                            <ContentView HorizontalOptions="Center">
+                                <pancakeView:PancakeView Margin="5"
                                                     IsClippedToBounds="True"  Padding="0">
-                               <pancakeView:PancakeView.GestureRecognizers>
-                                   <TapGestureRecognizer 
-                                       Command="{Binding Model.OpenLinkCommand,Source={x:Reference Me}}"
-                                       CommandParameter="{Binding .}"/>
-                               </pancakeView:PancakeView.GestureRecognizers>
-                               <StackLayout Orientation="Horizontal">
-                                   <forms:CachedImage Aspect="AspectFit" 
-                                                      Source="{Binding ImageUrl}" 
-                                                      WidthRequest="40" DownsampleToViewSize="False"
-                                                      HeightRequest="40"/>
-                                   <Label VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="20" FontAttributes="Bold" Text="{Binding Name}"/>
-                               </StackLayout>
-                           </pancakeView:PancakeView>
-                       </ContentView>
-                   </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                                    <StackLayout Orientation="Horizontal">
+                                        <StackLayout Orientation="Horizontal"  
+                                                Background="{DynamicResource SecondaryBackground}">
+                                            <StackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer 
+                                               Command="{Binding Model.OpenLinkCommand,Source={x:Reference Me}}"
+                                               CommandParameter="{Binding .}"/>
+                                            </StackLayout.GestureRecognizers>
+                                            <forms:CachedImage Aspect="AspectFit" 
+                                                          Source="{Binding ImageUrl}" 
+                                                          WidthRequest="40" DownsampleToViewSize="False"
+                                                          HeightRequest="40"/>
+                                            <Label VerticalOptions="FillAndExpand" 
+                                              VerticalTextAlignment="Center" FontSize="20" FontAttributes="Bold"
+                                              Text="{Binding Name}"/>
+                                        </StackLayout>
+
+
+                                        <StackLayout  HorizontalOptions="EndAndExpand" Orientation="Horizontal" Spacing="0" Padding="0">
+                                            <StackLayout HorizontalOptions="End" Spacing="10" Orientation="Horizontal"
+                                                Padding="15,0,10,0"
+                                                BackgroundColor="IndianRed">
+                                                <StackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer 
+                                                        Command="{Binding Model.ReportCommand,Source={x:Reference Me}}" CommandParameter="{Binding .}" />
+                                                </StackLayout.GestureRecognizers>
+                                                <Image  HorizontalOptions="EndAndExpand"   >
+                                                    <Image.Source>
+                                                        <FontImageSource
+                                                   Glyph="{x:Static fonts:FontelloIcons.Flag}" 
+                                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" Size="20"
+                                                   Color="White"/>
+                                                    </Image.Source>
+                                                </Image>
+                                            </StackLayout>
+
+                                            <StackLayout IsVisible="{Binding IsOwner}"
+                                                HorizontalOptions="EndAndExpand" Spacing="10" Orientation="Horizontal"
+                                                Padding="15,0,10,0"
+                                                BackgroundColor="Firebrick">
+
+
+                                                <Image  HorizontalOptions="EndAndExpand">
+                                                    <Image.Source>
+                                                        <FontImageSource
+                                                   Glyph="{x:Static fonts:FontelloIcons.Cross}" 
+                                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" Size="16"
+                                                   Color="White"/>
+                                                    </Image.Source>
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding Model.DeleteCommand,Source={x:Reference Me}}" CommandParameter="{Binding .}" />
+                                                    </Image.GestureRecognizers>
+                                                </Image>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </StackLayout>
+
+
+
+
+
+                                </pancakeView:PancakeView>
+                            </ContentView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

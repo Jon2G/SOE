@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AsyncAwaitBestPractices;
+using System;
 using System.Threading.Tasks;
 using SOE.Data;
 using SOE.Models.SkiaSharp;
@@ -10,8 +11,19 @@ namespace SOE.Views.Pages.Login
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RefreshDataPage
     {
-        public RefreshDataPage()
+        public string Text { get; }
+        public bool FirstTime { get; set; }
+        public RefreshDataPage(bool FirstTime = true)
         {
+            this.FirstTime = FirstTime;
+            if (FirstTime)
+            {
+                Text = "Preparando todo para su primer uso";
+            }
+            else
+            {
+                Text = "Actualizando sus datos";
+            }
             InitializeComponent();
             AppData.Instance.SAES = this.SAES;
             AppData.Instance.SAES.ShowLoading = false;
@@ -21,7 +33,8 @@ namespace SOE.Views.Pages.Login
         {
             base.OnAppearing();
             AppData.CreateDatabase();
-            Model.GetUserData();
+            if (FirstTime)
+               Model.GetUserData().SafeFireAndForget();
         }
         private void InitAnimation()
         {

@@ -19,12 +19,12 @@ namespace SOEAWS.Processors
 {
     internal static class ClassTimeDigester
     {
-        private static Subject PostSubject(int UserId, string Group, int TeacherId, string SubjectName)
+        private static Subject PostSubject(int UserId, string Group,string Suffix, int TeacherId, string SubjectName)
         {
             using (SqlConnection con = WebData.Con())
             {
                 con.Open();
-                using (SqlCommand cmd = new SqlCommand("SP_GET_ADD_SUBJECT", con)
+                using (SqlCommand cmd = new("SP_GET_ADD_SUBJECT", con)
                 {
                     CommandType = CommandType.StoredProcedure
                 })
@@ -33,6 +33,7 @@ namespace SOEAWS.Processors
                     {
                         new ("USER_ID", UserId),
                         new ("GROUP_NAME", Group),
+                        new ("SUFFIX ", Suffix),
                         new ("TEACHER_ID", TeacherId),
                         new ("SUBJECT_NAME", SubjectName)
                     });
@@ -78,8 +79,7 @@ namespace SOEAWS.Processors
             }
             return null;
         }
-
-        private static ClassTime PostClassTimeFrom(int TeacherId,int SubjectId,DayOfWeek Day,TimeSpan Begin,TimeSpan End)
+        private static ClassTime PostClassTimeFrom(int TeacherId, int SubjectId, DayOfWeek Day, TimeSpan Begin, TimeSpan End)
         {
             using (SqlConnection con = WebData.Con())
             {
@@ -116,7 +116,6 @@ namespace SOEAWS.Processors
             }
             return null;
         }
-
         public static DigesterResult<string> Digest(string HTML, string user, ILogger Log)
         {
             string digested_xml = string.Empty;
@@ -170,14 +169,31 @@ namespace SOEAWS.Processors
                             .Log(Log);
                     }
                     teachers.Add(teacher);
+                    int suffix_fixer = 0;
                     for (int i = 6; i < 12; i++)
                     {
                         var match = time.Match(row[i]);
                         if (match.Success)
                         {
                             string group = row[0];
+                            string suffix = "10";
+                            Regex lastDigitsRegex = new(@"(\d+)(?!.*\d)");
+                            Match suffixMatch = lastDigitsRegex.Match(group);
+                            if (suffixMatch.Success)
+                            {
+                                suffix = suffixMatch.Value;
+                                if (suffix.Length > 2)
+                                {
+                                    suffix = suffix.Substring(suffix.Length - 2);
+                                }
+                                else if (suffix.Length < 2)
+                                {
+                                    suffix += suffix_fixer.ToString();
+                                    suffix_fixer++;
+                                }
+                            }
                             string SubjectName = row[2];
-                            Subject subject = PostSubject(UserId, group, teacher.Id, SubjectName);
+                            Subject subject = PostSubject(UserId, group,suffix, teacher.Id, SubjectName);
                             if (subject is null)
                             {
                                 return new DigesterResult<string>(
@@ -196,7 +212,7 @@ namespace SOEAWS.Processors
                             TimeSpan end = TimeSpan.FromHours(end_hour).Add(TimeSpan.FromMinutes(end_minutes));
                             DayOfWeek Day = (DayOfWeek)i - 5;
 
-                            ClassTime classTime = PostClassTimeFrom(teacher.Id,subject.Id,Day,begin,end);
+                            ClassTime classTime = PostClassTimeFrom(teacher.Id, subject.Id, Day, begin, end);
                             classTimes.Add(classTime);
                         }
                     }

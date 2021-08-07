@@ -35,7 +35,7 @@ namespace SOE.API
                 await WebService.GET("Hello");
             return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
         }
-        public static async Task<Response> Login(string Usuario, string PasswordPin, string school = null)
+        public static async Task<Response> Login(string Usuario, string PasswordPin, string school = null) 
         {
             WebService WebService = new WebService(Url);
             if (string.IsNullOrEmpty(Usuario) || string.IsNullOrEmpty(PasswordPin) || PasswordPin.Length < 8

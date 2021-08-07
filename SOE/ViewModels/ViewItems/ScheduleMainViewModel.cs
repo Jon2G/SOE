@@ -265,8 +265,7 @@ namespace SOE.ViewModels.ViewItems
                 //si empieza DESPUES de la primera hora rellenar el espacio de esa clase 
                 if (cl.Begin != FirstWeekClass.Begin)
                 {
-                    day.Class.Insert(0, new ClassSquare(
-                        SubjectService.FreeHour(),
+                    day.Class.Insert(0, new FreeClass(
                         FirstWeekClass.Begin,
                         cl.Begin,
                         day.Day.DayOfWeek));

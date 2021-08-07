@@ -34,7 +34,7 @@
                                                  BackgroundColor="#E1CEEE" CornerRadius="0"
                                                  Padding="3">
                             <StackLayout >
-                                <Label Text="HORA LIBRE" FontSize="20" TextColor="{StaticResource DarkTextColor}"
+                                <Label Text="LIBRE" FontSize="20" TextColor="{StaticResource DarkTextColor}"
                                        FontAttributes="Bold" VerticalOptions="Center" 
                                        VerticalTextAlignment="Center" HorizontalOptions="Center" 
                                        HorizontalTextAlignment="Center"/>

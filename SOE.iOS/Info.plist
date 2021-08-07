@@ -26,7 +26,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>SOE</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.soe.SOEAPP</string>
+	<string>com.soe.soe-app</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>UILaunchStoryboardName</key>

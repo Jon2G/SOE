@@ -20,10 +20,7 @@ namespace SOE.Services
             return GetByGroup(group)?.Id?? -1;
         }
 
-        internal static Subject FreeHour()
-        {
-            return new Subject(-1, -1, "Hora libre", Xamarin.Forms.Color.Gainsboro.ToHex(), Xamarin.Forms.Color.Gainsboro.ToHex(), String.Empty);
-        }
+
 
         internal static void Save(Subject subject)
         {

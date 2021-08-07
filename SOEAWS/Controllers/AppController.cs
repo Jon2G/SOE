@@ -30,7 +30,7 @@ namespace SOEAWS.Controllers
         [HttpGet("Hello")]
         public ActionResult<Response> Hello()
         {
-            return new Response(APIResponseResult.OK, $"Hello there, it's {DateTime.Now.ToShortTimeString()} o'clock , {DateTime.Now.ToShortDateString()}");
+            return new Response(APIResponseResult.OK, $"2.0.1 - Hello there, it's {DateTime.Now.ToShortTimeString()} o'clock , {DateTime.Now.ToShortDateString()}");
         }
         [HttpGet("TestDb")]
         public ActionResult<Response> TestDb()

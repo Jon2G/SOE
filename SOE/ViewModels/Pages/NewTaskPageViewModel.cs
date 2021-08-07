@@ -93,6 +93,13 @@ namespace SOE.ViewModels.Pages
                     Save(obj);
                 return;
             }
+            if (Tarea.Title==null)
+            {
+                Acr.UserDialogs.UserDialogs.Instance.Alert("La tarea debe contener titulo para poder ser guardada");
+                if (Tarea.Title is not null)
+                    Save(obj);
+                return;
+            }
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Guardando tarea..."))
             {
                 await ToDo.Save(this.Tarea, Photos);

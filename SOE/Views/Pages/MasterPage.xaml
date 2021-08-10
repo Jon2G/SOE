@@ -20,6 +20,14 @@
     </ContentPage.BindingContext>
 
     <StackLayout VerticalOptions="FillAndExpand" Spacing="0">
+        <BoxView HeightRequest="20" Background="{DynamicResource PrimaryColor}">
+            <BoxView.IsVisible>
+                <OnPlatform x:TypeArguments="x:Boolean">
+                    <On Platform="Android" Value="False" />
+                    <On Platform="iOS" Value="True" />
+                </OnPlatform>
+            </BoxView.IsVisible>
+        </BoxView>
 
         <panCardView:CarouselView IsUserInteractionEnabled="False" 
                                   SelectedIndex="{Binding SelectedIndex}"

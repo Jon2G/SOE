@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using FFImageLoading.Forms;
 using Kit.Forms.Extensions;
+using Kit.Forms.Services;
 using Kit.Model;
 using SOE.Data;
 using SOE.Data.Images;
@@ -13,6 +14,7 @@ using SOE.Interfaces;
 using SOE.Models.TaskFirst;
 using SOE.Views.PopUps;
 using SOE.Widgets;
+using System.IO;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -94,7 +96,7 @@ namespace SOE.ViewModels.Pages
                     Save(obj);
                 return;
             }
-            if (Tarea.Title==null)
+            if (Tarea.Title == null)
             {
                 Acr.UserDialogs.UserDialogs.Instance.Alert("La tarea debe contener titulo para poder ser guardada");
                 if (Tarea.Title is not null)
@@ -146,7 +148,7 @@ namespace SOE.ViewModels.Pages
                 Acr.UserDialogs.UserDialogs.Instance.Alert("Ha denegado el acceso a su camera, por favor permita el acceso desde ajustes de su dispositivo", "Alerta");
                 return;
             }
-            AddPhoto(await MediaPicker.PickPhotoAsync(new MediaPickerOptions()));
+            AddPhoto(await MediaPicker.PickPhotoAsync()).SafeFireAndForget();
         }
 
         private bool PhotosLimit()
@@ -168,7 +170,7 @@ namespace SOE.ViewModels.Pages
             var permiso = new Permissions.Camera();
             if (!await Permisos.TenemosPermiso(permiso))
             {
-                RequestCameraPage request = new RequestCameraPage();
+                RequestCameraPage request = new();
                 await request.ShowDialog();
                 if (await permiso.CheckStatusAsync() != PermissionStatus.Granted)
                 {
@@ -183,25 +185,30 @@ namespace SOE.ViewModels.Pages
             {
                 return;
             }
-            AddPhoto(await MediaPicker.CapturePhotoAsync(new MediaPickerOptions()));
+            AddPhoto(await MediaPicker.CapturePhotoAsync()).SafeFireAndForget();
         }
 
-        private void AddPhoto(FileResult result)
+        private async Task AddPhoto(FileResult result)
         {
             if (result is null)
             {
                 return;
             }
-            PhotoArchive archive = new PhotoArchive(result.FullPath, FileType.Photo)
+
+            FileInfo file = await result.LoadPhotoAsync();
+            if (file is not null)
             {
-                Value = new CachedImage()
+                PhotoArchive archive = new (file.FullName, FileType.Photo)
                 {
-                    DownsampleToViewSize = true,
-                    Aspect = Aspect.AspectFit,
-                    Source = ImageSource.FromFile(result.FullPath)
-                }
-            };
-            Photos.Add(archive);
+                    Value = new CachedImage()
+                    {
+                        DownsampleToViewSize = true,
+                        Aspect = Aspect.AspectFit,
+                        Source = ImageSource.FromFile(file.FullName)
+                    }
+                };
+                Photos.Add(archive);
+            }
         }
 
 

@@ -18,7 +18,7 @@ namespace SOEWeb.Shared
         {
             get
             {
-                string google_service = $"https://www.google.com/s2/favicons?domain={Url}";
+                string google_service = $"https://www.google.com/s2/favicons?sz=64&domain_url={Url}";
                 return google_service;
             }
         }

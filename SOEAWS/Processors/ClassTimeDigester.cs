@@ -19,7 +19,7 @@ namespace SOEAWS.Processors
 {
     internal static class ClassTimeDigester
     {
-        private static Subject PostSubject(int UserId, string Group,string Suffix, int TeacherId, string SubjectName)
+        private static Subject PostSubject(int UserId, string Group, string Suffix, int TeacherId, string SubjectName)
         {
             using (SqlConnection con = WebData.Con())
             {
@@ -122,7 +122,10 @@ namespace SOEAWS.Processors
             try
             {
                 int UserId = User.GetId(user);
-
+                if (UserId <= 0)
+                {
+                    return new DigesterResult<string>($"User : [{user}] not found", APIResponseResult.NOT_EXECUTED);
+                }
                 HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
                 doc.LoadHtml(HTML);
 
@@ -135,17 +138,9 @@ namespace SOEAWS.Processors
                     .Select(tr => tr.Elements("td")
                         .Select(td => td.InnerText.Trim()).ToList())
                     .ToList();
-
-
-                Regex time =
-                    new Regex(
-                        @"(?<begin_hour>\d\d):(?<begin_minutes>\d\d)\s*-\s*(?<end_hour>\d\d):(?<end_minutes>\d\d)");
                 Regex teacher_name = new Regex(@"//");
 
-                List<Teacher> teachers = new List<Teacher>();
-                List<Subject> subjects = new List<Subject>();
-                List<ClassTime> classTimes = new List<ClassTime>();
-
+                List<Teacher> teachers = new();
                 foreach (List<string> row in table)
                 {
                     string TeacherName = row[3];
@@ -158,52 +153,92 @@ namespace SOEAWS.Processors
                     {
                         continue;
                     }
-
                     Teacher teacher = PostTeacher(TeacherName);
                     if (teacher is null)
                     {
                         return new DigesterResult<string>(
-                            ResponseResult: APIResponseResult.INTERNAL_ERROR,
-                            Value: null,
-                            Extra: "Teacher not read")
+                                ResponseResult: APIResponseResult.INTERNAL_ERROR,
+                                Value: null,
+                                Extra: "Teacher not read")
                             .Log(Log);
                     }
                     teachers.Add(teacher);
-                    int suffix_fixer = 0;
+                }
+
+                List<Subject> subjects = new();
+                int suffixfixer = 0;
+                for (var i = 0; i < table.Count; i++)
+                {
+                    List<string> row = table[i];
+                    string TeacherName = row[3];
+                    string group = row[0];
+                    if (teacher_name.IsMatch(TeacherName))
+                    {
+                        TeacherName = teacher_name.Split(TeacherName).First();
+                    }
+                    if (TeacherName == "&nbsp;")
+                    {
+                        continue;
+                    }
+
+                    Teacher teacher = teachers[i];
+                    string suffix = "10";
+                    Regex lastDigitsRegex = new(@"(\d+)(?!.*\d)");
+                    Match suffixMatch = lastDigitsRegex.Matches(@group).Last();
+                    if (suffixMatch.Success)
+                    {
+                        suffix = suffixMatch.Value;
+                        if (suffix.Length > 2)
+                        {
+                            suffix = suffix.Substring(suffix.Length - 2);
+                        }
+                        else if (suffix.Length < 2)
+                        {
+                            suffix += suffixfixer.ToString();
+                            suffixfixer++;
+                        }
+                    }
+
+                    string SubjectName = row[2];
+                    Subject subject = PostSubject(UserId, @group, suffix, teacher.Id, SubjectName);
+                    if (subject is null)
+                    {
+                        return new DigesterResult<string>(
+                                ResponseResult: APIResponseResult.INTERNAL_ERROR,
+                                Value: null,
+                                Extra: "Subject not read")
+                            .Log(Log);
+                    }
+
+                    subjects.Add(subject);
+                }
+
+                Regex time =
+                    new Regex(
+                        @"(?<begin_hour>\d\d):(?<begin_minutes>\d\d)\s*-\s*(?<end_hour>\d\d):(?<end_minutes>\d\d)");
+                List<ClassTime> classTimes = new List<ClassTime>();
+
+                for (var index = 0; index < table.Count; index++)
+                {
+                    List<string> row = table[index];
+                    string TeacherName = row[3];
+                    if (teacher_name.IsMatch(TeacherName))
+                    {
+                        TeacherName = teacher_name.Split(TeacherName).First();
+                    }
+
+                    if (TeacherName == "&nbsp;")
+                    {
+                        continue;
+                    }
+
+                    Teacher teacher = teachers[index];
+                    Subject subject = subjects[index];
                     for (int i = 6; i < 12; i++)
                     {
                         var match = time.Match(row[i]);
                         if (match.Success)
                         {
-                            string group = row[0];
-                            string suffix = "10";
-                            Regex lastDigitsRegex = new(@"(\d+)(?!.*\d)");
-                            Match suffixMatch = lastDigitsRegex.Match(group);
-                            if (suffixMatch.Success)
-                            {
-                                suffix = suffixMatch.Value;
-                                if (suffix.Length > 2)
-                                {
-                                    suffix = suffix.Substring(suffix.Length - 2);
-                                }
-                                else if (suffix.Length < 2)
-                                {
-                                    suffix += suffix_fixer.ToString();
-                                    suffix_fixer++;
-                                }
-                            }
-                            string SubjectName = row[2];
-                            Subject subject = PostSubject(UserId, group,suffix, teacher.Id, SubjectName);
-                            if (subject is null)
-                            {
-                                return new DigesterResult<string>(
-                                        ResponseResult: APIResponseResult.INTERNAL_ERROR,
-                                        Value: null,
-                                        Extra: "Subject not read")
-                                    .Log(Log);
-                            }
-                            subjects.Add(subject);
-
                             int begin_hour = Convert.ToInt32(match.Groups["begin_hour"].Value);
                             int begin_minutes = Convert.ToInt32(match.Groups["begin_minutes"].Value);
                             int end_hour = Convert.ToInt32(match.Groups["end_hour"].Value);
@@ -211,12 +246,12 @@ namespace SOEAWS.Processors
                             TimeSpan begin = TimeSpan.FromHours(begin_hour).Add(TimeSpan.FromMinutes(begin_minutes));
                             TimeSpan end = TimeSpan.FromHours(end_hour).Add(TimeSpan.FromMinutes(end_minutes));
                             DayOfWeek Day = (DayOfWeek)i - 5;
-
                             ClassTime classTime = PostClassTimeFrom(teacher.Id, subject.Id, Day, begin, end);
                             classTimes.Add(classTime);
                         }
                     }
                 }
+
                 XmlDocument db_doc = new XmlDocument();
                 XmlNode root = db_doc.AppendChild(db_doc.CreateElement("root"));
                 XmlSerializer xmlserializer = null;

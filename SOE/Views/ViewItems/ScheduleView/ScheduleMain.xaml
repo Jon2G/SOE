@@ -12,14 +12,6 @@
              x:Class="SOE.Views.ViewItems.ScheduleView.ScheduleViewMain"
              Background="{DynamicResource Background}"
              x:DataType="viewItems:ScheduleMainViewModel" x:Name="Me">
-    <models:IconView.ToolbarItem>
-        <ToolbarItem Command="{Binding ExportToPdfCommand}">
-            <ToolbarItem.IconImageSource>
-                <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                 Glyph="{x:Static fonts:FontelloIcons.PDF}"/>
-            </ToolbarItem.IconImageSource>
-        </ToolbarItem>
-    </models:IconView.ToolbarItem>
     <models:IconView.BindingContext>
         <viewItems:ScheduleMainViewModel x:Name="Model" x:FieldModifier="public"/>
     </models:IconView.BindingContext>
@@ -78,64 +70,95 @@
         </scheduleView:ClassSquareDataTemplateSelector>
     </models:IconView.Resources>
     <models:IconView.Content>
-        <Grid>
-            <StackLayout BindingContext="{x:Reference Model}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="5">
-                <Grid  ColumnDefinitions="20,*" >
-                    <views:UniformGrid Grid.Column="1"
+        <StackLayout VerticalOptions="FillAndExpand">
+            <StackLayout Background="{DynamicResource PrimaryColor}"
+                         Padding="5" Orientation="Horizontal" VerticalOptions="Start"
+                         HeightRequest="40">
+                <Image Margin="15,0"
+                       views:TouchEffect.Command="{Binding FlyOutCommand}"
+                       views:TouchEffect.PressedScale="0.9" BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
+                    <Image.Source>
+                        <FontImageSource 
+                            FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                            Glyph="{x:Static fonts:FontelloIcons.Sandwich}"
+                            Size="21"
+                            Color="White"/>
+                    </Image.Source>
+                </Image>
+
+                <Label Text="HORARIO" HorizontalOptions="FillAndExpand" VerticalOptions="Center" 
+                       VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="White"
+                       FontSize="16" FontAttributes="Bold"/>
+                <Image Margin="15,0" HorizontalOptions="End"
+                       views:TouchEffect.Command="{Binding ExportToPdfCommand}">
+                    <Image.Source>
+                        <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                         Glyph="{x:Static fonts:FontelloIcons.PDF}"
+                                         Size="21"
+                                         Color="White"/>
+                    </Image.Source>
+                </Image>
+            </StackLayout>
+            <Grid>
+                <StackLayout BindingContext="{x:Reference Model}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="5">
+                    <Grid  ColumnDefinitions="20,*" >
+                        <views:UniformGrid Grid.Column="1"
                     BindableLayout.ItemsSource="{Binding WeekDays}">
-                        <BindableLayout.ItemTemplate>
-                            <DataTemplate x:DataType="scheduler:SheduleDay">
-                                <ContentView>
-                                    <Label 
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="scheduler:SheduleDay">
+                                    <ContentView>
+                                        <Label 
                                            FontSize="14" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Binding Day.ShortName}">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer 
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer 
                                                 Command="{Binding OnDayTappedCommand,Source={x:Reference Me}}"
                                                 CommandParameter="{Binding }"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                </ContentView>
-                            </DataTemplate>
-                        </BindableLayout.ItemTemplate>
-                    </views:UniformGrid>
-                </Grid>
-                <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
-                    <Grid ColumnDefinitions="15,*">
-
-
-                        <StackLayout Padding="0" Grid.Column="1">
-                        <views:UniformGrid  BindableLayout.ItemsSource="{Binding WeekDays}" >
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate x:DataType="scheduler:SheduleDay">
-                                        <ContentView Margin="0" Padding="0">
-                                            <StackLayout Spacing="0" Margin="0" Padding="0"  WidthRequest="10" 
-                                                     BindableLayout.ItemsSource="{Binding Class}" 
-                                                     BindableLayout.ItemTemplateSelector ="{StaticResource ClassSquareDataTemplateSelector}" />
-                                        </ContentView>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </views:UniformGrid>
-                        </StackLayout>
-                        <StackLayout Grid.Column="0"  VerticalOptions="FillAndExpand"  Spacing="0"
-                                     BindableLayout.ItemsSource="{Binding WeekHours}">
-                            <BindableLayout.ItemTemplate>
-                                <DataTemplate x:DataType="scheduler:Hour">
-                                    <ContentView>
-                                        <Label   Margin="0"  HeightRequest="{x:Static scheduler:Hour.HourHeigth}" FontSize="10" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Text="{Binding ShortName}"/>
+                                            </Label.GestureRecognizers>
+                                        </Label>
                                     </ContentView>
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
-                        </StackLayout>
-                        <StackLayout Grid.ColumnSpan="2" InputTransparent="True" CascadeInputTransparent="False">
-                            <StackLayout InputTransparent="True" CascadeInputTransparent="False" HeightRequest="{Binding TimeLineOffset}"/>
-                            <BoxView BackgroundColor="{StaticResource AccentColor}" HeightRequest="1"/>
-                        </StackLayout>
+                        </views:UniformGrid>
                     </Grid>
-                </ScrollView>
-            </StackLayout>
-            <scheduleView:ScheduleViewDay x:Name="DayView" Opacity="0" IsVisible="False" IsEnabled="False" MainModel="{x:Reference Model}"
+                    <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
+                        <Grid ColumnDefinitions="15,*">
+
+
+                            <StackLayout Padding="0" Grid.Column="1">
+                                <views:UniformGrid  BindableLayout.ItemsSource="{Binding WeekDays}" >
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate x:DataType="scheduler:SheduleDay">
+                                            <ContentView Margin="0" Padding="0">
+                                                <StackLayout Spacing="0" Margin="0" Padding="0"  WidthRequest="10" 
+                                                     BindableLayout.ItemsSource="{Binding Class}" 
+                                                     BindableLayout.ItemTemplateSelector ="{StaticResource ClassSquareDataTemplateSelector}" />
+                                            </ContentView>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </views:UniformGrid>
+                            </StackLayout>
+                            <StackLayout Grid.Column="0"  VerticalOptions="FillAndExpand"  Spacing="0"
+                                     BindableLayout.ItemsSource="{Binding WeekHours}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="scheduler:Hour">
+                                        <ContentView>
+                                            <Label   Margin="0"  HeightRequest="{x:Static scheduler:Hour.HourHeigth}" FontSize="10" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Text="{Binding ShortName}"/>
+                                        </ContentView>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </StackLayout>
+                            <StackLayout Grid.ColumnSpan="2" InputTransparent="True" CascadeInputTransparent="False">
+                                <StackLayout InputTransparent="True" CascadeInputTransparent="False" HeightRequest="{Binding TimeLineOffset}"/>
+                                <BoxView BackgroundColor="{StaticResource AccentColor}" HeightRequest="1"/>
+                            </StackLayout>
+                        </Grid>
+                    </ScrollView>
+                </StackLayout>
+                <scheduleView:ScheduleViewDay x:Name="DayView" Opacity="0" IsVisible="False" IsEnabled="False" MainModel="{x:Reference Model}"
                                           VerticalOptions="FillAndExpand" 
                                           HorizontalOptions="FillAndExpand"/>
-        </Grid>
+            </Grid>
+        </StackLayout>
+     
     </models:IconView.Content>
 </models:IconView>

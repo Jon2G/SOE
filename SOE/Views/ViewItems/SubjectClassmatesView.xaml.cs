@@ -8,7 +8,6 @@ namespace SOE.Views.ViewItems
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SubjectClassmatesView 
     {
-        public override string Icon => FontelloIcons.AddressBook;
         public SubjectClassmatesViewModel Model { get; set; }
         public SubjectClassmatesView(Subject subject)
         {

@@ -8,18 +8,18 @@
                   x:Class="SOE.Views.Pages.ReminderPage"
                   x:DataType="viewitems:ReminderPageVIewModel" 
                   Title="Recordatorios">
-    <pankk:PancakeView HorizontalOptions="Center"
+    <pankk:PancakeView HorizontalOptions="FillAndExpand"
                        VerticalOptions="Center" Margin="10"
                        BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDarkColor},Light={StaticResource BackgroundLightColor}}">
         <StackLayout Margin="0" Spacing="4" >
             <StackLayout Padding="0" Orientation="Horizontal"  BackgroundColor="{DynamicResource PrimaryLightColor}">
-                <Label Text="Recordatorios" TextColor="{AppThemeBinding Dark=Black,Light=White}" 
+                <Label Text="Recordatorios" TextColor="White" 
                        FontSize="20" HorizontalOptions="StartAndExpand"
                    FontAttributes="Bold" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
                   Padding="5"/>
                 <Label Text="{x:Static fonts:FontelloIcons.CirclePlus}" 
                        FontFamily="{x:Static fonts:FontelloIcons.Font}" 
-                       TextColor="{AppThemeBinding Dark=Black,Light=White}" 
+                       TextColor="White" 
                        FontSize="40" HorizontalOptions="End"
                    FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                        Padding="5" >
@@ -42,11 +42,10 @@
                                     BorderWidth="2" 
                                     Command="{Binding SubjectCommand}"/>
 
-                <StackLayout  Orientation="Horizontal" Spacing="0" Padding="0">
+                <StackLayout  Orientation="Horizontal" Spacing="3" Padding="0">
                     <Label Margin="10,0" Text="Fecha:" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Italic" FontSize="18"/>
-                    <DatePicker  HorizontalOptions="StartAndExpand" Margin="0"  FontAttributes="Bold"  Format="dd/MM/yyyy"  MinimumDate="{x:Static x:DateTime.Now}" Date="{Binding PReminder.Date}"/>
-                    <Label Margin="10,0" Text="Hora:" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Italic" FontSize="18"/>
-                    <TimePicker HorizontalOptions="End" Margin="0" FontFamily="Italic" Time="{Binding PReminder.Time}" />
+                    <DatePicker  HorizontalOptions="FillAndExpand" Margin="0"  FontAttributes="Bold"  Format="dd/MM/yyyy"  MinimumDate="{x:Static x:DateTime.Now}" Date="{Binding PReminder.Date}"/>
+                    <TimePicker HorizontalOptions="FillAndExpand" Margin="0" FontFamily="Italic" Time="{Binding PReminder.Time}" />
                 </StackLayout>
             </StackLayout>
         </StackLayout>

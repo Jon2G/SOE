@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Kit.Sql.Attributes;
 using Kit.Sql.Interfaces;
+using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Log = Kit.Log;
 
@@ -14,8 +15,8 @@ namespace SOE.Data.Images
         public int Id { get; set; }
         public Guid Guid { get; set; }
 
-        public static DirectoryInfo Directory => new DirectoryInfo(Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.Personal), nameof(Keeper)));
+        public static DirectoryInfo Directory =>
+            new(Path.Combine(Kit.Tools.Instance.LibraryPath, nameof(Keeper)));
         internal static void Delete(int IdKeeper)
         {
             foreach (Archive archive in AppData.Instance.LiteConnection.Table<Archive>().Where(x => x.IdKeeper == IdKeeper))
@@ -39,15 +40,28 @@ namespace SOE.Data.Images
             archive.Path = file.FullName;
             AppData.Instance.LiteConnection.Insert(archive);
         }
-        public static Task<FileInfo> Save(Task<Stream> GetStream,string FileExtension=".png")
+        public static async Task<FileImageSource> GetAvatar()
         {
-            FileInfo TargetFile =
-                new FileInfo(System.IO.Path.Combine(Keeper.Directory.FullName, $"{Guid.NewGuid():N}{FileExtension}"));
+            await Task.Yield();
+            string filepath = System.IO.Path.Combine(Keeper.Directory.FullName, "Avatar.png");
+            FileInfo TargetFile = new(filepath);
+            if (!TargetFile.Exists)
+            {
+                return null;
+            }
+            return (FileImageSource)FileImageSource.FromFile(TargetFile.FullName);
+        }
+        public static Task<FileInfo> SaveAvatar(Task<Stream> GetStream) => Save(GetStream, "Avatar");
+        public static Task<FileInfo> Save(Task<Stream> GetStream, string FileName = null, string FileExtension = ".png")
+        {
+            FileName ??= Guid.NewGuid().ToString("N");
+            string filepath = System.IO.Path.Combine(Keeper.Directory.FullName, $"{FileName}{FileExtension}");
+            FileInfo TargetFile = new(filepath);
             return Save(GetStream, TargetFile);
         }
         public static async Task<FileInfo> Save(Task<Stream> GetStream, FileInfo TargetFile)
         {
-            //await Task.Yield();
+            await Task.Yield();
             if (!TargetFile.Directory.Exists)
             {
                 TargetFile.Directory.Create();
@@ -75,11 +89,11 @@ namespace SOE.Data.Images
                 {
                     try
                     {
-                    x.Delete();
+                        x.Delete();
                     }
                     catch (Exception e)
                     {
-                       Log.Logger.Error(e, "ClearAllFiles");
+                        Log.Logger.Error(e, "ClearAllFiles");
                     }
                 });
             }

@@ -1,7 +1,7 @@
 ﻿using AsyncAwaitBestPractices;
 using System.Windows;
 
-namespace ColorTest.Views
+namespace Tests.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -10,9 +10,8 @@ namespace ColorTest.Views
     {
         public SubjectColorsView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             this.Model.Init().SafeFireAndForget();
-
         }
         
     }

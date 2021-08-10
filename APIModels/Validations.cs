@@ -15,14 +15,15 @@ namespace SOEWeb.Shared
             return Regex.IsMatch(boleta, "20([0-9]{8})");
         }
 
-        public static bool IsValidUrl(string url)
+        public static bool IsValidUrl(string url,out Uri uri)
         {
             if (string.IsNullOrEmpty(url))
             {
+                uri = null;
                 return false;
             }
-            Uri uri;
-            if ((Uri.TryCreate(url, UriKind.Absolute, out uri) || Uri.TryCreate("http://" + url, UriKind.Absolute, out uri)) &&
+            if ((Uri.TryCreate(url, UriKind.Absolute, out uri) ||
+                 Uri.TryCreate("http://" + url, UriKind.Absolute, out uri)) &&
                 (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
             {
                 return true;

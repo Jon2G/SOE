@@ -13,14 +13,6 @@
     <models:IconView.BindingContext>
         <viewItems1:MainViewModel x:Name="Model" x:FieldModifier="public"/>
     </models:IconView.BindingContext>
-    <models:IconView.ToolbarItem>
-        <ToolbarItem >
-            <ToolbarItem.IconImageSource>
-                <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                 Glyph="{x:Static fonts:FontelloIcons.CirclePlus}"/>
-            </ToolbarItem.IconImageSource>
-        </ToolbarItem>
-    </models:IconView.ToolbarItem>
     <models:IconView.Content>
         <StackLayout Spacing="0"
                      VerticalOptions="FillAndExpand">
@@ -29,7 +21,9 @@
                                      VerticalOptions="StartAndExpand"/>
 
             <Grid Padding="3" VerticalOptions="End"  
-                  ColumnDefinitions="*,*,*"  BackgroundColor="{StaticResource PrimaryLightColor}" 
+                  xct:TouchEffect.PressedScale="1.5"   
+                  xct:TouchEffect.Command="{Binding OpenMenuCommand}"
+                  ColumnDefinitions="*,*,*"  Background="{DynamicResource PrimaryColor}" 
                   HeightRequest="40" Margin="0" ColumnSpacing="0">
                 
                 <Label Margin="10,0,0,0" Grid.Column="0" Text="{Binding Title }" 

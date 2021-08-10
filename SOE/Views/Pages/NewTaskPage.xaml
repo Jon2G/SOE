@@ -8,6 +8,7 @@
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
               xmlns:images="clr-namespace:SOE.Data.Images;assembly=SOE" 
               x:DataType="viewModels:NewTaskPageViewModel" 
+             Shell.NavBarIsVisible="True"
              Title="Tarea">
     <ContentPage.BindingContext>
         <viewModels:NewTaskPageViewModel x:Name="Modelo"/>
@@ -84,18 +85,18 @@
                         <Button Grid.Column="1" Text="{x:Static fonts:FontelloIcons.Camera}" 
                                 FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                 TextColor="{DynamicResource PrimaryLightColor}"  
-                                 HeightRequest="40"
+                                HeightRequest="40" WidthRequest="98" 
                                 BorderColor="{DynamicResource PrimaryLightColor}" 
-                                BorderWidth="2" Padding="0" CornerRadius="30" 
+                                BorderWidth="2" Padding="0" CornerRadius="15" 
                                 FontSize="18" Command="{Binding CameraImageCommand}" />
 
-                        <Button  Grid.Column="2" Padding="0" Text="{x:Static fonts:FontelloIcons.Photo}" 
+                        <Button  Grid.Column="2" Text="{x:Static fonts:FontelloIcons.Photo}" 
                                  FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                  TextColor="{DynamicResource PrimaryLightColor}"
-                                 HeightRequest="40"
+                                 HeightRequest="40" WidthRequest="98" 
                                  BorderColor="{DynamicResource PrimaryLightColor}" 
-                                 BorderWidth="2" 
-                                 CornerRadius="30" FontSize="18" Command="{Binding GaleryImageCommand}"/>
+                                 BorderWidth="2" Padding="0" CornerRadius="15" 
+                                 FontSize="18" Command="{Binding GaleryImageCommand}"/>
                     </Grid>
                     <CollectionView ItemsSource="{Binding Photos}">
                         <CollectionView.ItemsLayout>

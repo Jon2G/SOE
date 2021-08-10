@@ -43,11 +43,11 @@ namespace SOE.Views.Pages
             base.OnAppearing();
             if (this.Model.SelectedIndex <= 0)
             {
-                Dispatcher.BeginInvokeOnMainThread( () =>
-                {
-                    this.Model.SelectedIndex = 1;
-                    Shell.SetNavBarIsVisible(this, this.Model.SelectedIndex != 1);
-                });
+                Dispatcher.BeginInvokeOnMainThread(() =>
+               {
+                   this.Model.SelectedIndex = 1;
+                   //Shell.SetNavBarIsVisible(this, this.Model.SelectedIndex != 1);
+               });
             }
             DependencyService.Get<IStartNotificationsService>()?.StartNotificationsService();
         }
@@ -82,9 +82,15 @@ namespace SOE.Views.Pages
                 case UrlAction urlAction:
                     string[] segments = urlAction.Url.Segments;
                     int indexOfAction = segments.IndexOf(x => x.Contains(nameof(APIService.ShareTodo)));
-                    if (indexOfAction > 0 && segments.Length >= indexOfAction + 1)
+                    if (indexOfAction <= 0)
                     {
-                        Guid guid = Guid.Parse(segments[indexOfAction + 1]);
+                        indexOfAction = segments.IndexOf(x => x.Contains(nameof(APIService.ShareReminder)));
+                    }
+                    if (indexOfAction <= 0 && segments.Length >= indexOfAction + 1) { break; }
+                    Guid guid = Guid.Parse(segments[indexOfAction + 1]);
+
+                    if (segments[indexOfAction].Contains(APIService.ShareTodo))
+                    {
                         bool IncludeFiles = await App.Current.MainPage.DisplayAlert("Descargar tarea",
                             "¿Descargar también las imágenes de esta tarea?", "Sí", "No");
 
@@ -93,8 +99,13 @@ namespace SOE.Views.Pages
                             await APIService.DownloadSharedTodo(guid, IncludeFiles);
                         }
                     }
-
-
+                    else if (segments[indexOfAction].Contains(APIService.ShareReminder))
+                    {
+                        using (Acr.UserDialogs.UserDialogs.Instance.Loading("Descargando recordatorio..."))
+                        {
+                            await APIService.DownloadSharedReminder(guid);
+                        }
+                    }
                     break;
             }
         }

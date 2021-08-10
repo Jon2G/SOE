@@ -174,7 +174,7 @@ namespace SOE.Models.TaskFirst
             {
                 Keeper.Delete(Todo.IdKeeper);
                 Keeper keeper = Keeper.New();
-                foreach (Archive<CachedImage> archive in Photos)
+                foreach (PhotoArchive archive in Photos)
                 {
                     CachedImage image = archive.Value;
                     using (FileStream file = new FileStream(archive.Path, FileMode.OpenOrCreate))

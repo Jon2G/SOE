@@ -10,7 +10,6 @@ namespace SOE.Views.ViewItems
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SubjectNotesView
     {
-        public override string Icon => FontelloIcons.Community;
         public SubjectNotesViewModel Model { get; set; }
         public SubjectNotesView(Subject Subject)
         {

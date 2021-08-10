@@ -15,7 +15,7 @@ using Xamarin.Forms;
 
 namespace SOE.ViewModels.ViewItems
 {
-   public class DeleteLinkPopUpViewModel
+    public class DeleteLinkPopUpViewModel
     {
         public Link Link { get; }
         public DeleteLinkPopUp DeleteLinkPop { get; }
@@ -31,24 +31,26 @@ namespace SOE.ViewModels.ViewItems
 
         private async void Delete(object obj)
         {
-            using (var a = Acr.UserDialogs.UserDialogs.Instance.Loading("Reportando..."))
+            bool result = false;
+            using (var a = Acr.UserDialogs.UserDialogs.Instance.Loading("Eliminando..."))
             {
-                if (await APIService.DeleteLink(Link, AppData.Instance.User.Id))
-                {
-                    Acr.UserDialogs.UserDialogs.Instance.AlertAsync(title: "¡Completado!", message: "El enlace fue eliminado.\nDejará de estar disponible en unos instantes", okText: "Ok")
-                        .SafeFireAndForget();
-                    DeleteLinkPop.Close().SafeFireAndForget();
-                    LinksPage.Instance.Model.Init().SafeFireAndForget();
-                }
-                else
-                {
-                    Acr.UserDialogs.UserDialogs.Instance.AlertAsync(title: "Opps...", message: "Ocurrio un error al eliminar este enlace.\nPor favor intente más tarde o envie un correo a soporte  técnico.", okText: "Ok")
-                        .SafeFireAndForget();
-                    DeleteLinkPop.Close().SafeFireAndForget();
-                }
+                result = await APIService.DeleteLink(Link, AppData.Instance.User.Id);
+            }
+            if (result)
+            {
+                Shell.Current.CurrentPage.DisplayAlert(title: "¡Completado!", message: "El enlace fue eliminado.\nDejará de estar disponible en unos instantes", "Ok")
+                    .SafeFireAndForget();
+                DeleteLinkPop.Close().SafeFireAndForget();
+                LinksPage.Instance.Model.Init().SafeFireAndForget();
+            }
+            else
+            {
+                Shell.Current.CurrentPage.DisplayAlert(title: "Opps...", message: "Ocurrio un error al eliminar este enlace.\nPor favor intente más tarde o envie un correo a soporte  técnico.", "Ok")
+                    .SafeFireAndForget();
+                DeleteLinkPop.Close().SafeFireAndForget();
             }
         }
 
-        
+
     }
 }

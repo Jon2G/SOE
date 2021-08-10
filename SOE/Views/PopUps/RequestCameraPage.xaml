@@ -23,11 +23,11 @@
                             <Image.Source>
                                 <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                                  Glyph="{x:Static fonts:FontelloIcons.Camera}" 
-                                                 Color="Black"/>
+                                                 Color="{AppThemeBinding Dark=White,Light=Black}"/>
                             </Image.Source>
                         </Image>
 
-                        <Label TextColor="Black" Text="Permite el acceso a la galeria para que puedas seleccionar fotos de tu dispositivo y colocarlas en tu actividad."/>
+                        <Label Text="Permite el acceso a la galeria para que puedas seleccionar fotos de tu dispositivo y colocarlas en tu actividad."/>
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal" Margin="3" Padding="10">
@@ -35,16 +35,16 @@
                             <Image.Source>
                                 <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                                  Glyph="{x:Static fonts:FontelloIcons.Photo}" 
-                                                 Color="Black"/>
+                                                 Color="{AppThemeBinding Dark=White,Light=Black}"/>
                             </Image.Source>
                         </Image>
 
-                        <Label TextColor="Black" Text="Permite el acceso a la camara para que puedas tomar fotos de tu alrededor y adjuntarlas en tu actividad."/>
+                        <Label Text="Permite el acceso a la camara para que puedas tomar fotos de tu alrededor y adjuntarlas en tu actividad."/>
                     </StackLayout>
 
                     <Button 
                         Text="Continuar" Command="{Binding ContinueCommand}"/>
-                    <Label TextColor="Black" VerticalOptions="End" Text="*Puede modificar el acceso en cualquier momento desde la aplicación de ajustes."/>
+                    <Label  VerticalOptions="End" Text="*Puede modificar el acceso en cualquier momento desde la aplicación de ajustes."/>
                 </StackLayout>
             </StackLayout>
         </pancakeView:PancakeView>

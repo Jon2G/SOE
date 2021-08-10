@@ -4,35 +4,65 @@
              xmlns:academic="clr-namespace:SOE.Models.Academic;assembly=SOE"
              xmlns:viewModels="clr-namespace:SOE.ViewModels;assembly=SOE"
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
+             xmlns:effects="http://xamarin.com/schemas/2020/toolkit"
              xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
              x:Class="SOE.Views.ViewItems.SchoolGrades"
              x:DataType="viewModels:SchoolGradesViewModel"
              Background="{DynamicResource Background}">
-    <models:IconView.ToolbarItem>
-        <ToolbarItem Command="{Binding RefreshCommand}">
-            <ToolbarItem.IconImageSource>
-                <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                 Glyph="{x:Static fonts:FontelloIcons.Refresh}"/>
-            </ToolbarItem.IconImageSource>
-        </ToolbarItem>
-    </models:IconView.ToolbarItem>
     <models:IconView.Content>
-        <StackLayout Grid.Column="0" Padding="0" Spacing="0" VerticalOptions="StartAndExpand" HorizontalOptions="Start">
-            <Grid ColumnDefinitions="50,120,*,*,*,*,*" ColumnSpacing="0" HeightRequest="35" >
+        <StackLayout VerticalOptions="FillAndExpand">
+
+            <StackLayout Background="{DynamicResource PrimaryColor}"
+                     Padding="5" Orientation="Horizontal" VerticalOptions="Start"
+                     HeightRequest="40">
+                <Image Margin="15,0"
+                       effects:TouchEffect.Command="{Binding FlyOutCommand}"
+                       effects:TouchEffect.PressedScale="0.9" BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
+                    <Image.Source>
+                        <FontImageSource 
+                        FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                        Glyph="{x:Static fonts:FontelloIcons.Sandwich}"
+                        Size="21"
+                        Color="White"/>
+                    </Image.Source>
+                </Image>
+
+                <Label Text="CALIFICACIONES" HorizontalOptions="FillAndExpand" VerticalOptions="Center" 
+                       VerticalTextAlignment="Center" HorizontalTextAlignment="Center" 
+                       FontSize="16" FontAttributes="Bold" TextColor="White"/>
+                <Image Margin="15,0" HorizontalOptions="End"
+                   effects:TouchEffect.Command="{Binding RefreshCommand}">
+                    <Image.Source>
+                        <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                     Glyph="{x:Static fonts:FontelloIcons.Refresh}"
+                                     Size="21"
+                                     Color="White"/>
+                    </Image.Source>
+                </Image>
+            </StackLayout>
+            <StackLayout Grid.Column="0" Padding="0" Spacing="0" VerticalOptions="StartAndExpand" HorizontalOptions="Start">
+                <Grid ColumnDefinitions="50,120,*,*,*,*,*" ColumnSpacing="0" HeightRequest="35" >
                     <Label Padding="3,0" Text="Grupo"  Grid.Column="0"
-                            HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            HorizontalTextAlignment="Center" VerticalTextAlignment="Start"
+                            VerticalOptions="Start"/>
                     <Label Padding="3,0" Text="Materia"  Grid.Column="1" 
-                            HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                    <Label Padding="3,5" Text="#1"  Grid.Column="2" 
-                            HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                    <Label Padding="3,5" Text="#2"  Grid.Column="3" 
-                            HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                    <Label Padding="3,5" Text="#3"  Grid.Column="4" 
-                            HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                    <Label Padding="3,5" Text="Ext."  Grid.Column="5" 
-                            HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                    <Label Padding="3,5" Text="Final"  Grid.Column="6" 
-                            HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            HorizontalTextAlignment="Center" VerticalTextAlignment="Start"
+                            VerticalOptions="Start"/>
+                    <Label Padding="3,0" Text="#1"  Grid.Column="2" 
+                            HorizontalTextAlignment="Center" VerticalTextAlignment="Start"
+                            VerticalOptions="Start"/>
+                    <Label Padding="3,0" Text="#2"  Grid.Column="3" 
+                            HorizontalTextAlignment="Center" VerticalTextAlignment="Start"
+                            VerticalOptions="Start"/>
+                    <Label Padding="3,0" Text="#3"  Grid.Column="4" 
+                            HorizontalTextAlignment="Center" VerticalTextAlignment="Start"
+                            VerticalOptions="Start"/>
+                    <Label Padding="3,0" Text="Ext."  Grid.Column="5" 
+                            HorizontalTextAlignment="Center" VerticalTextAlignment="Start"
+                            VerticalOptions="Start"/>
+                    <Label Padding="3,0" Text="Final"  Grid.Column="6" 
+                            HorizontalTextAlignment="Center" VerticalTextAlignment="Start"
+                            VerticalOptions="Start"/>
                 </Grid>
                 <StackLayout>
                     <CollectionView ItemsSource="{Binding Grades}" >
@@ -40,19 +70,20 @@
                             <DataTemplate x:DataType="academic:SchoolGrade">
                                 <Grid ColumnDefinitions="50,120,*,*,*,*,*" ColumnSpacing="0" 
                                       BackgroundColor="{Binding Subject,Converter={x:StaticResource SubjectColorAppThemeConverter}}">
-                                <Label Padding="3,5" Text="{Binding Subject.Group }"  Grid.Column="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
-                                <Label Padding="3,5" Text="{Binding Subject.Name}"  Grid.Column="1"
+                                    <Label Padding="3,5" Text="{Binding Subject.Group }"  Grid.Column="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                    <Label Padding="3,5" Text="{Binding Subject.Name}"  Grid.Column="1"
                                        HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
-                                <Label Padding="3,5" Text="{Binding Grades[0].TextScore}"  Grid.Column="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
-                                <Label Padding="3,5" Text="{Binding Grades[1].TextScore}"  Grid.Column="3" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
-                                <Label Padding="3,5" Text="{Binding Grades[2].TextScore}"  Grid.Column="4" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
-                                <Label Padding="3,5" Text="{Binding Grades[3].TextScore}"  Grid.Column="5" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
-                                <Label Padding="3,5" Text="{Binding Grades[4].TextScore}"  Grid.Column="6"  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                    <Label Padding="3,5" Text="{Binding Grades[0].TextScore}"  Grid.Column="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                    <Label Padding="3,5" Text="{Binding Grades[1].TextScore}"  Grid.Column="3" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                    <Label Padding="3,5" Text="{Binding Grades[2].TextScore}"  Grid.Column="4" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                    <Label Padding="3,5" Text="{Binding Grades[3].TextScore}"  Grid.Column="5" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                    <Label Padding="3,5" Text="{Binding Grades[4].TextScore}"  Grid.Column="6"  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
                                 </Grid>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
                 </StackLayout>
             </StackLayout>
+        </StackLayout>
     </models:IconView.Content>
 </models:IconView>

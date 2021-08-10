@@ -9,6 +9,7 @@
              x:DataType="pages:LinksPageViewModel"
              x:Class="SOE.Views.Pages.LinksPage" 
              Title="Enlaces del grupo" x:Name="Me"
+             Shell.NavBarIsVisible="True"
              Shell.BackgroundColor="{Binding ClassSquare.Subject,Converter={StaticResource SubjectColorAppThemeConverter}}"
              Background="{DynamicResource Background}">
     <ContentPage.ToolbarItems>

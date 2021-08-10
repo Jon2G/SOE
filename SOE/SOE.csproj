@@ -14,10 +14,11 @@
     <None Remove="Fonts\Fontello\font\fontello_19.ttf" />
     <None Remove="Fonts\Fontello\font\fontello_20.ttf" />
     <None Remove="Fonts\Fontello\font\fontello_21.ttf" />
+    <None Remove="Fonts\Fontello\font\fontello_22.ttf" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Fonts\Fontello\font\fontello_21.ttf" />
+    <EmbeddedResource Include="Fonts\Fontello\font\fontello_22.ttf" />
   </ItemGroup>
 
   <ItemGroup>

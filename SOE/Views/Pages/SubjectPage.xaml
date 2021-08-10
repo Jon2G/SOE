@@ -19,12 +19,12 @@
                            TabItemsSource="{Binding Views}"
             >
                 <views:TabView.TabViewItemDataTemplate>
-                    <DataTemplate x:DataType="models:IconView">
+                    <DataTemplate x:DataType="ContentView">
                         <StackLayout Spacing="0" Padding="0">
                             <Image HeightRequest="20">
                                 <Image.Source>
                                     <FontImageSource Size="10" FontFamily="{x:Static fonts:FontelloIcons.Font}" 
-                                                     Glyph="{Binding Icon}"
+                                                     Glyph="{x:Static fonts:FontelloIcons.CredentialsCard}"
                                                      Color="White"/>
                                 </Image.Source>
                             </Image>

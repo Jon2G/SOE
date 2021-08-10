@@ -37,7 +37,7 @@ namespace SOE.ViewModels.Pages
 
         private void AddLink()
         {
-            AddLinkPopUp popup = new AddLinkPopUp(this.ClassSquare);
+            AddLinkPopUp popup = new (this.ClassSquare);
             popup.Show().SafeFireAndForget();
         }
 

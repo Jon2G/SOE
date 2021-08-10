@@ -9,7 +9,6 @@
              xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
              xmlns:viewModels="clr-namespace:SOE.ViewModels.ViewItems"
              xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
-             xmlns:fonts1="clr-namespace:Kit.Forms.Fonts;assembly=Kit.Forms"
              xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
              x:DataType="viewModels:MainTaskViewModel"
@@ -20,15 +19,15 @@
     </ContentView.BindingContext>
     <StackLayout VerticalOptions="FillAndExpand">
         <StackLayout Background="{DynamicResource PrimaryColor}"
-                     Padding="5" Orientation="Horizontal"
+                     Padding="5" Orientation="Horizontal" VerticalOptions="Start"
                      HeightRequest="40">
             <Image Margin="15,0"
                        xtc:TouchEffect.Command="{Binding FlyOutCommand}"
                        xtc:TouchEffect.PressedScale="0.9" BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
                 <Image.Source>
                     <FontImageSource 
-                        FontFamily="{x:Static fonts1:FontelloIcons.Font}" 
-                        Glyph="{x:Static fonts1:FontelloIcons.ThreeDots}"
+                        FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                        Glyph="{x:Static fonts:FontelloIcons.Sandwich}"
                         Size="21"
                         Color="White"/>
                 </Image.Source>

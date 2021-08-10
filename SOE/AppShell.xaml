@@ -5,15 +5,18 @@
        xmlns:pages="clr-namespace:SOE.Views.Pages;assembly=SOE"
        xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
        x:Class="SOE.AppShell"
+       Shell.NavBarIsVisible="False"
        TabBarTitleColor="White"
        Shell.BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
        Shell.Background="{DynamicResource PrimaryColor}"
-       TitleColor="White">
+       TitleColor="White" TabBarForegroundColor="White"
+       UnselectedColor="White" DisabledColor="White" TabBarDisabledColor="White"
+       ForegroundColor="White" TabBarUnselectedColor="White">
 
     <Shell.FlyoutContent>
         <viewItems:FlyOutView/>
     </Shell.FlyoutContent>
     <ShellContent>
-        <pages:MasterPage x:Name="MasterPage" x:FieldModifier="public"/>
+        <pages:MasterPage/>
     </ShellContent>
 </Shell>

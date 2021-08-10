@@ -8,6 +8,7 @@ using SOE.Models;
 using SOE.Views.Pages;
 using SOE.Views.ViewItems;
 using SOE.Views.ViewItems.ScheduleView;
+using System.Linq;
 
 namespace SOE.ViewModels.Pages
 {
@@ -20,7 +21,7 @@ namespace SOE.ViewModels.Pages
             get => _SelectedIndex;
             set
             {
-                if (value >= 0 && this._SelectedIndex != value)
+                if (value >= 0 && this._SelectedIndex != value && (Views?.Any() ?? false))
                 {
                     _SelectedIndex = value;
                     SelectedView = Views[value];
@@ -85,16 +86,6 @@ namespace SOE.ViewModels.Pages
         {
             this.SelectedView = this.Views[Index];
             ContentPage page = MasterPage.Instance;
-            Shell.SetNavBarIsVisible(page, Index != 1);
-            lock (page.ToolbarItems)
-            {
-                page.ToolbarItems.Clear();
-                if (SelectedView.ToolbarItem is null)
-                {
-                    return;
-                }
-                page.ToolbarItems.Add(SelectedView.ToolbarItem);
-            }
         }
         private async Task Load()
         {

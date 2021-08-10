@@ -24,6 +24,14 @@ namespace SOE.ViewModels.ViewItems
         private TimeSpan EndTime { get; set; }
         private readonly Timer UpateOffsetTimer;
         public ICommand ExportToPdfCommand { get; set; }
+        private ICommand _FlyOutCommand;
+        public ICommand FlyOutCommand
+            => _FlyOutCommand ??= new Command(OpenFlyOut);
+
+        private void OpenFlyOut()
+        {
+            Shell.Current.FlyoutIsPresented = true;
+        }
         public ScheduleMainViewModel()
         {
             this.ExportToPdfCommand = new Command(ExportToPdf);

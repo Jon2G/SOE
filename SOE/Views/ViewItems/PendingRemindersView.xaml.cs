@@ -14,10 +14,11 @@ namespace SOE.Views.ViewItems
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PendingRemindersView 
     {
+        public static PendingRemindersView Instance { get; private set; }
         public override string Title => "RECORDATORIOS";
         public PendingRemindersView()
         {
-           
+            Instance = this;
             InitializeComponent();
         }
 

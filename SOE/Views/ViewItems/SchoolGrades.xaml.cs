@@ -11,7 +11,6 @@ namespace SOE.Views.ViewItems
     public partial class SchoolGrades
     {
         public override string Title => "Calificaciones";
-        public override string Icon => FontelloIcons.Cal;
         //public static SchoolGrades Instance { get; private set; }
         public SchoolGradesViewModel Model
         {
@@ -24,7 +23,6 @@ namespace SOE.Views.ViewItems
             this.Model = new SchoolGradesViewModel();
             this.BindingContext = this.Model;
             InitializeComponent();
-            this.ToolbarItem.Command = this.Model.RefreshCommand;
             if (!AppData.Instance.User.HasSubjects)
             {
                 this.Content = new NoInscriptionView();

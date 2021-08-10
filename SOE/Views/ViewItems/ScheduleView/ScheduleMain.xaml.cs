@@ -18,7 +18,7 @@ namespace SOE.Views.ViewItems.ScheduleView
     public partial class ScheduleViewMain
     {
         public override string Title => "Horario";
-        public override string Icon => FontelloIcons.Calendar;
+
         public static ScheduleViewMain Instance { get; private set; }
         private bool IsDayViewVisible
         {
@@ -41,7 +41,6 @@ namespace SOE.Views.ViewItems.ScheduleView
         {
             Instance = this;
             InitializeComponent();
-            this.ToolbarItem.Command = this.Model.ExportToPdfCommand;
             if (!AppData.Instance.User.HasSubjects)
             {
                 this.Content = new NoInscriptionView();

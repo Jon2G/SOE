@@ -26,12 +26,14 @@ using Xamarin.Forms;
 [assembly: Dependency(typeof(MainActivity))]
 namespace SOE.Droid.Activities
 {
-    [Activity(Label = "SOE", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = false, Exported = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
+    [Activity(Label = "SOE", Icon = "@mipmap/icon", Theme = "@style/MainTheme", 
+        MainLauncher = false, Exported = true, 
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
     [IntentFilter(
        actions: new[] { Intent.ActionView },
        Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
        DataPathPattern = ".*", DataPathPrefix = ".*",
-       DataHost = APIService.NonHttpsUrl, DataSchemes = new[] { "http", "https" })]
+       DataHost = APIService.NonProdUrl, DataSchemes = new[] { "http", "https" })]
     public class MainActivity : Kit.Droid.Services.MainActivity
     {
         protected override void OnStart()

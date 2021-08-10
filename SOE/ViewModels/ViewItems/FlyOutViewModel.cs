@@ -6,10 +6,14 @@ using Acr.UserDialogs;
 using AsyncAwaitBestPractices;
 using Kit;
 using Kit.Forms.Extensions;
+using Kit.Forms.Services;
 using Kit.Model;
 using SOE.Data;
+using SOE.Data.Images;
+using SOE.Models.Data;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
+using System.IO;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Command = Xamarin.Forms.Command;
@@ -24,22 +28,19 @@ namespace SOE.ViewModels.ViewItems
         public ICommand HorarioCommand => _HorarioCommand ??= new Command((x) => Goto(2));
         public ICommand ComingCommand { get; }
         public ICommand SettingCommand { get; set; }
-        public ICommand TapAvatarCommand { get; set; }
+        private ICommand _TapAvatarCommand;
+        public ICommand TapAvatarCommand => _TapAvatarCommand ??= new Command(TapAvatar);
         public ICommand UserCommand { get; set; }
         public ICommand PrivacityCommand { get; }
-
         private ICommand _AboutUsCommand;
         public ICommand AboutUsCommand => _AboutUsCommand ??= new Command(AboutUs);
-
         private void AboutUs()
         {
             Shell.Current.FlyoutIsPresented = false;
             Shell.Current.Navigation.PushAsync(new AboutUsPage()).SafeFireAndForget();
-        } 
-
+        }
         private FileImageSource _AvatarSource;
         public string _UserInitials;
-
         public string UserInitials
         {
             get => _UserInitials;
@@ -49,7 +50,6 @@ namespace SOE.ViewModels.ViewItems
                 OnPropertyChanged();
             }
         }
-
         public FileImageSource AvatarSource
         {
             get => _AvatarSource;
@@ -60,34 +60,28 @@ namespace SOE.ViewModels.ViewItems
             }
         }
         private Command _DeveloperCommand;
-
         public Command DeveloperCommand => _DeveloperCommand ??= new Command(Developer);
         public FlyOutViewModel()
         {
             this.SettingCommand = new Command(OpenSettings);
-            this.TapAvatarCommand = new Command(TapAvatar);
             this.UserCommand = new Command(UserProfile);
             this.ComingCommand = new Command(Coming);
             this.PrivacityCommand = new Command(Privacity);
             GetAvatar();
         }
-
         private void Privacity(object obj)
         {
             Shell.Current.FlyoutIsPresented = false;
             Shell.Current.Navigation.PushAsync(new PrivacityPage()).SafeFireAndForget(); ;
         }
-
         private async void Developer() => await Application.Current.MainPage.Navigation.PushModalAsync(new DeveloperOptions());
-
         private async void GetAvatar()
         {
             await Task.Yield();
-            //this.AvatarSource = User.GetAvatar();
+            this.AvatarSource = await Keeper.GetAvatar();
             string name = AppData.Instance.User.Name;
             this.UserInitials = name.ExtractInitialsFromName();
         }
-
         private void TapAvatar()
         {
             var config = new ActionSheetConfig()
@@ -106,9 +100,10 @@ namespace SOE.ViewModels.ViewItems
 
 
         }
-
         private async void Galeria()
         {
+            RequestCameraPage request = new();
+            await request.ShowDialog();
             if (!await Permisos.RequestStorage())
             {
                 return;
@@ -117,23 +112,33 @@ namespace SOE.ViewModels.ViewItems
             {
                 Title = "Selecione una imagen"
             });
-            if (result != null)
+            var file = await result.LoadPhotoAsync();
+            if (file != null)
             {
                 if (this.AvatarSource is null)
                 {
-                    this.AvatarSource = (FileImageSource)FileImageSource.FromFile(result.FullPath);
+                    this.AvatarSource = (FileImageSource)FileImageSource.FromFile(file.FullName);
                 }
                 else
                 {
                     this.AvatarSource.File = result.FullPath;
                 }
-
-                //await User.SaveAvatar(result);
+                Keeper.SaveAvatar(GetAvatarStream()).SafeFireAndForget();
             }
         }
-
+        public async Task<Stream> GetAvatarStream()
+        {
+            await Task.Yield();
+            return this.AvatarSource.ImageToStream();
+        }
         private async void UsarCamara()
         {
+            RequestCameraPage request = new();
+            await request.ShowDialog();
+            if (!await Permisos.RequestStorage())
+            {
+                return;
+            }
             if ((await Permisos.EnsurePermission<Permissions.Camera>()) != PermissionStatus.Granted)
             {
                 return;
@@ -156,9 +161,6 @@ namespace SOE.ViewModels.ViewItems
             }
 
         }
-
-
-
         private void Goto(int index)
         {
             App.Current.Dispatcher.BeginInvokeOnMainThread(() => MasterPage.Instance.Model.SelectedIndex = index);
@@ -168,14 +170,12 @@ namespace SOE.ViewModels.ViewItems
         {
             ComingSoon.Alert();
         }
-
-        private  void OpenSettings()
+        private void OpenSettings()
         {
             Shell.Current.FlyoutIsPresented = false;
             Shell.Current.Navigation.PushAsync(new SettingsView(), true);
-           
-        }
 
+        }
         private void UserProfile(object obj)
         {
             Shell.Current.FlyoutIsPresented = false;

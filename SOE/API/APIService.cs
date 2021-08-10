@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AsyncAwaitBestPractices;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -11,6 +12,9 @@ using SOE.Enums;
 using SOE.Models;
 using SOE.Models.Data;
 using SOE.Models.TaskFirst;
+using SOE.Views.Pages;
+using SOE.Views.ViewItems;
+using SOE.Views.ViewItems.TasksViews;
 using SOEWeb.Shared;
 using SOEWeb.Shared.Enums;
 using System.Text;
@@ -23,7 +27,9 @@ namespace SOE.API
         public const string ShareTodo = "ShareTodo";
         public const string ShareReminder = "ShareReminder";
         //public const string NonHttpsUrl = "192.168.0.32:44313";
-        public const string NonHttpsUrl = "dhokq2d69j.execute-api.us-east-2.amazonaws.com/Prod";
+        //public const string NonHttpsUrl = "localhost:5001";
+        public const string NonProdUrl = "dhokq2d69j.execute-api.us-east-2.amazonaws.com";
+        public static string NonHttpsUrl => $"{NonProdUrl}/Prod";
         public static string BaseUrl => $"https://{NonHttpsUrl}";
         public static string Url => $"{BaseUrl}/App";
 
@@ -145,6 +151,7 @@ namespace SOE.API
                     }
                 }
                 await ToDo.Save(todo, Photos);
+                PendingTasksView.Instance?.Model?.Refresh().SafeFireAndForget();
             }
             return response;
         }
@@ -165,7 +172,9 @@ namespace SOE.API
             if (!string.IsNullOrEmpty(response.Extra))
             {
                 Reminder reminder = JsonConvert.DeserializeObject<Reminder>(response.Extra);
+                reminder.Status = PendingStatus.Pending;
                 await Reminder.Save(reminder);
+                PendingRemindersView.Instance?.Model?.Load().SafeFireAndForget();
             }
             return response;
         }
@@ -272,11 +281,12 @@ namespace SOE.API
             {
                 return Response.InvalidRequest;
             }
-            if (string.IsNullOrEmpty(Link.Url) || !Validations.IsValidUrl(Link.Url))
+            if (string.IsNullOrEmpty(Link.Url) || !Validations.IsValidUrl(Link.Url,out Uri uri))
             {
                 return Response.InvalidRequest;
             }
 
+            Link.Url = uri.AbsoluteUri;
             string jsonlink = JsonConvert.SerializeObject(Link);
             WebService WebService = new WebService(Url);
             Kit.Services.Web.ResponseResult result =

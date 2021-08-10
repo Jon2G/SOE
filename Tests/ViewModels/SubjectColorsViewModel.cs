@@ -1,12 +1,8 @@
-﻿using ColorTest.Models;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Tests.Models;
 
-namespace ColorTest.ViewModels
+namespace Tests.ViewModels
 {
     public class SubjectColorsViewModel
     {
@@ -14,13 +10,13 @@ namespace ColorTest.ViewModels
 
         public SubjectColorsViewModel()
         {
-            Colors = new ObservableCollection<AppColor>();
+            this.Colors = new ObservableCollection<AppColor>();
         }
 
         public async Task Init()
         {
             await Task.Yield();
-            AppColor.GetAll()?.ForEach(Colors.Add);
+            AppColor.GetAll()?.ForEach(this.Colors.Add);
         }
 
     }

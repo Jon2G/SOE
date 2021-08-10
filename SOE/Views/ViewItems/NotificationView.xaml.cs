@@ -7,7 +7,6 @@ namespace SOE.Views.ViewItems
     public partial class NotificationView
     {
         public override string Title => "Notificaciones";
-        public override string Icon => FontelloIcons.Bell;
 
         public NotificationView()
         {

@@ -30,7 +30,14 @@ namespace SOE.ViewModels
 
         private ICommand _RefreshCommand;
         public ICommand RefreshCommand => _RefreshCommand??= new AsyncCommand(Refresh);
+        private ICommand _FlyOutCommand;
+        public ICommand FlyOutCommand
+            => _FlyOutCommand ??= new Command(OpenFlyOut);
 
+        private void OpenFlyOut()
+        {
+            Shell.Current.FlyoutIsPresented = true;
+        }
         public SchoolGradesViewModel()
         {
             this.Grades = new ObservableCollection<SchoolGrade>();

@@ -17,11 +17,10 @@
         <StackLayout Spacing="0"
                      VerticalOptions="FillAndExpand">
 
-            <tasksViews:MainTaskView
-                                     VerticalOptions="StartAndExpand"/>
+            <tasksViews:MainTaskView VerticalOptions="FillAndExpand"/>
 
             <Grid Padding="3" VerticalOptions="End"  
-                  xct:TouchEffect.PressedScale="1.5"   
+                  xct:TouchEffect.PressedScale="1.5"
                   xct:TouchEffect.Command="{Binding OpenMenuCommand}"
                   ColumnDefinitions="*,*,*"  Background="{DynamicResource PrimaryColor}" 
                   HeightRequest="40" Margin="0" ColumnSpacing="0">

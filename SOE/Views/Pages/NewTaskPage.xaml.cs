@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FFImageLoading.Forms;
+
+using Kit.Forms.Extensions;
 using SOE.Data;
 using SOE.Data.Images;
 using SOE.Models.TaskFirst;
@@ -53,16 +54,11 @@ namespace SOE.Views.Pages
         private async void GetPhotos(ToDo toDo)
         {
             await Task.Yield();
-            foreach (Archive archive in AppData.Instance.LiteConnection.Table<Archive>()
+            foreach (Archive file in AppData.Instance.LiteConnection.Table<Archive>()
                 .Where(x => x.IdKeeper == toDo.IdKeeper))
             {
-                this.Modelo.Photos.Add(new PhotoArchive(
-                    archive,
-                    new CachedImage()
-                    {
-                        Source = FileImageSource.FromFile(archive.Path),
-                        DownsampleToViewSize = true
-                    }));
+                PhotoArchive archive = new(file.Path, Enums.FileType.Photo,false);
+                this.Modelo.Photos.Add(archive);
             }
         }
     }

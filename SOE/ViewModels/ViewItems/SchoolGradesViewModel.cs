@@ -36,7 +36,7 @@ namespace SOE.ViewModels
 
         private void OpenFlyOut()
         {
-            Shell.Current.FlyoutIsPresented = true;
+  AppShell.OpenFlyout(); 
         }
         public SchoolGradesViewModel()
         {

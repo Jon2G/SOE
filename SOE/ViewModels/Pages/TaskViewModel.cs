@@ -55,16 +55,20 @@ namespace SOE.ViewModels.Pages
                     Eliminar();
                     break;
                 case "Compartir":
-                    if (DateTime.Now>ToDo.Date)
+                    if (DateTime.Now > ToDo.Date)
                     {
                         App.Current.MainPage.DisplayAlert(ToDo.Title,
                             "Esta tarea ya ha expirado, cambie la fecha de entrega si desea compartirla", "Ok.")
                             .SafeFireAndForget();
                         return;
                     }
-                    bool IncludeFiles=await App.Current.MainPage.DisplayAlert(ToDo.Title,
+                    bool IncludeFiles = await App.Current.MainPage.DisplayAlert(ToDo.Title,
                         "¿Compartir también las imágenes de esta tarea?", "Sí", "No");
-                    string link = await Models.TaskFirst.ToDo.Share(ToDo, IncludeFiles);
+                    string link = string.Empty;
+                    using (Acr.UserDialogs.UserDialogs.Instance.Loading("Compartiendo..."))
+                    {
+                        link = await Models.TaskFirst.ToDo.Share(ToDo, IncludeFiles);
+                    }
                     if (!string.IsNullOrEmpty(link))
                     {
                         Share.RequestAsync(link, "Compartir tarea").SafeFireAndForget();
@@ -89,7 +93,7 @@ namespace SOE.ViewModels.Pages
         }
         private void Archivar()
         {
-            this.ToDo.Status |=Enums.PendingStatus.Archived;
+            this.ToDo.Status |= Enums.PendingStatus.Archived;
             AppData.Instance.LiteConnection.Update(this.ToDo);
         }
         private void Completada()

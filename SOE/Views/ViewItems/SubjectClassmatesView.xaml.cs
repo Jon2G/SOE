@@ -6,8 +6,9 @@ using Xamarin.Forms.Xaml;
 namespace SOE.Views.ViewItems
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SubjectClassmatesView 
+    public partial class SubjectClassmatesView
     {
+        public override string Title => "COMPAÑEROS";
         public SubjectClassmatesViewModel Model { get; set; }
         public SubjectClassmatesView(Subject subject)
         {

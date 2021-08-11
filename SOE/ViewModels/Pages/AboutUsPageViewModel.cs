@@ -70,7 +70,7 @@ namespace SOE.ViewModels.Pages
 
         private void Privacity(object obj)
         {
-            Shell.Current.FlyoutIsPresented = false;
+            AppShell.CloseFlyout(); 
             Shell.Current.Navigation.PushAsync(new PrivacityPage()).SafeFireAndForget(); ;
         }
 

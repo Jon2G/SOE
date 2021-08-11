@@ -5,41 +5,70 @@
              xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
+             xmlns:panCardView="clr-namespace:PanCardView;assembly=PanCardView"
              x:Class="SOE.Views.Pages.SubjectPage"
+             Shell.NavBarIsVisible="True"
              x:DataType="pages:SubjectPageViewModel"
              Title="{Binding Subject.Group}"
              Shell.BackgroundColor="{Binding Subject,Converter={StaticResource SubjectColorAppThemeConverter}}"
              Background="{DynamicResource Background}">
     <ContentPage.Content>
 
-            <views:TabView IsSwipeEnabled="False" TabStripHeight="30"
-                           TabIndicatorColor="White"
-                           TabStripBackgroundColor="{Binding Subject,Converter={StaticResource SubjectColorAppThemeConverter}}"
-                           IsTabStripVisible="True" TabStripPlacement="Bottom" 
-                           TabItemsSource="{Binding Views}"
-            >
-                <views:TabView.TabViewItemDataTemplate>
-                    <DataTemplate x:DataType="ContentView">
-                        <StackLayout Spacing="0" Padding="0">
-                            <Image HeightRequest="20">
-                                <Image.Source>
-                                    <FontImageSource Size="10" FontFamily="{x:Static fonts:FontelloIcons.Font}" 
-                                                     Glyph="{x:Static fonts:FontelloIcons.CredentialsCard}"
-                                                     Color="White"/>
-                                </Image.Source>
-                            </Image>
-                        </StackLayout>
-                    </DataTemplate>
-                </views:TabView.TabViewItemDataTemplate>
-                <views:TabView.TabContentDataTemplate >
-                    <DataTemplate x:DataType="ContentView">
-                        <ContentView VerticalOptions="FillAndExpand" 
-                                     HorizontalOptions="FillAndExpand"
-                                     Background="{DynamicResource b}"
-                                     Content="{Binding .}"/>
-                    </DataTemplate>
-                </views:TabView.TabContentDataTemplate>
-            </views:TabView>
+<StackLayout VerticalOptions="FillAndExpand">
+            <panCardView:CarouselView IsUserInteractionEnabled="False" VerticalOptions="FillAndExpand"
+                                  SelectedIndex="{Binding SelectedIndex}"
+                                  SelectedItem="{Binding SelectedView }"
+                                  ItemsSource="{Binding Views}"/>
 
+            <StackLayout VerticalOptions="EndAndExpand"
+                         BackgroundColor="{Binding Subject,Converter={StaticResource SubjectColorAppThemeConverter}}"
+                         Padding="5" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Margin="0">
+
+                <Frame Padding="3" HorizontalOptions="FillAndExpand"
+                   BackgroundColor="{Binding Subject.Color}"
+                       views:TouchEffect.Command="{Binding NotesViewCommand}"
+                       views:TouchEffect.PressedScale="0.9" >
+                    <Image HeightRequest="30">
+                        <Image.Source>
+                            <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                         Glyph="{x:Static fonts:FontelloIcons.Book1}" Color="White"/>
+                        </Image.Source>
+                    </Image>
+                    <Frame.Style>
+                        <Style TargetType="Frame">
+                            <Style.Triggers>
+                                <DataTrigger TargetType="Frame"
+                                             Binding="{Binding SelectedView.Title}"
+                                             Value="NOTAS">
+                                    <Setter Property="BackgroundColor" Value="{Binding Subject.ColorDark}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Frame.Style>
+                </Frame>
+                <Frame Padding="3" HorizontalOptions="FillAndExpand"
+                   views:TouchEffect.Command="{Binding ClassmatesViewCommand}"
+                   views:TouchEffect.PressedScale="0.9"
+                   BackgroundColor="{Binding Subject.Color}">
+                    <Image HeightRequest="30">
+                        <Image.Source>
+                            <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                         Glyph="{x:Static fonts:FontelloIcons.Users}" Color="White"/>
+                        </Image.Source>
+                    </Image>
+                    <Frame.Style>
+                        <Style TargetType="Frame">
+                            <Style.Triggers>
+                                <DataTrigger TargetType="Frame"
+                                         Binding="{Binding SelectedView.Title}"
+                                         Value="COMPAÑEROS">
+                                    <Setter Property="BackgroundColor" Value="{Binding Subject.ColorDark}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Frame.Style>
+                </Frame>
+            </StackLayout>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

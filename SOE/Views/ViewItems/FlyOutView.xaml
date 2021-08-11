@@ -8,7 +8,7 @@
              xmlns:data1="clr-namespace:SOE.Data;assembly=SOE"
              xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
-             Background="{DynamicResource SecondaryBackground}"
+             Background="{DynamicResource Background}"
              x:DataType="viewItems:FlyOutViewModel"
              xmlns:kit="clr-namespace:Kit;assembly=Kit" xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
              x:Name="Me">
@@ -16,7 +16,7 @@
         <viewItems:FlyOutViewModel x:Name="Model"/>
     </ContentView.BindingContext>
     <ContentView.Content>
-        <StackLayout Background="{StaticResource PrimaryColor}" >
+        <StackLayout Background="{StaticResource PrimaryColor}" Spacing="0" Padding="0">
             <Grid BindingContext="{Binding User, Source={x:Static data1:AppData.Instance}}" 
                   x:DataType="data:User" Margin="10,0,0,0"
                   ColumnDefinitions="Auto,*" Padding="10">
@@ -40,7 +40,7 @@
 
             </Grid>
 
-            <TableView Intent="Menu" Background="{DynamicResource SecondaryBackground}">
+            <TableView Intent="Menu" >
                 <TableRoot>
                     <TableSection Title="Menú"  TextColor="{StaticResource AccentColor}">
                         <ViewCell>

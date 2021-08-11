@@ -73,14 +73,16 @@
                         </CollectionView.EmptyView>
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="images:PhotoArchive">
-                                <ContentView>
-                                    <pancakeView:PancakeView InputTransparent="True" 
+                                <ContentView views:TouchEffect.PressedScale="1.2"
+                                             views:TouchEffect.Command="{Binding GalleryViewCommand,Source ={x:Reference Me} }"
+                                             views:TouchEffect.CommandParameter="{Binding .}">
+                                    <pancakeView:PancakeView InputTransparent="False" 
                                                              Padding="3" BackgroundColor="LightGray"
                                                              Margin="3"
-                                                             views:TouchEffect.PressedScale="1.2"
-                                                             views:TouchEffect.Command="{Binding GalleryViewCommand,Source ={x:Reference Me} }"
-                                                             views:TouchEffect.CommandParameter="{Binding .}"
-                                                             Content="{Binding Value}"/>
+                                                             
+                                                             >
+                                        <Image Source="{Binding Value}"/>
+                                    </pancakeView:PancakeView>
                                 </ContentView>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>

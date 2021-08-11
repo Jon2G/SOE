@@ -77,14 +77,13 @@ namespace SOEAWS.Controllers
             }
             try
             {
-                Response response = SOEWeb.Shared.Response.From(WebData.Connection.Read("SP_LOGIN"
-                    , CommandType.StoredProcedure
+                Response response = SOEWeb.Shared.Response.FromSql("SP_LOGIN"
                     , new SqlParameter("Mail", mail)
                     , new SqlParameter("Boleta", boleta)
                     , new SqlParameter("PASSWORD_PIN", PasswordPin)
                     , new SqlParameter("SCHOOL_NAME", (object)School ?? DBNull.Value)
                     , new SqlParameter("DEVICE_KEY", DeviceKey)
-                ));
+                );
                 switch (response.ResponseResult)
                 {
                     case APIResponseResult.SHOULD_ENROLL:
@@ -132,9 +131,7 @@ namespace SOEAWS.Controllers
             }
             try
             {
-                Response response = SOEWeb.Shared.Response.From(
-                    WebData.Connection.Read("SP_SIGNUP"
-                    , CommandType.StoredProcedure
+                Response response = SOEWeb.Shared.Response.FromSql("SP_SIGNUP"
                     , new SqlParameter("BOLETA", Boleta)
                     , new SqlParameter("NAME", Nombre)
                     , new SqlParameter("NICK_NAME", NickName)
@@ -147,7 +144,7 @@ namespace SOEAWS.Controllers
                     , new SqlParameter("MODEL", Device.Model)
                     , new SqlParameter("D_NAME", Device.Name)
                     , new SqlParameter("TYPE", (int)Type)
-                ));
+                );
                 return response;
             }
             catch (Exception ex)
@@ -166,7 +163,7 @@ namespace SOEAWS.Controllers
             var result = ClassTimeDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), User, this._logger);
             if (string.IsNullOrEmpty(result.Value))
             {
-                return result.ToResponse(); 
+                return result.ToResponse();
             }
             sp.Stop();
             return new Response(APIResponseResult.OK, result.Value, $"Time elapsed:{sp.Elapsed:G}");
@@ -192,11 +189,10 @@ namespace SOEAWS.Controllers
             }
             try
             {
-                return SOEWeb.Shared.Response.From(WebData.Connection.Read("SP_GET_ADD_CAREER"
-                    , CommandType.StoredProcedure
+                return SOEWeb.Shared.Response.FromSql("SP_GET_ADD_CAREER"
                     , new SqlParameter("CAREER_NAME", CareerName)
                     , new SqlParameter("USER", User)
-                ));
+                );
             }
             catch (Exception ex)
             {
@@ -227,8 +223,7 @@ namespace SOEAWS.Controllers
                         "Esta tarea ya ha expirado, cambie la fecha de entrega si desea compartirla");
                 }
 
-                return SOEWeb.Shared.Response.From(WebData.Connection.Read("SP_POST_TODO"
-                    , CommandType.StoredProcedure
+                return SOEWeb.Shared.Response.FromSql("SP_POST_TODO"
                     , new SqlParameter("GUID", Todo.Guid)
                     , new SqlParameter("SUBJECT_ID", Todo.Subject.Id)
                     , new SqlParameter("TEACHER_ID", Todo.Subject.IdTeacher)
@@ -238,7 +233,7 @@ namespace SOEAWS.Controllers
                     , new SqlParameter("T_DATE", Todo.Date)
                     , new SqlParameter("T_TIME", Todo.Time)
                     , new SqlParameter("GROUP", Todo.Subject.Group)
-                ));
+                );
 
             }
             catch (Exception ex)
@@ -252,13 +247,13 @@ namespace SOEAWS.Controllers
         {
             if (Img is null || Img.Length <= 0 || Guid.Empty == ToDoGuid)
             {
-                return SOEWeb.Shared.Response.Error;
+                return SOEWeb.Shared.Response.NotExecuted;
             }
-            return SOEWeb.Shared.Response.From(WebData.Connection.Read("SP_POST_TODO_PICTURE"
-                , CommandType.StoredProcedure
+
+
+            return SOEWeb.Shared.Response.FromSql("SP_POST_TODO_PICTURE"
                 , new SqlParameter("TODO_GUID", ToDoGuid)
-                , new SqlParameter("IMG", Img)
-            ));
+                , new SqlParameter("IMG", Img));
         }
         private TodoBase TodoFrom(IReader reader)
         {
@@ -298,7 +293,7 @@ namespace SOEAWS.Controllers
                 {
                     reminder.Subject = new Subject()
                     {
-                        Id = Convert.ToInt32(reader[4]), 
+                        Id = Convert.ToInt32(reader[4]),
                         IdTeacher = Convert.ToInt32(Convert.ToInt32(reader[5]))
                     };
                 }
@@ -369,8 +364,7 @@ namespace SOEAWS.Controllers
                         "Este recordatorio ya ha expirado, cambie la fecha de entrega si desea compartirla");
                 }
 
-                return SOEWeb.Shared.Response.From(WebData.Connection.Read("SP_POST_REMINDER"
-                    , CommandType.StoredProcedure
+                return SOEWeb.Shared.Response.FromSql("SP_POST_REMINDER"
                     , new SqlParameter("GUID", Reminder.Guid)
                     , new SqlParameter("SUBJECT_ID", (object)Reminder.Subject?.Id ?? DBNull.Value)
                     , new SqlParameter("TEACHER_ID", (object)Reminder.Subject?.IdTeacher ?? DBNull.Value)
@@ -378,8 +372,8 @@ namespace SOEAWS.Controllers
                     , new SqlParameter("TITLE", Reminder.Title)
                     , new SqlParameter("R_DATE", Reminder.Date)
                     , new SqlParameter("R_TIME", Reminder.Time)
-                    , new SqlParameter("GROUP", (object)Reminder.Subject?.Group??DBNull.Value)
-                ));
+                    , new SqlParameter("GROUP", (object)Reminder.Subject?.Group ?? DBNull.Value)
+                );
 
             }
             catch (Exception ex)
@@ -447,7 +441,7 @@ namespace SOEAWS.Controllers
                 {
                     return SOEWeb.Shared.Response.InvalidRequest;
                 }
-                if (string.IsNullOrEmpty(Link.Url) || !Validations.IsValidUrl(Link.Url))
+                if (string.IsNullOrEmpty(Link.Url) || !Validations.IsValidUrl(Link.Url,out Uri uri))
                 {
                     return SOEWeb.Shared.Response.InvalidRequest;
                 }
@@ -459,7 +453,7 @@ namespace SOEAWS.Controllers
                     , new SqlParameter("TEACHER_ID", IdTeacher)
                     , new SqlParameter("USER", User)
                     , new SqlParameter("GROUP", Group)
-                    , new SqlParameter("URL", Link.Url)
+                    , new SqlParameter("URL", uri.AbsoluteUri)
                     , new SqlParameter("NAME", Link.Name)
                     );
                 if (reader.Read())

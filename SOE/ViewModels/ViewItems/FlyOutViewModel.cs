@@ -36,7 +36,7 @@ namespace SOE.ViewModels.ViewItems
         public ICommand AboutUsCommand => _AboutUsCommand ??= new Command(AboutUs);
         private void AboutUs()
         {
-            Shell.Current.FlyoutIsPresented = false;
+            AppShell.CloseFlyout(); 
             Shell.Current.Navigation.PushAsync(new AboutUsPage()).SafeFireAndForget();
         }
         private FileImageSource _AvatarSource;
@@ -71,7 +71,7 @@ namespace SOE.ViewModels.ViewItems
         }
         private void Privacity(object obj)
         {
-            Shell.Current.FlyoutIsPresented = false;
+            AppShell.CloseFlyout(); 
             Shell.Current.Navigation.PushAsync(new PrivacityPage()).SafeFireAndForget(); ;
         }
         private async void Developer() => await Application.Current.MainPage.Navigation.PushModalAsync(new DeveloperOptions());
@@ -164,7 +164,7 @@ namespace SOE.ViewModels.ViewItems
         private void Goto(int index)
         {
             App.Current.Dispatcher.BeginInvokeOnMainThread(() => MasterPage.Instance.Model.SelectedIndex = index);
-            AppShell.Current.FlyoutIsPresented = false;
+            AppShell.CloseFlyout(); 
         }
         private void Coming()
         {
@@ -172,13 +172,13 @@ namespace SOE.ViewModels.ViewItems
         }
         private void OpenSettings()
         {
-            Shell.Current.FlyoutIsPresented = false;
+            AppShell.CloseFlyout(); 
             Shell.Current.Navigation.PushAsync(new SettingsView(), true);
 
         }
         private void UserProfile(object obj)
         {
-            Shell.Current.FlyoutIsPresented = false;
+            AppShell.CloseFlyout(); 
             Shell.Current.Navigation.PushAsync(new UserProfile(), true);
         }
     }

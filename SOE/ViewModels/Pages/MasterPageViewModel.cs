@@ -85,7 +85,6 @@ namespace SOE.ViewModels.Pages
         private void SelectionChanged(int Index)
         {
             this.SelectedView = this.Views[Index];
-            ContentPage page = MasterPage.Instance;
         }
         private async Task Load()
         {

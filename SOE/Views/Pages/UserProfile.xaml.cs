@@ -4,7 +4,7 @@ using Xamarin.Forms.Xaml;
 namespace SOE.Views.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class UserProfile : ContentPage
+    public partial class UserProfile 
     {
         public UserProfile()
         {

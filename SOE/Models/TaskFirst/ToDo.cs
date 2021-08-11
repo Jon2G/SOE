@@ -9,8 +9,9 @@ using System.Windows.Input;
 using System.Xml.Serialization;
 using AsyncAwaitBestPractices;
 using FFImageLoading;
-using FFImageLoading.Forms;
+
 using Kit;
+using Kit.Forms.Extensions;
 using Newtonsoft.Json;
 using SOE.API;
 using SOE.Data;
@@ -34,11 +35,11 @@ namespace SOE.Models.TaskFirst
 
         internal static List<PhotoArchive> GetPhotos(ToDo toDo)
         {
-            List<PhotoArchive> photos = new List<PhotoArchive>();
+            List<PhotoArchive> photos = new();
             foreach (Archive archive in AppData.Instance.LiteConnection.Table<Archive>()
                 .Where(x => x.IdKeeper == toDo.IdKeeper))
             {
-                photos.Add(new PhotoArchive(archive.Path, FileType.Photo));
+                photos.Add(new PhotoArchive(archive.Path, FileType.Photo, false));
             }
             return photos;
         }
@@ -90,7 +91,7 @@ namespace SOE.Models.TaskFirst
             }
         }
         private Enums.PendingStatus _Status;
-       
+
         public Enums.PendingStatus Status
         {
             get => _Status;
@@ -113,6 +114,7 @@ namespace SOE.Models.TaskFirst
         }
         internal static async Task<string> Share(ToDo toDo, bool IncludeFiles)
         {
+            await Task.Yield();
             Response Response = await APIService.PostToDo(toDo);
             if (Response.ResponseResult != APIResponseResult.OK)
             {
@@ -123,15 +125,16 @@ namespace SOE.Models.TaskFirst
             {
                 foreach (PhotoArchive photo in GetPhotos(toDo))
                 {
-                    using FileStream photo_file = new FileStream(photo.Path, FileMode.Open);
-                    await APIService.PostTodoPicture(photo_file.ToByteArray(), toDo.Guid);
-
+                    using (Stream stream = await photo.GetStream())
+                    {
+                        await APIService.PostTodoPicture(stream.ToByteArray(), toDo.Guid);
+                    }
                 }
             }
             return $"{APIService.Url}/{APIService.ShareTodo}/{toDo.Guid:N}";
 
         }
-        
+
 
         public static int DaysLeft(ToDo toDo) => DaysLeft(toDo.Date.Add(toDo.Time));
         private static int DaysLeft(DateTime date) => (date - DateTime.Now).Days;
@@ -160,6 +163,7 @@ namespace SOE.Models.TaskFirst
 
         public static async Task Save(ToDo Todo, IEnumerable<PhotoArchive> Photos = null)
         {
+            await Task.Yield();
             if (Todo.IdDocument != Guid.Empty)
             {
                 Document.Delete(Todo.IdDocument);
@@ -172,21 +176,24 @@ namespace SOE.Models.TaskFirst
             Todo.IdDocument = doc.Guid;
             if (Photos is not null)
             {
-                Keeper.Delete(Todo.IdKeeper);
                 Keeper keeper = Keeper.New();
                 foreach (PhotoArchive archive in Photos)
                 {
-                    CachedImage image = archive.Value;
-                    using (FileStream file = new FileStream(archive.Path, FileMode.OpenOrCreate))
+                    FileImageSource image = archive.Value;
+                    if (!File.Exists(archive.Path))
                     {
-                        if (image is not null && image.Height > 0)
+                        using (FileStream file = new(archive.Path, FileMode.OpenOrCreate))
                         {
-                            using MemoryStream memory = new MemoryStream(await image.GetImageAsPngAsync());
-                            await memory.CopyToAsync(file);
+                            if (image is not null && !image.IsEmpty) // image.Height > 0
+                            {
+                                using Stream memory = image.ImageToStream();
+                                await memory.CopyToAsync(file);
+                            }
                         }
                     }
                     await keeper.Save(archive);
                 }
+                Keeper.Delete(Todo.IdKeeper);
                 Todo.IdKeeper = keeper.Id;
             }
             /////////////

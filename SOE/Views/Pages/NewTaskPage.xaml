@@ -113,13 +113,15 @@
                             </Grid>
                         </CollectionView.EmptyView>
                         <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="images:Archive">
+                            <DataTemplate x:DataType="images:PhotoArchive">
                                 <ContentView>
                                     <Grid RowDefinitions="Auto,*">
 
                                         <pancakeView:PancakeView InputTransparent="True" Grid.RowSpan="2" 
                                                                      Padding="3" BackgroundColor="LightGray"
-                                                                     Margin="3" Content="{Binding Value}"/>
+                                                                     Margin="3">
+                                            <Image Source="{Binding Value}"/>
+                                        </pancakeView:PancakeView>
                                         <Label Text="{x:Static fonts:FontelloIcons.Del}" FontSize="20"
                                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" HorizontalOptions="End" Margin="0,10,10,0" TextColor="Red" >
                                             <Label.GestureRecognizers>

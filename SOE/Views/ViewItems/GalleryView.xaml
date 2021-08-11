@@ -20,9 +20,9 @@
         SwipeThresholdTime="0"
         SelectedIndex="{Binding CurrentIndex}">
         <cards:CarouselView.ItemTemplate>
-            <DataTemplate x:DataType="ffimage:CachedImage">
+                <DataTemplate x:DataType="ImageSource">
                     <controls1:ZoomGestureContainer Margin="5">
-                        <ffimage:CachedImage Source="{Binding Source}" DownsampleToViewSize="True"/>
+                        <ffimage:CachedImage Source="{Binding .}" DownsampleToViewSize="True"/>
                     </controls1:ZoomGestureContainer>
             </DataTemplate>
         </cards:CarouselView.ItemTemplate>

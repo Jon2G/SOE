@@ -8,7 +8,6 @@ namespace SOE.Views.ViewItems
         public FlyOutView()
         {
             InitializeComponent();
-
         }
     }
 }

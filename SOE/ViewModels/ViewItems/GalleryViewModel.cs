@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using FFImageLoading.Forms;
+
 using Kit;
 using Kit.Model;
 using PanCardView.Extensions;
@@ -34,13 +34,13 @@ namespace SOE.ViewModels.ViewItems
 
         public bool IsUserInteractionRunning { get; set; }
 
-        public ObservableCollection<CachedImage> Items { get; }
+        public ObservableCollection<ImageSource> Items { get; }
 
         private int _currentIndex;
  
         public GalleryViewModel()
         {
-            Items = new ObservableCollection<CachedImage>();
+            Items = new ObservableCollection<ImageSource>();
             PanPositionChangedCommand = new Command(v =>
             {
                 if (IsAutoAnimationRunning || IsUserInteractionRunning)
@@ -74,15 +74,15 @@ namespace SOE.ViewModels.ViewItems
 
         private async void Share()
         {
-            CachedImage seleccionada = Items[CurrentIndex];
-            if (seleccionada.Source is FileImageSource file)
+            ImageSource seleccionada = Items[CurrentIndex];
+            if (seleccionada is FileImageSource file)
             {
                 ShareFile toShare = new ShareFile(file.File);
                 ShareFileRequest request = new ShareFileRequest("Compartir", toShare);
                 await Xamarin.Essentials.Share.RequestAsync(request);
             }
         }
-        public void SendImages(IEnumerable<CachedImage> photos, CachedImage seleccionada)
+        public void SendImages(IEnumerable<ImageSource> photos, ImageSource seleccionada)
         {
             Items.Clear();
             Items.AddRange(photos);

@@ -29,8 +29,8 @@ namespace SOE.ViewModels.ViewItems
             => _FlyOutCommand ??= new Command(OpenFlyOut);
 
         private void OpenFlyOut()
-        {
-            Shell.Current.FlyoutIsPresented = true;
+        { 
+  AppShell.OpenFlyout(); 
         }
         public ScheduleMainViewModel()
         {

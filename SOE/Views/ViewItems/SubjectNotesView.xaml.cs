@@ -11,6 +11,8 @@ namespace SOE.Views.ViewItems
     public partial class SubjectNotesView
     {
         public SubjectNotesViewModel Model { get; set; }
+        public override string Title => "NOTAS";
+
         public SubjectNotesView(Subject Subject)
         {
             this.Model = new SubjectNotesViewModel(Subject);

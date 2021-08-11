@@ -31,15 +31,28 @@ namespace SOE.Data.Images
             AppData.Instance.LiteConnection.Insert(keeper);
             return keeper;
         }
-        internal async Task Save(Archive archive)
+
+        internal async Task Save(PhotoArchive archive)
         {
+            await Task.Yield();
             archive.IdKeeper = this.Id;
             FileInfo file =
                 new FileInfo(System.IO.Path.Combine(Keeper.Directory.FullName, $"{Guid.NewGuid():N}{archive.Extension}"));
             await Save(archive.GetStream(), file);
             archive.Path = file.FullName;
-            AppData.Instance.LiteConnection.Insert(archive);
+            file.Refresh();
+            if (file.Exists)
+                AppData.Instance.LiteConnection.Insert(archive);
         }
+        //internal async Task Save(Archive archive)
+        //{
+        //    archive.IdKeeper = this.Id;
+        //    FileInfo file =
+        //        new FileInfo(System.IO.Path.Combine(Keeper.Directory.FullName, $"{Guid.NewGuid():N}{archive.Extension}"));
+        //    await Save(archive.GetStream(), file);
+        //    archive.Path = file.FullName;
+        //    AppData.Instance.LiteConnection.Insert(archive);
+        //}
         public static async Task<FileImageSource> GetAvatar()
         {
             await Task.Yield();
@@ -62,17 +75,25 @@ namespace SOE.Data.Images
         public static async Task<FileInfo> Save(Task<Stream> GetStream, FileInfo TargetFile)
         {
             await Task.Yield();
-            if (!TargetFile.Directory.Exists)
+            try
             {
-                TargetFile.Directory.Create();
-            }
-            using (var fileStream = new FileStream(TargetFile.FullName, FileMode.Create, FileAccess.Write))
-            {
-                using (Stream image = await GetStream)
+                if (!TargetFile.Directory.Exists)
                 {
-                    image.Position = 0;
-                    await image.CopyToAsync(fileStream);
+                    TargetFile.Directory.Create();
                 }
+
+                using (var fileStream = new FileStream(TargetFile.FullName, FileMode.Create, FileAccess.Write))
+                {
+                    using (Stream image = await GetStream)
+                    {
+                        image.Position = 0;
+                        await image.CopyToAsync(fileStream);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Error(ex, "Keeper.Save");
             }
             return TargetFile;
         }

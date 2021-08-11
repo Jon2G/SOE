@@ -6,31 +6,7 @@
           xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
           xmlns:viewmodels="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
           x:Class="SOE.Views.ViewItems.SubjectNotesView"
-          x:DataType="viewmodels:SubjectNotesViewModel"
+          x:DataType="viewmodels:SubjectNotesViewModel" VerticalOptions="FillAndExpand"
           Background="{DynamicResource Background}">
-    <viewItems:SOEWebView x:Name="SoeWebView"/>
-    <!--<models:IconView.Content>
-        <ScrollView VerticalOptions="FillAndExpand">
-            <StackLayout Spacing="0">
-                <StackLayout Padding="10" Spacing="3"
-                             BackgroundColor="{Binding Subject.ColorDark}">
-                    <Label FontSize="25" TextColor="White"
-                           Text="{Binding Subject.Name}"/>
-                    <Label Text="{Binding Subject.Group}"
-                           FontAttributes="Bold" TextColor="GhostWhite"
-                           FontSize="20" Margin="0,0,0,0"/>
-                    <StackLayout Orientation="Horizontal" Margin="0,5">
-                        <Image HeightRequest="20">
-                            <Image.Source>
-                                <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}" 
-                                                 Glyph="{x:Static fonts:FontelloIcons.CredentialsCard}"
-                                                 Color="White"/>
-                            </Image.Source>
-                        </Image>
-                        <Label TextColor="White" Text="{Binding Teacher.Name}"/>
-                    </StackLayout>
-                </StackLayout>
-            </StackLayout>
-        </ScrollView>
-    </models:IconView.Content>-->
+    <viewItems:SOEWebView x:Name="SoeWebView" VerticalOptions="FillAndExpand"/>
 </models:IconView>

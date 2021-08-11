@@ -3,7 +3,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using FFImageLoading.Forms;
+
+using Kit;
 using Kit.Forms.Extensions;
 using Kit.Forms.Services;
 using Kit.Model;
@@ -198,15 +199,7 @@ namespace SOE.ViewModels.Pages
             FileInfo file = await result.LoadPhotoAsync();
             if (file is not null)
             {
-                PhotoArchive archive = new (file.FullName, FileType.Photo)
-                {
-                    Value = new CachedImage()
-                    {
-                        DownsampleToViewSize = true,
-                        Aspect = Aspect.AspectFit,
-                        Source = ImageSource.FromFile(file.FullName)
-                    }
-                };
+                PhotoArchive archive = new(file.FullName, FileType.Photo);
                 Photos.Add(archive);
             }
         }

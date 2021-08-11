@@ -75,7 +75,7 @@ namespace SOE.ViewModels.ViewItems
 
         private void OpenFlyOut()
         {
-            Shell.Current.FlyoutIsPresented = true;
+  AppShell.OpenFlyout(); 
         }
 
 

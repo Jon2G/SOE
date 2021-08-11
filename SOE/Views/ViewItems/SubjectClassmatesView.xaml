@@ -12,7 +12,7 @@
     <models:IconView.Content>
       <StackLayout Margin="0"
                    Spacing="0" VerticalOptions="FillAndExpand">
-          <SearchBar Margin="0" 
+          <SearchBar Margin="5"
                      VerticalOptions="Start" HeightRequest="30"/>
           <ScrollView>
               <StackLayout

@@ -1,34 +1,55 @@
-﻿using System;
+﻿using AsyncAwaitBestPractices;
+using System;
 using System.IO;
 using System.Threading.Tasks;
-using FFImageLoading.Cache;
-using FFImageLoading.Forms;
+using Kit.Forms.Extensions;
+using Kit.Model;
 using Kit.Sql.Attributes;
 using Kit.Sql.Interfaces;
 using SOE.Enums;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Log = Kit.Log;
+using Kit;
 
 namespace SOE.Data.Images
 {
     [Table("Archive")]
-    public class PhotoArchive : Archive<CachedImage>
+    public class PhotoArchive : Archive<FileImageSource>
     {
+        private FileImageSource _Value;
         [Ignore]
-        public override CachedImage Value { get; set; }
-
-        public PhotoArchive(string PhotoPath, FileType FileType) : base(new FileResult(PhotoPath), FileType)
+        public override FileImageSource Value
         {
-            Value = new CachedImage()
+            get => this._Value;
+            set
             {
-                Source = FileImageSource.FromFile(PhotoPath),
-                DownsampleToViewSize = true,
-                CacheType = CacheType.Disk
-            };
+                this._Value = value;
+                Raise(() => Value);
+            }
         }
 
-        public PhotoArchive(Archive archive, CachedImage Value) : base(archive, Value)
+        public PhotoArchive(string PhotoPath, FileType FileType, bool Compress = true) : base(new FileResult(PhotoPath), FileType)
+        {
+            if (Compress)
+            {
+                CompressAsync((FileImageSource)FileImageSource.FromFile(PhotoPath)).SafeFireAndForget();
+            }
+            else
+            {
+                Value = (FileImageSource)FileImageSource.FromFile(PhotoPath);
+            }
+
+        }
+
+        private async Task CompressAsync(FileImageSource cached)
+        {
+            await Task.Yield();
+            Value = await cached.ResizeImage(900, 900);
+            this.Path = Value.File;
+        }
+
+        public PhotoArchive(Archive archive, FileImageSource Value) : base(archive, Value)
         {
 
         }
@@ -50,7 +71,7 @@ namespace SOE.Data.Images
         }
     }
     [Table("Archive")]
-    public class Archive : IGuid
+    public class Archive : ModelBase, IGuid
     {
         public Guid Guid { get; set; }
         [PrimaryKey, AutoIncrement]
@@ -102,7 +123,7 @@ namespace SOE.Data.Images
         public async Task<Stream> GetStream()
         {
             MemoryStream stream = new MemoryStream();
-            using (FileStream SourceStream = File.Open(this.Path, FileMode.Open))
+            using (FileStream SourceStream =new FileStream(this.Path,FileMode.Open,FileAccess.Read))
             {
                 await SourceStream.CopyToAsync(stream);
             }

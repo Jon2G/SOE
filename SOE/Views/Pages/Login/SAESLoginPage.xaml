@@ -60,9 +60,9 @@
                                      Padding="0, 10, 0, 10" Orientation="Vertical">
                                 <renders:NoLineEntry  TextColor="{DynamicResource secondaryTextColor}"  x:Name="Usuario"
                                                       Text="{Binding Boleta}"
-                                                      Placeholder="Usuario" FontSize="18" HeightRequest="30"
+                                                      Placeholder="Usuario" FontSize="18" HeightRequest="45"
                                                       Margin="0,10" IsReadOnly="True" />
-                                <renders:NoLineEntry IsPassword="True" FontSize="18" HeightRequest="30"
+                                <renders:NoLineEntry IsPassword="True" FontSize="18" HeightRequest="45"
                                                      Text="{Binding Password}"
                                                      Placeholder="Contraseña" Margin="0,10"/>
                                 <Label Text="{Binding Password}" FontSize="12"
@@ -86,7 +86,7 @@
                                     </Label>
                                 </Grid>
 
-                                <renders:NoLineEntry IsPassword="False" 
+                                <renders:NoLineEntry IsPassword="False" HeightRequest="45" FontSize="18"
                                                          Text="{Binding Captcha}"
                                                          Placeholder="Captcha" IsTextPredictionEnabled="False"
                                                          Margin="0,10"/>

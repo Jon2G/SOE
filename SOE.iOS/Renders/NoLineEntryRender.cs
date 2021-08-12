@@ -21,7 +21,7 @@ namespace SOE.iOS.Renders
         if (Control != null)
         {
             Control.BorderStyle = UITextBorderStyle.None;
-            Control.Layer.CornerRadius = 10;
+            Control.Layer.CornerRadius = 5;
         }
      }
     }

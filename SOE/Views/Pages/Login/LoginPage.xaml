@@ -57,9 +57,9 @@
                                      Padding="60, 0, 60, 60" Orientation="Vertical">
                                 <renders:NoLineEntry  TextColor="{DynamicResource secondaryTextColor}"  x:Name="Usuario"
                                                       Text="{Binding User}"
-                                                      Focused="EntryFocused" Placeholder="Usuario"
+                                                      Focused="EntryFocused" Placeholder="Usuario" HeightRequest="45"
                                                       Margin="0,10" />
-                                <renders:NoLineEntry IsPassword="True" 
+                            <renders:NoLineEntry IsPassword="True" HeightRequest="45"
                                                      Text="{Binding Password}"
                                                      Focused="EntryFocused" Placeholder="Contraseña" Margin="0,10"/>
                                 <Label Text="{Binding Password}" FontSize="12"

@@ -4,6 +4,7 @@ using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
 using Kit;
 using Kit.Model;
+using Kit.Sql.Attributes;
 using SOE.Data;
 using SOE.Views.Pages.Login;
 using System;
@@ -12,6 +13,7 @@ using Xamarin.Forms;
 
 namespace SOE.ViewModels.Pages.Login
 {
+    [Preserve]
     public class SAESLoginPageViewModel : ModelBase
     {
         private string _Captcha;
@@ -88,8 +90,8 @@ namespace SOE.ViewModels.Pages.Login
             this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
             if (this.CaptchaImg is null)
             {
-               await AppData.Instance.SAES.LogOut();
-               this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
+                await AppData.Instance.SAES.LogOut();
+                this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
             }
         }
         private async Task SignIn()

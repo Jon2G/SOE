@@ -4,6 +4,7 @@ using System;
 
 namespace SOEWeb.Shared
 {
+    [Preserve]
     public class Subject : IGuid
     {
         [PrimaryKey, AutoIncrement]

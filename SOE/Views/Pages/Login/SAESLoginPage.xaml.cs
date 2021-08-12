@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kit.Sql.Attributes;
+using System;
 using System.Threading.Tasks;
 using SOE.Data;
 using SOE.Models.SkiaSharp;
@@ -8,7 +9,7 @@ using Xamarin.Forms.Xaml;
 
 namespace SOE.Views.Pages.Login
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile),Preserve]
     public partial class SAESLoginPage
     {
         public SAESLoginPage()
@@ -68,7 +69,7 @@ namespace SOE.Views.Pages.Login
             }
             else
             {
-                SAESPrivacyAlert alert = new SAESPrivacyAlert();
+                SAESPrivacyAlert alert = new ();
                 await alert.ShowDialog();
                 Usuario.Focus();
                 this.Model.RefreshCaptcha();

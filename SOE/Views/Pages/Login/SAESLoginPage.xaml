@@ -54,7 +54,7 @@
                         <Label FontFamily="KarlaSB" Text="{Binding User.School.Name,Source={x:Static data:AppData.Instance}}" FontSize="25" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
                         <BoxView HeightRequest="1"
                          Background="{DynamicResource PrimaryColor}" />
-                        <Grid >
+                        
                             <ScrollView>
                             <StackLayout x:Name="_formLayout" Spacing="0"
                                      Padding="0, 10, 0, 10" Orientation="Vertical">
@@ -62,9 +62,9 @@
                                                       Text="{Binding Boleta}"
                                                       Placeholder="Usuario" FontSize="18" HeightRequest="45"
                                                       Margin="0,10" IsReadOnly="True" />
-                                <renders:NoLineEntry IsPassword="True" FontSize="18" HeightRequest="45"
-                                                     Text="{Binding Password}"
-                                                     Placeholder="Contraseña" Margin="0,10"/>
+                            <renders:NoLineEntry IsPassword="True" FontSize="18" HeightRequest="45"
+                                                 Text="{Binding Password}"
+                                                 Placeholder="Contraseña" Margin="0,10"/>
                                 <Label Text="{Binding Password}" FontSize="12"
                                        Background="{DynamicResource SecondaryBackground}" Margin="0,0,0,10"/>
 
@@ -93,7 +93,7 @@
 
                             </StackLayout>
                             </ScrollView>
-                    </Grid>
+                    
                         <Button  Text="Soy un alumno!"
                                  FontFamily="KarlaSB"
                                  TextColor="{DynamicResource primaryTextColor}"

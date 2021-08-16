@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="secrets.env" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Secrets\secrets.env" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\Kit\Kit\Kit.csproj" />
   </ItemGroup>
 

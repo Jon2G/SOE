@@ -9,6 +9,7 @@ using SOE.Models.Academic;
 using SOE.Models.Data;
 using SOE.Models.TaskFirst;
 using SOE.Notifications;
+using SOEWeb.Shared.Secrets;
 
 namespace SOE.Data
 {
@@ -47,7 +48,7 @@ namespace SOE.Data
         public SQLiteConnection LiteConnection { get; private set; }
         private AppData()
         {
-
+            DotNetEnviroment.Load();
         }
 
         private static FileInfo LiteDbPath => new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SOE.db"));

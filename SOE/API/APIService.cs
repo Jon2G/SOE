@@ -24,14 +24,21 @@ namespace SOE.API
 {
     public static class APIService
     {
+        //--NonHttpsUrl "192.168.0.32:44313"
+        //--NonHttpsUrl "localhost:5001"
         public const string ShareTodo = "ShareTodo";
         public const string ShareReminder = "ShareReminder";
-        //public const string NonHttpsUrl = "192.168.0.32:44313";
-        //public const string NonHttpsUrl = "localhost:5001";
-        public const string NonProdUrl = "dhokq2d69j.execute-api.us-east-2.amazonaws.com";
+        public const string NonProdUrl ="dhokq2d69j.execute-api.us-east-2.amazonaws.com";
         public static string NonHttpsUrl => $"{NonProdUrl}/Prod";
         public static string BaseUrl => $"https://{NonHttpsUrl}";
         public static string Url => $"{BaseUrl}/App";
+
+        //static APIService()
+        //{
+        //    NonProdUrl = Environment.GetEnvironmentVariable(nameof(NonProdUrl));
+        //}
+
+
 
         public static async Task<Response> Hello()
         {
@@ -41,7 +48,7 @@ namespace SOE.API
                 await WebService.GET("Hello");
             return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
         }
-        public static async Task<Response> Login(string Usuario, string PasswordPin, string school = null) 
+        public static async Task<Response> Login(string Usuario, string PasswordPin, string school = null)
         {
             WebService WebService = new WebService(Url);
             if (string.IsNullOrEmpty(Usuario) || string.IsNullOrEmpty(PasswordPin) || PasswordPin.Length < 8
@@ -63,11 +70,11 @@ namespace SOE.API
         {
             WebService WebService = new WebService(Url);
             User User = AppData.Instance.User;
-            if (Validations.ValidateLogin(User.Boleta,PasswordPin, User.NickName,User.Email,User.School, Device.DeviceKey,Type)
+            if (Validations.ValidateLogin(User.Boleta, PasswordPin, User.NickName, User.Email, User.School, Device.DeviceKey, Type)
                     is string v_error
-                &&!string.IsNullOrEmpty(v_error))
+                && !string.IsNullOrEmpty(v_error))
             {
-                return new Response(APIResponseResult.NOT_EXECUTED,v_error, v_error);
+                return new Response(APIResponseResult.NOT_EXECUTED, v_error, v_error);
             }
             Kit.Services.Web.ResponseResult result = await WebService.GET("SignUp",
                 User.Boleta, User.Name, User.NickName, User.Email,
@@ -281,7 +288,7 @@ namespace SOE.API
             {
                 return Response.InvalidRequest;
             }
-            if (string.IsNullOrEmpty(Link.Url) || !Validations.IsValidUrl(Link.Url,out Uri uri))
+            if (string.IsNullOrEmpty(Link.Url) || !Validations.IsValidUrl(Link.Url, out Uri uri))
             {
                 return Response.InvalidRequest;
             }
@@ -323,15 +330,15 @@ namespace SOE.API
             }
             else
             {
-                var r= JsonConvert.DeserializeObject<Response>(result.Response);
+                var r = JsonConvert.DeserializeObject<Response>(result.Response);
                 return r.ResponseResult == APIResponseResult.OK;
             }
         }
-        internal static async Task<bool> DeleteLink(Link link,int UserId)
+        internal static async Task<bool> DeleteLink(Link link, int UserId)
         {
             WebService WebService = new WebService(Url);
             Kit.Services.Web.ResponseResult result = await WebService.GET("DeleteLink",
-                UserId.ToString(),link.Guid.ToString("N"));
+                UserId.ToString(), link.Guid.ToString("N"));
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
             {
                 return false;
@@ -350,7 +357,7 @@ namespace SOE.API
             }
             WebService WebService = new WebService(Url);
             Kit.Services.Web.ResponseResult result = await WebService.GET("GetLinks",
-                group, TeacherId.ToString(), SubjectId.ToString(),AppData.Instance.User.Id.ToString());
+                group, TeacherId.ToString(), SubjectId.ToString(), AppData.Instance.User.Id.ToString());
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
             {
                 return new List<Link>();

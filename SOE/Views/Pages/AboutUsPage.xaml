@@ -4,6 +4,7 @@
              xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
              xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
              xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+             xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
              x:Class="SOE.Views.Pages.AboutUsPage"
              Shell.NavBarIsVisible="True"
              x:DataType="pages:AboutUsPageViewModel"
@@ -24,7 +25,7 @@
                 <StackLayout Spacing="0" VerticalOptions="Center">
                     <Label TextColor="White"
                            FontAttributes="Bold" Text="SOE" FontSize="20"/>
-                    <Label Text="BETA 2.0.0" FontSize="10" FontAttributes="Bold" 
+                    <Label Text="{x:Static data:AppData.Version}" FontSize="10" FontAttributes="Bold" 
                            TextColor="White"/>
                 </StackLayout>
                

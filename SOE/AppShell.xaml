@@ -7,12 +7,19 @@
        x:Class="SOE.AppShell"
        Shell.NavBarIsVisible="False"
        TabBarTitleColor="White"
-       Shell.BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
-       Shell.Background="{DynamicResource PrimaryColor}"
        TitleColor="White" TabBarForegroundColor="White"
        UnselectedColor="White" DisabledColor="White" TabBarDisabledColor="White"
        ForegroundColor="White" TabBarUnselectedColor="White">
-
+<Shell.BackgroundColor>
+    <OnPlatform x:TypeArguments="Color">
+            <On Platform="iOS" Value="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"/>
+    </OnPlatform>
+</Shell.BackgroundColor>
+    <Shell.Background>
+        <OnPlatform x:TypeArguments="Brush">
+            <On Platform="iOS" Value="{DynamicResource PrimaryColor}"/>
+        </OnPlatform>
+    </Shell.Background>
     <Shell.FlyoutContent>
         <viewItems:FlyOutView/>
     </Shell.FlyoutContent>

@@ -136,7 +136,7 @@
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource BackgroundSecondaryDarkColor},Light={StaticResource BackgroundSecondaryLightColor}}" />
             </Style>
             <Style x:Key="BaseStyle" TargetType="Element">
-                <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}" />
+                <!--<Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}" />-->
                 <Setter Property="Shell.ForegroundColor" Value="{StaticResource LightTextColor}" />
                 <Setter Property="Shell.TitleColor" Value="{StaticResource LightTextColor}" />
                 <Setter Property="Shell.DisabledColor" Value="{AppThemeBinding Dark={StaticResource DisabledDarkAccentColor},Light={StaticResource DisabledLightAccentColor}}" />

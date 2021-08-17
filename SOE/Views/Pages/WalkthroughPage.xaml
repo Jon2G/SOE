@@ -4,6 +4,7 @@
               Shell.NavBarIsVisible="False"
               xmlns:tool="http://xamarin.com/schemas/2020/toolkit"
               xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
+              xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
               x:Class="SOE.Views.Pages.WalkthroughPage"
               x:DataType="pages:WalkthroughPageViewModel">
     <CarouselPage.BindingContext>
@@ -16,23 +17,43 @@
         </Style>
     </CarouselPage.Resources>
     <ContentPage>
-        <StackLayout VerticalOptions="FillAndExpand">
-            <StackLayout VerticalOptions="CenterAndExpand">
-                <Label Text="Bienvenido a la comunidad de  SOE" 
-                       Margin="20,0"  TextColor="White" FontSize="40" FontAttributes="Bold"/>
-                <Image Source="logo_soe.png" 
-                       HeightRequest="150" Aspect="AspectFit" VerticalOptions="StartAndExpand" />
+        <StackLayout VerticalOptions="FillAndExpand" >
+
+            <StackLayout VerticalOptions="FillAndExpand" >
+                <StackLayout VerticalOptions="CenterAndExpand">
+                    <Label Text="Bienvenido a la comunidad de  SOE" 
+                           Margin="20,0"  TextColor="White" FontSize="40" FontAttributes="Bold"/>
+                    <Image Source="logo_soe.png" 
+                           HeightRequest="150" Aspect="AspectFit" VerticalOptions="StartAndExpand" />
+                </StackLayout>
+                <Label 
+                    TextColor="White" FontSize="22" FontAttributes="Bold" >
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Estamos aquí para ayudarte."/>
+                            <Span Text="&#x0a;"/>
+                            <Span Text="¡Veamos todo lo que puedes hacer!"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
             </StackLayout>
-            <Label 
-                TextColor="White" FontSize="20" FontAttributes="Bold" >
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Estamos aquí para ayudarte."/>
-                        <Span Text="&#x0a;"/>
-                        <Span Text="¡Veamos todo lo que puedes hacer!"/>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
+
+            <StackLayout Orientation="Horizontal" Spacing="10" VerticalOptions="CenterAndExpand"
+                         HorizontalOptions="FillAndExpand" Margin="10,0">
+                <Label VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" 
+                       HorizontalOptions="StartAndExpand"
+                       Text="Deslize para continuar" TextColor="White"  FontSize="25" FontAttributes="Bold" />
+                <Image RotationY="180" VerticalOptions="CenterAndExpand" HorizontalOptions="End">
+                    <Image.Source>
+                        <FontImageSource 
+                            FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                            Glyph="{x:Static fonts:FontelloIcons.GoBack}"
+                            Color="White"/>
+                    </Image.Source>
+                </Image>
+            </StackLayout>
+
         </StackLayout>
     </ContentPage>
 

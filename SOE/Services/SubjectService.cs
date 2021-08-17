@@ -15,19 +15,10 @@ namespace SOE.Services
         {
             return AppData.Instance.LiteConnection.Find<Subject>(Id);
         }
-        internal static int GetId(string group)
-        {
-            return GetByGroup(group)?.Id?? -1;
-        }
-
-
 
         internal static void Save(Subject subject)
         {
             AppData.Instance.LiteConnection.InsertOrReplace(subject);
         }
-
-        internal static Subject GetByGroup(string group) 
-            => AppData.Instance.LiteConnection.Table<Subject>().FirstOrDefault();
     }
 }

@@ -97,17 +97,21 @@ namespace SOE.Droid.Activities
                     break;
                 case TimeLineWidget.ITEM_CLICK:
                     long ticks = intent.GetLongExtra(nameof(ClassSquare.Begin), 0);
-                    string group = intent.GetStringExtra(nameof(ClassSquare.Subject.Group));
+                    int subjectId = intent.GetIntExtra(nameof(ClassSquare.Subject.Id),0);
                     DayOfWeek dayOfWeek = (DayOfWeek)intent.GetIntExtra(nameof(ClassSquare.Day), 1);
-                    pendingAction = new TimeLineWidgetSubjectAction(new DateTime(ticks), group, dayOfWeek);
+                    pendingAction = new TimeLineWidgetSubjectAction(new DateTime(ticks), subjectId, dayOfWeek);
                     break;
                 case TimeLineWidget.DAY_CLICK:
                     DayOfWeek dayclicked = (DayOfWeek)intent.GetIntExtra(nameof(ClassSquare.Day), 1);
                     pendingAction = new TimeLineWidgetDayAction(dayclicked);
                     break;
             }
+
             if (pendingAction != null)
+            {
                 MasterPage.ResponseTo(pendingAction);
+            }
+
         }
     }
 }

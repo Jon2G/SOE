@@ -35,7 +35,7 @@ namespace SOE.Views.Pages
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await Task.Run(() => { while (ImgLogo.IsLoading) { } });
+            //await Task.Run(() => { while (ImgLogo.IsLoading) { } });
             //SetStatus("Comprobando permisos de escritura...");
             //await Permisos.RequestStorage();
             AppData.Init();
@@ -43,49 +43,56 @@ namespace SOE.Views.Pages
             {
                 AppData.CreateDatabase();
             }
-            AppData.Instance.LiteConnection.CreateTable<User>();
-            if (AppData.Instance.LiteConnection.TableExists<User>() && User.Get() is User user)
+            User user = null;
+            if (AppData.Instance.LiteConnection.TableExists<User>())
             {
-                Settings settings = user.GetSettings();
-                if (settings.IsFingerPrintActive)
-                {
-                    if (!await CrossFingerprint.Current.IsAvailableAsync(true))
-                    {
-                        Acr.UserDialogs.UserDialogs.Instance.Alert("La autenticación biométrica no esta disponible  o no esta configurada.", "Atención", "OK");
-                        GotoManualLogin(user, settings);
-                        return;
-                    }
-                    var authResult = await Device.InvokeOnMainThreadAsync(() =>
-                        CrossFingerprint.Current.AuthenticateAsync(
-                            new AuthenticationRequestConfiguration("Bloqueo de aplicación",
-                                "Inicio de sesíon por huella")
-                            {
-                                AllowAlternativeAuthentication = true
-                            }, new System.Threading.CancellationToken(false)));
+                user = User.Get();
+            }
+            else
+            {
+                AppData.Instance.LiteConnection.CreateTable<User>();
+            }
 
-                    if (authResult.Status == FingerprintAuthenticationResultStatus.Failed &&
-                        authResult.ErrorMessage == "Authentication canceled")
-                    {
-                        Log.Logger.Error("Tu telegono no jala con pin amiko Im so sorry");
-                        GotoManualLogin(user, settings);
-                    }
-                    if (authResult.Authenticated)
-                    {
-                        GotoApp(user, settings);
-                    }
-                    else
-                    {
-                        GotoManualLogin(user, settings);
-                    }
+            if (user is null)
+            {
+                App.Current.MainPage = new LoginPage();
+                return;
+            }
+            Settings settings = user.GetSettings();
+            if (settings.IsFingerPrintActive)
+            {
+                if (!await CrossFingerprint.Current.IsAvailableAsync(true))
+                {
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("La autenticación biométrica no esta disponible  o no esta configurada.", "Atención", "OK");
+                    GotoManualLogin(user, settings);
+                    return;
+                }
+                var authResult = await Device.InvokeOnMainThreadAsync(() =>
+                    CrossFingerprint.Current.AuthenticateAsync(
+                        new AuthenticationRequestConfiguration("Bloqueo de aplicación",
+                            "Inicio de sesíon por huella")
+                        {
+                            AllowAlternativeAuthentication = true
+                        }, new System.Threading.CancellationToken(false)));
+
+                if (authResult.Status == FingerprintAuthenticationResultStatus.Failed &&
+                    authResult.ErrorMessage == "Authentication canceled")
+                {
+                    Log.Logger.Error("Tu telegono no jala con pin amiko Im so sorry");
+                    GotoManualLogin(user, settings);
+                }
+                if (authResult.Authenticated)
+                {
+                    GotoApp(user, settings);
                 }
                 else
                 {
-                    GotoApp(user, settings);
+                    GotoManualLogin(user, settings);
                 }
             }
             else
             {
-                App.Current.MainPage = new LoginPage();
+                GotoApp(user, settings);
             }
         }
 

@@ -32,7 +32,7 @@ namespace SOE.ViewModels.Pages
         public ICommand DeleteCommand => _DeleteCommand ??= new Command<Link>(DeleteLinkPopUp.ShowPopUp);
         private void OpenLink(Link link)
         {
-            Browser.OpenAsync(link.Url, BrowserLaunchMode.External).SafeFireAndForget();
+            Browser.OpenAsync(link.Url, BrowserLaunchMode.SystemPreferred).SafeFireAndForget();
         }
 
         private void AddLink()

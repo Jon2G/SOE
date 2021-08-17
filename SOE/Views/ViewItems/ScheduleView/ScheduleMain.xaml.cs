@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using AsyncAwaitBestPractices;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using SOEWeb.Shared;
 using SOE.Data;
@@ -10,6 +11,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Kit;
 using SOE.Fonts;
+using SOE.Models;
 using System;
 
 namespace SOE.Views.ViewItems.ScheduleView
@@ -58,7 +60,7 @@ namespace SOE.Views.ViewItems.ScheduleView
                         Newtask(classSquare);
                         break;
                     case "Recordatorio":
-                        Remember();
+                        Reminder(classSquare);
                         break;
                  case "Info Materia":
                      InfoSub(classSquare.Subject);
@@ -77,9 +79,14 @@ namespace SOE.Views.ViewItems.ScheduleView
         private void InfoSub(Subject subject) => 
             Shell.Current.Navigation.PushAsync(new SubjectPage(subject));
 
-        private void Remember()
+        private void Reminder(ClassSquare classSquare)
         {
-            
+            var reminder = new Reminder();
+            reminder.Subject = classSquare.Subject;
+            reminder.Time = classSquare.Begin;
+            reminder.Date = classSquare.Day.GetNearest();
+            var popup = new ReminderPage(reminder);
+            popup.Show().SafeFireAndForget();
         }
 
         private void Newtask(ClassSquare classSquare)

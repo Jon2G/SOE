@@ -10,12 +10,13 @@ using SOE.Models.Data;
 using SOE.Models.TaskFirst;
 using SOE.Notifications;
 using SOEWeb.Shared.Secrets;
+using Xamarin.Essentials;
 
 namespace SOE.Data
 {
     public class AppData : ModelBase
     {
-        public const string Version = "1.0.0 BETA";
+        public static string Version = $"{VersionTracking.CurrentVersion} BETA";
         public static bool IsInitialized => _Instance is not null;
         private static AppData _Instance;
 

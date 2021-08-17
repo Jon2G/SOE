@@ -7,6 +7,7 @@
              xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
              xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
              xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
+             xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
              Shell.NavBarIsVisible="True"
              Title="Ajustes"
              Background="{DynamicResource Background}">
@@ -54,10 +55,7 @@
         </StackLayout>
 
 
-        <!--<Grid >
-                <BoxView BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundTertiaryLightColor},Dark={StaticResource BackgroundTertiaryDarkColor}}" CornerRadius="5"/>
-                <Label HorizontalTextAlignment="Center" Text="Ajustes Principales" FontSize="Title" FontAttributes="Bold" TextColor="{DynamicResource secondaryTextColor}"/>
-            </Grid>
-            -->
+
+        <Label Text="{x:Static data:AppData.Version}" Margin="10" VerticalTextAlignment="End" HorizontalOptions="End" FontSize="12"/>
     </StackLayout>
 </ContentPage>

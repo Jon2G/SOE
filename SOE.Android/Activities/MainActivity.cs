@@ -34,6 +34,7 @@ namespace SOE.Droid.Activities
        Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
        DataPathPattern = ".*", DataPathPrefix = ".*",
        DataHost = APIService.NonProdUrl, DataSchemes = new[] { "http", "https" })]
+ 
     public class MainActivity : Kit.Droid.Services.MainActivity
     {
         protected override void OnStart()

@@ -39,15 +39,14 @@ namespace SOE.ViewModels.Pages
         {
             try
             {
-                var message = new EmailMessage
+                await Email.ComposeAsync(new EmailMessage
                 {
                     Subject = "SOE App",
                     Body = "Solicitud de soporte",
                     To = new List<string>() { "soeapp.soporte@gmail.com" },
                     //Cc = ccRecipients,
                     //Bcc = bccRecipients
-                };
-                await Email.ComposeAsync(message);
+                });
             }
             catch (Exception ex)
             {

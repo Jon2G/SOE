@@ -40,7 +40,7 @@
 
             </Grid>
 
-            <TableView Intent="Menu" >
+            <TableView Intent="Menu" Background="{DynamicResource Background}">
                 <TableRoot>
                     <TableSection Title="Menú"  TextColor="{StaticResource AccentColor}">
                         <ViewCell>

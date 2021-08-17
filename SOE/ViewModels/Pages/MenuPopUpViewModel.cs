@@ -38,7 +38,7 @@ namespace SOE.ViewModels.Pages
                     return  "Marcar como completado";
                 }
 
-                return "Marcar como pendiente";
+                return "Pendiente";
             }
         }
         public FontImageSource PendingIcon
@@ -48,7 +48,7 @@ namespace SOE.ViewModels.Pages
                 var Icon = new FontImageSource()
                 {
                     FontFamily = FontelloIcons.Font,
-                    Glyph = todo.Status.HasFlag(Enums.PendingStatus.Archived) ? FontelloIcons.Hourglass : FontelloIcons.CheckBox
+                    Glyph = todo.Status.HasFlag(Enums.PendingStatus.Pending) ? FontelloIcons.Hourglass : FontelloIcons.CheckBox
                 };
                 Icon.SetOnAppTheme(FontImageSource.ColorProperty, Color.Black, Color.White);
                 return Icon;

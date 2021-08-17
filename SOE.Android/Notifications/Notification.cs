@@ -4,8 +4,12 @@ using Android.Content;
 using Android.OS;
 using Android.Util;
 using AndroidX.Core.App;
+using SOE.Data;
 using SOE.Droid.Activities;
+using System;
+using System.Globalization;
 using Xamarin.Forms.Platform.Android;
+using Environment = System.Environment;
 
 [assembly: UsesPermission(Name = Manifest.Permission.UseFullScreenIntent)]
 [assembly: UsesPermission(Name = Manifest.Permission.SystemAlertWindow)]
@@ -19,15 +23,41 @@ namespace SOE.Droid.Notifications
         private string Content;
         public int Index;
         private readonly Xamarin.Forms.Color Color;
+        private readonly DateTime Date;
         private readonly Context Context;
         private readonly NotificationChannel NotificationChannel;
-        public const string TitleKey = nameof(Title);
-        public const string ContentKey = nameof(Content);
-        public const string IndexKey = nameof(Index);
-        public const string ColorKey = nameof(Color);
-        public const string NotificationChanelIdKey = nameof(Notifications.NotificationChannel.ChannelId);
-        public Notification(string Title, string Content, int Index, string Color, Context Context,
-            NotificationChannel NotificationChannel)
+        private const string TitleKey = nameof(Title);
+        private const string ContentKey = nameof(Content);
+        private const string IndexKey = nameof(Index);
+        private const string ColorKey = nameof(Color);
+        private const string DateKey = nameof(Color);
+        private const string DateFormat = "dd-MM-yy HH:mm";
+        private const string NotificationChanelIdKey = nameof(Notifications.NotificationChannel.ChannelId);
+
+        public bool IsOnTime
+        {
+            get
+            {
+                var now = DateTime.Now;
+                if (this.Date <= now)
+                {
+                    TimeSpan difference = now - this.Date;
+                    if (difference.TotalMinutes < 10d)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+        public Notification(string Title, string Content, int Index, string Color, DateTime Date, Context Context,
+            NotificationChannel NotificationChannel) :
+            this(Title, Content, Index, Color, Date.ToString(DateFormat), Context, NotificationChannel)
+        {
+
+        }
+
+        public Notification(string Title, string Content, int Index, string Color, string Date, Context Context, NotificationChannel NotificationChannel)
         {
             this.Title = Title;
             this.Content = Content;
@@ -40,6 +70,7 @@ namespace SOE.Droid.Notifications
             {
                 this.Color = Xamarin.Forms.Color.MidnightBlue;
             }
+            this.Date = DateTime.ParseExact(Date, DateFormat, CultureInfo.InvariantCulture);
             this.Context = Context;
             this.NotificationChannel = NotificationChannel;
         }
@@ -103,6 +134,7 @@ namespace SOE.Droid.Notifications
             bundle.PutString(ContentKey, this.Content);
             bundle.PutInt(IndexKey, this.Index);
             bundle.PutString(ColorKey, this.Color.ToHex());
+            bundle.PutString(DateKey, this.Date.ToString(DateFormat, CultureInfo.InvariantCulture));
             bundle.PutString(NotificationChanelIdKey, this.NotificationChannel.ChannelId);
             return bundle;
         }
@@ -113,6 +145,7 @@ namespace SOE.Droid.Notifications
                 extras.GetString(ContentKey),
                 extras.GetInt(IndexKey),
                 extras.GetString(ColorKey),
+                extras.GetString(DateKey, DateTime.MinValue.ToString("u")),
                 context,
                 NotificationChannel.GetNotificationChannel(context, extras.GetString(NotificationChanelIdKey)));
         }

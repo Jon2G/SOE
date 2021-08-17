@@ -24,7 +24,8 @@ namespace SOE.Droid.Notifications
             if (intent?.HasExtra(nameof(Notification)) ?? false)
             {
                 Notification notification = Notification.FromExtras(intent.Extras, context);
-                notification.Notify();
+                if (notification.IsOnTime)
+                    notification.Notify();
                 intent.Extras.Clear();
             }
 

@@ -25,7 +25,7 @@ namespace SOE.Droid.Notifications
                 chanel.RegisterNotificationChannel(context);
             }
 
-            DateTime now = day.Date;
+            DateTime now = DateTime.Now;
             foreach (ClassSquare cl in timeline)
             {
                 DateTime begin = day.Date.Add(cl.Begin);
@@ -33,11 +33,9 @@ namespace SOE.Droid.Notifications
                 //bool InProgress = now <= end && begin <= now;
                 bool InProgress = (now.Ticks >= begin.Ticks && now <= end);
 
-                Notification notification = new Notification(cl.Subject.Name,
-                    $"{cl.FormattedTime} ,{cl.Subject.Group}\n{(InProgress ? "En curso..." : "Comienza pronto")}",
-                    1, cl.Subject.Color, context, chanel);
-
                 int programmedId = Convert.ToInt32($"{Notification.ClassTimeCode}{cl.Subject.Id}{(int)day.DayOfWeek}");
+                DateTime desiredDate = DateTime.MinValue;
+
                 //si ya inicio enviar una notificación ahora!
                 if (InProgress)
                 {
@@ -46,14 +44,17 @@ namespace SOE.Droid.Notifications
                 }
                 else if (begin > now) //si no ha iniciado se debe programar una alerta
                 {
-                    Alarm.ProgramFor(notification, begin.AddMinutes(-10), context, programmedId);
+                    desiredDate = begin.AddMinutes(-10);
                 }
                 else if (begin < now)
                 {
                     //Program for next week
-                    DateTime tommorrow = day.Date.AddDays(7).Add(cl.Begin).AddMinutes(-10);
-                    Alarm.ProgramFor(notification, tommorrow, context, programmedId);
+                    desiredDate = day.Date.AddDays(7).Add(cl.Begin).AddMinutes(-10);
                 }
+                Notification notification = new(cl.Subject.Name,
+                    $"{cl.FormattedTime} ,{cl.Subject.Group}\n{(InProgress ? "En curso..." : "Comienza pronto")}",
+                    1, cl.Subject.Color, desiredDate, context, chanel);
+                Alarm.ProgramFor(notification, desiredDate, context, programmedId);
             }
 
             Bundle extras = new Bundle(1);

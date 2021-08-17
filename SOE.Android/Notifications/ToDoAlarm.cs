@@ -18,9 +18,9 @@ namespace SOE.Droid.Notifications
             Context context = CrossCurrentActivity.Current.AppContext;
             var channel = GetChannel(context);
             DateTime date = todo.Date.Add(todo.Time);
-            Notification notification = new Notification(todo.Title,
+            Notification notification = new (todo.Title,
                 $"{todo.Subject.Name} - {todo.Subject.Group}\n{todo.Description}",
-                1, todo.Subject.Color, context, channel);
+                1, todo.Subject.Color, date, context, channel);
             int programmedId = GetProgrammedId(todo);
             Alarm.ProgramFor(notification, date.AddDays(-1), context, programmedId);
         }
@@ -37,7 +37,7 @@ namespace SOE.Droid.Notifications
                 DateTime date = todo.Date.Add(todo.Time);
                 Notification notification = new Notification(todo.Title,
                     $"{todo.Subject.Name} - {todo.Subject.Group}\n{todo.Description}",
-                    1, todo.Subject.Color, context, channel);
+                    1, todo.Subject.Color, date, context, channel);
                 int programmedId = GetProgrammedId(todo);
                 Alarm.ProgramFor(notification, date.AddDays(-1), context, programmedId);
             }

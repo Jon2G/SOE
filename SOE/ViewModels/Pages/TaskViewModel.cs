@@ -31,14 +31,16 @@ namespace SOE.ViewModels.Pages
             {
                 case "Ver":
                     Detail();
-                    break;
+                    return;
                 case "Hecho":
-                    if (ToDo.Status.HasFlag(Enums.PendingStatus.Done))
+                    if (ToDo.Status == Enums.PendingStatus.Done)
                     {
                         Pendiente();
-                        break;
                     }
-                    Completada();
+                    else
+                    {
+                        Completada();
+                    }
                     break;
                 case "Editar":
                     OpenTask();
@@ -75,7 +77,7 @@ namespace SOE.ViewModels.Pages
                     }
                     return;
             }
-            PendingTasksView.Instance.Model.Refresh().SafeFireAndForget();
+            PendingTasksView.Instance.Model.Refresh(ToDo.Status).SafeFireAndForget();
         }
         public void Eliminar()
         {
@@ -93,21 +95,25 @@ namespace SOE.ViewModels.Pages
         }
         private void Archivar()
         {
+            MainView.Instance.Model.Title = "Archivadas";
             this.ToDo.Status |= Enums.PendingStatus.Archived;
             AppData.Instance.LiteConnection.Update(this.ToDo);
         }
         private void Completada()
         {
+            MainView.Instance.Model.Title = "Completadas";
             this.ToDo.Status = Enums.PendingStatus.Done;
             AppData.Instance.LiteConnection.Update(this.ToDo);
         }
         private void Desarchivar()
         {
+            MainView.Instance.Model.Title = "Pendientes";
             this.ToDo.Status -= Enums.PendingStatus.Archived;
             AppData.Instance.LiteConnection.Update(this.ToDo);
         }
         private void Pendiente()
         {
+            MainView.Instance.Model.Title = "Pendientes";
             this.ToDo.Status -= Enums.PendingStatus.Done;
             this.ToDo.Status |= Enums.PendingStatus.Pending;
             AppData.Instance.LiteConnection.Update(this.ToDo);

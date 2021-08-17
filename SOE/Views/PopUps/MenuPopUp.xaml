@@ -18,7 +18,7 @@
                 />
             </controls:ArrowButton.Icon>
         </controls:ArrowButton>
-        <controls:ArrowButton  Icon="{Binding Icon2}" Title="{Binding DoneText}"   Command="{Binding TapedCommand}" CommandParameter="Hecho"  ArrowColor="{StaticResource AccentColor}"/>
+        <controls:ArrowButton  Icon="{Binding PendingIcon}" Title="{Binding DoneText}"   Command="{Binding TapedCommand}" CommandParameter="Hecho"  ArrowColor="{StaticResource AccentColor}"/>
         
         <controls:ArrowButton  Title="Editar"    Command="{Binding TapedCommand}" CommandParameter="Editar"  ArrowColor="{StaticResource AccentColor}">
             <controls:ArrowButton.Icon>
@@ -27,7 +27,7 @@
                                  Color="{AppThemeBinding Dark=White,Light=Black}"/>
             </controls:ArrowButton.Icon>
         </controls:ArrowButton>
-        <controls:ArrowButton Icon="{Binding Icon}" Title="{Binding ArchiveText}"  Command="{Binding TapedCommand}" CommandParameter="Archivar" ArrowColor="{StaticResource AccentColor}"/>
+        <controls:ArrowButton Icon="{Binding ArchivedIcon}" Title="{Binding ArchiveText}"  Command="{Binding TapedCommand}" CommandParameter="Archivar" ArrowColor="{StaticResource AccentColor}"/>
 
 
         <controls:ArrowButton  Title="Eliminar"  Command="{Binding TapedCommand}" CommandParameter="Eliminar" ArrowColor="{StaticResource AccentColor}">

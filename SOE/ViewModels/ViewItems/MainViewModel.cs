@@ -46,7 +46,6 @@ namespace SOE.ViewModels.ViewItems
                     PendingRemindersViewModel.Instance.Load(PendingStatus.Pending).SafeFireAndForget();
                     break;
                 case "Archivadas":
-
                     PendingTasksViewModel.Instance.Refresh(PendingStatus.Archived).SafeFireAndForget();
                     break;
             }

@@ -6,8 +6,8 @@
              xmlns:viewModels="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
              xmlns:scheduler="clr-namespace:SOE.Models.Scheduler;assembly=SOE"
              xmlns:SOEWeb.Shared="clr-namespace:SOEWeb.Shared;assembly=SOEWeb.Shared"
-             x:DataType="viewModels:SubjectViewModel" x:Name="Me">
-
+             xmlns:popUps="clr-namespace:SOE.ViewModels.PopUps;assembly=SOE"
+             x:DataType="popUps:SubjectSelectorPopUpViewModel" x:Name="Me">
     <Frame Margin="20" CornerRadius="15" 
            VerticalOptions="Center" HorizontalOptions="Center" >
         <CollectionView ItemsSource="{Binding Subjects}">

@@ -1,4 +1,5 @@
 ﻿using SOE.ViewModels.Pages;
+using SOE.ViewModels.PopUps;
 using Xamarin.Forms.Xaml;
 
 namespace SOE.Views.PopUps
@@ -6,10 +7,10 @@ namespace SOE.Views.PopUps
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SubjectPopUp 
     {
-        public SubjectViewModel Modelo { get; set; }
+        public SubjectSelectorPopUpViewModel Modelo { get; set; }
         public SubjectPopUp()
         {
-            this.Modelo=new SubjectViewModel(this); 
+            this.Modelo=new SubjectSelectorPopUpViewModel(this); 
             InitializeComponent();
             this.BindingContext = this.Modelo;
             App.Current.RequestedThemeChanged += Current_RequestedThemeChanged;

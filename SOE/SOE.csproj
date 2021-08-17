@@ -174,7 +174,7 @@
     <EmbeddedResource Update="Views\PopUps\AskForCaptcha.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\PopUps\SubjectPopUp.xaml">
+    <EmbeddedResource Update="Views\PopUps\SubjectSelectorPopUp.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\NewTaskPage.xaml">
@@ -248,6 +248,9 @@
     </Compile>
     <Compile Update="Views\PopUps\SAESPrivacyAlert.xaml.cs">
       <DependentUpon>SAESPrivacyAlert.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PopUps\SubjectSelectorPopUp.xaml.cs">
+      <DependentUpon>SubjectSelectorPopUp.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\ViewItems\CardViews\DateTimeView.xaml.cs">
       <DependentUpon>DateTimeView.xaml</DependentUpon>

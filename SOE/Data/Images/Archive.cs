@@ -45,7 +45,7 @@ namespace SOE.Data.Images
         private async Task CompressAsync(FileImageSource cached)
         {
             await Task.Yield();
-            Value = await cached.ResizeImage(900, 900);
+            Value = await cached.CompressImage(80);
             this.Path = Value.File;
         }
 

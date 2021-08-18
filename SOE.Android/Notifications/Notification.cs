@@ -30,7 +30,7 @@ namespace SOE.Droid.Notifications
         private const string ContentKey = nameof(Content);
         private const string IndexKey = nameof(Index);
         private const string ColorKey = nameof(Color);
-        private const string DateKey = nameof(Color);
+        private const string DateKey = nameof(Date);
         private const string DateFormat = "dd-MM-yy HH:mm";
         private const string NotificationChanelIdKey = nameof(Notifications.NotificationChannel.ChannelId);
 
@@ -145,7 +145,7 @@ namespace SOE.Droid.Notifications
                 extras.GetString(ContentKey),
                 extras.GetInt(IndexKey),
                 extras.GetString(ColorKey),
-                extras.GetString(DateKey, DateTime.MinValue.ToString("u")),
+                extras.GetString(DateKey, DateTime.MinValue.ToString(DateFormat)),
                 context,
                 NotificationChannel.GetNotificationChannel(context, extras.GetString(NotificationChanelIdKey)));
         }

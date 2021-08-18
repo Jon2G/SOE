@@ -7,29 +7,50 @@
              xmlns:scheduler="clr-namespace:SOE.Models.Scheduler;assembly=SOE"
              xmlns:SOEWeb.Shared="clr-namespace:SOEWeb.Shared;assembly=SOEWeb.Shared"
              xmlns:popUps="clr-namespace:SOE.ViewModels.PopUps;assembly=SOE"
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              x:DataType="popUps:SubjectSelectorPopUpViewModel" x:Name="Me">
-    <Frame Margin="20" CornerRadius="15" 
-           VerticalOptions="Center" HorizontalOptions="Center" >
-        <CollectionView ItemsSource="{Binding Subjects}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="SOEWeb.Shared:Subject">
-                    <ContentView>
-                        <Frame Margin="3"  
-                                CornerRadius="10" BackgroundColor="{Binding Converter={x:StaticResource SubjectColorAppThemeConverter }}">
-                            <Label  FontFamily="Karla_SemiBold" 
-                                    Text="{Binding Name}"
-                                     FontSize="14"  FontAttributes="Bold">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer 
-                                        Command="{Binding Modelo.ClosePopUpCommand,Source={x:Reference Me}}" 
-                                        CommandParameter="{Binding .}" />
-                                </Label.GestureRecognizers>
-                            </Label>
-                        </Frame>
-                    </ContentView>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
+    <yummy:PancakeView Margin="10" CornerRadius="0" Padding="10"
+                             VerticalOptions="Center" HorizontalOptions="Center" >
+        <StackLayout VerticalOptions="FillAndExpand">
+            <Label VerticalOptions="Start" Text="Seleccione una materia" FontAttributes="Bold" FontSize="18"/>
 
-        </CollectionView>
-    </Frame>
+
+            <CollectionView VerticalOptions="FillAndExpand" ItemsSource="{Binding Subjects}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="SOEWeb.Shared:Subject">
+                        <ContentView>
+                            <yummy:PancakeView Margin="3"  Padding="10"
+                                               CornerRadius="0" BackgroundColor="{Binding Converter={x:StaticResource SubjectColorAppThemeConverter }}">
+                                <Label  FontFamily="Karla_SemiBold" 
+                                        Text="{Binding Name}"
+                                        FontSize="14"  FontAttributes="Bold">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                            Command="{Binding Modelo.ClosePopUpCommand,Source={x:Reference Me}}" 
+                                            CommandParameter="{Binding .}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </yummy:PancakeView>
+                        </ContentView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+            <yummy:PancakeView Margin="3"  VerticalOptions="End"
+                               CornerRadius="0" BackgroundColor="Firebrick"
+                               Padding="10">
+                <Label  FontFamily="Karla_SemiBold" TextColor="White"
+                        Text="Cancelar"
+                        FontSize="14"  FontAttributes="Bold">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer 
+                            Command="{Binding Modelo.ClosePopUpCommand,Source={x:Reference Me}}" 
+                            CommandParameter="{x:Null}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </yummy:PancakeView>
+        </StackLayout>
+
+    </yummy:PancakeView>
 </pages:BasePopUp>

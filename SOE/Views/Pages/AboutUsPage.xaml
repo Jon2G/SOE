@@ -55,14 +55,14 @@
                             </controls:ArrowButton.Icon>
                         </controls:ArrowButton>
 
-                        <controls:ArrowButton Title="Dale un vistazo al proyecto en Trello" 
+                        <!--<controls:ArrowButton Title="Dale un vistazo al proyecto en Trello" 
                                           TextColor="{AppThemeBinding Light=Black,Dark=White}"
                                           ColorBackground="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
                                           IsArrowVisible="False" Command="{Binding TrelloCommand}">
                             <controls:ArrowButton.Icon>
                                 <FontImageSource Color="Black" FontFamily="{x:Static fonts:FontelloIcons.Font}" Glyph="{x:Static fonts:FontelloIcons.Trello}"/>
                             </controls:ArrowButton.Icon>
-                        </controls:ArrowButton>
+                        </controls:ArrowButton>-->
 
                         <StackLayout Margin="0,0">
                             <controls:ArrowButton Title="Reportar un bug"

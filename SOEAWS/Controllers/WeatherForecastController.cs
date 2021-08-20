@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Kit;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SOEWeb.Shared;
 using System;
@@ -29,7 +30,7 @@ namespace SOEAWS.Controllers
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
-                Date = DateTime.Now.AddDays(index),
+                Date = DateExtensions.MexicoCityCurrentDateTime().AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })

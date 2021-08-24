@@ -1,8 +1,10 @@
 using Amazon.Lambda.Core;
+using Kit;
 using Kit.Sql.Readers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Radzen.Blazor.Rendering;
 using SOEAWS.Processors;
 using SOEWeb.Shared;
 using SOEWeb.Shared.Enums;
@@ -30,7 +32,7 @@ namespace SOEAWS.Controllers
         [HttpGet("Hello")]
         public ActionResult<Response> Hello()
         {
-            return new Response(APIResponseResult.OK, $"2.0.1 - Hello there, it's {DateTime.Now.ToShortTimeString()} o'clock , {DateTime.Now.ToShortDateString()}");
+            return new Response(APIResponseResult.OK, $"2.0.1 - Hello there, it's {DateExtensions.MexicoCityCurrentDateTime().ToShortTimeString()} o'clock , {DateExtensions.MexicoCityCurrentDateTime().ToShortDateString()}");
         }
         [HttpGet("TestDb")]
         public ActionResult<Response> TestDb()
@@ -217,7 +219,7 @@ namespace SOEAWS.Controllers
                 {
                     return SOEWeb.Shared.Response.Error;
                 }
-                if (DateTime.Now > Todo.Date)
+                if (DateExtensions.MexicoCityCurrentDateTime() > Todo.Date.Add(Todo.Time))
                 {
                     return new Response(APIResponseResult.INVALID_REQUEST,
                         "Esta tarea ya ha expirado, cambie la fecha de entrega si desea compartirla");
@@ -358,7 +360,7 @@ namespace SOEAWS.Controllers
                 {
                     return SOEWeb.Shared.Response.Error;
                 }
-                if (DateTime.Now > Reminder.Date)
+                if (DateExtensions.MexicoCityCurrentDateTime() > Reminder.Date)
                 {
                     return new Response(APIResponseResult.INVALID_REQUEST,
                         "Este recordatorio ya ha expirado, cambie la fecha de entrega si desea compartirla");

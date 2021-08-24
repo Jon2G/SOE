@@ -38,7 +38,7 @@ namespace SOE.ViewModels.Pages
                     return  "Marcar como completado";
                 }
 
-                return "Pendiente";
+                return "Marcar como pendiente";
             }
         }
         public FontImageSource PendingIcon

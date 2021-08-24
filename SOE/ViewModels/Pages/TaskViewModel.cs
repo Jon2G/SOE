@@ -57,7 +57,7 @@ namespace SOE.ViewModels.Pages
                     Eliminar();
                     break;
                 case "Compartir":
-                    if (DateTime.Now > ToDo.Date)
+                    if (DateTime.Now > ToDo.Date.Add(ToDo.Time))
                     {
                         App.Current.MainPage.DisplayAlert(ToDo.Title,
                             "Esta tarea ya ha expirado, cambie la fecha de entrega si desea compartirla", "Ok.")

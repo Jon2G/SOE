@@ -333,7 +333,7 @@
     {
       "uid": "c76b7947c957c9b78b11741173c8349b",
       "css": "attention",
-      "code": 59437,
+      "code": 59277,
       "src": "fontawesome"
     },
     {
@@ -347,6 +347,18 @@
       "css": "menu",
       "code": 61641,
       "src": "fontawesome"
+    },
+    {
+      "uid": "6274e0601f2feef7eced89146e708de0",
+      "css": "user-add",
+      "code": 59437,
+      "src": "entypo"
+    },
+    {
+      "uid": "c91098f07ff0df45b3f8666b72b75801",
+      "css": "phone",
+      "code": 59438,
+      "src": "elusive"
     }
   ]
 }

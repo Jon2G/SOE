@@ -54,7 +54,7 @@
                                 <Label  Margin="10,0,0,0" Text=" Perfil" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                             </StackLayout>
                         </ViewCell>
-                        <!--<ViewCell >
+                        <ViewCell >
                             <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand" >
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding ComingCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
@@ -62,9 +62,9 @@
                                 <Label Text="{x:Static fonts:FontelloIcons.AddressBook}" 
                                    FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                <Label  Margin="10,0,0,0" Text=" Contactos" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                                <Label  Margin="10,0,0,0" Text=" Directorio" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                             </StackLayout>
-                        </ViewCell>-->
+                        </ViewCell>
                         <ViewCell >
                             <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <StackLayout.GestureRecognizers>

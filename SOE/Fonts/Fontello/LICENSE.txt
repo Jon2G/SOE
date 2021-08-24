@@ -1,6 +1,15 @@
 Font license info
 
 
+## Font Awesome
+
+   Copyright (C) 2016 by Dave Gandy
+
+   Author:    Dave Gandy
+   License:   SIL ()
+   Homepage:  http://fortawesome.github.com/Font-Awesome/
+
+
 ## Zocial
 
    Copyright (C) 2012 by Sam Collins
@@ -26,15 +35,6 @@ Font license info
    Author:    Stephen Hutchings
    License:   SIL (http://scripts.sil.org/OFL)
    Homepage:  http://typicons.com/
-
-
-## Font Awesome
-
-   Copyright (C) 2016 by Dave Gandy
-
-   Author:    Dave Gandy
-   License:   SIL ()
-   Homepage:  http://fortawesome.github.com/Font-Awesome/
 
 
 ## Entypo

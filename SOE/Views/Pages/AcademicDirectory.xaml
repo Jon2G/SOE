@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:pages="clr-namespace:SOE.ViewModels.Pages"
+             xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+             xmlns:pankk="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
+             xmlns:models="clr-namespace:SOE.Models"
+             Shell.NavBarIsVisible="True"
+             Background="{DynamicResource Background}"
+             Title="{Binding User.School.Name}"
+             x:Class="SOE.Views.Pages.AcademicDirectory" x:DataType="pages:AcademicDictionaryViewModel">
+    <ContentPage.BindingContext>
+        <pages:AcademicDictionaryViewModel x:Name="Model"/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <pankk:PancakeView BackgroundColor="White" CornerRadius="10" >
+            <StackLayout Spacing="0" Padding="5" Margin="8">
+                
+                    <forms:CachedImage Grid.Column="0"
+                    Source="{Binding User.School.ImgPath, Source={x:Static data:AppData.Instance}}"
+                    HeightRequest="150" LoadingPlaceholder="logo_soe_fill" ErrorPlaceholder="logo_soe_fill" 
+                    />
+                <StackLayout Grid.Column="1" VerticalOptions="CenterAndExpand">
+                    <Label  xct:TouchEffect.PressedScale="0.9" xct:TouchEffect.PressedRotationY="0.1" Text="https://www.esimecu.ipn.mx/" TextColor="Blue" FontSize="20" HorizontalTextAlignment="Center"  >
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenLinkCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label  xct:TouchEffect.PressedScale="0.9" xct:TouchEffect.PressedRotationY="0.1"   Text="55 5624 2000" TextColor="Blue" FontSize="20" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CallnumberCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+                <StackLayout Spacing="0" Padding="0" Orientation="Horizontal">
+                    <Label Text="Directorio" FontSize="30" FontAttributes="Bold"  HorizontalOptions="CenterAndExpand"/>
+                    <Image Grid.Column="2" HorizontalOptions="End"   >
+                        <Image.Source>
+                            <FontImageSource
+                                            Glyph="{x:Static fonts:FontelloIcons.AddContact}" 
+                                              FontFamily="{x:Static fonts:FontelloIcons.Font}" Size="26"
+                                            Color="{AppThemeBinding Dark=White,Light=Black}"/>
+                        </Image.Source>
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AddContactCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                </StackLayout>
+                <BoxView BackgroundColor="{StaticResource AccentColor}" HeightRequest="5"/>
+                <CollectionView ItemsSource="{Binding Contacts}"  
+                     SelectionMode= "None" >
+                    <CollectionView.ItemTemplate >
+                        <DataTemplate  x:DataType="models:SchoolContact">
+                            <pankk:PancakeView Margin="0" CornerRadius="0,0,5,5" Padding="0,6"   >
+                                <StackLayout>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="20*"/>
+                                            <ColumnDefinition Width="80*"/>
+                                            <ColumnDefinition Width="10*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <xct:AvatarView  
+                                         Color="#D0DAF8"
+                                         Source="{Binding User.School.ImgPath, Source={x:Static data:AppData.Instance}}" HorizontalOptions="Center" Aspect="AspectFill" VerticalOptions="Center" Size="50" />
+                                        <StackLayout Orientation="Horizontal" Grid.Column="1" >
+                                            <Label Text="{Binding Name}" FontSize="12" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+                                            <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+                                                <Frame CornerRadius="100"
+                                                           BackgroundColor="LightBlue"
+                                                           HeightRequest="50"
+                                                           WidthRequest="50"
+                                                           HorizontalOptions="Center"
+                                                           Padding="0" xct:TouchEffect.PressedScale="0.9" xct:TouchEffect.PressedRotationY="0.1" 
+                                                           >
+                                                    <Image HorizontalOptions="Center" VerticalOptions="Center" >
+                                                        <Image.Source>
+                                                            <FontImageSource
+                                                                  Glyph="{x:Static fonts:FontelloIcons.Phone}" 
+                                                                     FontFamily="{x:Static fonts:FontelloIcons.Font}" Size="20"
+                                                                     Color="{AppThemeBinding Dark=White,Light=Black}"/>
+                                                        </Image.Source>
+                                                    </Image>
+                                                    <Frame.GestureRecognizers>
+                                                        <TapGestureRecognizer CommandParameter="{Binding .}" Command="{Binding ContactCallCommand,Source={x:Reference Model}}"/>
+                                                    </Frame.GestureRecognizers>
+                                                </Frame>
+                                                <Frame CornerRadius="100"
+                                                           BackgroundColor="YellowGreen"
+                                                           HeightRequest="50"
+                                                           WidthRequest="50"
+                                                           HorizontalOptions="Center"
+                                                           Padding="0" xct:TouchEffect.PressedScale="0.9" xct:TouchEffect.PressedRotationY="0.1" 
+                                                           >
+                                                    <Image HorizontalOptions="Center" VerticalOptions="Center" >
+                                                        <Image.Source>
+                                                            <FontImageSource
+                                                                  Glyph="{x:Static fonts:FontelloIcons.Message}" 
+                                                                     FontFamily="{x:Static fonts:FontelloIcons.Font}" Size="20"
+                                                                     Color="{AppThemeBinding Dark=White,Light=Black}"/>
+                                                        </Image.Source>
+                                                    </Image>
+                                                    <Frame.GestureRecognizers>
+                                                        <TapGestureRecognizer CommandParameter="{Binding .}" Command="{Binding ContactMessageCommand,Source={x:Reference Model}}"/>
+                                                    </Frame.GestureRecognizers>
+                                                </Frame>
+                                            </StackLayout>
+                                        </StackLayout>
+                                        <Image Grid.Column="2" Rotation="90"  HorizontalOptions="EndAndExpand"   >
+                                            <Image.Source>
+                                                <FontImageSource
+                                            Glyph="{x:Static fonts:FontelloIcons.ThreeDots}" 
+                                              FontFamily="{x:Static fonts:FontelloIcons.Font}" Size="20"
+                                            Color="{AppThemeBinding Dark=White,Light=Black}"/>
+                                            </Image.Source>
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer/>
+                                            </Image.GestureRecognizers>
+                                        </Image>
+                                    </Grid>
+                                    <BoxView BackgroundColor="White" HeightRequest="5"/>
+                                </StackLayout>
+                            </pankk:PancakeView>
+                     </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </pankk:PancakeView>
+    </ContentPage.Content>
+</ContentPage>

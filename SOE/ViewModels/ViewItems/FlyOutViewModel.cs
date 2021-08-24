@@ -168,7 +168,8 @@ namespace SOE.ViewModels.ViewItems
         }
         private void Coming()
         {
-            ComingSoon.Alert();
+            AppShell.CloseFlyout();
+            Shell.Current.Navigation.PushAsync(new AcademicDirectory(), true);
         }
         private void OpenSettings()
         {

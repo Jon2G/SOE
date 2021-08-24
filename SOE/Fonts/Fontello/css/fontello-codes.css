@@ -1,4 +1,5 @@
 
+.icon-attention:before { content: '\e78d'; } /* '' */
 .icon-gmail:before { content: '\e800'; } /* '' */
 .icon-address-book:before { content: '\e801'; } /* '' */
 .icon-home:before { content: '\e802'; } /* '' */
@@ -44,7 +45,8 @@
 .icon-github-circled:before { content: '\e82a'; } /* '' */
 .icon-cancel:before { content: '\e82b'; } /* '' */
 .icon-flag-filled:before { content: '\e82c'; } /* '' */
-.icon-attention:before { content: '\e82d'; } /* '' */
+.icon-user-add:before { content: '\e82d'; } /* '' */
+.icon-phone:before { content: '\e82e'; } /* '' */
 .icon-menu:before { content: '\f0c9'; } /* '' */
 .icon-bell-alt:before { content: '\f0f3'; } /* '' */
 .icon-angle-right:before { content: '\f105'; } /* '' */

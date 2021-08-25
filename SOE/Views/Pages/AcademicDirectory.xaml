@@ -106,6 +106,25 @@
                                                         <TapGestureRecognizer CommandParameter="{Binding .}" Command="{Binding ContactMessageCommand,Source={x:Reference Model}}"/>
                                                     </Frame.GestureRecognizers>
                                                 </Frame>
+                                                <Frame CornerRadius="100"
+                                                           BackgroundColor="LightSalmon"
+                                                           HeightRequest="50"
+                                                           WidthRequest="50"
+                                                           HorizontalOptions="Center"
+                                                           Padding="0" xct:TouchEffect.PressedScale="0.9" xct:TouchEffect.PressedRotationY="0.1" 
+                                                           >
+                                                    <Image HorizontalOptions="Center" VerticalOptions="Center" >
+                                                        <Image.Source>
+                                                            <FontImageSource
+                                                                  Glyph="{x:Static fonts:FontelloIcons.Link}" 
+                                                                     FontFamily="{x:Static fonts:FontelloIcons.Font}" Size="20"
+                                                                     Color="{AppThemeBinding Dark=White,Light=Black}"/>
+                                                        </Image.Source>
+                                                    </Image>
+                                                    <Frame.GestureRecognizers>
+                                                        <TapGestureRecognizer CommandParameter="{Binding .}" Command="{Binding ContactLinkCommand,Source={x:Reference Model}}"/>
+                                                    </Frame.GestureRecognizers>
+                                                </Frame>
                                             </StackLayout>
                                         </StackLayout>
                                         <Image Grid.Column="2" Rotation="90"  HorizontalOptions="EndAndExpand"   >
@@ -116,7 +135,7 @@
                                             Color="{AppThemeBinding Dark=White,Light=Black}"/>
                                             </Image.Source>
                                             <Image.GestureRecognizers>
-                                                <TapGestureRecognizer/>
+                                                <TapGestureRecognizer   Command="{Binding ReportCommand, Source={x:Reference Model}}" CommandParameter="{Binding .}"/>
                                             </Image.GestureRecognizers>
                                         </Image>
                                     </Grid>

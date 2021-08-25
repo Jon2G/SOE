@@ -11,6 +11,7 @@ namespace SOE.Models
         private string _Url;
         private string _Phone;
         private string _Name;
+        private string _Correo;
 
         public string Departament
         {
@@ -48,13 +49,26 @@ namespace SOE.Models
                 this.Raise(() => this.Url);
             }
         }
-
-        public SchoolContact(string Departament, string Name, string Phone, string Url)
+        public string Correo
+        {
+            get => this._Correo;
+            set
+            {
+                this._Correo = value;
+                this.Raise(() => this.Correo);
+            }
+        }
+        public SchoolContact(string Departament, string Name, string Phone, string Url,string Correo)
         {
             this.Departament = Departament;
             this.Name = Name;
             this.Phone = Phone;
             this.Url = Url;
-        }                   
+            this.Correo = Correo;
+        }
+        public SchoolContact()
+        {
+
+        }
     }
 }

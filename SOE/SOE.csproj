@@ -71,7 +71,7 @@
     <EmbeddedResource Update="Views\Pages\AcademicDirectory.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Pages\AddContactPage.xaml">
+    <EmbeddedResource Update="Views\PopUps\AddContactPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\DeveloperOptions.xaml">
@@ -89,7 +89,7 @@
     <EmbeddedResource Update="Views\Pages\ReminderPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Pages\ReportContact.xaml">
+    <EmbeddedResource Update="Views\PopUps\ReportContact.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\SchoolSelector.xaml">

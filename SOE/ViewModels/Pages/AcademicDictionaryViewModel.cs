@@ -11,6 +11,8 @@ using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using SOE.Views.Pages;
+using SOE.Views.PopUps;
+using System.Threading.Tasks;
 
 namespace SOE.ViewModels.Pages
 {
@@ -22,7 +24,11 @@ namespace SOE.ViewModels.Pages
         public ICommand CallnumberCommand { get; set; }
         public ICommand ContactMessageCommand { get; set; }
         public ICommand ContactCallCommand { get; set; }
+        public ICommand ContactLinkCommand { get; set; }
         public ICommand AddContactCommand { get; set; }
+        private ICommand _ReportCommand;
+        public ICommand ReportCommand => _ReportCommand ??= new Command<SchoolContact>(Reportar);
+
         public AcademicDictionaryViewModel()
         {
             this.User = AppData.Instance.User;
@@ -31,19 +37,27 @@ namespace SOE.ViewModels.Pages
             this.ContactMessageCommand = new Command<SchoolContact>(ContactMessage);
             this.ContactCallCommand = new Command<SchoolContact>(ContactCall);
             AddContactCommand = new Command<SchoolContact>(AddContact);
+            ContactLinkCommand = new Command<SchoolContact>(ContactLink);
             this.Contacts = this.ContactsList();
         }
 
-        private void AddContact(SchoolContact obj)
+        private void ContactCall(SchoolContact contact) => PhoneDialer.Open(contact.Phone);
+        private void ContactLink(SchoolContact obj) => OpenBrowser(obj.Url);
+        private void Callnumber(object obj) => PhoneDialer.Open("55 5624 2000");
+        private void OpenLink(object obj) => OpenBrowser("https://www.esimecu.ipn.mx/");
+
+        private async void Reportar(SchoolContact contact)
         {
-            App.Current.MainPage.Navigation.PushAsync(new AddContactPage());
+            ReportContact pr = new(contact);
+            await pr.ShowDialog();
+        }
+        private async void AddContact(SchoolContact obj)
+        {
+            AddContactPage pr = new();
+            await pr.ShowDialog();
         }
 
-        private void ContactCall(SchoolContact contact)
-        {
-            PhoneDialer.Open(contact.Phone);
-        }
-
+       
         private async void ContactMessage(SchoolContact contact)
         {
             try
@@ -52,7 +66,7 @@ namespace SOE.ViewModels.Pages
                 {
                     Subject = contact.Name,
                     Body = "",
-                    To = new List<string>() { contact.Url },
+                    To = new List<string>() { contact.Correo },
                 });
             }
             catch (Exception ex)
@@ -61,16 +75,8 @@ namespace SOE.ViewModels.Pages
             }
 
         }
-
-        private void Callnumber(object obj)
-        {
-            PhoneDialer.Open("55 5624 2000");
-        }
-
-        private void OpenLink(object obj)
-        {
-            OpenBrowser("https://www.esimecu.ipn.mx/");
-        }
+        
+        
         private async void OpenBrowser(string url)
         {
             try
@@ -87,14 +93,14 @@ namespace SOE.ViewModels.Pages
         {
             return new ObservableCollection<SchoolContact>
             {
-                new SchoolContact("Gestion escolar","Mario","553215456","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","Mario","553215456","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","Mario","553215456","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","Mario","553215456","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","Mario","553215456","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","Mario","553215456","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","Mario","553215456","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","M. en C. Jose Luis Bautista Arias","553215456","ictramitescu@ipn.mx")
+                new SchoolContact("Gestion escolar","Mario","553215456","http://sacadem.esimecu.ipn.mx/ic/ic","ictramitescu@ipn.mx"),
+                new SchoolContact("Gestion escolar","Mario","553215456","http://sacadem.esimecu.ipn.mx/ic/ic","ictramitescu@ipn.mx"),
+                new SchoolContact("Gestion escolar","Mario","553215456","http://sacadem.esimecu.ipn.mx/ic/ic","ictramitescu@ipn.mx"),
+                new SchoolContact("Gestion escolar","Mario","553215456","http://sacadem.esimecu.ipn.mx/ic/ic","ictramitescu@ipn.mx"),
+                new SchoolContact("Gestion escolar","Mario","553215456","http://sacadem.esimecu.ipn.mx/ic/ic","ictramitescu@ipn.mx"),
+                new SchoolContact("Gestion escolar","Mario","553215456","http://sacadem.esimecu.ipn.mx/ic/ic","ictramitescu@ipn.mx"),
+                new SchoolContact("Gestion escolar","Mario","553215456","http://sacadem.esimecu.ipn.mx/ic/ic","ictramitescu@ipn.mx"),
+                new SchoolContact("Gestion escolar","M. en C. Jose Luis Bautista Arias","553215456","http://sacadem.esimecu.ipn.mx/ic/ic","ictramitescu@ipn.mx")
             };
         }
     }

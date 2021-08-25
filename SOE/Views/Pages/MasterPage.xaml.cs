@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AsyncAwaitBestPractices;
 using Kit;
+using Kit.Forms.Services.Interfaces;
 using SOE.API;
 using SOE.Data;
 using SOE.Interfaces;
@@ -11,9 +12,11 @@ using SOE.Models.TaskFirst;
 using SOE.Services;
 using SOE.Services.ActionResponse;
 using SOE.Views.ViewItems.ScheduleView;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
+using DeviceInfo = Xamarin.Forms.Internals.DeviceInfo;
 using Log = Kit.Log;
 
 namespace SOE.Views.Pages
@@ -40,15 +43,16 @@ namespace SOE.Views.Pages
             }
             return base.OnBackButtonPressed();
         }
-        
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            this.OnAppearingAsync();
+            this.OnAppearingAsync().SafeFireAndForget();
         }
 
-        private void OnAppearingAsync()
+        private async Task OnAppearingAsync()
         {
+            await Task.Yield();
             if (this.Model.SelectedIndex <= 0)
             {
                 Dispatcher.BeginInvokeOnMainThread(() =>
@@ -57,8 +61,23 @@ namespace SOE.Views.Pages
                     //Shell.SetNavBarIsVisible(this, this.Model.SelectedIndex != 1);
                 });
             }
-            this.Model.OnAppearing().SafeFireAndForget();
-            //DependencyService.Get<IStartNotificationsService>()?.StartNotificationsService();
+            await this.Model.OnAppearing();
+            DependencyService.Get<IStartNotificationsService>()?.StartNotificationsService();
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                var appTrackingTransparencyPermission = DependencyService.Get<IAppTrackingTransparencyPermission>();
+                var status = await appTrackingTransparencyPermission.CheckStatusAsync();
+                switch (status)
+                {
+                    case PermissionStatus.Denied:
+                    case PermissionStatus.Disabled:
+                    case PermissionStatus.Granted:
+                        return;
+                    case PermissionStatus.Unknown:
+                        appTrackingTransparencyPermission.RequestAsync((s) => { });
+                        break;
+                }
+            }
         }
 
         public static void ResponseTo(PendingAction PendingAction) => App.Current.Dispatcher.BeginInvokeOnMainThread(action: () => Execute(PendingAction).SafeFireAndForget());

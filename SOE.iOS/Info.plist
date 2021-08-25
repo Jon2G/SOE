@@ -31,15 +31,17 @@
 	<key>CFBundleName</key>
 	<string>SOE</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>Authenticate with Face ID</string>
+	<string>Permite el acceso para desbloquear la aplicación con tu rostro.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>This app needs access to the camera to take photos.</string>
+	<string>Permite el acceso para que puedas tomar fotos utilizando la camará</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app needs access to photos.</string>
+	<string>Permite el acceso para que puedas adjuntar fotos desde tu galeria.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>This app needs access to microphone.</string>
+	<string>Permite el acceso para tomar notas de audio.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This app needs access to the photo gallery.</string>
+	<string>Permite el acceso para que puedas adjuntar fotos desde tu galeria.</string>
+  <key>NSUserTrackingUsageDescription</key>
+  <string>Asocia este dispositivo con tu cuenta SOE.</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0.6</string>
 	<key>UIMainStoryboardFile</key>

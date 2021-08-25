@@ -13,21 +13,16 @@
     <pankk:PancakeView HorizontalOptions="Center" VerticalOptions="End"
                        Margin="10" CornerRadius="0">
         <StackLayout Margin="0" Spacing="0">
-            <Label Text="Reportar Contacto" FontSize="20"
-                   FontAttributes="Bold" HorizontalTextAlignment="Center"
-                   BackgroundColor="{DynamicResource PrimaryLightColor}" Padding="5"  TextColor="White"/>
-
-
             <StackLayout Orientation="Horizontal" Margin="5"
-                         Background="{DynamicResource TertiaryBackground}">
+                         BackgroundColor="{DynamicResource PrimaryLightColor}">
                 <forms:CachedImage Aspect="AspectFit" 
                                    Source="{Binding User.School.ImgPath, Source={x:Static data:AppData.Instance}}" 
-                                   WidthRequest="20" DownsampleToViewSize="False"
-                                   HeightRequest="20"/>
-                <Label 
-                    Text="{Binding Name}"/>
+                                   WidthRequest="40" DownsampleToViewSize="False"
+                                   HeightRequest="40"/>
+                <Label Text="Reportar Contacto" FontSize="25"
+                   FontAttributes="Bold" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"
+                      TextColor="White"/>
             </StackLayout>
-
             <StackLayout  Margin="5">
                 <controls:ArrowButton 
                     

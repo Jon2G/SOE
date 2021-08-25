@@ -40,19 +40,27 @@ namespace SOE.Views.Pages
             }
             return base.OnBackButtonPressed();
         }
+        
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            this.OnAppearingAsync();
+        }
+
+        private void OnAppearingAsync()
+        {
             if (this.Model.SelectedIndex <= 0)
             {
                 Dispatcher.BeginInvokeOnMainThread(() =>
-               {
-                   this.Model.SelectedIndex = 1;
-                   //Shell.SetNavBarIsVisible(this, this.Model.SelectedIndex != 1);
-               });
+                {
+                    this.Model.SelectedIndex = 1;
+                    //Shell.SetNavBarIsVisible(this, this.Model.SelectedIndex != 1);
+                });
             }
-            DependencyService.Get<IStartNotificationsService>()?.StartNotificationsService();
+            this.Model.OnAppearing().SafeFireAndForget();
+            //DependencyService.Get<IStartNotificationsService>()?.StartNotificationsService();
         }
+
         public static void ResponseTo(PendingAction PendingAction) => App.Current.Dispatcher.BeginInvokeOnMainThread(action: () => Execute(PendingAction).SafeFireAndForget());
         private static async Task Execute(PendingAction pendingAction)
         {

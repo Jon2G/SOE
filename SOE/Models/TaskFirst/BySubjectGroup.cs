@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using SOEWeb.Shared;
 using Kit;
+using Kit.Model;
 using SOE.Data;
 using SOE.Enums;
 using SOE.ViewModels.Pages;
@@ -10,10 +11,21 @@ using SOE.Views.ViewItems.TasksViews;
 
 namespace SOE.Models.TaskFirst
 {
-    public class BySubjectGroup
+    public class BySubjectGroup : ModelBase
     {
         public BySubjectGroupView View { get; set; }
         public Subject Subject { get; set; }
+        private bool _IsExpanded;
+
+        public bool IsExpanded
+        {
+            get => this._IsExpanded;
+            set
+            {
+                this._IsExpanded = value;
+                Raise(() => IsExpanded);
+            }
+        }
 
         public ObservableCollection<TaskViewModel> ToDoS { get; set; }
 
@@ -23,10 +35,17 @@ namespace SOE.Models.TaskFirst
             ToDoS = new ObservableCollection<TaskViewModel>();
         }
 
+        public void ExpandAll(bool expand)
+        {
+            this.IsExpanded = expand;
+        }
+
         internal void Refresh(DateTime date, PendingStatus status)
         {
             this.ToDoS.AddRange(AppData.Instance.LiteConnection
-                .DeferredQuery<ToDo>($"SELECT * from {nameof(ToDo)} where {nameof(ToDo.SubjectId)}=? AND STATUS=? AND {nameof(ToDo.Date)}=? order by Time", this.Subject.Id,status, date)
+                .DeferredQuery<ToDo>(
+                    $"SELECT * from {nameof(ToDo)} where {nameof(ToDo.SubjectId)}=? AND STATUS=? AND {nameof(ToDo.Date)}=? order by Time",
+                    this.Subject.Id, status, date)
                 .Select(x => new TaskViewModel(x, this)));
             foreach (var todo in ToDoS)
             {
@@ -34,5 +53,7 @@ namespace SOE.Models.TaskFirst
                 todo.ToDo.LoadDocument();
             }
         }
+
+
     }
 }

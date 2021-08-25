@@ -9,6 +9,9 @@
              x:Class="SOE.Views.ViewItems.SchoolGrades"
              x:DataType="viewModels:SchoolGradesViewModel"
              Background="{DynamicResource Background}">
+    <models:IconView.BindingContext>
+        <viewModels:SchoolGradesViewModel x:Name="Model"/>
+    </models:IconView.BindingContext>
     <models:IconView.Content>
         <StackLayout VerticalOptions="FillAndExpand">
 

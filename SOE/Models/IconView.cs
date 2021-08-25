@@ -7,10 +7,10 @@ namespace SOE.Models
     public class IconView : ContentView
     {
         public virtual string Title => string.Empty;
-
-        public IconView():base()
+        public virtual void OnAppearing(){}
+        public IconView() : base()
         {
-            
+
         }
     }
 }

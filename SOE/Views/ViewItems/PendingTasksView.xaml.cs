@@ -1,4 +1,7 @@
-﻿using Xamarin.Forms.Xaml;
+﻿using AsyncAwaitBestPractices;
+using System.Linq;
+using System.Threading.Tasks;
+using Xamarin.Forms.Xaml;
 
 namespace SOE.Views.ViewItems
 {
@@ -13,5 +16,14 @@ namespace SOE.Views.ViewItems
             Instance = this;
             InitializeComponent();
         }
+
+        public override void OnAppearing()
+        {
+            if (this.Model.DayGroups.Any())
+            {
+                this.Model.DayGroups.First().ExpandAll(true);
+            }
+        }
+        public Task Init => this.Model.Refresh();
     }
 }

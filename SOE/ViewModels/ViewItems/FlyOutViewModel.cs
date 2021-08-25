@@ -4,10 +4,13 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
 using AsyncAwaitBestPractices;
+using AsyncAwaitBestPractices.MVVM;
 using Kit;
 using Kit.Forms.Extensions;
 using Kit.Forms.Services;
 using Kit.Model;
+using Kit.Sql.Reflection;
+using Plugin.XamarinFormsSaveOpenPDFPackage;
 using SOE.Data;
 using SOE.Data.Images;
 using SOE.Models.Data;
@@ -24,6 +27,10 @@ namespace SOE.ViewModels.ViewItems
     {
         private ICommand _TareasCommand;
         public ICommand TareasCommand => _TareasCommand ??= new Command((x) => Goto(1));
+
+        private ICommand _PdfCalendarCommand;
+        public ICommand PdfCalendarCommand => this._PdfCalendarCommand ??= new AsyncCommand(PdfCalendar);
+
         private ICommand _HorarioCommand;
         public ICommand HorarioCommand => _HorarioCommand ??= new Command((x) => Goto(2));
         public ICommand ComingCommand { get; }
@@ -36,7 +43,7 @@ namespace SOE.ViewModels.ViewItems
         public ICommand AboutUsCommand => _AboutUsCommand ??= new Command(AboutUs);
         private void AboutUs()
         {
-            AppShell.CloseFlyout(); 
+            AppShell.CloseFlyout();
             Shell.Current.Navigation.PushAsync(new AboutUsPage()).SafeFireAndForget();
         }
         private FileImageSource _AvatarSource;
@@ -69,9 +76,36 @@ namespace SOE.ViewModels.ViewItems
             this.PrivacityCommand = new Command(Privacity);
             GetAvatar();
         }
+
+        private async Task PdfCalendar()
+        {
+            await Task.Yield();
+            if (!CrossXamarinFormsSaveOpenPDFPackage.IsSupported)
+            {
+                Shell.Current.DisplayAlert("Su dispositivo no soporta esta característica, lo sentimos...", "Mensaje informativo", "Ok").SafeFireAndForget();
+                return;
+            }
+            using (ReflectionCaller caller = ReflectionCaller.FromAssembly<App>())
+            {
+                using (Stream resourceStream = caller.GetResource("CalendarioEscolar.pdf"))
+                {
+                    using (MemoryStream stream = new())
+                    {
+                        resourceStream.Position = 0;
+                        await resourceStream.CopyToAsync(stream);
+                        stream.Position = 0;
+                        await CrossXamarinFormsSaveOpenPDFPackage.Current.SaveAndView(
+                             $"Calendario_Escolar.pdf", "application/pdf", stream,
+                             PDFOpenContext.InApp);
+                    }
+                }
+            }
+
+
+        }
         private void Privacity(object obj)
         {
-            AppShell.CloseFlyout(); 
+            AppShell.CloseFlyout();
             Shell.Current.Navigation.PushAsync(new PrivacityPage()).SafeFireAndForget(); ;
         }
         private async void Developer() => await Application.Current.MainPage.Navigation.PushModalAsync(new DeveloperOptions());
@@ -164,7 +198,7 @@ namespace SOE.ViewModels.ViewItems
         private void Goto(int index)
         {
             App.Current.Dispatcher.BeginInvokeOnMainThread(() => MasterPage.Instance.Model.SelectedIndex = index);
-            AppShell.CloseFlyout(); 
+            AppShell.CloseFlyout();
         }
         private void Coming()
         {
@@ -173,13 +207,13 @@ namespace SOE.ViewModels.ViewItems
         }
         private void OpenSettings()
         {
-            AppShell.CloseFlyout(); 
+            AppShell.CloseFlyout();
             Shell.Current.Navigation.PushAsync(new SettingsView(), true);
 
         }
         private void UserProfile(object obj)
         {
-            AppShell.CloseFlyout(); 
+            AppShell.CloseFlyout();
             Shell.Current.Navigation.PushAsync(new UserProfile(), true);
         }
     }

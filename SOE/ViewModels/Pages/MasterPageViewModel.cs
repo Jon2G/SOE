@@ -4,6 +4,7 @@ using Kit.Model;
 using Xamarin.Forms;
 using System.Threading.Tasks;
 using AsyncAwaitBestPractices;
+using DocumentFormat.OpenXml.Packaging;
 using SOE.Models;
 using SOE.Views.Pages;
 using SOE.Views.ViewItems;
@@ -77,8 +78,12 @@ namespace SOE.ViewModels.Pages
 
         public MasterPageViewModel()
         {
-            Views = new ObservableCollection<IconView>();
-            Load().SafeFireAndForget();
+            Views = new ObservableCollection<IconView>() 
+            {
+                new SchoolGrades(), 
+                new MainView(), 
+                new ScheduleViewMain()
+            };
         }
 
 
@@ -86,13 +91,20 @@ namespace SOE.ViewModels.Pages
         {
             this.SelectedView = this.Views[Index];
         }
-        private async Task Load()
+
+        private bool Showed = false;
+        public async Task OnAppearing()
         {
             await Task.Yield();
-            Views.Add(new SchoolGrades());
-            Views.Add(new MainView());
-            Views.Add(new ScheduleViewMain());
-            //Views.Add(new NotificationView());
+            if (this.Showed)
+            {
+                return;
+            }
+            this.Showed = true;
+            foreach (IconView view in this.Views)
+            {
+                view.OnAppearing();
+            }
         }
     }
 }

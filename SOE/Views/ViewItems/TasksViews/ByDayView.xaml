@@ -5,11 +5,12 @@
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:taskFirst="clr-namespace:SOE.Models.TaskFirst;assembly=SOE"
              xmlns:tasksViews="clr-namespace:SOE.Views.ViewItems.TasksViews;assembly=SOE"
-             x:Class="SOE.Views.ViewItems.TasksViews.ByDayView">
+             x:Class="SOE.Views.ViewItems.TasksViews.ByDayView"
+             x:DataType="taskFirst:ByDayGroup">
   <ContentView.Content>
         <ContentView>
             <pancakeView:PancakeView CornerRadius="5"  Margin="1">
-                <views:Expander>
+                <views:Expander IsExpanded="{Binding IsExpanded}">
                     <views:Expander.Header>
                         <Grid ColumnDefinitions="5,80,1,*">
 
@@ -38,7 +39,6 @@
                         </BindableLayout.ItemTemplate>
                     </StackLayout>
                 </views:Expander>
-
             </pancakeView:PancakeView>
         </ContentView>
     </ContentView.Content>

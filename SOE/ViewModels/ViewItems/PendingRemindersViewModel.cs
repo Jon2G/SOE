@@ -43,7 +43,6 @@ namespace SOE.ViewModels.ViewItems
         {
             Instance = this;
             Reminders = new ObservableCollection<Reminder>();
-            Load().SafeFireAndForget();
 
         }
 

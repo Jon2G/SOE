@@ -12,7 +12,11 @@ namespace SOE.Views.ViewItems
         {
             Instance = this;
             InitializeComponent();
-            
+        }
+
+        public override void OnAppearing()
+        {
+            this.MainTaskView.OnAppearing();
         }
     }
 }

@@ -17,7 +17,7 @@
         <StackLayout Spacing="0"
                      VerticalOptions="FillAndExpand">
 
-            <tasksViews:MainTaskView VerticalOptions="FillAndExpand"/>
+            <tasksViews:MainTaskView VerticalOptions="FillAndExpand" x:Name="MainTaskView"/>
 
             <Grid Padding="3" VerticalOptions="End"  
                   xct:TouchEffect.PressedScale="1.5"

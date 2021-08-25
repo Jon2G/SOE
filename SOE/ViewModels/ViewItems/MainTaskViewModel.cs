@@ -1,14 +1,12 @@
 ﻿using AsyncAwaitBestPractices;
+using Kit;
 using Kit.Model;
 using SOE.Enums;
 using SOE.Models;
 using SOE.Views.Pages;
 using SOE.Views.ViewItems;
-using SOE.Views.ViewItems.TasksViews;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 
 namespace SOE.ViewModels.ViewItems
@@ -27,7 +25,7 @@ namespace SOE.ViewModels.ViewItems
                     _SelectedIndex = value;
                     SelectedView = Views[value];
                     Raise(() => SelectedIndex);
-                    if (SelectedIndex == 1&& MainView.Instance.Model.Title=="Archivadas")
+                    if (SelectedIndex == 1 && MainView.Instance.Model.Title == "Archivadas")
                     {
                         MainView.Instance.Model.Title = "Pendientes";
                         PendingRemindersViewModel.Instance.Load(PendingStatus.Pending).SafeFireAndForget();
@@ -71,15 +69,7 @@ namespace SOE.ViewModels.ViewItems
 
         private ICommand _FlyOutCommand;
         public ICommand FlyOutCommand
-            => _FlyOutCommand ??= new Command(OpenFlyOut);
-
-        private void OpenFlyOut()
-        {
-  AppShell.OpenFlyout(); 
-        }
-
-
-
+            => _FlyOutCommand ??= new Command(AppShell.OpenFlyout);
         private void Add()
         {
             switch (SelectedView)
@@ -110,15 +100,25 @@ namespace SOE.ViewModels.ViewItems
         public MainTaskViewModel()
         {
             Views = new ObservableCollection<IconView>();
-            Load().SafeFireAndForget();
+            Load();
         }
 
-        private async Task Load()
+        private void Load()
         {
-            await Task.Yield();
-            SelectedView = new PendingTasksView();
+            var taskview = new PendingTasksView();
+            SelectedView = taskview;
             Views.Add(SelectedView);
-            Views.Add(new PendingRemindersView());
+            var remindersview = new PendingRemindersView();
+            Views.Add(remindersview);
+            taskview.Init.ContinueWith((t, o) => remindersview.Init, null).SafeFireAndForget();
+        }
+
+        public void OnAppearing()
+        {
+            foreach (IconView iconView in Views)
+            {
+                iconView.OnAppearing();
+            }
         }
     }
 }

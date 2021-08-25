@@ -22,6 +22,7 @@ namespace SOE.Views.ViewItems
             InitializeComponent();
         }
 
-        
+        public Task Init => this.Model.Load();
+
     }
 }

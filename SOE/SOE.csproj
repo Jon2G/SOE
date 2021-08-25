@@ -24,10 +24,12 @@
     <None Remove="Fonts\Fontello\font\fontello_24.ttf" />
     <None Remove="Fonts\Fontello\font\fontello_25.ttf" />
     <None Remove="Fonts\Fontello\font\fontello_26.ttf" />
+    <None Remove="Resources\CalendarioEscolar.pdf" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Fonts\Fontello\font\fontello_26.ttf" />
+    <EmbeddedResource Include="Resources\CalendarioEscolar.pdf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,7 +51,8 @@
     <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2083" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />  
-    <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />
+    <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />  
+    <PackageReference Include="Xamarin.Forms.SaveOpenPDFPackage" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -281,9 +284,5 @@
     <Compile Update="Views\ViewItems\MainTaskView.xaml.cs">
       <DependentUpon>MainTaskView.xaml</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resources\" />
   </ItemGroup>
 </Project>

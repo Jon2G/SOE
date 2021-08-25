@@ -50,6 +50,12 @@ namespace SOE.Views.ViewItems.ScheduleView
             }
             this.IsDayViewVisible = false;
         }
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+        }
+
         private async void OpenMenu(ClassSquare classSquare)
         {
             var pr = new MenuHorarioPopUp(classSquare);

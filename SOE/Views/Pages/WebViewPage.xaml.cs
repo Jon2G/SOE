@@ -1,4 +1,6 @@
 ﻿using Forms9Patch;
+using Plugin.XamarinFormsSaveOpenPDFPackage;
+using System.IO;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -23,17 +25,30 @@ namespace SOE.Views.Pages
             if (Forms9Patch.ToPdfService.IsAvailable)
             {
                 if (await this.WebView.ToPdfAsync("output.pdf",
-                    Forms9Patch.PageSize.IsoA4, 
+                    Forms9Patch.PageSize.IsoA4,
                     PageMargin.CreateInMillimeters(0)) is ToFileResult pdfResult)
                 {
                     if (pdfResult.IsError)
                         using (Toast.Create("PDF Failure", pdfResult.Result)) { }
                     else
                     {
-                        await Share.RequestAsync(new ShareFileRequest(new ShareFile(pdfResult.Result))
+                        using (FileStream fileStream = new FileStream(pdfResult.Result, FileMode.Open))
                         {
-                            Title = "Tu horario"
-                        });
+                            using (MemoryStream memoryStream = new MemoryStream())
+                            {
+                                fileStream.Position = 0;
+                                await fileStream.CopyToAsync(memoryStream); 
+                                await CrossXamarinFormsSaveOpenPDFPackage.Current.SaveAndView(
+                                    $"Horario_Escolar.pdf", "application/pdf", memoryStream,
+                                    PDFOpenContext.InApp);
+
+                            }
+                        }
+
+                        //await Share.RequestAsync(new ShareFileRequest(new ShareFile(pdfResult.Result))
+                        //{
+                        //    Title = "Tu horario"
+                        //});
                     }
                 }
             }

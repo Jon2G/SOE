@@ -10,6 +10,7 @@ using SOE.Enums;
 using SOE.Models.TaskFirst;
 using SOE.Views.ViewItems;
 using SOE.Views.ViewItems.TasksViews;
+using System.Collections.Generic;
 
 namespace SOE.ViewModels.ViewItems
 {
@@ -22,23 +23,20 @@ namespace SOE.ViewModels.ViewItems
         {
             Instance = this;
             DayGroups = new ObservableCollection<ByDayGroup>();
-            Refresh(PendingStatus.Pending).SafeFireAndForget();
         }
 
-        public async Task Refresh(Enums.PendingStatus status= Enums.PendingStatus.Pending)
+        public async Task Refresh(PendingStatus status = PendingStatus.Pending)
         {
             await Task.Yield();
             DayGroups.Clear();
-            DayGroups.AddRange(
-                AppData.Instance.LiteConnection.
-                    Lista<long>($"SELECT Distinct {nameof(ToDo.Date)} from {nameof(ToDo)} where  STATUS={(int)status} order by date")
-                    .Select((x) => new ByDayGroup()
-                    {
-                        FDateTime = new DateTime(x)
-                    }).ToList());
-            foreach (var day in DayGroups)
+            List<long> dates =
+                AppData.Instance.LiteConnection.Lista<long>($"SELECT Distinct {nameof(ToDo.Date)} from {nameof(ToDo)} where  STATUS={(int)status} order by date");
+            foreach (long ldate in dates)
             {
-                day.Refresh(status);
+                var date = new DateTime(ldate);
+                var day = new ByDayGroup(date);
+                DayGroups.Add(day);
+                day.Refresh(status).SafeFireAndForget();
             }
         }
 

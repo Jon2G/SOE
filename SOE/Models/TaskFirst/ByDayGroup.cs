@@ -7,30 +7,51 @@ using SOE.Data;
 using SOE.Enums;
 using SOE.Services;
 using SOE.Views.ViewItems.TasksViews;
+using System.Threading.Tasks;
 
 namespace SOE.Models.TaskFirst
 {
     public class ByDayGroup : ModelBase
     {
         public ByDayView View { get; set; }
-        public DateTime FDateTime { get; set; }
+        public DateTime FDateTime { get; }
         public string Month { get => FDateTime.Month.Mes(); }
         public ObservableCollection<BySubjectGroup> SubjectGroups { get; set; }
         public int Tareas => SubjectGroups.Sum(x => x.ToDoS.Count);
+        private bool _IsExpanded;
 
-        public ByDayGroup()
+        public bool IsExpanded
         {
+            get => this._IsExpanded;
+            set
+            {
+                this._IsExpanded = value;
+                Raise(() => IsExpanded);
+            }
+        }
+        public ByDayGroup(DateTime date)
+        {
+            this.FDateTime = date;
             this.SubjectGroups = new ObservableCollection<BySubjectGroup>();
 
         }
 
+        public void ExpandAll(bool expand)
+        {
+            this.IsExpanded = expand;
+            for (int i = 0; i < SubjectGroups.Count; i++)
+            {
+                SubjectGroups[i].ExpandAll(expand);
+            }
+        }
         internal void RefreshCount()
         {
             Raise(() => Tareas);
         }
 
-        internal void Refresh(PendingStatus status)
+        public async Task Refresh(PendingStatus status)
         {
+            await Task.Yield();
             SubjectGroups.Clear();
             SubjectGroups.AddRange(AppData.Instance.LiteConnection.Lista<int>(
                     $"SELECT Distinct {nameof(ToDo.SubjectId)} from {nameof(ToDo)} where {nameof(ToDo.Date)}={this.FDateTime.Ticks} AND STATUS={(int)status}")

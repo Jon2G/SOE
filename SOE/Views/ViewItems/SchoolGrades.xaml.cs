@@ -11,28 +11,18 @@ namespace SOE.Views.ViewItems
     public partial class SchoolGrades
     {
         public override string Title => "Calificaciones";
-        //public static SchoolGrades Instance { get; private set; }
-        public SchoolGradesViewModel Model
-        {
-            get;
-            set;
-        }
+
         public SchoolGrades()
         {
-            //Instance = this;
-            this.Model = new SchoolGradesViewModel();
-            this.BindingContext = this.Model;
             InitializeComponent();
             if (!AppData.Instance.User.HasSubjects)
             {
                 this.Content = new NoInscriptionView();
                 return;
             }
-            Init().SafeFireAndForget();
         }
-        private async Task Init()
+        public override void OnAppearing()
         {
-            await Task.Yield();
             this.Model.GetGrades();
         }
     }

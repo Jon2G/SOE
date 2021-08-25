@@ -5,9 +5,10 @@
              xmlns:tasksViews="clr-namespace:SOE.Views.ViewItems.TasksViews;assembly=SOE"
              xmlns:taskFirst="clr-namespace:SOE.Models.TaskFirst;assembly=SOE"
              xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
-             x:Class="SOE.Views.ViewItems.TasksViews.BySubjectGroupView">
+             x:Class="SOE.Views.ViewItems.TasksViews.BySubjectGroupView"
+             x:DataType="taskFirst:BySubjectGroup">
     <ContentView.Content>
-        <views:Expander x:Name="Expander" BackgroundColor="{Binding Subject.Color}">
+        <views:Expander x:Name="Expander" IsExpanded="{Binding IsExpanded}" BackgroundColor="{Binding Subject.Color}">
             <views:Expander.Header>
                 <Label VerticalOptions="Center" VerticalTextAlignment="Center"
                        Text="{Binding Subject.Name}" 

@@ -87,6 +87,18 @@
                                 <Label  Margin="10,0,0,0" Text=" Tareas" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                             </StackLayout>
                         </ViewCell>
+                        <ViewCell>
+                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding PdfCalendarCommand}" 
+                                                          CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
+                                </StackLayout.GestureRecognizers>
+                                <Label Text="{x:Static fonts:FontelloIcons.Calendar}"  
+                                       FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                       FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                <Label  Margin="10,0,0,0" Text=" Calendario Escolar" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                            </StackLayout>
+                        </ViewCell>
                         <!--<ViewCell >
 
                             <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">

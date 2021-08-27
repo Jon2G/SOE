@@ -4,6 +4,8 @@ namespace SOEWeb.Shared
 {
     public class School
     {
+        [JsonProperty(nameof(Id))]
+        public int Id { get; set; }
         [JsonProperty(nameof(HomePage))]
         public string HomePage { get; set; }
         [JsonProperty(nameof(Name))]

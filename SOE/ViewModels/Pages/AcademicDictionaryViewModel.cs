@@ -13,13 +13,14 @@ using Xamarin.Forms;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
 using System.Threading.Tasks;
+using SOEWeb.Shared;
+using AsyncAwaitBestPractices;
 
 namespace SOE.ViewModels.Pages
 {
   public class AcademicDictionaryViewModel : ModelBase
     {
-        public ObservableCollection<SchoolContact> Contacts { get; set; }
-        public User User { get; set; }
+        public ObservableCollection<ContactsByDeparment> Contacts { get; set; }
         public ICommand OpenLinkCommand { get; set; }
         public ICommand CallnumberCommand { get; set; }
         public ICommand ContactMessageCommand { get; set; }
@@ -31,16 +32,19 @@ namespace SOE.ViewModels.Pages
 
         public AcademicDictionaryViewModel()
         {
-            this.User = AppData.Instance.User;
             this.OpenLinkCommand = new Command(this.OpenLink);
             this.CallnumberCommand = new Command(this.Callnumber);
             this.ContactMessageCommand = new Command<SchoolContact>(ContactMessage);
             this.ContactCallCommand = new Command<SchoolContact>(ContactCall);
             AddContactCommand = new Command<SchoolContact>(AddContact);
             ContactLinkCommand = new Command<SchoolContact>(ContactLink);
-            this.Contacts = this.ContactsList();
+            Init().SafeFireAndForget();
         }
-
+        private async Task Init()
+        {
+            await Task.Yield();
+            this.Contacts =await this.ContactsList();
+        }
         private void ContactCall(SchoolContact contact) => PhoneDialer.Open(contact.Phone);
         private void ContactLink(SchoolContact obj) => OpenBrowser(obj.Url);
         private void Callnumber(object obj) => PhoneDialer.Open("55 5624 2000");
@@ -89,19 +93,11 @@ namespace SOE.ViewModels.Pages
                 Log.Logger.Error(e, nameof(OpenBrowser));
             }
         }
-        public ObservableCollection<SchoolContact> ContactsList()
+        public async Task<ObservableCollection<ContactsByDeparment>> ContactsList()
         {
-            return new ObservableCollection<SchoolContact>
-            {
-                new SchoolContact("Gestion escolar","Mario","553215456","http://sacadem.esimecu.ipn.mx/ic/ic","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","Mario","553215456","http://sacadem.esimecu.ipn.mx/ic/ic","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","Mario","553215456","http://sacadem.esimecu.ipn.mx/ic/ic","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","Mario","553215456","http://sacadem.esimecu.ipn.mx/ic/ic","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","Mario","553215456","http://sacadem.esimecu.ipn.mx/ic/ic","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","Mario","553215456","http://sacadem.esimecu.ipn.mx/ic/ic","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","Mario","553215456","http://sacadem.esimecu.ipn.mx/ic/ic","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","M. en C. Jose Luis Bautista Arias","553215456","http://sacadem.esimecu.ipn.mx/ic/ic","ictramitescu@ipn.mx")
-            };
+            await Task.Yield();
+            var contacts= await API.APIService.GetContacts(AppData.Instance.User.School.Id);
+            return new ObservableCollection<ContactsByDeparment>(contacts);
         }
     }
 }

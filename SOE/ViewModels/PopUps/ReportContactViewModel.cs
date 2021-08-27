@@ -3,6 +3,7 @@ using SOE.API;
 using SOE.Models;
 using SOE.Models.Data;
 using SOE.Views.PopUps;
+using SOEWeb.Shared;
 using SOEWeb.Shared.Enums;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace SOE.ViewModels.PopUps
 {
     public class ReportContactViewModel
     {
-        public User User { get; set; }
+
         public SchoolContact Contact { get; }
         public ReportContact ReportContact { get; }
         public ReportContactViewModel(SchoolContact Contact, ReportContact ReportContact)

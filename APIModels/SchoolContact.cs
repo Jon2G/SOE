@@ -1,19 +1,22 @@
 ﻿using Kit.Model;
+using Kit.Sql.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SOE.Models
+namespace SOEWeb.Shared
 {
-    public class SchoolContact : ModelBase
+    public class SchoolContact : ModelBase,IGuid
     {
-        private string _Departament;
+        
         private string _Url;
         private string _Phone;
         private string _Name;
         private string _Correo;
+        public Guid Guid { get; set; }
 
-        public string Departament
+        private Departament _Departament;
+        public Departament Departament
         {
             get => this._Departament;
             set
@@ -58,7 +61,9 @@ namespace SOE.Models
                 this.Raise(() => this.Correo);
             }
         }
-        public SchoolContact(string Departament, string Name, string Phone, string Url,string Correo)
+
+
+        public SchoolContact(Departament Departament, string Name, string Phone, string Url,string Correo)
         {
             this.Departament = Departament;
             this.Name = Name;

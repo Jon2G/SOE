@@ -6,6 +6,7 @@ using Rg.Plugins.Popup.Services;
 using SOE.Models;
 using SOE.ViewModels.PopUps;
 using SOE.ViewModels.ViewItems;
+using SOEWeb.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -13,12 +13,12 @@
     <pankk:PancakeView HorizontalOptions="Center" VerticalOptions="End"
                        Margin="10" CornerRadius="0">
         <StackLayout Margin="0" Spacing="0">
-            <StackLayout Orientation="Horizontal" Margin="5"
+            <StackLayout Orientation="Horizontal" 
                          BackgroundColor="{DynamicResource PrimaryLightColor}">
                 <forms:CachedImage Aspect="AspectFit" 
                                    Source="{Binding User.School.ImgPath, Source={x:Static data:AppData.Instance}}" 
                                    WidthRequest="40" DownsampleToViewSize="False"
-                                   HeightRequest="40"/>
+                                   HeightRequest="40" Margin="5,0,0,0"/>
                 <Label Text="Reportar Contacto" FontSize="25"
                    FontAttributes="Bold" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"
                       TextColor="White"/>
@@ -33,7 +33,7 @@
                 </controls:ArrowButton>
                 <controls:ArrowButton 
                     
-                    Title="Reportar contacto caido" ArrowColor="{StaticResource AccentColor}">
+                    Title="Reportar contacto caido"  ArrowColor="{StaticResource AccentColor}">
                     <controls:ArrowButton.Icon>
                         <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Unlink}" FontFamily="{x:Static fonts:FontelloIcons.Font}" Color="{AppThemeBinding Dark=White,Light=Black}"></FontImageSource>
                     </controls:ArrowButton.Icon>

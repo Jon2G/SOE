@@ -351,6 +351,7 @@ namespace SOE.API
         }
         internal static async Task<List<Link>> GetLinks(string group, int TeacherId, int SubjectId)
         {
+            await Task.Yield();
             if (string.IsNullOrEmpty(group) || TeacherId <= 0 || SubjectId <= 0)
             {
                 return new List<Link>();
@@ -364,6 +365,23 @@ namespace SOE.API
             }
             Response response = JsonConvert.DeserializeObject<Response>(result.Response);
             return new List<Link>(JsonConvert.DeserializeObject<Link[]>(response.Extra));
+        }
+        internal static async Task<List<ContactsByDeparment>> GetContacts(int SchoolId)
+        {
+            await Task.Yield();
+            if (SchoolId <= 0  )
+            {
+                return new List<ContactsByDeparment>();
+            }
+            WebService WebService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = await WebService.GET("GetContacts",
+                 SchoolId.ToString(), AppData.Instance.User.Id.ToString());
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+            {
+                return new List<ContactsByDeparment>();
+            }
+            Response response = JsonConvert.DeserializeObject<Response>(result.Response);
+            return new List<ContactsByDeparment>(JsonConvert.DeserializeObject<ContactsByDeparment[]>(response.Extra));
         }
     }
 }

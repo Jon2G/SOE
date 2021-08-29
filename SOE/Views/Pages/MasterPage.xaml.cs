@@ -58,7 +58,6 @@ namespace SOE.Views.Pages
                 Dispatcher.BeginInvokeOnMainThread(() =>
                 {
                     this.Model.SelectedIndex = 1;
-                    //Shell.SetNavBarIsVisible(this, this.Model.SelectedIndex != 1);
                 });
             }
             await this.Model.OnAppearing();
@@ -70,9 +69,9 @@ namespace SOE.Views.Pages
                 switch (status)
                 {
                     case PermissionStatus.Denied:
-                    case PermissionStatus.Disabled:
                     case PermissionStatus.Granted:
                         return;
+                    case PermissionStatus.Disabled:
                     case PermissionStatus.Unknown:
                         appTrackingTransparencyPermission.RequestAsync((s) => { });
                         break;

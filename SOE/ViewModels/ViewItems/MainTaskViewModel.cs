@@ -6,6 +6,7 @@ using SOE.Models;
 using SOE.Views.Pages;
 using SOE.Views.ViewItems;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -20,18 +21,19 @@ namespace SOE.ViewModels.ViewItems
             get => _SelectedIndex;
             set
             {
-                if (value >= 0 && this._SelectedIndex != value)
+                if (value >= 0 && this._SelectedIndex != value && (Views?.Any() ?? false))
                 {
                     _SelectedIndex = value;
                     SelectedView = Views[value];
                     Raise(() => SelectedIndex);
-                    if (SelectedIndex == 1 && MainView.Instance.Model.Title == "Archivadas")
+                    if (SelectedIndex == 1 && MainView.Instance?.Model is not null && MainView.Instance.Model.Title == "Archivadas")
                     {
                         MainView.Instance.Model.Title = "Pendientes";
                         PendingRemindersViewModel.Instance.Load(PendingStatus.Pending).SafeFireAndForget();
                         PendingTasksViewModel.Instance.Refresh(PendingStatus.Pending).SafeFireAndForget();
                     }
                 }
+                _SelectedIndex = value;
             }
         }
 
@@ -42,7 +44,7 @@ namespace SOE.ViewModels.ViewItems
             get => _SelectedView;
             set
             {
-                if (_SelectedView != value)
+                if (_SelectedView != value && (Views?.Any() ?? false))
                 {
                     _SelectedView = value;
                     SelectedIndex = Views.IndexOf(value);
@@ -99,18 +101,20 @@ namespace SOE.ViewModels.ViewItems
 
         public MainTaskViewModel()
         {
-            Views = new ObservableCollection<IconView>();
-            Load();
+            PendingTasksView pt = new ();
+            PendingRemindersView pr = new ();
+            Views = new ObservableCollection<IconView>()
+            {
+                new PendingTasksView(),
+                new PendingRemindersView()
+            };
+            Load(pt, pr);
         }
 
-        private void Load()
+        private void Load(PendingTasksView pt, PendingRemindersView pr)
         {
-            var taskview = new PendingTasksView();
-            SelectedView = taskview;
-            Views.Add(SelectedView);
-            var remindersview = new PendingRemindersView();
-            Views.Add(remindersview);
-            taskview.Init.ContinueWith((t, o) => remindersview.Init, null).SafeFireAndForget();
+            pt.Init.ContinueWith((t, o) => pr.Init, null).SafeFireAndForget();
+            this.TareasView();
         }
 
         public void OnAppearing()

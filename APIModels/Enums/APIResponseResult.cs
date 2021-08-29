@@ -1,4 +1,5 @@
-﻿namespace SOEWeb.Shared.Enums
+﻿// ReSharper disable InconsistentNaming
+namespace SOEWeb.Shared.Enums
 {
     public enum APIResponseResult
     {

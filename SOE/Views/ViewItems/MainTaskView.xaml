@@ -83,8 +83,8 @@
 
         <pancard:CarouselView IsUserInteractionEnabled="False" VerticalOptions="FillAndExpand" Margin="0"
                               Padding="0" 
-                      SelectedIndex="{Binding SelectedIndex}"
-                      SelectedItem="{Binding SelectedView }"
-                      ItemsSource="{Binding Views}"/>
+                              ItemsSource="{Binding Views}"
+                              SelectedIndex="{Binding SelectedIndex}"
+                              SelectedItem="{Binding SelectedView }"/>
     </StackLayout>
 </ContentView>

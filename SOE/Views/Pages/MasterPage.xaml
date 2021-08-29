@@ -30,9 +30,9 @@
         </BoxView>
 
         <panCardView:CarouselView IsUserInteractionEnabled="False" 
+                                  ItemsSource="{Binding Views}"
                                   SelectedIndex="{Binding SelectedIndex}"
-                                  SelectedItem="{Binding SelectedView }"
-                                  ItemsSource="{Binding Views}"/>
+                                  SelectedItem="{Binding SelectedView }"/>
 
         <StackLayout VerticalOptions="FillAndExpand"
                      BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"

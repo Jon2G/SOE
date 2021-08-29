@@ -29,6 +29,7 @@ namespace SOE.ViewModels.Pages
                     Raise(() => SelectedIndex);
                     SelectionChanged(value);
                 }
+                _SelectedIndex = value;
             }
         }
 
@@ -39,7 +40,7 @@ namespace SOE.ViewModels.Pages
             get => _SelectedView;
             set
             {
-                if (_SelectedView != value)
+                if (_SelectedView != value && (Views?.Any() ?? false))
                 {
                     _SelectedView = value;
                     SelectedIndex = Views.IndexOf(value);
@@ -47,7 +48,14 @@ namespace SOE.ViewModels.Pages
                 }
             }
         }
-        public ObservableCollection<IconView> Views { get; }
+
+        private ObservableCollection<IconView> _Views;
+        public ObservableCollection<IconView> Views => _Views ??= new ObservableCollection<IconView>()
+        {
+            new SchoolGrades(),
+            new MainView(),
+            new ScheduleViewMain()
+        };
 
 
         private ICommand _TareasViewCommand;
@@ -78,12 +86,7 @@ namespace SOE.ViewModels.Pages
 
         public MasterPageViewModel()
         {
-            Views = new ObservableCollection<IconView>() 
-            {
-                new SchoolGrades(), 
-                new MainView(), 
-                new ScheduleViewMain()
-            };
+           
         }
 
 

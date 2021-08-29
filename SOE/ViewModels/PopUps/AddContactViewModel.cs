@@ -84,6 +84,7 @@ namespace SOE.ViewModels.PopUps
         {
             this.AddContactPage = addContact;
             AddContactCommand = new AsyncCommand(AddContact,CanAddContact);
+            Departament = new Departament();
         }
 
         private bool CanAddContact(object arg)

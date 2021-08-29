@@ -1,5 +1,8 @@
-﻿using SOE.Data;
+﻿using SOE.API;
+using SOE.Data;
+using SOE.Models.Data;
 using SOEWeb.Shared;
+using System.Threading.Tasks;
 
 namespace SOE.Services
 {
@@ -13,5 +16,7 @@ namespace SOE.Services
         }
 
         public static School Get() => AppData.Instance.LiteConnection.Table<School>().FirstOrDefault();
+
+        public static Task<int> GetId(User user) => APIService.GetSchoolId(user);
     }
 }

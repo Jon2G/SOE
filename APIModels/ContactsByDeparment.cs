@@ -8,10 +8,15 @@ namespace SOEWeb.Shared
 {
     public class ContactsByDeparment : ObservableCollection<SchoolContact>
     {
-        public Departament Departament { get; private set; }
+        public Departament Departament { get;  set; }
         public ContactsByDeparment(Departament Departament)
         {
             this.Departament = Departament;
+        }
+
+        public ContactsByDeparment()
+        {
+            
         }
     }
 

@@ -11,11 +11,11 @@
                   x:Name="Me"
                   x:Class="SOE.Views.PopUps.AddContactPage">
     <pankk:PancakeView HorizontalOptions="FillAndExpand"
-                       VerticalOptions="Center" Margin="10"
+                       VerticalOptions="Center" Margin="10" 
                        BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDarkColor},Light={StaticResource BackgroundLightColor}}">
-        <StackLayout Margin="10">
-            <StackLayout Padding="0" Orientation="Horizontal"  BackgroundColor="{DynamicResource PrimaryLightColor}">
-                <forms:CachedImage Grid.Column="0"
+        <StackLayout Margin="0" >
+            <StackLayout Padding="5" Orientation="Horizontal"  BackgroundColor="{DynamicResource PrimaryLightColor}">
+                <forms:CachedImage 
                     Source="{Binding User.School.ImgPath, Source={x:Static data:AppData.Instance}}"
                     HeightRequest="60" LoadingPlaceholder="logo_soe_fill" ErrorPlaceholder="logo_soe_fill" 
                     />
@@ -34,26 +34,26 @@
                     </Label.GestureRecognizers>
                 </Label>
             </StackLayout>
-            <Grid ColumnDefinitions="26*,80*">
-                <Label Text="Departamento" FontAttributes="Bold"/>
-                <Entry Grid.Column="1" HorizontalOptions="FillAndExpand" Text="{Binding contact.Departament}"/>
-            </Grid>
-            <Grid ColumnDefinitions="26*,80*">
-                <Label Text="Nombre" FontAttributes="Bold"/>
-                <Entry Grid.Column="1" HorizontalOptions="FillAndExpand" Text="{Binding contact.Name}"/>
-            </Grid>
-            <Grid ColumnDefinitions="26*,80*">
-                <Label Text="Correo" FontAttributes="Bold"/>
-                <Entry Grid.Column="1" HorizontalOptions="FillAndExpand" Text="{Binding contact.Correo}"/>
-            </Grid>
-            <Grid ColumnDefinitions="26*,80*" >
-                <Label Text="Telefono" FontAttributes="Bold"/>
-                <Entry Grid.Column="1" HorizontalOptions="FillAndExpand" Text="{Binding contact.Phone}"/>
-            </Grid>
-            <Grid ColumnDefinitions="26*,80*" >
-                <Label Text="Pagina" FontAttributes="Bold"/>
-                <Entry  Grid.Column="1" HorizontalOptions="FillAndExpand" Text="{Binding contact.Url}"/>
-            </Grid>
+            <ScrollView>
+                <StackLayout Padding="10">
+                    <Label Text="Departamento" FontAttributes="Bold"/>
+                    <Entry HorizontalOptions="FillAndExpand" Text="{Binding Departament.Name}"/>
+
+                    <Label Text="Nombre" FontAttributes="Bold"/>
+                    <Entry Grid.Column="1" HorizontalOptions="FillAndExpand" Text="{Binding Name}"/>
+
+                    <Label Text="Correo" FontAttributes="Bold"/>
+                    <Entry Grid.Column="1" HorizontalOptions="FillAndExpand" Text="{Binding Correo}"/>
+
+                    <Label Text="Telefono" FontAttributes="Bold"/>
+                    <Entry Grid.Column="1" HorizontalOptions="FillAndExpand" Text="{Binding Phone}"/>
+
+                    <Label Text="Pagina" FontAttributes="Bold"/>
+                    <Entry  Grid.Column="1" HorizontalOptions="FillAndExpand" Text="{Binding Url}"/>
+                </StackLayout>
+            </ScrollView>
+
+        
             <Button Text="Cancelar" FontAttributes="Bold" BackgroundColor="Red" Clicked="OnClose" CornerRadius="5"/>
         </StackLayout>
     </pankk:PancakeView>

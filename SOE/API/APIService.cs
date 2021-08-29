@@ -28,8 +28,10 @@ namespace SOE.API
         //--NonHttpsUrl "localhost:5001"
         public const string ShareTodo = "ShareTodo";
         public const string ShareReminder = "ShareReminder";
-        public const string NonProdUrl = "dhokq2d69j.execute-api.us-east-2.amazonaws.com";
-        public static string NonHttpsUrl => $"{NonProdUrl}/Prod";
+        //public const string NonProdUrl = "dhokq2d69j.execute-api.us-east-2.amazonaws.com";
+        public const string NonProdUrl = "192.168.0.32:44313";
+        //public static string NonHttpsUrl => $"{NonProdUrl}/Prod";
+        public static string NonHttpsUrl => $"{NonProdUrl}";
         public static string BaseUrl => $"https://{NonHttpsUrl}";
         public static string Url => $"{BaseUrl}/App";
 
@@ -380,7 +382,7 @@ namespace SOE.API
                 contact.Url = uri.AbsoluteUri;
             }
 
-          
+
             string jsonContact = JsonConvert.SerializeObject(contact);
             WebService WebService = new WebService(Url);
             Kit.Services.Web.ResponseResult result =
@@ -421,7 +423,7 @@ namespace SOE.API
         {
             WebService WebService = new WebService(Url);
             Kit.Services.Web.ResponseResult result = await WebService.GET(
-                "ReportContact",            
+                "ReportContact",
                 contact.Guid.ToString("N"),
                 ((int)reason).ToString(),
                   AppData.Instance.User.Id.ToString());
@@ -450,5 +452,26 @@ namespace SOE.API
                 return r.ResponseResult == APIResponseResult.OK;
             }
         }
+
+
+        internal static async Task<int> GetSchoolId(User user)
+        {
+            await Task.Yield();
+            WebService WebService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result =
+                await WebService.GET("GetSchoolId", user.Id.ToString());
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+            {
+                return -1;
+            }
+            Response r = JsonConvert.DeserializeObject<Response>(result.Response);
+            if (r is not null && r.ResponseResult == APIResponseResult.OK)
+            {
+                return Convert.ToInt32(r.Extra);
+            }
+            return -1;
+        }
+
+
     }
 }

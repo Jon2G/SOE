@@ -6,6 +6,7 @@ using System.Text;
 
 namespace SOEWeb.Shared
 {
+    [Serializable]
     public class Departament : ModelBase, IGuid
     {
         public Guid Guid { get; set; }
@@ -22,5 +23,10 @@ namespace SOEWeb.Shared
         }
 
         public bool IsValid() => !string.IsNullOrEmpty(Name);
+
+        public Departament()
+        {
+            
+        }
     }  
 }

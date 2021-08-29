@@ -586,7 +586,7 @@ namespace SOEAWS.Controllers
                     , new SqlParameter("PHONE", string.IsNullOrEmpty(Contact.Phone) ? DBNull.Value : Contact.Phone)
                     , new SqlParameter("MAIL", string.IsNullOrEmpty(Contact.Correo) ? DBNull.Value : Contact.Correo)
                     , new SqlParameter("DEPARTMENT_NAME", Contact.Departament.Name)
-                    , new SqlParameter("URL", Contact.Url)
+                    , new SqlParameter("URL", string.IsNullOrEmpty(Contact.Url) ? DBNull.Value : Contact.Url)
                     , new SqlParameter("USER", User)
                     , new SqlParameter("SCHOOL_ID", SchoolId)
                     );
@@ -625,7 +625,7 @@ namespace SOEAWS.Controllers
                         Phone = Sqlh.IfNull<string>(reader[2], null),
                         Correo = Sqlh.IfNull<string>(reader[3], null),
                         Url = Sqlh.IfNull<string>(reader[4], null),
-                        IsOwner = Convert.ToInt32(reader[5]) == UserId 
+                        IsOwner = Convert.ToInt32(reader[5]) == UserId
                     };
                     if (Contacts.TryGetValue(IdDepartamento, out ContactsByDeparment Departament))
                     {
@@ -646,15 +646,22 @@ namespace SOEAWS.Controllers
                 }
             }
 
+            string json = Kit.XMLExtensions.SerializeObject(Contacts.Values.ToArray());
+            
+
+   
+            var  A = 
+                System.Text.Json.JsonSerializer.Deserialize<ContactsByDeparment[]>(json);
+
+       
             return new Response(
                 APIResponseResult.OK,
-                "Ok",
-                JsonConvert.SerializeObject(Contacts.Values.ToList().ToArray()));
+                "Ok",json);
         }
         [HttpGet("ReportContact/{ContactId}/{ReportReason}/{UserId}")]
-        public ActionResult<Response> ReportContact( Guid ContactId, int ReportReason, int UserId) =>
-            this.ReportContact(ContactId,(ReportReason)ReportReason,UserId);
-        private ActionResult<Response> ReportContact( Guid ContactId, ReportReason ReportReason, int UserId)
+        public ActionResult<Response> ReportContact(Guid ContactId, int ReportReason, int UserId) =>
+            this.ReportContact(ContactId, (ReportReason)ReportReason, UserId);
+        private ActionResult<Response> ReportContact(Guid ContactId, ReportReason ReportReason, int UserId)
         {
             if (ContactId == Guid.Empty)
             {
@@ -699,6 +706,29 @@ namespace SOEAWS.Controllers
                 this._logger.LogError(ex, "DeleteContact");
             }
             return new Response(APIResponseResult.OK, "Ok");
+        }
+
+        [HttpGet("GetSchoolId/{UserId}")]
+        public ActionResult<Response> GetSchoolId(int UserId)
+        {
+            int SchoolId = -1;
+            if (UserId <= 0)
+            {
+                return SOEWeb.Shared.Response.InvalidRequest;
+            }
+
+            try
+            {
+                SchoolId = WebData.Connection.Single<int>("SP_GETSCHOOL_ID_BY_USER_ID",
+                       CommandType.StoredProcedure
+                       , new SqlParameter("USER_ID", UserId));
+                WebData.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex, "GetSchoolId");
+            }
+            return new Response(APIResponseResult.OK, "Ok", SchoolId.ToString());
         }
     }
 }

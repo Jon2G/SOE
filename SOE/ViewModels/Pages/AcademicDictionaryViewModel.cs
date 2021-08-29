@@ -19,9 +19,20 @@ using SOE.Services;
 
 namespace SOE.ViewModels.Pages
 {
-  public class AcademicDictionaryViewModel : ModelBase
+    public class AcademicDictionaryViewModel : ModelBase
     {
-        public ObservableCollection<ContactsByDeparment> Contacts { get; set; }
+        private ObservableCollection<ContactsByDeparment> _Contacts;
+
+        public ObservableCollection<ContactsByDeparment> Contacts
+        {
+            get => _Contacts;
+            set
+            {
+                _Contacts = value;
+                Raise(()=> Contacts);
+            }
+        }
+
         public ICommand OpenLinkCommand { get; set; }
         public ICommand CallnumberCommand { get; set; }
         public ICommand ContactMessageCommand { get; set; }
@@ -44,12 +55,21 @@ namespace SOE.ViewModels.Pages
         public async Task Init()
         {
             await Task.Yield();
+            if (AppData.Instance.User.School.Id <= 0)
+            {
+                using (Acr.UserDialogs.UserDialogs.Instance.Loading("Cargando información de la escuela..."))
+                {
+                    AppData.Instance.LiteConnection.CreateTable<School>();
+                    AppData.Instance.User.School.Id =await SchoolService.GetId(AppData.Instance.User);
+                    AppData.Instance.User.Save();
+                }
+            }
             this.Contacts = await SchoolContactsService.Get();
         }
         private void ContactCall(SchoolContact contact) => PhoneDialer.Open(contact.Phone);
         private void ContactLink(SchoolContact obj) => OpenBrowser(obj.Url);
         private void Callnumber(object obj) => PhoneDialer.Open("55 5624 2000");
-        private void OpenLink(object obj) => OpenBrowser("https://www.esimecu.ipn.mx/");
+        private void OpenLink(object obj) => OpenBrowser(AppData.Instance.User.School.HomePage);
 
         private async void Reportar(SchoolContact contact)
         {
@@ -62,7 +82,7 @@ namespace SOE.ViewModels.Pages
             await pr.ShowDialog();
         }
 
-       
+
         private async void ContactMessage(SchoolContact contact)
         {
             try
@@ -80,8 +100,8 @@ namespace SOE.ViewModels.Pages
             }
 
         }
-        
-        
+
+
         private async void OpenBrowser(string url)
         {
             try

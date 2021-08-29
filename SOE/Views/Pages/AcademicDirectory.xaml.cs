@@ -12,9 +12,11 @@ namespace SOE.Views.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AcademicDirectory : ContentPage
     {
+        public static AcademicDirectory Instance { get; private set; }
         public AcademicDirectory()
         {
             InitializeComponent();
+            Instance = this;
         }
     }
 }

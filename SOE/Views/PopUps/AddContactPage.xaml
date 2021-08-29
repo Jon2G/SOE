@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:BasePopUp  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
+                xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE" 
+                 xmlns:pankk="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
+                  xmlns:popups="clr-namespace:SOE.ViewModels.PopUps" 
+                  x:DataType="popups:AddContactViewModel"
+                  x:Name="Me"
+                  x:Class="SOE.Views.PopUps.AddContactPage">
+    <pankk:PancakeView HorizontalOptions="FillAndExpand"
+                       VerticalOptions="Center" Margin="10"
+                       BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDarkColor},Light={StaticResource BackgroundLightColor}}">
+        <StackLayout Margin="10">
+            <StackLayout Padding="0" Orientation="Horizontal"  BackgroundColor="{DynamicResource PrimaryLightColor}">
+                <forms:CachedImage Grid.Column="0"
+                    Source="{Binding User.School.ImgPath, Source={x:Static data:AppData.Instance}}"
+                    HeightRequest="60" LoadingPlaceholder="logo_soe_fill" ErrorPlaceholder="logo_soe_fill" 
+                    />
+                <Label Text="Agregar Contacto" TextColor="White" 
+                       FontSize="20" HorizontalOptions="CenterAndExpand"
+                   FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                  Padding="5"/>
+                <Label Text="{x:Static fonts:FontelloIcons.CirclePlus}" 
+                       FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                       TextColor="White" 
+                       FontSize="40" HorizontalOptions="End"
+                   FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                       Padding="5" >
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding AddContactCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+            <Grid ColumnDefinitions="26*,80*">
+                <Label Text="Departamento" FontAttributes="Bold"/>
+                <Entry Grid.Column="1" HorizontalOptions="FillAndExpand" Text="{Binding contact.Departament}"/>
+            </Grid>
+            <Grid ColumnDefinitions="26*,80*">
+                <Label Text="Nombre" FontAttributes="Bold"/>
+                <Entry Grid.Column="1" HorizontalOptions="FillAndExpand" Text="{Binding contact.Name}"/>
+            </Grid>
+            <Grid ColumnDefinitions="26*,80*">
+                <Label Text="Correo" FontAttributes="Bold"/>
+                <Entry Grid.Column="1" HorizontalOptions="FillAndExpand" Text="{Binding contact.Correo}"/>
+            </Grid>
+            <Grid ColumnDefinitions="26*,80*" >
+                <Label Text="Telefono" FontAttributes="Bold"/>
+                <Entry Grid.Column="1" HorizontalOptions="FillAndExpand" Text="{Binding contact.Phone}"/>
+            </Grid>
+            <Grid ColumnDefinitions="26*,80*" >
+                <Label Text="Pagina" FontAttributes="Bold"/>
+                <Entry  Grid.Column="1" HorizontalOptions="FillAndExpand" Text="{Binding contact.Url}"/>
+            </Grid>
+            <Button Text="Cancelar" FontAttributes="Bold" BackgroundColor="Red" Clicked="OnClose" CornerRadius="5"/>
+        </StackLayout>
+    </pankk:PancakeView>
+</pages:BasePopUp>

@@ -11,39 +11,58 @@ using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using SOE.Views.Pages;
+using SOE.Views.PopUps;
+using System.Threading.Tasks;
+using SOEWeb.Shared;
+using AsyncAwaitBestPractices;
+using SOE.Services;
 
 namespace SOE.ViewModels.Pages
 {
   public class AcademicDictionaryViewModel : ModelBase
     {
-        public ObservableCollection<SchoolContact> Contacts { get; set; }
-        public User User { get; set; }
+        public ObservableCollection<ContactsByDeparment> Contacts { get; set; }
         public ICommand OpenLinkCommand { get; set; }
         public ICommand CallnumberCommand { get; set; }
         public ICommand ContactMessageCommand { get; set; }
         public ICommand ContactCallCommand { get; set; }
+        public ICommand ContactLinkCommand { get; set; }
         public ICommand AddContactCommand { get; set; }
+        private ICommand _ReportCommand;
+        public ICommand ReportCommand => _ReportCommand ??= new Command<SchoolContact>(Reportar);
+
         public AcademicDictionaryViewModel()
         {
-            this.User = AppData.Instance.User;
             this.OpenLinkCommand = new Command(this.OpenLink);
             this.CallnumberCommand = new Command(this.Callnumber);
             this.ContactMessageCommand = new Command<SchoolContact>(ContactMessage);
             this.ContactCallCommand = new Command<SchoolContact>(ContactCall);
             AddContactCommand = new Command<SchoolContact>(AddContact);
-            this.Contacts = this.ContactsList();
+            ContactLinkCommand = new Command<SchoolContact>(ContactLink);
+            Init().SafeFireAndForget();
         }
-
-        private void AddContact(SchoolContact obj)
+        public async Task Init()
         {
-            App.Current.MainPage.Navigation.PushAsync(new AddContactPage());
+            await Task.Yield();
+            this.Contacts = await SchoolContactsService.Get();
         }
+        private void ContactCall(SchoolContact contact) => PhoneDialer.Open(contact.Phone);
+        private void ContactLink(SchoolContact obj) => OpenBrowser(obj.Url);
+        private void Callnumber(object obj) => PhoneDialer.Open("55 5624 2000");
+        private void OpenLink(object obj) => OpenBrowser("https://www.esimecu.ipn.mx/");
 
-        private void ContactCall(SchoolContact contact)
+        private async void Reportar(SchoolContact contact)
         {
-            PhoneDialer.Open(contact.Phone);
+            ReportContact pr = new(contact);
+            await pr.ShowDialog();
+        }
+        private async void AddContact(SchoolContact obj)
+        {
+            AddContactPage pr = new();
+            await pr.ShowDialog();
         }
 
+       
         private async void ContactMessage(SchoolContact contact)
         {
             try
@@ -52,7 +71,7 @@ namespace SOE.ViewModels.Pages
                 {
                     Subject = contact.Name,
                     Body = "",
-                    To = new List<string>() { contact.Url },
+                    To = new List<string>() { contact.Correo },
                 });
             }
             catch (Exception ex)
@@ -61,16 +80,8 @@ namespace SOE.ViewModels.Pages
             }
 
         }
-
-        private void Callnumber(object obj)
-        {
-            PhoneDialer.Open("55 5624 2000");
-        }
-
-        private void OpenLink(object obj)
-        {
-            OpenBrowser("https://www.esimecu.ipn.mx/");
-        }
+        
+        
         private async void OpenBrowser(string url)
         {
             try
@@ -82,20 +93,6 @@ namespace SOE.ViewModels.Pages
             {
                 Log.Logger.Error(e, nameof(OpenBrowser));
             }
-        }
-        public ObservableCollection<SchoolContact> ContactsList()
-        {
-            return new ObservableCollection<SchoolContact>
-            {
-                new SchoolContact("Gestion escolar","Mario","553215456","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","Mario","553215456","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","Mario","553215456","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","Mario","553215456","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","Mario","553215456","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","Mario","553215456","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","Mario","553215456","ictramitescu@ipn.mx"),
-                new SchoolContact("Gestion escolar","M. en C. Jose Luis Bautista Arias","553215456","ictramitescu@ipn.mx")
-            };
         }
     }
 }

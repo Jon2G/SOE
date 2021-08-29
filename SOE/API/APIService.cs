@@ -28,7 +28,7 @@ namespace SOE.API
         //--NonHttpsUrl "localhost:5001"
         public const string ShareTodo = "ShareTodo";
         public const string ShareReminder = "ShareReminder";
-        public const string NonProdUrl ="dhokq2d69j.execute-api.us-east-2.amazonaws.com";
+        public const string NonProdUrl = "dhokq2d69j.execute-api.us-east-2.amazonaws.com";
         public static string NonHttpsUrl => $"{NonProdUrl}/Prod";
         public static string BaseUrl => $"https://{NonHttpsUrl}";
         public static string Url => $"{BaseUrl}/App";
@@ -351,6 +351,7 @@ namespace SOE.API
         }
         internal static async Task<List<Link>> GetLinks(string group, int TeacherId, int SubjectId)
         {
+            await Task.Yield();
             if (string.IsNullOrEmpty(group) || TeacherId <= 0 || SubjectId <= 0)
             {
                 return new List<Link>();
@@ -364,6 +365,90 @@ namespace SOE.API
             }
             Response response = JsonConvert.DeserializeObject<Response>(result.Response);
             return new List<Link>(JsonConvert.DeserializeObject<Link[]>(response.Extra));
+        }
+        public static async Task<Response> PostContact(SchoolContact contact, User User)
+        {
+            await Task.Yield();
+            if (string.IsNullOrEmpty(contact.Name))
+            {
+                return Response.InvalidRequest;
+            }
+            if (!string.IsNullOrEmpty(contact.Url))
+            {
+                if (!Validations.IsValidUrl(contact.Url, out Uri uri))
+                    return Response.InvalidRequest;
+                contact.Url = uri.AbsoluteUri;
+            }
+
+          
+            string jsonContact = JsonConvert.SerializeObject(contact);
+            WebService WebService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result =
+                await WebService.PostAsBody(
+                    byteArray: Encoding.UTF8.GetBytes(jsonContact),
+                    method: "PostContact",
+                    query: null,
+                    parameters: new[]
+                    {
+                        User.Boleta,
+                        User.School.Id.ToString()
+                    });
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+            {
+                return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
+            }
+            return JsonConvert.DeserializeObject<Response>(result.Response);
+
+        }
+        internal static async Task<List<ContactsByDeparment>> GetContacts(int SchoolId)
+        {
+            await Task.Yield();
+            if (SchoolId <= 0)
+            {
+                return new List<ContactsByDeparment>();
+            }
+            WebService WebService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = await WebService.GET("GetContacts",
+                 SchoolId.ToString(), AppData.Instance.User.Id.ToString());
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+            {
+                return new List<ContactsByDeparment>();
+            }
+            Response response = JsonConvert.DeserializeObject<Response>(result.Response);
+            return new List<ContactsByDeparment>(JsonConvert.DeserializeObject<ContactsByDeparment[]>(response.Extra));
+        }
+        internal static async Task<bool> ReportContact(SchoolContact contact, ReportReason reason)
+        {
+            WebService WebService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = await WebService.GET(
+                "ReportContact",            
+                contact.Guid.ToString("N"),
+                ((int)reason).ToString(),
+                  AppData.Instance.User.Id.ToString());
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+            {
+                return false;
+            }
+            else
+            {
+                var r = JsonConvert.DeserializeObject<Response>(result.Response);
+                return r.ResponseResult == APIResponseResult.OK;
+            }
+        }
+        internal static async Task<bool> DeleteContact(SchoolContact contact, int UserId)
+        {
+            WebService WebService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = await WebService.GET("DeleteContact",
+                UserId.ToString(), contact.Guid.ToString("N"));
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+            {
+                return false;
+            }
+            else
+            {
+                var r = JsonConvert.DeserializeObject<Response>(result.Response);
+                return r.ResponseResult == APIResponseResult.OK;
+            }
         }
     }
 }

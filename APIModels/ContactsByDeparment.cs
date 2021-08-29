@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 
-namespace SOE.Models
+namespace SOEWeb.Shared
 {
     public class ContactsByDeparment : ObservableCollection<SchoolContact>
     {

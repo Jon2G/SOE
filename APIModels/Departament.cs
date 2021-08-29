@@ -21,5 +21,6 @@ namespace SOEWeb.Shared
             }
         }
 
+        public bool IsValid() => !string.IsNullOrEmpty(Name);
     }  
 }

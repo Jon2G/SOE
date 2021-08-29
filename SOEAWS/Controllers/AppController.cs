@@ -1,5 +1,6 @@
 using Amazon.Lambda.Core;
 using Kit;
+using Kit.Sql.Helpers;
 using Kit.Sql.Readers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -13,6 +14,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using Device = SOEAWS.Models.Device;
 
@@ -443,7 +445,7 @@ namespace SOEAWS.Controllers
                 {
                     return SOEWeb.Shared.Response.InvalidRequest;
                 }
-                if (string.IsNullOrEmpty(Link.Url) || !Validations.IsValidUrl(Link.Url,out Uri uri))
+                if (string.IsNullOrEmpty(Link.Url) || !Validations.IsValidUrl(Link.Url, out Uri uri))
                 {
                     return SOEWeb.Shared.Response.InvalidRequest;
                 }
@@ -545,6 +547,156 @@ namespace SOEAWS.Controllers
             catch (Exception ex)
             {
                 this._logger.LogError(ex, "PostLink");
+            }
+            return new Response(APIResponseResult.OK, "Ok");
+        }
+        ////---------------------------------------------------------------------------------------------------------------------
+        [HttpPost("PostContact/{User}/{SchoolId}")]
+        public ActionResult<Response> PostContact(string User, int SchoolId, [FromBody] byte[] JsonContactBytes)
+        {
+            if (SchoolId <= 0
+            || string.IsNullOrEmpty(User) ||
+            (!Validations.IsValidEmail(User)
+             && !Validations.IsValidBoleta(User))
+            )
+            {
+                return SOEWeb.Shared.Response.InvalidRequest;
+            }
+            Guid guid = Guid.Empty;
+            try
+            {
+                string JsonContact = Encoding.UTF8.GetString(JsonContactBytes);
+                if (JsonConvert.DeserializeObject<SchoolContact>(JsonContact) is not SchoolContact Contact)
+                {
+                    return SOEWeb.Shared.Response.InvalidRequest;
+                }
+                if (!string.IsNullOrEmpty(Contact.Url))
+                {
+                    if (!Validations.IsValidUrl(Contact.Url, out Uri uri))
+                    {
+                        return SOEWeb.Shared.Response.InvalidRequest;
+                    }
+                    Contact.Url = uri.AbsoluteUri;
+                }
+                using IReader reader = WebData.Connection.Read(
+                    "SP_ADDCONTACT",
+                    CommandType.StoredProcedure
+                    , new SqlParameter("CONTACT_ID", Contact.Guid == Guid.Empty ? DBNull.Value : Contact.Guid)
+                    , new SqlParameter("NAME", Contact.Name)
+                    , new SqlParameter("PHONE", string.IsNullOrEmpty(Contact.Phone) ? DBNull.Value : Contact.Phone)
+                    , new SqlParameter("MAIL", string.IsNullOrEmpty(Contact.Correo) ? DBNull.Value : Contact.Correo)
+                    , new SqlParameter("DEPARTMENT_NAME", Contact.Departament.Name)
+                    , new SqlParameter("URL", Contact.Url)
+                    , new SqlParameter("USER", User)
+                    , new SqlParameter("SCHOOL_ID", SchoolId)
+                    );
+                if (reader.Read())
+                {
+                    guid = (Guid)reader[0];
+                }
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex, "PostContact");
+            }
+            return new Response(
+               guid == Guid.Empty ?
+                   APIResponseResult.INTERNAL_ERROR : APIResponseResult.OK,
+               guid == Guid.Empty ? "Error" : "Ok",
+               guid.ToString("N"));
+        }
+        [HttpGet("GetContacts/{SchoolId}/{UserId}")]
+        public ActionResult<Response> GetContacts(int SchoolId, int UserId)
+        {
+            Dictionary<Guid, ContactsByDeparment> Contacts = new();
+            using (var reader = WebData.Connection.Read(
+                "SP_GET_CONTACT",
+                CommandType.StoredProcedure
+                , new SqlParameter("SCHOOL_ID", SchoolId)
+               ))
+            {
+                while (reader.Read())
+                {
+                    Guid IdDepartamento = (Guid)reader[6];
+                    SchoolContact contact = new SchoolContact()
+                    {
+                        Guid = (Guid)reader[0],
+                        Name = reader[1].ToString(),
+                        Phone = Sqlh.IfNull<string>(reader[2], null),
+                        Correo = Sqlh.IfNull<string>(reader[3], null),
+                        Url = Sqlh.IfNull<string>(reader[4], null),
+                        IsOwner = Convert.ToInt32(reader[5]) == UserId 
+                    };
+                    if (Contacts.TryGetValue(IdDepartamento, out ContactsByDeparment Departament))
+                    {
+                        contact.Departament = Departament.Departament;
+                        Departament.Add(contact);
+                    }
+                    else
+                    {
+                        contact.Departament = new Departament()
+                        {
+                            Guid = IdDepartamento,
+                            Name = reader[7].ToString()
+                        };
+                        ContactsByDeparment bydeparment = new(contact.Departament);
+                        bydeparment.Add(contact);
+                        Contacts.Add(IdDepartamento, bydeparment);
+                    }
+                }
+            }
+
+            return new Response(
+                APIResponseResult.OK,
+                "Ok",
+                JsonConvert.SerializeObject(Contacts.Values.ToList().ToArray()));
+        }
+        [HttpGet("ReportContact/{ContactId}/{ReportReason}/{UserId}")]
+        public ActionResult<Response> ReportContact( Guid ContactId, int ReportReason, int UserId) =>
+            this.ReportContact(ContactId,(ReportReason)ReportReason,UserId);
+        private ActionResult<Response> ReportContact( Guid ContactId, ReportReason ReportReason, int UserId)
+        {
+            if (ContactId == Guid.Empty)
+            {
+                return SOEWeb.Shared.Response.InvalidRequest;
+            }
+
+            try
+            {
+                WebData.Connection.EXEC(
+                    "SP_CONTACT_REPORT",
+                    CommandType.StoredProcedure
+                    , new SqlParameter("CONTACT_ID", ContactId)
+                    , new SqlParameter("REPORT_REASON_ID", (int)ReportReason)
+                    , new SqlParameter("USER_ID", UserId));
+                WebData.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex, "ReportContact");
+            }
+            return new Response(APIResponseResult.OK, "Ok");
+        }
+        [HttpGet("DeleteContact/{UserId}/{LinkId}")]
+        public ActionResult<Response> DeleteContact(int UserId, Guid ContactId)
+        {
+            if (ContactId == Guid.Empty || UserId <= 0)
+            {
+                return SOEWeb.Shared.Response.InvalidRequest;
+            }
+
+            try
+            {
+                WebData.Connection.EXEC(
+                    "SP_DELETE_CONTACT",
+                    CommandType.StoredProcedure
+                    , new SqlParameter("LINK_ID", ContactId)
+                    , new SqlParameter("USER_ID", UserId));
+                WebData.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex, "DeleteContact");
             }
             return new Response(APIResponseResult.OK, "Ok");
         }

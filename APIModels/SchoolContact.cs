@@ -61,7 +61,10 @@ namespace SOEWeb.Shared
                 this.Raise(() => this.Correo);
             }
         }
-
+        public bool IsOwner
+        {
+            get;set;
+        }
 
         public SchoolContact(Departament Departament, string Name, string Phone, string Url,string Correo)
         {

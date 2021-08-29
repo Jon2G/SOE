@@ -15,6 +15,7 @@ using SOE.Views.PopUps;
 using System.Threading.Tasks;
 using SOEWeb.Shared;
 using AsyncAwaitBestPractices;
+using SOE.Services;
 
 namespace SOE.ViewModels.Pages
 {
@@ -40,10 +41,10 @@ namespace SOE.ViewModels.Pages
             ContactLinkCommand = new Command<SchoolContact>(ContactLink);
             Init().SafeFireAndForget();
         }
-        private async Task Init()
+        public async Task Init()
         {
             await Task.Yield();
-            this.Contacts =await this.ContactsList();
+            this.Contacts = await SchoolContactsService.Get();
         }
         private void ContactCall(SchoolContact contact) => PhoneDialer.Open(contact.Phone);
         private void ContactLink(SchoolContact obj) => OpenBrowser(obj.Url);
@@ -92,12 +93,6 @@ namespace SOE.ViewModels.Pages
             {
                 Log.Logger.Error(e, nameof(OpenBrowser));
             }
-        }
-        public async Task<ObservableCollection<ContactsByDeparment>> ContactsList()
-        {
-            await Task.Yield();
-            var contacts= await API.APIService.GetContacts(AppData.Instance.User.School.Id);
-            return new ObservableCollection<ContactsByDeparment>(contacts);
         }
     }
 }

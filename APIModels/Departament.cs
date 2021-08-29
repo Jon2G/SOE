@@ -1,5 +1,6 @@
 ﻿using Kit.Model;
 using Kit.Sql.Interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;

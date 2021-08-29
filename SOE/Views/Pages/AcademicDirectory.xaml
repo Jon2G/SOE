@@ -59,7 +59,7 @@
                                     <Label Text="{Binding Departament.Name}" 
                                            FontAttributes="Bold" FontSize="16" TextColor="White" Margin="0,3"
                                            BackgroundColor="{StaticResource AccentColor}"/>
-                                    <StackLayout BindableLayout.ItemsSource="{Binding .}">
+                                    <StackLayout BindableLayout.ItemsSource="{Binding Contacts}">
                                         <BindableLayout.ItemTemplate>
                                             <DataTemplate  x:DataType="shared:SchoolContact">
                                                 <pankk:PancakeView Margin="0" CornerRadius="0,0,5,5" Padding="0,6"   >

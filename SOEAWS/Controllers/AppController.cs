@@ -646,14 +646,10 @@ namespace SOEAWS.Controllers
                 }
             }
 
-            string json = Kit.XMLExtensions.SerializeObject(Contacts.Values.ToArray());
-            
-
-   
-            var  A = 
-                System.Text.Json.JsonSerializer.Deserialize<ContactsByDeparment[]>(json);
-
-       
+            string json =JsonConvert.SerializeObject(Contacts.Values.ToArray(), Formatting.Indented,new JsonSerializerSettings()
+            {
+                CheckAdditionalContent = true
+            });
             return new Response(
                 APIResponseResult.OK,
                 "Ok",json);

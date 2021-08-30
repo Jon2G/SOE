@@ -117,13 +117,16 @@ namespace SOE.ViewModels.PopUps
             }
             if (!string.IsNullOrEmpty(this.Url))
             {
-                if (!Validations.IsValidUrl(this.Url, out Uri uri))
+                if (Validations.IsValidUrl(this.Url, out Uri uri))
                 {
                     this._Url = uri.AbsoluteUri;
                 }
-                Shell.Current.CurrentPage.DisplayAlert("El link es invalido",
-                    "La dirección url es invalida.", "Entiendo").SafeFireAndForget();
-                return;
+                else
+                {
+                    Shell.Current.CurrentPage.DisplayAlert("El link es invalido",
+                        "La dirección url es invalida.", "Entiendo").SafeFireAndForget();
+                    return;
+                }
             }
             if (!string.IsNullOrEmpty(this.Correo) && !Validations.IsValidEmail(this.Correo))
             {

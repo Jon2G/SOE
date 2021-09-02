@@ -15,6 +15,7 @@ using Microsoft.OpenApi.Models;
 using Radzen;
 using SOEAWS.Data;
 using SOEAWS.Formaters;
+using SOEAWS.Services;
 using SOEWeb.Shared;
 using SOEWeb.Shared.Secrets;
 using System.Net.Http;
@@ -44,6 +45,7 @@ namespace SOEAWS
             services.AddHttpClient();
             //services.AddMudServices();
             //radzen
+            services.AddSingleton<ICommentsService,CommentsService>();
             services.AddScoped<DialogService>();
             services.AddScoped<NotificationService>();
             services.AddScoped<TooltipService>();

@@ -1,7 +1,6 @@
 ﻿using Kit.Sql.Helpers;
 using Kit.Sql.Readers;
 using Microsoft.AspNetCore.Components;
-using SOEAWS.Components;
 using SOEAWS.Services;
 using SOEWeb.Shared;
 using System;
@@ -11,106 +10,36 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Kit.Razor.Components;
+using SOEAWS.Models;
 
 namespace SOEAWS.Pages
 {
-    public partial class SubjectPage
+    public partial class SubjectPage : IStateHasChanged
     {
+        [Inject]
+        public ICommentsService CommentsService { get; set; }
+        public CommentsData Data { get; private set; }
         #region Atributtes
         [Parameter]
         public string UserId { get; set; }
-        public string NickName { get; set; }
+        [Parameter]
+        public string TeacherId { get; set; }
+        [Parameter]
+        public string GroupId { get; set; }
         [Parameter]
         public string SubjectId { get; set; }
         #endregion
-        public Subject Subject { get; set; }
-
-        const int MAX_TEXT_COUNT = 280;
-        private string CommentText = string.Empty;
-
-
-        public InfiniteScrolling<SubjectComment> MainInfiniteScrolling { get; set; }
 
 
         public SubjectPage()
         {
 
         }
-        private void CommentTextChanged(ChangeEventArgs obj)
-        {
-            if (obj.Value is string s)
-            {
-                this.CommentText = s;
-                StateHasChanged();
-            }
-        }
 
-        private async Task PostComment(SubjectComment parent)
+        protected override void OnInitialized()
         {
-            await this.PostComment(this.UserId, this.CommentText, ParentComment: parent);
-            this.CommentText = String.Empty;
-        }
-
-        private async Task PostComment()
-        {
-            await this.PostComment(null);
-        }
-
-        private void Rate(SubjectComment value, bool? Vote)
-        {
-            WebData.Connection.EXEC("SP_RATE_SUBJECT_COMMENTS", CommandType.StoredProcedure
-                , new SqlParameter("ID", value.Id)
-                , new SqlParameter("POSITIVE", (object)Vote ?? DBNull.Value)
-                , new SqlParameter("USER_ID", this.UserId)
-            );
-
-            if (Vote is null)
-            {
-                if (value.Vote is true)
-                {
-                    value.Votes--;
-                }
-                else
-                {
-                    value.Votes++;
-                }
-            }
-            else
-            {
-                if (value.Vote is null)
-                {
-                    value.Votes += Vote is true ? 1 : -1;
-                }
-                else
-                {
-                    value.Votes += Vote is true ? 2 : -2;
-                }
-            }
-            value.Vote = Vote;
-        }
-        private void ShowCommentsBox(SubjectComment value)
-        {
-            value.CommentBox = !value.CommentBox;
-        }
-        private async Task ShowSubComments(SubjectComment value)
-        {
-            value.OpenSubComments = !value.OpenSubComments;
-            if (value.OpenSubComments)
-            {
-                await this.GetComments(value,
-                    new InfiniteScrollingItemsProviderRequest(0, CancellationToken.None));
-                value.CommentBox = true;
-            }
-            else
-            {
-                value.CommentBox = false;
-            }
-        }
-
-
-        internal void InvokeStateHasChanged()
-        {
-            this.StateHasChanged();
+            CommentsService.Clear();
         }
 
         protected override void OnParametersSet()
@@ -120,136 +49,27 @@ namespace SOEAWS.Pages
             {
                 throw new ArgumentException("Id de materia invalido");
             }
-            if (!int.TryParse(this.UserId, out int userId))
+
+            if (!int.TryParse(this.TeacherId, out int TeacherId))
+            {
+                throw new ArgumentException("Maestro invalido");
+            }
+            if (!int.TryParse(this.GroupId, out int GroupId))
+            {
+                throw new ArgumentException("Grupo invalido");
+            }
+
+            if (!int.TryParse(this.UserId, out int UserId))
             {
                 throw new ArgumentException("Usuario invalido");
             }
-            this.Subject = SubjectService.GetById(SubjectId);
-            this.NickName = this.GetNickName();
+
+            Data = new CommentsData(UserId, TeacherId, GroupId, SubjectId, this);
+            this.InvokeStateHasChanged();
+        }
+        public void InvokeStateHasChanged()
+        {
             this.StateHasChanged();
         }
-
-        public string GetNickName() =>
-            WebData.Connection.Single<string>("SP_GET_NICKNAME", CommandType.StoredProcedure,
-                new SqlParameter("USER_ID", this.UserId));
-
-        #region CommentsService
-        public bool IsPostingComment { get; set; }
-
-        internal async Task<IEnumerable<SubjectComment>> GetComments(
-            SubjectComment ParentComment,
-            InfiniteScrollingItemsProviderRequest request)
-        {
-            await Task.Yield();
-            List<SubjectComment> Comments = new List<SubjectComment>();
-            try
-            {
-                using (var reader = WebData.Connection.Read("SP_GET_SUBJECT_COMMENTS", CommandType.StoredProcedure
-                    , new SqlParameter("SUBJECT_ID", this.SubjectId)
-                    , new SqlParameter("OFFSET", request.StartIndex)
-                    , new SqlParameter("PARENT_COMMENT_ID", (object)ParentComment?.Id ?? DBNull.Value)
-                    , new SqlParameter("USER_ID", this.UserId)
-                ))
-                {
-                    while (reader.Read())
-                    {
-                        Comments.Add(new SubjectComment()
-                        {
-                            Id = (Guid)reader[0],
-                            Text = Convert.ToString(reader[1]),
-                            UserId = (Guid)reader[2],
-                            UserName = Convert.ToString(reader[3]),
-                            HasSubComments = Convert.ToBoolean(reader[4]),
-                            Votes = Convert.ToInt32(reader[7]),
-                            Vote = SQLHelper.ToBool(reader[8],null)
-                        });
-                    }
-                }
-                Comments.TrimExcess();
-                if (Comments.Any())
-                {
-                    if (ParentComment is null)
-                    {
-                        foreach (SubjectComment comment in Comments)
-                        {
-                            var sub_comments =
-                                await this.GetComments(comment, InfiniteScrollingItemsProviderRequest.Zero);
-                            if (sub_comments?.Any() ?? false)
-                                comment.AddRange(sub_comments);
-                        }
-                        //this.HasNoCommentsLeft = false;
-                    }
-                }
-                else if (ParentComment is null)
-                {
-                    this.InvokeStateHasChanged();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Console.Error.Write(ex);
-            }
-            return Comments;
-        }
-        internal Task<IEnumerable<SubjectComment>> GetComments(InfiniteScrollingItemsProviderRequest request)
-            => this.GetComments(null, request);
-
-        internal async Task PostComment(string UserId, string CommentText, SubjectComment ParentComment)
-        {
-            await Task.Yield();
-            try
-            {
-                SubjectComment comment = new SubjectComment();
-                this.IsPostingComment = true;
-                using (IReader reader = WebData.Connection.Read("SP_ADD_SUBJECT_COMMENTS", CommandType.StoredProcedure
-                    , new SqlParameter("SUBJECT_ID", this.SubjectId)
-                    , new SqlParameter("TEXT", CommentText)
-                    , new SqlParameter("USER_ID", UserId)
-                    , new SqlParameter("PARENT_COMMENT_ID", (object)ParentComment?.Id ?? DBNull.Value)))
-                {
-                    if (reader.Read())
-                    {
-                        comment = new SubjectComment()
-                        {
-                            Id = (Guid)reader[0],
-                            UserId = (Guid)reader[1],
-                            HasSubComments = Convert.ToBoolean(reader[2]),
-                            Text = Convert.ToString(reader[3]),
-                            UserName = Convert.ToString(reader[4]),
-                            Votes = Convert.ToInt32(reader[5])
-                        };
-                    }
-                }
-
-
-                if (ParentComment is not null)
-                {
-                    ParentComment.Clear();
-                    var sub_comments = await this.GetComments(ParentComment,
-                        new InfiniteScrollingItemsProviderRequest(0, CancellationToken.None));
-                    if (sub_comments.Any())
-                    {
-                        ParentComment.HasSubComments = true;
-                        ParentComment.OpenSubComments = true;
-                        ParentComment.AddRange(sub_comments);
-                        this.InvokeStateHasChanged();
-                    }
-                }
-                else
-                {
-                    this.MainInfiniteScrolling.Insert(0, comment);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.Error.Write(ex);
-            }
-            finally
-            {
-                this.IsPostingComment = false;
-            }
-        }
-        #endregion
     }
 }

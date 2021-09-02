@@ -54,3 +54,146 @@ a, .btn-link {
 .text-accent {
     color: #0277bd;
 }
+/**Comments*/
+.subject-blog-card {
+    padding: 10px;
+}
+
+.subject-blog-card-group {
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.subject-blog-card-title {
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.card {
+    border: 0.1px solid rgba(0, 0, 0, .100);
+}
+
+
+h6 {
+    height: inherit;
+    vertical-align: bottom;
+    margin: 0;
+    display: table-cell;
+}
+
+    h6:after { /* trick to add bottom padding */
+        content: '';
+        display: block;
+        height: 10px;
+    }
+
+.card-icon {
+    color: gray;
+    height: 10px;
+    margin: 10px;
+}
+
+.nick-name {
+    margin: 5px 0px 0px 10px;
+}
+
+.user-group {
+    margin: 5px 0px 0px 10px;
+    color: gray;
+}
+
+.sub-comment-card {
+    margin: 10px;
+}
+
+.sub-comment-card {
+    margin: 10px 0px 10px 20px;
+    background-color: lightgoldenrodyellow;
+    padding: 10px;
+}
+
+.blue {
+    --paper-color: #d5e0f9;
+    --paper-dark: #c2d0ea;
+    --shadow-size: 3px;
+    --transparent: rgba(213, 224, 249, 0);
+}
+
+.paper {
+    background: linear-gradient( to bottom right, var(--paper-dark), 20%, var(--transparent) ), var(--paper-color);
+    box-shadow: var(--shadow-size) var(--shadow-size) 2px var(--paper-dark);
+}
+
+.clickable {
+    cursor: pointer;
+    margin: 10px;
+}
+
+    .clickable:hover {
+        color: dodgerblue;
+    }
+
+.like:hover {
+    color: #5EDB5E;
+}
+
+.dislike:hover {
+    color: #DE7272;
+}
+
+.report:hover {
+    color: red;
+}
+
+.comment:hover {
+    color: #9395D6;
+}
+
+.comment-votes {
+    color: rgb(26, 26, 27);
+    margin: 4px;
+    width: auto;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16px;
+    pointer-events: none;
+    word-break: normal;
+    text-align: center;
+}
+
+.comment-actions-box {
+    margin: 3px 4px 4px -4px;
+    padding: 0;
+    align-items: center;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    margin: 0;
+    padding: 0 2px;
+}
+
+.comment-button {
+    border: none;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -ms-flexbox;
+    display: flex;
+    height: 100%;
+    line-height: 20px;
+    margin-right: 4px;
+    padding: 0px;
+    text-align: left;
+    transition: color .1s;
+    white-space: nowrap;
+}

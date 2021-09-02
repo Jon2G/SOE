@@ -49,7 +49,8 @@ namespace SOEAWS.Processors
                                 Name = Convert.ToString(reader[3]),
                                 Group = Convert.ToString(reader[4]),
                                 Color = Convert.ToString(reader[5]),
-                                ColorDark = Convert.ToString(reader[6])
+                                ColorDark = Convert.ToString(reader[6]),
+                                GroupId = Convert.ToInt32(reader[7])
                             };
                         }
                     }

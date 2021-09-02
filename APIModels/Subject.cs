@@ -13,6 +13,7 @@ namespace SOEWeb.Shared
         public string Color { get; set; }
         public string ColorDark { get; set; }
         public string Group { get; set; }
+        public int GroupId { get; set; }
         public int IdTeacher { get; set; }
         public Guid Guid { get; set; }
 

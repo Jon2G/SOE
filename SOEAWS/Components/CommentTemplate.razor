@@ -1,0 +1,41 @@
+﻿@using SOEWeb.Shared
+@using SOEAWS.Models
+<RadzenCard class="@(IsSubComment? "sub-comment-card paper blue":"")">
+    <div class="row">
+        <div class="col-md-12" style="display: flex;">
+            <h6 class="nick-name">@Comment.UserName</h6>
+            <h6 class="user-group">@Comment.GroupName - @Comment.TeacherName</h6>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h2>@Comment.Text</h2>
+        </div>
+    </div>
+    <CommentActions Comment="@Comment" Data="@Data" IsSubComment="@IsSubComment"/>
+    @if (IsSubComment)
+    {
+        return;
+    }
+    @if (Comment.HasSubComments && !Comment.OpenSubComments)
+    {
+        <a @onclick="()=>CommentsService.ShowSubComments(Data,Comment)" class="alert-link clickable">Ver respuestas</a>
+    }
+    else if (Comment.HasSubComments && Comment.OpenSubComments)
+    {
+        <a @onclick="()=>CommentsService.ShowSubComments(Data,Comment)" class="alert-link clickable">Ocultar respuestas</a>
+    }
+
+    @if (Comment.HasSubComments && Comment.OpenSubComments)
+    {
+        foreach (SubjectComment subcomment in Comment)
+        {
+            <CommentTemplate Comment="@subcomment" Data="@Data" IsSubComment="true"/>
+        }
+
+    }
+    @if (Comment.CommentBox)
+    {
+        <CommentTextBox Data="@Data" ParentComment="@Comment"/>
+    }
+</RadzenCard>

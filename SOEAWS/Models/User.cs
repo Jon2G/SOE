@@ -27,7 +27,9 @@ namespace SOEAWS.Models
         public bool Banned { get; set; }
         public bool Deleted { get; set; }
 
-
+        public static string GetNickName(int UserId) =>
+            WebData.Connection.Single<string>("SP_GET_NICKNAME", CommandType.StoredProcedure,
+                new SqlParameter("USER_ID", UserId));
         internal static int GetId(string user)
         {
             try

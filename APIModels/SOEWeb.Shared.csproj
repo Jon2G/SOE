@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Kit\Kit.Razor\Kit.Razor.csproj" />
     <ProjectReference Include="..\..\..\Kit\Kit\Kit.csproj" />
   </ItemGroup>
 

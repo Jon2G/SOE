@@ -1,0 +1,21 @@
+﻿<div class="sub-comment-card">
+    <div class="row">
+        <div class="col-md-12">
+            <label>Comentar como</label>
+            <label class="text-accent">@Data.NickName</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <RadzenTextArea Cols="25" Style="width: 100%" Placeholder="Participa en la discusión"
+                            Rows="4" MaxLength="MAX_TEXT_COUNT"
+                            @bind-Value="@CommentText" @oninput="@CommentTextChanged" />
+            <label>@CommentText.Length/@MAX_TEXT_COUNT</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <RadzenButton Text="Comentar" IsBusy="IsPostingComment" Click="()=>CommentsService.PostComment(Data,this,ParentComment)" />
+        </div>
+    </div>
+</div>

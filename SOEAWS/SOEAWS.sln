@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kit", "..\..\..\Kit\Kit\Kit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SOEWeb.Shared", "..\APIModels\SOEWeb.Shared.csproj", "{364780F5-E094-4CE6-A3F5-D9C3CB0D7CDE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kit.Razor", "..\..\..\Kit\Kit.Razor\Kit.Razor.csproj", "{B81F0AC0-D006-4122-8814-7636BB3CD013}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,26 @@ Global
 		{364780F5-E094-4CE6-A3F5-D9C3CB0D7CDE}.x64|Any CPU.Build.0 = Debug|Any CPU
 		{364780F5-E094-4CE6-A3F5-D9C3CB0D7CDE}.x64|x64.ActiveCfg = Debug|Any CPU
 		{364780F5-E094-4CE6-A3F5-D9C3CB0D7CDE}.x64|x64.Build.0 = Debug|Any CPU
+		{B81F0AC0-D006-4122-8814-7636BB3CD013}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B81F0AC0-D006-4122-8814-7636BB3CD013}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B81F0AC0-D006-4122-8814-7636BB3CD013}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B81F0AC0-D006-4122-8814-7636BB3CD013}.Debug|x64.Build.0 = Debug|Any CPU
+		{B81F0AC0-D006-4122-8814-7636BB3CD013}.Debug2|Any CPU.ActiveCfg = Debug|Any CPU
+		{B81F0AC0-D006-4122-8814-7636BB3CD013}.Debug2|Any CPU.Build.0 = Debug|Any CPU
+		{B81F0AC0-D006-4122-8814-7636BB3CD013}.Debug2|x64.ActiveCfg = Debug|Any CPU
+		{B81F0AC0-D006-4122-8814-7636BB3CD013}.Debug2|x64.Build.0 = Debug|Any CPU
+		{B81F0AC0-D006-4122-8814-7636BB3CD013}.Gorilla|Any CPU.ActiveCfg = Debug|Any CPU
+		{B81F0AC0-D006-4122-8814-7636BB3CD013}.Gorilla|Any CPU.Build.0 = Debug|Any CPU
+		{B81F0AC0-D006-4122-8814-7636BB3CD013}.Gorilla|x64.ActiveCfg = Debug|Any CPU
+		{B81F0AC0-D006-4122-8814-7636BB3CD013}.Gorilla|x64.Build.0 = Debug|Any CPU
+		{B81F0AC0-D006-4122-8814-7636BB3CD013}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B81F0AC0-D006-4122-8814-7636BB3CD013}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B81F0AC0-D006-4122-8814-7636BB3CD013}.Release|x64.ActiveCfg = Release|Any CPU
+		{B81F0AC0-D006-4122-8814-7636BB3CD013}.Release|x64.Build.0 = Release|Any CPU
+		{B81F0AC0-D006-4122-8814-7636BB3CD013}.x64|Any CPU.ActiveCfg = Debug|Any CPU
+		{B81F0AC0-D006-4122-8814-7636BB3CD013}.x64|Any CPU.Build.0 = Debug|Any CPU
+		{B81F0AC0-D006-4122-8814-7636BB3CD013}.x64|x64.ActiveCfg = Debug|Any CPU
+		{B81F0AC0-D006-4122-8814-7636BB3CD013}.x64|x64.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -17,8 +17,9 @@ namespace SOEWeb.Shared
         {
 
         }
-        public School(string HomePage, string Name, string ImgPath)
+        public School(int Id,string HomePage, string Name, string ImgPath)
         {
+            this.Id = Id;
             this.HomePage = HomePage;
             this.Name = Name;
             this.ImgPath = ImgPath;

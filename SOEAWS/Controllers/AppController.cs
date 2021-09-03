@@ -2,11 +2,13 @@ using Amazon.Lambda.Core;
 using Kit;
 using Kit.Sql.Helpers;
 using Kit.Sql.Readers;
+using Kit.Sql.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Radzen.Blazor.Rendering;
 using SOEAWS.Processors;
+using SOEAWS.Services;
 using SOEWeb.Shared;
 using SOEWeb.Shared.Enums;
 using System;
@@ -41,7 +43,7 @@ namespace SOEAWS.Controllers
         {
             Stopwatch sp = new Stopwatch();
             sp.Start();
-            if (WebData.Connection.TestConnection() is Exception ex)
+            if (SQLServerConnection.TestConnection(WebData.Connection) is Exception ex)
             {
                 return new Response(APIResponseResult.INTERNAL_ERROR, ex.ToString());
             }
@@ -176,7 +178,7 @@ namespace SOEAWS.Controllers
         public ActionResult<Response> PostGrades(string User, [FromBody] byte[] HTML)
         {
             this._logger.Log(LogLevel.Debug, "PostGrades");
-            string xml = GradesDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), User, WebData.Connection, this._logger);
+            string xml = GradesDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), User, this._logger);
             if (string.IsNullOrEmpty(xml))
             {
                 return SOEWeb.Shared.Response.Error;
@@ -259,59 +261,12 @@ namespace SOEAWS.Controllers
                 , new SqlParameter("TODO_GUID", ToDoGuid)
                 , new SqlParameter("IMG", Img));
         }
-        private TodoBase TodoFrom(IReader reader)
-        {
-            TodoBase todo = null;
-            if (reader.Read())
-            {
-                todo = new TodoBase()
-                {
-                    Guid = Guid.Parse(Convert.ToString(reader[0])),
-                    Title = Convert.ToString(reader[1]),
-                    Description = Convert.ToString(reader[2]),
-                    Date = Convert.ToDateTime(reader[3]),
-                    Time = TimeSpan.Parse(Convert.ToString(reader[4])),
-                    Subject = new Subject()
-                    {
-                        Id = Convert.ToInt32(reader[5]),
-                        IdTeacher = Convert.ToInt32(Convert.ToInt32(reader[6]))
-                    }
-                };
-            }
-            reader.Dispose();
-            return todo;
-        }
-        private ReminderBase ReminderFrom(IReader reader)
-        {
-            ReminderBase reminder = null;
-            if (reader.Read())
-            {
-                reminder = new ReminderBase()
-                {
-                    Guid = Guid.Parse(Convert.ToString(reader[0])),
-                    Title = Convert.ToString(reader[1]),
-                    Date = Convert.ToDateTime(reader[2]),
-                    Time = TimeSpan.Parse(Convert.ToString(reader[3]))
-                };
-                if (reader[4] != DBNull.Value)
-                {
-                    reminder.Subject = new Subject()
-                    {
-                        Id = Convert.ToInt32(reader[4]),
-                        IdTeacher = Convert.ToInt32(Convert.ToInt32(reader[5]))
-                    };
-                }
-            }
-            reader.Dispose();
-            return reminder;
-        }
+
+
         [HttpGet("ShareTodo/{ToDoGuid}")]
         public ActionResult<Response> ShareTodo(Guid ToDoGuid)
         {
-            TodoBase todo = this.TodoFrom(WebData.Connection.Read(
-                "SP_GET_TODO_BY_GUID",
-                CommandType.StoredProcedure,
-                new SqlParameter("GUID", ToDoGuid)));
+            TodoBase todo = TodoService.Find(ToDoGuid, this._logger);
             if (todo is null)
             {
                 return SOEWeb.Shared.Response.Error;
@@ -324,11 +279,7 @@ namespace SOEAWS.Controllers
         [HttpGet("GetArchieveIds/{ArchieveGuid}")]
         public ActionResult<Response> GetArchieveIds(Guid ArchieveGuid)
         {
-            int[] ids = WebData.Connection.Lista<int>(
-                "SP_GET_ARCHIEVE_ID_BY_GUID",
-                CommandType.StoredProcedure, 0,
-                new SqlParameter("GUID", ArchieveGuid))
-                .ToArray();
+            int[] ids = ArchieveService.GetIdsByGuid(ArchieveGuid, this._logger);
             return new Response(
                 APIResponseResult.OK,
                 "Ok",
@@ -389,10 +340,8 @@ namespace SOEAWS.Controllers
         [HttpGet("ShareReminder/{ToDoGuid}")]
         public ActionResult<Response> ShareReminder(Guid ToDoGuid)
         {
-            ReminderBase todo = this.ReminderFrom(WebData.Connection.Read(
-                "SP_GET_REMINDER_BY_GUID",
-                CommandType.StoredProcedure,
-                new SqlParameter("GUID", ToDoGuid)));
+            ReminderBase todo = ReminderService.Find(ToDoGuid, this._logger);
+
             if (todo is null)
             {
                 return SOEWeb.Shared.Response.Error;
@@ -406,19 +355,16 @@ namespace SOEAWS.Controllers
         public ActionResult<Response> GetClassmates(string Group, string TeacherId, string SubjectId)
         {
             List<Classmate> Classmates = new List<Classmate>();
-            using (var reader = WebData.Connection.Read(
+            WebData.Connection.Read(
                 "SP_GET_CLASSMATES",
-                CommandType.StoredProcedure,
-                new SqlParameter("GROUP", Group)
-                , new SqlParameter("SUBJECT_ID", SubjectId)
-                , new SqlParameter("TEACHER_ID", TeacherId)
-            ))
-            {
-                while (reader.Read())
+                (reader) =>
                 {
                     Classmates.Add(new Classmate(Convert.ToString(reader[0]), Convert.ToString(reader[1])));
                 }
-            }
+                , CommandType.StoredProcedure,
+                new SqlParameter("GROUP", Group)
+                , new SqlParameter("SUBJECT_ID", SubjectId)
+                , new SqlParameter("TEACHER_ID", TeacherId));
             return new Response(
                 APIResponseResult.OK,
                 "Ok",
@@ -450,9 +396,13 @@ namespace SOEAWS.Controllers
                     return SOEWeb.Shared.Response.InvalidRequest;
                 }
 
-                using IReader reader = WebData.Connection.Read(
+                WebData.Connection.Read(
                     "SP_POST_LINK",
-                    CommandType.StoredProcedure
+                    (reader) =>
+                    {
+                        guid = (Guid)reader[0];
+                    }
+                    , CommandType.StoredProcedure
                     , new SqlParameter("SUBJECT_ID", SubjectId)
                     , new SqlParameter("TEACHER_ID", IdTeacher)
                     , new SqlParameter("USER", User)
@@ -460,10 +410,6 @@ namespace SOEAWS.Controllers
                     , new SqlParameter("URL", uri.AbsoluteUri)
                     , new SqlParameter("NAME", Link.Name)
                     );
-                if (reader.Read())
-                {
-                    guid = (Guid)reader[0];
-                }
             }
             catch (Exception ex)
             {
@@ -479,14 +425,9 @@ namespace SOEAWS.Controllers
         public ActionResult<Response> GetLinks(string Group, string TeacherId, string SubjectId, int UserId)
         {
             List<Link> Links = new List<Link>();
-            using (var reader = WebData.Connection.Read(
+            WebData.Connection.Read(
                 "SP_GET_LINKS",
-                CommandType.StoredProcedure
-                , new SqlParameter("SUBJECT_ID", SubjectId)
-                , new SqlParameter("TEACHER_ID", TeacherId),
-                new SqlParameter("GROUP", Group)))
-            {
-                while (reader.Read())
+                (reader) =>
                 {
                     Links.Add(
                         new Link(Convert.ToString(reader[0]), Convert.ToString(reader[1]))
@@ -495,7 +436,10 @@ namespace SOEAWS.Controllers
                             IsOwner = Convert.ToInt32(reader[3]) == UserId
                         });
                 }
-            }
+                , CommandType.StoredProcedure
+                , new SqlParameter("SUBJECT_ID", SubjectId)
+                , new SqlParameter("TEACHER_ID", TeacherId),
+                new SqlParameter("GROUP", Group));
             return new Response(
                 APIResponseResult.OK,
                 "Ok",
@@ -513,7 +457,7 @@ namespace SOEAWS.Controllers
 
             try
             {
-                WebData.Connection.EXEC(
+                WebData.Connection.Execute(
                     "SP_REPORT_LINK",
                     CommandType.StoredProcedure
                     , new SqlParameter("LINK_ID", LinkId)
@@ -537,7 +481,7 @@ namespace SOEAWS.Controllers
 
             try
             {
-                WebData.Connection.EXEC(
+                WebData.Connection.Execute(
                     "SP_DELETE_LINK",
                     CommandType.StoredProcedure
                     , new SqlParameter("LINK_ID", LinkId)
@@ -578,22 +522,21 @@ namespace SOEAWS.Controllers
                     }
                     Contact.Url = uri.AbsoluteUri;
                 }
-                using IReader reader = WebData.Connection.Read(
-                    "SP_ADDCONTACT",
-                    CommandType.StoredProcedure
-                    , new SqlParameter("CONTACT_ID", Contact.Guid == Guid.Empty ? DBNull.Value : Contact.Guid)
-                    , new SqlParameter("NAME", Contact.Name)
-                    , new SqlParameter("PHONE", string.IsNullOrEmpty(Contact.Phone) ? DBNull.Value : Contact.Phone)
-                    , new SqlParameter("MAIL", string.IsNullOrEmpty(Contact.Correo) ? DBNull.Value : Contact.Correo)
-                    , new SqlParameter("DEPARTMENT_NAME", Contact.Departament.Name)
-                    , new SqlParameter("URL", string.IsNullOrEmpty(Contact.Url) ? DBNull.Value : Contact.Url)
-                    , new SqlParameter("USER", User)
-                    , new SqlParameter("SCHOOL_ID", SchoolId)
-                    );
-                if (reader.Read())
-                {
-                    guid = (Guid)reader[0];
-                }
+                WebData.Connection.Read(
+                     "SP_ADDCONTACT",
+                     (reader) =>
+                     {
+                         guid = (Guid)reader[0];
+                     }, CommandType.StoredProcedure
+                     , new SqlParameter("CONTACT_ID", Contact.Guid == Guid.Empty ? DBNull.Value : Contact.Guid)
+                     , new SqlParameter("NAME", Contact.Name)
+                     , new SqlParameter("PHONE", string.IsNullOrEmpty(Contact.Phone) ? DBNull.Value : Contact.Phone)
+                     , new SqlParameter("MAIL", string.IsNullOrEmpty(Contact.Correo) ? DBNull.Value : Contact.Correo)
+                     , new SqlParameter("DEPARTMENT_NAME", Contact.Departament.Name)
+                     , new SqlParameter("URL", string.IsNullOrEmpty(Contact.Url) ? DBNull.Value : Contact.Url)
+                     , new SqlParameter("USER", User)
+                     , new SqlParameter("SCHOOL_ID", SchoolId)
+                     );
             }
             catch (Exception ex)
             {
@@ -609,13 +552,9 @@ namespace SOEAWS.Controllers
         public ActionResult<Response> GetContacts(int SchoolId, int UserId)
         {
             Dictionary<Guid, ContactsByDeparment> Contacts = new();
-            using (var reader = WebData.Connection.Read(
+            WebData.Connection.Read(
                 "SP_GET_CONTACT",
-                CommandType.StoredProcedure
-                , new SqlParameter("SCHOOL_ID", SchoolId)
-               ))
-            {
-                while (reader.Read())
+                (reader) =>
                 {
                     Guid IdDepartamento = (Guid)reader[6];
                     SchoolContact contact = new SchoolContact()
@@ -644,15 +583,16 @@ namespace SOEAWS.Controllers
                         Contacts.Add(IdDepartamento, bydeparment);
                     }
                 }
-            }
-
-            string json =JsonConvert.SerializeObject(Contacts.Values.ToArray(), Formatting.Indented,new JsonSerializerSettings()
+                , CommandType.StoredProcedure
+                , new SqlParameter("SCHOOL_ID", SchoolId)
+            );
+            string json = JsonConvert.SerializeObject(Contacts.Values.ToArray(), Formatting.Indented, new JsonSerializerSettings()
             {
                 CheckAdditionalContent = true
             });
             return new Response(
                 APIResponseResult.OK,
-                "Ok",json);
+                "Ok", json);
         }
         [HttpGet("ReportContact/{ContactId}/{ReportReason}/{UserId}")]
         public ActionResult<Response> ReportContact(Guid ContactId, int ReportReason, int UserId) =>
@@ -666,7 +606,7 @@ namespace SOEAWS.Controllers
 
             try
             {
-                WebData.Connection.EXEC(
+                WebData.Connection.Execute(
                     "SP_CONTACT_REPORT",
                     CommandType.StoredProcedure
                     , new SqlParameter("CONTACT_ID", ContactId)
@@ -690,7 +630,7 @@ namespace SOEAWS.Controllers
 
             try
             {
-                WebData.Connection.EXEC(
+                WebData.Connection.Execute(
                     "SP_DELETE_CONTACT",
                     CommandType.StoredProcedure
                     , new SqlParameter("LINK_ID", ContactId)

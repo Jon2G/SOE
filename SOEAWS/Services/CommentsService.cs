@@ -63,30 +63,29 @@ namespace SOEAWS.Services
             IList<SubjectComment> list = ParentComment ?? Comments;
             try
             {
-                using (var reader = WebData.Connection.Read("SP_GET_SUBJECT_COMMENTS", CommandType.StoredProcedure
+                WebData.Connection.Read("SP_GET_SUBJECT_COMMENTS",
+                    (reader) =>
+                {
+                    list.Add(new SubjectComment()
+                    {
+                        Id = (Guid)reader[0],
+                        Text = Convert.ToString(reader[1]),
+                        UserId = (Guid)reader[2],
+                        UserName = Convert.ToString(reader[3]),
+                        HasSubComments = Convert.ToBoolean(reader[4]),
+                        Votes = Convert.ToInt32(reader[7]),
+                        Vote = SQLHelper.ToBool(reader[8], null),
+                        TeacherName = Convert.ToString(reader[9]),
+                        GroupName = Convert.ToString(reader[10])
+                    });
+                    readRecords++;
+                }
+                    , CommandType.StoredProcedure
                     , new SqlParameter("SUBJECT_ID", data.SubjectId)
                     , new SqlParameter("OFFSET", range.From)
                     , new SqlParameter("PARENT_COMMENT_ID", (object)ParentComment?.Id ?? DBNull.Value)
                     , new SqlParameter("USER_ID", data.UserId)
-                ))
-                {
-                    while (reader.Read())
-                    {
-                        list.Add(new SubjectComment()
-                        {
-                            Id = (Guid)reader[0],
-                            Text = Convert.ToString(reader[1]),
-                            UserId = (Guid)reader[2],
-                            UserName = Convert.ToString(reader[3]),
-                            HasSubComments = Convert.ToBoolean(reader[4]),
-                            Votes = Convert.ToInt32(reader[7]),
-                            Vote = SQLHelper.ToBool(reader[8], null),
-                            TeacherName=Convert.ToString(reader[9]),
-                            GroupName=Convert.ToString(reader[10])
-                        });
-                        readRecords++;
-                    }
-                }
+                );
                 if (readRecords < range.Step)
                 {
                     range.NoMoreRecords();
@@ -120,15 +119,8 @@ namespace SOEAWS.Services
             {
                 SubjectComment comment = new SubjectComment();
                 textBox.IsPostingComment = true;
-                using (IReader reader = WebData.Connection.Read("SP_ADD_SUBJECT_COMMENTS", CommandType.StoredProcedure
-                    , new SqlParameter("SUBJECT_ID", data.SubjectId)
-                    , new SqlParameter("TEXT", textBox.CommentText)
-                    , new SqlParameter("USER_ID", data.UserId)
-                    , new SqlParameter("GROUP_ID", data.GroupId)
-                    , new SqlParameter("TEACHER_ID", data.TeacherId)
-                    , new SqlParameter("PARENT_COMMENT_ID", (object)ParentComment?.Id ?? DBNull.Value)))
-                {
-                    if (reader.Read())
+                WebData.Connection.Read("SP_ADD_SUBJECT_COMMENTS",
+                    (reader) =>
                     {
                         comment = new SubjectComment()
                         {
@@ -140,9 +132,13 @@ namespace SOEAWS.Services
                             Votes = Convert.ToInt32(reader[5])
                         };
                     }
-                }
-
-
+                    , CommandType.StoredProcedure
+                    , new SqlParameter("SUBJECT_ID", data.SubjectId)
+                    , new SqlParameter("TEXT", textBox.CommentText)
+                    , new SqlParameter("USER_ID", data.UserId)
+                    , new SqlParameter("GROUP_ID", data.GroupId)
+                    , new SqlParameter("TEACHER_ID", data.TeacherId)
+                    , new SqlParameter("PARENT_COMMENT_ID", (object)ParentComment?.Id ?? DBNull.Value));
                 if (ParentComment is not null)
                 {
                     ParentComment.Clear();
@@ -170,10 +166,10 @@ namespace SOEAWS.Services
                 textBox.IsPostingComment = false;
             }
         }
-        public void ShowCommentsBox(CommentsData data,SubjectComment value)
+        public void ShowCommentsBox(CommentsData data, SubjectComment value)
         {
             value.CommentBox = !value.CommentBox;
-          data.IStateHasChanged.InvokeStateHasChanged();
+            data.IStateHasChanged.InvokeStateHasChanged();
         }
         public async Task ShowSubComments(CommentsData data, SubjectComment value)
         {
@@ -192,7 +188,7 @@ namespace SOEAWS.Services
         }
         public void Rate(CommentsData data, SubjectComment value, bool? Vote)
         {
-            WebData.Connection.EXEC("SP_RATE_SUBJECT_COMMENTS", CommandType.StoredProcedure
+            WebData.Connection.Execute("SP_RATE_SUBJECT_COMMENTS", CommandType.StoredProcedure
                 , new SqlParameter("ID", value.Id)
                 , new SqlParameter("POSITIVE", (object)Vote ?? DBNull.Value)
                 , new SqlParameter("USER_ID", data.UserId)

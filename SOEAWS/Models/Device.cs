@@ -1,4 +1,5 @@
-﻿using Kit.Sql.Attributes;
+﻿using Kit;
+using Kit.Sql.Attributes;
 using Kit.Sql.Interfaces;
 using Kit.Sql.SqlServer;
 using Microsoft.Extensions.Logging;
@@ -36,11 +37,11 @@ namespace SOEAWS.Models
         internal static Device GetByKey(SQLServerConnection Connection, string Key) =>
             Connection.Table<Device>().FirstOrDefault(x => x.DeviceKey == Key);
 
-        public void UpdateLastTimeSeen(SQLServerConnection Connection, ILogger logger)
+        public void UpdateLastTimeSeen(SqlConnection Connection, ILogger logger)
         {
             try
             {
-                Connection.EXEC(@"UPDATE DEVICES SET LAST_TIME_SEEN=GETDATE() WHERE ID=@ID", System.Data.CommandType.Text
+                Connection.Execute(@"UPDATE DEVICES SET LAST_TIME_SEEN=GETDATE() WHERE ID=@ID",System.Data.CommandType.Text
                     , new SqlParameter("ID", this.Id));
             }
             catch (Exception ex)

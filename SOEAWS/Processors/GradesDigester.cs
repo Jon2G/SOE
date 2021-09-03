@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using Kit;
 using Kit.Sql.Readers;
 using Kit.Sql.SqlServer;
 using Microsoft.Extensions.Logging;
@@ -17,26 +18,7 @@ namespace SOEAWS.Processors
 {
     public static class GradesDigester
     {
-        private static Grade GradeFrom(IReader reader)
-        {
-            if (reader.FieldCount < 5)
-            {
-                return null;
-            }
-
-            reader.Read();
-            Grade grade= new Grade()
-            {
-                Id = Convert.ToInt32(reader[0]),
-                SubjectId = Convert.ToInt32(reader[1]),
-                NumericScore =Convert.ToInt32(reader[2]),
-                TextScore = Convert.ToString(reader[3]),
-                Partial = (GradePartial)Convert.ToInt32(reader[4])
-            };
-            reader.Dispose();
-            return grade;
-        }
-        public static string Digest(string HTML,string User, SQLServerConnection connection,ILogger Log)
+        public static string Digest(string HTML, string User, ILogger Log)
         {
             string digested_xml = string.Empty;
             try
@@ -64,21 +46,37 @@ namespace SOEAWS.Processors
                             score = "-";
                         }
 
-                        GradePartial partial = (GradePartial)j-1;
+                        GradePartial partial = (GradePartial)j - 1;
                         string text_score = score;
                         int numeric_score = -1;
                         int.TryParse(text_score, out numeric_score);
 
+                        WebData.Connection.Read("SP_UPDATE_GRADES",
+                            (reader) =>
+                            {
+                                if (reader.FieldCount < 5)
+                                {
+                                    return;
+                                }
 
-                        row_grades[index] = GradeFrom(
-                            connection.Read("SP_UPDATE_GRADES"
-                                ,CommandType.StoredProcedure
-                                ,new SqlParameter("PARTIAL",(int)partial)
-                                ,new SqlParameter("TEXT_SCORE",text_score)
-                                ,new SqlParameter("NUMERIC_SCORE",numeric_score)
-                                ,new SqlParameter("GROUP",group)
-                                ,new SqlParameter("USER", User)
-                                ));
+                                reader.Read();
+
+                                row_grades[index] = new Grade()
+                                {
+                                    Id = Convert.ToInt32(reader[0]),
+                                    SubjectId = Convert.ToInt32(reader[1]),
+                                    NumericScore = Convert.ToInt32(reader[2]),
+                                    TextScore = Convert.ToString(reader[3]),
+                                    Partial = (GradePartial)Convert.ToInt32(reader[4])
+                                };
+                            }
+                            , CommandType.StoredProcedure
+                            , new SqlParameter("PARTIAL", (int)partial)
+                            , new SqlParameter("TEXT_SCORE", text_score)
+                            , new SqlParameter("NUMERIC_SCORE", numeric_score)
+                            , new SqlParameter("GROUP", group)
+                            , new SqlParameter("USER", User)
+                            );
                     }
                     grades.AddRange(row_grades);
                 }

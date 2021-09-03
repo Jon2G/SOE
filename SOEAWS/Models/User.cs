@@ -1,4 +1,5 @@
-﻿using Kit.Sql.Attributes;
+﻿using Kit;
+using Kit.Sql.Attributes;
 using Kit.Sql.SqlServer;
 using SOEWeb.Shared;
 using System;
@@ -34,29 +35,12 @@ namespace SOEAWS.Models
         {
             try
             {
-                using (SqlConnection con = WebData.Con())
-                {
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand("SP_GET_USER_ID", con)
-                    {
-                        CommandType = CommandType.StoredProcedure
-                    })
-                    {
-                        cmd.Parameters.Add(new SqlParameter("USER", user));
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                return Convert.ToInt32(reader[0]);
-                            }
-                        }
-                    }
-
-                    con.Close();
-                }
+                return WebData.Connection.Single<int>("SP_GET_USER_ID", CommandType.StoredProcedure,
+                    new SqlParameter("USER", user));
             }
             catch (Exception ex)
             {
+                Log.Logger.Error(ex, "User.GetId");
             }
 
             return -1;

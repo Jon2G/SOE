@@ -27,7 +27,7 @@ namespace SOEAWS
         static Startup()
         {
             DotNetEnviroment.Load();
-            WebData.Connection = new(Environment.GetEnvironmentVariable("AWSCONNECTIONSTRING"));
+            WebData.ConnectionString = Environment.GetEnvironmentVariable("AWSCONNECTIONSTRING");
         }
         public Startup(IConfiguration configuration)
         {
@@ -45,7 +45,7 @@ namespace SOEAWS
             services.AddHttpClient();
             //services.AddMudServices();
             //radzen
-            services.AddSingleton<ICommentsService,CommentsService>();
+            services.AddSingleton<ICommentsService, CommentsService>();
             services.AddScoped<DialogService>();
             services.AddScoped<NotificationService>();
             services.AddScoped<TooltipService>();
@@ -72,7 +72,7 @@ namespace SOEAWS
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            
+
             if (env.IsDevelopment())
             {
                 //app.UseWebAssemblyDebugging();
@@ -90,7 +90,7 @@ namespace SOEAWS
             app.UseHttpsRedirection();
             //app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
-            
+
 
             app.UseRouting();
 

@@ -30,7 +30,7 @@ namespace SOEWeb.Shared
         {
             try
             {
-                using (SqlConnection con = WebData.Con())
+                using (SqlConnection con = WebData.Connection)
                 {
                     con.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, con) { CommandType = CommandType.StoredProcedure })

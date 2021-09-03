@@ -8,13 +8,9 @@ namespace SOEWeb.Shared
 {
     public static class WebData
     {
-        public static  SQLServerConnection Connection;
-        private static string  ConnectionString=>Connection.ConnectionString.ToString();
+        public static string ConnectionString { get; set; }
+        public static SqlConnection Connection => new SqlConnection(ConnectionString);
 
-        public static SqlConnection Con()
-        {
-            return new SqlConnection(ConnectionString);
-        }
 
     }
 }

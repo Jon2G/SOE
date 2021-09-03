@@ -21,7 +21,7 @@ namespace SOEAWS.Processors
     {
         private static Subject PostSubject(int UserId, string Group, string Suffix, int TeacherId, string SubjectName)
         {
-            using (SqlConnection con = WebData.Con())
+            using (SqlConnection con = WebData.Connection)
             {
                 con.Open();
                 using (SqlCommand cmd = new("SP_GET_ADD_SUBJECT", con)
@@ -60,7 +60,7 @@ namespace SOEAWS.Processors
         }
         private static Teacher PostTeacher(string TeacherName)
         {
-            using (SqlConnection con = WebData.Con())
+            using (SqlConnection con = WebData.Connection)
             {
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand("SP_GET_ADD_TEACHER", con)
@@ -82,7 +82,7 @@ namespace SOEAWS.Processors
         }
         private static ClassTime PostClassTimeFrom(int TeacherId, int SubjectId, DayOfWeek Day, TimeSpan Begin, TimeSpan End)
         {
-            using (SqlConnection con = WebData.Con())
+            using (SqlConnection con = WebData.Connection)
             {
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand("SP_GET_ADD_CLASSTIME", con)

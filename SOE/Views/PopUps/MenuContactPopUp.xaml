@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:BasePopUp  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                  xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms" 
+                  xmlns:popups="clr-namespace:SOE.ViewModels.PopUps"
+                   xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+                  x:DataType="popups:MenuContactPopUpViewModel"
+                  x:Class="SOE.Views.PopUps.MenuContactPopUp">
+    <StackLayout Spacing="0" Padding="0" VerticalOptions="End" Background="{DynamicResource SecondaryBackground}">
+
+        <controls:ArrowButton  Title="Editar" Command="{Binding EditCommand}" 
+                               ArrowColor="{StaticResource AccentColor}">
+            <controls:ArrowButton.Icon>
+                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Pencil}" 
+                                 FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                 Color="{AppThemeBinding Dark=White,Light=Black}"
+                />
+            </controls:ArrowButton.Icon>
+        </controls:ArrowButton>
+        <controls:ArrowButton  Title="Eliminar"    Command="{Binding DeleteCommand}" ArrowColor="{StaticResource AccentColor}">
+            <controls:ArrowButton.Icon>
+                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.TrashBin}" 
+                                 FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                 Color="{AppThemeBinding Dark=White,Light=Black}"/>
+            </controls:ArrowButton.Icon>
+        </controls:ArrowButton>
+
+        <controls:ArrowButton  Title="Reportar"  Command="{Binding ReportCommand}"  ArrowColor="{StaticResource AccentColor}">
+            <controls:ArrowButton.Icon>
+                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Flag}" 
+                                 FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                 Color="{AppThemeBinding Dark=White,Light=Black}"/>
+            </controls:ArrowButton.Icon>
+        </controls:ArrowButton>
+        <Button Margin="3" CornerRadius="2" VerticalOptions="End" Text="Cerrar" Clicked="OnClose"/>
+    </StackLayout>
+</pages:BasePopUp>

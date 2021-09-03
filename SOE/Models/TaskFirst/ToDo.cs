@@ -9,7 +9,6 @@ using System.Windows.Input;
 using System.Xml.Serialization;
 using AsyncAwaitBestPractices;
 using FFImageLoading;
-
 using Kit;
 using Kit.Forms.Extensions;
 using Newtonsoft.Json;

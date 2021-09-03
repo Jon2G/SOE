@@ -3,6 +3,7 @@ using Rg.Plugins.Popup.Animations;
 using Rg.Plugins.Popup.Enums;
 using Rg.Plugins.Popup.Services;
 using SOE.ViewModels.PopUps;
+using SOEWeb.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,9 @@ namespace SOE.Views.PopUps
     public partial class AddContactPage
     {
         public AddContactViewModel Model { get; set; }
-        public AddContactPage()
+        public AddContactPage(SchoolContact contact)
         {
-            this.Model = new AddContactViewModel(this);
+            this.Model = new AddContactViewModel(this,contact);
             this.BindingContext = Model;
             InitializeComponent();
         }

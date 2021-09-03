@@ -18,6 +18,8 @@ namespace SOE.Services
             Response response = await APIService.PostContact(school, AppData.Instance.User);
             return response.ResponseResult == APIResponseResult.OK;
         }
+        public static  Task<bool> Delete(this SchoolContact school)=> APIService.DeleteContact(school, AppData.Instance.User.Id);
+        
         public static async Task<ObservableCollection<ContactsByDeparment>> Get()
         {
             await Task.Yield();

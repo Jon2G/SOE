@@ -39,8 +39,8 @@ namespace SOE.ViewModels.Pages
         public ICommand ContactCallCommand { get; set; }
         public ICommand ContactLinkCommand { get; set; }
         public ICommand AddContactCommand { get; set; }
-        private ICommand _ReportCommand;
-        public ICommand ReportCommand => _ReportCommand ??= new Command<SchoolContact>(Reportar);
+        private ICommand _MenuCommand;
+        public ICommand MenuCommand => _MenuCommand ??= new Command<SchoolContact>(MenuContact);
 
         public AcademicDictionaryViewModel()
         {
@@ -71,14 +71,14 @@ namespace SOE.ViewModels.Pages
         private void Callnumber(object obj) => PhoneDialer.Open("55 5624 2000");
         private void OpenLink(object obj) => OpenBrowser(AppData.Instance.User.School.HomePage);
 
-        private async void Reportar(SchoolContact contact)
+        private async void MenuContact(SchoolContact contact)
         {
-            ReportContact pr = new(contact);
+            MenuContactPopUp pr = new(contact);
             await pr.ShowDialog();
         }
         private async void AddContact(SchoolContact obj)
         {
-            AddContactPage pr = new();
+            AddContactPage pr = new(obj);
             await pr.ShowDialog();
         }
 

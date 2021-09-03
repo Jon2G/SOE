@@ -19,7 +19,7 @@ namespace SOE.ViewModels.PopUps
     public class AddContactViewModel: ModelBase
     {
         AddContactPage AddContactPage;
-
+        SchoolContact Contact;
         private string _Name;
         public string Name
         {
@@ -80,9 +80,10 @@ namespace SOE.ViewModels.PopUps
             }
         }
         public AsyncCommand AddContactCommand { get; set; }
-        public AddContactViewModel(AddContactPage addContact)
+        public AddContactViewModel(AddContactPage addContact,SchoolContact contact)
         {
             this.AddContactPage = addContact;
+            this.Contact = contact;
             AddContactCommand = new AsyncCommand(AddContact,CanAddContact);
             Departament = new Departament();
         }

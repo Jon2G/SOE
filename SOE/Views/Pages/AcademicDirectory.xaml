@@ -146,7 +146,7 @@
                                             Color="{AppThemeBinding Dark=White,Light=Black}"/>
                                                                 </Image.Source>
                                                                 <Image.GestureRecognizers>
-                                                                    <TapGestureRecognizer   Command="{Binding ReportCommand, Source={x:Reference Model}}" CommandParameter="{Binding .}"/>
+                                                                <TapGestureRecognizer   Command="{Binding MenuCommand, Source={x:Reference Model}}" CommandParameter="{Binding .}"/>
                                                                 </Image.GestureRecognizers>
                                                             </Image>
                                                         </Grid>

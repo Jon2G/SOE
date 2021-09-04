@@ -437,7 +437,7 @@ namespace SOE.API
                 return r.ResponseResult == APIResponseResult.OK;
             }
         }
-        internal static async Task<bool> DeleteContact(SchoolContact contact, int UserId)
+        internal static async Task<bool> DeleteContact(int UserId, SchoolContact contact)
         {
             WebService WebService = new WebService(Url);
             Kit.Services.Web.ResponseResult result = await WebService.GET("DeleteContact",

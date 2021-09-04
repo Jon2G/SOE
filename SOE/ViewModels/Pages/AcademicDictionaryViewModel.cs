@@ -78,7 +78,7 @@ namespace SOE.ViewModels.Pages
         }
         private async void AddContact(SchoolContact obj)
         {
-            AddContactPage pr = new(obj);
+            AddContactPage pr = new();
             await pr.ShowDialog();
         }
 

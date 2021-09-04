@@ -67,8 +67,9 @@ namespace SOEWeb.Shared
             get;set;
         }
 
-        public SchoolContact(Departament Departament, string Name, string Phone, string Url,string Correo)
+        public SchoolContact(Guid Guid,Departament Departament, string Name, string Phone, string Url,string Correo)
         {
+            this.Guid = Guid;
             this.Departament = Departament;
             this.Name = Name;
             this.Phone = Phone;

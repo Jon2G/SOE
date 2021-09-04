@@ -542,11 +542,11 @@ namespace SOEAWS.Controllers
             {
                 this._logger.LogError(ex, "PostContact");
             }
-            return new Response(
-               guid == Guid.Empty ?
-                   APIResponseResult.INTERNAL_ERROR : APIResponseResult.OK,
-               guid == Guid.Empty ? "Error" : "Ok",
-               guid.ToString("N"));
+            if (guid == Guid.Empty)
+            {
+                return new Response(APIResponseResult.NOT_READ,"Contacto no leido",guid.ToString("N"));
+            }
+            return new Response(APIResponseResult.OK, "Ok",guid.ToString("N"));
         }
         [HttpGet("GetContacts/{SchoolId}/{UserId}")]
         public ActionResult<Response> GetContacts(int SchoolId, int UserId)
@@ -620,7 +620,7 @@ namespace SOEAWS.Controllers
             }
             return new Response(APIResponseResult.OK, "Ok");
         }
-        [HttpGet("DeleteContact/{UserId}/{LinkId}")]
+        [HttpGet("DeleteContact/{UserId}/{ContactId}")]
         public ActionResult<Response> DeleteContact(int UserId, Guid ContactId)
         {
             if (ContactId == Guid.Empty || UserId <= 0)
@@ -633,7 +633,7 @@ namespace SOEAWS.Controllers
                 WebData.Connection.Execute(
                     "SP_DELETE_CONTACT",
                     CommandType.StoredProcedure
-                    , new SqlParameter("LINK_ID", ContactId)
+                    , new SqlParameter("CONTACT_ID", ContactId)
                     , new SqlParameter("USER_ID", UserId));
                 WebData.Connection.Close();
             }

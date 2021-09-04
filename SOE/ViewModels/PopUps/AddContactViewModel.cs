@@ -16,10 +16,10 @@ using Xamarin.Forms;
 
 namespace SOE.ViewModels.PopUps
 {
-    public class AddContactViewModel: ModelBase
+    public class AddContactViewModel : ModelBase
     {
         AddContactPage AddContactPage;
-        SchoolContact Contact;
+        public Guid Guid { get; set; }
         private string _Name;
         public string Name
         {
@@ -38,12 +38,12 @@ namespace SOE.ViewModels.PopUps
         public string Url
         {
             get => _Url;
+
             set
             {
                 if (_Url != value)
                 {
-
-                    _Url = value;
+                    this._Url = value;
                     Raise(() => Url);
                     this.AddContactCommand.RaiseCanExecuteChanged();
                 }
@@ -52,9 +52,10 @@ namespace SOE.ViewModels.PopUps
         private Departament _Departament;
         public Departament Departament
         {
-            get => this._Departament;
+            get => _Departament;
             set
             {
+
                 this._Departament = value;
                 this.Raise(() => this.Departament);
             }
@@ -62,9 +63,10 @@ namespace SOE.ViewModels.PopUps
         private string _Phone;
         public string Phone
         {
-            get => this._Phone;
+            get => _Phone;
             set
             {
+
                 this._Phone = value;
                 this.Raise(() => this.Phone);
             }
@@ -72,7 +74,7 @@ namespace SOE.ViewModels.PopUps
         private string _Correo;
         public string Correo
         {
-            get => this._Correo;
+            get => _Correo;
             set
             {
                 this._Correo = value;
@@ -80,12 +82,20 @@ namespace SOE.ViewModels.PopUps
             }
         }
         public AsyncCommand AddContactCommand { get; set; }
-        public AddContactViewModel(AddContactPage addContact,SchoolContact contact)
+        public AddContactViewModel(AddContactPage addContact)
         {
             this.AddContactPage = addContact;
-            this.Contact = contact;
-            AddContactCommand = new AsyncCommand(AddContact,CanAddContact);
+            AddContactCommand = new AsyncCommand(AddContact, CanAddContact);
             Departament = new Departament();
+        }
+        public AddContactViewModel(AddContactPage addContact, SchoolContact contact) : this(addContact)
+        {
+            this.Name = contact.Name;
+            this.Phone = contact.Phone;
+            this.Url = contact.Url;
+            this.Correo = contact.Correo;
+            this.Departament = contact.Departament;
+            this.Guid = contact.Guid;
         }
 
         private bool CanAddContact(object arg)
@@ -102,7 +112,7 @@ namespace SOE.ViewModels.PopUps
             }
             if (!string.IsNullOrEmpty(Correo) && !Validations.IsValidEmail(Correo))
             {
-                    return false;
+                return false;
             }
             return true;
         }
@@ -110,6 +120,7 @@ namespace SOE.ViewModels.PopUps
         private async Task AddContact()
         {
             await Task.Yield();
+
             if (string.IsNullOrEmpty(this.Name))
             {
                 Shell.Current.CurrentPage.DisplayAlert("¿Olvido el nombre?",
@@ -135,17 +146,18 @@ namespace SOE.ViewModels.PopUps
                     "La dirección correo es invalida.", "Entiendo").SafeFireAndForget();
                 return;
             }
-            if (!(Departament?.IsValid()??false))
+            if (!(Departament?.IsValid() ?? false))
             {
                 Shell.Current.CurrentPage.DisplayAlert("El departamento es invalido",
                    "El departamento no puede estar vacio.", "Entiendo").SafeFireAndForget();
                 return;
             }
-            SchoolContact contact = new SchoolContact(Departament,Name,Phone,Url,Correo);
+            SchoolContact contact = new SchoolContact(this.Guid, Departament, Name, Phone, Url, Correo);
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Compartiendo Contacto"))
             {
                 if (await contact.Upload())
                 {
+
                     Shell.Current.CurrentPage.DisplayAlert("Gracias por compartir",
                         "Este contacto será revisado por los moderadores para garantizar un entorno seguro en la comunidad.",
                         "Entiendo").SafeFireAndForget();
@@ -157,6 +169,7 @@ namespace SOE.ViewModels.PopUps
                         "Entiendo").SafeFireAndForget();
                 }
             }
+
             AcademicDirectory.Instance.Model.Init().SafeFireAndForget();
             AddContactPage.Close().SafeFireAndForget();
         }

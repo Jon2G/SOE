@@ -18,12 +18,17 @@ namespace SOE.Views.PopUps
     public partial class AddContactPage
     {
         public AddContactViewModel Model { get; set; }
+        public AddContactPage() : this(new SchoolContact())
+        {
+            
+        }
         public AddContactPage(SchoolContact contact)
         {
             this.Model = new AddContactViewModel(this,contact);
             this.BindingContext = Model;
             InitializeComponent();
         }
+     
         public override async Task<BasePopUp> Show()
         {
             ScaleAnimation scaleAnimation = new ScaleAnimation

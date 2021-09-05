@@ -34,7 +34,7 @@ namespace SOE.ViewModels.PopUps
         { // abrir popup alta
             await Task.Yield();
             this.PopUp.Close().SafeFireAndForget();
-            AddContactPage pr = new AddContactPage(Contact);
+            AddContactPage pr = new AddContactPage(this.Contact);
             await pr.ShowDialog();
 
         }
@@ -55,7 +55,6 @@ namespace SOE.ViewModels.PopUps
                      message:
                      "Este contacto a sido eliminado exitosamente.",
                       "Ok").SafeFireAndForget();
-                    PopUp.Close().SafeFireAndForget();
                 }
                 else
                 {
@@ -64,7 +63,7 @@ namespace SOE.ViewModels.PopUps
                         message: "Ocurrio un error al tratar eliminar de  este contacto.\nPor favor intente más tarde o envie un correo a soporte  técnico.",
                         "Ok")
                     .SafeFireAndForget();
-                    PopUp.Close().SafeFireAndForget();
+                    
                 }
             }
         }

@@ -6,6 +6,8 @@
              xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
              xmlns:renders="clr-namespace:SOE.Renders;assembly=SOE"
              xmlns:converters="clr-namespace:SOE.Converters;assembly=SOE"
+             
+             xmlns:dotMorten="clr-namespace:dotMorten.Xamarin.Forms;assembly=dotMorten.Xamarin.Forms.AutoSuggestBox"
              x:Class="SOE.App">
     <!--
         Define global resources and styles here, that apply to all pages in your app.
@@ -97,6 +99,13 @@
                     </VisualStateGroupList>
                 </Setter>
             </Style>
+
+            <Style TargetType="dotMorten:AutoSuggestBox">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource BackgroundTertiaryDarkColor},Light={StaticResource BackgroundTertiaryLightColor}}" />
+                <Setter Property="PlaceholderTextColor" Value="{AppThemeBinding Light={StaticResource  BackgroundSecondaryDarkColor},Dark={StaticResource BackgroundSecondaryLightColor}}"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource  DarkTextColor},Dark={StaticResource LightTextColor}}"/>
+            </Style>
+            
             <Style TargetType="renders:NoLineEntry">
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource BackgroundTertiaryDarkColor},Light={StaticResource BackgroundTertiaryLightColor}}" />
                 <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource  BackgroundSecondaryDarkColor},Dark={StaticResource BackgroundSecondaryLightColor}}"/>

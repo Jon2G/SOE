@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using SOEWeb.Shared;
 using AsyncAwaitBestPractices;
 using SOE.Services;
+using System.Linq;
 
 namespace SOE.ViewModels.Pages
 {
@@ -29,9 +30,11 @@ namespace SOE.ViewModels.Pages
             set
             {
                 _Contacts = value;
-                Raise(()=> Contacts);
+                Raise(() => Contacts);
             }
         }
+
+        private List<Departament> Departaments => Contacts?.Select(x => x.Departament).ToList() ?? new List<Departament>();
 
         public ICommand OpenLinkCommand { get; set; }
         public ICommand CallnumberCommand { get; set; }
@@ -60,7 +63,7 @@ namespace SOE.ViewModels.Pages
                 using (Acr.UserDialogs.UserDialogs.Instance.Loading("Cargando información de la escuela..."))
                 {
                     AppData.Instance.LiteConnection.CreateTable<School>();
-                    AppData.Instance.User.School.Id =await SchoolService.GetId(AppData.Instance.User);
+                    AppData.Instance.User.School.Id = await SchoolService.GetId(AppData.Instance.User);
                     AppData.Instance.User.Save();
                 }
             }
@@ -73,12 +76,12 @@ namespace SOE.ViewModels.Pages
 
         private async void MenuContact(SchoolContact contact)
         {
-            MenuContactPopUp pr = new(contact);
+            MenuContactPopUp pr = new(Departaments,contact);
             await pr.ShowDialog();
         }
         private async void AddContact(SchoolContact obj)
         {
-            AddContactPage pr = new();
+            AddContactPage pr = new(this.Departaments);
             await pr.ShowDialog();
         }
 

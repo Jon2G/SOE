@@ -19,9 +19,9 @@ namespace SOE.Views.PopUps
     public partial class MenuContactPopUp
     {
         public MenuContactPopUpViewModel Model { get; set; }
-        public MenuContactPopUp(SchoolContact contact)
+        public MenuContactPopUp(List<Departament> Departaments,SchoolContact contact)
         {
-            Model = new MenuContactPopUpViewModel(this, contact);
+            Model = new MenuContactPopUpViewModel(Departaments, this, contact);
             this.BindingContext = Model;
             InitializeComponent();
         }

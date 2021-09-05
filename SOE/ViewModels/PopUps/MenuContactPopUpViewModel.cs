@@ -24,9 +24,11 @@ namespace SOE.ViewModels.PopUps
         public ICommand DeleteCommand => _DeleteCommand ??= new AsyncCommand(Eliminar);
         private ICommand _ReportCommand;
         public ICommand ReportCommand => _ReportCommand ??= new Command(Reportar);
+        private List<Departament> Departaments { get; }
 
-        public MenuContactPopUpViewModel(MenuContactPopUp popUp, SchoolContact contact)
+        public MenuContactPopUpViewModel(List<Departament> Departaments, MenuContactPopUp popUp, SchoolContact contact)
         {
+            this.Departaments = Departaments;
             this.PopUp = popUp;
             this.Contact = contact;
         }
@@ -34,9 +36,8 @@ namespace SOE.ViewModels.PopUps
         { // abrir popup alta
             await Task.Yield();
             this.PopUp.Close().SafeFireAndForget();
-            AddContactPage pr = new AddContactPage(this.Contact);
+            AddContactPage pr = new AddContactPage(this.Departaments, this.Contact);
             await pr.ShowDialog();
-
         }
 
 

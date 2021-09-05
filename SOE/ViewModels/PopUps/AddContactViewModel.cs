@@ -9,6 +9,7 @@ using SOE.Views.PopUps;
 using SOEWeb.Shared;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -18,9 +19,10 @@ namespace SOE.ViewModels.PopUps
 {
     public class AddContactViewModel : ModelBase
     {
-        AddContactPage AddContactPage;
-        public Guid Guid { get; set; }
+        private readonly AddContactPage AddContactPage;
+        private Guid Guid { get; }
         private string _Name;
+
         public string Name
         {
             get => _Name;
@@ -34,7 +36,9 @@ namespace SOE.ViewModels.PopUps
                 }
             }
         }
+
         private string _Url;
+
         public string Url
         {
             get => _Url;
@@ -50,17 +54,23 @@ namespace SOE.ViewModels.PopUps
                 }
             }
         }
+
         private Departament _Departament;
         public Departament Departament
         {
             get => _Departament;
             set
             {
-                this._Departament = value;
-                this.Raise(() => this.Departament);
+                if (_Departament!=value)
+                {
+                    _Departament = value;
+                    this.Raise(() => this.Departament);
+                }
             }
         }
+
         private string _Phone;
+
         public string Phone
         {
             get => _Phone;
@@ -70,7 +80,9 @@ namespace SOE.ViewModels.PopUps
                 this.Raise(() => this.Phone);
             }
         }
+
         private string _Correo;
+
         public string Correo
         {
             get => _Correo;
@@ -80,23 +92,40 @@ namespace SOE.ViewModels.PopUps
                 this.Raise(() => this.Correo);
             }
         }
+
         public AsyncCommand AddContactCommand { get; set; }
+
+
+        private ICommand _DepartamentTextChangedCommand;
+        public ICommand DepartamentTextChangedCommand => _DepartamentTextChangedCommand ??= new Command<string>(DepartamentTextChanged);
+
         public AddContactViewModel(AddContactPage addContact)
         {
             this.AddContactPage = addContact;
             AddContactCommand = new AsyncCommand(AddContact, CanAddContact);
-            Departament = new Departament();
+
+
         }
         public AddContactViewModel(AddContactPage addContact, SchoolContact contact) : this(addContact)
         {
-            this.Name = contact.Name;
-            this.Phone = contact.Phone;
-            this.Url = contact.Url;
-            this.Correo = contact.Correo;
-            this.Departament = contact.Departament;
-            this.Guid = contact.Guid;
+            if (contact is not null)
+            {
+                this.Name = contact.Name;
+                this.Phone = contact.Phone;
+                this.Url = contact.Url;
+                this.Correo = contact.Correo;
+                this.Departament = contact.Departament;
+                this.Guid = contact.Guid;
+            }
         }
 
+        private void DepartamentTextChanged(string Name)
+        {
+            if (!string.IsNullOrEmpty(Name) && (Departament is null || Departament.Guid == Guid.Empty))
+            {
+                Departament = new Departament() { Name = Name.Trim() };
+            }
+        }
         private bool CanAddContact(object arg)
         {
             if (string.IsNullOrEmpty(Name))

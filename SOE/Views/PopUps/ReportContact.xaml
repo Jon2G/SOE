@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <pages:BasePopUp  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms" 
                   xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
                   xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms" 
                   xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
                    xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
@@ -9,7 +9,6 @@
                   xmlns:pankk="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
                   xmlns:enums="clr-namespace:SOEWeb.Shared.Enums;assembly=SOEWeb.Shared"
                   xmlns:popups="clr-namespace:SOE.ViewModels.PopUps"
-                  xmlns:enums="clr-namespace:SOEWeb.Shared.Enums;assembly=SOEWeb.Shared"
                   x:DataType="popups:ReportContactViewModel"
                   x:Class="SOE.Views.PopUps.ReportContact">
     <pankk:PancakeView HorizontalOptions="Center" VerticalOptions="End"

@@ -101,13 +101,14 @@ namespace SOE.ViewModels.ViewItems
 
         public MainTaskViewModel()
         {
-            PendingTasksView pt = new ();
-            PendingRemindersView pr = new ();
+            PendingTasksView pt = new();
+            PendingRemindersView pr = new();
             Views = new ObservableCollection<IconView>()
             {
                 new PendingTasksView(),
                 new PendingRemindersView()
             };
+            SelectedView = pt;
             Load(pt, pr);
         }
 

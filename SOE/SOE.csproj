@@ -37,6 +37,8 @@
     <PackageReference Include="AsyncAwaitBestPractices" Version="6.0.0" />
     <PackageReference Include="CardsView" Version="2.8.0" />
     <PackageReference Include="DeviceId" Version="6.0.0" />
+    <PackageReference Include="dotMorten.Xamarin.Forms.AutoSuggestBox" Version="1.1.1" />
+    <PackageReference Include="dotMorten.Xamarin.Forms.AutoSuggestBoxChange" Version="1.1.1" />
     <PackageReference Include="Forms9Patch" Version="2.4.9" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.36" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
@@ -52,8 +54,7 @@
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2083" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />  
     <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />  
-    <PackageReference Include="Xamarin.Forms.SaveOpenPDFPackage" Version="1.0.0" />  
-    <PackageReference Include="Xamarin.RisePlugin.AutoCompleteTextView" Version="1.0.9" />
+    <PackageReference Include="Xamarin.Forms.SaveOpenPDFPackage" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

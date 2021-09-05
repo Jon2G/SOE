@@ -24,23 +24,17 @@ namespace SOE.API
 {
     public static class APIService
     {
-        //--NonHttpsUrl "192.168.0.32:44313"
-        //--NonHttpsUrl "localhost:5001"
         public const string ShareTodo = "ShareTodo";
         public const string ShareReminder = "ShareReminder";
+        //AWS
         //public const string NonProdUrl = "dhokq2d69j.execute-api.us-east-2.amazonaws.com";
-        public const string NonProdUrl = "192.168.0.32:44313";
         //public static string NonHttpsUrl => $"{NonProdUrl}/Prod";
-        public static string NonHttpsUrl => $"{NonProdUrl}";
+        //LOCAL
+        public const string NonHttpsUrl= "192.168.0.32:44313";
+        public const string NonProdUrl = "192.168.0.32:44313";
+        //Otros
         public static string BaseUrl => $"https://{NonHttpsUrl}";
         public static string Url => $"{BaseUrl}/App";
-
-        //static APIService()
-        //{
-        //    NonProdUrl = Environment.GetEnvironmentVariable(nameof(NonProdUrl));
-        //}
-
-
 
         public static async Task<Response> Hello()
         {

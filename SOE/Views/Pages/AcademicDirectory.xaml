@@ -138,7 +138,7 @@
                                                                     </Frame.GestureRecognizers>
                                                                 </Frame>
                                                             </StackLayout>
-                                                            <Image Grid.Column="3" Rotation="90"  HorizontalOptions="EndAndExpand"   >
+                                                            <!--<Image Grid.Column="3" Rotation="90"  HorizontalOptions="EndAndExpand"   >
                                                                 <Image.Source>
                                                                     <FontImageSource
                                             Glyph="{x:Static fonts:FontelloIcons.ThreeDots}" 
@@ -148,7 +148,7 @@
                                                                 <Image.GestureRecognizers>
                                                                 <TapGestureRecognizer   Command="{Binding MenuCommand, Source={x:Reference Model}}" CommandParameter="{Binding .}"/>
                                                                 </Image.GestureRecognizers>
-                                                            </Image>
+                                                            </Image>-->
                                                         </Grid>
                                                         <BoxView BackgroundColor="White" HeightRequest="5"/>
                                                     </StackLayout>

@@ -8,7 +8,7 @@
           x:Class="SOE.Views.ViewItems.SubjectNotesView"
           x:DataType="viewmodels:SubjectNotesViewModel" VerticalOptions="FillAndExpand"
           Background="{DynamicResource Background}">
-    <Grid VerticalOptions="FillAndExpand" BackgroundColor="Red" 
+    <Grid VerticalOptions="FillAndExpand" 
           Padding="0">
         <viewItems:SOEWebView HeightRequest="1000" x:Name="SoeWebView" HorizontalOptions="FillAndExpand" 
                               Background="{DynamicResource SecondaryBackground}"

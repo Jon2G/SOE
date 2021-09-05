@@ -10,6 +10,7 @@ using SOE.Views.Pages;
 using SOE.Views.ViewItems;
 using SOE.Views.ViewItems.ScheduleView;
 using System.Linq;
+using System;
 
 namespace SOE.ViewModels.Pages
 {
@@ -50,13 +51,19 @@ namespace SOE.ViewModels.Pages
         }
 
         private ObservableCollection<IconView> _Views;
-        public ObservableCollection<IconView> Views => _Views ??= new ObservableCollection<IconView>()
-        {
-            new SchoolGrades(),
-            new MainView(),
-            new ScheduleViewMain()
-        };
+        public ObservableCollection<IconView> Views => _Views ??= GetViews();
 
+        private ObservableCollection<IconView> GetViews()
+        {
+            this._Views= new ObservableCollection<IconView>()
+            {
+                new SchoolGrades(),
+                new MainView(),
+                new ScheduleViewMain()
+            };
+            SelectedIndex = 1;
+            return this._Views;
+        }
 
         private ICommand _TareasViewCommand;
         public ICommand TareasViewCommand

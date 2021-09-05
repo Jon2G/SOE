@@ -19,7 +19,7 @@ namespace SOE.ViewModels.PopUps
     public class AddContactViewModel: ModelBase
     {
         AddContactPage AddContactPage;
-        SchoolContact Contact;
+
         private string _Name;
         public string Name
         {

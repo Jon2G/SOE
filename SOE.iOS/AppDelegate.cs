@@ -21,6 +21,7 @@ namespace SOE.iOS
             UINavigationBar.Appearance.Translucent = false;
             UINavigationBar.Appearance.BackgroundColor = Xamarin.Forms.Color.MidnightBlue.ToUIColor();
             UINavigationBar.Appearance.BarTintColor = Xamarin.Forms.Color.White.ToUIColor();
+            Xamarin.RisePlugin.AutoCompleteTextView.iOS.AutoCompleteTextViewRenderer.Init();
         }
 
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)

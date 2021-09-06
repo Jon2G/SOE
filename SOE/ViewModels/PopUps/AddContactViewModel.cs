@@ -153,7 +153,7 @@ namespace SOE.ViewModels.PopUps
         {
             await Task.Yield();
 
-
+            
             this.Validate();
 
             if (this.HasErrors)

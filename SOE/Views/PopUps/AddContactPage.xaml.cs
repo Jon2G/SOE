@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Kit;
+using Kit.Forms;
+
 namespace SOE.Views.PopUps
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -62,7 +64,7 @@ namespace SOE.Views.PopUps
                         .Select(x => x.Name)
                         .ToList();
                 this.AutoSuggestBox.ItemsSource = suggestions;
-                this.Model.Departament = !string.IsNullOrEmpty(search) ? 
+                this.Model.Departament = !string.IsNullOrEmpty(search) ?
                     new Departament() { Name = search } : null;
             }
         }

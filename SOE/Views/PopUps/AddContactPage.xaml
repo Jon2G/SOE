@@ -51,7 +51,7 @@
                     <Label Text="Nombre" FontAttributes="Bold"/>
 
                     <validations:ValidationEntry FontSize="14" HorizontalOptions="FillAndExpand" Text="{Binding Path=Name}" 
-                                                 x:Name="Name" ShowErrorMessage="True" />
+                                                 x:Name="Name" ShowErrorMessage="True"  />
                     <Label
                 IsVisible="{Binding HasError,Source={x:Reference Name}}"
                 Text="{Binding ErrorMessage,Source={x:Reference Name}}"

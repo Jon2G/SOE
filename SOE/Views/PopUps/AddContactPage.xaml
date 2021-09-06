@@ -12,7 +12,7 @@
                   xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
                   ios:Page.UseSafeArea="True"
                   xmlns:transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
-                  xmlns:dotMorten="clr-namespace:dotMorten.Xamarin.Forms;assembly=dotMorten.Xamarin.Forms.AutoSuggestBox"
+                  xmlns:dotMorten="clr-namespace:dotMorten.Xamarin.Forms;assembly=dotMorten.Xamarin.Forms.AutoSuggestBox" xmlns:validations="clr-namespace:Kit.Forms.Validations;assembly=Kit.Forms"
                   x:DataType="popups:AddContactViewModel"
                   x:Name="Me"
                   x:Class="SOE.Views.PopUps.AddContactPage">
@@ -49,7 +49,16 @@
                                               SuggestionChosen="AutoSuggestBox_SuggestionChosen" x:Name="AutoSuggestBox"/>
 
                     <Label Text="Nombre" FontAttributes="Bold"/>
-                    <Entry FontSize="14" HorizontalOptions="FillAndExpand" Text="{Binding Name}"/>
+
+                    <validations:ValidationEntry FontSize="14" HorizontalOptions="FillAndExpand" Text="{Binding Path=Name}" 
+                                                 x:Name="Name" ShowErrorMessage="True" />
+                    <Label
+                IsVisible="{Binding HasError,Source={x:Reference Name}}"
+                Text="{Binding ErrorMessage,Source={x:Reference Name}}"
+                TextColor="Red" />
+
+
+
 
                     <Label Text="Correo" FontAttributes="Bold"/>
                     <Entry FontSize="14" HorizontalOptions="FillAndExpand" Text="{Binding Correo}"/>

@@ -1,5 +1,6 @@
 ﻿using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
+using Kit.Forms.Model;
 using Kit.Model;
 using SOE.Models;
 using SOE.Services;
@@ -9,6 +10,7 @@ using SOE.Views.PopUps;
 using SOEWeb.Shared;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,12 +19,13 @@ using Xamarin.Forms;
 
 namespace SOE.ViewModels.PopUps
 {
-    public class AddContactViewModel : ModelBase
+    public class AddContactViewModel : ValidationsModelbase
     {
         private readonly AddContactPage AddContactPage;
         private Guid Guid { get; }
         private string _Name;
-
+        [Required(AllowEmptyStrings = false,ErrorMessage = "Debe ingresar un nombre")]
+        [Display(Name ="Nombre")]
         public string Name
         {
             get => _Name;
@@ -31,6 +34,7 @@ namespace SOE.ViewModels.PopUps
                 if (_Name != value)
                 {
                     _Name = value;
+                    ValidateProperty(value);
                     Raise(() => Name);
                     this.AddContactCommand.RaiseCanExecuteChanged();
                 }
@@ -102,7 +106,7 @@ namespace SOE.ViewModels.PopUps
         public AddContactViewModel(AddContactPage addContact)
         {
             this.AddContactPage = addContact;
-            AddContactCommand = new AsyncCommand(AddContact, CanAddContact);
+            AddContactCommand = new AsyncCommand(AddContact);
 
 
         }
@@ -148,6 +152,20 @@ namespace SOE.ViewModels.PopUps
         private async Task AddContact()
         {
             await Task.Yield();
+
+
+            this.Validate();
+
+            if (this.HasErrors)
+            {
+                // Error message
+                this.ScrollToControlProperty(this.GetFirstInvalidPropertyName);
+            }
+            else
+            {
+                // No error
+            }
+
             if (string.IsNullOrEmpty(this.Name))
             {
                 Shell.Current.CurrentPage.DisplayAlert("¿Olvido el nombre?",

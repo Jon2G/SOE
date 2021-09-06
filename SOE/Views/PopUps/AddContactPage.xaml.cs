@@ -85,5 +85,6 @@ namespace SOE.Views.PopUps
             // Set sender.Text. You can use args.SelectedItem to build your text string.
             this.Model.Departament = this.Departaments.Find(x => x.Name == e.SelectedItem.ToString());
         }
+
     }
 }

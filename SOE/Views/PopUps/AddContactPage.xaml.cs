@@ -88,5 +88,6 @@ namespace SOE.Views.PopUps
             this.Model.Departament = this.Departaments.Find(x => x.Name == e.SelectedItem.ToString());
         }
 
+
     }
 }

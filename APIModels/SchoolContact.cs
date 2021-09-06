@@ -1,4 +1,5 @@
-﻿using Kit.Model;
+﻿using Kit;
+using Kit.Model;
 using Kit.Sql.Interfaces;
 using Newtonsoft.Json;
 using System;
@@ -26,6 +27,8 @@ namespace SOEWeb.Shared
                 this.Raise(() => this.Departament);
             }
         }
+
+        public string Initials => Name.ExtractInitialsFromName(2);
         public string Name
         {
             get => this._Name;

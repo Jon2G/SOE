@@ -26,6 +26,7 @@ namespace SOE.Views.PopUps
             this.Model = new AddContactViewModel(this, contact);
             this.BindingContext = Model;
             InitializeComponent();
+            this.LockModal();
         }
 
         public override async Task<BasePopUp> Show()

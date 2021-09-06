@@ -9,6 +9,7 @@
              xmlns:pankk="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
              xmlns:models="clr-namespace:SOE.Models" xmlns:shared="clr-namespace:SOEWeb.Shared;assembly=SOEWeb.Shared"
              xmlns:converters="clr-namespace:Kit.Forms.Converters;assembly=Kit.Forms"
+             xmlns:kit="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
              Shell.NavBarIsVisible="True"
              Background="{DynamicResource Background}"
              Title="{Binding User.School.Name,Source={x:Static data:AppData.Instance}}"
@@ -39,7 +40,10 @@
                         </Label.GestureRecognizers>
                     </Label>
                 </StackLayout>
-                <StackLayout Spacing="0" Padding="0" Orientation="Horizontal" VerticalOptions="Start" >
+                <Grid VerticalOptions="FillAndExpand">
+                    
+                    <StackLayout Spacing="0" Padding="0" Orientation="Vertical" VerticalOptions="FillAndExpand" >
+                    <StackLayout Spacing="0" Padding="0" Orientation="Horizontal" VerticalOptions="Start" >
                     <Label Text="Directorio" FontSize="30" FontAttributes="Bold"  HorizontalOptions="CenterAndExpand"/>
                     <Image Grid.Column="2" HorizontalOptions="End"   >
                         <Image.Source>
@@ -55,6 +59,7 @@
                 </StackLayout>
                 <BoxView BackgroundColor="{StaticResource AccentColor}" HeightRequest="5"/>
                 <!---->
+            
                 <ScrollView VerticalOptions="FillAndExpand">
                     <StackLayout BindableLayout.ItemsSource="{Binding Contacts}">
                         <BindableLayout.ItemTemplate>
@@ -76,7 +81,7 @@
                                                                 <ColumnDefinition Width="30"/>
                                                             </Grid.ColumnDefinitions>
                                                             <xct:AvatarView  
-                                         Color="#D0DAF8"
+                                         Color="#D0DAF8" Text="{Binding Initials}"
                                          Source="{Binding User.School.ImgPath, Source={x:Static data:AppData.Instance}}" HorizontalOptions="Center" Aspect="AspectFill" VerticalOptions="Center" Size="50" Margin="5,0,0,0"/>
                                                             <Label Grid.Column="1" Text="{Binding Name}" FontSize="16" FontAttributes="Bold" VerticalTextAlignment="Center" Margin="5,0,0,0"/>
                                                             <StackLayout Grid.Column="2" Orientation="Horizontal" HorizontalOptions="EndAndExpand">
@@ -99,7 +104,7 @@
                                                                         <TapGestureRecognizer CommandParameter="{Binding .}" Command="{Binding ContactCallCommand,Source={x:Reference Model}}"/>
                                                                     </Frame.GestureRecognizers>
                                                                 </Frame>
-                                                            <Frame CornerRadius="100" IsVisible="{Binding Phone,Converter={StaticResource StringNullOrEmptyBoolConverter}}"
+                                                                <Frame CornerRadius="100" IsVisible="{Binding Phone,Converter={StaticResource StringNullOrEmptyBoolConverter}}"
                                                            BackgroundColor="YellowGreen"
                                                            HeightRequest="50"
                                                            WidthRequest="50"
@@ -146,7 +151,7 @@
                                                                         Color="{AppThemeBinding Dark=White,Light=Black}"/>
                                                                 </Image.Source>
                                                                 <Image.GestureRecognizers>
-                                                                <TapGestureRecognizer   Command="{Binding MenuCommand, Source={x:Reference Model}}" CommandParameter="{Binding .}"/>
+                                                                    <TapGestureRecognizer   Command="{Binding MenuCommand, Source={x:Reference Model}}" CommandParameter="{Binding .}"/>
                                                                 </Image.GestureRecognizers>
                                                             </Image>
                                                         </Grid>
@@ -163,7 +168,7 @@
                             <StackLayout Padding="20" VerticalOptions="StartAndExpand">
                                 <Label Text="No tenemos contactos para esta unidad académica." HorizontalOptions="Center" FontSize="20" FontAttributes="Bold"
                                        HorizontalTextAlignment="Center"/>
-                            <Label Text="Te invitamos a conmezar este directorio." HorizontalOptions="Center" FontSize="20" FontAttributes="Bold"
+                                <Label Text="Te invitamos a conmezar este directorio." HorizontalOptions="Center" FontSize="20" FontAttributes="Bold"
                                    HorizontalTextAlignment="Center"/>
                                 <Image HeightRequest="50">
                                     <Image.Source>
@@ -173,10 +178,16 @@
                                             Color="Black"/>
                                     </Image.Source>
                                 </Image>
-                        </StackLayout>
+                            </StackLayout>
                         </BindableLayout.EmptyView>
                     </StackLayout>
                 </ScrollView>
+               </StackLayout>
+                    <kit:ActivityIndicatorView VerticalOptions="FillAndExpand" Indicator="TwoSepareteArcs" Background="{DynamicResource SecondaryBackground}"
+                                               IsVisible="{Binding IsLoading}"/>
+               
+            </Grid>
+
             </StackLayout>
 
     </ContentPage.Content>

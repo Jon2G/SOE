@@ -47,51 +47,6 @@
                     <dotMorten:AutoSuggestBox TextChanged="AutoSuggestBox_TextChanged"
                                               QuerySubmitted="AutoSuggestBox_QuerySubmitted"
                                               SuggestionChosen="AutoSuggestBox_SuggestionChosen" x:Name="AutoSuggestBox"/>
-                    <!--<ScrollView VerticalOptions="StartAndExpand">
-                        <StackLayout VerticalOptions="StartAndExpand">
-                            <rise:AutoCompleteTextView Margin="0" 
-                                               x:Name="auto" TextChange="TxtDepartment_OnTextChange"
-                                               VerticalOptions="StartAndExpand" 
-                                               SelectItem="Auto_OnSelectItem"
-                                               SeparatorColor="{AppThemeBinding Dark={StaticResource BackgroundSecondaryDarkColor},Light={StaticResource  BackgroundSecondaryLightColor}}" 
-                                    SeparatorThickness="2" 
-                                    BackButtonPressDeleteSelected="True"
-                                               ClickDeleteSelected="True"
-                                               SameItemControl="True" 
-                                               RowHeight="80"
-                                    NamePath="Name" 
-                                    SelectionMode="Single"
-                                    SelectAfterText="Clear"
-                                    SearchType="Contains"
-                                    FontSize="14">
-                                <rise:AutoCompleteTextView.SelectedItemTemplate>
-                                    <DataTemplate x:DataType="shared:Departament">
-                                        <yummy:PancakeView  Margin="8,0" CornerRadius="0" 
-                                                            BackgroundColor="{StaticResource PrimaryDarkColor}">
-                                            <Label Text="{Binding Name}" 
-                                           Margin="4" TextColor="White" 
-                                           FontSize="14" FontAttributes="Bold" 
-                                           LineBreakMode="TailTruncation" 
-                                           VerticalOptions="Center" HorizontalOptions="Center"/>
-                                        </yummy:PancakeView>
-                                    </DataTemplate>
-                                </rise:AutoCompleteTextView.SelectedItemTemplate>
-                                <rise:AutoCompleteTextView.ItemTemplate>
-                                    <DataTemplate x:DataType="shared:Departament">
-                                        <yummy:PancakeView Padding="0" CornerRadius="0"
-                                                   VerticalOptions="CenterAndExpand" BackgroundColor="{StaticResource PrimaryDarkColor}"
-                                                   HorizontalOptions="Center">
-                                            <Label Text="{Binding Name}" TextColor="White" 
-                                           VerticalOptions="CenterAndExpand" HorizontalOptions="Center" 
-                                           Margin="5" FontSize="14"/>
-                                        </yummy:PancakeView>
-                                    </DataTemplate>
-                                </rise:AutoCompleteTextView.ItemTemplate>
-                            </rise:AutoCompleteTextView>
-                        </StackLayout>
-                    </ScrollView>-->
-                   
-
 
                     <Label Text="Nombre" FontAttributes="Bold"/>
                     <Entry FontSize="14" HorizontalOptions="FillAndExpand" Text="{Binding Name}"/>

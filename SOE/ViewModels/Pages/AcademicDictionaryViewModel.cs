@@ -22,6 +22,19 @@ namespace SOE.ViewModels.Pages
 {
     public class AcademicDictionaryViewModel : ModelBase
     {
+        private bool _IsLoading;
+
+        public bool IsLoading
+        {
+            get => _IsLoading;
+            set
+            {
+                _IsLoading = value;
+                Raise(()=>IsLoading);
+            }
+        }
+
+
         private ObservableCollection<ContactsByDeparment> _Contacts;
 
         public ObservableCollection<ContactsByDeparment> Contacts
@@ -67,7 +80,11 @@ namespace SOE.ViewModels.Pages
                     AppData.Instance.User.Save();
                 }
             }
+
+            IsLoading = true;
+            await Task.Delay(100);
             this.Contacts = await SchoolContactsService.Get();
+            IsLoading = false;
         }
         private void ContactCall(SchoolContact contact) => PhoneDialer.Open(contact.Phone);
         private void ContactLink(SchoolContact obj) => OpenBrowser(obj.Url);

@@ -18,5 +18,8 @@ namespace SOE.Views.Pages
             InitializeComponent();
             Instance = this;
         }
+
+        protected override bool OnBackButtonPressed() =>
+            Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopupStack.Any();
     }
 }

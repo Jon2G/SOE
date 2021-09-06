@@ -51,11 +51,8 @@
                     <Label Text="Nombre" FontAttributes="Bold"/>
 
                     <Entry FontSize="14" HorizontalOptions="FillAndExpand" 
-                           Text="{Binding Path=Name}" >
-                        <Entry.Behaviors>
-                            <validations:ValidationEntryBehavior ShowErrorMessage="True" />
-                        </Entry.Behaviors>
-                    </Entry>
+                           Text="{Binding Path=Name}"
+                           validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"/>
 
 
 

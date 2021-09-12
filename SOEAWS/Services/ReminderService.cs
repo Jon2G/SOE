@@ -12,9 +12,11 @@ namespace SOEAWS.Services
 {
     public static class ReminderService
     {
-        public static ReminderBase Find(Guid Guid, ILogger logger)
+        public static ReminderBase Find(Guid Guid, ILogger logger,out string NickName)
         {
             ReminderBase reminder = null;
+            NickName = string.Empty;
+            string nick = string.Empty;
             try
             {
                 WebData.Connection.Read("SP_GET_REMINDER_BY_GUID", (reader) =>
@@ -34,7 +36,9 @@ namespace SOEAWS.Services
                             IdTeacher = Convert.ToInt32(Convert.ToInt32(reader[5]))
                         };
                     }
+                    nick = Convert.ToString(reader[6]);
                 }, CommandType.StoredProcedure, new SqlParameter("GUID", Guid));
+                NickName = nick;
             }
             catch (Exception e)
             {

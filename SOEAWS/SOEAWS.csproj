@@ -9,6 +9,12 @@
     <AssemblyName>SOEAWS</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Pages\SharePage.razor.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Pages\SharePage.razor.css" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="6.0.3" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.36" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />

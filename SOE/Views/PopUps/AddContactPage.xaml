@@ -58,13 +58,21 @@
 
 
                     <Label Text="Correo" FontAttributes="Bold"/>
-                    <Entry FontSize="14" HorizontalOptions="FillAndExpand" Text="{Binding Correo}"/>
+                    <Entry FontSize="14" HorizontalOptions="FillAndExpand" 
+                           Text="{Binding Path=Correo}"
+                           validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"/>
 
                     <Label Text="Telefono" FontAttributes="Bold"/>
-                    <Entry FontSize="14" HorizontalOptions="FillAndExpand" Text="{Binding Phone}"/>
+                    <Entry FontSize="14" HorizontalOptions="FillAndExpand" 
+                           Text="{Binding Path=Phone}"
+                           validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"/>
+
 
                     <Label Text="Pagina" FontAttributes="Bold"/>
-                    <Entry FontSize="14" HorizontalOptions="FillAndExpand" Text="{Binding Url}"/>
+                    <Entry FontSize="14" HorizontalOptions="FillAndExpand" 
+                           Text="{Binding Path=Url}"
+                           validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"/>
+
                 </StackLayout>
             </ScrollView>
 

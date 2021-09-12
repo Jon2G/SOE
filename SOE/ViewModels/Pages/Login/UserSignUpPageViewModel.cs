@@ -12,10 +12,11 @@ using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Device = Kit.Daemon.Devices.Device;
+using Kit.Forms.Model;
 
 namespace SOE.ViewModels.Pages.Login
 {
-    public class UserSignUpPageViewModel : ModelBase
+    public class UserSignUpPageViewModel :ValidationsModelbase 
     {
         private string _NickName;
 
@@ -63,6 +64,7 @@ namespace SOE.ViewModels.Pages.Login
             }
         }
         private string _Boleta;
+        [Validations.Boleta(ErrorMessage = "Boleta no valida.")]
         public string Boleta
         {
             get => _Boleta;
@@ -70,6 +72,7 @@ namespace SOE.ViewModels.Pages.Login
             {
                 _Boleta = value;
                 Raise(() => Boleta);
+                ValidateProperty(value);
                 this.SignInCommand.RaiseCanExecuteChanged();
             }
         }
@@ -144,7 +147,7 @@ namespace SOE.ViewModels.Pages.Login
         private bool SignInCanExecute(object obj)
         {
             return !string.IsNullOrEmpty(Boleta) 
-                   && Validations.IsValidBoleta(Boleta) 
+                   && SOEWeb.Shared.Validations.IsValidBoleta(Boleta) 
                    && !string.IsNullOrEmpty(Password);
         }
 
@@ -208,7 +211,7 @@ namespace SOE.ViewModels.Pages.Login
                    !string.IsNullOrEmpty(Email)
                    && SOEPassword.Length >= 8
                    && !string.IsNullOrEmpty(NickName) &&
-                   Validations.IsValidNickName(NickName);
+                   SOEWeb.Shared.Validations.IsValidNickName(NickName);
         }
     }
 }

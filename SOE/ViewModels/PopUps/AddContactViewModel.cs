@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using SOEWeb.Shared;
 
 namespace SOE.ViewModels.PopUps
 {
@@ -43,6 +44,8 @@ namespace SOE.ViewModels.PopUps
 
         private string _Url;
 
+        [Url(ErrorMessage ="Url invalido")]
+       
         public string Url
         {
             get => _Url;
@@ -53,6 +56,7 @@ namespace SOE.ViewModels.PopUps
                 {
 
                     _Url = value;
+                    ValidateProperty(value);
                     Raise(() => Url);
                     this.AddContactCommand.RaiseCanExecuteChanged();
                 }
@@ -60,6 +64,8 @@ namespace SOE.ViewModels.PopUps
         }
 
         private Departament _Departament;
+
+        
         public Departament Departament
         {
             get => _Departament;
@@ -68,6 +74,7 @@ namespace SOE.ViewModels.PopUps
                 if (_Departament!=value)
                 {
                     _Departament = value;
+                    ValidateProperty(value);
                     this.Raise(() => this.Departament);
                 }
             }
@@ -75,24 +82,28 @@ namespace SOE.ViewModels.PopUps
 
         private string _Phone;
 
+        [Phone(ErrorMessage = "Numero de telefono invalido")]
         public string Phone
         {
             get => _Phone;
             set
             {
                 this._Phone = value;
+                ValidateProperty(value);
                 this.Raise(() => this.Phone);
             }
         }
-
+        
         private string _Correo;
 
+        [EmailAddress(ErrorMessage = "Correo invalido")]
         public string Correo
         {
             get => _Correo;
             set
             {
                 this._Correo = value;
+                ValidateProperty(value);
                 this.Raise(() => this.Correo);
             }
         }
@@ -138,11 +149,11 @@ namespace SOE.ViewModels.PopUps
             }
             if (!string.IsNullOrEmpty(Url))
             {
-                if (!Validations.IsValidUrl(Url, out Uri uri))
+                if (!SOEWeb.Shared.Validations.IsValidUrl(Url, out Uri uri))
                     return false;
                 Url = uri.AbsoluteUri;
             }
-            if (!string.IsNullOrEmpty(Correo) && !Validations.IsValidEmail(Correo))
+            if (!string.IsNullOrEmpty(Correo) && !SOEWeb.Shared.Validations.IsValidEmail(Correo))
             {
                 return false;
             }
@@ -174,7 +185,7 @@ namespace SOE.ViewModels.PopUps
             }
             if (!string.IsNullOrEmpty(this.Url))
             {
-                if (Validations.IsValidUrl(this.Url, out Uri uri))
+                if (SOEWeb.Shared.Validations.IsValidUrl(this.Url, out Uri uri))
                 {
                     this._Url = uri.AbsoluteUri;
                 }
@@ -185,7 +196,7 @@ namespace SOE.ViewModels.PopUps
                     return;
                 }
             }
-            if (!string.IsNullOrEmpty(this.Correo) && !Validations.IsValidEmail(this.Correo))
+            if (!string.IsNullOrEmpty(this.Correo) && !SOEWeb.Shared.Validations.IsValidEmail(this.Correo))
             {
                 Shell.Current.CurrentPage.DisplayAlert("El correo es invalido",
                     "La dirección correo es invalida.", "Entiendo").SafeFireAndForget();

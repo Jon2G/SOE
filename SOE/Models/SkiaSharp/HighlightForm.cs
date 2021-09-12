@@ -27,6 +27,7 @@ namespace SOE.Models.SkiaSharp
                 _skPaint = CreateHighlightSkPaint(skCanvasView, _highlightSettings, _highlightState.HighlightPath);
 
             StrokeDash strokeDash = _highlightState.StrokeDash;
+            if(strokeDash is null) { return; }
             // Comment the next line to see whole path without dash effect
             _skPaint.PathEffect = SKPathEffect.CreateDash(strokeDash.Intervals, strokeDash.Phase);
             skCanvas.DrawPath(_highlightState.HighlightPath.Path, _skPaint);
@@ -48,7 +49,7 @@ namespace SOE.Models.SkiaSharp
 
             if (_highlightState == null)
             {
-                var path = HighlightPath.Create(skCanvasView, layoutChildren, _highlightSettings.StrokeWidth);
+                HighlightPath path = HighlightPath.Create(skCanvasView, layoutChildren, _highlightSettings.StrokeWidth);
                 _highlightState = new HighlightState()
                 {
                     HighlightPath = path

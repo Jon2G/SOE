@@ -48,7 +48,7 @@ namespace SOE.API
         {
             WebService WebService = new WebService(Url);
             if (string.IsNullOrEmpty(Usuario) || string.IsNullOrEmpty(PasswordPin) || PasswordPin.Length < 8
-                                              || (!Validations.IsValidEmail(Usuario) && !Validations.IsValidBoleta(Usuario)))
+                                              || (!SOEWeb.Shared.Validations.IsValidEmail(Usuario) && !SOEWeb.Shared.Validations.IsValidBoleta(Usuario)))
             {
                 return new Response(APIResponseResult.INVALID_REQUEST,
                     "!Solicitud invalida!");
@@ -66,7 +66,7 @@ namespace SOE.API
         {
             WebService WebService = new WebService(Url);
             User User = AppData.Instance.User;
-            if (Validations.ValidateLogin(User.Boleta, PasswordPin, User.NickName, User.Email, User.School, Device.DeviceKey, Type)
+            if (SOEWeb.Shared.Validations.ValidateLogin(User.Boleta, PasswordPin, User.NickName, User.Email, User.School, Device.DeviceKey, Type)
                     is string v_error
                 && !string.IsNullOrEmpty(v_error))
             {
@@ -284,7 +284,7 @@ namespace SOE.API
             {
                 return Response.InvalidRequest;
             }
-            if (string.IsNullOrEmpty(Link.Url) || !Validations.IsValidUrl(Link.Url, out Uri uri))
+            if (string.IsNullOrEmpty(Link.Url) || !SOEWeb.Shared.Validations.IsValidUrl(Link.Url, out Uri uri))
             {
                 return Response.InvalidRequest;
             }
@@ -371,7 +371,7 @@ namespace SOE.API
             }
             if (!string.IsNullOrEmpty(contact.Url))
             {
-                if (!Validations.IsValidUrl(contact.Url, out Uri uri))
+                if (!SOEWeb.Shared.Validations.IsValidUrl(contact.Url, out Uri uri))
                     return Response.InvalidRequest;
                 contact.Url = uri.AbsoluteUri;
             }

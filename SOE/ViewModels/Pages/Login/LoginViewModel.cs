@@ -16,14 +16,17 @@ using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Command = Xamarin.Forms.Command;
 using Log = Kit.Log;
+using System.ComponentModel.DataAnnotations;
+using Kit.Forms.Model;
 
 namespace SOE.ViewModels.Pages.Login
 {
     [Preserve]
-    public class LoginViewModel : ModelBase
+    public class LoginViewModel : ValidationsModelbase
     {
 
         private string _User;
+       [Validations.User(ErrorMessage = "Usuario no valido")]
         public string User
         {
             get => _User;
@@ -31,11 +34,13 @@ namespace SOE.ViewModels.Pages.Login
             {
                 _User = value;
                 Raise(() => User);
+                ValidateProperty(value);
                 this.LoginCommand?.RaiseCanExecuteChanged();
             }
         }
 
         private string _Password;
+       
         public string Password
         {
             get => _Password;
@@ -114,7 +119,7 @@ namespace SOE.ViewModels.Pages.Login
 
         private bool LoginCanExecute(object obj)
         {
-            return !string.IsNullOrEmpty(User) && (Validations.IsValidEmail(User) || Validations.IsValidBoleta(User))
+            return !string.IsNullOrEmpty(User) && (SOEWeb.Shared.Validations.IsValidEmail(User) || SOEWeb.Shared.Validations.IsValidBoleta(User))
                                                && !string.IsNullOrEmpty(Password)
                                                && Password.Length >= 8;
         }

@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using Kit.Forms.Model;
 using Kit.Model;
 using SOE.Data;
 using SOE.Models.Data;
@@ -8,13 +9,14 @@ using Xamarin.Forms;
 namespace SOE.ViewModels.Pages.Login
 {
 
-    class LoginPopUpViewModel : ModelBase
+    class LoginPopUpViewModel :ValidationsModelbase
     {
 
         User user = User.Get();
         private string _Boleta;
         private string _Password;
-        public string Boleta { get => _Boleta; set { _Boleta = value; Raise(() => Boleta); } }
+        [Validations.Boleta(ErrorMessage = "Boleta no valida.")]
+        public string Boleta { get => _Boleta; set { _Boleta = value; ValidateProperty(value); Raise(() => Boleta); } }
         public string Password { get => _Password; set { _Password = value; Raise(() => Password); } }
         public ICommand IngresarCommand { get; set; }
         public LoginPopUpViewModel()

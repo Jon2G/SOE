@@ -10,11 +10,11 @@ using SOE.Views.Pages.Login;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-
+using Kit.Forms.Validations;
 namespace SOE.ViewModels.Pages.Login
 {
     [Preserve]
-    public class SAESLoginPageViewModel : ModelBase
+    public class SAESLoginPageViewModel : Kit.Forms.Model.ValidationsModelbase
     {
         private string _Captcha;
         public string Captcha
@@ -56,6 +56,7 @@ namespace SOE.ViewModels.Pages.Login
         }
 
         private string _Boleta;
+        [Validations.Boleta(ErrorMessage = "Boleta no valida")]
         public string Boleta
         {
             get => _Boleta;
@@ -63,6 +64,7 @@ namespace SOE.ViewModels.Pages.Login
             {
                 _Boleta = value;
                 Raise(() => Boleta);
+                ValidateProperty(value);
                 this.SignInCommand?.RaiseCanExecuteChanged();
             }
         }
@@ -131,7 +133,7 @@ namespace SOE.ViewModels.Pages.Login
         private bool ValidateCanExecute(object obj)
         {
             return !string.IsNullOrEmpty(Boleta)
-                   && Validations.IsValidBoleta(Boleta)
+                   && SOEWeb.Shared.Validations.IsValidBoleta(Boleta)
                    && !string.IsNullOrEmpty(Password)
                    && !string.IsNullOrEmpty(Captcha)
                    && !IsLoading;

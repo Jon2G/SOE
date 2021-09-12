@@ -14,6 +14,30 @@ namespace SOEWeb.Shared
             }
             return Regex.IsMatch(boleta, "20([0-9]{8})");
         }
+        public static bool IsValidUser(string user)
+        {
+            if (string.IsNullOrEmpty(user))
+            {
+                return false;
+            }
+            if (Regex.IsMatch(user, "20([0-9]{8})"))
+            {
+                return true;
+            }else
+            {
+                try
+                {
+                    var addr = new System.Net.Mail.MailAddress(user);
+                    return addr.Address == user;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+                
+            return false;
+        }
 
         public static bool IsValidUrl(string url,out Uri uri)
         {

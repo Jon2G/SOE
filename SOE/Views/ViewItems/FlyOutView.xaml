@@ -17,28 +17,27 @@
     </ContentView.BindingContext>
     <ContentView.Content>
         <StackLayout Background="{StaticResource PrimaryColor}" Spacing="0" Padding="0">
-            <Grid BindingContext="{Binding User, Source={x:Static data1:AppData.Instance}}" 
-                  x:DataType="data:User" Margin="10,0,0,0"
-                  ColumnDefinitions="Auto,*" Padding="10">
+            <StackLayout BindingContext="{Binding User, Source={x:Static data1:AppData.Instance}}" 
+                         x:DataType="data:User" Padding="5" Orientation="Horizontal">
+                <views:AvatarView BindingContext="{x:Reference Model}" 
+                                  x:DataType="viewItems:FlyOutViewModel"
+                                  Text="{Binding UserInitials}"
+                                  Color="{StaticResource AccentColor}"
+                                  IsClippedToBounds="True" HorizontalOptions="StartAndExpand"
+                                  Source="{Binding AvatarSource}" Aspect="AspectFill" 
+                                  Size="70" Margin="3"
+                                  views:TouchEffect.Command="{Binding TapAvatarCommand}"
+                                  views:TouchEffect.NativeAnimation="True" 
+                                  views:TouchEffect.PressedScale="0.8"
+                                  views:TouchEffect.PressedBackgroundImageAspect="AspectFill"/>
 
-                <pancakeView:PancakeView Padding="1" 
-                                         BackgroundColor="Transparent"
-                                         IsClippedToBounds="True" >
 
-                    <views:AvatarView BindingContext="{x:Reference Model}" x:DataType="viewItems:FlyOutViewModel"
-                                      Text="{Binding UserInitials}"
-                                      Color="{StaticResource AccentColor}"
-                                      Source="{Binding AvatarSource}" Aspect="AspectFill" 
-                         Size="80" views:TouchEffect.Command="{Binding TapAvatarCommand}"
-                        views:TouchEffect.NativeAnimation="True" views:TouchEffect.PressedBackgroundImageAspect="AspectFill"/>
-                </pancakeView:PancakeView>
-
-                <StackLayout VerticalOptions="Center" Grid.Column="1">
+                <StackLayout VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="10,0,0,0" Padding="3">
                     <Label  Text="{Binding Name}"  FontSize="16" FontAttributes="Bold" TextColor="White" VerticalOptions="Center"/>
                     <Label  Text="{Binding Career}"   FontSize="14" FontAttributes="Bold" VerticalOptions="Center" TextColor="White"/>
-                </StackLayout> 
+                </StackLayout>
+</StackLayout>
 
-            </Grid>
 
             <TableView Intent="Menu" Background="{DynamicResource Background}">
                 <TableRoot>

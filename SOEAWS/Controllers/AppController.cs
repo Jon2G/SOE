@@ -266,14 +266,14 @@ namespace SOEAWS.Controllers
         [HttpGet("ShareTodo/{ToDoGuid}")]
         public ActionResult<Response> ShareTodo(Guid ToDoGuid)
         {
-            TodoBase todo = TodoService.Find(ToDoGuid, this._logger);
+            TodoBase todo = TodoService.Find(ToDoGuid, this._logger,out string UserNick);
             if (todo is null)
             {
                 return SOEWeb.Shared.Response.Error;
             }
             return new Response(
                 APIResponseResult.OK,
-                "Ok",
+                UserNick,
                 JsonConvert.SerializeObject(todo));
         }
         [HttpGet("GetArchieveIds/{ArchieveGuid}")]
@@ -296,8 +296,6 @@ namespace SOEAWS.Controllers
             }
             return this.File(result, "application/pdf", "picture.png");
         }
-
-
         [HttpPost("PostReminder/{User}")]
         public ActionResult<Response> PostReminder(string User, [FromBody] byte[] TodoBytes)
         {
@@ -340,7 +338,7 @@ namespace SOEAWS.Controllers
         [HttpGet("ShareReminder/{ToDoGuid}")]
         public ActionResult<Response> ShareReminder(Guid ToDoGuid)
         {
-            ReminderBase todo = ReminderService.Find(ToDoGuid, this._logger);
+            ReminderBase todo = ReminderService.Find(ToDoGuid, this._logger,out string NickName);
 
             if (todo is null)
             {
@@ -348,7 +346,7 @@ namespace SOEAWS.Controllers
             }
             return new Response(
                 APIResponseResult.OK,
-                "Ok",
+                NickName,
                 JsonConvert.SerializeObject(todo));
         }
         [HttpGet("GetClassmates/{Group}/{TeacherId}/{SubjectId}")]

@@ -13,13 +13,15 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Device = Kit.Daemon.Devices.Device;
 using Kit.Forms.Model;
+using System.ComponentModel.DataAnnotations;
 
 namespace SOE.ViewModels.Pages.Login
 {
-    public class UserSignUpPageViewModel :ValidationsModelbase 
+    public class UserSignUpPageViewModel : ValidationsModelbase
     {
         private string _NickName;
-
+        [MinLength(4, ErrorMessage = "El NickName debe tener por lo menos 4 caracteres")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "el NickName no puede quedar vacio")]
         public string NickName
         {
             get => this._NickName;
@@ -27,10 +29,13 @@ namespace SOE.ViewModels.Pages.Login
             {
                 this._NickName = value;
                 Raise(() => NickName);
+                ValidateProperty(value);
                 this.SignUpCommand.ChangeCanExecute();
             }
         }
         private string _Email;
+        [EmailAddress(ErrorMessage = "El correo es invalido")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El correo no puede quedar vacio")]
         public string Email
         {
             get => _Email;
@@ -38,6 +43,7 @@ namespace SOE.ViewModels.Pages.Login
             {
                 _Email = value;
                 Raise(() => Email);
+                ValidateProperty(value);
                 this.SignUpCommand.ChangeCanExecute();
             }
         }

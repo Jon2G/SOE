@@ -36,11 +36,15 @@ namespace SOE.ViewModels.ViewItems
         public ICommand ComingCommand { get; }
         public ICommand SettingCommand { get; set; }
         private ICommand _TapAvatarCommand;
-        public ICommand TapAvatarCommand => _TapAvatarCommand ??= new Command(TapAvatar);
+        public ICommand TapAvatarCommand => _TapAvatarCommand ??= new AsyncCommand(TapAvatar);
         public ICommand UserCommand { get; set; }
         public ICommand PrivacityCommand { get; }
         private ICommand _AboutUsCommand;
         public ICommand AboutUsCommand => _AboutUsCommand ??= new Command(AboutUs);
+        private ICommand _CameraCommand;
+        public ICommand CameraCommand => _CameraCommand ??= new Command(UsarCamara);
+        private ICommand _PhotoCommand;
+        public ICommand PhotoCommand => _PhotoCommand ??= new Command(Galeria);
         private void AboutUs()
         {
             AppShell.CloseFlyout();
@@ -116,23 +120,10 @@ namespace SOE.ViewModels.ViewItems
             string name = AppData.Instance.User.Name;
             this.UserInitials = name.ExtractInitialsFromName();
         }
-        private void TapAvatar()
+        private async Task TapAvatar()
         {
-            var config = new ActionSheetConfig()
-            {
-                Cancel = new ActionSheetOption("Cancelar"),
-                Title = "Cambiar imagen de perfil",
-                Message = "Seleccione una opción",
-                Options = new List<ActionSheetOption>()
-                {
-                    new ActionSheetOption("Usar camara", UsarCamara),
-                    new ActionSheetOption("Seleccionar imagén desde la galeria", Galeria),
-                },
-                UseBottomSheet = true
-            };
-            Acr.UserDialogs.UserDialogs.Instance.ActionSheet(config);
-
-
+            var page = new MenuAvatarPopUp();
+            await page.ShowDialog();
         }
         private async void Galeria()
         {
@@ -191,7 +182,7 @@ namespace SOE.ViewModels.ViewItems
                 {
                     this.AvatarSource.File = result.FullPath;
                 }
-                //await User.SaveAvatar(result);
+                Keeper.SaveAvatar(GetAvatarStream()).SafeFireAndForget();
             }
 
         }

@@ -119,22 +119,24 @@
 
                                         <StackLayout Background="{DynamicResource SecondaryBackground}" x:Name="SecondForm" IsEnabled="False" IsVisible="False" Opacity="0">
                                             <Label FontSize="18" FontAttributes="Bold" Text="{Binding User.Name,StringFormat='Bienvenido {0},ahora vamos a create un nuevo usuario.',Source={x:Static data:AppData.Instance}}"/>
-                                            <renders:NoLineEntry  TextColor="{DynamicResource secondaryTextColor}" IsTextPredictionEnabled="False"
+                                            <Entry  TextColor="{DynamicResource secondaryTextColor}" IsTextPredictionEnabled="False"
                                                           Text="{Binding Email}"
+                                                    validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"
                                                           Placeholder="Email"
                                                           Margin="0,10" />
                                             <Label Text="*Puedes utilizar cualquier correo electrónico" FontSize="16" FontAttributes="Bold"/>
-                                            <renders:NoLineEntry  TextColor="{DynamicResource secondaryTextColor}" IsTextPredictionEnabled="False"
+                                            <Entry  TextColor="{DynamicResource secondaryTextColor}" IsTextPredictionEnabled="False"
                                                                   Text="{Binding NickName}"
                                                                   Placeholder="NickName"
+                                                    validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"
                                                                   Margin="0,10" />
                                             <Label Text="*El nickname debe tener entre 4 y 10 carácteres" FontSize="16" FontAttributes="Bold"/>
-                                            <renders:NoLineEntry  TextColor="{DynamicResource secondaryTextColor}" IsTextPredictionEnabled="False"
+                                            <Entry  TextColor="{DynamicResource secondaryTextColor}" IsTextPredictionEnabled="False"
                                                           Text="{Binding SOEPassword}"
                                                           Placeholder="Contraseña"
                                                           Margin="0,10" IsPassword="True"/>
-                                            <Label Text="{Binding SOEPassword}" FontSize="12"
-                                           Background="{DynamicResource SecondaryBackground}" Margin="0,0,0,10"/>
+                                            <!--<Label Text="{Binding SOEPassword}" FontSize="12"
+                                           Background="{DynamicResource SecondaryBackground}" Margin="0,0,0,10"/>-->
 
                                             <Label Text="Por seguridad te aconsejamos que esta contraseña sea diferente de la que usas en el SAES." FontSize="16" FontAttributes="Bold"/>
                                             <Label Text="*Debe tener un minimo de 8 caracteres." FontSize="16" FontAttributes="Bold"/>

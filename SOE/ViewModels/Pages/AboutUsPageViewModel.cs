@@ -1,7 +1,9 @@
 ﻿using AsyncAwaitBestPractices;
 using Kit;
 using Kit.Model;
+using SOE.Data;
 using SOE.Views.Pages;
+using SOEWeb.Shared;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -39,10 +41,11 @@ namespace SOE.ViewModels.Pages
         {
             try
             {
+                string saludo = DateTime.Now.Saludo();
                 await Email.ComposeAsync(new EmailMessage
                 {
                     Subject = "SOE App",
-                    Body = "Solicitud de soporte",
+                    Body = $"{saludo} \nSolicito reportar \n#Escribe aquí tu reporte hacia nosotros.#\nAtt.{AppData.Instance.User.Name}",
                     To = new List<string>() { "soeapp.soporte@gmail.com" },
                     //Cc = ccRecipients,
                     //Bcc = bccRecipients

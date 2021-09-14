@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:BasePopUp  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                  xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE" 
+                  xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms" 
+                  xmlns:viewitems="clr-namespace:SOE.ViewModels.ViewItems"
+                  x:Class="SOE.Views.PopUps.MenuAvatarPopUp">
+    <pages:BasePopUp.BindingContext>
+        <viewitems:FlyOutViewModel/>
+    </pages:BasePopUp.BindingContext>
+    <StackLayout Spacing="0" Padding="0" VerticalOptions="End" Background="{DynamicResource SecondaryBackground}">
+        <StackLayout Padding="5" Orientation="Horizontal"  BackgroundColor="{DynamicResource PrimaryLightColor}">
+
+                <Label Text="Cambiar imagen de perfil" TextColor="White" 
+                       FontSize="20" HorizontalOptions="CenterAndExpand"
+                   FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                  Padding="5"/>
+
+            </StackLayout>
+        <controls:ArrowButton  Title="Usar camara"  Command="{Binding CameraCommand}"
+                               ArrowColor="{StaticResource AccentColor}">
+            <controls:ArrowButton.Icon>
+                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Camera}" 
+                                 FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                 Color="{AppThemeBinding Dark=White,Light=Black}"
+                />
+            </controls:ArrowButton.Icon>
+        </controls:ArrowButton>
+        <controls:ArrowButton  Title="Seleccionar imagén desde la galeria"    Command="{Binding PhotoCommand}" ArrowColor="{StaticResource AccentColor}">
+            <controls:ArrowButton.Icon>
+                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Photo}" 
+                                 FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                 Color="{AppThemeBinding Dark=White,Light=Black}"/>
+            </controls:ArrowButton.Icon>
+        </controls:ArrowButton>
+        <Button Margin="3" CornerRadius="2" VerticalOptions="End" Text="Cerrar" Clicked="OnClose" BackgroundColor="Red" TextColor="White"/>
+    </StackLayout>
+</pages:BasePopUp>

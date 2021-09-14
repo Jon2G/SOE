@@ -1,3 +1,4 @@
+using Kit.Razor.Formatters;
 using Kit.Sql.SqlServer;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Radzen;
 using SOEAWS.Data;
-using SOEAWS.Formaters;
 using SOEAWS.Services;
 using SOEWeb.Shared;
 using SOEWeb.Shared.Secrets;

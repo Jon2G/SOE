@@ -80,7 +80,7 @@ namespace SOEAWS.Services
                     });
                     readRecords++;
                 }
-                    , CommandType.StoredProcedure
+                    , new CommandConfig() { CommandType = CommandType.StoredProcedure }
                     , new SqlParameter("SUBJECT_ID", data.SubjectId)
                     , new SqlParameter("OFFSET", range.From)
                     , new SqlParameter("PARENT_COMMENT_ID", (object)ParentComment?.Id ?? DBNull.Value)
@@ -132,7 +132,7 @@ namespace SOEAWS.Services
                             Votes = Convert.ToInt32(reader[5])
                         };
                     }
-                    , CommandType.StoredProcedure
+                    , new CommandConfig() { CommandType = CommandType.StoredProcedure }
                     , new SqlParameter("SUBJECT_ID", data.SubjectId)
                     , new SqlParameter("TEXT", textBox.CommentText)
                     , new SqlParameter("USER_ID", data.UserId)

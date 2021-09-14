@@ -90,7 +90,7 @@ namespace SOE.ViewModels.ViewItems
                     "Debe ingresar un nombre para este link.", "Entiendo").SafeFireAndForget();
                 return;
             }
-            if (string.IsNullOrEmpty(this.Url) || !SOEWeb.Shared.Validations.IsValidUrl(this.Url,out Uri uri))
+            if (string.IsNullOrEmpty(this.Url) || !UriExtensions.IsValidUrl(this.Url,out Uri uri))
             {
                 Shell.Current.CurrentPage.DisplayAlert("El link es invalido",
                     "La dirección url es invalida.", "Entiendo").SafeFireAndForget();

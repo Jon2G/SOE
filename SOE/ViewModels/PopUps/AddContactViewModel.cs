@@ -1,5 +1,6 @@
 ﻿using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
+using Kit;
 using Kit.Forms.Model;
 using Kit.Model;
 using SOE.Models;
@@ -149,7 +150,7 @@ namespace SOE.ViewModels.PopUps
             }
             if (!string.IsNullOrEmpty(Url))
             {
-                if (!SOEWeb.Shared.Validations.IsValidUrl(Url, out Uri uri))
+                if (!UriExtensions.IsValidUrl(Url, out Uri uri))
                     return false;
                 Url = uri.AbsoluteUri;
             }
@@ -185,7 +186,7 @@ namespace SOE.ViewModels.PopUps
             }
             if (!string.IsNullOrEmpty(this.Url))
             {
-                if (SOEWeb.Shared.Validations.IsValidUrl(this.Url, out Uri uri))
+                if (UriExtensions.IsValidUrl(this.Url, out Uri uri))
                 {
                     this._Url = uri.AbsoluteUri;
                 }

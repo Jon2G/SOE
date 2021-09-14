@@ -128,6 +128,8 @@ namespace SOE.Saes
                     }
                 });
             }
+
+            await Task.Delay(500); //Esperar el html
         }
         private async void NavigateAsync()
         {

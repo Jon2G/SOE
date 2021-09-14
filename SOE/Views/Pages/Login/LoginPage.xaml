@@ -87,11 +87,11 @@
                         <!--<Label FontFamily="Karla_SemiBold"
                                TextDecorations="Underline" Text="Olvide mi contraseña" FontSize="14" HorizontalOptions="EndAndExpand" Margin="0,5"/>-->
                     </StackLayout>
-                    <controls:ArrowButton Title="Opciones de desarrollador" Command="{Binding DeveloperCommand}" IsVisible="{x:Static kit:Tools.Debugging}">
+                    <!--<controls:ArrowButton Title="Opciones de desarrollador" Command="{Binding DeveloperCommand}" IsVisible="{x:Static kit:Tools.Debugging}">
                         <controls:ArrowButton.Icon>
                             <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}" Glyph="{Static fonts:FontelloIcons.HappyBeer}" Color="{x:StaticResource AccentColor}" />
                         </controls:ArrowButton.Icon>
-                    </controls:ArrowButton>
+                    </controls:ArrowButton>-->
                     <!--D-->
                 </StackLayout>
             </pancakeView:PancakeView>

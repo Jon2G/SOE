@@ -17,30 +17,43 @@ namespace SOEAWS.Pages
         [Inject]
         public NavigationManager NavigationManagerManager { get; set; }
         [Parameter]
+        public string ShareId { get; set; }
         public Guid ShareGuid { get; set; }
         [Parameter]
         public string ShareType { get; set; }
         public string UserName { get;  set; }
         public string SubjectName { get; private set; }
         public string SubjectColor { get; private set; }
-        public string SubjectGroup { get; private set; }
+
         public string CardTitle { get; private set; }
         public string CardDateTime { get; set; }
-
-        private readonly ILogger<AppController> _logger;
-        public SharePage(ILogger<AppController> logger)
+        [Inject]
+        public ILogger<AppController> _logger { get; set; }
+        public SharePage()
         {
-            this._logger = logger;
+
+        }
+
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
         }
 
         private void GotoDownloadPage()
         {
-            NavigationManagerManager.NavigateTo("DownloadPage");
-
+            try
+            {
+                NavigationManagerManager.NavigateTo("download");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "GotoDownloadPage");
+            }
         }
         protected override void OnParametersSet()
         {
             base.OnParametersSet();
+            ShareGuid=Guid.Parse(ShareId);
             if (ShareGuid == Guid.Empty)
             {
                 this.GotoDownloadPage();
@@ -49,21 +62,21 @@ namespace SOEAWS.Pages
 
             switch (ShareType)
             {
-                case "Todo":
+                case "todo":
                     TodoBase todo = TodoService.Find(ShareGuid, this._logger,out string nick);
                     if (todo is null)
                     {
                         this.GotoDownloadPage();
                         return;
                     }
-
                     UserName = nick;
+                    todo.Subject = SubjectService.GetById(todo.Subject.Id);
                     this.SubjectColor = todo.Subject.ColorDark;
                     this.SubjectName = todo.Subject.Name;
                     this.CardTitle = todo.Title;
-                    this.CardDateTime = $"{todo.Date:dd-MM-yyyy} {todo.Time:HH-mm}";
+                    this.CardDateTime = $"{todo.Date:dd-MM-yyyy} {todo.Time.Hours:D2}:{todo.Time.Minutes:D2}";
                     break;
-                case "Reminder":
+                case "reminder":
                     ReminderBase reminder = ReminderService.Find(ShareGuid, this._logger, out string nickr);
                     if (reminder is null)
                     {
@@ -88,6 +101,7 @@ namespace SOEAWS.Pages
                     this.GotoDownloadPage();
                     return;
             }
+            this.InvokeStateHasChanged();
         }
 
         public void InvokeStateHasChanged()

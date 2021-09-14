@@ -12,7 +12,7 @@ namespace SOEAWS.Services
 {
     public static class ReminderService
     {
-        public static ReminderBase Find(Guid Guid, ILogger logger,out string NickName)
+        public static ReminderBase Find(Guid Guid, ILogger logger, out string NickName)
         {
             ReminderBase reminder = null;
             NickName = string.Empty;
@@ -37,7 +37,9 @@ namespace SOEAWS.Services
                         };
                     }
                     nick = Convert.ToString(reader[6]);
-                }, CommandType.StoredProcedure, new SqlParameter("GUID", Guid));
+                }
+                    , new CommandConfig() { CommandType = CommandType.StoredProcedure }
+                    , new SqlParameter("GUID", Guid));
                 NickName = nick;
             }
             catch (Exception e)

@@ -20,7 +20,7 @@ namespace SOEAWS.Services
                    string ColorDark = Convert.ToString(reader[3]);
                    subject = new Subject(Id, -1, Name, Color, ColorDark, null) { Guid = (Guid)reader[0] };
                }
-               , CommandType.StoredProcedure
+               , new CommandConfig() { CommandType = CommandType.StoredProcedure }
                , new SqlParameter("SUBJECT_ID", Id));
             return subject;
         }

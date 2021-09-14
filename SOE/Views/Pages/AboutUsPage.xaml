@@ -138,14 +138,17 @@
                             <FormattedString>
                                 <Span Text="Desarrollada por:"/>
                                 <Span Text="&#10;"/>
-                                <Span Text="Jonathan Eduardo G.G"/>
+                                <Span Text="Jonathan Eduardo García García"/>
                                 <Span Text="&#10;"/>
-                                <Span Text="Santiago Gonzalez S."/>
+                                <Span Text="Santiago González Santiesteban"/>
                                 <Span Text="&#10;"/>
-                                <Span Text="Daniel Antonio J.A."/>
+                                <Span Text="Daniel Antonio Jímenez Angeles"/>
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
+                    <Label Text="Asesor: M. en C. Oscar Cruz García" FontSize="18"
+                           Padding="0,0,0,0" Margin="0,5" 
+                           TextColor="White" FontAttributes="Bold"/>
                 </StackLayout>
 
             </StackLayout>

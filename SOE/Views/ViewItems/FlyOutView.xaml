@@ -149,11 +149,11 @@
                     </TableSection>
                 </TableRoot>
             </TableView>
-            <controls:ArrowButton Title="Opciones de desarrollador" Command="{Binding DeveloperCommand}" IsVisible="{x:Static kit:Tools.Debugging}">
+            <!--<controls:ArrowButton Title="Opciones de desarrollador" Command="{Binding DeveloperCommand}" IsVisible="{x:Static kit:Tools.Debugging}">
                 <controls:ArrowButton.Icon>
                     <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}" Glyph="{Static fonts:FontelloIcons.HappyBeer}" Color="{x:StaticResource AccentColor}" />
                 </controls:ArrowButton.Icon>
-            </controls:ArrowButton>
+            </controls:ArrowButton>-->
         </StackLayout>
     </ContentView.Content>
 </ContentView>

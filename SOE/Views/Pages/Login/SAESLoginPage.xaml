@@ -6,9 +6,9 @@
              xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
              xmlns:forms1="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
-             
              xmlns:renders="clr-namespace:SOE.Renders;assembly=SOE"
              xmlns:saes="clr-namespace:SOE.Saes;assembly=SOE"
+             x:DataType="login:SAESLoginPageViewModel"
              xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
              x:Class="SOE.Views.Pages.Login.SAESLoginPage">
     <ContentPage.BindingContext>

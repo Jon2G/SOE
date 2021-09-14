@@ -17,21 +17,7 @@ namespace SOEWeb.Shared
 
         public static bool IsValidUser(string user) => IsValidBoleta(user) || IsValidEmail(user);
 
-        public static bool IsValidUrl(string url,out Uri uri)
-        {
-            if (string.IsNullOrEmpty(url))
-            {
-                uri = null;
-                return false;
-            }
-            if ((Uri.TryCreate(url, UriKind.Absolute, out uri) ||
-                 Uri.TryCreate("http://" + url, UriKind.Absolute, out uri)) &&
-                (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
-            {
-                return true;
-            }
-            return false;
-        }
+        
         public static bool IsValidEmail(string email)
         {
             try

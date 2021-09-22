@@ -14,8 +14,8 @@
     <ContentPage.Content>
         <Grid VerticalOptions="CenterAndExpand"
               HorizontalOptions="FillAndExpand">
-            <saes:SAES x:Name="SAES" IsVisible="True" VerticalOptions="Center" />
-            <pancakeView:PancakeView IsVisible="True" VerticalOptions="FillAndExpand"  Padding="20">
+            <saes:SAES x:Name="SAES" IsVisible="True" VerticalOptions="FillAndExpand" />
+            <pancakeView:PancakeView IsVisible="True" VerticalOptions="FillAndExpand" Opacity="0"  Padding="20">
                 <StackLayout>
                     <Label Text="Debes ingresar el captcha primero." FontSize="20" />
                     <Grid RowDefinitions="Auto,*">

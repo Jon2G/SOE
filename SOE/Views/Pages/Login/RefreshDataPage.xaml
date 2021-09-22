@@ -21,8 +21,8 @@
         <viewModels:SignUpSucessPageViewModel x:Name="Model"/>
     </pages:BasePage.BindingContext>
     <Grid>
-        <saes:SAES x:Name="SAES" IsVisible="True" />
-        <ContentView Background="{DynamicResource Background}">
+        <saes:SAES x:Name="SAES" IsVisible="True"  VerticalOptions="FillAndExpand"/>
+        <ContentView Background="{DynamicResource Background}" Opacity=".5">
             <pancakeView:PancakeView 
                 CornerRadius="10" 
                 Padding="10" VerticalOptions="Center" HorizontalOptions="FillAndExpand"

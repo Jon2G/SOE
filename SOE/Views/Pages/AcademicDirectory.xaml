@@ -104,7 +104,7 @@
                                                                         <TapGestureRecognizer CommandParameter="{Binding .}" Command="{Binding ContactCallCommand,Source={x:Reference Model}}"/>
                                                                     </Frame.GestureRecognizers>
                                                                 </Frame>
-                                                                <Frame CornerRadius="100" IsVisible="{Binding Phone,Converter={StaticResource StringNullOrEmptyBoolConverter}}"
+                                                                <Frame CornerRadius="100" IsVisible="{Binding Correo,Converter={StaticResource StringNullOrEmptyBoolConverter}}"
                                                            BackgroundColor="YellowGreen"
                                                            HeightRequest="50"
                                                            WidthRequest="50"
@@ -125,7 +125,7 @@
                                                                 </Frame>
                                                                 <Frame CornerRadius="100"
                                                            BackgroundColor="LightSalmon"
-                                                           HeightRequest="50" IsVisible="{Binding Phone,Converter={StaticResource StringNullOrEmptyBoolConverter}}"
+                                                           HeightRequest="50" IsVisible="{Binding Url,Converter={StaticResource StringNullOrEmptyBoolConverter}}"
                                                            WidthRequest="50"
                                                            HorizontalOptions="Center"
                                                            Padding="0" xct:TouchEffect.PressedScale="0.9" xct:TouchEffect.PressedRotationY="0.1" 

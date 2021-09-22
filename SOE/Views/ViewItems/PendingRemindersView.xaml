@@ -36,16 +36,19 @@
                         <StackLayout HorizontalOptions= "Start" VerticalOptions= "FillAndExpand" 
                                      WidthRequest="40" 
                                      BackgroundColor= "{Binding Subject,Converter={StaticResource SubjectColorAppThemeConverter},ConverterParameter={StaticResource AccentColor}}" 
-                                     Padding="0" Spacing="0"
-                                     behaviors:TouchEffect.PressedScale="2"
-                                     behaviors:TouchEffect.Command="{Binding CompleteCommand ,Source={x:Reference Model}}"
-                                     behaviors:TouchEffect.CommandParameter="{x:Reference CheckBox}">
+                                     Padding="0" Spacing="0">
 
 
-                            <CheckBox HorizontalOptions="Center" x:Name="CheckBox"
-                                      Margin="0"  InputTransparent="True"
-                                      VerticalOptions="CenterAndExpand" Color="GhostWhite" 
-                                      IsChecked="{Binding IsComplete}"/>
+                            <Grid Padding="0">
+                                <CheckBox HorizontalOptions="Center" x:Name="CheckBox"
+                                          Margin="0"  IsEnabled="False" InputTransparent="True"
+                                          VerticalOptions="CenterAndExpand" Color="GhostWhite" 
+                                          IsChecked="{Binding IsComplete}"/>
+                                <BoxView BackgroundColor="Transparent" VerticalOptions="FillAndExpand"
+                                         behaviors:TouchEffect.Command="{Binding CompleteCommand ,Source={x:Reference Model}}"
+                                         behaviors:TouchEffect.CommandParameter="{x:Reference CheckBox}"/>
+                            </Grid>
+
                         </StackLayout >
                         <StackLayout HorizontalOptions= "FillAndExpand"
                                              VerticalOptions= "CenterAndExpand" Margin= "10,3" >

@@ -36,7 +36,7 @@
                 <controls:ArrowButton 
                      Command="{Binding ReportCommand }" 
                     CommandParameter="{x:Static enums:ReportReason.ContactDown}"
-                    Title="Reportar contacto caido"  ArrowColor="{StaticResource AccentColor}">
+                    Title="Reportar contacto desactualizado"  ArrowColor="{StaticResource AccentColor}">
                     <controls:ArrowButton.Icon>
                         <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Unlink}" FontFamily="{x:Static fonts:FontelloIcons.Font}" Color="{AppThemeBinding Dark=White,Light=Black}"></FontImageSource>
                     </controls:ArrowButton.Icon>

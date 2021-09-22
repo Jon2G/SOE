@@ -31,7 +31,7 @@ namespace SOE.API
         //public static string NonHttpsUrl => $"{NonProdUrl}/Prod";
         //LOCAL
         public const string NonHttpsUrl= "192.168.0.32:44313";
-        public const string NonProdUrl = "192.168.0.32:44313";
+        public const string NonProdUrl = "192.168.0.32";
         //Otros
         public static string BaseUrl => $"https://{NonHttpsUrl}";
         public static string Url => $"{BaseUrl}/App";
@@ -284,7 +284,7 @@ namespace SOE.API
             {
                 return Response.InvalidRequest;
             }
-            if (string.IsNullOrEmpty(Link.Url) || !SOEWeb.Shared.Validations.IsValidUrl(Link.Url, out Uri uri))
+            if (string.IsNullOrEmpty(Link.Url) || !UriExtensions.IsValidUrl(Link.Url, out Uri uri))
             {
                 return Response.InvalidRequest;
             }
@@ -371,7 +371,7 @@ namespace SOE.API
             }
             if (!string.IsNullOrEmpty(contact.Url))
             {
-                if (!SOEWeb.Shared.Validations.IsValidUrl(contact.Url, out Uri uri))
+                if (!UriExtensions.IsValidUrl(contact.Url, out Uri uri))
                     return Response.InvalidRequest;
                 contact.Url = uri.AbsoluteUri;
             }

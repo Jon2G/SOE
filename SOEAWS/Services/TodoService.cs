@@ -35,7 +35,9 @@ namespace SOEAWS.Services
                          }
                      };
                      usernick = Convert.ToString(reader[7]);
-                 }, CommandType.StoredProcedure, new SqlParameter("GUID", ToDoGuid));
+                 }
+                    , new CommandConfig() { CommandType = CommandType.StoredProcedure }
+                    , new SqlParameter("GUID", ToDoGuid));
                 UserNick = usernick;
             }
             catch (Exception ex)

@@ -359,7 +359,7 @@ namespace SOEAWS.Controllers
                 {
                     Classmates.Add(new Classmate(Convert.ToString(reader[0]), Convert.ToString(reader[1])));
                 }
-                , CommandType.StoredProcedure,
+                ,new CommandConfig(){CommandType = CommandType.StoredProcedure },
                 new SqlParameter("GROUP", Group)
                 , new SqlParameter("SUBJECT_ID", SubjectId)
                 , new SqlParameter("TEACHER_ID", TeacherId));
@@ -400,7 +400,7 @@ namespace SOEAWS.Controllers
                     {
                         guid = (Guid)reader[0];
                     }
-                    , CommandType.StoredProcedure
+                    , new CommandConfig() { CommandType = CommandType.StoredProcedure }
                     , new SqlParameter("SUBJECT_ID", SubjectId)
                     , new SqlParameter("TEACHER_ID", IdTeacher)
                     , new SqlParameter("USER", User)
@@ -434,7 +434,7 @@ namespace SOEAWS.Controllers
                             IsOwner = Convert.ToInt32(reader[3]) == UserId
                         });
                 }
-                , CommandType.StoredProcedure
+                , new CommandConfig() { CommandType = CommandType.StoredProcedure }
                 , new SqlParameter("SUBJECT_ID", SubjectId)
                 , new SqlParameter("TEACHER_ID", TeacherId),
                 new SqlParameter("GROUP", Group));
@@ -525,7 +525,7 @@ namespace SOEAWS.Controllers
                      (reader) =>
                      {
                          guid = (Guid)reader[0];
-                     }, CommandType.StoredProcedure
+                     }, new CommandConfig() { CommandType = CommandType.StoredProcedure }
                      , new SqlParameter("CONTACT_ID", Contact.Guid == Guid.Empty ? DBNull.Value : Contact.Guid)
                      , new SqlParameter("NAME", Contact.Name)
                      , new SqlParameter("PHONE", string.IsNullOrEmpty(Contact.Phone) ? DBNull.Value : Contact.Phone)
@@ -581,7 +581,7 @@ namespace SOEAWS.Controllers
                         Contacts.Add(IdDepartamento, bydeparment);
                     }
                 }
-                , CommandType.StoredProcedure
+                , new CommandConfig() { CommandType = CommandType.StoredProcedure }
                 , new SqlParameter("SCHOOL_ID", SchoolId)
             );
             string json = JsonConvert.SerializeObject(Contacts.Values.ToArray(), Formatting.Indented, new JsonSerializerSettings()

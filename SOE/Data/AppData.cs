@@ -16,7 +16,7 @@ namespace SOE.Data
 {
     public class AppData : ModelBase
     {
-        public static string Version = $"{VersionTracking.CurrentVersion} BETA";
+        public static string Version = $"{VersionTracking.CurrentVersion}";
         public static bool IsInitialized => _Instance is not null;
         private static AppData _Instance;
 

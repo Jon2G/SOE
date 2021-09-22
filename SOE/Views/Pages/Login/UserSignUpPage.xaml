@@ -84,9 +84,7 @@
                                             <Entry IsPassword="True" 
                                                          Text="{Binding Password}"
                                                          Placeholder="Contraseña" Margin="0"/>
-
-                                            <!--<Label Text="{Binding Password}" FontSize="12"
-                                           Background="{DynamicResource SecondaryBackground}" Margin="0,0,0,10"/>-->
+                                            
                                             <Label Text="*Debe utilizar la misma contraseña que utiliza para accesar al sistema SAES" FontSize="16" FontAttributes="Bold"/>
                                             <Label Text="*Tus datos de acceso NUNCA saldrán tu de dispositivo y nosotros no tendremos conocimiento de los mismos." FontSize="16" FontAttributes="Bold"/>
 
@@ -130,17 +128,19 @@
                                                                   Placeholder="NickName"
                                                     validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"
                                                                   Margin="0,10" />
-                                            <Label Text="*El nickname debe tener entre 4 y 10 carácteres" FontSize="16" FontAttributes="Bold"/>
                                             <Entry  TextColor="{DynamicResource secondaryTextColor}" IsTextPredictionEnabled="False"
                                                           Text="{Binding SOEPassword}"
                                                           Placeholder="Contraseña"
+                                                    validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"
                                                           Margin="0,10" IsPassword="True"/>
-                                            <!--<Label Text="{Binding SOEPassword}" FontSize="12"
-                                           Background="{DynamicResource SecondaryBackground}" Margin="0,0,0,10"/>-->
-
+                                            <Label Text="Confirma tu contraseña" FontSize="16" FontAttributes="Bold"/>
+                                            <Entry IsPassword="True" 
+                                                         Text="{Binding SOEConfirmPassword}"
+                                                   validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"
+                                                         Placeholder="Contraseña" Margin="0"/>
+                                            
+                                            
                                             <Label Text="Por seguridad te aconsejamos que esta contraseña sea diferente de la que usas en el SAES." FontSize="16" FontAttributes="Bold"/>
-                                            <Label Text="*Debe tener un minimo de 8 caracteres." FontSize="16" FontAttributes="Bold"/>
-
                                             <Button  Text="Finalizar"
                                              FontFamily="KarlaSB"
                                              TextColor="{DynamicResource primaryTextColor}"

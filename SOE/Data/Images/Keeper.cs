@@ -17,6 +17,7 @@ namespace SOE.Data.Images
 
         public static DirectoryInfo Directory =>
             new(Path.Combine(Kit.Tools.Instance.LibraryPath, nameof(Keeper)));
+
         internal static void Delete(int IdKeeper)
         {
             foreach (Archive archive in AppData.Instance.LiteConnection.Table<Archive>().Where(x => x.IdKeeper == IdKeeper))
@@ -64,6 +65,7 @@ namespace SOE.Data.Images
             }
             return (FileImageSource)FileImageSource.FromFile(TargetFile.FullName);
         }
+        public static void DeleteAvatar() => Delete("Avatar");
         public static Task<FileInfo> SaveAvatar(Task<Stream> GetStream) => Save(GetStream, "Avatar");
         public static Task<FileInfo> Save(Task<Stream> GetStream, string FileName = null, string FileExtension = ".png")
         {
@@ -98,6 +100,13 @@ namespace SOE.Data.Images
             return TargetFile;
         }
 
+        public static void Delete(string FileName, string FileExtension = ".png")
+        {
+            string filepath = System.IO.Path.Combine(Keeper.Directory.FullName, $"{FileName}{FileExtension}");
+            FileInfo TargetFile = new(filepath);
+            if (TargetFile.Exists)
+                TargetFile.Delete();
+        }
         internal static void ClearAllFiles()
         {
             try

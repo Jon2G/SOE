@@ -5,12 +5,13 @@
                   xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE" 
                   xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms" 
                   xmlns:viewitems="clr-namespace:SOE.ViewModels.ViewItems"
-                  x:Class="SOE.Views.PopUps.MenuAvatarPopUp">
-    <pages:BasePopUp.BindingContext>
-        <viewitems:FlyOutViewModel/>
-    </pages:BasePopUp.BindingContext>
-    <StackLayout Spacing="0" Padding="0" VerticalOptions="End" Background="{DynamicResource SecondaryBackground}">
-        <StackLayout Padding="5" Orientation="Horizontal"  BackgroundColor="{DynamicResource PrimaryLightColor}">
+                  xmlns:popUps="clr-namespace:SOE.ViewModels.PopUps;assembly=SOE"
+                  x:Class="SOE.Views.PopUps.MenuAvatarPopUp" x:Name="Me"
+                  x:DataType="popUps:MenuAvatarPopUpViewModel">
+    <StackLayout Spacing="0" Padding="0" VerticalOptions="End"
+                 Background="{DynamicResource Background}">
+        <StackLayout Padding="5" Orientation="Horizontal" 
+                     BackgroundColor="{DynamicResource PrimaryLightColor}">
 
                 <Label Text="Cambiar imagen de perfil" TextColor="White" 
                        FontSize="20" HorizontalOptions="CenterAndExpand"
@@ -18,7 +19,9 @@
                   Padding="5"/>
 
             </StackLayout>
-        <controls:ArrowButton  Title="Usar camara"  Command="{Binding CameraCommand}"
+        <controls:ArrowButton  Title="Usar camara"  
+                               Command="{Binding CameraCommand}"
+                               CommandParameter="{x:Reference Me}"
                                ArrowColor="{StaticResource AccentColor}">
             <controls:ArrowButton.Icon>
                 <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Camera}" 
@@ -27,13 +30,25 @@
                 />
             </controls:ArrowButton.Icon>
         </controls:ArrowButton>
-        <controls:ArrowButton  Title="Seleccionar imagén desde la galeria"    Command="{Binding PhotoCommand}" ArrowColor="{StaticResource AccentColor}">
+        <controls:ArrowButton  Title="Seleccionar imagén desde la galeria" 
+                               Command="{Binding PhotoCommand}" 
+                               CommandParameter="{x:Reference Me}"
+                               ArrowColor="{StaticResource AccentColor}">
             <controls:ArrowButton.Icon>
                 <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Photo}" 
                                  FontFamily="{x:Static fonts:FontelloIcons.Font}"
                                  Color="{AppThemeBinding Dark=White,Light=Black}"/>
             </controls:ArrowButton.Icon>
         </controls:ArrowButton>
-        <Button Margin="3" CornerRadius="2" VerticalOptions="End" Text="Cerrar" Clicked="OnClose" BackgroundColor="Red" TextColor="White"/>
+        <controls:ArrowButton  Title="Eliminar foto de perfil" 
+                               Command="{Binding DeleteCommand}"
+                               CommandParameter="{x:Reference Me}" ArrowColor="Red">
+            <controls:ArrowButton.Icon>
+                <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Photo}" 
+                                 FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                 Color="{AppThemeBinding Dark=White,Light=Black}"/>
+            </controls:ArrowButton.Icon>
+        </controls:ArrowButton>
+        <Button Margin="3" CornerRadius="2" VerticalOptions="End" Text="Cerrar" Command="{Binding CloseCommand}" CommandParameter="{x:Reference Me}" BackgroundColor="Red" TextColor="White"/>
     </StackLayout>
 </pages:BasePopUp>

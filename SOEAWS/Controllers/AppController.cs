@@ -389,7 +389,7 @@ namespace SOEAWS.Controllers
                 {
                     return SOEWeb.Shared.Response.InvalidRequest;
                 }
-                if (string.IsNullOrEmpty(Link.Url) || !Validations.IsValidUrl(Link.Url, out Uri uri))
+                if (string.IsNullOrEmpty(Link.Url) || !UriExtensions.IsValidUrl(Link.Url, out Uri uri))
                 {
                     return SOEWeb.Shared.Response.InvalidRequest;
                 }
@@ -514,7 +514,7 @@ namespace SOEAWS.Controllers
                 }
                 if (!string.IsNullOrEmpty(Contact.Url))
                 {
-                    if (!Validations.IsValidUrl(Contact.Url, out Uri uri))
+                    if (!UriExtensions.IsValidUrl(Contact.Url, out Uri uri))
                     {
                         return SOEWeb.Shared.Response.InvalidRequest;
                     }

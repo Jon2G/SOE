@@ -354,3 +354,4 @@ MigrationBackup/
 
 # Database files
 .db
+*.db

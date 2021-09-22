@@ -169,7 +169,9 @@
             </Style>
             <Style TargetType="controls:ArrowButton">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource  DarkTextColor},Dark={StaticResource LightTextColor}}"/>
-                <Setter Property="ColorBackground" Value="{AppThemeBinding Dark={StaticResource BackgroundSecondaryDarkColor},Light={StaticResource BackgroundSecondaryLightColor}}"/>
+                <Setter Property="BackgroundColor" 
+                        Value="{AppThemeBinding Dark={StaticResource BackgroundSecondaryDarkColor},Light={StaticResource BackgroundSecondaryLightColor}}"/>
+                <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"/>
             </Style>
             <Style TargetType="Slider" >
                 <Setter Property="MinimumTrackColor" Value="{StaticResource AccentColor}"/>

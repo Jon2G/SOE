@@ -48,7 +48,7 @@
 
                         <controls:ArrowButton Title="Dale un vistazo al proyecto en Github" 
                                           TextColor="{AppThemeBinding Light=Black,Dark=White}"
-                                              ColorBackground="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
+                                              BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
                                               IsArrowVisible="False" Command="{Binding GitHubCommand}">
                             <controls:ArrowButton.Icon>
                                 <FontImageSource Color="Black" FontFamily="{x:Static fonts:FontelloIcons.Font}" Glyph="{x:Static fonts:FontelloIcons.GitHub}"/>
@@ -57,7 +57,7 @@
 
                         <!--<controls:ArrowButton Title="Dale un vistazo al proyecto en Trello" 
                                           TextColor="{AppThemeBinding Light=Black,Dark=White}"
-                                          ColorBackground="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
+                                          BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
                                           IsArrowVisible="False" Command="{Binding TrelloCommand}">
                             <controls:ArrowButton.Icon>
                                 <FontImageSource Color="Black" FontFamily="{x:Static fonts:FontelloIcons.Font}" Glyph="{x:Static fonts:FontelloIcons.Trello}"/>
@@ -67,7 +67,7 @@
                         <StackLayout Margin="0,0">
                             <controls:ArrowButton Title="Reportar un bug"
                                               TextColor="{AppThemeBinding Light=Black,Dark=White}"
-                                              ColorBackground="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
+                                              BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
                                               IsArrowVisible="False" Command="{Binding ReportBugCommand}">
                                 <controls:ArrowButton.Icon>
                                     <FontImageSource Color="Black" FontFamily="{x:Static fonts:FontelloIcons.Font}" Glyph="{x:Static fonts:FontelloIcons.GitHub}"/>
@@ -75,7 +75,7 @@
                             </controls:ArrowButton>
                             <controls:ArrowButton Title="Solicitar una nueva característica"
                                               TextColor="{AppThemeBinding Light=Black,Dark=White}"
-                                              ColorBackground="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
+                                              BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
                                                   IsArrowVisible="False" Command="{Binding RequestFeatureCommand}">
                                 <controls:ArrowButton.Icon>
                                     <FontImageSource Color="Black" FontFamily="{x:Static fonts:FontelloIcons.Font}" Glyph="{x:Static fonts:FontelloIcons.GitHub}"/>
@@ -86,13 +86,13 @@
 
                         <controls:ArrowButton Title="Creado con la tecnología multiplataforma Xamarin.Forms" 
                                           TextColor="{AppThemeBinding Light=Black,Dark=White}"
-                                          ColorBackground="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
+                                          BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
                                               Icon="xamarin_icon.png"
                                               IsArrowVisible="False" Command="{Binding XamarinCommand}"/>
 
                         <controls:ArrowButton Title="soeapp.soporte@gmail.com"
                                           TextColor="{AppThemeBinding Light=Black,Dark=White}"
-                                          ColorBackground="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
+                                          BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
                                               IsArrowVisible="False" Command="{Binding GMailCommand}">
                             <controls:ArrowButton.Icon>
                                 <FontImageSource Color="Firebrick" FontFamily="{x:Static fonts:FontelloIcons.Font}" 
@@ -102,7 +102,7 @@
 
                         <controls:ArrowButton Title="Cómpranos un café"
                                           Icon="bmc_logo_yellow.png"  TextColor="{AppThemeBinding Light=Black,Dark=White}"
-                                          ColorBackground="#ffdd00"
+                                          BackgroundColor="#ffdd00"
                                           IsArrowVisible="False" 
                                           Command="{Binding BuyMeACoffeCommand}"/>
 
@@ -113,13 +113,13 @@
 
                         <Label Text="Licencias y créditos"/>
                         <controls:ArrowButton 
-                        ColorBackground="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
                         TextColor="{AppThemeBinding Light=Black,Dark=White}"
                             IsArrowVisible="False" Title="App icon designed by Freepik from Flaticon" 
                                               SubTitle="https://www.flaticon.com/matrix_3815250"/>
 
                         <controls:ArrowButton 
-                        ColorBackground="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
                         TextColor="{AppThemeBinding Light=Black,Dark=White}"
                             IsArrowVisible="False" Title="App menu icons by Fontello" 
                                               SubTitle="https://github.com/fontello/fontello"/>

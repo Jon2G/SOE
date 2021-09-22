@@ -14,6 +14,7 @@ using Xamarin.Forms;
 using Device = Kit.Daemon.Devices.Device;
 using Kit.Forms.Model;
 using System.ComponentModel.DataAnnotations;
+using Kit.Forms.ComponentDataAnnotations;
 
 namespace SOE.ViewModels.Pages.Login
 {
@@ -21,6 +22,7 @@ namespace SOE.ViewModels.Pages.Login
     {
         private string _NickName;
         [MinLength(4, ErrorMessage = "El NickName debe tener por lo menos 4 caracteres")]
+        [MaxLength(10, ErrorMessage = "El NickName no puede tener más de 10 caracteres")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "el NickName no puede quedar vacio")]
         public string NickName
         {
@@ -58,7 +60,11 @@ namespace SOE.ViewModels.Pages.Login
                 this.SignInCommand.RaiseCanExecuteChanged();
             }
         }
+
         private string _SOEPassword;
+        [Required(AllowEmptyStrings = false, ErrorMessage = "La contraseña no puede estar vacia")]
+        [MinLength(8, ErrorMessage = "Debe tener un minimo de 8 caracteres.")]
+        [Equals(nameof(SOEConfirmPassword), ErrorMessage = "Las contraseñas no coinciden")]
         public string SOEPassword
         {
             get => _SOEPassword;
@@ -66,9 +72,28 @@ namespace SOE.ViewModels.Pages.Login
             {
                 _SOEPassword = value;
                 Raise(() => SOEPassword);
+                ValidateProperty(value);
                 this.SignUpCommand.ChangeCanExecute();
             }
         }
+        private string _SOEConfirmPassword;
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Por favor confirme su contraseña")]
+        [Equals(nameof(SOEPassword), ErrorMessage = "Las contraseñas no coinciden")]
+        [Compare(nameof(SOEPassword), ErrorMessage = "Las contraseñas no coinciden")]
+        public string SOEConfirmPassword
+        {
+            get => _SOEConfirmPassword;
+            set
+            {
+                _SOEConfirmPassword = value;
+                Raise(() => SOEConfirmPassword);
+                ValidateProperty(value);
+                this.SignInCommand.RaiseCanExecuteChanged();
+
+            }
+        }
+
         private string _Boleta;
         [Validations.Boleta(ErrorMessage = "Boleta no valida.")]
         public string Boleta
@@ -82,6 +107,7 @@ namespace SOE.ViewModels.Pages.Login
                 this.SignInCommand.RaiseCanExecuteChanged();
             }
         }
+
 
         private readonly View SecondForm;
         private readonly View FirstForm;
@@ -112,7 +138,7 @@ namespace SOE.ViewModels.Pages.Login
         public ICommand RefreshCaptchaCommand => _RefreshCaptchaCommand ??= new Command(RefreshCaptcha);
 
         private Command _SignUpCommand;
-        public Command SignUpCommand => _SignUpCommand ??= new Command(SignUp, SignUpCanExecute);
+        public Command SignUpCommand => _SignUpCommand ??= new Command(SignUp, () => SignUpCanExecute);
         private AsyncCommand _SignInCommand;
         public AsyncCommand SignInCommand => _SignInCommand ??= new AsyncCommand(SignIn, SignInCanExecute);
 
@@ -152,8 +178,8 @@ namespace SOE.ViewModels.Pages.Login
         }
         private bool SignInCanExecute(object obj)
         {
-            return !string.IsNullOrEmpty(Boleta) 
-                   && SOEWeb.Shared.Validations.IsValidBoleta(Boleta) 
+            return !string.IsNullOrEmpty(Boleta)
+                   && SOEWeb.Shared.Validations.IsValidBoleta(Boleta)
                    && !string.IsNullOrEmpty(Password);
         }
 
@@ -163,17 +189,26 @@ namespace SOE.ViewModels.Pages.Login
             this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
             if (this.CaptchaImg is null)
             {
-               await AppData.Instance.SAES.LogOut();
-               this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
+                await AppData.Instance.SAES.LogOut();
+                this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
             }
         }
-        private void LoginSucceed()
+        private async Task LoginSucceed()
         {
+            await Task.Yield();
             SecondForm.IsEnabled = true;
             SecondForm.IsVisible = true;
             SecondForm.FadeTo(1, 500).SafeFireAndForget();
             FirstForm.FadeTo(0, 500).SafeFireAndForget();
             FirstForm.IsEnabled = false;
+
+            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Validando información"))
+            {
+                if (await APIService.UserExists(Boleta))
+                {
+                    App.Current.MainPage = new LoginPage();
+                }
+            }
 
         }
         private async void SignUp()
@@ -210,14 +245,14 @@ namespace SOE.ViewModels.Pages.Login
                     break;
             }
         }
-        private bool SignUpCanExecute()
-        {
-            return !string.IsNullOrEmpty(this.SOEPassword)
-                   &&
-                   !string.IsNullOrEmpty(Email)
-                   && SOEPassword.Length >= 8
-                   && !string.IsNullOrEmpty(NickName) &&
-                   SOEWeb.Shared.Validations.IsValidNickName(NickName);
-        }
+        private bool SignUpCanExecute =>
+            (!string.IsNullOrEmpty(this.SOEPassword) &&
+            !string.IsNullOrEmpty(Email) &&
+            SOEPassword.Length >= 8 &&
+            !string.IsNullOrEmpty(NickName) &&
+            SOEWeb.Shared.Validations.IsValidNickName(NickName)
+            && SOEPassword == SOEConfirmPassword);
+
+
     }
 }

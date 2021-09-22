@@ -41,10 +41,7 @@ namespace SOE.ViewModels.ViewItems
         public ICommand PrivacityCommand { get; }
         private ICommand _AboutUsCommand;
         public ICommand AboutUsCommand => _AboutUsCommand ??= new Command(AboutUs);
-        private ICommand _CameraCommand;
-        public ICommand CameraCommand => _CameraCommand ??= new Command(UsarCamara);
-        private ICommand _PhotoCommand;
-        public ICommand PhotoCommand => _PhotoCommand ??= new Command(Galeria);
+
         private void AboutUs()
         {
             AppShell.CloseFlyout();
@@ -122,70 +119,16 @@ namespace SOE.ViewModels.ViewItems
         }
         private async Task TapAvatar()
         {
-            var page = new MenuAvatarPopUp();
+            var page = new MenuAvatarPopUp(this);
             await page.ShowDialog();
         }
-        private async void Galeria()
-        {
-            RequestCameraPage request = new();
-            await request.ShowDialog();
-            if (!await Permisos.RequestStorage())
-            {
-                return;
-            }
-            var result = await Xamarin.Essentials.MediaPicker.PickPhotoAsync(new MediaPickerOptions()
-            {
-                Title = "Selecione una imagen"
-            });
-            var file = await result.LoadPhotoAsync();
-            if (file != null)
-            {
-                if (this.AvatarSource is null)
-                {
-                    this.AvatarSource = (FileImageSource)FileImageSource.FromFile(file.FullName);
-                }
-                else
-                {
-                    this.AvatarSource.File = result.FullPath;
-                }
-                Keeper.SaveAvatar(GetAvatarStream()).SafeFireAndForget();
-            }
-        }
+
         public async Task<Stream> GetAvatarStream()
         {
             await Task.Yield();
             return this.AvatarSource.ImageToStream();
         }
-        private async void UsarCamara()
-        {
-            RequestCameraPage request = new();
-            await request.ShowDialog();
-            if (!await Permisos.RequestStorage())
-            {
-                return;
-            }
-            if ((await Permisos.EnsurePermission<Permissions.Camera>()) != PermissionStatus.Granted)
-            {
-                return;
-            }
-            var result = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync(new MediaPickerOptions()
-            {
-                Title = "Selecione una imagen"
-            });
-            if (result != null)
-            {
-                if (this.AvatarSource is null)
-                {
-                    this.AvatarSource = (FileImageSource)FileImageSource.FromFile(result.FullPath);
-                }
-                else
-                {
-                    this.AvatarSource.File = result.FullPath;
-                }
-                Keeper.SaveAvatar(GetAvatarStream()).SafeFireAndForget();
-            }
-
-        }
+      
         private void Goto(int index)
         {
             App.Current.Dispatcher.BeginInvokeOnMainThread(() => MasterPage.Instance.Model.SelectedIndex = index);

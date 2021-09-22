@@ -123,7 +123,7 @@ namespace SOE.ViewModels.ViewItems
         private async Task TapAvatar()
         {
             var page = new MenuAvatarPopUp();
-            await page.ShowDialog();
+            await page.Show();
         }
         private async void Galeria()
         {

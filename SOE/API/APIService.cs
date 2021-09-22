@@ -431,6 +431,22 @@ namespace SOE.API
                 return r.ResponseResult == APIResponseResult.OK;
             }
         }
+        internal static async Task<bool> UserExists(string Boleta)
+        {
+            WebService WebService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = 
+                await WebService.GET(nameof(UserExists),Boleta);
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+            {
+                return false;
+            }
+            else
+            {
+                var r = JsonConvert.DeserializeObject<Response>(result.Response);
+                return r.ResponseResult == APIResponseResult.YES;
+            }
+
+        }
         internal static async Task<bool> DeleteContact(int UserId, SchoolContact contact)
         {
             WebService WebService = new WebService(Url);

@@ -27,6 +27,7 @@ namespace SOE.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             bool result= base.FinishedLaunching(app, options);
+            Firebase.Core.App.Configure();
             CardsViewRenderer.Preserve();
             return result;
         }

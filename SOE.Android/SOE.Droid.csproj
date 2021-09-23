@@ -49,6 +49,7 @@
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
     <AndroidSupportedAbis>
     </AndroidSupportedAbis>
+    <AndroidDexTool>d8</AndroidDexTool>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -144,8 +145,8 @@
     <PackageReference Include="Xamarin.Firebase.Analytics">
       <Version>119.0.1</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Firebase.Analytics.Impl">
-      <Version>116.3.0</Version>
+    <PackageReference Include="Xamarin.Firebase.Dynamic.Links">
+      <Version>120.1.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2125" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
@@ -158,13 +159,12 @@
     <PackageReference Include="Xamarin.Forms.Visual.Material">
       <Version>5.0.0.2125</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.GooglePlayServices.Analytics">
-      <Version>117.0.1</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="FireBase\FirebaseAnalyticsService.cs" />
+    <Compile Include="FireBase\OnFailureListener.cs" />
+    <Compile Include="FireBase\OnSuccessListener.cs" />
     <Compile Include="Notifications\Alarm.cs" />
     <Compile Include="Notifications\AutoStart.cs" />
     <Compile Include="Notifications\StartNotificationsService.cs" />

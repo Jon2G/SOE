@@ -29,6 +29,8 @@ namespace SOEAWS.Pages
         public string CardDateTime { get; set; }
         [Inject]
         public ILogger<AppController> _logger { get; set; }
+
+        private const string FireBaseUrl = "https://soeapp.page.link/H3Ed";
         public SharePage()
         {
 
@@ -43,7 +45,7 @@ namespace SOEAWS.Pages
         {
             try
             {
-                NavigationManagerManager.NavigateTo("download");
+                NavigationManagerManager.NavigateTo($"{FireBaseUrl}?Verb=share?Type={ShareType}?Id={ShareGuid}");
             }
             catch (Exception ex)
             {

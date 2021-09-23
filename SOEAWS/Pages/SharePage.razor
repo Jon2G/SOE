@@ -17,6 +17,7 @@
         width: 100%;
         text-align: center;
         margin-top: 8px;
+        cursor:pointer;
     }
 
     .card-title {
@@ -48,6 +49,7 @@
     .news-app-promo-text__download {
         font-size: 2.25em;
         font-weight: 600;
+        cursor:pointer;
     }
 
     .news-app-promo-buttons {
@@ -124,7 +126,7 @@
             <div class="card-title">@CardTitle...</div>
             <div class="card-title">🕑 @CardDateTime</div><br>
         </div>
-        <div class="news-app-promo-text__download">Abrir con SOE.</div>
+        <a class="news-app-promo-text__download" onclick="@GotoDownloadPage">Abrir con SOE.</a>
 
     
     </div>

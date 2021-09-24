@@ -61,7 +61,7 @@ namespace SOE.Models
                 App.Current.MainPage.DisplayAlert("Opps...", Response.Message, "Ok").SafeFireAndForget();
                 return null;
             }
-            return $"{APIService.Url}/{APIService.ShareReminder}/{reminder.Guid:N}";
+            return $"{APIService.NonHttpsUrl}/share/reminder/{reminder.Guid:N}";
 
         }
 

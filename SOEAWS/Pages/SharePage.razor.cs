@@ -31,6 +31,7 @@ namespace SOEAWS.Pages
         public ILogger<AppController> _logger { get; set; }
 
         private const string FireBaseUrl = "https://soeapp.page.link/H3Ed";
+        private const string FireBaseLargeUrl = "https://soeapp.page.link/?link=https://play.google.com/store/apps/details{0}&apn=com.soe.soe_app&isi=1580151317&ibi=com.soe.soe-ap";
         public SharePage()
         {
 
@@ -45,7 +46,7 @@ namespace SOEAWS.Pages
         {
             try
             {
-                NavigationManagerManager.NavigateTo($"{FireBaseUrl}?Verb=share?Type={ShareType}?Id={ShareGuid}");
+                NavigationManagerManager.NavigateTo(string.Format(FireBaseLargeUrl, $"?params=verb=share?type={ShareType}?id={ShareGuid}?"));
             }
             catch (Exception ex)
             {

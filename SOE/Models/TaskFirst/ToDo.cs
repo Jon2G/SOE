@@ -130,7 +130,7 @@ namespace SOE.Models.TaskFirst
                     }
                 }
             }
-            return $"{APIService.Url}/{APIService.ShareTodo}/{toDo.Guid:N}";
+            return $"{APIService.NonHttpsUrl}/share/todo/{toDo.Guid:N}";
         }
 
 

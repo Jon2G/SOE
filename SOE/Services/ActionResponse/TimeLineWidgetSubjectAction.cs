@@ -1,8 +1,15 @@
-﻿using System;
+﻿using AsyncAwaitBestPractices;
+using Kit;
+using SOE.FireBase;
+using SOE.Models.TaskFirst;
+using SOE.Views.Pages;
+using System;
+using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace SOE.Services.ActionResponse
 {
-    public class TimeLineWidgetSubjectAction : PendingAction
+    public class TimeLineWidgetSubjectAction : IActionResponse
     {
         public readonly DateTime Date;
         public readonly int SubjectId;
@@ -13,6 +20,20 @@ namespace SOE.Services.ActionResponse
             this.Date = Date;
             this.SubjectId = SubjectId;
             this.Day = Day;
+        }
+
+        public async Task Execute()
+        {
+            await Task.Yield();
+            ToDo Tarea = new ToDo
+            {
+                Date = Day.GetNearest(),
+                Subject = SubjectService.Get(SubjectId),
+                Time = Date.TimeOfDay
+            };
+            await Task.Run(() => { while (Shell.Current is null) { } });
+            MasterPage.Instance.Model.SelectedIndex = 2;
+            Shell.Current.Navigation.PushAsync(new NewTaskPage(Tarea)).SafeFireAndForget();
         }
     }
 }

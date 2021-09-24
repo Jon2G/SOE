@@ -6,7 +6,6 @@ using Android.Content.PM;
 using Android.Gms.Extensions;
 using Android.OS;
 using Android.Webkit;
-using Firebase.DynamicLinks;
 using Kit.Droid;
 using Kit.Droid.Services;
 using PanCardView.Droid;
@@ -43,7 +42,17 @@ namespace SOE.Droid.Activities
         Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
         DataPathPattern = ".*", DataPathPrefix = ".*",
         DataHost = SOE.FireBase.Firebase.DynamicLinkHost, DataSchemes = new[] { "http", "https" })]
-
+    /*
+     <activity>
+      <intent-filter android:autoVerify="true" tools:targetApi="m">
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:host="soeapp.page.link"
+							android:scheme="https"/>
+      </intent-filter>
+    </activity>
+     */
     public class MainActivity : Kit.Droid.Services.MainActivity
     {
         protected override void OnStart()
@@ -89,9 +98,10 @@ namespace SOE.Droid.Activities
         {
             base.OnNewIntent(intent);
 
-            FirebaseDynamicLinks.Instance.GetDynamicLink(intent)
-                 .AddOnSuccessListener(this, new OnSuccessListener())
-                 .AddOnFailureListener(this, new OnFailureListener());
+            //[EN CONSTRUCCION]
+            //FirebaseDynamicLinks.Instance.GetDynamicLink(intent)
+            //     .AddOnSuccessListener(this, new OnSuccessListener())
+            //     .AddOnFailureListener(this, new OnFailureListener());
 
             PendingAction pendingAction = null;
             switch (intent?.Action)
@@ -127,5 +137,27 @@ namespace SOE.Droid.Activities
             }
 
         }
+        //private  Intent HandleIntent()
+        //{
+        //    if (action)
+        //    { 
+        //        Intent.ActionView-> HandleDeepLink(data);
+        //    }
+        //    else
+        //    {
+        //        gotoDefaultView();
+        //    }
+
+        //}
+
+        //private void HandleDeepLink()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //private void gotoDefaultView()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

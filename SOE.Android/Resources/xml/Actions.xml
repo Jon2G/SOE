@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<actions>
+  <action intentName="actions.intent.Open_App_Feature">
+    <fulfillment urlTemplate="https://soeapp.page.link/H3Ed{?Atajos}">
+      <parameter-mapping 
+        intentParameter="feature"
+        urlParameter="Atajos"/>
+    </fulfillment>
+    <parameter>
+      <entity-set-reference entitySetId="FeaturesEntitySeT"/>
+    </parameter>
+  </action>
+  <entity-set entitySetId="FeaturesEntitySeT">
+    <entity name="Tareas"
+            identifier="Tareas"/>
+    <entity name="Horario"
+          identifier="Horario"/>
+    <entity name="Calificaciones"
+              identifier="Calificaciones"/>
+  </entity-set>
+</actions>

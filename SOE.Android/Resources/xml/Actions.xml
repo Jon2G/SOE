@@ -1,21 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <actions>
-  <action intentName="actions.intent.Open_App_Feature">
-    <fulfillment urlTemplate="https://soeapp.page.link/H3Ed{?Atajos}">
-      <parameter-mapping 
-        intentParameter="feature"
-        urlParameter="Atajos"/>
+  <action intentName="actions.intent.CREATE_THING">
+    <fulfillment urlTemplate="https://soeapp.page.link/H3Ed{?Que clases tengo,description}">
+      <!-- e.g. name = "Example Entity" -->
+      <!-- (Optional) Require a field eg.name for fulfillment with required="true" -->
+      <parameter-mapping urlParameter="Que clases tengo" intentParameter="thing.name" required="true" />
+      <!-- e.g. description = "Example Destination" -->
+      <parameter-mapping urlParameter="description" intentParameter="thing.description" />
     </fulfillment>
-    <parameter>
-      <entity-set-reference entitySetId="FeaturesEntitySeT"/>
-    </parameter>
+
+    <!-- Provide a fallback fulfillment with no required parameters. For example, to your app search or router deeplink -->
+    <fulfillment urlTemplate="https://soeapp.page.link/H3Ed" />
   </action>
-  <entity-set entitySetId="FeaturesEntitySeT">
-    <entity name="Tareas"
-            identifier="Tareas"/>
-    <entity name="Horario"
-          identifier="Horario"/>
-    <entity name="Calificaciones"
-              identifier="Calificaciones"/>
-  </entity-set>
+   <action intentName="actions.intent.CREATE_THING">
+    <fulfillment urlTemplate="https://soeapp.page.link/H3Ed{?Crear Tarea,description}">
+      <!-- e.g. name = "Example Entity" -->
+      <!-- (Optional) Require a field eg.name for fulfillment with required="true" -->
+      <parameter-mapping urlParameter="Crear Tarea" intentParameter="thing.name" required="true" />
+      <!-- e.g. description = "Example Destination" -->
+      <parameter-mapping urlParameter="description" intentParameter="thing.description" />
+    </fulfillment>
+
+    <!-- Provide a fallback fulfillment with no required parameters. For example, to your app search or router deeplink -->
+    <fulfillment urlTemplate="https://soeapp.page.link/H3Ed" />
+  </action>
+    <action intentName="actions.intent.CREATE_THING">
+    <fulfillment urlTemplate="https://soeapp.page.link/H3Ed{?Crear recordatorio,description}">
+      <!-- e.g. name = "Example Entity" -->
+      <!-- (Optional) Require a field eg.name for fulfillment with required="true" -->
+      <parameter-mapping urlParameter="Crear recordatorio" intentParameter="thing.name" required="true" />
+      <!-- e.g. description = "Example Destination" -->
+      <parameter-mapping urlParameter="description" intentParameter="thing.description" />
+    </fulfillment>
+
+    <!-- Provide a fallback fulfillment with no required parameters. For example, to your app search or router deeplink -->
+    <fulfillment urlTemplate="https://soeapp.page.link/H3Ed" />
+  </action>
+  
 </actions>

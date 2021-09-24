@@ -46,6 +46,7 @@ namespace SOE.Droid.Activities
         Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
         DataPathPattern = ".*", DataPathPrefix = ".*",
         DataHost = SOE.FireBase.Firebase.DynamicLinkHost, DataSchemes = new[] { "http", "https" })]
+    [MetaData(name:"com.google.android.actions",Resource ="@xml/actions")]
 
     public class MainActivity : Kit.Droid.Services.MainActivity
     {

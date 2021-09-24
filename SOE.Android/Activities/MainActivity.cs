@@ -6,6 +6,8 @@ using Android.Content.PM;
 using Android.Gms.Extensions;
 using Android.OS;
 using Android.Webkit;
+using Firebase.DynamicLinks;
+using Java.Net;
 using Kit.Droid;
 using Kit.Droid.Services;
 using PanCardView.Droid;
@@ -15,6 +17,7 @@ using Plugin.Media;
 using SOE.API;
 using SOE.Droid.FireBase;
 using SOE.Droid.Notifications;
+using SOE.FireBase;
 using SOE.Interfaces;
 using SOE.Models.Scheduler;
 using SOE.Models.TaskFirst;
@@ -24,6 +27,7 @@ using SOE.Widgets;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using Xamarin.Forms;
+using Uri = Android.Net.Uri;
 
 [assembly: Dependency(typeof(MainActivity))]
 namespace SOE.Droid.Activities
@@ -42,17 +46,7 @@ namespace SOE.Droid.Activities
         Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
         DataPathPattern = ".*", DataPathPrefix = ".*",
         DataHost = SOE.FireBase.Firebase.DynamicLinkHost, DataSchemes = new[] { "http", "https" })]
-    /*
-     <activity>
-      <intent-filter android:autoVerify="true" tools:targetApi="m">
-        <action android:name="android.intent.action.VIEW"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:host="soeapp.page.link"
-							android:scheme="https"/>
-      </intent-filter>
-    </activity>
-     */
+
     public class MainActivity : Kit.Droid.Services.MainActivity
     {
         protected override void OnStart()
@@ -97,20 +91,19 @@ namespace SOE.Droid.Activities
         protected override void OnNewIntent(Intent intent)
         {
             base.OnNewIntent(intent);
+            OnSuccessListener successListener = new OnSuccessListener(new Command<IActionResponse>(MasterPage.ResponseTo));
+            FirebaseDynamicLinks.Instance.GetDynamicLink(intent)
+                .AddOnSuccessListener(this, successListener);
 
-            //[EN CONSTRUCCION]
-            //FirebaseDynamicLinks.Instance.GetDynamicLink(intent)
-            //     .AddOnSuccessListener(this, new OnSuccessListener())
-            //     .AddOnFailureListener(this, new OnFailureListener());
-
-            PendingAction pendingAction = null;
+            IActionResponse pendingAction = null;
             switch (intent?.Action)
             {
                 case Intent.ActionView:
                     string link = intent.DataString;
                     if (!string.IsNullOrEmpty(link))
                     {
-                        pendingAction = new UrlAction(link);
+                        Uri uri = Uri.Parse(link);
+                        successListener.FromDeepLink(uri);
                     }
                     break;
                 case ToDosWidget.ITEM_CLICK:
@@ -137,27 +130,5 @@ namespace SOE.Droid.Activities
             }
 
         }
-        //private  Intent HandleIntent()
-        //{
-        //    if (action)
-        //    { 
-        //        Intent.ActionView-> HandleDeepLink(data);
-        //    }
-        //    else
-        //    {
-        //        gotoDefaultView();
-        //    }
-
-        //}
-
-        //private void HandleDeepLink()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //private void gotoDefaultView()
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

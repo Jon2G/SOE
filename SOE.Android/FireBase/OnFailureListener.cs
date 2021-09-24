@@ -25,12 +25,14 @@ namespace SOE.Droid.FireBase
 
         public void Finalized()
         {
-            throw new NotImplementedException();
         }
 
         public void OnFailure(Exception e)
         {
-            throw new NotImplementedException();
+            if (e is not null)
+            {
+
+            }
         }
 
         public void SetJniManagedPeerState(JniManagedPeerStates value)
@@ -38,10 +40,7 @@ namespace SOE.Droid.FireBase
             throw new NotImplementedException();
         }
 
-        public void SetPeerReference(JniObjectReference reference)
-        {
-            throw new NotImplementedException();
-        }
+
 
     }
 }

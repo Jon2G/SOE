@@ -30,7 +30,7 @@ namespace SOEAWS.Pages
         [Inject]
         public ILogger<AppController> _logger { get; set; }
 
-        private const string FireBaseUrl = "https://soeapp.page.link/H3Ed";
+        
         public SharePage()
         {
 
@@ -45,7 +45,11 @@ namespace SOEAWS.Pages
         {
             try
             {
-                NavigationManagerManager.NavigateTo($"{FireBaseUrl}?Verb=share?Type={ShareType}?Id={ShareGuid}");
+                NavigationManagerManager.NavigateTo(DynamicLinkFormatter.GetDynamicUrl("share",new Dictionary<string, string>()
+                {
+                    {"type",ShareType},
+                    {"id",ShareGuid.ToString()}
+                }));
             }
             catch (Exception ex)
             {

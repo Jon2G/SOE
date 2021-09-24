@@ -130,7 +130,8 @@ namespace SOE.Models.TaskFirst
                     }
                 }
             }
-            return $"{APIService.Url}/{APIService.ShareTodo}/{toDo.Guid:N}";
+            return DynamicLinkFormatter.GetDynamicUrl("share",
+                new Dictionary<string, string>() { { "type", "todo" }, { "id", toDo.Guid.ToString("N") } });
         }
 
 

@@ -11,13 +11,14 @@ using SOE.Enums;
 using SOE.API;
 using SOEWeb.Shared.Enums;
 using AsyncAwaitBestPractices;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SOE.Models
 {
     public class Reminder : ReminderBase
     {
-      
+
 
         private PendingStatus _Status;
 
@@ -61,8 +62,8 @@ namespace SOE.Models
                 App.Current.MainPage.DisplayAlert("Opps...", Response.Message, "Ok").SafeFireAndForget();
                 return null;
             }
-            return $"{APIService.Url}/{APIService.ShareReminder}/{reminder.Guid:N}";
-
+            return DynamicLinkFormatter.GetDynamicUrl("share", 
+                new Dictionary<string, string>() { { "type", "reminder" }, { "id", reminder.Guid.ToString("N") } });
         }
 
     }

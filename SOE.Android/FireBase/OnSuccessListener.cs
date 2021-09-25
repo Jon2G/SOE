@@ -63,6 +63,9 @@ namespace SOE.Droid.FireBase
                 case "share":
                     action = OnShare(parameters);
                     break;
+                case "asistant":
+                    action = OnAssitant(parameters);
+                    break;
             }
             if (action is not null)
                 ActionResponse?.Execute(action);
@@ -91,7 +94,29 @@ namespace SOE.Droid.FireBase
             }
             return action;
         }
-
+        /// <summary>
+        /// Este metodo lo cree ayer antes de dormir pero no se si esta bien 
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public IActionResponse OnAssitant(string parameters)
+        {
+            IActionResponse action = null;
+            switch (parameters)
+            {
+                case "Que clases tengo":
+                    action = (IActionResponse)Shell.Current.DisplayAlert("Prueba", "Que clases tengo", "Ok");
+                    break;
+                case "Crear Tarea":
+                    action = (IActionResponse)Shell.Current.DisplayAlert("Prueba", "Crear Tarea", "Ok");
+                    break;
+                case "Crear recordatorio":
+                    action = (IActionResponse)Shell.Current.DisplayAlert("Prueba", "Crear recordatorio", "Ok");
+                    break;
+                    
+            }
+            return action;
+        }
 
 
 

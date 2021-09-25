@@ -46,7 +46,7 @@ namespace SOE.Droid.Activities
         Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
         DataPathPattern = ".*", DataPathPrefix = ".*",
         DataHost = SOE.FireBase.Firebase.DynamicLinkHost, DataSchemes = new[] { "http", "https" })]
-    [MetaData(name:"com.google.android.actions",Resource ="@xml/actions")]
+    [MetaData(name: "com.google.android.actions", Resource = "@xml/actions")]
 
     public class MainActivity : Kit.Droid.Services.MainActivity
     {
@@ -95,12 +95,16 @@ namespace SOE.Droid.Activities
             OnSuccessListener successListener = new OnSuccessListener(new Command<IActionResponse>(MasterPage.ResponseTo));
             FirebaseDynamicLinks.Instance.GetDynamicLink(intent)
                 .AddOnSuccessListener(this, successListener);
-
+            string link = null;
             IActionResponse pendingAction = null;
             switch (intent?.Action)
             {
+                case "actions.intent.CREATE_THING":
+                    link = intent.DataString;
+                    pendingAction = OnCreateThing(link);
+                    break;
                 case Intent.ActionView:
-                    string link = intent.DataString;
+                    link = intent.DataString;
                     if (!string.IsNullOrEmpty(link))
                     {
                         Uri uri = Uri.Parse(link);
@@ -130,6 +134,49 @@ namespace SOE.Droid.Activities
                 MasterPage.ResponseTo(pendingAction);
             }
 
+        }
+
+        private IActionResponse OnCreateThing(string link)
+        {
+            Uri uri = Uri.Parse(link);
+            string name = uri.GetQueryParameter("name");
+            string description = uri.GetQueryParameter("description");
+            IActionResponse action = null;
+            switch (name?.ToLower()?.Trim())
+            {
+                case "tarea":
+                    action = new CreateToDoAction(description);
+                    break;
+                case "recordatorio":
+                    action = new CreateReminderAction(description);
+                    break;
+
+            }
+            return action;
+        }
+
+        /// <summary>
+        /// Este metodo lo cree ayer antes de dormir pero no se si esta bien 
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public IActionResponse OnAssitant(string parameters)
+        {
+            IActionResponse action = null;
+            switch (parameters)
+            {
+                case "Que clases tengo":
+                    action = (IActionResponse)Shell.Current.DisplayAlert("Prueba", "Que clases tengo", "Ok");
+                    break;
+                case "Crear Tarea":
+                    action = (IActionResponse)Shell.Current.DisplayAlert("Prueba", "Crear Tarea", "Ok");
+                    break;
+                case "Crear recordatorio":
+                    action = (IActionResponse)Shell.Current.DisplayAlert("Prueba", "Crear recordatorio", "Ok");
+                    break;
+
+            }
+            return action;
         }
     }
 }

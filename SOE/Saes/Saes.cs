@@ -229,7 +229,7 @@ namespace SOE.Saes
                     !string.IsNullOrEmpty(await EvaluateJavaScriptAsync(
                         "var label= document.getElementById('ctl00_leftColumn_LoginNameSession'); if(label) label.innerHTML; else ''"));
             }
-            catch (Exception) { return false; }
+            catch (Exception ex) { Log.Logger.Error(ex, "IsLoggedIn - {0}"); return false; }
         }
         public async Task<string> GetCurrentUser()
         {

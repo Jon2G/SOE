@@ -1,6 +1,8 @@
 ﻿using AsyncAwaitBestPractices;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 
 namespace SOE.Views.ViewItems
@@ -15,15 +17,18 @@ namespace SOE.Views.ViewItems
         {
             Instance = this;
             InitializeComponent();
+            this.Model.Refresh(OnRefreshComplete);
         }
+        public Action OnRefreshCompleteAction => this.OnRefreshComplete;
 
-        public override void OnAppearing()
+        public async void OnRefreshComplete()
         {
+            await Task.Delay(500);
             if (this.Model.DayGroups.Any())
             {
-                this.Model.DayGroups.First().ExpandAll(true);
+                await this.Model.DayGroups.First().ExpandAll(true);
             }
+            this.CollectionView.InvalidateMeasureNonVirtual(InvalidationTrigger.RendererReady);
         }
-        public Task Init => this.Model.Refresh();
     }
 }

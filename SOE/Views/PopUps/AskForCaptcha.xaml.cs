@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AsyncAwaitBestPractices;
+using Kit.Services.Interfaces;
+using System;
 using System.Threading.Tasks;
 using SOE.Data;
 using SOE.ViewModels.ViewItems;
@@ -14,7 +16,7 @@ namespace SOE.Views.PopUps
             get;
             set;
         }
-        public AskForCaptcha(Func<AskForCaptcha, Task<bool>> OnSucceedAction)
+        public AskForCaptcha(Func<ICrossWindow, Task<bool>> OnSucceedAction)
         {
             this.Model = new AskForCaptchaViewModel(this, OnSucceedAction);
             this.BindingContext = this.Model;
@@ -23,9 +25,23 @@ namespace SOE.Views.PopUps
             AppData.Instance.SAES.ShowLoading = true;
         }
 
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
+            GetCaptcha().SafeFireAndForget();
+        }
+
+        private async Task GetCaptcha()
+        {
+            await Task.Yield();
+            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Cargando..."))
+            {
+                await this.GetCaptchaAsync();
+            }
+        }
+        private async Task GetCaptchaAsync()
+        {
+            await Task.Yield();
             await AppData.Instance.SAES.GoHome();
             await Task.Delay(TimeSpan.FromSeconds(1));
             if (!await AppData.Instance.SAES.IsLoggedIn())

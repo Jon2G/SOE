@@ -35,7 +35,7 @@ namespace SOE.Views.ViewItems.TasksViews
                 Group?.DayGroups.Remove(this.Model);
                 //la automatación
             }
-            this.Model?.RefreshCount(); //le puse un '?' y ya :)
+            this.Model?.RefreshCount(); 
         }
     }
 }

@@ -10,7 +10,7 @@
   <ContentView.Content>
         <ContentView>
             <pancakeView:PancakeView CornerRadius="5"  Margin="1">
-                <views:Expander IsExpanded="{Binding IsExpanded}">
+                <views:Expander IsExpanded="{Binding IsExpanded}" x:Name="Expander" x:FieldModifier="public">
                     <views:Expander.Header>
                         <Grid ColumnDefinitions="5,80,1,*">
 

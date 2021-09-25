@@ -22,6 +22,7 @@ using Xamarin.Essentials;
 using SOEWeb.Shared;
 using SOEWeb.Shared.Enums;
 using SOE.Views.ViewItems;
+using Device = Xamarin.Forms.Device;
 
 namespace SOE.Models.TaskFirst
 {
@@ -205,9 +206,9 @@ namespace SOE.Models.TaskFirst
             /////////////
             if (Shell.Current is AppShell app)
             {
-                PendingTasksView.Instance?.Model.Refresh().SafeFireAndForget();
+                Device.BeginInvokeOnMainThread(() =>
+                    PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction));
             }
-
             await Shell.Current.Navigation.PopToRootAsync(true);
             //photos ?
         }

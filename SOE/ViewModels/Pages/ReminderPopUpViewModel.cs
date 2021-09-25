@@ -83,11 +83,14 @@ namespace SOE.ViewModels
             ReminderPage pr = new ReminderPage(this.reminder);
             await pr.ShowDialog();
         }
-        public async void Eliminar()
+        public void Eliminar()
         {
             AppData.Instance.LiteConnection.Delete(this.reminder);
             PendingRemindersViewModel.Instance.Reminders.Remove(this.reminder);
-            await PendingRemindersViewModel.Instance.Load();
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                PendingRemindersViewModel.Instance.Load();
+            });
         }
         private void Archivar()
         {

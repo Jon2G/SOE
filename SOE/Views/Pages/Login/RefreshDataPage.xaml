@@ -22,7 +22,7 @@
     </pages:BasePage.BindingContext>
     <Grid>
         <saes:SAES x:Name="SAES" IsVisible="True"  VerticalOptions="FillAndExpand"/>
-        <ContentView Background="{DynamicResource Background}" Opacity=".5">
+        <ContentView Background="{DynamicResource Background}" Opacity="1">
             <pancakeView:PancakeView 
                 CornerRadius="10" 
                 Padding="10" VerticalOptions="Center" HorizontalOptions="FillAndExpand"

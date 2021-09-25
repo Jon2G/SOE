@@ -77,7 +77,8 @@ namespace SOE.ViewModels.Pages
                     }
                     return;
             }
-            PendingTasksView.Instance.Model.Refresh(ToDo.Status).SafeFireAndForget();
+            Device.BeginInvokeOnMainThread(() =>
+                PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction,ToDo.Status));
         }
         public void Eliminar()
         {

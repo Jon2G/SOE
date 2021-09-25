@@ -29,8 +29,14 @@ namespace SOE.ViewModels.ViewItems
                     if (SelectedIndex == 1 && MainView.Instance?.Model is not null && MainView.Instance.Model.Title == "Archivadas")
                     {
                         MainView.Instance.Model.Title = "Pendientes";
-                        PendingRemindersViewModel.Instance.Load(PendingStatus.Pending).SafeFireAndForget();
-                        PendingTasksViewModel.Instance.Refresh(PendingStatus.Pending).SafeFireAndForget();
+
+
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            PendingRemindersViewModel.Instance.Load(PendingStatus.Pending);
+                            PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance
+                                ?.OnRefreshCompleteAction);
+                        });
                     }
                 }
                 _SelectedIndex = value;
@@ -54,6 +60,10 @@ namespace SOE.ViewModels.ViewItems
         }
         public ObservableCollection<IconView> Views { get; }
 
+        private readonly PendingTasksView PendingTasksView;
+        private readonly PendingRemindersView PendingRemindersView;
+
+
         private ICommand _SelectionChangedCommand;
         public ICommand SelectionChangedCommand
             => _SelectionChangedCommand ??= new Xamarin.Forms.Command<int>(SelectionChanged);
@@ -76,10 +86,10 @@ namespace SOE.ViewModels.ViewItems
         {
             switch (SelectedView)
             {
-                case PendingTasksView:
+                case SOE.Views.ViewItems.PendingTasksView:
                     App.Current.MainPage.Navigation.PushAsync(new NewTaskPage(), true).SafeFireAndForget();
                     break;
-                case PendingRemindersView:
+                case SOE.Views.ViewItems.PendingRemindersView:
                     ReminderPage pr = new ReminderPage();
                     pr.ShowDialog().SafeFireAndForget();
                     break;
@@ -101,22 +111,17 @@ namespace SOE.ViewModels.ViewItems
 
         public MainTaskViewModel()
         {
-            PendingTasksView pt = new();
-            PendingRemindersView pr = new();
+            this.PendingTasksView = new PendingTasksView();
+            this.PendingRemindersView = new PendingRemindersView();
             Views = new ObservableCollection<IconView>()
             {
                 new PendingTasksView(),
                 new PendingRemindersView()
             };
-            SelectedView = pt;
-            Load(pt, pr);
-        }
-
-        private void Load(PendingTasksView pt, PendingRemindersView pr)
-        {
-            pt.Init.ContinueWith((t, o) => pr.Init, null).SafeFireAndForget();
+            SelectedView = this.PendingTasksView;
             this.TareasView();
         }
+
 
         public void OnAppearing()
         {

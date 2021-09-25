@@ -23,6 +23,10 @@ namespace SOE.Models.TaskFirst
             set
             {
                 this._IsExpanded = value;
+                if (value)
+                {
+                    View?.Expander?.ForceUpdateSize();
+                }
                 Raise(() => IsExpanded);
             }
         }

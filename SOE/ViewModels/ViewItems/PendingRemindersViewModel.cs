@@ -46,9 +46,8 @@ namespace SOE.ViewModels.ViewItems
 
         }
 
-        public async Task Load(PendingStatus Status = PendingStatus.Pending)
+        public void Load(PendingStatus Status = PendingStatus.Pending)
         {
-            await Task.Yield();
             Reminders.Clear();
             Reminders.AddRange(
                 AppData.Instance.LiteConnection.Table<Reminder>()

@@ -38,15 +38,28 @@ namespace SOE.ViewModels.ViewItems
             switch (pr.Model.Action)
             {
                 case "Completadas":
-                    PendingTasksViewModel.Instance.Refresh(PendingStatus.Done).SafeFireAndForget();
-                    PendingRemindersViewModel.Instance.Load(PendingStatus.Done).SafeFireAndForget();
+                    Device.BeginInvokeOnMainThread(() =>
+                        {
+                            PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction,
+                                PendingStatus.Done);
+                            PendingRemindersViewModel.Instance.Load(PendingStatus.Done);
+
+                        });
                     break;
                 case "Pendientes":
-                    PendingTasksViewModel.Instance.Refresh(PendingStatus.Pending).SafeFireAndForget();
-                    PendingRemindersViewModel.Instance.Load(PendingStatus.Pending).SafeFireAndForget();
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction);
+                        PendingRemindersViewModel.Instance.Load(PendingStatus.Pending);
+                    });
                     break;
                 case "Archivadas":
-                    PendingTasksViewModel.Instance.Refresh(PendingStatus.Archived).SafeFireAndForget();
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction,
+                            PendingStatus.Archived);
+                        PendingRemindersViewModel.Instance.Load(PendingStatus.Pending);
+                    });
                     break;
             }
         }

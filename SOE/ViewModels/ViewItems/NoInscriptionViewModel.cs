@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
+using Kit.Services.Interfaces;
 using SOE.Data;
 using SOE.Models.Data;
 using SOE.Views.Pages;
@@ -36,7 +37,7 @@ namespace SOE.ViewModels.ViewItems
             }
         }
 
-        private async Task<bool> OnLoginComplete(AskForCaptcha AskForCaptcha)
+        private async Task<bool> OnLoginComplete(ICrossWindow AskForCaptcha)
         {
             await Task.Yield();
             if (AskForCaptcha is not null)

@@ -56,6 +56,7 @@ namespace SOE.Models
         }
         internal static async Task<string> ShareReminder(Reminder reminder)
         {
+            await Task.Yield();
             Response Response = await APIService.PostReminder(reminder);
             if (Response.ResponseResult != APIResponseResult.OK)
             {

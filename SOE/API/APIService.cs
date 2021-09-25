@@ -30,7 +30,7 @@ namespace SOE.API
         //public const string NonProdUrl = "dhokq2d69j.execute-api.us-east-2.amazonaws.com";
         //public static string NonHttpsUrl => $"{NonProdUrl}/Prod";
         //LOCAL
-        public const string NonHttpsUrl= "192.168.0.32:5001";
+        public const string NonHttpsUrl = "192.168.0.32:5001";
         public const string NonProdUrl = "192.168.0.32";
         //Otros
         public static string BaseUrl => $"https://{NonHttpsUrl}";
@@ -154,7 +154,8 @@ namespace SOE.API
                     }
                 }
                 await ToDo.Save(todo, Photos);
-                PendingTasksView.Instance?.Model?.Refresh().SafeFireAndForget();
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                    PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction));
             }
             return response;
         }
@@ -177,7 +178,10 @@ namespace SOE.API
                 Reminder reminder = JsonConvert.DeserializeObject<Reminder>(response.Extra);
                 reminder.Status = PendingStatus.Pending;
                 await Reminder.Save(reminder);
-                PendingRemindersView.Instance?.Model?.Load().SafeFireAndForget();
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                 {
+                     PendingRemindersView.Instance?.Model?.Load();
+                 });
             }
             return response;
         }
@@ -434,8 +438,8 @@ namespace SOE.API
         internal static async Task<bool> UserExists(string Boleta)
         {
             WebService WebService = new WebService(Url);
-            Kit.Services.Web.ResponseResult result = 
-                await WebService.GET(nameof(UserExists),Boleta);
+            Kit.Services.Web.ResponseResult result =
+                await WebService.GET(nameof(UserExists), Boleta);
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
             {
                 return false;

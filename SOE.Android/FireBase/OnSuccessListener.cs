@@ -18,22 +18,7 @@ namespace SOE.Droid.FireBase
         {
             this.ActionResponse = ActionResponse;
         }
-        public JniManagedPeerStates JniManagedPeerState => throw new NotImplementedException();
 
-        public void Disposed()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DisposeUnlessReferenced()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Finalized()
-        {
-            throw new NotImplementedException();
-        }
 
         public void OnSuccess(Java.Lang.Object result)
         {
@@ -108,15 +93,7 @@ namespace SOE.Droid.FireBase
         }
 
 
-        public void SetJniManagedPeerState(JniManagedPeerStates value)
-        {
-            throw new NotImplementedException();
-        }
 
-        public void SetPeerReference(JniObjectReference reference)
-        {
-            throw new NotImplementedException();
-        }
 
     }
 }

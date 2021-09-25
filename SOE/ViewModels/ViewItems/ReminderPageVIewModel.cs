@@ -63,8 +63,11 @@ namespace SOE.ViewModels.ViewItems
             {
                 await Reminder.Save(this.PReminder);
                 ReminderPage.Close().SafeFireAndForget();
-                PendingRemindersViewModel.Instance.Reminders.Clear();
-                PendingRemindersViewModel.Instance.Load().SafeFireAndForget();
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    PendingRemindersViewModel.Instance.Reminders.Clear();
+                    PendingRemindersViewModel.Instance.Load();
+                });
             }
         }
     }

@@ -20,9 +20,8 @@ namespace SOE.Views.ViewItems
         {
             Instance = this;
             InitializeComponent();
+            this.Model.Load();
         }
-
-        public Task Init => this.Model.Load();
 
     }
 }

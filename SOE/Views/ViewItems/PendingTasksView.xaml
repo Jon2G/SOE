@@ -15,7 +15,7 @@
     <Grid>
         <Grid  Margin="0,0,20,0">
             <CollectionView Margin="10"
-                            SelectionMode="None"  ItemsSource="{Binding DayGroups}">
+                            SelectionMode="None"  ItemsSource="{Binding DayGroups}" x:Name="CollectionView">
                 <CollectionView.EmptyView>
                     <ContentView>
                         <StackLayout VerticalOptions="CenterAndExpand">

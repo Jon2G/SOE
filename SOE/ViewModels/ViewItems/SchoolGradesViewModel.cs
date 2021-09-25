@@ -7,6 +7,7 @@ using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
 using Kit;
 using Kit.Model;
+using Kit.Services.Interfaces;
 using SOE.Data;
 using SOE.Models.Academic;
 using SOE.Services;
@@ -29,14 +30,14 @@ namespace SOE.ViewModels
         }
 
         private ICommand _RefreshCommand;
-        public ICommand RefreshCommand => _RefreshCommand??= new AsyncCommand(Refresh);
+        public ICommand RefreshCommand => _RefreshCommand ??= new AsyncCommand(Refresh);
         private ICommand _FlyOutCommand;
         public ICommand FlyOutCommand
             => _FlyOutCommand ??= new Command(OpenFlyOut);
 
         private void OpenFlyOut()
         {
-  AppShell.OpenFlyout(); 
+            AppShell.OpenFlyout();
         }
         public SchoolGradesViewModel()
         {
@@ -58,14 +59,25 @@ namespace SOE.ViewModels
 
         private async Task Refresh()
         {
-            if (AppData.Instance.SAES is null || await AppData.Instance.SAES.IsLoggedIn())
+            await Task.Yield();
+            bool isLogedIn = false;
+            if (AppData.Instance.SAES is not null)
+            {
+                isLogedIn = await AppData.Instance.SAES.IsLoggedIn();
+            }
+            if (!isLogedIn)
             {
                 AskForCaptcha ask = new AskForCaptcha(RefreshGrades);
                 ask.Show().SafeFireAndForget();
             }
+            else
+            {
+                RefreshGrades(null).SafeFireAndForget();
+            }
+
         }
 
-        private async Task<bool> RefreshGrades(AskForCaptcha captcha)
+        private async Task<bool> RefreshGrades(ICrossWindow captcha)
         {
             await Task.Yield();
             AppData.Instance.SAES.ShowLoading = false;
@@ -74,7 +86,7 @@ namespace SOE.ViewModels
             {
                 await AppData.Instance.SAES.GetGrades();
             }
-            await captcha.Close();
+            await captcha?.Close();
             GetGrades();
             return true;
         }

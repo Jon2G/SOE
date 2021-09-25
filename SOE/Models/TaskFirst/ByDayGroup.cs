@@ -36,22 +36,24 @@ namespace SOE.Models.TaskFirst
 
         }
 
-        public void ExpandAll(bool expand)
+        public async Task ExpandAll(bool expand)
         {
             this.IsExpanded = expand;
             for (int i = 0; i < SubjectGroups.Count; i++)
             {
                 SubjectGroups[i].ExpandAll(expand);
             }
+
+            await Task.Delay(500);
+            View?.Expander?.ForceUpdateSize();
         }
         internal void RefreshCount()
         {
             Raise(() => Tareas);
         }
 
-        public async Task Refresh(PendingStatus status)
+        public void Refresh(PendingStatus status)
         {
-            await Task.Yield();
             SubjectGroups.Clear();
             SubjectGroups.AddRange(AppData.Instance.LiteConnection.Lista<int>(
                     $"SELECT Distinct {nameof(ToDo.SubjectId)} from {nameof(ToDo)} where {nameof(ToDo.Date)}={this.FDateTime.Ticks} AND STATUS={(int)status}")

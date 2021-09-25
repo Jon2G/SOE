@@ -34,6 +34,7 @@
                        VerticalTextAlignment="Center" HorizontalTextAlignment="Center" 
                        FontSize="16" FontAttributes="Bold" TextColor="White"/>
                 <Image Margin="15,0" HorizontalOptions="End"
+                       effects:TouchEffect.PressedScale="0.9"
                    effects:TouchEffect.Command="{Binding RefreshCommand}">
                     <Image.Source>
                         <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"

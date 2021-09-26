@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AsyncAwaitBestPractices;
+using System;
 using System.Threading.Tasks;
 using Kit;
 using Plugin.Fingerprint;
@@ -7,8 +8,10 @@ using SOE.Data;
 using SOE.Models.Data;
 using SOE.Views.Pages.Login;
 using SOE.Views.PopUps;
+using SOEWeb.Shared;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Device = Xamarin.Forms.Device;
 
 namespace SOE.Views.Pages
 {
@@ -32,12 +35,9 @@ namespace SOE.Views.Pages
             this.BindingContext = this;
             InitializeComponent();
         }
-        protected override async void OnAppearing()
+
+        private async Task Init()
         {
-            base.OnAppearing();
-            //await Task.Run(() => { while (ImgLogo.IsLoading) { } });
-            //SetStatus("Comprobando permisos de escritura...");
-            //await Permisos.RequestStorage();
             AppData.Init();
             if (Tools.Debugging)
             {
@@ -51,6 +51,7 @@ namespace SOE.Views.Pages
             else
             {
                 AppData.Instance.LiteConnection.CreateTable<User>();
+                AppData.Instance.LiteConnection.CreateTable<School>();
             }
 
             if (user is null)
@@ -94,6 +95,12 @@ namespace SOE.Views.Pages
             {
                 GotoApp(user, settings);
             }
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            this.Init().SafeFireAndForget();
         }
 
         private async void GotoManualLogin(User user, Settings settings)

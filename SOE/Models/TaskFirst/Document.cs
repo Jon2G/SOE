@@ -15,7 +15,7 @@ namespace SOE.Models.TaskFirst
         public Guid Guid { get; set; }
         public void Save()
         {
-            AppData.Instance.LiteConnection.Insert(this);
+            AppData.Instance.LiteConnection.Insert(this, false);
         }
 
         internal static void Delete(Guid idDocument)

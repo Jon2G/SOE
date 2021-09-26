@@ -23,8 +23,8 @@ namespace SOE.Models.Data
 
         public void Save()
         {
-            AppData.Instance.LiteConnection.DeleteAll<InscriptionDate>();
-            AppData.Instance.LiteConnection.Insert(this);
+            AppData.Instance.LiteConnection.DeleteAll<InscriptionDate>(false);
+            AppData.Instance.LiteConnection.Insert(this, false);
         }
 
         public static InscriptionDate Get() => AppData.Instance.LiteConnection.Table<InscriptionDate>().FirstOrDefault();

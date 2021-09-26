@@ -12,96 +12,100 @@
              xmlns:tasksViews="clr-namespace:SOE.Views.ViewItems.TasksViews;assembly=SOE"
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
              xmlns:panCardView="clr-namespace:PanCardView;assembly=PanCardView"
+             xmlns:saes="clr-namespace:SOE.Saes;assembly=SOE"
              x:DataType="pages:MasterPageViewModel" x:Name="Me"
              Title="{Binding SelectedView.Title}">
 
     <ContentPage.BindingContext>
         <pages:MasterPageViewModel x:Name="Model" x:FieldModifier="public"/>
     </ContentPage.BindingContext>
+<Grid>
+    <saes:SAES x:Name="Saes" InputTransparent="True" Opacity="1" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+    <StackLayout VerticalOptions="FillAndExpand" Spacing="0" Opacity="0.5">
+            <BoxView HeightRequest="20" Background="{DynamicResource PrimaryColor}">
+                <BoxView.IsVisible>
+                    <OnPlatform x:TypeArguments="x:Boolean">
+                        <On Platform="Android" Value="False" />
+                        <On Platform="iOS" Value="True" />
+                    </OnPlatform>
+                </BoxView.IsVisible>
+            </BoxView>
 
-    <StackLayout VerticalOptions="FillAndExpand" Spacing="0">
-        <BoxView HeightRequest="20" Background="{DynamicResource PrimaryColor}">
-            <BoxView.IsVisible>
-                <OnPlatform x:TypeArguments="x:Boolean">
-                    <On Platform="Android" Value="False" />
-                    <On Platform="iOS" Value="True" />
-                </OnPlatform>
-            </BoxView.IsVisible>
-        </BoxView>
-
-        <panCardView:CarouselView IsUserInteractionEnabled="False" 
+            <panCardView:CarouselView IsUserInteractionEnabled="False" 
                                   ItemsSource="{Binding Views}"
                                   SelectedIndex="{Binding SelectedIndex}"
                                   SelectedItem="{Binding SelectedView }"/>
 
-        <StackLayout VerticalOptions="FillAndExpand"
+            <StackLayout VerticalOptions="FillAndExpand"
                      BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
                          Padding="5" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Margin="0">
 
-            <Frame Padding="3" HorizontalOptions="FillAndExpand"
+                <Frame Padding="3" HorizontalOptions="FillAndExpand"
                    BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
                        toolkit:TouchEffect.Command="{Binding GradesViewCommand}"
                        toolkit:TouchEffect.PressedScale="0.9" >
-                <Image HeightRequest="30">
-                    <Image.Source>
-                        <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                    <Image HeightRequest="30">
+                        <Image.Source>
+                            <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
                                          Glyph="{x:Static fonts:FontelloIcons.Cal}" Color="White"/>
-                    </Image.Source>
-                </Image>
-                <Frame.Style>
-                    <Style TargetType="Frame">
-                        <Style.Triggers>
-                            <DataTrigger TargetType="Frame"
+                        </Image.Source>
+                    </Image>
+                    <Frame.Style>
+                        <Style TargetType="Frame">
+                            <Style.Triggers>
+                                <DataTrigger TargetType="Frame"
                                              Binding="{Binding SelectedView.Title}"
                                              Value="Calificaciones">
-                                <Setter Property="BackgroundColor" Value="{StaticResource AccentColor}"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Frame.Style>
-            </Frame>
-            <Frame Padding="3" HorizontalOptions="FillAndExpand"
+                                    <Setter Property="BackgroundColor" Value="{StaticResource AccentColor}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Frame.Style>
+                </Frame>
+                <Frame Padding="3" HorizontalOptions="FillAndExpand"
                    toolkit:TouchEffect.Command="{Binding TareasViewCommand}"
                    toolkit:TouchEffect.PressedScale="0.9" BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
-                <Image HeightRequest="30">
-                    <Image.Source>
-                        <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                    <Image HeightRequest="30">
+                        <Image.Source>
+                            <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
                                          Glyph="{x:Static fonts:FontelloIcons.Book}" Color="White"/>
-                    </Image.Source>
-                </Image>
-                <Frame.Style>
-                    <Style TargetType="Frame">
-                        <Style.Triggers>
-                            <DataTrigger TargetType="Frame"
+                        </Image.Source>
+                    </Image>
+                    <Frame.Style>
+                        <Style TargetType="Frame">
+                            <Style.Triggers>
+                                <DataTrigger TargetType="Frame"
                                          Binding="{Binding SelectedView.Title}"
                                          Value="Tareas">
-                                <Setter Property="BackgroundColor" Value="{StaticResource AccentColor}"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Frame.Style>
-            </Frame>
-            <Frame Padding="3" HorizontalOptions="FillAndExpand"
+                                    <Setter Property="BackgroundColor" Value="{StaticResource AccentColor}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Frame.Style>
+                </Frame>
+                <Frame Padding="3" HorizontalOptions="FillAndExpand"
                    toolkit:TouchEffect.Command="{Binding ClassTimeViewCommand}"
                    toolkit:TouchEffect.PressedScale="0.9" BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
-                <Image HeightRequest="30">
-                    <Image.Source>
-                        <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                    <Image HeightRequest="30">
+                        <Image.Source>
+                            <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
                                          Glyph="{x:Static fonts:FontelloIcons.Calendar}" Color="White"/>
-                    </Image.Source>
-                </Image>
-                <Frame.Style>
-                    <Style TargetType="Frame">
-                        <Style.Triggers>
-                            <DataTrigger TargetType="Frame"
+                        </Image.Source>
+                    </Image>
+                    <Frame.Style>
+                        <Style TargetType="Frame">
+                            <Style.Triggers>
+                                <DataTrigger TargetType="Frame"
                                          Binding="{Binding SelectedView.Title}"
                                          Value="Horario">
-                                <Setter Property="BackgroundColor" Value="{StaticResource AccentColor}"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Frame.Style>
-            </Frame>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource AccentColor}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Frame.Style>
+                </Frame>
+            </StackLayout>
         </StackLayout>
-    </StackLayout>
+    </Grid>
+
 </ContentPage>

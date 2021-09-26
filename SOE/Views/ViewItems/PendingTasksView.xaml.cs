@@ -1,4 +1,5 @@
 ﻿using AsyncAwaitBestPractices;
+using SOE.Data;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace SOE.Views.ViewItems
         public async void OnRefreshComplete()
         {
             await Task.Delay(500);
-            if (this.Model.DayGroups.Any())
+            if (this.Model.DayGroups.Any() && AppData.Instance.User.Settings.ExpandCards)
             {
                 await this.Model.DayGroups.First().ExpandAll(true);
             }

@@ -70,7 +70,7 @@ namespace SOEAWS.Processors
                                     Partial = (GradePartial)Convert.ToInt32(reader[4])
                                 };
                             }
-                            , new CommandConfig() { CommandType = CommandType.StoredProcedure }
+                            , new CommandConfig() { CommandType = CommandType.StoredProcedure, ManualRead = true }
                             , new SqlParameter("PARTIAL", (int)partial)
                             , new SqlParameter("TEXT_SCORE", text_score)
                             , new SqlParameter("NUMERIC_SCORE", numeric_score)

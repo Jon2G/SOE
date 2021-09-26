@@ -29,7 +29,7 @@ namespace SOE.Data.Images
         public static Keeper New()
         {
             Keeper keeper = new Keeper();
-            AppData.Instance.LiteConnection.Insert(keeper);
+            AppData.Instance.LiteConnection.Insert(keeper,false);
             return keeper;
         }
 
@@ -43,7 +43,7 @@ namespace SOE.Data.Images
             archive.Path = file.FullName;
             file.Refresh();
             if (file.Exists)
-                AppData.Instance.LiteConnection.Insert(archive);
+                AppData.Instance.LiteConnection.Insert(archive, false);
         }
         //internal async Task Save(Archive archive)
         //{

@@ -1,4 +1,5 @@
 ﻿using AsyncAwaitBestPractices;
+using Kit;
 using System;
 using System.Threading.Tasks;
 using SOE.Data;
@@ -28,13 +29,15 @@ namespace SOE.Views.Pages.Login
             AppData.Instance.SAES = this.SAES;
             AppData.Instance.SAES.ShowLoading = false;
             InitAnimation();
+            if (Tools.Debugging)
+                this.ContentView.Opacity = 0.5;
         }
         protected override void OnAppearing()
         {
             base.OnAppearing();
             AppData.CreateDatabase();
             if (FirstTime)
-               Model.GetUserData().SafeFireAndForget();
+                Model.GetUserData().SafeFireAndForget();
         }
         private void InitAnimation()
         {

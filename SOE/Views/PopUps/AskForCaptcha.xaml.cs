@@ -21,7 +21,6 @@ namespace SOE.Views.PopUps
             this.Model = new AskForCaptchaViewModel(this, OnSucceedAction);
             this.BindingContext = this.Model;
             InitializeComponent();
-            AppData.Instance.SAES = this.SAES;
             AppData.Instance.SAES.ShowLoading = true;
         }
 

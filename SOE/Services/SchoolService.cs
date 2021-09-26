@@ -10,8 +10,8 @@ namespace SOE.Services
     {
         public static void Save(School school)
         {
-            AppData.Instance.LiteConnection.DeleteAll<School>();
-            AppData.Instance.LiteConnection.Insert(school);
+            AppData.Instance.LiteConnection.DeleteAll<School>(false);
+            AppData.Instance.LiteConnection.Insert(school, false);
 
         }
 

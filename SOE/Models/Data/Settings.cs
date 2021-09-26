@@ -7,7 +7,7 @@ using SOE.Data;
 namespace SOE.Models.Data
 {
     [Preserve]
-    public class Settings : ModelBase,IGuid
+    public class Settings : ModelBase, IGuid
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
@@ -32,13 +32,27 @@ namespace SOE.Models.Data
                 Raise(() => IsFingerPrintActive);
             }
         }
+
+        private bool _ExpandCards;
+        public bool ExpandCards
+        {
+            get => _ExpandCards;
+            set
+            {
+                _ExpandCards = value;
+                Raise(() => ExpandCards);
+            }
+        }
+
         public Settings()
         {
             this.ShowTimelineBar = true;
+            this.ExpandCards = true;
         }
         public Guid Guid { get; set; }
         internal void Save()
         {
+            AppData.Instance.LiteConnection.CreateTable<Settings>();
             AppData.Instance.LiteConnection.InsertOrReplace(this);
             Notifications();
         }

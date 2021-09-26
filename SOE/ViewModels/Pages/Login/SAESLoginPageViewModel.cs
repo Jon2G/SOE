@@ -140,6 +140,7 @@ namespace SOE.ViewModels.Pages.Login
         }
         internal void LoginSucceed()
         {
+            AppData.Instance.User.Save();
             App.Current.MainPage = new RefreshDataPage();
         }
     }

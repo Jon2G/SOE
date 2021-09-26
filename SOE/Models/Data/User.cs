@@ -72,8 +72,8 @@ namespace SOE.Models.Data
 
         public void Save()
         {
-            AppData.Instance.LiteConnection.DeleteAll<User>();
-            AppData.Instance.LiteConnection.Insert(this);
+            AppData.Instance.LiteConnection.DeleteAll<User>(false);
+            AppData.Instance.LiteConnection.Insert(this,false);
             SchoolService.Save(this.School);
         }
         public Settings GetSettings()

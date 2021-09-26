@@ -76,7 +76,7 @@ namespace SOE.Saes
                     "No fue posible conectarse al SAES, verifique si el sitio esta activo", "Sin conexión");
                 return;
             }
-            await this.EvaluateJavaScriptAsync(@"window.onerror = function myErrorHandler(errorMsg, url, lineNumber) { console.log('Error occured: ' + errorMsg); return false; }");
+            await this.EvaluateJavaScript(@"window.onerror = function myErrorHandler(errorMsg, url, lineNumber) { console.log('Error occured: ' + errorMsg); return false; }");
             if (e.Url is null)
             {
                 await GoTo(AppData.Instance.User.School.HomePage);
@@ -182,7 +182,7 @@ namespace SOE.Saes
 
             if (!string.IsNullOrEmpty(sb.ToString()))
             {
-                string base_64 = await EvaluateJavaScriptAsync(sb.ToString());
+                string base_64 = await EvaluateJavaScript(sb.ToString());
                 if (string.IsNullOrEmpty(base_64))
                 {
                     return null;
@@ -219,6 +219,11 @@ namespace SOE.Saes
 
             return false;
         }
+        private async Task<string> EvaluateJavaScript(string script)
+        {
+            await Task.Delay(50);
+            return await EvaluateJavaScriptAsync(script);
+        }
 
         public async Task<bool> IsLoggedIn()
         {
@@ -226,18 +231,18 @@ namespace SOE.Saes
             try
             {
                 return
-                    !string.IsNullOrEmpty(await EvaluateJavaScriptAsync(
+                    !string.IsNullOrEmpty(await EvaluateJavaScript(
                         "var label= document.getElementById('ctl00_leftColumn_LoginNameSession'); if(label) label.innerHTML; else ''"));
             }
-            catch (Exception ex) { Log.Logger.Error(ex, "IsLoggedIn - {0}"); return false; }
+            catch (Exception ex) { Log.Logger.Error(ex, "IsLoggedIn"); return false; }
         }
         public async Task<string> GetCurrentUser()
         {
-            return await EvaluateJavaScriptAsync("document.getElementById('ctl00_leftColumn_LoginNameSession').innerHTML");
+            return await EvaluateJavaScript("document.getElementById('ctl00_leftColumn_LoginNameSession').innerHTML");
         }
         public async Task LogOut()
         {
-            await EvaluateJavaScriptAsync("document.getElementById('ctl00_leftColumn_LoginStatusSession').click();");
+            await EvaluateJavaScript("document.getElementById('ctl00_leftColumn_LoginStatusSession').click();");
             await Task.Delay(TimeSpan.FromSeconds(2)); //dale tiempo para redireccionar
             await GoTo(AppData.Instance.User.School.HomePage);
 
@@ -250,13 +255,13 @@ namespace SOE.Saes
                 Regex regex = new Regex("[\"\\\\]");
                 string Password = regex.Replace(AppData.Instance.User.Password, "\\");
                 //binding.captchaDisplayer.visibility = View.GONE
-                await this.EvaluateJavaScriptAsync(
+                await this.EvaluateJavaScript(
                     $"document.getElementById('ctl00_leftColumn_LoginUser_UserName').value = '{AppData.Instance.User.Boleta}';" +
                     $"document.getElementById('ctl00_leftColumn_LoginUser_Password').value = '{AppData.Instance.User.Password}';" +
                     $"document.getElementById('ctl00_leftColumn_LoginUser_CaptchaCodeTextBox').value ='{captcha}';"
                     );
                 await Task.Delay(100);
-                await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_leftColumn_LoginUser_LoginButton').click();");
+                await this.EvaluateJavaScript("document.getElementById('ctl00_leftColumn_LoginUser_LoginButton').click();");
                 await Task.Delay(TimeSpan.FromSeconds(2));
                 await GoTo(AppData.Instance.User.School.HomePage);
                 if (await IsLoggedIn())
@@ -325,8 +330,8 @@ namespace SOE.Saes
         public async Task GetName()
         {
             await GoTo(AlumnosPage);
-            AppData.Instance.User.Name = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_FormView1_nombrelabel').innerHTML;");
-            AppData.Instance.User.Boleta = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_leftColumn_LoginNameSession').innerHTML;");
+            AppData.Instance.User.Name = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_FormView1_nombrelabel').innerHTML;");
+            AppData.Instance.User.Boleta = await this.EvaluateJavaScript("document.getElementById('ctl00_leftColumn_LoginNameSession').innerHTML;");
         }
         private async Task<bool> GetSubjects()
         {
@@ -336,7 +341,7 @@ namespace SOE.Saes
             //{
             //    return;
             //}
-            string horario_html = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_GV_Horario').outerHTML");
+            string horario_html = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_GV_Horario').outerHTML");
             Unescape(ref horario_html);
             if (string.IsNullOrEmpty(horario_html))
             {
@@ -376,18 +381,18 @@ namespace SOE.Saes
         private async Task GetKardexInfo()
         {
             await GoTo(KardexPage);
-            string carrera = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_Lbl_Carrera').innerHTML");
+            string carrera = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_Lbl_Carrera').innerHTML");
             AppData.Instance.User.Career = carrera;
 
             Response response = await APIService.PostCareer(carrera, AppData.Instance.User.Boleta);
             if (response.ResponseResult == APIResponseResult.OK)
             {
-                AppData.Instance.LiteConnection.DeleteAll<Career>();
+                AppData.Instance.LiteConnection.DeleteAll<Career>(false);
                 AppData.Instance.LiteConnection.Insert(new Career()
                 {
                     Name = carrera,
                     Id = Convert.ToInt32(response.Message)
-                });
+                }, false);
             }
         }
         private async Task GetCitasReinscripcionInfo()
@@ -396,9 +401,9 @@ namespace SOE.Saes
             double creditos_totales = 0;
             double creditos_alumno = 0;
 
-            string creditos_carrera_html = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_CREDITOSCARRERA').outerHTML");
-            string alumno_html = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_alumno').outerHTML");
-            string cita_reinscripcion_html = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_grvEstatus_alumno').outerHTML");
+            string creditos_carrera_html = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_CREDITOSCARRERA').outerHTML");
+            string alumno_html = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_alumno').outerHTML");
+            string cita_reinscripcion_html = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_grvEstatus_alumno').outerHTML");
 
             Unescape(ref alumno_html);
             if (!string.IsNullOrEmpty(alumno_html))
@@ -452,7 +457,7 @@ namespace SOE.Saes
         {
             await Task.Yield();
             await GoTo(CalificacionesPage);
-            string grades_html = await this.EvaluateJavaScriptAsync("document.getElementById('ctl00_mainCopy_GV_Calif').outerHTML");
+            string grades_html = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_GV_Calif').outerHTML");
             Unescape(ref grades_html);
             if (string.IsNullOrEmpty(grades_html))
             {
@@ -479,11 +484,11 @@ namespace SOE.Saes
             }
             html = System.Text.RegularExpressions.Regex.Unescape(html);
         }
-        private async Task<string> _EvaluateJavaScriptAsync(string script)
+        private async Task<string> _EvaluateJavaScript(string script)
         {
             await Task.Delay(TimeSpan.FromSeconds(1)); //dale tiempo para cargar
             return
-                await this.EvaluateJavaScriptAsync(script);
+                await this.EvaluateJavaScript(script);
         }
 
     }

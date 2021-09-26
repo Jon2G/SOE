@@ -49,9 +49,7 @@ namespace SOE.Data
         public SQLiteConnection LiteConnection { get; private set; }
         private AppData()
         {
-            DotNetEnviroment.Load();
         }
-
         private static FileInfo LiteDbPath => new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SOE.db"));
 
 
@@ -79,14 +77,18 @@ namespace SOE.Data
         }
         public static void CreateDatabase()
         {
-            AppData.Instance.LiteConnection.CheckTables(
+            Type[] tables = new[]{
                 typeof(Teacher), typeof(Subject), typeof(User),
                 typeof(Career), typeof(ClassTime), typeof(Grade),
                 typeof(Credits), typeof(ToDo), typeof(Settings),
-                typeof(NotificationsHistory), typeof(Document),
-                typeof(DocumentPart), typeof(Archive),
-                typeof(Keeper), typeof(School), typeof(Reminder),
-                typeof(InscriptionDate));
+                typeof(Document), typeof(DocumentPart),
+                typeof(Archive), typeof(Keeper),
+                typeof(School), typeof(Reminder),
+                typeof(InscriptionDate)};
+            foreach (Type table in tables)
+            {
+                Instance.LiteConnection.CreateTable(table);
+            }
         }
 
     }

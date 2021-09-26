@@ -29,7 +29,7 @@ namespace SOE.Models.TaskFirst
         public void Save(Document origin)
         {
             this.IdDocumento = origin.Guid;
-            AppData.Instance.LiteConnection.Insert(this);
+            AppData.Instance.LiteConnection.Insert(this, false);
         }
 
         internal static IEnumerable<DocumentPart> GetDoc(Guid idDocument)

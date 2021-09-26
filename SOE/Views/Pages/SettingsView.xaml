@@ -36,7 +36,14 @@
             <Switch HorizontalOptions="EndAndExpand"
                     IsToggled="{Binding Settings.ShowTimelineBar}"/>
         </StackLayout>
-
+        <StackLayout Orientation="Horizontal">
+            <Label Text="{x:Static fonts:FontelloIcons.Eye}" FontFamily="{x:Static fonts:FontelloIcons.Font}" TextColor="{DynamicResource secondaryTextColor}"
+                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Start"/>
+            <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Text="Mostrar las tarjetas de tarea expandidas"  
+                   FontSize="15"  TextColor="{DynamicResource secondaryTextColor}"  HorizontalOptions="FillAndExpand"/>
+            <Switch HorizontalOptions="EndAndExpand"
+                    IsToggled="{Binding Settings.ExpandCards}"/>
+        </StackLayout>
 
         <StackLayout Margin="0,5" Spacing="0">
             <Label Text="Eliminar y actualizar datos" FontAttributes="Bold" FontSize="18"/>

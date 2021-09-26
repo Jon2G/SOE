@@ -30,6 +30,7 @@ namespace SOE.Views.Pages
         {
             Instance = this;
             InitializeComponent();
+            AppData.Instance.SAES = this.Saes;
         }
         protected override bool OnBackButtonPressed()
         {

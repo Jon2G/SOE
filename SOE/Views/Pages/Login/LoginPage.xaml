@@ -19,7 +19,7 @@
              xmlns:kit="clr-namespace:Kit;assembly=Kit">
              
     <ContentPage.BindingContext>
-        <login:LoginViewModel/>
+        <login:LoginViewModel x:Name="Model"/>
     </ContentPage.BindingContext>
     <ScrollView>
         <ContentView Background="{DynamicResource Background}">

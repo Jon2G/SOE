@@ -266,7 +266,7 @@ namespace SOEAWS.Controllers
         [HttpGet("ShareTodo/{ToDoGuid}")]
         public ActionResult<Response> ShareTodo(Guid ToDoGuid)
         {
-            TodoBase todo = TodoService.Find(ToDoGuid, this._logger,out string UserNick);
+            TodoBase todo = TodoService.Find(ToDoGuid, this._logger, out string UserNick);
             if (todo is null)
             {
                 return SOEWeb.Shared.Response.Error;
@@ -338,7 +338,7 @@ namespace SOEAWS.Controllers
         [HttpGet("ShareReminder/{ToDoGuid}")]
         public ActionResult<Response> ShareReminder(Guid ToDoGuid)
         {
-            ReminderBase todo = ReminderService.Find(ToDoGuid, this._logger,out string NickName);
+            ReminderBase todo = ReminderService.Find(ToDoGuid, this._logger, out string NickName);
 
             if (todo is null)
             {
@@ -359,7 +359,7 @@ namespace SOEAWS.Controllers
                 {
                     Classmates.Add(new Classmate(Convert.ToString(reader[0]), Convert.ToString(reader[1])));
                 }
-                ,new CommandConfig(){CommandType = CommandType.StoredProcedure },
+                , new CommandConfig() { CommandType = CommandType.StoredProcedure },
                 new SqlParameter("GROUP", Group)
                 , new SqlParameter("SUBJECT_ID", SubjectId)
                 , new SqlParameter("TEACHER_ID", TeacherId));
@@ -542,9 +542,9 @@ namespace SOEAWS.Controllers
             }
             if (guid == Guid.Empty)
             {
-                return new Response(APIResponseResult.NOT_READ,"Contacto no leido",guid.ToString("N"));
+                return new Response(APIResponseResult.NOT_READ, "Contacto no leido", guid.ToString("N"));
             }
-            return new Response(APIResponseResult.OK, "Ok",guid.ToString("N"));
+            return new Response(APIResponseResult.OK, "Ok", guid.ToString("N"));
         }
         [HttpGet("GetContacts/{SchoolId}/{UserId}")]
         public ActionResult<Response> GetContacts(int SchoolId, int UserId)
@@ -663,6 +663,55 @@ namespace SOEAWS.Controllers
                 this._logger.LogError(ex, "GetSchoolId");
             }
             return new Response(APIResponseResult.OK, "Ok", SchoolId.ToString());
+        }
+
+        [HttpGet("IsNickNameAvaible/{nickname}")]
+        public ActionResult<Response> IsNickNameAvaible(string nickname)
+        {
+            bool avaible = true;
+            if (!Validations.IsValidNickName(nickname))
+            {
+                return SOEWeb.Shared.Response.InvalidRequest;
+            }
+
+            try
+            {
+                avaible = WebData.Connection.Single<bool>(
+                    "SP_IsNickNameAvaible",
+                    CommandType.StoredProcedure
+                    , new SqlParameter("NICK_NAME", nickname));
+                WebData.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex, "IsNickNameAvaible");
+            }
+            return new Response(avaible ? APIResponseResult.YES : APIResponseResult.NO, "Ok");
+        }
+        [HttpGet("BoletaIsRegistered/{boleta}/{schoolId}")]
+        public ActionResult<Response> BoletaIsRegistered(string boleta, int schoolId)
+        {
+            bool registered = false;
+            if (!Validations.IsValidBoleta(boleta) || schoolId <= 0)
+            {
+                return SOEWeb.Shared.Response.InvalidRequest;
+            }
+
+            try
+            {
+                registered = WebData.Connection.Single<bool>(
+                    "SP_BoletaIsRegistered",
+                    CommandType.StoredProcedure
+                    , new SqlParameter("BOLETA", boleta)
+                    , new SqlParameter("SCHOOL_ID", schoolId));
+                WebData.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex, "IsNickNameAvaible");
+            }
+
+            return new Response(registered ? APIResponseResult.YES : APIResponseResult.NO, "Ok");
         }
     }
 }

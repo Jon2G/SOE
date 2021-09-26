@@ -32,7 +32,7 @@ namespace SOE.ViewModels.Pages.Login
                 this._NickName = value;
                 Raise(() => NickName);
                 ValidateProperty(value);
-                this.SignUpCommand.ChangeCanExecute();
+                this.SignUpCommand.RaiseCanExecuteChanged();
             }
         }
         private string _Email;
@@ -46,7 +46,7 @@ namespace SOE.ViewModels.Pages.Login
                 _Email = value;
                 Raise(() => Email);
                 ValidateProperty(value);
-                this.SignUpCommand.ChangeCanExecute();
+                this.SignUpCommand.RaiseCanExecuteChanged();
             }
         }
         private string _Password;
@@ -73,13 +73,14 @@ namespace SOE.ViewModels.Pages.Login
                 _SOEPassword = value;
                 Raise(() => SOEPassword);
                 ValidateProperty(value);
-                this.SignUpCommand.ChangeCanExecute();
+                ValidateProperty(this.SOEConfirmPassword, nameof(SOEConfirmPassword));
+                this.SignUpCommand.RaiseCanExecuteChanged();
             }
         }
         private string _SOEConfirmPassword;
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Por favor confirme su contraseña")]
-        [Equals(nameof(SOEPassword), ErrorMessage = "Las contraseñas no coinciden")]
+        //[Equals(nameof(SOEPassword), ErrorMessage = "Las contraseñas no coinciden")]
         [Compare(nameof(SOEPassword), ErrorMessage = "Las contraseñas no coinciden")]
         public string SOEConfirmPassword
         {
@@ -89,7 +90,8 @@ namespace SOE.ViewModels.Pages.Login
                 _SOEConfirmPassword = value;
                 Raise(() => SOEConfirmPassword);
                 ValidateProperty(value);
-                this.SignInCommand.RaiseCanExecuteChanged();
+                ValidateProperty(this.SOEPassword, nameof(SOEPassword));
+                this.SignUpCommand.RaiseCanExecuteChanged();
 
             }
         }
@@ -119,7 +121,7 @@ namespace SOE.ViewModels.Pages.Login
             {
                 _Captcha = value;
                 Raise(() => Captcha);
-                this.SignUpCommand.ChangeCanExecute();
+                this.SignUpCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -137,8 +139,8 @@ namespace SOE.ViewModels.Pages.Login
         private ICommand _RefreshCaptchaCommand;
         public ICommand RefreshCaptchaCommand => _RefreshCaptchaCommand ??= new Command(RefreshCaptcha);
 
-        private Command _SignUpCommand;
-        public Command SignUpCommand => _SignUpCommand ??= new Command(SignUp, () => SignUpCanExecute);
+        private AsyncCommand _SignUpCommand;
+        public AsyncCommand SignUpCommand => _SignUpCommand ??= new AsyncCommand(SignUp, (o) => SignUpCanExecute);
         private AsyncCommand _SignInCommand;
         public AsyncCommand SignInCommand => _SignInCommand ??= new AsyncCommand(SignIn, SignInCanExecute);
 
@@ -157,7 +159,7 @@ namespace SOE.ViewModels.Pages.Login
             if (await AppData.Instance.SAES.LogIn(this.Captcha, this.AttemptCount, false))
             {
                 AppData.Instance.SAES.GetName().SafeFireAndForget();
-                LoginSucceed();
+                LoginSucceed().SafeFireAndForget();
             }
             else
             {
@@ -202,17 +204,30 @@ namespace SOE.ViewModels.Pages.Login
             FirstForm.FadeTo(0, 500).SafeFireAndForget();
             FirstForm.IsEnabled = false;
 
-            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Validando información"))
+            Acr.UserDialogs.UserDialogs.Instance.ShowLoading("Validando información");
+            if (await APIService.BoletaIsRegistered(Boleta, AppData.Instance.User.School))
             {
-                if (await APIService.UserExists(Boleta))
-                {
-                    App.Current.MainPage = new LoginPage();
-                }
+                await Acr.UserDialogs.UserDialogs.Instance.AlertAsync(
+                     $"Este usuario ya esta registrado en esta institución, inicie sesión.");
+                var loginPage = new LoginPage();
+                loginPage.SetUser(Boleta);
+                App.Current.MainPage = loginPage;
             }
+            Acr.UserDialogs.UserDialogs.Instance.HideLoading();
 
         }
-        private async void SignUp()
+        private async Task SignUp()
         {
+            await Task.Yield();
+            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Validando información"))
+            {
+                if (!await APIService.IsNickNameAvaible(NickName))
+                {
+                    Acr.UserDialogs.UserDialogs.Instance.Alert(
+                        $"El nickname '{NickName}' ya esta en uso por otro usuario.\nPor favor escoge uno diferente.");
+                    return;
+                }
+            }
             AppData.Instance.User.NickName = NickName;
             Response response = Response.Error;
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Iniciando sesión..."))

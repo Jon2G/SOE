@@ -21,7 +21,7 @@
     </ContentPage.BindingContext>
 <Grid>
     <saes:SAES x:Name="Saes" InputTransparent="True" Opacity="1" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
-    <StackLayout VerticalOptions="FillAndExpand" Spacing="0" Opacity="0.5">
+    <StackLayout VerticalOptions="FillAndExpand" Spacing="0" Opacity="1">
             <BoxView HeightRequest="20" Background="{DynamicResource PrimaryColor}">
                 <BoxView.IsVisible>
                     <OnPlatform x:TypeArguments="x:Boolean">

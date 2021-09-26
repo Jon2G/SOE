@@ -70,5 +70,10 @@ namespace SOE.Views.Pages.Login
                 await Task.Delay(1000);
             }
         }
+
+        public void SetUser(string user)
+        {
+            this.Model.User = user;
+        }
     }
 }

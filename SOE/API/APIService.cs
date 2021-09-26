@@ -126,53 +126,53 @@ namespace SOE.API
             }
             return JsonConvert.DeserializeObject<Response>(result.Response);
         }
-        internal static async Task<Response> DownloadSharedTodo(Guid TodoGuid, bool IncludeFiles)
+        internal static async Task<Response> DownloadSharedTodo(Guid todoGuid, bool includeFiles)
         {
-            if (Guid.Empty == TodoGuid)
+            if (Guid.Empty == todoGuid)
             {
                 return Response.Error;
             }
-            WebService WebService = new WebService(Url);
-            Kit.Services.Web.ResponseResult result = await WebService.GET("ShareTodo",
-                TodoGuid.ToString("N"));
+            WebService webService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = await webService.GET("ShareTodo",
+                todoGuid.ToString("N"));
             if (result.Response == "ERROR")
             {
                 return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
             }
-            var response = JsonConvert.DeserializeObject<Response>(result.Response);
+            Response response = JsonConvert.DeserializeObject<Response>(result.Response);
             if (!string.IsNullOrEmpty(response.Extra))
             {
                 ToDo todo = JsonConvert.DeserializeObject<ToDo>(response.Extra);
-                List<PhotoArchive> Photos = null;
-                if (IncludeFiles)
+                List<PhotoArchive> photos = null;
+                if (includeFiles)
                 {
-                    Photos = new List<PhotoArchive>();
-                    foreach (int Id in await GetArchieveIds(todo.Guid))
+                    photos = new List<PhotoArchive>();
+                    foreach (int id in await GetArchiveIds(todo.Guid))
                     {
-                        var file_result = await DownloadPictureById(Id);
-                        Photos.Add(new PhotoArchive(file_result, FileType.Photo));
+                        string fileResult = await DownloadPictureById(id);
+                        photos.Add(new PhotoArchive(fileResult, FileType.Photo));
                     }
                 }
-                await ToDo.Save(todo, Photos);
+                await ToDo.Save(todo, photos);
                 Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
                     PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction));
             }
             return response;
         }
-        internal static async Task<Response> DownloadSharedReminder(Guid ReminderGuide)//////Movimiento
+        internal static async Task<Response> DownloadSharedReminder(Guid reminderGuide)
         {
-            if (Guid.Empty == ReminderGuide)
+            if (Guid.Empty == reminderGuide)
             {
                 return Response.Error;
             }
-            WebService WebService = new WebService(Url);
-            Kit.Services.Web.ResponseResult result = await WebService.GET("ShareReminder",
-                ReminderGuide.ToString("N"));
+            WebService webService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = await webService.GET("ShareReminder",
+                reminderGuide.ToString("N"));
             if (result.Response == "ERROR")
             {
                 return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
             }
-            var response = JsonConvert.DeserializeObject<Response>(result.Response);
+            Response response = JsonConvert.DeserializeObject<Response>(result.Response);
             if (!string.IsNullOrEmpty(response.Extra))
             {
                 Reminder reminder = JsonConvert.DeserializeObject<Reminder>(response.Extra);
@@ -185,39 +185,41 @@ namespace SOE.API
             }
             return response;
         }
-        internal static async Task<List<int>> GetArchieveIds(Guid Guid)
+
+        private static async Task<List<int>> GetArchiveIds(Guid guid)
         {
-            if (Guid == Guid.Empty)
+            if (guid == Guid.Empty)
             {
                 return new List<int>();
             }
-            WebService WebService = new WebService(Url);
-            Kit.Services.Web.ResponseResult result = await WebService.GET("GetArchieveIds", Guid.ToString("N"));
+            WebService webService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = await webService.GET("GetArchieveIds", guid.ToString("N"));
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
             {
                 return new List<int>();
             }
-            var response = JsonConvert.DeserializeObject<Response>(result.Response);
+            Response response = JsonConvert.DeserializeObject<Response>(result.Response);
             return new List<int>(JsonConvert.DeserializeObject<int[]>(response.Extra));
         }
-        internal static async Task<string> DownloadPictureById(int Id)
+
+        private static async Task<string> DownloadPictureById(int id)
         {
             WebService webService = new WebService(Url);
-            FileInfo file = await Keeper.Save(webService.DownloadFile("GetArchieveById", Id.ToString()));
+            FileInfo file = await Keeper.Save(webService.DownloadFile("GetArchieveById", id.ToString()));
             return file.FullName;
         }
-        public static async Task<Response> PostToDo(TodoBase Todo)
+        public static async Task<Response> PostToDo(TodoBase todo)
         {
             await Task.Yield();
-            if (Todo is null || string.IsNullOrEmpty(Todo.Title)
-                            || Guid.Empty == Todo.Guid
-                            || Todo.Subject is null
-                            || Todo.Subject.Id <= 0
-                            || Todo.Subject.IdTeacher <= 0)
+            if (todo is null || string.IsNullOrEmpty(todo.Title)
+                            || Guid.Empty == todo.Guid
+                            || todo.Subject is null
+                            || todo.Subject.Id <= 0
+                            || todo.Subject.IdTeacher <= 0)
             {
                 return Response.Error;
             }
-            string json_todo = Todo.JsonSerializeObject<TodoBase>();
+            string json_todo = todo.JsonSerializeObject<TodoBase>();
             WebService WebService = new WebService(Url);
             Kit.Services.Web.ResponseResult result = await WebService.PostAsBody(
                 System.Text.Encoding.UTF8.GetBytes(json_todo),
@@ -318,8 +320,8 @@ namespace SOE.API
 
         internal static async Task<bool> ReportLink(Link link, ReportReason reason)
         {
-            WebService WebService = new WebService(Url);
-            Kit.Services.Web.ResponseResult result = await WebService.GET(
+            WebService webService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = await webService.GET(
                 "ReportLink",
                 AppData.Instance.User.Id.ToString(),
                 link.Guid.ToString("N"),
@@ -330,35 +332,35 @@ namespace SOE.API
             }
             else
             {
-                var r = JsonConvert.DeserializeObject<Response>(result.Response);
+                Response r = JsonConvert.DeserializeObject<Response>(result.Response);
                 return r.ResponseResult == APIResponseResult.OK;
             }
         }
-        internal static async Task<bool> DeleteLink(Link link, int UserId)
+        internal static async Task<bool> DeleteLink(Link link, int userId)
         {
-            WebService WebService = new WebService(Url);
-            Kit.Services.Web.ResponseResult result = await WebService.GET("DeleteLink",
-                UserId.ToString(), link.Guid.ToString("N"));
+            WebService webService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = await webService.GET("DeleteLink",
+                userId.ToString(), link.Guid.ToString("N"));
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
             {
                 return false;
             }
             else
             {
-                var r = JsonConvert.DeserializeObject<Response>(result.Response);
+                Response r = JsonConvert.DeserializeObject<Response>(result.Response);
                 return r.ResponseResult == APIResponseResult.OK;
             }
         }
-        internal static async Task<List<Link>> GetLinks(string group, int TeacherId, int SubjectId)
+        internal static async Task<List<Link>> GetLinks(string group, int teacherId, int subjectId)
         {
             await Task.Yield();
-            if (string.IsNullOrEmpty(group) || TeacherId <= 0 || SubjectId <= 0)
+            if (string.IsNullOrEmpty(group) || teacherId <= 0 || subjectId <= 0)
             {
                 return new List<Link>();
             }
-            WebService WebService = new WebService(Url);
-            Kit.Services.Web.ResponseResult result = await WebService.GET("GetLinks",
-                group, TeacherId.ToString(), SubjectId.ToString(), AppData.Instance.User.Id.ToString());
+            WebService webService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = await webService.GET("GetLinks",
+                group, teacherId.ToString(), subjectId.ToString(), AppData.Instance.User.Id.ToString());
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
             {
                 return new List<Link>();
@@ -366,7 +368,7 @@ namespace SOE.API
             Response response = JsonConvert.DeserializeObject<Response>(result.Response);
             return new List<Link>(JsonConvert.DeserializeObject<Link[]>(response.Extra));
         }
-        public static async Task<Response> PostContact(SchoolContact contact, User User)
+        public static async Task<Response> PostContact(SchoolContact contact, User user)
         {
             await Task.Yield();
             if (string.IsNullOrEmpty(contact.Name))
@@ -375,23 +377,21 @@ namespace SOE.API
             }
             if (!string.IsNullOrEmpty(contact.Url))
             {
-                if (!UriExtensions.IsValidUrl(contact.Url, out Uri uri))
+                if (!contact.Url.IsValidUrl(out Uri uri))
                     return Response.InvalidRequest;
                 contact.Url = uri.AbsoluteUri;
             }
-
-
             string jsonContact = JsonConvert.SerializeObject(contact);
-            WebService WebService = new WebService(Url);
+            WebService webService = new WebService(Url);
             Kit.Services.Web.ResponseResult result =
-                await WebService.PostAsBody(
+                await webService.PostAsBody(
                     byteArray: Encoding.UTF8.GetBytes(jsonContact),
                     method: "PostContact",
                     query: null,
                     parameters: new[]
                     {
-                        User.Boleta,
-                        User.School.Id.ToString()
+                        user.Boleta,
+                        user.School.Id.ToString()
                     });
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
             {
@@ -400,16 +400,16 @@ namespace SOE.API
             return JsonConvert.DeserializeObject<Response>(result.Response);
 
         }
-        internal static async Task<List<ContactsByDeparment>> GetContacts(int SchoolId)
+        internal static async Task<List<ContactsByDeparment>> GetContacts(int schoolId)
         {
             await Task.Yield();
-            if (SchoolId <= 0)
+            if (schoolId <= 0)
             {
                 return new List<ContactsByDeparment>();
             }
-            WebService WebService = new WebService(Url);
-            Kit.Services.Web.ResponseResult result = await WebService.GET("GetContacts",
-                 SchoolId.ToString(), AppData.Instance.User.Id.ToString());
+            WebService webService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = await webService.GET("GetContacts",
+                 schoolId.ToString(), AppData.Instance.User.Id.ToString());
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
             {
                 return new List<ContactsByDeparment>();
@@ -419,8 +419,8 @@ namespace SOE.API
         }
         internal static async Task<bool> ReportContact(SchoolContact contact, ReportReason reason)
         {
-            WebService WebService = new WebService(Url);
-            Kit.Services.Web.ResponseResult result = await WebService.GET(
+            WebService webService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = await webService.GET(
                 "ReportContact",
                 contact.Guid.ToString("N"),
                 ((int)reason).ToString(),
@@ -431,49 +431,68 @@ namespace SOE.API
             }
             else
             {
-                var r = JsonConvert.DeserializeObject<Response>(result.Response);
+                Response r = JsonConvert.DeserializeObject<Response>(result.Response);
                 return r.ResponseResult == APIResponseResult.OK;
             }
         }
-        internal static async Task<bool> UserExists(string Boleta)
+        internal static async Task<bool> IsNickNameAvaible(string nickname)
         {
-            WebService WebService = new WebService(Url);
+            await Task.Yield();
+            if (!SOEWeb.Shared.Validations.IsValidNickName(nickname))
+            {
+                return true;
+            }
+            WebService webService = new WebService(Url);
             Kit.Services.Web.ResponseResult result =
-                await WebService.GET(nameof(UserExists), Boleta);
+                await webService.GET(nameof(IsNickNameAvaible), nickname);
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
             {
-                return false;
+                return true;
             }
-            else
-            {
-                var r = JsonConvert.DeserializeObject<Response>(result.Response);
-                return r.ResponseResult == APIResponseResult.YES;
-            }
+            Response r = JsonConvert.DeserializeObject<Response>(result.Response);
+            return r.ResponseResult == APIResponseResult.YES;
 
         }
-        internal static async Task<bool> DeleteContact(int UserId, SchoolContact contact)
+
+        internal static async Task<bool> BoletaIsRegistered(string boleta, School school)
         {
-            WebService WebService = new WebService(Url);
-            Kit.Services.Web.ResponseResult result = await WebService.GET("DeleteContact",
-                UserId.ToString(), contact.Guid.ToString("N"));
+            await Task.Yield();
+            if (!SOEWeb.Shared.Validations.IsValidBoleta(boleta) || school is null || school.Id <= 0)
+            {
+                return false;
+            }
+            WebService webService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result =
+                await webService.GET(nameof(BoletaIsRegistered), boleta, school.Id.ToString());
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+            {
+                return false;
+            }
+            Response r = JsonConvert.DeserializeObject<Response>(result.Response);
+            return r.ResponseResult == APIResponseResult.YES;
+        }
+
+        internal static async Task<bool> DeleteContact(int userId, SchoolContact contact)
+        {
+            WebService webService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result = await webService.GET("DeleteContact",
+                userId.ToString(), contact.Guid.ToString("N"));
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
             {
                 return false;
             }
             else
             {
-                var r = JsonConvert.DeserializeObject<Response>(result.Response);
+                Response r = JsonConvert.DeserializeObject<Response>(result.Response);
                 return r.ResponseResult == APIResponseResult.OK;
             }
         }
-
-
         internal static async Task<int> GetSchoolId(User user)
         {
             await Task.Yield();
-            WebService WebService = new WebService(Url);
+            WebService webService = new WebService(Url);
             Kit.Services.Web.ResponseResult result =
-                await WebService.GET("GetSchoolId", user.Id.ToString());
+                await webService.GET("GetSchoolId", user.Id.ToString());
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
             {
                 return -1;
@@ -485,7 +504,5 @@ namespace SOE.API
             }
             return -1;
         }
-
-
     }
 }

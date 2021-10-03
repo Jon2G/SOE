@@ -32,10 +32,7 @@ namespace SOE.Views.Pages.Login
             _highlightForm = new HighlightForm(settings);
         }
 
-        void EntryFocused(object sender, FocusEventArgs e)
-        {
-            _highlightForm.HighlightElement((View)sender, _skCanvasView, _formLayout);
-        }
+        
 
         void SkCanvasViewPaintSurfaceRequested(object sender, SKPaintSurfaceEventArgs e)
         {

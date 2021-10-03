@@ -57,11 +57,10 @@ namespace SOE.ViewModels.ViewItems
             {
                 await _ExportToPdf();
             }
+            Acr.UserDialogs.UserDialogs.Instance.HideLoading();
         }
-        private async Task _ExportToPdf()
-        {
-            await Shell.Current.Navigation.PushAsync(new WebViewPage(ToHTML()));
-        }
+        private Task _ExportToPdf() => Shell.Current.Navigation.PushAsync(new WebViewPage(ToHTML()));
+        
 
         private string ToHTML()
         {

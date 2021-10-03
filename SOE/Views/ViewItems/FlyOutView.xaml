@@ -38,7 +38,10 @@
                 </StackLayout>
 </StackLayout>
 
+<StackLayout Background="{DynamicResource Background}">
 
+
+</StackLayout>
             <TableView Intent="Menu" Background="{DynamicResource Background}">
                 <TableRoot>
                     <TableSection Title="Menú"  TextColor="{StaticResource AccentColor}">

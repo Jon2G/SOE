@@ -170,12 +170,12 @@
                                        HorizontalTextAlignment="Center"/>
                                 <Label Text="Te invitamos a conmezar este directorio." HorizontalOptions="Center" FontSize="20" FontAttributes="Bold"
                                    HorizontalTextAlignment="Center"/>
-                                <Image HeightRequest="50">
+                                <Image HeightRequest="50" Margin="10">
                                     <Image.Source>
                                         <FontImageSource
                                             FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                             Glyph="{x:Static fonts:FontelloIcons.HappyTea }"
-                                            Color="Black"/>
+                                            Color="{AppThemeBinding Dark=White,Light=Black}"/>
                                     </Image.Source>
                                 </Image>
                             </StackLayout>

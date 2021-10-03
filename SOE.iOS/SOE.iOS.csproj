@@ -70,8 +70,11 @@
     <MtouchI18n>west</MtouchI18n>
     <MtouchFastDev>false</MtouchFastDev>
     <IOSDebugOverWiFi>false</IOSDebugOverWiFi>
-    <MtouchExtraArgs>
-    </MtouchExtraArgs>
+    <MtouchExtraArgs>--interpreter --registrar:static</MtouchExtraArgs>
+    <MtouchSdkVersion>14.5</MtouchSdkVersion>
+    <DeviceSpecificBuild>false</DeviceSpecificBuild>
+    <CodesignExtraArgs>
+    </CodesignExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -259,6 +262,12 @@
     </PackageReference>
     <PackageReference Include="sqlite-net">
       <Version>1.6.292</Version>
+    </PackageReference>
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3">
+      <Version>2.0.6</Version>
+    </PackageReference>
+    <PackageReference Include="SQLitePCLRaw.bundle_green">
+      <Version>2.0.6</Version>
     </PackageReference>
     <PackageReference Include="System.Management">
       <Version>5.0.0</Version>

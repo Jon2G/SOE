@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AsyncAwaitBestPractices.MVVM;
+using Kit.Forms.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -29,12 +31,12 @@ namespace SOE.ViewModels.ViewItems
             => _FlyOutCommand ??= new Command(OpenFlyOut);
 
         private void OpenFlyOut()
-        { 
-  AppShell.OpenFlyout(); 
+        {
+            AppShell.OpenFlyout();
         }
         public ScheduleMainViewModel()
         {
-            this.ExportToPdfCommand = new Command(ExportToPdf);
+            this.ExportToPdfCommand = new AsyncCommand(ExportToPdf);
             this.UpateOffsetTimer = new Timer(CalculateTimeLineOffset);
             WeekDays = new ObservableCollection<SheduleDay>();
             WeekHours = new ObservableCollection<Hour>();
@@ -47,12 +49,13 @@ namespace SOE.ViewModels.ViewItems
             WeekDays = new ObservableCollection<SheduleDay>();
             WeekHours = new ObservableCollection<Hour>();
             GetWeek();
-            Raise(()=> WeekDays);
-            Raise(()=>WeekHours);
+            Raise(() => WeekDays);
+            Raise(() => WeekHours);
         }
 
-        private async void ExportToPdf()
+        private async Task ExportToPdf()
         {
+            await Task.Yield();
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Generando horrario..."))
             {
                 await _ExportToPdf();
@@ -60,6 +63,11 @@ namespace SOE.ViewModels.ViewItems
         }
         private async Task _ExportToPdf()
         {
+            if (!await Permisos.RequestStorage())
+            {
+                Acr.UserDialogs.UserDialogs.Instance.Alert(
+                    "Por favor permita el acceso al almacenamiento para poder exportar su horario a pdf desde los ajustes de su dispositivo");
+            }
             await Shell.Current.Navigation.PushAsync(new WebViewPage(ToHTML()));
         }
 
@@ -280,7 +288,7 @@ namespace SOE.ViewModels.ViewItems
                 }
             }
 
-            ClassSquare FirstClass=null;
+            ClassSquare FirstClass = null;
             //Rellenar los espacios entre clases
             foreach (SheduleDay day in WeekDays)
             {
@@ -303,7 +311,7 @@ namespace SOE.ViewModels.ViewItems
                         day.Class.Insert(i, FirstClass);
                         continue;
                     }
-                    FirstClass = day.Class[i];            
+                    FirstClass = day.Class[i];
                 }
             }
 

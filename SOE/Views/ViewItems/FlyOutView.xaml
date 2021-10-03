@@ -16,7 +16,7 @@
         <viewItems:FlyOutViewModel x:Name="Model"/>
     </ContentView.BindingContext>
     <ContentView.Content>
-        <StackLayout Background="{StaticResource PrimaryColor}" Spacing="0" Padding="0">
+        <StackLayout Background="{StaticResource PrimaryColor}" Spacing="0" Padding="3">
             <StackLayout BindingContext="{Binding User, Source={x:Static data1:AppData.Instance}}" 
                          x:DataType="data:User" Padding="5" Orientation="Horizontal">
                 <views:AvatarView BindingContext="{x:Reference Model}" 
@@ -37,10 +37,10 @@
                     <Label  Text="{Binding Career}"   FontSize="14" FontAttributes="Bold" VerticalOptions="Center" TextColor="White"/>
                 </StackLayout>
 </StackLayout>
-
-<StackLayout Background="{DynamicResource Background}">
-                <Frame VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
-                    <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+<ScrollView VerticalOptions="FillAndExpand" >
+    <StackLayout Background="{DynamicResource Background}" Spacing="5" Margin="3" VerticalOptions="FillAndExpand">
+                <Frame VerticalOptions="Start" HorizontalOptions="FillAndExpand" Padding="3" Margin="1">
+                    <StackLayout Margin="1" Padding="3" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding UserCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
                         </StackLayout.GestureRecognizers>
@@ -50,8 +50,8 @@
                         <Label  Margin="10,0,0,0" Text=" Perfil" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                     </StackLayout>
                </Frame>
-                <Frame VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" >
-                    <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand" >
+                <Frame VerticalOptions="Start" HorizontalOptions="FillAndExpand" Padding="3" Margin="1"> 
+                    <StackLayout Margin="1" Padding="3" Orientation="Horizontal" HorizontalOptions="FillAndExpand" >
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ComingCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
                         </StackLayout.GestureRecognizers>
@@ -61,8 +61,8 @@
                         <Label  Margin="10,0,0,0" Text=" Directorio" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                     </StackLayout>
                </Frame>
-                <Frame VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" >
-                    <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Frame VerticalOptions="Start" HorizontalOptions="FillAndExpand" Padding="3" Margin="1"> 
+                    <StackLayout Margin="1" Padding="3" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding HorarioCommand}"/>
                         </StackLayout.GestureRecognizers>
@@ -72,8 +72,8 @@
                         <Label Margin="10,0,0,0" Text=" Horario" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                     </StackLayout>
                </Frame>
-                <Frame VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
-                    <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Frame VerticalOptions="Start" HorizontalOptions="FillAndExpand" Padding="3" Margin="1">
+                    <StackLayout Margin="1" Padding="3" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding TareasCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
                         </StackLayout.GestureRecognizers>
@@ -83,8 +83,8 @@
                         <Label  Margin="10,0,0,0" Text=" Tareas" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                     </StackLayout>
                </Frame>
-                <Frame VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
-                    <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Frame VerticalOptions="Start" HorizontalOptions="FillAndExpand" Padding="3" Margin="1">
+                    <StackLayout Margin="1" Padding="3" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding PdfCalendarCommand}" 
                                                           CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
@@ -95,8 +95,8 @@
                         <Label  Margin="10,0,0,0" Text=" Calendario Escolar" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                     </StackLayout>
                </Frame>
-                <Frame VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" >
-                    <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Frame VerticalOptions="Start" HorizontalOptions="FillAndExpand" Padding="3" Margin="1"> 
+                    <StackLayout Margin="1" Padding="3" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding SettingCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
                         </StackLayout.GestureRecognizers>
@@ -106,8 +106,8 @@
                         <Label  Margin="10,0,0,0" Text=" Ajustes" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                     </StackLayout>
                </Frame>
-                <Frame VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" >
-                    <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Frame VerticalOptions="Start" HorizontalOptions="FillAndExpand" Padding="3" Margin="1"> 
+                    <StackLayout Margin="1" Padding="3" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding AboutUsCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
                         </StackLayout.GestureRecognizers>
@@ -117,8 +117,8 @@
                         <Label  Margin="10,0,0,0" Text=" Acerca de..." FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                     </StackLayout>
                </Frame>
-                <Frame VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" >
-                    <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Frame VerticalOptions="Start" HorizontalOptions="FillAndExpand" Padding="3" Margin="1"> 
+                    <StackLayout Margin="1" Padding="3" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding PrivacityCommand}" 
                                                           CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
@@ -131,11 +131,13 @@
                </Frame>
 
             </StackLayout>
+</ScrollView>
+
             <!--<TableView Intent="Menu" Background="{DynamicResource Background}">
                 <TableRoot>
                     <TableSection Title="Menú"  TextColor="{StaticResource AccentColor}">
                         <ViewCell>
-                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <StackLayout Margin="1" Padding="3" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding UserCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
                                 </StackLayout.GestureRecognizers>
@@ -146,7 +148,7 @@
                             </StackLayout>
                         </ViewCell>
                         <ViewCell >
-                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand" >
+                            <StackLayout Margin="1" Padding="3" Orientation="Horizontal" HorizontalOptions="FillAndExpand" >
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding ComingCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
                                 </StackLayout.GestureRecognizers>
@@ -157,7 +159,7 @@
                             </StackLayout>
                         </ViewCell>
                         <ViewCell >
-                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <StackLayout Margin="1" Padding="3" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding HorarioCommand}"/>
                                 </StackLayout.GestureRecognizers>
@@ -168,7 +170,7 @@
                             </StackLayout>
                         </ViewCell>
                         <ViewCell>
-                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <StackLayout Margin="1" Padding="3" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding TareasCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
                                 </StackLayout.GestureRecognizers>
@@ -179,7 +181,7 @@
                             </StackLayout>
                         </ViewCell>
                         <ViewCell>
-                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <StackLayout Margin="1" Padding="3" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding PdfCalendarCommand}" 
                                                           CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
@@ -192,7 +194,7 @@
                         </ViewCell>
                         --><!--<ViewCell >
 
-                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <StackLayout Margin="1" Padding="3" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding ComingCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
                                 </StackLayout.GestureRecognizers>
@@ -203,7 +205,7 @@
                             </StackLayout>
                         </ViewCell>--><!--
                         <ViewCell >
-                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <StackLayout Margin="1" Padding="3" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding SettingCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
                                 </StackLayout.GestureRecognizers>
@@ -214,7 +216,7 @@
                             </StackLayout>
                         </ViewCell>
                         <ViewCell >
-                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <StackLayout Margin="1" Padding="3" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding AboutUsCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
                                 </StackLayout.GestureRecognizers>
@@ -225,7 +227,7 @@
                             </StackLayout>
                         </ViewCell>
                         <ViewCell >
-                            <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <StackLayout Margin="1" Padding="3" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding PrivacityCommand}" 
                                                           CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>

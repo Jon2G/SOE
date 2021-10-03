@@ -55,32 +55,38 @@ namespace SOE.Views.Pages
         private async Task OnAppearingAsync()
         {
             await Task.Yield();
-            if (this.Model.SelectedIndex <= 0)
+            try
             {
-                Dispatcher.BeginInvokeOnMainThread(() =>
+                if (this.Model.SelectedIndex <= 0)
                 {
-                    this.Model.SelectedIndex = 1;
-                });
-            }
-            await this.Model.OnAppearing();
-            DependencyService.Get<IStartNotificationsService>()?.StartNotificationsService();
-            if (Device.RuntimePlatform == Device.iOS)
-            {
-                var appTrackingTransparencyPermission = DependencyService.Get<IAppTrackingTransparencyPermission>();
-                var status = await appTrackingTransparencyPermission.CheckStatusAsync();
-                switch (status)
+                    void CenterCarrousel()
+                    {
+                        try { this.Model.SelectedIndex = 1; } catch (Exception ex) { Log.Logger.Error(ex, "CenterCarrousel"); }
+
+                    }
+                    Dispatcher.BeginInvokeOnMainThread(CenterCarrousel);
+                }
+                await this.Model.OnAppearing();
+                DependencyService.Get<IStartNotificationsService>()?.StartNotificationsService();
+                if (Device.RuntimePlatform == Device.iOS)
                 {
-                    case PermissionStatus.Denied:
-                    case PermissionStatus.Granted:
-                        return;
-                    case PermissionStatus.Disabled:
-                    case PermissionStatus.Unknown:
-                        appTrackingTransparencyPermission.RequestAsync((s) => { });
-                        break;
+                    var appTrackingTransparencyPermission = DependencyService.Get<IAppTrackingTransparencyPermission>();
+                    var status = await appTrackingTransparencyPermission.CheckStatusAsync();
+                    switch (status)
+                    {
+                        case PermissionStatus.Denied:
+                        case PermissionStatus.Granted:
+                            return;
+                        case PermissionStatus.Disabled:
+                        case PermissionStatus.Unknown:
+                            appTrackingTransparencyPermission.RequestAsync((s) => { });
+                            break;
+                    }
                 }
             }
-        }
+            catch (Exception ex) { Log.Logger.Error(ex, "CenterCarrousel"); this.DisplayAlert("Error", ex.ToString(), "Ok").SafeFireAndForget(); }
 
+        }
         public static void ResponseTo(IActionResponse PendingAction) =>
             App.Current.Dispatcher.BeginInvokeOnMainThread(action: () => Execute(PendingAction).SafeFireAndForget());
         private static async Task Execute(IActionResponse pendingAction)

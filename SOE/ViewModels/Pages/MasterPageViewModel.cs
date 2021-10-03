@@ -59,7 +59,7 @@ namespace SOE.ViewModels.Pages
             {
                 new SchoolGrades(),
                 new MainView(),
-                new ScheduleViewMain()
+               new ScheduleViewMain()
             };
             SelectedIndex = 1;
             return this._Views;

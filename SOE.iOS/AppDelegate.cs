@@ -1,5 +1,4 @@
-﻿using Firebase.Analytics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Foundation;
@@ -8,6 +7,8 @@ using UIKit;
 using Xamarin.Forms.Platform.iOS;
 
 [assembly:Preserve(typeof(Firebase.Core.App))]
+[assembly:Preserve(typeof(SOE.App))]
+[assembly:Preserve(typeof(Kit.iOS.Tools))]
 namespace SOE.iOS
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
@@ -30,8 +31,6 @@ namespace SOE.iOS
         {
             bool result = base.FinishedLaunching(app, options);
             Firebase.Core.App.Configure();
-            var instance = Firebase.Installations.Installations.DefaultInstance;
-            Analytics.SetAnalyticsCollectionEnabled(true);
             CardsViewRenderer.Preserve();
             return result;
         }

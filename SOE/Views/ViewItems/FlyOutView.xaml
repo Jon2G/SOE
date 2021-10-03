@@ -39,10 +39,99 @@
 </StackLayout>
 
 <StackLayout Background="{DynamicResource Background}">
+                <Frame VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
+                    <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding UserCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
+                        </StackLayout.GestureRecognizers>
+                        <Label Text="{x:Static fonts:FontelloIcons.User}" 
+                                       FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                       FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        <Label  Margin="10,0,0,0" Text=" Perfil" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                    </StackLayout>
+               </Frame>
+                <Frame VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" >
+                    <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand" >
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ComingCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
+                        </StackLayout.GestureRecognizers>
+                        <Label Text="{x:Static fonts:FontelloIcons.AddressBook}" 
+                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        <Label  Margin="10,0,0,0" Text=" Directorio" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                    </StackLayout>
+               </Frame>
+                <Frame VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" >
+                    <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding HorarioCommand}"/>
+                        </StackLayout.GestureRecognizers>
+                        <Label Text="{x:Static fonts:FontelloIcons.Calendar}"
+                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        <Label Margin="10,0,0,0" Text=" Horario" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                    </StackLayout>
+               </Frame>
+                <Frame VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
+                    <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding TareasCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
+                        </StackLayout.GestureRecognizers>
+                        <Label Text="{x:Static fonts:FontelloIcons.Book}"  
+                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        <Label  Margin="10,0,0,0" Text=" Tareas" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                    </StackLayout>
+               </Frame>
+                <Frame VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
+                    <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PdfCalendarCommand}" 
+                                                          CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
+                        </StackLayout.GestureRecognizers>
+                        <Label Text="{x:Static fonts:FontelloIcons.Calendar}"  
+                                       FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                       FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        <Label  Margin="10,0,0,0" Text=" Calendario Escolar" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                    </StackLayout>
+               </Frame>
+                <Frame VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" >
+                    <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SettingCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
+                        </StackLayout.GestureRecognizers>
+                        <Label Text="{x:Static fonts:FontelloIcons.Cog}" 
+                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                   FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        <Label  Margin="10,0,0,0" Text=" Ajustes" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                    </StackLayout>
+               </Frame>
+                <Frame VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" >
+                    <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AboutUsCommand}" CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
+                        </StackLayout.GestureRecognizers>
+                        <Label Text="{x:Static fonts:FontelloIcons.Heart}" 
+                                       FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                       FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        <Label  Margin="10,0,0,0" Text=" Acerca de..." FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                    </StackLayout>
+               </Frame>
+                <Frame VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" >
+                    <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PrivacityCommand}" 
+                                                          CommandParameter="{Binding Navigation,Source={x:Reference Me}}"/>
+                        </StackLayout.GestureRecognizers>
+                        <Label Text="{x:Static fonts:FontelloIcons.Lock}" 
+                                       FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                       FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        <Label  Margin="10,0,0,0" Text=" Política de privacidad..." FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
+                    </StackLayout>
+               </Frame>
 
-
-</StackLayout>
-            <TableView Intent="Menu" Background="{DynamicResource Background}">
+            </StackLayout>
+            <!--<TableView Intent="Menu" Background="{DynamicResource Background}">
                 <TableRoot>
                     <TableSection Title="Menú"  TextColor="{StaticResource AccentColor}">
                         <ViewCell>
@@ -101,7 +190,7 @@
                                 <Label  Margin="10,0,0,0" Text=" Calendario Escolar" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                             </StackLayout>
                         </ViewCell>
-                        <!--<ViewCell >
+                        --><!--<ViewCell >
 
                             <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <StackLayout.GestureRecognizers>
@@ -112,7 +201,7 @@
                                    FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
                                 <Label  Margin="10,0,0,0" Text=" Logros" FontSize="18" VerticalOptions="Center" FontAttributes="Bold"/>
                             </StackLayout>
-                        </ViewCell>-->
+                        </ViewCell>--><!--
                         <ViewCell >
                             <StackLayout Margin="5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <StackLayout.GestureRecognizers>
@@ -151,7 +240,7 @@
                         
                     </TableSection>
                 </TableRoot>
-            </TableView>
+            </TableView>-->
             <!--<controls:ArrowButton Title="Opciones de desarrollador" Command="{Binding DeveloperCommand}" IsVisible="{x:Static kit:Tools.Debugging}">
                 <controls:ArrowButton.Icon>
                     <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}" Glyph="{Static fonts:FontelloIcons.HappyBeer}" Color="{x:StaticResource AccentColor}" />

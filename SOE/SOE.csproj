@@ -6,6 +6,7 @@
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UserSecretsId>2e4b0392-c909-4468-9569-fccdfaa16cda</UserSecretsId>
+    <Configurations>Release;Debug</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -40,11 +41,11 @@
     <PackageReference Include="dotMorten.Xamarin.Forms.AutoSuggestBox" Version="1.1.1" />
     <PackageReference Include="dotMorten.Xamarin.Forms.AutoSuggestBoxChange" Version="1.1.1" />
     <PackageReference Include="Forms9Patch" Version="2.4.9" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.36" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.37" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />
     <PackageReference Include="Plugin.Fingerprint" Version="2.1.4" />
-    <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.12" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.13" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.3" />
     <PackageReference Include="sqlite-net" Version="1.6.292" />
     <PackageReference Include="System.Management" Version="5.0.0" />

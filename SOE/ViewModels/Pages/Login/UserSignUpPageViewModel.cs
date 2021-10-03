@@ -158,7 +158,6 @@ namespace SOE.ViewModels.Pages.Login
             AppData.Instance.User.Password = Password;
             if (await AppData.Instance.SAES.LogIn(this.Captcha, this.AttemptCount, false))
             {
-                AppData.Instance.SAES.GetName().SafeFireAndForget();
                 LoginSucceed().SafeFireAndForget();
             }
             else
@@ -212,7 +211,12 @@ namespace SOE.ViewModels.Pages.Login
                 var loginPage = new LoginPage();
                 loginPage.SetUser(Boleta);
                 App.Current.MainPage = loginPage;
+                return;
             }
+            Acr.UserDialogs.UserDialogs.Instance.HideLoading();
+
+            Acr.UserDialogs.UserDialogs.Instance.ShowLoading("Validando información");
+            await AppData.Instance.SAES.GetName();
             Acr.UserDialogs.UserDialogs.Instance.HideLoading();
 
         }

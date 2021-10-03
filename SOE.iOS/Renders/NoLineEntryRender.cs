@@ -18,11 +18,11 @@ namespace SOE.iOS.Renders
     {
         base.OnElementChanged(e);
 
-        if (Control != null)
-        {
-            Control.BorderStyle = UITextBorderStyle.None;
-            Control.Layer.CornerRadius = 5;
-        }
+        //if (Control != null)
+        //{
+        //    Control.BorderStyle = UITextBorderStyle.None;
+        //    Control.Layer.CornerRadius = 5;
+        //}
      }
     }
 }

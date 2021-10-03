@@ -112,6 +112,7 @@
             </Style>
             
             <Style TargetType="renders:NoLineEntry">
+                <Setter Property="Background" Value="{DynamicResource TertiaryBackground}" />
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource BackgroundTertiaryDarkColor},Light={StaticResource BackgroundTertiaryLightColor}}" />
                 <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource  BackgroundSecondaryDarkColor},Dark={StaticResource BackgroundSecondaryLightColor}}"/>
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource  DarkTextColor},Dark={StaticResource LightTextColor}}"/>

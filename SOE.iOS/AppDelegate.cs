@@ -7,6 +7,7 @@ using PanCardView.iOS;
 using UIKit;
 using Xamarin.Forms.Platform.iOS;
 
+[assembly:Preserve(typeof(Firebase.Core.App))]
 namespace SOE.iOS
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the 

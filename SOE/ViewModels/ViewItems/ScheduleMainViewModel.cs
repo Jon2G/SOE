@@ -60,6 +60,7 @@ namespace SOE.ViewModels.ViewItems
             {
                 await _ExportToPdf();
             }
+            Acr.UserDialogs.UserDialogs.Instance.HideLoading();
         }
         private async Task _ExportToPdf()
         {

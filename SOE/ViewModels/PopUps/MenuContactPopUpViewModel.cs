@@ -44,7 +44,7 @@ namespace SOE.ViewModels.PopUps
         private async Task Eliminar()
         {
             await Task.Yield();
-            this.PopUp.Close().SafeFireAndForget();
+            
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Eliminado contacto"))
             {
                 if (await Contact.Delete())
@@ -66,6 +66,7 @@ namespace SOE.ViewModels.PopUps
                     .SafeFireAndForget();
                     
                 }
+                this.PopUp.Close().SafeFireAndForget();
             }
         }
 

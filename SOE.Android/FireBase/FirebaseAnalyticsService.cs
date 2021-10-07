@@ -4,6 +4,8 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Firebase.Analytics;
+using Plugin.CurrentActivity;
 using SOE.Droid.FireBase;
 using SOE.FireBase;
 using System;

@@ -56,7 +56,7 @@ namespace SOE.Views.Pages
 
             if (user is null)
             {
-                App.Current.MainPage = new LoginPage();
+                App.Current.MainPage = new UserSignUpPage();
                 return;
             }
             Settings settings = user.GetSettings();

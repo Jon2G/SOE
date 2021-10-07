@@ -1,4 +1,5 @@
 ﻿using SOE.ViewModels.Pages.Login;
+using System.Threading.Tasks;
 using Xamarin.Forms.Xaml;
 
 namespace SOE.Views.PopUps
@@ -13,6 +14,12 @@ namespace SOE.Views.PopUps
             this.BindingContext = Model;
             this.LockModal();
             InitializeComponent();
+        }
+
+        public static Task Display()
+        {
+            SAESPrivacyAlert alert = new SAESPrivacyAlert();
+            return alert.ShowDialog();
         }
     }
 }

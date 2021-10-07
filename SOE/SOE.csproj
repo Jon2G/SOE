@@ -44,6 +44,7 @@
     <PackageReference Include="HtmlAgilityPack" Version="1.11.37" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />
+    <PackageReference Include="NameGenerator" Version="2.0.4" />
     <PackageReference Include="Plugin.Fingerprint" Version="2.1.4" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.13" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.3" />
@@ -84,9 +85,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\LinksPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Pages\Login\SAESLoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\PrivacityPage.xaml">
@@ -254,9 +252,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\Pages\Login\SAESLoginPage.xaml.cs">
-      <DependentUpon>SAESLoginPage.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Views\Pages\Login\RefreshDataPage.xaml.cs">
       <DependentUpon>RefreshDataPage.xaml</DependentUpon>
     </Compile>

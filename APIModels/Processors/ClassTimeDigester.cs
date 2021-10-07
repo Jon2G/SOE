@@ -2,7 +2,6 @@
 using Kit.Sql.Readers;
 using Kit.Sql.SqlServer;
 using Microsoft.Extensions.Logging;
-using SOEAWS.Models;
 using SOEWeb.Shared;
 using SOEWeb.Shared.Enums;
 using System;
@@ -14,10 +13,12 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Serialization;
+using Kit;
+using SOEWeb.Shared.Interfaces;
 
-namespace SOEAWS.Processors
+namespace SOEWeb.Shared.Processors
 {
-    internal static class ClassTimeDigester
+    public static class ClassTimeDigester
     {
         private static Subject PostSubject(int UserId, string Group, string Suffix, int TeacherId, string SubjectName)
         {
@@ -117,16 +118,33 @@ namespace SOEAWS.Processors
             }
             return null;
         }
+
+        public static Response Digest(byte[] HTML, string user, ILogger Log)
+        {
+            DigesterResult<string> result = ClassTimeDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), user, Log);
+            return result.ToResponse();
+        }
+
         public static DigesterResult<string> Digest(string HTML, string user, ILogger Log)
+        {
+            int UserId = -1;
+            using (var con = WebData.Connection)
+            {
+                UserId = UserBase.GetId(user, con);
+            }
+            if (UserId <= 0)
+            {
+                return new DigesterResult<string>($"User : [{user}] not found", APIResponseResult.NOT_EXECUTED);
+            }
+
+            return Digest(HTML, UserId, Log, true);
+        }
+        public static DigesterResult<string> Digest(string HTML, int userId, ILogger Log, bool Online)
         {
             string digested_xml = string.Empty;
             try
             {
-                int UserId = User.GetId(user);
-                if (UserId <= 0)
-                {
-                    return new DigesterResult<string>($"User : [{user}] not found", APIResponseResult.NOT_EXECUTED);
-                }
+                OfflineColors offlineColors = Online ? null : new OfflineColors();
                 HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
                 doc.LoadHtml(HTML);
 
@@ -154,7 +172,11 @@ namespace SOEAWS.Processors
                     {
                         continue;
                     }
-                    Teacher teacher = PostTeacher(TeacherName);
+
+                    Teacher teacher =
+                        Online ? PostTeacher(TeacherName) :
+                            new Teacher() { Id = OfflineConstants.IdBase + teachers.Count, Name = TeacherName, IsOffline = true };
+
                     if (teacher is null)
                     {
                         return new DigesterResult<string>(
@@ -185,7 +207,7 @@ namespace SOEAWS.Processors
                     Teacher teacher = teachers[i];
                     string suffix = "10";
                     Regex lastDigitsRegex = new(@"(\d+)(?!.*\d)");
-                    Match suffixMatch = lastDigitsRegex.Matches(@group).Last();
+                    Match suffixMatch = Linq.Last((IList<Match>)lastDigitsRegex.Matches(@group));// lastDigitsRegex.Matches(@group) .Last();
                     if (suffixMatch.Success)
                     {
                         suffix = suffixMatch.Value;
@@ -201,7 +223,10 @@ namespace SOEAWS.Processors
                     }
 
                     string SubjectName = row[2];
-                    Subject subject = PostSubject(UserId, @group, suffix, teacher.Id, SubjectName);
+                    Subject subject = Online
+                        ? PostSubject(userId, group, suffix, teacher.Id, SubjectName)
+                        : new Subject(OfflineConstants.IdBase + subjects.Count, teacher.Id, SubjectName, offlineColors.Get(subjects.Count), group)
+                        { IsOffline = true, GroupId = OfflineConstants.IdBase + subjects.Count, Guid = Guid.NewGuid() };
                     if (subject is null)
                     {
                         return new DigesterResult<string>(
@@ -247,7 +272,20 @@ namespace SOEAWS.Processors
                             TimeSpan begin = TimeSpan.FromHours(begin_hour).Add(TimeSpan.FromMinutes(begin_minutes));
                             TimeSpan end = TimeSpan.FromHours(end_hour).Add(TimeSpan.FromMinutes(end_minutes));
                             DayOfWeek Day = (DayOfWeek)i - 5;
-                            ClassTime classTime = PostClassTimeFrom(teacher.Id, subject.Id, Day, begin, end);
+
+                            ClassTime classTime = Online
+                                ? PostClassTimeFrom(teacher.Id, subject.Id, Day, begin, end)
+                                : new ClassTime()
+                                {
+                                    Id = OfflineConstants.IdBase + classTimes.Count,
+                                    IdSubject = subject.Id,
+                                    Day = Day,
+                                    Begin = begin,
+                                    End = end,
+                                    Group = subject.Group,
+                                    IsOffline = true
+                                };
+
                             classTimes.Add(classTime);
                         }
                     }

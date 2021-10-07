@@ -34,7 +34,7 @@ namespace SOEWeb.Shared
         public static bool IsValidNickName(string NickName) =>
             !string.IsNullOrEmpty(NickName) && NickName.Length >= 4 && NickName.Length <= 10;
 
-        public static string ValidateLogin(string Boleta, string Password, string NickName, string Email, School School, string DeviceKey, UserType UserType)
+        public static string ValidateLogin(string Boleta, string NickName, string Email, School School, string DeviceKey, UserType UserType)
         {
             if (string.IsNullOrEmpty(Boleta))
             {
@@ -44,16 +44,6 @@ namespace SOEWeb.Shared
             {
                 return "Su boleta parece ser invalida.";
             }
-
-            if (string.IsNullOrEmpty(Password))
-            {
-                return "El password no debe estar vacio";
-            }
-            if (Password.Length < 8)
-            {
-                return "El password debe contener al menos 8 carácteres";
-            }
-
             if (!Validations.IsValidNickName(NickName))
             {
                 return "El password debe contener al menos 8 carácteres";

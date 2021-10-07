@@ -69,23 +69,35 @@
                             VerticalOptions="Start"/>
                 </Grid>
                 <StackLayout>
-                    <CollectionView ItemsSource="{Binding Grades}" >
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="academic:SchoolGrade">
-                                <Grid ColumnDefinitions="50,120,*,*,*,*,*" ColumnSpacing="0" 
+
+                    <ScrollView VerticalOptions="Start">
+                        <StackLayout BindableLayout.ItemsSource="{Binding Grades}" VerticalOptions="Start" 
+                                 BackgroundColor="MediumVioletRed" Margin="0" Spacing="0">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="academic:SchoolGrade" >
+                                    <Grid ColumnDefinitions="50,120,*,*,*,*,*" ColumnSpacing="0" MinimumHeightRequest="500" Padding="0" RowSpacing="0" Margin="0"
                                       BackgroundColor="{Binding Subject,Converter={x:StaticResource SubjectColorAppThemeConverter}}">
-                                    <Label Padding="3,5" Text="{Binding Subject.Group }"  Grid.Column="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
-                                    <Label Padding="3,5" Text="{Binding Subject.Name}"  Grid.Column="1"
-                                       HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
-                                    <Label Padding="3,5" Text="{Binding Grades[0].TextScore}"  Grid.Column="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
-                                    <Label Padding="3,5" Text="{Binding Grades[1].TextScore}"  Grid.Column="3" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
-                                    <Label Padding="3,5" Text="{Binding Grades[2].TextScore}"  Grid.Column="4" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
-                                    <Label Padding="3,5" Text="{Binding Grades[3].TextScore}"  Grid.Column="5" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
-                                    <Label Padding="3,5" Text="{Binding Grades[4].TextScore}"  Grid.Column="6"  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
-                                </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                                        <Label Padding="3,5" Text="{Binding Subject.Group }"  Grid.Column="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                        <Label Padding="3,5" Text="{Binding Subject.Name}"  Grid.Column="1"
+                                           HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                        <Label Padding="3,5" Text="{Binding Grades[0].TextScore}"  Grid.Column="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                        <Label Padding="3,5" Text="{Binding Grades[1].TextScore}"  Grid.Column="3" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                        <Label Padding="3,5" Text="{Binding Grades[2].TextScore}"  Grid.Column="4" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                        <Label Padding="3,5" Text="{Binding Grades[3].TextScore}"  Grid.Column="5" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                        <Label Padding="3,5" Text="{Binding Grades[4].TextScore}"  Grid.Column="6"  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
+                    </ScrollView>
+                    <Label FontSize="20" HorizontalOptions="EndAndExpand" FontAttributes="Bold" VerticalOptions="Start">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Promedio semestre: "/>
+                                <Span Text="{Binding SemesterAvg,StringFormat='{0:N2}'}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
                 </StackLayout>
             </StackLayout>
         </StackLayout>

@@ -26,7 +26,10 @@ namespace SOEAWS.Models
             this.GroupId = GroupId;
             this.SubjectId = SubjectId;
             this.IStateHasChanged = IStateHasChanged;
-            this.NickName = User.GetNickName(UserId);
+            using (var con = WebData.Connection)
+            {
+                this.NickName = UserBase.GetNickName(UserId, con);
+            }
             this.SubjectId = SubjectId;
             this.Subject = SubjectService.GetById(SubjectId); ;
         }

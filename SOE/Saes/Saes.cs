@@ -22,43 +22,47 @@ using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
 using WebView = Xamarin.Forms.WebView;
 using Kit.Forms.Controls.WebView;
+using Kit.Services.Web;
 using SOE.Data.Images;
 using SOE.Models;
 using SOE.Models.TaskFirst;
+using SOEWeb.Shared.Interfaces;
+using SOEWeb.Shared.Processors;
 using Xamarin.CommunityToolkit.Extensions;
 
 namespace SOE.Saes
 {
-    public class SAES : WebView
+    public class Saes : WebView
     {
         private const string AlumnosPage = "alumnos/default.aspx";
         private const string HorariosPage = "alumnos/informacion_semestral/horario_alumno.aspx";
         private const string KardexPage = "alumnos/boleta/kardex.aspx";
         private const string CitaReinscripcionPage = "alumnos/reinscripciones/fichas_reinscripcion.aspx";
         private const string CalificacionesPage = "alumnos/informacion_semestral/calificaciones_sem.aspx";
+        private const string CambioCorreoPersonal = "alumnos/cambiocorreopersonal.aspx";
 
-        private NavigationRequest CurrentRequest;
-        private readonly Queue<NavigationRequest> NavigationQueue;
+        private NavigationRequest _currentRequest;
+        private readonly Queue<NavigationRequest> _navigationQueue;
 
-        private bool _IsNavigating;
+        private bool _isNavigating;
         public bool IsNavigating
         {
-            get => _IsNavigating;
+            get => this._isNavigating;
             private set
             {
-                _IsNavigating = value;
+                this._isNavigating = value;
             }
         }
         public bool ShowLoading { get; set; }
 
-        public SAES()
+        public Saes()
         {
             this.IsPlatformEnabled = true;
             this.On<Windows>().SetIsJavaScriptAlertEnabled(true);
             this.On<Windows>().SetExecutionMode(WebViewExecutionMode.SeparateProcess);
             this.ShowLoading = true;
             this.Navigated += Browser_Navigated;
-            this.NavigationQueue = new Queue<NavigationRequest>();
+            this._navigationQueue = new Queue<NavigationRequest>();
 
         }
 
@@ -82,9 +86,9 @@ namespace SOE.Saes
                 await GoTo(AppData.Instance.User.School.HomePage);
                 return;
             }
-            if (IsOn(e.Source as UrlWebViewSource, this.CurrentRequest))
+            if (IsOn(e.Source as UrlWebViewSource, this._currentRequest))
             {
-                this.CurrentRequest.Done();
+                this._currentRequest.Done();
             }
             else
             {
@@ -116,7 +120,7 @@ namespace SOE.Saes
                 }
             });
             var request = new NavigationRequest(navigateUrl);
-            NavigationQueue.Enqueue(request);
+            this._navigationQueue.Enqueue(request);
             NavigateAsync();
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Espere un momento...", show: ShowLoading))
             {
@@ -137,18 +141,18 @@ namespace SOE.Saes
             await Task.Yield();
             try
             {
-                while (NavigationQueue.Any())
+                while (this._navigationQueue.Any())
                 {
-                    this.CurrentRequest = NavigationQueue.Dequeue();
+                    this._currentRequest = this._navigationQueue.Dequeue();
                     Source = new UrlWebViewSource()
                     {
-                        Url = this.CurrentRequest.Url.AbsoluteUri
+                        Url = this._currentRequest.Url.AbsoluteUri
                     };
                     OnPropertyChanged(nameof(Source));
-                    Log.Logger.Debug("Requested:{0}", CurrentRequest);
-                    await this.CurrentRequest.Wait();
-                    this.CurrentRequest.IsComplete = true;
-                    Log.Logger.Debug("Complete:{0}", CurrentRequest);
+                    Log.Logger.Debug("Requested:{0}", this._currentRequest);
+                    await this._currentRequest.Wait();
+                    this._currentRequest.IsComplete = true;
+                    Log.Logger.Debug("Complete:{0}", this._currentRequest);
                 }
             }
             catch (Exception e)
@@ -163,7 +167,7 @@ namespace SOE.Saes
 
         public async Task<ImageSource> GetCaptcha()
         {
-            ImageSource ImageSource = null;
+            ImageSource imageSource = null;
             await GoHome();
             await Task.Delay(TimeSpan.FromSeconds(2)); //dale tiempo al captcha para cargar
             StringBuilder sb = new StringBuilder();
@@ -182,16 +186,16 @@ namespace SOE.Saes
 
             if (!string.IsNullOrEmpty(sb.ToString()))
             {
-                string base_64 = await EvaluateJavaScript(sb.ToString());
-                if (string.IsNullOrEmpty(base_64))
+                string base64 = await EvaluateJavaScript(sb.ToString());
+                if (string.IsNullOrEmpty(base64))
                 {
                     return null;
                 }
-                base_64 = base_64.Replace("data:image/png;base64,", string.Empty);
-                ImageSource =
-                    Xamarin.Forms.ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(base_64)));
+                base64 = base64.Replace("data:image/png;base64,", string.Empty);
+                imageSource =
+                    Xamarin.Forms.ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(base64)));
             }
-            return ImageSource;
+            return imageSource;
         }
 
         private bool UriCompare(Uri uri1, Uri uri2)
@@ -247,13 +251,13 @@ namespace SOE.Saes
             await GoTo(AppData.Instance.User.School.HomePage);
 
         }
-        public async Task<bool> LogIn(string captcha, int AttemptCount, bool ShouldGetUserData = true)
+        public async Task<bool> LogIn(string captcha, int attemptCount, bool shouldGetUserData = true)
         {
             await Task.Yield();
-            if (AttemptCount < 3)
+            if (attemptCount < 3)
             {
                 Regex regex = new Regex("[\"\\\\]");
-                string Password = regex.Replace(AppData.Instance.User.Password, "\\");
+                string password = regex.Replace(AppData.Instance.User.Password, "\\");
                 //binding.captchaDisplayer.visibility = View.GONE
                 await this.EvaluateJavaScript(
                     $"document.getElementById('ctl00_leftColumn_LoginUser_UserName').value = '{AppData.Instance.User.Boleta}';" +
@@ -266,7 +270,7 @@ namespace SOE.Saes
                 await GoTo(AppData.Instance.User.School.HomePage);
                 if (await IsLoggedIn())
                 {
-                    if (ShouldGetUserData)
+                    if (shouldGetUserData)
                         await GetUserData(AppData.Instance.User);
                     return true;
                 }
@@ -279,9 +283,12 @@ namespace SOE.Saes
             }
             return false;
         }
-        public async Task GetUserData(User user)
+
+        public async Task GetUserData(Models.Data.User user, bool? isWebServiceOnline = null)
         {
             await Task.Yield();
+            bool isOnline = isWebServiceOnline is bool online ? online : await APIService.IsOnline();
+            AppData.Instance.User.IsOffline = !isOnline;
             AppData.Instance.ClearData(
                 typeof(Subject), typeof(ClassTime), typeof(Document),
                 typeof(DocumentPart), typeof(Archive), typeof(Grade),
@@ -290,13 +297,12 @@ namespace SOE.Saes
 
             AppData.Instance.User = user;
             await GetName();
-            bool HasSubjects = await GetSubjects();
-            await GetKardexInfo();
+            bool hasSubjects = await GetSubjects(isOnline);
+            await GetKardexInfo(isOnline);
             await GetCitasReinscripcionInfo();
-            if (HasSubjects)
+            if (hasSubjects)
             {
-                await GetGrades();
-
+                await GetGrades(isOnline);
                 AppData.Instance.User.Semester = CalculateSemester();
 
             }
@@ -307,7 +313,7 @@ namespace SOE.Saes
                         "Actualmente no estas inscrito en ninguna materia.",
                         "Sin inscripción", "Ok").SafeFireAndForget();
             }
-            AppData.Instance.User.HasSubjects = HasSubjects;
+            AppData.Instance.User.HasSubjects = hasSubjects;
             AppData.Instance.LiteConnection.InsertOrReplace(AppData.Instance.User);
         }
 
@@ -333,7 +339,12 @@ namespace SOE.Saes
             AppData.Instance.User.Name = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_FormView1_nombrelabel').innerHTML;");
             AppData.Instance.User.Boleta = await this.EvaluateJavaScript("document.getElementById('ctl00_leftColumn_LoginNameSession').innerHTML;");
         }
-        private async Task<bool> GetSubjects()
+        public async Task GetEmail()
+        {
+            await GoTo(CambioCorreoPersonal);
+            AppData.Instance.User.Email = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_txtcorreoper').value;");
+        }
+        private async Task<bool> GetSubjects(bool isWebServiceOnline)
         {
             await Task.Yield();
             await GoTo(HorariosPage);
@@ -341,104 +352,134 @@ namespace SOE.Saes
             //{
             //    return;
             //}
-            string horario_html = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_GV_Horario').outerHTML");
-            Unescape(ref horario_html);
-            if (string.IsNullOrEmpty(horario_html))
+            string horarioHtml = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_GV_Horario').outerHTML");
+            Unescape(ref horarioHtml);
+            if (string.IsNullOrEmpty(horarioHtml))
             {
                 return false;
             }
-            Response response = await APIService.PostClassTime(System.Text.Encoding.UTF8.GetBytes(horario_html), AppData.Instance.User.Boleta);
+            return await DigestSubjects(horarioHtml, isWebServiceOnline);
+        }
+
+        private async Task<bool> DigestSubjects(string horarioHtml, bool isWebServiceOnline)
+        {
+            await Task.Yield();
+            Response response = Response.NotExecuted;
+            if (isWebServiceOnline)
+            {
+                response = await APIService.PostClassTime(System.Text.Encoding.UTF8.GetBytes(horarioHtml), AppData.Instance.User.Boleta);
+                if (response.ResponseResult != APIResponseResult.OK) return await DigestSubjects(horarioHtml, false);
+            }
+            else
+            {
+                response = ClassTimeDigester.Digest(horarioHtml, AppData.Instance.User.Id, null, false).ToResponse();
+            }
             if (response.ResponseResult == APIResponseResult.OK)
             {
-                Log.Logger.Debug(response.Extra);
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(response.Message);
                 XmlNodeList nodes = xmlDoc.SelectNodes("//Teachers/Teacher");
-                foreach (XmlNode t_node in nodes)
+                foreach (XmlNode tNode in nodes)
                 {
-                    TeacherService.Save(t_node.ConvertNode<Teacher>());
+                    TeacherService.Save(tNode.ConvertNode<Teacher>());
                 }
                 nodes = xmlDoc.SelectNodes("//Subjects/Subject");
-                foreach (XmlNode t_node in nodes)
+                foreach (XmlNode tNode in nodes)
                 {
-                    SubjectService.Save(t_node.ConvertNode<Subject>());
+                    SubjectService.Save(tNode.ConvertNode<Subject>());
                 }
                 if (nodes.Count <= 0)
                 {
                     return false;
                 }
                 nodes = xmlDoc.SelectNodes("//ClassTimes/ClassTime");
-                foreach (XmlNode t_node in nodes)
+                foreach (XmlNode tNode in nodes)
                 {
-                    var class_time = t_node.ConvertNode<ClassTime>();
-                    ClassTimeService.Save(class_time);
+                    var classTime = tNode.ConvertNode<ClassTime>();
+                    ClassTimeService.Save(classTime);
                 }
                 TimeLineWidget.UpdateWidget();
                 return true;
             }
             return false;
         }
-        private async Task GetKardexInfo()
+        private async Task GetKardexInfo(bool isWebServiceOnline)
         {
             await GoTo(KardexPage);
             string carrera = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_Lbl_Carrera').innerHTML");
             AppData.Instance.User.Career = carrera;
-
-            Response response = await APIService.PostCareer(carrera, AppData.Instance.User.Boleta);
-            if (response.ResponseResult == APIResponseResult.OK)
+            if (string.IsNullOrEmpty(carrera))
             {
-                AppData.Instance.LiteConnection.DeleteAll<Career>(false);
-                AppData.Instance.LiteConnection.Insert(new Career()
+                return;
+            }
+            if (isWebServiceOnline)
+            {
+                Response response = await APIService.PostCareer(carrera, AppData.Instance.User.Boleta);
+                if (response.ResponseResult == APIResponseResult.OK)
                 {
-                    Name = carrera,
-                    Id = Convert.ToInt32(response.Message)
-                }, false);
+                    AppData.Instance.LiteConnection.DeleteAll<Career>(false);
+                    AppData.Instance.LiteConnection.Insert(
+                        new Career() { Name = carrera, Id = Convert.ToInt32(response.Message) }, false);
+                }
+            }
+            else
+            {
+                if (AppData.Instance.LiteConnection.Table<Career>().Any())
+                {
+                    AppData.Instance.LiteConnection.EXEC($"UPDATE Career SET Name='{carrera}'");
+                }
+                else
+                {
+                    AppData.Instance.LiteConnection.Insert(
+                        new Career() { Name = carrera, Id = OfflineConstants.IdBase, IsOffline = true }, false);
+                }
             }
         }
         private async Task GetCitasReinscripcionInfo()
         {
             await GoTo(CitaReinscripcionPage);
-            double creditos_totales = 0;
-            double creditos_alumno = 0;
+            double creditosTotales = 0;
+            double creditosAlumno = 0;
 
-            string creditos_carrera_html = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_CREDITOSCARRERA').outerHTML");
-            string alumno_html = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_alumno').outerHTML");
-            string cita_reinscripcion_html = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_grvEstatus_alumno').outerHTML");
+            string creditosCarreraHtml = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_CREDITOSCARRERA').outerHTML");
+            string alumnoHtml = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_alumno').outerHTML");
+            string citaReinscripcionHtml = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_grvEstatus_alumno').outerHTML");
 
-            Unescape(ref alumno_html);
-            if (!string.IsNullOrEmpty(alumno_html))
+            Unescape(ref alumnoHtml);
+            if (!string.IsNullOrEmpty(alumnoHtml))
             {
-                var table = HtmlToTable(alumno_html);
-                creditos_alumno = Convert.ToDouble(table[0][1]);
+                var table = HtmlToTable(alumnoHtml);
+                creditosAlumno = Convert.ToDouble(table[0][1]);
             }
 
-            Unescape(ref creditos_carrera_html);
-            if (!string.IsNullOrEmpty(creditos_carrera_html))
+            Unescape(ref creditosCarreraHtml);
+            if (!string.IsNullOrEmpty(creditosCarreraHtml))
             {
-                List<List<string>> table = HtmlToTable(creditos_carrera_html);
-                creditos_totales = Convert.ToDouble(table[0][1]);
+                List<List<string>> table = HtmlToTable(creditosCarreraHtml);
+                creditosTotales = Convert.ToDouble(table[0][1]);
             }
 
-            double result = (creditos_alumno / creditos_totales) * 100;
+            double result = (creditosAlumno / creditosTotales) * 100;
             result = Math.Round(result, 2);
 
             Credits credits = new Credits
             {
-                CurrentCredits = creditos_alumno,
-                TotalCredits = creditos_totales,
+                Id = 1,
+                CurrentCredits = creditosAlumno,
+                TotalCredits = creditosTotales,
                 Percentage = result,
                 UserId = AppData.Instance.User.Boleta
             };
             AppData.Instance.LiteConnection.InsertOrReplace(credits);
 
             //Save fecha de reinscripción
-            Unescape(ref cita_reinscripcion_html);
-            if (!string.IsNullOrEmpty(cita_reinscripcion_html))
+            Unescape(ref citaReinscripcionHtml);
+            if (!string.IsNullOrEmpty(citaReinscripcionHtml))
             {
-                List<List<string>> table = HtmlToTable(cita_reinscripcion_html);
-                string date = table[0][3];
-                InscriptionDate IDate = new InscriptionDate(date);
-                IDate.Save();
+                List<List<string>> table = HtmlToTable(citaReinscripcionHtml);
+                string _date = table[0][3];
+                InscriptionDate date = new InscriptionDate(_date);
+                date.Save();
             }
         }
         private List<List<string>> HtmlToTable(string html)
@@ -453,29 +494,49 @@ namespace SOE.Saes
                 .Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
                 .ToList();
         }
-        public async Task GetGrades()
+        public async Task<bool> GetGrades(bool isWebServiceOnline)
         {
             await Task.Yield();
             await GoTo(CalificacionesPage);
-            string grades_html = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_GV_Calif').outerHTML");
-            Unescape(ref grades_html);
-            if (string.IsNullOrEmpty(grades_html))
+            string gradesHtml = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_GV_Calif').outerHTML");
+            Unescape(ref gradesHtml);
+            if (string.IsNullOrEmpty(gradesHtml))
             {
-                return;
+                return false;
             }
-            Response response = await APIService.PostGrades(System.Text.Encoding.UTF8.GetBytes(grades_html));
+            return await DigestGrades(gradesHtml, isWebServiceOnline);
+
+
+        }
+        private async Task<bool> DigestGrades(string gradesHtml, bool isWebServiceOnline)
+        {
+            await Task.Yield();
+            Response response = Response.NotExecuted;
+            if (isWebServiceOnline)
+            {
+                response = await APIService.PostGrades(System.Text.Encoding.UTF8.GetBytes(gradesHtml));
+                if (response.ResponseResult != APIResponseResult.OK) return await DigestGrades(gradesHtml, false);
+            }
+            else
+            {
+                response = GradesDigester.Digest(gradesHtml, AppData.Instance.User.Boleta, null, false).ToResponse();
+            }
+
             if (response.ResponseResult == APIResponseResult.OK)
             {
-                Log.Logger.Debug(response.Extra);
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(response.Message);
                 XmlNodeList nodes = xmlDoc.SelectNodes("//Grades/Grade");
-                foreach (XmlNode t_node in nodes)
+                foreach (XmlNode tNode in nodes)
                 {
-                    GradeService.Save(t_node.ConvertNode<Grade>());
+                    GradeService.Save(tNode.ConvertNode<Grade>());
                 }
+                return true;
             }
+            return false;
         }
+
+
         private static void Unescape(ref string html)
         {
             if (string.IsNullOrEmpty(html))

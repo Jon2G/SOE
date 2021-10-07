@@ -26,60 +26,91 @@ namespace SOE.API
     {
         public const string ShareTodo = "ShareTodo";
         public const string ShareReminder = "ShareReminder";
+
+#if DEBUG
+        //LOCAL
+        public const string NonHttpsUrl = "192.168.0.32:5001";
+        public const string NonProdUrl = "192.168.0.32";
+#else
         //AWS
         public const string NonProdUrl = "dhokq2d69j.execute-api.us-east-2.amazonaws.com";
-        public static string NonHttpsUrl => $"{NonProdUrl}/Prod";
-        //LOCAL
-        //public const string NonHttpsUrl = "192.168.0.32:5001";
-        //public const string NonProdUrl = "192.168.0.32";
+        public static str ing NonHttpsUrl => $"{NonProdUrl}/Prod";
+#endif
+
         //Otros
         public static string BaseUrl => $"https://{NonHttpsUrl}";
         public static string Url => $"{BaseUrl}/App";
 
+        public static async Task<Response> TestDb(int TimeOut = 200)
+        {
+            await Task.Yield();
+            try
+            {
+                WebService WebService = new WebService(Url);
+                Kit.Services.Web.ResponseResult result = await WebService.GET(nameof(TestDb), TimeOut);
+                return JsonConvert.DeserializeObject<Response>(result.Response);
+            }
+            catch (Exception ex)
+            {
+                return new Response(APIResponseResult.INTERNAL_ERROR, ex.Message);
+            }
+        }
         public static async Task<Response> Hello()
         {
             await Task.Yield();
-            WebService WebService = new WebService(Url);
-            Kit.Services.Web.ResponseResult result =
-                await WebService.GET("Hello");
-            return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
+            try
+            {
+                WebService WebService = new WebService(Url);
+                Kit.Services.Web.ResponseResult result = await WebService.GET(nameof(Hello));
+                return JsonConvert.DeserializeObject<Response>(result.Response);
+            }
+            catch (Exception ex)
+            {
+                return new Response(APIResponseResult.INTERNAL_ERROR, ex.Message);
+            }
         }
-        public static async Task<Response> Login(string Usuario, string PasswordPin, string school = null)
+        internal static async Task<bool> IsOnline()
         {
-            WebService WebService = new WebService(Url);
-            if (string.IsNullOrEmpty(Usuario) || string.IsNullOrEmpty(PasswordPin) || PasswordPin.Length < 8
-                                              || (!SOEWeb.Shared.Validations.IsValidEmail(Usuario) && !SOEWeb.Shared.Validations.IsValidBoleta(Usuario)))
-            {
-                return new Response(APIResponseResult.INVALID_REQUEST,
-                    "!Solicitud invalida!");
-            }
-            Kit.Services.Web.ResponseResult result =
-                await WebService.GET("LogIn",
-                    Usuario, PasswordPin, Device.Current.DeviceId, school);
-            if (result.Response == "ERROR")
-            {
-                return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
-            }
-            return JsonConvert.DeserializeObject<Response>(result.Response);
+            Response hello = await APIService.TestDb();
+            return hello.ResponseResult == APIResponseResult.OK;
         }
-        public static async Task<Response> SignUp(string PasswordPin, UserType Type, SOEWeb.Shared.Device Device)
+
+        public static async Task<Response> SignUp(UserType Type, SOEWeb.Shared.Device Device)
         {
-            WebService WebService = new WebService(Url);
-            User User = AppData.Instance.User;
-            if (SOEWeb.Shared.Validations.ValidateLogin(User.Boleta, PasswordPin, User.NickName, User.Email, User.School, Device.DeviceKey, Type)
-                    is string v_error
-                && !string.IsNullOrEmpty(v_error))
+            await Task.Yield();
+            try
             {
-                return new Response(APIResponseResult.NOT_EXECUTED, v_error, v_error);
+                WebService WebService = new WebService(Url);
+
+                if (!await IsOnline())
+                {
+                    return Response.Offline;
+                }
+
+
+                User User = AppData.Instance.User;
+                if (SOEWeb.Shared.Validations.ValidateLogin(User.Boleta, User.NickName, User.Email, User.School,
+                            Device.DeviceKey, Type)
+                        is string v_error
+                    && !string.IsNullOrEmpty(v_error))
+                {
+                    return new Response(APIResponseResult.NOT_EXECUTED, v_error, v_error);
+                }
+
+                Kit.Services.Web.ResponseResult result = await WebService.GET("SignUp",
+                    User.Boleta, User.Name, User.NickName, User.Email, User.School.Id.ToString(),
+                    ((int)Type).ToString(), JsonConvert.SerializeObject(Device));
+                if (result.Response == "ERROR")
+                {
+                    return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
+                }
+
+                return JsonConvert.DeserializeObject<Response>(result.Response);
             }
-            Kit.Services.Web.ResponseResult result = await WebService.GET("SignUp",
-                User.Boleta, User.Name, User.NickName, User.Email,
-                PasswordPin, User.School.Name, ((int)Type).ToString(), JsonConvert.SerializeObject(Device));
-            if (result.Response == "ERROR")
+            catch (Exception ex)
             {
-                return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
+                return new Response(APIResponseResult.INTERNAL_ERROR, ex.Message);
             }
-            return JsonConvert.DeserializeObject<Response>(result.Response);
         }
         public static async Task<Response> PostClassTime(byte[] byteArray, string User)
         {
@@ -283,6 +314,9 @@ namespace SOE.API
             Response response = JsonConvert.DeserializeObject<Response>(result.Response);
             return new List<Classmate>(JsonConvert.DeserializeObject<Classmate[]>(response.Extra));
         }
+
+
+
         public static async Task<Response> PostLink(Subject Subject, Link Link, User User)
         {
             await Task.Yield();

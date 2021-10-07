@@ -1,4 +1,6 @@
-﻿using Kit.Sql.Readers;
+﻿using Kit;
+using Kit.Sql.Readers;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SOEWeb.Shared.Enums;
 using System;
 using System.Data;
@@ -25,70 +27,53 @@ namespace SOEWeb.Shared
         public static Response Error => new Response(APIResponseResult.INTERNAL_ERROR, "ERROR");
         public static Response InvalidRequest => new Response(APIResponseResult.INVALID_REQUEST, "!Solicitud invalida!");
         public static Response NotExecuted => new Response(APIResponseResult.NOT_EXECUTED, "!Solicitud invalida/no ejecutada!");
+        public static Response Offline => new Response(APIResponseResult.INTERNAL_ERROR, "El servicio web no esta dispobile por el momento.");
 
         public static Response FromSql(string sql, params SqlParameter[] parameters)
         {
+            Response response = Response.NotExecuted;
             try
             {
                 using (SqlConnection con = WebData.Connection)
                 {
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand(sql, con) { CommandType = CommandType.StoredProcedure })
-                    {
-                        if (parameters != null)
-                            cmd.Parameters.AddRange(parameters);
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
+                    con.Read(sql, (reader) =>
+                     {
+                         if (reader.Read())
+                         {
 
-                                if (!Enum.TryParse(reader[0]?.ToString(), out APIResponseResult result))
-                                {
-                                    return new Response(APIResponseResult.INTERNAL_ERROR,
-                                        "Oops algo salió mal, intente nuevamente");
-                                }
+                             if (!Enum.TryParse(reader[0]?.ToString(), out APIResponseResult result))
+                             {
+                                 response= new Response(APIResponseResult.INTERNAL_ERROR,
+                                     "Oops algo salió mal, intente nuevamente");
+                             }
 
-                                string extra = "";
-                                if (reader.FieldCount > 2)
-                                {
-                                    extra = reader[2]?.ToString();
-                                }
+                             string extra = "";
+                             if (reader.FieldCount > 2)
+                             {
+                                 extra = reader[2]?.ToString();
+                             }
 
-                                return new Response(result, reader[1]?.ToString(), extra);
-                            }
-                            else
-                            {
-                                return new Response(APIResponseResult.INTERNAL_ERROR, "ERROR", "Sql not read");
-                            }
-                        }
-                    }
+                             response = new Response(result, reader[1]?.ToString(), extra);
+                         }
+                         else
+                         {
+                             response = new Response(APIResponseResult.INTERNAL_ERROR, "ERROR", "Sql not read");
+                         }
+                     }, new CommandConfig() { CommandType = CommandType.StoredProcedure, ManualRead = true },parameters);
                 }
             }
             catch (Exception ex)
             {
                 return new Response(APIResponseResult.INTERNAL_ERROR, "ERROR", ex?.ToString());
             }
+
+            return response;
         }
-        //public static Response From(IReader reader)
-        //{
-        //    if (reader.Read())
-        //    {
 
-        //        if (!Enum.TryParse(reader[0]?.ToString(), out APIResponseResult result))
-        //        {
-        //            return new Response(APIResponseResult.INTERNAL_ERROR, "Oops algo salió mal, intente nuevamente");
-        //        }
-
-        //        string extra = "";
-        //        if (reader.FieldCount > 2)
-        //        {
-        //            extra = reader[2]?.ToString();
-        //        }
-        //        return new Response(result, reader[1]?.ToString(), extra);
-        //    }
-        //    return Error;
-        //}
-
-
+        public Response SetExtra(string v)
+        {
+            this.Extra = v;
+            return this;
+        }
     }
 }

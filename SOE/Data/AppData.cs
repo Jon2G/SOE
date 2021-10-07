@@ -41,7 +41,7 @@ namespace SOE.Data
             }
         }
 
-        public Saes.SAES SAES
+        public Saes.Saes SAES
         {
             get;
             set;
@@ -50,7 +50,7 @@ namespace SOE.Data
         private AppData()
         {
         }
-        private static FileInfo LiteDbPath => new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SOE.db"));
+        
 
 
         public static AppData Init()
@@ -58,7 +58,7 @@ namespace SOE.Data
             AppData._Instance = new AppData
             {
                 User = new User(),
-                LiteConnection = new SQLiteConnection(LiteDbPath, 100)
+                LiteConnection = new SQLiteConnection(WebData.LiteDbPath, 100)
             };
             return Instance;
         }

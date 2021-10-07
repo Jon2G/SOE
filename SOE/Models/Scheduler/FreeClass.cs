@@ -1,5 +1,6 @@
 ﻿using System;
 using SOE.Services;
+using SOEWeb.Shared;
 using FontelloIcons = SOE.Fonts.FontelloIcons;
 
 namespace SOE.Models.Scheduler
@@ -35,7 +36,7 @@ namespace SOE.Models.Scheduler
         }
 
         public FreeClass(TimeSpan Begin, TimeSpan End, DayOfWeek Day) :
-            base(new(-1, -1, "Hora libre", Xamarin.Forms.Color.Gainsboro.ToHex(), Xamarin.Forms.Color.Gainsboro.ToHex(), String.Empty), Begin, End, Day)
+            base(new(-1, -1, "Hora libre", new ThemeColor(Xamarin.Forms.Color.Gainsboro.ToHex()), String.Empty), Begin, End, Day)
         {
           
         }

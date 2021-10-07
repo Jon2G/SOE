@@ -8,10 +8,13 @@ using AsyncAwaitBestPractices.MVVM;
 using Kit;
 using Kit.Model;
 using Kit.Services.Interfaces;
+using SOE.API;
 using SOE.Data;
 using SOE.Models.Academic;
 using SOE.Services;
 using SOE.Views.PopUps;
+using SOEWeb.Shared.Enums;
+using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace SOE.ViewModels
@@ -26,6 +29,18 @@ namespace SOE.ViewModels
             {
                 _Grades = value;
                 Raise(() => Grades);
+            }
+        }
+
+        private float _SemesterAvg;
+
+        public float SemesterAvg
+        {
+            get => _SemesterAvg;
+            set
+            {
+                _SemesterAvg = value;
+                Raise(() => SemesterAvg);
             }
         }
 
@@ -49,12 +64,22 @@ namespace SOE.ViewModels
         {
             GetGrades();
             Raise(() => Grades);
+            Raise(() => SemesterAvg);
         }
 
         public void GetGrades()
         {
             this.Grades.Clear();
             this.Grades.AddRange(SubjectService.ToList().Select(s => new SchoolGrade(s)));
+            SemesterAvg = 0;
+            if (Grades.Any())
+            {
+                List<SOEWeb.Shared.Grade> grades = this.Grades.SelectMany(x => x.Grades.Where(y => y.Partial == GradePartial.Final&&y.NumericScore > 0)).ToList();
+                if (grades?.Any() ?? false)
+                {
+                    this.SemesterAvg = (float)grades.Average(x => x.NumericScore);
+                }
+            }
         }
 
         private async Task Refresh()
@@ -84,7 +109,7 @@ namespace SOE.ViewModels
             await AppData.Instance.SAES.GoHome();
             using (UserDialogs.Instance.Loading("Actualizando calificaciones...."))
             {
-                await AppData.Instance.SAES.GetGrades();
+                await AppData.Instance.SAES.GetGrades(await APIService.IsOnline());
             }
             await captcha?.Close();
             GetGrades();

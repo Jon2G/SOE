@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Radzen.Blazor.Rendering;
-using SOEAWS.Processors;
 using SOEAWS.Services;
 using SOEWeb.Shared;
 using SOEWeb.Shared.Enums;
+using SOEWeb.Shared.Processors;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -50,57 +50,20 @@ namespace SOEAWS.Controllers
             sp.Stop();
             return new Response(APIResponseResult.OK, $"Time elapsed:{sp.Elapsed:G}");
         }
-        [HttpGet("LogIn/{UserName}/{Password}/{DeviceKey}/{School}")]
-        [HttpGet("LogIn/{UserName}/{Password}/{DeviceKey}")]
-        public ActionResult<Response> LogIn(string UserName, string Password, string DeviceKey, string School = null)
-        {
-            return this.UserLogin(UserName, Password, DeviceKey, School);
-        }
-        private Response UserLogin(string Usuario, string PasswordPin, string DeviceKey, string School)
-        {
-            if (string.IsNullOrEmpty(Usuario) || string.IsNullOrEmpty(PasswordPin)
-                                              || PasswordPin.Length < 8
-                                              || string.IsNullOrEmpty(DeviceKey))
-            {
-                return SOEWeb.Shared.Response.InvalidRequest;
-            }
 
-            object mail = DBNull.Value;
-            object boleta = DBNull.Value;
-
-            if (Validations.IsValidBoleta(Usuario))
-            {
-                boleta = Usuario;
-            }
-            else if (Validations.IsValidEmail(Usuario))
-            {
-                mail = Usuario;
-            }
-            else
-            {
-                return new Response(APIResponseResult.INVALID_REQUEST,
-                    "!Solicitud invalida!");
-            }
+        [HttpGet("SignUp/{Boleta}/{Nombre}/{NickName}/{Email}/{SchoolId}/{Type}/{Device}")]
+        public ActionResult<Response> SignUp(string Boleta, string Nombre,
+            string NickName, string Email,
+            int SchoolId, int Type, string Device)
+        {
             try
             {
-                Response response = SOEWeb.Shared.Response.FromSql("SP_LOGIN"
-                    , new SqlParameter("Mail", mail)
-                    , new SqlParameter("Boleta", boleta)
-                    , new SqlParameter("PASSWORD_PIN", PasswordPin)
-                    , new SqlParameter("SCHOOL_NAME", (object)School ?? DBNull.Value)
-                    , new SqlParameter("DEVICE_KEY", DeviceKey)
-                );
-                switch (response.ResponseResult)
+                if (!NickNameIsAvaible(NickName, Boleta))
                 {
-                    case APIResponseResult.SHOULD_ENROLL:
-                        if (boleta != DBNull.Value)
-                        {
-                            return new Response(APIResponseResult.KO, "Usuario o contraseña incorrectos");
-                        }
-                        break;
+                    return new Response(APIResponseResult.INVALID_REQUEST,
+                        $"El nickname '{NickName}' ya esta en uso por otro usuario.\nPor favor escoge uno diferente.");
                 }
-
-                return response;
+                return this.SignUp(Boleta, Nombre, NickName, Email, SchoolId, (UserType)Type, JsonConvert.DeserializeObject<Device>(Device));
             }
             catch (Exception ex)
             {
@@ -108,25 +71,12 @@ namespace SOEAWS.Controllers
                 return new Response(APIResponseResult.INTERNAL_ERROR, ex.Message);
             }
         }
-        [HttpGet("SignUp/{Boleta}/{Nombre}/{NickName}/{Email}/{Password}/{School}/{Type}/{Device}")]
-        public ActionResult<Response> SignUp(string Boleta, string Nombre, string NickName, string Email, string Password, string School, int Type, string Device)
+        private Response SignUp(string Boleta, string Nombre, string NickName, string Email, int SchoolId, UserType Type, Device Device)
         {
-            try
-            {
-                return this.SignUp(Boleta, Nombre, NickName, Email, Password, School, (UserType)Type, JsonConvert.DeserializeObject<Device>(Device));
-            }
-            catch (Exception ex)
-            {
-                this._logger.Log(LogLevel.Error, ex, ex?.Message);
-                return new Response(APIResponseResult.INTERNAL_ERROR, ex.Message);
-            }
-        }
-        private Response SignUp(string Boleta, string Nombre, string NickName, string Email, string Password, string School, UserType Type, Device Device)
-        {
-            if (string.IsNullOrEmpty(Boleta) || string.IsNullOrEmpty(Password) || Password.Length < 8
+            if (string.IsNullOrEmpty(Boleta)
                 || !Validations.IsValidEmail(Email)
                 || !Validations.IsValidBoleta(Boleta)
-                || string.IsNullOrEmpty(School)
+                || SchoolId <= 0
                 || string.IsNullOrEmpty(Nombre)
                 || string.IsNullOrEmpty(NickName)
                 || string.IsNullOrEmpty(Device.DeviceKey)
@@ -142,8 +92,7 @@ namespace SOEAWS.Controllers
                     , new SqlParameter("NAME", Nombre)
                     , new SqlParameter("NICK_NAME", NickName)
                     , new SqlParameter("MAIL", Email)
-                    , new SqlParameter("PASSWORD_PIN", Password)
-                    , new SqlParameter("SCHOOL_NAME", School)
+                    , new SqlParameter("SCHOOL_ID", SchoolId)
                     , new SqlParameter("DEVICE_KEY", Device.DeviceKey)
                     , new SqlParameter("BRAND", Device.Brand)
                     , new SqlParameter("PLATFORM", Device.Platform)
@@ -166,24 +115,19 @@ namespace SOEAWS.Controllers
             this._logger.Log(LogLevel.Debug, "PostClassTime");
             Stopwatch sp = new Stopwatch();
             sp.Start();
-            var result = ClassTimeDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), User, this._logger);
-            if (string.IsNullOrEmpty(result.Value))
-            {
-                return result.ToResponse();
-            }
+            var response = ClassTimeDigester.Digest(HTML, User, this._logger);
             sp.Stop();
-            return new Response(APIResponseResult.OK, result.Value, $"Time elapsed:{sp.Elapsed:G}");
+            return response.SetExtra($"Time elapsed:{sp.Elapsed:G}");
         }
         [HttpPost("PostGrades/{User}")]
         public ActionResult<Response> PostGrades(string User, [FromBody] byte[] HTML)
         {
             this._logger.Log(LogLevel.Debug, "PostGrades");
-            string xml = GradesDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), User, this._logger);
-            if (string.IsNullOrEmpty(xml))
-            {
-                return SOEWeb.Shared.Response.Error;
-            }
-            return new Response(APIResponseResult.OK, xml);
+            Stopwatch sp = new Stopwatch();
+            sp.Start();
+            var response = GradesDigester.Digest(HTML, User, this._logger);
+            sp.Stop();
+            return response.SetExtra($"Time elapsed:{sp.Elapsed:G}");
         }
         [HttpGet("PostCareer/{CareerName}/{User}")]
         public ActionResult<Response> PostCareer(string CareerName, string User)
@@ -668,26 +612,40 @@ namespace SOEAWS.Controllers
         [HttpGet("IsNickNameAvaible/{nickname}")]
         public ActionResult<Response> IsNickNameAvaible(string nickname)
         {
-            bool avaible = true;
             if (!Validations.IsValidNickName(nickname))
             {
                 return SOEWeb.Shared.Response.InvalidRequest;
             }
+            bool avaible = NickNameIsAvaible(nickname);
+            return new Response(avaible ? APIResponseResult.YES : APIResponseResult.NO, "Ok");
+        }
 
+        private bool NickNameIsAvaible(string nickname, string boleta = null)
+        {
+            if (!Validations.IsValidNickName(nickname))
+            {
+                return true;
+            }
+            bool result = false;
             try
             {
-                avaible = WebData.Connection.Single<bool>(
-                    "SP_IsNickNameAvaible",
-                    CommandType.StoredProcedure
-                    , new SqlParameter("NICK_NAME", nickname));
-                WebData.Connection.Close();
+                using (var con = WebData.Connection)
+                {
+                    result = WebData.Connection.Single<bool>(
+                        "SP_IsNickNameAvaible",
+                        CommandType.StoredProcedure
+                        , new SqlParameter("NICK_NAME", nickname)
+                        , new SqlParameter("BOLETA", (object)boleta ?? DBNull.Value));
+                }
+
             }
             catch (Exception ex)
             {
                 this._logger.LogError(ex, "IsNickNameAvaible");
             }
-            return new Response(avaible ? APIResponseResult.YES : APIResponseResult.NO, "Ok");
+            return result;
         }
+
         [HttpGet("BoletaIsRegistered/{boleta}/{schoolId}")]
         public ActionResult<Response> BoletaIsRegistered(string boleta, int schoolId)
         {

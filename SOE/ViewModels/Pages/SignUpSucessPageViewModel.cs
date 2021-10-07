@@ -49,9 +49,13 @@ namespace SOE.ViewModels.Pages
         public ICommand RefreshCaptchaCommand => _RefreshCaptchaCommand ??= new Command(RefreshCaptcha);
         private AsyncCommand _ContinueCommand;
         public AsyncCommand ContinueCommand => _ContinueCommand ??= new AsyncCommand(Continue, ContinueCanExecute);
-
         private bool ContinueCanExecute(object obj) => !string.IsNullOrEmpty(Captcha);
+        public bool? IsOnline { get; set; }
 
+        public SignUpSucessPageViewModel()
+        {
+
+        }
         private async Task Continue()
         {
             if (!await AppData.Instance.SAES.LogIn(Captcha, 0, true))
@@ -69,7 +73,7 @@ namespace SOE.ViewModels.Pages
             await AppData.Instance.SAES.GoTo(AppData.Instance.User.School.HomePage);
             if (await AppData.Instance.SAES.IsLoggedIn())
             {
-                await AppData.Instance.SAES.GetUserData(AppData.Instance.User);
+                await AppData.Instance.SAES.GetUserData(AppData.Instance.User, IsOnline);
                 AppData.Instance.User.Save();
                 Application.Current.MainPage = new WalkthroughPage();
             }
@@ -91,10 +95,6 @@ namespace SOE.ViewModels.Pages
             }
         }
 
-        public SignUpSucessPageViewModel()
-        {
-
-        }
 
     }
 }

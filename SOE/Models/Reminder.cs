@@ -11,6 +11,7 @@ using SOE.Enums;
 using SOE.API;
 using SOEWeb.Shared.Enums;
 using AsyncAwaitBestPractices;
+using Kit.Services.Web;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -60,7 +61,7 @@ namespace SOE.Models
             Response Response = await APIService.PostReminder(reminder);
             if (Response.ResponseResult != APIResponseResult.OK)
             {
-                App.Current.MainPage.DisplayAlert("Opps...", Response.Message, "Ok").SafeFireAndForget();
+                App.Current.MainPage.DisplayAlert("Opps...", "No fue posible compartir este recordatorio, revise su conexión a internet", "Ok").SafeFireAndForget();
                 return null;
             }
             return DynamicLinkFormatter.GetDynamicUrl("share", 

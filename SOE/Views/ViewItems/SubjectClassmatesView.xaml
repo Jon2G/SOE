@@ -5,13 +5,18 @@
              xmlns:system="clr-namespace:System;assembly=netstandard"
              xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
              xmlns:SOEWeb.Shared="clr-namespace:SOEWeb.Shared;assembly=SOEWeb.Shared"
+             xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
+             xmlns:viewItems1="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
              x:Class="SOE.Views.ViewItems.SubjectClassmatesView"
              x:DataType="viewItems:SubjectClassmatesViewModel"
              x:Name="Me"
              Background="{DynamicResource Background}">
     <models:IconView.Content>
-      <StackLayout Margin="0"
-                   Spacing="0" VerticalOptions="FillAndExpand">
+
+        <Grid VerticalOptions="FillAndExpand">
+
+            <StackLayout Margin="0"
+                     Spacing="0" VerticalOptions="FillAndExpand">
           <SearchBar Margin="5"
                      VerticalOptions="Start" HeightRequest="30"/>
           <ScrollView>
@@ -36,5 +41,12 @@
               </StackLayout>
           </ScrollView>
       </StackLayout>
-  </models:IconView.Content>
+
+            <controls:ActivityIndicatorView VerticalOptions="FillAndExpand" Indicator="ThreeArcs" Background="{DynamicResource SecondaryBackground}"
+                                       IsVisible="{Binding IsLoading}"/>
+
+            <viewItems1:OfflineView VerticalOptions="FillAndExpand" RetryCommand="{Binding RetryCommand}"
+                                   IsVisible="{Binding IsOffline}"/>
+        </Grid>
+    </models:IconView.Content>
 </models:IconView>

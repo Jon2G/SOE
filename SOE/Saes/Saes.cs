@@ -372,7 +372,7 @@ namespace SOE.Saes
             }
             else
             {
-                response = ClassTimeDigester.Digest(horarioHtml, AppData.Instance.User.Id, null, false).ToResponse();
+                response = ClassTimeDigester.Digest(horarioHtml, AppData.Instance.User.Id, null, false);
             }
             if (response.ResponseResult == APIResponseResult.OK)
             {
@@ -414,12 +414,12 @@ namespace SOE.Saes
             }
             if (isWebServiceOnline)
             {
-                Response response = await APIService.PostCareer(carrera, AppData.Instance.User.Boleta);
+                Response<int> response = await APIService.PostCareer(carrera, AppData.Instance.User.Boleta);
                 if (response.ResponseResult == APIResponseResult.OK)
                 {
                     AppData.Instance.LiteConnection.DeleteAll<Career>(false);
                     AppData.Instance.LiteConnection.Insert(
-                        new Career() { Name = carrera, Id = Convert.ToInt32(response.Message) }, false);
+                        new Career() { Name = carrera, Id =response.Extra }, false);
                 }
             }
             else
@@ -519,7 +519,7 @@ namespace SOE.Saes
             }
             else
             {
-                response = GradesDigester.Digest(gradesHtml, AppData.Instance.User.Boleta, null, false).ToResponse();
+                response = GradesDigester.Digest(gradesHtml, AppData.Instance.User.Boleta, null, false);
             }
 
             if (response.ResponseResult == APIResponseResult.OK)

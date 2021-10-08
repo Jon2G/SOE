@@ -13,23 +13,10 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Fonts\Fontello\font\fontello24.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_17.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_18.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_19.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_20.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_21.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_22.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_23.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_24.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_25.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_26.ttf" />
-    <None Remove="Resources\CalendarioEscolar.pdf" />
-  </ItemGroup>
+
 
   <ItemGroup>
-    <EmbeddedResource Include="Fonts\Fontello\font\fontello_26.ttf" />
+    <EmbeddedResource Include="Fonts\Fontello\font\fontello_27.ttf" />
     <EmbeddedResource Include="Resources\CalendarioEscolar.pdf" />
   </ItemGroup>
 
@@ -166,6 +153,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ViewItems\NotificationView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ViewItems\OfflineView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ViewItems\PendingRemindersView.xaml">

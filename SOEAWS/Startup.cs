@@ -14,7 +14,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Radzen;
-using SOEAWS.Data;
 using SOEAWS.Services;
 using SOEWeb.Shared;
 using SOEWeb.Shared.Secrets;
@@ -46,11 +45,10 @@ namespace SOEAWS
             //services.AddMudServices();
             //radzen
             services.AddSingleton<ICommentsService, CommentsService>();
-            services.AddScoped<DialogService>();
-            services.AddScoped<NotificationService>();
-            services.AddScoped<TooltipService>();
-            services.AddScoped<ContextMenuService>();
-            services.AddSingleton<WeatherForecastService>();
+            //services.AddScoped<DialogService>();
+            //services.AddScoped<NotificationService>();
+            //services.AddScoped<TooltipService>();
+            //services.AddScoped<ContextMenuService>();
             services.AddScoped<HttpClient>(s =>
             {
                 var uriHelper = s.GetRequiredService<Microsoft.AspNetCore.Components.NavigationManager>();

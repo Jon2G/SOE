@@ -15,12 +15,16 @@ using SOE.Views.PopUps;
 using System.Threading.Tasks;
 using SOEWeb.Shared;
 using AsyncAwaitBestPractices;
+using Kit.Services.Web;
+using SOE.API;
 using SOE.Services;
+using SOEWeb.Shared.Interfaces;
 using System.Linq;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace SOE.ViewModels.Pages
 {
-    public class AcademicDictionaryViewModel : ModelBase
+    public class AcademicDirectoryViewModel : ModelBase, IOffline
     {
         private bool _IsLoading;
 
@@ -30,7 +34,7 @@ namespace SOE.ViewModels.Pages
             set
             {
                 _IsLoading = value;
-                Raise(()=>IsLoading);
+                Raise(() => IsLoading);
             }
         }
 
@@ -57,13 +61,25 @@ namespace SOE.ViewModels.Pages
         public ICommand AddContactCommand { get; set; }
         private ICommand _MenuCommand;
         public ICommand MenuCommand => _MenuCommand ??= new Command<SchoolContact>(MenuContact);
+        private bool _IsOffline;
+        public bool IsOffline
+        {
+            get => _IsOffline;
+            set
+            {
+                _IsOffline = value;
+                Raise(() => IsOffline);
+            }
+        }
+        public ICommand RetryCommand { get; }
 
-        public AcademicDictionaryViewModel()
+        public AcademicDirectoryViewModel()
         {
             this.OpenLinkCommand = new Command(this.OpenLink);
             this.CallnumberCommand = new Command(this.Callnumber);
             this.ContactMessageCommand = new Command<SchoolContact>(ContactMessage);
             this.ContactCallCommand = new Command<SchoolContact>(ContactCall);
+            this.RetryCommand = new AsyncCommand(Init);
             AddContactCommand = new Command<SchoolContact>(AddContact);
             ContactLinkCommand = new Command<SchoolContact>(ContactLink);
             Init().SafeFireAndForget();
@@ -81,9 +97,24 @@ namespace SOE.ViewModels.Pages
                 }
             }
 
+            IsOffline = false;
             IsLoading = true;
             await Task.Delay(100);
-            this.Contacts = await SchoolContactsService.Get();
+            var response
+                = await APIService.GetContacts(AppData.Instance.User.School);
+            switch (response.ResponseResult)
+            {
+                case APIResponseResult.OK:
+                    this.Contacts = new ObservableCollection<ContactsByDeparment>(response.Extra);
+                    break;
+                case APIResponseResult.INTERNAL_ERROR:
+                    this.IsOffline = true;
+                    break;
+                default:
+                    this.IsOffline = true;
+                    Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Alerta", response.Message).SafeFireAndForget();
+                    break;
+            }
             IsLoading = false;
         }
         private void ContactCall(SchoolContact contact) => PhoneDialer.Open(contact.Phone);
@@ -93,7 +124,7 @@ namespace SOE.ViewModels.Pages
 
         private async void MenuContact(SchoolContact contact)
         {
-            MenuContactPopUp pr = new(Departaments,contact);
+            MenuContactPopUp pr = new(Departaments, contact);
             await pr.ShowDialog();
         }
         private async void AddContact(SchoolContact obj)
@@ -134,5 +165,7 @@ namespace SOE.ViewModels.Pages
                 Log.Logger.Error(e, nameof(OpenBrowser));
             }
         }
+
+
     }
 }

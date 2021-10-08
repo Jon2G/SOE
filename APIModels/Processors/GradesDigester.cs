@@ -1,9 +1,9 @@
 ﻿using HtmlAgilityPack;
 using Kit;
+using Kit.Services.Web;
 using Kit.Sql.Sqlite;
 using Microsoft.Extensions.Logging;
 using SOEWeb.Shared.Enums;
-using SOEWeb.Shared.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,10 +19,9 @@ namespace SOEWeb.Shared.Processors
     {
         public static Response Digest(byte[] HTML, string user, ILogger Log)
         {
-            DigesterResult<string> result = GradesDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), user, Log, true);
-            return result.ToResponse();
+            return GradesDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), user, Log, true);
         }
-        public static DigesterResult<string> Digest(string HTML, string User, ILogger Log, bool Online)
+        public static Response<string> Digest(string HTML, string User, ILogger Log, bool Online)
         {
             string digested_xml = string.Empty;
             try
@@ -126,7 +125,7 @@ namespace SOEWeb.Shared.Processors
                     {
                         db_doc.WriteTo(xmlTextWriter);
                         xmlTextWriter.Flush();
-                        return new DigesterResult<string>(stringWriter.GetStringBuilder().ToString(), APIResponseResult.OK);
+                        return new Response<string>(APIResponseResult.OK, "OK", stringWriter.GetStringBuilder().ToString());
                     }
                 }
 
@@ -134,7 +133,7 @@ namespace SOEWeb.Shared.Processors
             catch (Exception ex)
             {
                 Log.Log(LogLevel.Error, ex, "At gradedigester");
-                return new DigesterResult<string>(ex.Message, APIResponseResult.INTERNAL_ERROR);
+                return new Response<string>(APIResponseResult.INTERNAL_ERROR, ex.Message);
             }
         }
     }

@@ -1,9 +1,8 @@
 ﻿using HtmlAgilityPack;
-using Kit.Sql.Readers;
-using Kit.Sql.SqlServer;
+using Kit;
+using Kit.Services.Web;
 using Microsoft.Extensions.Logging;
-using SOEWeb.Shared;
-using SOEWeb.Shared.Enums;
+using SOEWeb.Shared.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,8 +12,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Serialization;
-using Kit;
-using SOEWeb.Shared.Interfaces;
 
 namespace SOEWeb.Shared.Processors
 {
@@ -119,13 +116,12 @@ namespace SOEWeb.Shared.Processors
             return null;
         }
 
-        public static Response Digest(byte[] HTML, string user, ILogger Log)
+        public static Response<string> Digest(byte[] HTML, string user, ILogger Log)
         {
-            DigesterResult<string> result = ClassTimeDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), user, Log);
-            return result.ToResponse();
+            return ClassTimeDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), user, Log);
         }
 
-        public static DigesterResult<string> Digest(string HTML, string user, ILogger Log)
+        public static Response<string> Digest(string HTML, string user, ILogger Log)
         {
             int UserId = -1;
             using (var con = WebData.Connection)
@@ -134,12 +130,12 @@ namespace SOEWeb.Shared.Processors
             }
             if (UserId <= 0)
             {
-                return new DigesterResult<string>($"User : [{user}] not found", APIResponseResult.NOT_EXECUTED);
+                return new Response<string>(APIResponseResult.NOT_EXECUTED,$"User : [{user}] not found");
             }
 
             return Digest(HTML, UserId, Log, true);
         }
-        public static DigesterResult<string> Digest(string HTML, int userId, ILogger Log, bool Online)
+        public static Response<string> Digest(string HTML, int userId, ILogger Log, bool Online)
         {
             string digested_xml = string.Empty;
             try
@@ -179,11 +175,9 @@ namespace SOEWeb.Shared.Processors
 
                     if (teacher is null)
                     {
-                        return new DigesterResult<string>(
-                                ResponseResult: APIResponseResult.INTERNAL_ERROR,
-                                Value: null,
-                                Extra: "Teacher not read")
-                            .Log(Log);
+                        return new Response<string>(
+                            ResponseResult: APIResponseResult.INTERNAL_ERROR,
+                            "Teacher not read");
                     }
                     teachers.Add(teacher);
                 }
@@ -207,7 +201,7 @@ namespace SOEWeb.Shared.Processors
                     Teacher teacher = teachers[i];
                     string suffix = "10";
                     Regex lastDigitsRegex = new(@"(\d+)(?!.*\d)");
-                    Match suffixMatch = Linq.Last((IList<Match>)lastDigitsRegex.Matches(@group));// lastDigitsRegex.Matches(@group) .Last();
+                    Match suffixMatch = ((IList<Match>)lastDigitsRegex.Matches(group)).GetLast();
                     if (suffixMatch.Success)
                     {
                         suffix = suffixMatch.Value;
@@ -229,11 +223,9 @@ namespace SOEWeb.Shared.Processors
                         { IsOffline = true, GroupId = OfflineConstants.IdBase + subjects.Count, Guid = Guid.NewGuid() };
                     if (subject is null)
                     {
-                        return new DigesterResult<string>(
-                                ResponseResult: APIResponseResult.INTERNAL_ERROR,
-                                Value: null,
-                                Extra: "Subject not read")
-                            .Log(Log);
+                        return new Response<string>(
+                            ResponseResult: APIResponseResult.INTERNAL_ERROR,
+                            "Subject not read");
                     }
 
                     subjects.Add(subject);
@@ -341,9 +333,9 @@ namespace SOEWeb.Shared.Processors
                     {
                         db_doc.WriteTo(xmlTextWriter);
                         xmlTextWriter.Flush();
-                        return new DigesterResult<string>(
-                            Value: stringWriter.GetStringBuilder().ToString(),
-                            ResponseResult: APIResponseResult.OK);
+                        return new Response<string>(
+                            ResponseResult: APIResponseResult.OK,"OK",
+                            stringWriter.GetStringBuilder().ToString());
                     }
                 }
 
@@ -351,8 +343,9 @@ namespace SOEWeb.Shared.Processors
             catch (Exception ex)
             {
                 Log.Log(LogLevel.Error, ex, "At classtimedigester");
-                return new DigesterResult<string>(ResponseResult: APIResponseResult.INTERNAL_ERROR, Value: null,
-                    Extra: ex.ToString()).Log(Log);
+                return new Response<string>(
+                    ResponseResult: APIResponseResult.INTERNAL_ERROR,
+                    ex.ToString());
             }
         }
     }

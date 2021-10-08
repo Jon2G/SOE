@@ -15,6 +15,7 @@ using Device = Kit.Daemon.Devices.Device;
 using Kit.Forms.Model;
 using System.ComponentModel.DataAnnotations;
 using Kit.Forms.ComponentDataAnnotations;
+using Kit.Services.Web;
 using NameGenerator;
 using NameGenerator.Generators;
 using SOE.Views.Pages;
@@ -195,7 +196,7 @@ namespace SOE.ViewModels.Pages.Login
         {
             await Task.Yield();
             AppData.Instance.User.NickName = NickName;
-            Response response = Response.Error;
+            Response<int> response = Response<int>.Error;
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Iniciando sesión..."))
             {
                 AppData.Instance.User.Email = this.Email;

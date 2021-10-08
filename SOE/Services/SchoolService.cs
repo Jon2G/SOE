@@ -1,4 +1,5 @@
-﻿using SOE.API;
+﻿using Kit.Services.Web;
+using SOE.API;
 using SOE.Data;
 using SOE.Models.Data;
 using SOEWeb.Shared;
@@ -17,6 +18,15 @@ namespace SOE.Services
 
         public static School Get() => AppData.Instance.LiteConnection.Table<School>().FirstOrDefault();
 
-        public static Task<int> GetId(User user) => APIService.GetSchoolId(user);
+        public static async Task<int> GetId(User user)
+        {
+            var response = await APIService.GetSchoolId(user);
+            if (response.ResponseResult == APIResponseResult.OK)
+            {
+                return response.Extra;
+            }
+
+            return -1;
+        }
     }
 }

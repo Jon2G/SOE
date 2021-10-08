@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
+             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+             x:Class="SOE.Views.ViewItems.OfflineView"
+             x:DataType="viewItems:OfflineView" x:Name="Me"
+            Background="{DynamicResource Background}">
+  <ContentView.Content>
+      <StackLayout Padding="20" VerticalOptions="CenterAndExpand">
+
+          <Label Text="Error de conectividad" FontAttributes="Bold" FontSize="20" HorizontalOptions="CenterAndExpand"
+                 HorizontalTextAlignment="Center" TextColor="#6F6F6F"/>
+          <Image HeightRequest="60" Margin="15">
+              <Image.Source>
+                    <FontImageSource Size="60" Color="{AppThemeBinding Dark=White,Light=#6F6F6F}"
+                                   FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                                   Glyph="{x:Static fonts:FontelloIcons.SignalAnthena}"/>
+              </Image.Source>
+          </Image>
+            <Label Text="Revise su conexión a internet e intente nuevamente." FontSize="18" FontAttributes="Bold"
+                 HorizontalTextAlignment="Center" TextColor="#6F6F6F"/>
+
+            <Button BackgroundColor="DarkGray" Command="{Binding RetryCommand,Source={x:Reference Me}}" Text="Volver a intentar" Padding="10" Margin="10"/>
+        </StackLayout>
+  </ContentView.Content>
+</ContentView>

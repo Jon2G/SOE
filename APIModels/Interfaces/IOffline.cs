@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SOEWeb.Shared.Interfaces
+﻿namespace SOEWeb.Shared.Interfaces
 {
     public static class OfflineConstants
     {

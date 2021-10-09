@@ -14,7 +14,7 @@ namespace SOE.Views.Pages.Login
     {
         public string Text { get; }
         public bool FirstTime { get; set; }
-        public RefreshDataPage(bool FirstTime = true)
+        public RefreshDataPage(bool FirstTime, bool? isOnline = null)
         {
             this.FirstTime = FirstTime;
             if (FirstTime)
@@ -26,6 +26,7 @@ namespace SOE.Views.Pages.Login
                 Text = "Actualizando sus datos";
             }
             InitializeComponent();
+            this.Model.IsOnline = isOnline;
             AppData.Instance.SAES = this.SAES;
             AppData.Instance.SAES.ShowLoading = false;
             InitAnimation();

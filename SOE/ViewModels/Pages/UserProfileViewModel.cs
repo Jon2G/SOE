@@ -15,9 +15,9 @@ namespace SOE.ViewModels.Pages
         {
             this.User = AppData.Instance.User;
             this.Credits =
-                AppData.Instance.LiteConnection.Table<Credits>().First();
-
-            this.Progress = Credits.Percentage / 100;
+                AppData.Instance.LiteConnection.Table<Credits>().FirstOrDefault();
+            if (Credits is not null)
+                this.Progress = Credits.Percentage / 100;
         }
     }
 

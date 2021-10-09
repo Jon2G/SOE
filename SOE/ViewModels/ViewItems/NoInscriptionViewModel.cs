@@ -3,6 +3,7 @@ using System.Windows.Input;
 using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
 using Kit.Services.Interfaces;
+using SOE.API;
 using SOE.Data;
 using SOE.Models.Data;
 using SOE.Views.Pages;
@@ -50,7 +51,5 @@ namespace SOE.ViewModels.ViewItems
             Application.Current.MainPage = new SplashScreen();
             return true;
         }
-
-
     }
 }

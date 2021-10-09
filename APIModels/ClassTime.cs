@@ -1,13 +1,14 @@
 ﻿using Kit.Sql.Attributes;
+using SOEWeb.Shared.Interfaces;
 using System;
 using System.Xml.Serialization;
 
 namespace SOEWeb.Shared
 {
     [Preserve]
-    public class ClassTime
+    public class ClassTime : IOffline
     {
-        [PrimaryKey, AutoIncrement] 
+        [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         [NotNull]
         public int IdSubject { get; set; }
@@ -27,10 +28,10 @@ namespace SOEWeb.Shared
         [Ignore]
         public long EndTicks
         {
-            get=>this.End.Ticks;
+            get => this.End.Ticks;
             set => this.End = TimeSpan.FromTicks(value);
         }
-
+        public bool IsOffline { get; set; }
         public ClassTime()
         {
 

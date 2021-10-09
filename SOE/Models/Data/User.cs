@@ -2,10 +2,11 @@
 using SOE.Data;
 using SOE.Services;
 using SOEWeb.Shared;
+using SOEWeb.Shared.Interfaces;
 
 namespace SOE.Models.Data
 {
-    public class User :UserBase
+    public class User : UserBase, IOffline
     {
         private string _Semester;
         public string Semester
@@ -19,7 +20,7 @@ namespace SOE.Models.Data
         }
 
         private string _Name;
-      
+
         private string _Email;
         private string _Career;
         public string Career
@@ -40,7 +41,7 @@ namespace SOE.Models.Data
                 Raise(() => Email);
             }
         }
-        
+
 
         private Settings _Settings;
         [Ignore]
@@ -50,10 +51,10 @@ namespace SOE.Models.Data
             set
             {
                 _Settings = value;
-                Raise(()=> Settings);
+                Raise(() => Settings);
             }
         }
-
+        public bool IsOffline { get; set; }
         internal static User Get()
         {
             User User = AppData.Instance.LiteConnection.Table<User>().FirstOrDefault();
@@ -66,14 +67,14 @@ namespace SOE.Models.Data
 
         public string Name { get => _Name; set { _Name = value; Raise(() => Name); } }
 
-        public bool HasSubjects { get;  set; }
+        public bool HasSubjects { get; set; }
 
         public User() { }
 
         public void Save()
         {
             AppData.Instance.LiteConnection.DeleteAll<User>(false);
-            AppData.Instance.LiteConnection.Insert(this,false);
+            AppData.Instance.LiteConnection.Insert(this, false);
             SchoolService.Save(this.School);
         }
         public Settings GetSettings()

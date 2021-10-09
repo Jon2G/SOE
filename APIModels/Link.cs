@@ -1,6 +1,5 @@
 ﻿using Kit.Sql.Attributes;
 using Newtonsoft.Json;
-using SOEWeb.Shared.Enums;
 using System;
 using System.Threading.Tasks;
 

@@ -2,6 +2,7 @@
 using SOE.Data;
 using SOE.ViewModels.Pages.Login;
 using SOE.Views.PopUps;
+using System.Threading.Tasks;
 using Xamarin.Forms.Xaml;
 
 namespace SOE.Views.Pages.Login
@@ -11,29 +12,38 @@ namespace SOE.Views.Pages.Login
     {
         public UserSignUpPageViewModel Model { get; set; }
 
-        public UserSignUpPage()
+        public UserSignUpPage() : this(true)
+        {
+
+        }
+        public UserSignUpPage(bool DisplayPrivacyAlert)
         {
             InitializeComponent();
             this.Model = new UserSignUpPageViewModel(this.FirstForm, this.SecondForm);
             this.BindingContext = this.Model;
             AppData.Instance.SAES = this.SAES;
             AppData.Instance.SAES.ShowLoading = false;
+            this.Model.PrivacyAlertDisplayed = !DisplayPrivacyAlert;
         }
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
             if (AppData.Instance.User.School is null)
             {
-                App.Current.MainPage.Navigation.
-                    PushModalAsync(new SchoolSelector())
-                    .SafeFireAndForget();
+                this.Model.SelectSchoolCommand.ExecuteAsync().SafeFireAndForget();
                 return;
             }
-
+            if (!this.Model.PrivacyAlertDisplayed)
+            {
+                SAESPrivacyAlert.Display().SafeFireAndForget();
+                this.Model.PrivacyAlertDisplayed = true;
+            }
+            this.Init().SafeFireAndForget();
             Usuario.Focus();
-            SAESPrivacyAlert alert = new SAESPrivacyAlert();
-            alert.ShowDialog().SafeFireAndForget();
+        }
 
+        private async Task Init()
+        {
             await AppData.Instance.SAES.GoHome();
             if (await SAES.IsLoggedIn())
             {

@@ -1,4 +1,5 @@
-﻿using SOE.API;
+﻿using Kit.Services.Web;
+using SOE.API;
 using SOE.Data;
 using SOE.Models;
 using SOEWeb.Shared;
@@ -19,12 +20,5 @@ namespace SOE.Services
             return response.ResponseResult == APIResponseResult.OK;
         }
         public static  Task<bool> Delete(this SchoolContact school)=> APIService.DeleteContact(AppData.Instance.User.Id, school);
-        
-        public static async Task<ObservableCollection<ContactsByDeparment>> Get()
-        {
-            await Task.Yield();
-            var contacts = await API.APIService.GetContacts(AppData.Instance.User.School.Id);
-            return new ObservableCollection<ContactsByDeparment>(contacts);
-        }
     }
 }

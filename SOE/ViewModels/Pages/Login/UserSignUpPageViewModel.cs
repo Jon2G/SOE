@@ -15,6 +15,12 @@ using Device = Kit.Daemon.Devices.Device;
 using Kit.Forms.Model;
 using System.ComponentModel.DataAnnotations;
 using Kit.Forms.ComponentDataAnnotations;
+using Kit.Services.Web;
+using NameGenerator;
+using NameGenerator.Generators;
+using SOE.Views.Pages;
+using SOEWeb.Shared.Interfaces;
+using System.Security.Cryptography;
 
 namespace SOE.ViewModels.Pages.Login
 {
@@ -60,42 +66,6 @@ namespace SOE.ViewModels.Pages.Login
                 this.SignInCommand.RaiseCanExecuteChanged();
             }
         }
-
-        private string _SOEPassword;
-        [Required(AllowEmptyStrings = false, ErrorMessage = "La contraseña no puede estar vacia")]
-        [MinLength(8, ErrorMessage = "Debe tener un minimo de 8 caracteres.")]
-        [Equals(nameof(SOEConfirmPassword), ErrorMessage = "Las contraseñas no coinciden")]
-        public string SOEPassword
-        {
-            get => _SOEPassword;
-            set
-            {
-                _SOEPassword = value;
-                Raise(() => SOEPassword);
-                ValidateProperty(value);
-                ValidateProperty(this.SOEConfirmPassword, nameof(SOEConfirmPassword));
-                this.SignUpCommand.RaiseCanExecuteChanged();
-            }
-        }
-        private string _SOEConfirmPassword;
-
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Por favor confirme su contraseña")]
-        //[Equals(nameof(SOEPassword), ErrorMessage = "Las contraseñas no coinciden")]
-        [Compare(nameof(SOEPassword), ErrorMessage = "Las contraseñas no coinciden")]
-        public string SOEConfirmPassword
-        {
-            get => _SOEConfirmPassword;
-            set
-            {
-                _SOEConfirmPassword = value;
-                Raise(() => SOEConfirmPassword);
-                ValidateProperty(value);
-                ValidateProperty(this.SOEPassword, nameof(SOEPassword));
-                this.SignUpCommand.RaiseCanExecuteChanged();
-
-            }
-        }
-
         private string _Boleta;
         [Validations.Boleta(ErrorMessage = "Boleta no valida.")]
         public string Boleta
@@ -143,13 +113,19 @@ namespace SOE.ViewModels.Pages.Login
         public AsyncCommand SignUpCommand => _SignUpCommand ??= new AsyncCommand(SignUp, (o) => SignUpCanExecute);
         private AsyncCommand _SignInCommand;
         public AsyncCommand SignInCommand => _SignInCommand ??= new AsyncCommand(SignIn, SignInCanExecute);
-
+        public AsyncCommand SelectSchoolCommand { get; }
         public int AttemptCount { get; set; }
+
+        public bool PrivacyAlertDisplayed { get; set; }
+
         public UserSignUpPageViewModel(View FirstForm, View SecondForm)
         {
             this.FirstForm = FirstForm;
             this.SecondForm = SecondForm;
+            this.SelectSchoolCommand = new AsyncCommand(SelectSchool);
         }
+
+        private Task SelectSchool() => App.Current.MainPage.Navigation.PushModalAsync(new SchoolSelector(!this.PrivacyAlertDisplayed));
 
         private async Task SignIn()
         {
@@ -164,10 +140,10 @@ namespace SOE.ViewModels.Pages.Login
             {
                 if (AttemptCount >= 3)
                 {
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Tienes varios intentos fallidos. Es posible que la aplicación no pueda comunicarse correctamente con el SAES o tus datos sean incorrectos." +
-                                                               " Si continuas es posible que tu cuenta sea suspendida.", "Cuidado!", "Entiendo");
-                    AppData.Instance.User = new User();
-                    App.Current.MainPage = new LoginPage();
+                    await Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Tienes varios intentos fallidos. Es posible que la aplicación no pueda comunicarse correctamente con el SAES o tus datos sean incorrectos." +
+                                                                " Si continuas es posible que tu cuenta sea suspendida.", "Cuidado!", "Entiendo");
+                    AppData.Instance.User = new Models.Data.User();
+                    App.Current.MainPage = new SplashScreen();
                     return;
                 }
                 AppData.Instance.User.Password =
@@ -202,42 +178,29 @@ namespace SOE.ViewModels.Pages.Login
             SecondForm.FadeTo(1, 500).SafeFireAndForget();
             FirstForm.FadeTo(0, 500).SafeFireAndForget();
             FirstForm.IsEnabled = false;
-
-            Acr.UserDialogs.UserDialogs.Instance.ShowLoading("Validando información");
-            if (await APIService.BoletaIsRegistered(Boleta, AppData.Instance.User.School))
+            GamerTagGenerator tagGenerator = new()
             {
-                await Acr.UserDialogs.UserDialogs.Instance.AlertAsync(
-                     $"Este usuario ya esta registrado en esta institución, inicie sesión.");
-                var loginPage = new LoginPage();
-                loginPage.SetUser(Boleta);
-                App.Current.MainPage = loginPage;
-                return;
-            }
-            Acr.UserDialogs.UserDialogs.Instance.HideLoading();
-
+                SpaceCharacter = "_",
+                Sex = GeneratorBase.SexTypes.All,
+                GeneratorFlags = GeneratorBase.NameTypes.None
+            };
+            NickName = tagGenerator.Generate();
             Acr.UserDialogs.UserDialogs.Instance.ShowLoading("Validando información");
             await AppData.Instance.SAES.GetName();
+            await AppData.Instance.SAES.GetEmail();
+            this.Email = AppData.Instance.User.Email;
             Acr.UserDialogs.UserDialogs.Instance.HideLoading();
 
         }
         private async Task SignUp()
         {
             await Task.Yield();
-            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Validando información"))
-            {
-                if (!await APIService.IsNickNameAvaible(NickName))
-                {
-                    Acr.UserDialogs.UserDialogs.Instance.Alert(
-                        $"El nickname '{NickName}' ya esta en uso por otro usuario.\nPor favor escoge uno diferente.");
-                    return;
-                }
-            }
             AppData.Instance.User.NickName = NickName;
-            Response response = Response.Error;
+            Response<int> response = Response<int>.Error;
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Iniciando sesión..."))
             {
                 AppData.Instance.User.Email = this.Email;
-                response = await APIService.SignUp(this.SOEPassword, UserType.REGULAR_USER,
+                response = await APIService.SignUp(UserType.REGULAR_USER,
                     new SOEWeb.Shared.Device()
                     {
                         DeviceKey = Device.Current.DeviceId,
@@ -246,31 +209,31 @@ namespace SOE.ViewModels.Pages.Login
                         Model = Device.Current.GetDeviceModel(),
                         Name = Device.Current.GetDeviceName()
                     });
-                if (response.ResponseResult == APIResponseResult.OK)
+                switch (response.ResponseResult)
                 {
-                    AppData.Instance.User.Id = Convert.ToInt32(response.Extra);
+                    case APIResponseResult.OK:
+                        AppData.Instance.User.Id = Convert.ToInt32(response.Extra);
+                        App.Current.MainPage = new RefreshDataPage(true);
+                        break;
+                    case APIResponseResult.NOT_EXECUTED:
+                    case APIResponseResult.INVALID_REQUEST:
+                        App.Current.MainPage.DisplayAlert("Mensaje informativo", response.Message, "Ok").SafeFireAndForget();
+                        break;
+                    case APIResponseResult.INTERNAL_ERROR:
+                        AppData.Instance.User.Id = OfflineConstants.IdBase;
+                        AppData.Instance.User.IsOffline = true;
+                        App.Current.MainPage = new RefreshDataPage(true, false);
+                        break;
+                    default:
+                        Acr.UserDialogs.UserDialogs.Instance.Alert(response.Message);
+                        return;
                 }
-            }
-            switch (response.ResponseResult)
-            {
-                case APIResponseResult.OK:
-                    App.Current.MainPage = new RefreshDataPage();
-                    break;
-                case APIResponseResult.NOT_EXECUTED:
-                case APIResponseResult.INVALID_REQUEST:
-                    App.Current.MainPage.DisplayAlert("Mensaje informativo", response.Message, "Ok").SafeFireAndForget();
-                    break;
-                    App.Current.MainPage.DisplayAlert("Mensaje informativo", $"Algo ha salido mal,esto no ha sido tu culpa.\nPor favor intenta nuevamente\n{response.Extra}", "Ok").SafeFireAndForget();
-                    break;
             }
         }
         private bool SignUpCanExecute =>
-            (!string.IsNullOrEmpty(this.SOEPassword) &&
-            !string.IsNullOrEmpty(Email) &&
-            SOEPassword.Length >= 8 &&
-            !string.IsNullOrEmpty(NickName) &&
-            SOEWeb.Shared.Validations.IsValidNickName(NickName)
-            && SOEPassword == SOEConfirmPassword);
+             !string.IsNullOrEmpty(Email) &&
+             !string.IsNullOrEmpty(NickName) &&
+             SOEWeb.Shared.Validations.IsValidNickName(NickName);
 
 
     }

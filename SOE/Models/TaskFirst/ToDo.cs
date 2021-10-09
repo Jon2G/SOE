@@ -11,6 +11,7 @@ using AsyncAwaitBestPractices;
 using FFImageLoading;
 using Kit;
 using Kit.Forms.Extensions;
+using Kit.Services.Web;
 using Newtonsoft.Json;
 using SOE.API;
 using SOE.Data;
@@ -118,7 +119,8 @@ namespace SOE.Models.TaskFirst
             Response Response = await APIService.PostToDo(toDo);
             if (Response.ResponseResult != APIResponseResult.OK)
             {
-                App.Current.MainPage.DisplayAlert("Opps...", Response.Message, "Ok").SafeFireAndForget();
+                App.Current.MainPage.DisplayAlert("Opps...",
+                    "No fue posible compartir esta tarea, revise su conexión a internet", "Ok").SafeFireAndForget();
                 return null;
             }
             if (IncludeFiles)

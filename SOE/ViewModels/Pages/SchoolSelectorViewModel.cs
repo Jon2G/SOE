@@ -27,6 +27,7 @@ namespace SOE.ViewModels.Pages
         public ICommand SelectSchoolCommand { get; }
 
         public ICommand TextChangedCommand { get; }
+        public bool PrivacyAlertDisplayed { get; set; }
         public SchoolSelectorViewModel()
         {
             this.SelectSchoolCommand = new Xamarin.Forms.Command<School>(SelectSchool);
@@ -99,7 +100,7 @@ namespace SOE.ViewModels.Pages
         private void SelectSchool(School School)
         {
             AppData.Instance.User.School = School;
-            Current.MainPage.Navigation.PushModalAsync(new UserSignUpPage(), true);
+            Current.MainPage.Navigation.PushModalAsync(new UserSignUpPage(this.PrivacyAlertDisplayed), true);
         }
     }
 }

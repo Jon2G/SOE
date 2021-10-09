@@ -1,9 +1,8 @@
 ﻿using HtmlAgilityPack;
 using Kit;
-using Kit.Sql.Readers;
-using Kit.Sql.SqlServer;
+using Kit.Services.Web;
+using Kit.Sql.Sqlite;
 using Microsoft.Extensions.Logging;
-using SOEWeb.Shared;
 using SOEWeb.Shared.Enums;
 using System;
 using System.Collections.Generic;
@@ -14,11 +13,15 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace SOEAWS.Processors
+namespace SOEWeb.Shared.Processors
 {
     public static class GradesDigester
     {
-        public static string Digest(string HTML, string User, ILogger Log)
+        public static Response Digest(byte[] HTML, string user, ILogger Log)
+        {
+            return GradesDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), user, Log, true);
+        }
+        public static Response<string> Digest(string HTML, string User, ILogger Log, bool Online)
         {
             string digested_xml = string.Empty;
             try
@@ -51,32 +54,53 @@ namespace SOEAWS.Processors
                         int numeric_score = -1;
                         int.TryParse(text_score, out numeric_score);
 
-                        WebData.Connection.Read("SP_UPDATE_GRADES",
-                            (reader) =>
-                            {
-                                if (reader.FieldCount < 5)
+                        if (Online)
+                        {
+                            WebData.Connection.Read("SP_UPDATE_GRADES",
+                                (reader) =>
                                 {
-                                    return;
+                                    if (reader.FieldCount < 5)
+                                    {
+                                        return;
+                                    }
+
+                                    reader.Read();
+
+                                    row_grades[index] = new Grade()
+                                    {
+                                        Id = Convert.ToInt32(reader[0]),
+                                        SubjectId = Convert.ToInt32(reader[1]),
+                                        NumericScore = Convert.ToInt32(reader[2]),
+                                        TextScore = Convert.ToString(reader[3]),
+                                        Partial = (GradePartial)Convert.ToInt32(reader[4])
+                                    };
                                 }
-
-                                reader.Read();
-
+                                , new CommandConfig() { CommandType = CommandType.StoredProcedure, ManualRead = true }
+                                , new SqlParameter("PARTIAL", (int)partial)
+                                , new SqlParameter("TEXT_SCORE", text_score)
+                                , new SqlParameter("NUMERIC_SCORE", numeric_score)
+                                , new SqlParameter("GROUP", group)
+                                , new SqlParameter("USER", User)
+                            );
+                        }
+                        else
+                        {
+                            Subject local_subject = null;
+                            using (var lite = new SQLiteConnection(WebData.LiteDbPath, 0))
+                            {
+                                local_subject = lite.Table<Subject>().FirstOrDefault(x => x.Group == group);
+                            }
+                            if (local_subject is not null)
                                 row_grades[index] = new Grade()
                                 {
-                                    Id = Convert.ToInt32(reader[0]),
-                                    SubjectId = Convert.ToInt32(reader[1]),
-                                    NumericScore = Convert.ToInt32(reader[2]),
-                                    TextScore = Convert.ToString(reader[3]),
-                                    Partial = (GradePartial)Convert.ToInt32(reader[4])
+                                    //Id = OfflineConstants.IdBase + index,
+                                    SubjectId = local_subject.Id,
+                                    NumericScore = numeric_score,
+                                    TextScore = text_score,
+                                    Partial = partial,
+                                    IsOffline = true
                                 };
-                            }
-                            , new CommandConfig() { CommandType = CommandType.StoredProcedure, ManualRead = true }
-                            , new SqlParameter("PARTIAL", (int)partial)
-                            , new SqlParameter("TEXT_SCORE", text_score)
-                            , new SqlParameter("NUMERIC_SCORE", numeric_score)
-                            , new SqlParameter("GROUP", group)
-                            , new SqlParameter("USER", User)
-                            );
+                        }
                     }
                     grades.AddRange(row_grades);
                 }
@@ -101,7 +125,7 @@ namespace SOEAWS.Processors
                     {
                         db_doc.WriteTo(xmlTextWriter);
                         xmlTextWriter.Flush();
-                        return stringWriter.GetStringBuilder().ToString();
+                        return new Response<string>(APIResponseResult.OK, "OK", stringWriter.GetStringBuilder().ToString());
                     }
                 }
 
@@ -109,8 +133,8 @@ namespace SOEAWS.Processors
             catch (Exception ex)
             {
                 Log.Log(LogLevel.Error, ex, "At gradedigester");
+                return new Response<string>(APIResponseResult.INTERNAL_ERROR, ex.Message);
             }
-            return digested_xml;
         }
     }
 }

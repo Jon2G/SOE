@@ -13,23 +13,10 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Fonts\Fontello\font\fontello24.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_17.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_18.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_19.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_20.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_21.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_22.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_23.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_24.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_25.ttf" />
-    <None Remove="Fonts\Fontello\font\fontello_26.ttf" />
-    <None Remove="Resources\CalendarioEscolar.pdf" />
-  </ItemGroup>
+
 
   <ItemGroup>
-    <EmbeddedResource Include="Fonts\Fontello\font\fontello_26.ttf" />
+    <EmbeddedResource Include="Fonts\Fontello\font\fontello_27.ttf" />
     <EmbeddedResource Include="Resources\CalendarioEscolar.pdf" />
   </ItemGroup>
 
@@ -44,6 +31,7 @@
     <PackageReference Include="HtmlAgilityPack" Version="1.11.37" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />
+    <PackageReference Include="NameGenerator" Version="2.0.4" />
     <PackageReference Include="Plugin.Fingerprint" Version="2.1.4" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.13" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.3" />
@@ -84,9 +72,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\LinksPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Pages\Login\SAESLoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\PrivacityPage.xaml">
@@ -168,6 +153,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ViewItems\NotificationView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ViewItems\OfflineView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ViewItems\PendingRemindersView.xaml">
@@ -254,9 +242,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\Pages\Login\SAESLoginPage.xaml.cs">
-      <DependentUpon>SAESLoginPage.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Views\Pages\Login\RefreshDataPage.xaml.cs">
       <DependentUpon>RefreshDataPage.xaml</DependentUpon>
     </Compile>

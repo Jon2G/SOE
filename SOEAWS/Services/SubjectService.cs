@@ -18,7 +18,7 @@ namespace SOEAWS.Services
                    string Name = Convert.ToString(reader[1]);
                    string Color = Convert.ToString(reader[2]);
                    string ColorDark = Convert.ToString(reader[3]);
-                   subject = new Subject(Id, -1, Name, Color, ColorDark, null) { Guid = (Guid)reader[0] };
+                   subject = new Subject(Id, -1, Name,new ThemeColor(Color, ColorDark) , null) { Guid = (Guid)reader[0] };
                }
                , new CommandConfig() { CommandType = CommandType.StoredProcedure }
                , new SqlParameter("SUBJECT_ID", Id));

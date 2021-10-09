@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SOEWeb.Shared.Enums
+﻿namespace SOEWeb.Shared.Enums
 {
     public enum ReportReason
     {

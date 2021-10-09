@@ -1,4 +1,5 @@
-﻿using SOE.API;
+﻿using Kit.Services.Web;
+using SOE.API;
 using SOE.Data;
 using SOEWeb.Shared;
 using SOEWeb.Shared.Enums;
@@ -15,10 +16,6 @@ namespace SOE.Services
         {
             Response response = await APIService.PostLink(subject, link, AppData.Instance.User);
             return response.ResponseResult == APIResponseResult.OK;
-        }
-        public static Task<List<Link>> GetLinks(Subject subject)
-        {
-            return API.APIService.GetLinks(subject.Group, subject.IdTeacher, subject.Id);
         }
     }
 }

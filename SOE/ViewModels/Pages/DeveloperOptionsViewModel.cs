@@ -31,7 +31,7 @@ namespace SOE.ViewModels.Pages
         {
            var response=await APIService.Hello();
            Acr.UserDialogs.UserDialogs.Instance.AlertAsync(
-                   $"Result:{response.ResponseResult}\nMessage:\n{response.Message},Extra:{response.Extra}")
+                   $"Result:{response.ResponseResult}\nMessage:\n{response.Message}")
                .SafeFireAndForget();
         }
 

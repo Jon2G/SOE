@@ -1,5 +1,9 @@
-﻿using Kit.Model;
+﻿using Kit;
+using Kit.Model;
 using Kit.Sql.Attributes;
+using System;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace SOEWeb.Shared
 {
@@ -49,5 +53,24 @@ namespace SOEWeb.Shared
             }
         }
         private School _School;
+
+
+        public static string GetNickName(int UserId,SqlConnection con) =>
+            con.Single<string>("SP_GET_NICKNAME", CommandType.StoredProcedure,
+                new SqlParameter("USER_ID", UserId));
+        internal static int GetId(string user, SqlConnection con)
+        {
+            try
+            {
+                return con.Single<int>("SP_GET_USER_ID", CommandType.StoredProcedure,
+                    new SqlParameter("USER", user));
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Error(ex, "User.GetId");
+            }
+
+            return -1;
+        }
     }
 }

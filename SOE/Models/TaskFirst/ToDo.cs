@@ -116,6 +116,15 @@ namespace SOE.Models.TaskFirst
         internal static async Task<string> Share(ToDo toDo, bool IncludeFiles)
         {
             await Task.Yield();
+            if (toDo.Subject.IsOffline)
+            {
+                if (!await toDo.Subject.Sync(AppData.Instance, new SyncService()))
+                {
+                    App.Current.MainPage.DisplayAlert("Opps...",
+                        "No fue posible compartir esta tarea, revise su conexión a internet", "Ok").SafeFireAndForget();
+                    return null;
+                }
+            }
             Response Response = await APIService.PostToDo(toDo);
             if (Response.ResponseResult != APIResponseResult.OK)
             {

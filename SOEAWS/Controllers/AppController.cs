@@ -112,7 +112,7 @@ namespace SOEAWS.Controllers
 
         }
         [HttpPost("PostClassTime/{User}")]
-        public ActionResult<WResponse> PostClassTime(string User, [FromBody] byte[] HTML)
+        public ActionResult<Response<string>> PostClassTime(string User, [FromBody] byte[] HTML)
         {
             this._logger.Log(LogLevel.Debug, "PostClassTime");
             return ClassTimeDigester.Digest(HTML, User, this._logger);
@@ -628,7 +628,6 @@ namespace SOEAWS.Controllers
             }
             return result;
         }
-
         [HttpGet("BoletaIsRegistered/{boleta}/{schoolId}")]
         public ActionResult<WResponse> BoletaIsRegistered(string boleta, int schoolId)
         {
@@ -654,5 +653,69 @@ namespace SOEAWS.Controllers
 
             return new WResponse(registered ? APIResponseResult.YES : APIResponseResult.NO, "Ok");
         }
+        [HttpGet("PostSubject/{UserId}/{Group}/{Suffix}/{TeacherId}/{SubjectName}")]
+        public static ActionResult<Response<Subject>> PostSubject(int UserId, string Group, string Suffix, int TeacherId, string SubjectName)
+        {
+            if (UserId <= 0)
+            {
+                return Response<Subject>.InvalidRequest;
+            }
+            try
+            {
+                Subject subject = ClassTimeDigester.PostSubject(UserId, Group, Suffix, TeacherId, SubjectName);
+                return new Response<Subject>(APIResponseResult.OK, "OK", subject);
+            }
+            catch (Exception ex)
+            {
+                return new Response<Subject>(APIResponseResult.INTERNAL_ERROR, ex.Message);
+            }
+        }
+        [HttpGet("PostTeacher/{TeacherName}")]
+        public static ActionResult<Response<Teacher>> PostTeacher(string TeacherName)
+        {
+            if (string.IsNullOrEmpty(TeacherName))
+            {
+                return Response<Teacher>.InvalidRequest;
+            }
+            try
+            {
+                Teacher teacher = ClassTimeDigester.PostTeacher(TeacherName);
+                return new Response<Teacher>(APIResponseResult.OK, "OK", teacher);
+            }
+            catch (Exception ex)
+            {
+                return new Response<Teacher>(APIResponseResult.INTERNAL_ERROR, ex.Message);
+            }
+
+        }
+        [HttpGet("PostClassTime/{TeacherId}/{SubjectId},{Day},{Begin},{End}")]
+        public static ActionResult<Response<ClassTime>> PostClassTime(int TeacherId, int SubjectId, int Day, TimeSpan Begin, TimeSpan End)
+        {
+            DayOfWeek EnumDay = (DayOfWeek)(Day);
+            try
+            {
+                ClassTime classTime = ClassTimeDigester.PostClassTimeFrom(TeacherId, SubjectId, EnumDay, Begin, End);
+                return new Response<ClassTime>(APIResponseResult.OK, "OK", classTime);
+            }
+            catch (Exception ex)
+            {
+                return new Response<ClassTime>(APIResponseResult.INTERNAL_ERROR, ex.Message);
+            }
+        }
+        [HttpGet("PostGrade/{partial}/{text_score},{numeric_score},{group},{User}")]
+        public static ActionResult<Response<Grade>> PostGrade(int partial, string text_score, int numeric_score, string group, string User)
+        {
+            GradePartial EnumPartial = (GradePartial)(partial);
+            try
+            {
+                Grade grade = GradesDigester.PostGrade(EnumPartial, text_score, numeric_score, group, User);
+                return new Response<Grade>(APIResponseResult.OK, "OK", grade);
+            }
+            catch (Exception ex)
+            {
+                return new Response<Grade>(APIResponseResult.INTERNAL_ERROR, ex.Message);
+            }
+        }
+
     }
 }

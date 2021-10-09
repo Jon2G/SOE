@@ -10,9 +10,9 @@ namespace SOE.Views.ViewItems
     {
         public override string Title => "COMPAÑEROS";
         public SubjectClassmatesViewModel Model { get; set; }
-        public SubjectClassmatesView(Subject subject)
+        public SubjectClassmatesView(Subject subject, bool Online)
         {
-            this.Model = new SubjectClassmatesViewModel(subject);
+            this.Model = new SubjectClassmatesViewModel(subject, Online);
             this.BindingContext = this.Model;
             InitializeComponent();
         }

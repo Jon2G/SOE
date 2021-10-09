@@ -58,13 +58,22 @@ namespace SOE.Models
         internal static async Task<string> ShareReminder(Reminder reminder)
         {
             await Task.Yield();
+            if (reminder.Subject is not null && reminder.Subject.IsOffline)
+            {
+                if (!await reminder.Subject.Sync(AppData.Instance, new SyncService()))
+                {
+                    App.Current.MainPage.DisplayAlert("Opps...",
+                        "No fue posible compartir este recordatorio, revise su conexión a internet", "Ok").SafeFireAndForget();
+                    return null;
+                }
+            }
             Response Response = await APIService.PostReminder(reminder);
             if (Response.ResponseResult != APIResponseResult.OK)
             {
                 App.Current.MainPage.DisplayAlert("Opps...", "No fue posible compartir este recordatorio, revise su conexión a internet", "Ok").SafeFireAndForget();
                 return null;
             }
-            return DynamicLinkFormatter.GetDynamicUrl("share", 
+            return DynamicLinkFormatter.GetDynamicUrl("share",
                 new Dictionary<string, string>() { { "type", "reminder" }, { "id", reminder.Guid.ToString("N") } });
         }
 

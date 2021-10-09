@@ -17,7 +17,7 @@ namespace SOEWeb.Shared.Processors
 {
     public static class ClassTimeDigester
     {
-        private static Subject PostSubject(int UserId, string Group, string Suffix, int TeacherId, string SubjectName)
+        public static Subject PostSubject(int UserId, string Group, string Suffix, int TeacherId, string SubjectName)
         {
             using (SqlConnection con = WebData.Connection)
             {
@@ -56,7 +56,7 @@ namespace SOEWeb.Shared.Processors
             }
             return null;
         }
-        private static Teacher PostTeacher(string TeacherName)
+        public static Teacher PostTeacher(string TeacherName)
         {
             using (SqlConnection con = WebData.Connection)
             {
@@ -78,7 +78,7 @@ namespace SOEWeb.Shared.Processors
             }
             return null;
         }
-        private static ClassTime PostClassTimeFrom(int TeacherId, int SubjectId, DayOfWeek Day, TimeSpan Begin, TimeSpan End)
+        public static ClassTime PostClassTimeFrom(int TeacherId, int SubjectId, DayOfWeek Day, TimeSpan Begin, TimeSpan End)
         {
             using (SqlConnection con = WebData.Connection)
             {
@@ -116,6 +116,28 @@ namespace SOEWeb.Shared.Processors
             return null;
         }
 
+        public static string GetGroupSuffix(string group, ref int suffixfixer)
+        {
+            string suffix = "10";
+            Regex lastDigitsRegex = new(@"(\d+)(?!.*\d)");
+            Match suffixMatch = ((IList<Match>)lastDigitsRegex.Matches(group)).GetLast();
+            if (suffixMatch.Success)
+            {
+                suffix = suffixMatch.Value;
+                if (suffix.Length > 2)
+                {
+                    suffix = suffix.Substring(suffix.Length - 2);
+                }
+                else if (suffix.Length < 2)
+                {
+                    suffix += suffixfixer.ToString();
+                    suffixfixer++;
+                }
+            }
+
+            return suffix;
+        }
+
         public static Response<string> Digest(byte[] HTML, string user, ILogger Log)
         {
             return ClassTimeDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), user, Log);
@@ -130,7 +152,7 @@ namespace SOEWeb.Shared.Processors
             }
             if (UserId <= 0)
             {
-                return new Response<string>(APIResponseResult.NOT_EXECUTED,$"User : [{user}] not found");
+                return new Response<string>(APIResponseResult.NOT_EXECUTED, $"User : [{user}] not found");
             }
 
             return Digest(HTML, UserId, Log, true);
@@ -199,22 +221,7 @@ namespace SOEWeb.Shared.Processors
                     }
 
                     Teacher teacher = teachers[i];
-                    string suffix = "10";
-                    Regex lastDigitsRegex = new(@"(\d+)(?!.*\d)");
-                    Match suffixMatch = ((IList<Match>)lastDigitsRegex.Matches(group)).GetLast();
-                    if (suffixMatch.Success)
-                    {
-                        suffix = suffixMatch.Value;
-                        if (suffix.Length > 2)
-                        {
-                            suffix = suffix.Substring(suffix.Length - 2);
-                        }
-                        else if (suffix.Length < 2)
-                        {
-                            suffix += suffixfixer.ToString();
-                            suffixfixer++;
-                        }
-                    }
+                    string suffix = GetGroupSuffix(group, ref suffixfixer);
 
                     string SubjectName = row[2];
                     Subject subject = Online
@@ -334,7 +341,7 @@ namespace SOEWeb.Shared.Processors
                         db_doc.WriteTo(xmlTextWriter);
                         xmlTextWriter.Flush();
                         return new Response<string>(
-                            ResponseResult: APIResponseResult.OK,"OK",
+                            ResponseResult: APIResponseResult.OK, "OK",
                             stringWriter.GetStringBuilder().ToString());
                     }
                 }

@@ -1,4 +1,5 @@
 ﻿using AsyncAwaitBestPractices;
+using DocumentFormat.OpenXml.Vml.Spreadsheet;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +13,7 @@ using SOE.Enums;
 using SOE.Models;
 using SOE.Models.Data;
 using SOE.Models.TaskFirst;
+using SOE.Services;
 using SOE.Views.Pages;
 using SOE.Views.ViewItems;
 using SOE.Views.ViewItems.TasksViews;
@@ -20,6 +22,8 @@ using System.Linq;
 using System.Text;
 using Device = Kit.Daemon.Devices.Device;
 using SOEWeb.Shared.Enums;
+using SOEWeb.Shared.Interfaces;
+using SOEWeb.Shared.Processors;
 
 namespace SOE.API
 {
@@ -42,13 +46,13 @@ namespace SOE.API
         public static string BaseUrl => $"https://{NonHttpsUrl}";
         public static string Url => $"{BaseUrl}/App";
 
-        public static async Task<Response> TestDb(int TimeOut = 200)
+        public static async Task<Response> TestDb()
         {
             await Task.Yield();
             try
             {
                 WebService WebService = new WebService(Url);
-                Kit.Services.Web.ResponseResult result = await WebService.GET(nameof(TestDb), TimeOut);
+                Kit.Services.Web.ResponseResult result = await WebService.GET(nameof(TestDb));
                 return JsonConvert.DeserializeObject<Response>(result.Response);
             }
             catch (Exception ex)
@@ -113,36 +117,36 @@ namespace SOE.API
                 return new Response<int>(APIResponseResult.INTERNAL_ERROR, ex.Message);
             }
         }
-        public static async Task<Response> PostClassTime(byte[] byteArray, string User)
+        public static async Task<Response<string>> PostClassTime(byte[] byteArray, string User)
         {
             await Task.Yield();
             WebService WebService = new WebService(Url);
             if (byteArray.Length <= 0)
             {
-                return Response.Error;
+                return Response<string>.Error;
             }
             Kit.Services.Web.ResponseResult result = await WebService.PostAsBody(byteArray, "PostClassTime", User);
             if (result.Response == "ERROR")
             {
-                return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
+                return new Response<string>(APIResponseResult.INTERNAL_ERROR, result.Response);
             }
-            return JsonConvert.DeserializeObject<Response>(result.Response);
+            return JsonConvert.DeserializeObject<Response<string>>(result.Response);
         }
-        public static async Task<Response> PostGrades(byte[] HTML)
+        public static async Task<Response<string>> PostGrades(byte[] HTML)
         {
             await Task.Yield();
             WebService WebService = new WebService(Url);
             if (HTML.Length <= 0)
             {
-                return Response.Error;
+                return Response<string>.Error;
             }
             Kit.Services.Web.ResponseResult result =
                 await WebService.PostAsBody(HTML, "PostGrades", AppData.Instance.User.Boleta);
             if (result.Response == "ERROR")
             {
-                return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
+                return new Response<string>(APIResponseResult.INTERNAL_ERROR, result.Response);
             }
-            return JsonConvert.DeserializeObject<Response>(result.Response);
+            return JsonConvert.DeserializeObject<Response<string>>(result.Response);
         }
         public static async Task<Response<int>> PostCareer(string CareerName, string User)
         {
@@ -175,6 +179,25 @@ namespace SOE.API
             if (response.Extra is TodoBase todob)
             {
                 ToDo todo = todob.Elevate<ToDo>();
+                //
+                List<Subject> subjects = SubjectService.ToList(x => x.IsOffline);
+                foreach (Subject offlineSubject in subjects)
+                {
+                    if (!await offlineSubject.Sync(AppData.Instance, new SyncService()))
+                    {
+                        return new Response<TodoBase>(APIResponseResult.INTERNAL_ERROR,
+                            "No fue posible descargar esta tarea, revise su conexión a internet");
+                    }
+                }
+                //
+                //check if subjects exists or is offline
+                Subject subject = SubjectService.Get(todo.SubjectId);
+                if (subject is null)
+                {
+                    return new Response<TodoBase>(APIResponseResult.INVALID_REQUEST,
+                        "No esta inscrito en la materia asociada a esta tarea");
+                }
+
                 List<PhotoArchive> photos = null;
                 if (includeFiles)
                 {
@@ -200,6 +223,9 @@ namespace SOE.API
             {
                 return Response<ReminderBase>.Error;
             }
+
+
+
             WebService webService = new WebService(Url);
             Kit.Services.Web.ResponseResult result = await webService.GET("ShareReminder",
                 reminderGuide.ToString("N"));
@@ -211,6 +237,28 @@ namespace SOE.API
             if (response.Extra is ReminderBase reminderb)
             {
                 Reminder reminder = reminderb.Elevate<Reminder>();
+
+                if (reminder.Subject is not null)
+                {
+                    List<Subject> subjects = SubjectService.ToList(x => x.IsOffline);
+                    foreach (Subject offlineSubject in subjects)
+                    {
+                        if (!await offlineSubject.Sync(AppData.Instance, new SyncService()))
+                        {
+                            return new Response<ReminderBase>(APIResponseResult.INTERNAL_ERROR,
+                                "No fue posible descargar este recordatorio, revise su conexión a internet");
+                        }
+                    }
+
+                    //check if subjects exists or is offline
+                    Subject subject = SubjectService.Get(reminder.SubjectId);
+                    if (subject is null)
+                    {
+                        return new Response<ReminderBase>(APIResponseResult.INVALID_REQUEST,
+                            "No esta inscrito en la materia asociada a esta tarea");
+                    }
+                }
+
                 reminder.Status = PendingStatus.Pending;
                 await Reminder.Save(reminder);
                 Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
@@ -542,5 +590,70 @@ namespace SOE.API
             }
             return JsonConvert.DeserializeObject<Response<int>>(result.Response);
         }
+
+        public static async Task<Response<Subject>> PostSubject(Subject subject)
+        {
+            await Task.Yield();
+            int userId = AppData.Instance.User.Id;
+            if (userId <= 0 || subject.IsOffline)
+            {
+                return Response<Subject>.InvalidRequest;
+            }
+            int suffixer = subject.Id - OfflineConstants.IdBase;
+            string suffix = ClassTimeDigester.GetGroupSuffix(subject.Group, ref suffixer);
+            return await PostSubject(userId, subject.Group, suffix, subject.IdTeacher, subject.Name);
+        }
+        public static async Task<Response<Subject>> PostSubject(int UserId, string Group, string Suffix, int TeacherId, string SubjectName)
+        {
+            await Task.Yield();
+            WebService webService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result =
+                await webService.GET(nameof(PostSubject), UserId.ToString(), Group, Suffix, TeacherId.ToString(), SubjectName);
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+            {
+                return Response<Subject>.InvalidRequest;
+            }
+            return JsonConvert.DeserializeObject<Response<Subject>>(result.Response);
+        }
+
+        public static async Task<Response<Teacher>> PostTeacher(Teacher teacher)
+        {
+            await Task.Yield();
+            WebService webService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result =
+                await webService.GET(nameof(PostTeacher), teacher.Name);
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+            {
+                return Response<Teacher>.InvalidRequest;
+            }
+            return JsonConvert.DeserializeObject<Response<Teacher>>(result.Response);
+
+        }
+        public static async Task<Response<ClassTime>> PostClassTime(int TeacherId, int SubjectId, DayOfWeek Day, TimeSpan Begin, TimeSpan End)
+        {
+            await Task.Yield();
+            WebService webService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result =
+                await webService.GET(nameof(PostClassTime), TeacherId.ToString(), SubjectId.ToString(), ((int)(Day)).ToString(), Begin.ToString("c"), End.ToString("c"));
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+            {
+                return Response<ClassTime>.InvalidRequest;
+            }
+            return JsonConvert.DeserializeObject<Response<ClassTime>>(result.Response);
+        }
+        public static async Task<Response<Grade>> PostGrade(Grade grade, Subject subject)
+        {
+            await Task.Yield();
+            WebService webService = new WebService(Url);
+            Kit.Services.Web.ResponseResult result =
+                await webService.GET(nameof(PostGrade), ((int)grade.Partial).ToString(), grade.NumericScore.ToString(), subject.Group, AppData.Instance.User.Boleta);
+            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+            {
+                return Response<Grade>.InvalidRequest;
+            }
+            return JsonConvert.DeserializeObject<Response<Grade>>(result.Response);
+
+        }
+
     }
 }

@@ -38,8 +38,11 @@ namespace SOE.Views.ViewItems
                 this.OnPropertyChanged();
             }
         }
-        public SubjectNotesView(Subject Subject)
+
+        private readonly bool Online;
+        public SubjectNotesView(Subject Subject,bool Online)
         {
+            this.Online = Online;
             this.Model = new SubjectNotesViewModel(Subject);
             this.BindingContext = this.Model;
             this.RetryCommand = new AsyncCommand(this.Init);
@@ -52,6 +55,12 @@ namespace SOE.Views.ViewItems
             IsLoading = true;
             IsOffline = false;
             await Task.Delay(100);
+            if (!Online)
+            {
+                IsOffline = true;
+                IsLoading = false;
+                return;
+            }
             this.SoeWebView.FailureCommand = new Kit.Extensions.Command<WebNavigationResult>((e) => IsOffline = true);
             await SoeWebView.GoTo(APIService.BaseUrl);
             await SoeWebView.GoToSubjectNotesPage(Model.Subject, AppData.Instance.User);

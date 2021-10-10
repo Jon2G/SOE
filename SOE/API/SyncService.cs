@@ -40,7 +40,7 @@ namespace SOE.API
             Subject subject = SubjectService.Get(classTime.IdSubject);
             if (subject.IsOffline)
             {
-                if (!await subject.Sync(AppData.Instance.LiteConnection, this))
+                if (!await subject.Sync(AppData.Instance, this))
                 {
                     return Response<ClassTime>.Error;
                 }

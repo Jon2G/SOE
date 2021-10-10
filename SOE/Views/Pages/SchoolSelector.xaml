@@ -36,7 +36,10 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="SOEWeb.Shared:School">
                                     <ContentView HorizontalOptions="Center">
-                                        <pancakeView:PancakeView Margin="5" IsClippedToBounds="True"  Padding="0">
+                                        <pancakeView:PancakeView Margin="5" 
+                                                                 IsClippedToBounds="True"  
+                                                                 Padding="0" 
+                                                                 BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundTertiaryDarkColor},Light={StaticResource BackgroundLightColor}}">
                                             <pancakeView:PancakeView.GestureRecognizers>
                                                 <TapGestureRecognizer 
                                                     Command="{Binding SelectSchoolCommand ,Source={x:Reference Model}}"

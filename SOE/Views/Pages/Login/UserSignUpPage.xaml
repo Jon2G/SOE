@@ -48,7 +48,7 @@
                                                Source="{Binding User.School.ImgPath,Source={x:Static data:AppData.Instance}}"/>
                         </Grid>
                         <controls:ArrowButton Title="{Binding User.School.Name,Source={x:Static data:AppData.Instance}}" TitleFontSize="25"
-                                              TitleFontAttributes="Bold"
+                                              TitleFontAttributes="Bold" Background="{DynamicResource TertiaryBackground}"
                                               Icon="{Binding User.School.ImgPath,Source={x:Static data:AppData.Instance}}"
                                               Margin="3" ArrowColor="{StaticResource AccentColor}"
                                               HorizontalOptions="CenterAndExpand"

@@ -360,7 +360,6 @@ namespace SOE.Saes
             }
             return await DigestSubjects(horarioHtml, isWebServiceOnline);
         }
-
         private async Task<bool> DigestSubjects(string horarioHtml, bool isWebServiceOnline)
         {
             await Task.Yield();
@@ -535,8 +534,6 @@ namespace SOE.Saes
             }
             return false;
         }
-
-
         private static void Unescape(ref string html)
         {
             if (string.IsNullOrEmpty(html))

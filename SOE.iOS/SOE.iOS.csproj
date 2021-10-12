@@ -361,6 +361,13 @@
       <DependentUpon>Widgets\ViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Widgets\FakeData.cs" />
+
+    <AdditionalAppExtensions Include="$(MSBuildProjectDirectory)/../../../SwiftExtension/TestNativeApp">
+      <Name>SOEWidgetsExtension</Name>
+      <BuildOutput Condition="'$(Platform)' == 'iPhone'">build/Debug-iphoneos</BuildOutput>
+      <BuildOutput Condition="'$(Platform)' == 'iPhoneSimulator'">build/Debug-iphonesimulator</BuildOutput>
+    </AdditionalAppExtensions>
+
   </ItemGroup>
   <ItemGroup />
 </Project>

@@ -60,6 +60,9 @@ namespace SOE.Data
                 User = new User(),
                 LiteConnection = new SQLiteConnection(WebData.LiteDbPath, 100)
             };
+            SOEWeb.Shared.Secrets.DotNetEnviroment.Load();
+
+           //string a= Environment.GetEnvironmentVariable("?");
             return Instance;
         }
 

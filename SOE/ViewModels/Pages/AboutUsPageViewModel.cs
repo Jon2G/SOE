@@ -63,7 +63,7 @@ namespace SOE.ViewModels.Pages
 
 
 
-        private void ReportBug() => OpenBrowser("https://github.com/Jon2G/SOE/issues/new?assignees=&labels=&template=reporte-de-bug.md&title=");
+        private void ReportBug() => Shell.Current.Navigation.PushAsync(new ReportBugsPage()).SafeFireAndForget();
         private void RequestFeature() => OpenBrowser("https://github.com/Jon2G/SOE/issues/new?assignees=&labels=&template=solicitud-de-funci-n-adicional.md&title=");
 
         private void Xamarin() => OpenBrowser("https://dotnet.microsoft.com/learn/xamarin/what-is-xamarin");
@@ -73,7 +73,7 @@ namespace SOE.ViewModels.Pages
         private void Privacity(object obj)
         {
             AppShell.CloseFlyout(); 
-            Shell.Current.Navigation.PushAsync(new PrivacityPage()).SafeFireAndForget(); ;
+            Shell.Current.Navigation.PushAsync(new PrivacityPage()).SafeFireAndForget();
         }
 
         private async void OpenBrowser(string url)

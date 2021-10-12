@@ -354,5 +354,13 @@
   <ItemGroup>
     <Folder Include="FireBase\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Widgets\ViewController.cs" />
+    <Compile Include="Widgets\ViewController.designer.cs">
+      <DependentUpon>Widgets\ViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Widgets\FakeData.cs" />
+  </ItemGroup>
   <ItemGroup />
 </Project>

@@ -355,3 +355,6 @@ MigrationBackup/
 # Database files
 .db
 *.db
+
+##_MACOSX temps
+__MACOSX/

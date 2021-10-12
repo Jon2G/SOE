@@ -12,7 +12,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace SOE.ViewModels.ViewItems
 {
-    public class SubjectClassmatesViewModel:ModelBase
+    public class SubjectClassmatesViewModel : ModelBase
     {
         public ObservableCollection<Classmate> Classmates { get; set; }
         public Subject Subject { get; set; }
@@ -39,9 +39,10 @@ namespace SOE.ViewModels.ViewItems
             }
         }
         public ICommand RetryCommand { get; }
-
-        public SubjectClassmatesViewModel(Subject subject)
+        private readonly bool Online;
+        public SubjectClassmatesViewModel(Subject subject, bool Online)
         {
+            this.Online = this.Online;
             this.Subject = subject;
             Classmates = new ObservableCollection<Classmate>();
             this.RetryCommand = new AsyncCommand(this.Load);
@@ -52,6 +53,12 @@ namespace SOE.ViewModels.ViewItems
         {
             IsLoading = true;
             await Task.Delay(100);
+            if (!Online)
+            {
+                IsLoading = false;
+                IsOffline = true;
+                return;
+            }
             var response
                 = await APIService.GetClassmates(this.Subject);
             switch (response.ResponseResult)

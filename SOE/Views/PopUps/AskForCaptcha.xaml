@@ -8,6 +8,7 @@
              xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
              xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
              xmlns:renders="clr-namespace:SOE.Renders;assembly=SOE"
+             xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              x:Class="SOE.Views.PopUps.AskForCaptcha" 
              x:DataType="viewItems:AskForCaptchaViewModel" 
              CloseWhenBackgroundIsClicked="True" BackgroundColor="#70FFFFFF">
@@ -28,10 +29,32 @@
                             </Label.GestureRecognizers>
                         </Label>
                     </Grid>
-                    <renders:NoLineEntry IsPassword="False" 
-                                         Text="{Binding Captcha}"
-                                         Placeholder="Captcha" IsTextPredictionEnabled="False"
-                                         Margin="0,10"/>
+
+                <views:Expander CascadeInputTransparent="False" InputTransparent="True"
+                                IsExpanded="{Binding ShouldConfirmPassword}">
+                    <views:Expander.Header>
+                        <renders:NoLineEntry IsPassword="False" 
+                                             Text="{Binding Captcha}"
+                                             Placeholder="Captcha" IsTextPredictionEnabled="False"
+                                             Margin="0,10"/>
+                    </views:Expander.Header>
+                    <StackLayout Margin="0,10">
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="¿Has cambiado tu contraseña? &#10;" FontAttributes="Bold"/>
+                                    <Span Text="Si lo deseas puedes actualizarla aquí."/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <renders:NoLineEntry IsPassword="True" Text="{Binding NewPasword}"
+                                             Placeholder="Rectificar contraseña" IsTextPredictionEnabled="False"
+                                             Margin="0,10"/>
+                    </StackLayout>
+                </views:Expander>
+
+                 
+
                     <Button Text="¡Listo!" Command="{Binding SignInCommand}"/>
                 </StackLayout>
             </pancakeView:PancakeView>

@@ -9,12 +9,13 @@ using SOE.Models.Academic;
 using SOE.Models.Data;
 using SOE.Models.TaskFirst;
 using SOE.Notifications;
+using SOEWeb.Shared.Interfaces;
 using SOEWeb.Shared.Secrets;
 using Xamarin.Essentials;
 
 namespace SOE.Data
 {
-    public class AppData : ModelBase
+    public class AppData : ModelBase, IApplicationData
     {
         public static string Version = $"{VersionTracking.CurrentVersion}";
         public static bool IsInitialized => _Instance is not null;
@@ -41,6 +42,7 @@ namespace SOE.Data
             }
         }
 
+        public UserBase UserBase => User;
         public Saes.Saes SAES
         {
             get;

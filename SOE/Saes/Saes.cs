@@ -360,11 +360,10 @@ namespace SOE.Saes
             }
             return await DigestSubjects(horarioHtml, isWebServiceOnline);
         }
-
         private async Task<bool> DigestSubjects(string horarioHtml, bool isWebServiceOnline)
         {
             await Task.Yield();
-            Response response = Response.NotExecuted;
+            Response<string> response;
             if (isWebServiceOnline)
             {
                 response = await APIService.PostClassTime(System.Text.Encoding.UTF8.GetBytes(horarioHtml), AppData.Instance.User.Boleta);
@@ -377,7 +376,7 @@ namespace SOE.Saes
             if (response.ResponseResult == APIResponseResult.OK)
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.LoadXml(response.Message);
+                xmlDoc.LoadXml(response.Extra);
                 XmlNodeList nodes = xmlDoc.SelectNodes("//Teachers/Teacher");
                 foreach (XmlNode tNode in nodes)
                 {
@@ -511,7 +510,7 @@ namespace SOE.Saes
         private async Task<bool> DigestGrades(string gradesHtml, bool isWebServiceOnline)
         {
             await Task.Yield();
-            Response response = Response.NotExecuted;
+            Response<string> response;
             if (isWebServiceOnline)
             {
                 response = await APIService.PostGrades(System.Text.Encoding.UTF8.GetBytes(gradesHtml));
@@ -525,7 +524,7 @@ namespace SOE.Saes
             if (response.ResponseResult == APIResponseResult.OK)
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.LoadXml(response.Message);
+                xmlDoc.LoadXml(response.Extra);
                 XmlNodeList nodes = xmlDoc.SelectNodes("//Grades/Grade");
                 foreach (XmlNode tNode in nodes)
                 {
@@ -535,8 +534,6 @@ namespace SOE.Saes
             }
             return false;
         }
-
-
         private static void Unescape(ref string html)
         {
             if (string.IsNullOrEmpty(html))

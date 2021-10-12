@@ -1,12 +1,15 @@
-﻿using Kit.Sql.Attributes;
+﻿using Kit.Services.Web;
+using Kit.Sql.Attributes;
+using Kit.Sql.Sqlite;
 using SOEWeb.Shared.Interfaces;
 using System;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace SOEWeb.Shared
 {
     [Preserve]
-    public class ClassTime : IOffline
+    public class ClassTime : OfflineSync
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
@@ -31,7 +34,6 @@ namespace SOEWeb.Shared
             get => this.End.Ticks;
             set => this.End = TimeSpan.FromTicks(value);
         }
-        public bool IsOffline { get; set; }
         public ClassTime()
         {
 
@@ -46,5 +48,33 @@ namespace SOEWeb.Shared
             this.Begin = Begin;
             this.End = End;
         }
+
+        public override async Task<bool> Sync(IApplicationData app, ISyncService apiService)
+        {
+            await Task.Yield();
+            if (!await CheckUser(app, apiService))
+            {
+                return false;
+            }
+            Subject subject = app.LiteConnection.Find<Subject>(this.IdSubject);
+            if (subject.IsOffline)
+            {
+                if (!await subject.Sync(app, apiService))
+                {
+                    return false;
+                }
+            }
+            Response<ClassTime> response = await apiService.Sync(this);
+            if (response.ResponseResult == APIResponseResult.OK)
+            {
+                ClassTime classTime = response.Extra;
+                app.LiteConnection.EXEC($"UPDATE CLASSTIME SET ID='{classTime.Id}',IsOffline='0' where Id='{this.Id}'");
+                app.LiteConnection.Update(this, x => x.Id == this.Id, false);
+                return true;
+            }
+            return false;
+        }
+
+
     }
 }

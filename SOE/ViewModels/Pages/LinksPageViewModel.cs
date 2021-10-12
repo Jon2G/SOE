@@ -79,10 +79,21 @@ namespace SOE.ViewModels.Pages
         }
         public async Task Init()
         {
-            Links.Clear();
             IsOffline = false;
             this.IsLoading = true;
             await Task.Delay(100);
+
+            Links.Clear();
+            if (ClassSquare.Subject.IsOffline)
+            {
+                if (!await ClassSquare.Subject.Sync(AppData.Instance, new SyncService()))
+                {
+                    IsOffline = true;
+                    IsLoading = false;
+                    return;
+                }
+            }
+            
             var response
                 = await APIService.GetLinks(ClassSquare.Subject);
             switch (response.ResponseResult)

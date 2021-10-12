@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using SOEWeb.Shared;
 using AsyncAwaitBestPractices;
 using Kit.Model;
+using SOE.API;
+using SOE.Data;
 using SOE.Models;
 using SOE.Views.ViewItems;
 using System.Linq;
@@ -73,15 +75,32 @@ namespace SOE.ViewModels.Pages
         {
             this.Subject = Subject;
             this.Views = new ObservableCollection<IconView>();
+            if (Subject.IsOffline)
+            {
+                SyncSubject().SafeFireAndForget(); ;
+                return;
+            }
             Load().SafeFireAndForget();
         }
 
-        private async Task Load()
+        private async Task SyncSubject()
         {
             await Task.Yield();
-            var notesview = new SubjectNotesView(this.Subject);
+            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Actualizando información..."))
+            {
+                if (!await Subject.Sync(AppData.Instance, new SyncService()))
+                {
+                    await this.Load(false);
+                }
+            }
+            this.Load().SafeFireAndForget();
+        }
+        private async Task Load(bool Online = true)
+        {
+            await Task.Yield();
+            var notesview = new SubjectNotesView(this.Subject, Online);
             Views.Add(notesview);
-            Views.Add(new SubjectClassmatesView(this.Subject));
+            Views.Add(new SubjectClassmatesView(this.Subject, Online));
             await notesview.Init();
         }
     }

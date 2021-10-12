@@ -68,6 +68,7 @@ namespace SOE.Views.Pages
                 }
                 await this.Model.OnAppearing();
                 DependencyService.Get<IStartNotificationsService>()?.StartNotificationsService();
+                UpdateService.AvaibleUpdate();
                 if (Device.RuntimePlatform == Device.iOS)
                 {
                     var appTrackingTransparencyPermission = DependencyService.Get<IAppTrackingTransparencyPermission>();

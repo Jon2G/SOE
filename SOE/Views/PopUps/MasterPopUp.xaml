@@ -5,7 +5,8 @@
                  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
                  xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
                  x:Class="SOE.Views.PopUps.MasterPopUp">
-    <StackLayout Spacing="0" Padding="0" VerticalOptions="End" Background="{DynamicResource SecondaryBackground}">
+    <StackLayout Spacing="0" Padding="0" VerticalOptions="End" 
+                 Background="{DynamicResource Background}">
 
 
         <controls:ArrowButton  Title="Completadas"     Command="{Binding TapedCommand}"

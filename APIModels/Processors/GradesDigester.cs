@@ -17,6 +17,37 @@ namespace SOEWeb.Shared.Processors
 {
     public static class GradesDigester
     {
+        public static Grade PostGrade(GradePartial partial, string text_score, int numeric_score, string group, string User)
+        {
+            Grade grade = null;
+            WebData.Connection.Read("SP_UPDATE_GRADES",
+                (reader) =>
+                {
+                    if (reader.FieldCount < 5)
+                    {
+                        return;
+                    }
+
+                    reader.Read();
+
+                    grade = new Grade()
+                    {
+                        Id = Convert.ToInt32(reader[0]),
+                        SubjectId = Convert.ToInt32(reader[1]),
+                        NumericScore = Convert.ToInt32(reader[2]),
+                        TextScore = Convert.ToString(reader[3]),
+                        Partial = (GradePartial)Convert.ToInt32(reader[4])
+                    };
+                }
+                , new CommandConfig() { CommandType = CommandType.StoredProcedure, ManualRead = true }
+                , new SqlParameter("PARTIAL", (int)partial)
+                , new SqlParameter("TEXT_SCORE", text_score)
+                , new SqlParameter("NUMERIC_SCORE", numeric_score)
+                , new SqlParameter("GROUP", group)
+                , new SqlParameter("USER", User)
+            );
+            return grade;
+        }
         public static Response Digest(byte[] HTML, string user, ILogger Log)
         {
             return GradesDigester.Digest(System.Text.Encoding.UTF8.GetString(HTML), user, Log, true);
@@ -56,32 +87,8 @@ namespace SOEWeb.Shared.Processors
 
                         if (Online)
                         {
-                            WebData.Connection.Read("SP_UPDATE_GRADES",
-                                (reader) =>
-                                {
-                                    if (reader.FieldCount < 5)
-                                    {
-                                        return;
-                                    }
+                            row_grades[index] = PostGrade(partial, text_score, numeric_score, group, User);
 
-                                    reader.Read();
-
-                                    row_grades[index] = new Grade()
-                                    {
-                                        Id = Convert.ToInt32(reader[0]),
-                                        SubjectId = Convert.ToInt32(reader[1]),
-                                        NumericScore = Convert.ToInt32(reader[2]),
-                                        TextScore = Convert.ToString(reader[3]),
-                                        Partial = (GradePartial)Convert.ToInt32(reader[4])
-                                    };
-                                }
-                                , new CommandConfig() { CommandType = CommandType.StoredProcedure, ManualRead = true }
-                                , new SqlParameter("PARTIAL", (int)partial)
-                                , new SqlParameter("TEXT_SCORE", text_score)
-                                , new SqlParameter("NUMERIC_SCORE", numeric_score)
-                                , new SqlParameter("GROUP", group)
-                                , new SqlParameter("USER", User)
-                            );
                         }
                         else
                         {

@@ -4,6 +4,7 @@ using UIKit;
 
 namespace SOE.iOS.Widgets
 {
+    [Register(nameof(ViewController)),Preserve()]
     public partial class ViewController : UIViewController
     {
         public ViewController(IntPtr handle) : base(handle)
@@ -22,7 +23,7 @@ namespace SOE.iOS.Widgets
             this.text.Text = "Before";
             this.View.AddSubview(this.text);
 
-            NSUrl url = NSFileManager.DefaultManager.GetContainerUrl("group.com.xamarin.sample.TestApplication");
+            NSUrl url = NSFileManager.DefaultManager.GetContainerUrl("group.com.soe.soe-app");
             url = url.Append("testAppState.json", false);
             System.IO.File.WriteAllText(url.Path, TestData.GetJson());
 

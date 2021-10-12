@@ -15,9 +15,9 @@ namespace SOE.iOS.Widgets
     using System.CodeDom.Compiler;
     using UIKit;
 
-    namespace TestApplication
+    namespace SOE.iOS.Widgets
     {
-        [Register(nameof(ViewController))]
+        
         partial class ViewController
         {
         }

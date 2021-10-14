@@ -39,7 +39,7 @@ namespace SOE.API
 #else
         //AWS
         public const string NonProdUrl = "dhokq2d69j.execute-api.us-east-2.amazonaws.com";
-        public static str ing NonHttpsUrl => $"{NonProdUrl}/Prod";
+        public static string NonHttpsUrl => $"{NonProdUrl}/Prod";
 #endif
 
         //Otros

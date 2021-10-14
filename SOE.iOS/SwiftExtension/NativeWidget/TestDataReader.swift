@@ -1,9 +1,3 @@
-//
-//  File.swift
-//  TestNativeApp
-//
-//  Created by Chris Hamons on 7/1/20.
-//
 
 import Foundation
 
@@ -16,7 +10,7 @@ struct Datum: Codable {
 }
 
 func readTestData() -> Values {
-    if let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.xamarin.sample.TestApplication") {
+    if let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.soe.soe-app") {
         let path = url.appendingPathComponent("testAppState.json");
         let data = try? String(contentsOf: path);
         if let data = data {

@@ -10,6 +10,7 @@ using Firebase.DynamicLinks;
 using Java.Net;
 using Kit.Droid;
 using Kit.Droid.Services;
+using Kit.Forms.Services.Interfaces;
 using PanCardView.Droid;
 using Plugin.CurrentActivity;
 using Plugin.Fingerprint;
@@ -53,7 +54,6 @@ namespace SOE.Droid.Activities
         protected override void OnStart()
         {
 
-
             base.OnStart();
         }
 
@@ -79,6 +79,7 @@ namespace SOE.Droid.Activities
             Kit.Droid.Tools.Init(this, savedInstanceState);
             CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
             CardsViewRenderer.Preserve();
+            DependencyService.RegisterSingleton(this);
             LoadApplication(new SOE.App());
             if (this.Intent != null)
                 OnNewIntent(this.Intent);

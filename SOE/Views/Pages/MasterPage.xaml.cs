@@ -13,6 +13,7 @@ using SOE.Models.TaskFirst;
 using SOE.Services;
 using SOE.Services.ActionResponse;
 using SOE.Views.ViewItems.ScheduleView;
+using SOE.Widgets;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -68,6 +69,8 @@ namespace SOE.Views.Pages
                 }
                 await this.Model.OnAppearing();
                 DependencyService.Get<IStartNotificationsService>()?.StartNotificationsService();
+                TimeLineWidget.UpdateWidget();
+                ToDosWidget.UpdateWidget();
                 UpdateService.AvaibleUpdate();
                 if (Device.RuntimePlatform == Device.iOS)
                 {

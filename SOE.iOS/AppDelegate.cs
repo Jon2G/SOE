@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using Foundation;
+using Kit.Forms.Services.Interfaces;
 using PanCardView.iOS;
+using SOE.Widgets;
 using UIKit;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly:Preserve(typeof(Firebase.Core.App))]
-[assembly:Preserve(typeof(SOE.App))]
-[assembly:Preserve(typeof(Kit.iOS.Tools))]
+[assembly: Preserve(typeof(Firebase.Core.App))]
+[assembly: Preserve(typeof(SOE.App))]
+[assembly: Preserve(typeof(Kit.iOS.Tools))]
 namespace SOE.iOS
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
@@ -24,7 +26,6 @@ namespace SOE.iOS
             UINavigationBar.Appearance.Translucent = false;
             UINavigationBar.Appearance.BackgroundColor = Xamarin.Forms.Color.MidnightBlue.ToUIColor();
             UINavigationBar.Appearance.BarTintColor = Xamarin.Forms.Color.White.ToUIColor();
-
         }
 
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
@@ -33,6 +34,19 @@ namespace SOE.iOS
             Firebase.Core.App.Configure();
             CardsViewRenderer.Preserve();
             return result;
+        }
+
+        public override void UpdateWidget(string AppWidgetProviderClassName)
+        {
+            switch (AppWidgetProviderClassName)
+            {
+                case TimeLineWidget.AppWidgetProviderFullClass:
+                    
+                    break;
+                case ToDosWidget.AppWidgetProviderFullClass:
+                    
+                    break;
+            }
         }
     }
 }

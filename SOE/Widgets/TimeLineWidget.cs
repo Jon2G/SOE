@@ -6,8 +6,10 @@ using Xamarin.Forms;
 
 namespace SOE.Widgets
 {
-    public static class TimeLineWidget
+    public class TimeLineWidget : IWidget
     {
+        public const string AppWidgetProviderFullClass = "SOE.Droid.Widgets.TimeLine.TimeLineWidgetProvider";
+        public override string AppWidgetProviderFullClassName =>AppWidgetProviderFullClass;
         public const string FOWARD_ACTION = "TIMELINE_FOWARD_ACTION";
         public const string BACKWARD_ACTION = "TIMELINE_BACKWARD_ACTION";
         public const string EXTRA_ITEM = "com.example.widgets.WidgetProviders.EXTRA_ITEM";
@@ -82,19 +84,6 @@ namespace SOE.Widgets
         {
             return GetTimeLine(appWidgetId)[itemPosition];
         }
-        public static void UpdateWidget()
-        {
-            IUpdateWidget iWidget = DependencyService.Get<IUpdateWidget>(DependencyFetchTarget.GlobalInstance);
-            switch (Device.RuntimePlatform)
-            {
-                case Device.Android:
-                    iWidget?.UpdateWidget("SOE.Droid", " SOE.Droid.Widgets.TimeLine.TimeLineWidgetProvider");
-                    break;
-                case Device.iOS:
-                    break;
-            }
-        }
-
         public static Day Refresh(int WidgetId)
         {
             if (!WidgetsDays.ContainsKey(WidgetId))
@@ -102,6 +91,10 @@ namespace SOE.Widgets
                 return WidgetsDays[WidgetId] = GetDay(WidgetId);
             }
             return WidgetsDays[WidgetId] = GetDay(WidgetId);
+        }
+        public static void UpdateWidget()
+        {
+            IWidget.UpdateWidget(new TimeLineWidget());
         }
     }
 }

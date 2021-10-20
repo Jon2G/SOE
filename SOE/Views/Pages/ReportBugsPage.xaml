@@ -1,12 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             Title="Reportes"
+<pages:BasePopUp  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                  xmlns:pankk="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                  xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+                   xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE" 
+                  xmlns:popups="clr-namespace:SOE.ViewModels.PopUps" 
+                  x:DataType="popups:ReportBugsPageViewModel"
+                  Title="Reportes"
              x:Class="SOE.Views.Pages.ReportBugsPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Editor Placeholder="Ingresa aquí tu reporte"/>
-            <Button Text="Mandar Reporte"/>
+    <StackLayout Spacing="0" Padding="0" VerticalOptions="End" 
+                 Background="{DynamicResource Background}">
+        <StackLayout Orientation="Horizontal" 
+                         BackgroundColor="{DynamicResource PrimaryLightColor}">
+            <forms:CachedImage Aspect="AspectFit" 
+                                   Source="logo_soe_fill.png" 
+                                   WidthRequest="40" DownsampleToViewSize="False"
+                                   HeightRequest="40" Margin="5,0,0,0"/>
+            <Label Text="Reportar un problema" FontSize="25"
+                   FontAttributes="Bold" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"
+                      TextColor="White"/>
+            <Label Text="{x:Static fonts:FontelloIcons.PaperPlane}" 
+                       FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                       TextColor="White" 
+                       FontSize="30" HorizontalOptions="Fill"
+                   FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                       Padding="5" >
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SendReportCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
         </StackLayout>
-    </ContentPage.Content>
-</ContentPage>
+        <Editor Placeholder="Ingresa aquí tu reporte" HeightRequest="200" Text="{Binding Body}"/>
+        <Button Margin="3" CornerRadius="2" VerticalOptions="End" Text="Cancelar" Clicked="OnClose" BackgroundColor="Red"/>
+        </StackLayout>
+</pages:BasePopUp>

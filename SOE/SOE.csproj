@@ -29,6 +29,7 @@
     <PackageReference Include="dotMorten.Xamarin.Forms.AutoSuggestBoxChange" Version="1.1.1" />
     <PackageReference Include="Forms9Patch" Version="2.4.9" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.37" />
+    <PackageReference Include="MailKit" Version="2.15.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />
     <PackageReference Include="NameGenerator" Version="2.0.4" />

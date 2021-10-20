@@ -19,6 +19,7 @@ namespace SOE.Data
     {
         public static string Version = $"{VersionTracking.CurrentVersion}";
         public static bool IsInitialized => _Instance is not null;
+        
         private static AppData _Instance;
 
         public static AppData Instance
@@ -51,20 +52,20 @@ namespace SOE.Data
         public SQLiteConnection LiteConnection { get; private set; }
         private AppData()
         {
+           
         }
-        
 
+        /*PRUEBAS 
+YA ESTA LSITO JONATHAN!!!!!!!!!!!!!!!!!*/
 
         public static AppData Init()
         {
+            SOEWeb.Shared.Secrets.DotNetEnviroment.Load();
             AppData._Instance = new AppData
             {
                 User = new User(),
                 LiteConnection = new SQLiteConnection(WebData.LiteDbPath, 100)
             };
-            SOEWeb.Shared.Secrets.DotNetEnviroment.Load();
-
-           //string a= Environment.GetEnvironmentVariable("?");
             return Instance;
         }
 

@@ -63,7 +63,11 @@ namespace SOE.ViewModels.Pages
 
 
 
-        private void ReportBug() => Shell.Current.Navigation.PushAsync(new ReportBugsPage()).SafeFireAndForget();
+        private async void ReportBug()
+        {
+           var pr = new ReportBugsPage();
+           await pr.ShowDialog();
+        }
         private void RequestFeature() => OpenBrowser("https://github.com/Jon2G/SOE/issues/new?assignees=&labels=&template=solicitud-de-funci-n-adicional.md&title=");
 
         private void Xamarin() => OpenBrowser("https://dotnet.microsoft.com/learn/xamarin/what-is-xamarin");

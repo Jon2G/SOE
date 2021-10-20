@@ -75,14 +75,20 @@ namespace SOE.ViewModels.Pages
         {
             this.Links = new ObservableCollection<Link>();
             this.ClassSquare = square;
-            this.RetryCommand = new AsyncCommand(Init);
+            this.RetryCommand = new AsyncCommand(() => Init(!IsOffline));
         }
-        public async Task Init()
-        {
-            IsOffline = false;
-            this.IsLoading = true;
-            await Task.Delay(100);
 
+        public async Task Init(bool Online = true)
+        {
+            IsLoading = true;
+            IsOffline = false;
+            await Task.Delay(100);
+            if (!Online)
+            {
+                IsOffline = true;
+                IsLoading = false;
+                return;
+            }
             Links.Clear();
             if (ClassSquare.Subject.IsOffline)
             {
@@ -93,12 +99,12 @@ namespace SOE.ViewModels.Pages
                     return;
                 }
             }
-            
-            var response
-                = await APIService.GetLinks(ClassSquare.Subject);
+
+            var response= await APIService.GetLinks(ClassSquare.Subject);
             switch (response.ResponseResult)
             {
                 case APIResponseResult.OK:
+                    IsOffline = false;
                     this.Links.AddRange(response.Extra);
                     break;
                 case APIResponseResult.INTERNAL_ERROR:
@@ -109,6 +115,7 @@ namespace SOE.ViewModels.Pages
                     Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Alerta", response.Message).SafeFireAndForget();
                     break;
             }
+            this.IsLoading = false;
         }
     }
 

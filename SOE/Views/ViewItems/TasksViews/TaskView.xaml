@@ -2,7 +2,7 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-             xmlns:taskFirst="clr-namespace:SOE.Models.TaskFirst;assembly=SOE"
+             xmlns:taskFirst="clr-namespace:SOE.Models.TodoModels;assembly=SOE"
              xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
              xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
              xmlns:effects="http://xamarin.com/schemas/2020/toolkit" Visual="Material"

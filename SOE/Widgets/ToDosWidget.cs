@@ -3,7 +3,7 @@ using System.Linq;
 using Kit.Forms.Services.Interfaces;
 using SOE.Data;
 using SOE.Enums;
-using SOE.Models.TaskFirst;
+using SOE.Models.TodoModels;
 using Xamarin.Forms;
 
 namespace SOE.Widgets

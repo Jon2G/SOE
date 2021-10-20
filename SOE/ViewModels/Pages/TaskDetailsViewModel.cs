@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using P42.Utils;
 using SOE.Data.Images;
-using SOE.Models.TaskFirst;
+using SOE.Models.TodoModels;
 
 namespace SOE.ViewModels.Pages
 {
@@ -21,7 +21,7 @@ namespace SOE.ViewModels.Pages
         private async void GetPhotos()
         {
             await Task.Yield();
-            this.Photos.AddRange(Models.TaskFirst.ToDo.GetPhotos(this.ToDo));
+            this.Photos.AddRange(ToDo.GetPhotos(this.ToDo));
         }
     }
 }

@@ -79,14 +79,39 @@ namespace SOE.ViewModels.Pages
             this.CallnumberCommand = new Command(this.Callnumber);
             this.ContactMessageCommand = new Command<SchoolContact>(ContactMessage);
             this.ContactCallCommand = new Command<SchoolContact>(ContactCall);
-            this.RetryCommand = new AsyncCommand(Init);
+            this.RetryCommand = new AsyncCommand(() => Init(true));
             AddContactCommand = new Command<SchoolContact>(AddContact);
             ContactLinkCommand = new Command<SchoolContact>(ContactLink);
+            if (AppData.Instance.User.IsOffline)
+            {
+                SyncUser().SafeFireAndForget();
+                return;
+            }
             Init().SafeFireAndForget();
         }
-        public async Task Init()
+        private async Task SyncUser()
         {
             await Task.Yield();
+            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Actualizando información..."))
+            {
+                if (!await AppData.Instance.User.Sync(AppData.Instance, new SyncService()))
+                {
+                    await this.Init(false);
+                }
+            }
+            this.Init().SafeFireAndForget();
+        }
+        public async Task Init(bool Online = true)
+        {
+            IsOffline = false;
+            IsLoading = true;
+            await Task.Delay(100);
+            if (!Online)
+            {
+                IsOffline = true;
+                IsLoading = false;
+                return;
+            }
             if (AppData.Instance.User.School.Id <= 0)
             {
                 using (Acr.UserDialogs.UserDialogs.Instance.Loading("Cargando información de la escuela..."))
@@ -97,9 +122,6 @@ namespace SOE.ViewModels.Pages
                 }
             }
 
-            IsOffline = false;
-            IsLoading = true;
-            await Task.Delay(100);
             var response
                 = await APIService.GetContacts(AppData.Instance.User.School);
             switch (response.ResponseResult)

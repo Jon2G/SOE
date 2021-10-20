@@ -21,7 +21,6 @@ using SOE.Droid.Notifications;
 using SOE.FireBase;
 using SOE.Interfaces;
 using SOE.Models.Scheduler;
-using SOE.Models.TaskFirst;
 using SOE.Services.ActionResponse;
 using SOE.Views.Pages;
 using SOE.Widgets;
@@ -29,6 +28,7 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using Xamarin.Forms;
 using Uri = Android.Net.Uri;
+using SOE.Models.TodoModels;
 
 [assembly: Dependency(typeof(MainActivity))]
 namespace SOE.Droid.Activities

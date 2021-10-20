@@ -15,8 +15,18 @@ namespace SOEWeb.Shared
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         public string Name { get; set; }
+        private ThemeColor _ThemeColor;
         [Ignore, JsonIgnore]
-        public ThemeColor ThemeColor { get; set; }
+
+        public ThemeColor ThemeColor
+        {
+            get => _ThemeColor;
+            set
+            {
+                _ThemeColor = value;
+                Raise(() => ThemeColor);
+            }
+        }
 
         public string Color
         {
@@ -73,12 +83,18 @@ namespace SOEWeb.Shared
                 return false;
             }
             Teacher teacher = app.LiteConnection.Find<Teacher>(this.IdTeacher);
+            if (teacher is null)
+            {
+                return false;
+            }
             if (teacher.IsOffline)
             {
                 if (!await teacher.Sync(app, apiService))
                 {
                     return false;
                 }
+                this.IdTeacher = teacher.Id;
+                return await Sync(app, apiService);
             }
             Response<Subject> response = await apiService.Sync(this);
             if (response.ResponseResult == APIResponseResult.OK)
@@ -86,10 +102,11 @@ namespace SOEWeb.Shared
                 Subject subject = response.Extra;
                 app.LiteConnection.EXEC($"UPDATE SUBJECT SET Id='{subject.Id}',Color='{subject.Color}',ColorDark='{subject.ColorDark}',GroupId='{subject.GroupId}',IdTeacher='{subject.IdTeacher}',Guid='{subject.Guid}',IsOffline='0' where Id={this.Id}");
                 app.LiteConnection.EXEC($"UPDATE ClassTime SET IdSubject='{subject.Id}',IsOffline='0' where IdSubject={this.Id}");
-                app.LiteConnection.EXEC($"UPDATE Grades SET IdSubject='{subject.Id}',IsOffline='0' where IdSubject={this.Id}");
-                app.LiteConnection.EXEC($"UPDATE Reminder SET IdSubject='{subject.Id}' where IdSubject={this.Id}");
+                app.LiteConnection.EXEC($"UPDATE Grades SET SubjectId='{subject.Id}',IsOffline='0' where SubjectId={this.Id}");
+                app.LiteConnection.EXEC($"UPDATE Reminder SET SubjectId='{subject.Id}' where SubjectId={this.Id}");
                 app.LiteConnection.EXEC($"UPDATE ToDo SET SubjectId='{subject.Id}' where SubjectId={this.Id}");
                 this.Id = subject.Id;
+                this.IsOffline = false;
                 this.ThemeColor = subject.ThemeColor;
                 return true;
             }

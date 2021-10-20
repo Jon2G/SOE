@@ -50,7 +50,7 @@ namespace SOE.ViewModels.Pages
             }
         }
 
-        private static async Task<bool> AbrirArchivo(string ruta, string titulo)
+        private static async Task<bool> AbrirArchivo(string ruta, string title)
         {
             if (!await Permisos.RequestStorage())
             {
@@ -81,7 +81,7 @@ namespace SOE.ViewModels.Pages
 
                 await Share.RequestAsync(new ShareFileRequest
                 {
-                    Title = titulo,
+                    Title = title,
                     File = new ShareFile(temporal)
                 });
                 return true;

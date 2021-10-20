@@ -2,7 +2,7 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:tasksViews="clr-namespace:SOE.Views.ViewItems.TasksViews;assembly=SOE"
-             xmlns:taskFirst="clr-namespace:SOE.Models.TaskFirst;assembly=SOE"
+             xmlns:taskFirst="clr-namespace:SOE.Models.TodoModels;assembly=SOE"
              x:Name="Me" Background="{DynamicResource Background}"
              x:Class="SOE.Views.ViewItems.TasksViews.MainTaskView"
              xmlns:xtc="http://xamarin.com/schemas/2020/toolkit" 
@@ -35,7 +35,7 @@
 
             <StackLayout VerticalOptions="FillAndExpand"
                          Padding="5" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Margin="3,0">
-                <Frame Padding="3" HorizontalOptions="FillAndExpand"
+                <Frame Padding="3" HorizontalOptions="FillAndExpand" Visual="Default"
                        xtc:TouchEffect.Command="{Binding TareasViewCommand}"
                        xtc:TouchEffect.PressedScale="0.9" BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
                     <Label Text="TAREAS" TextColor="White" FontAttributes="Bold" FontSize="16"
@@ -52,7 +52,7 @@
                         </Style>
                     </Frame.Style>
                 </Frame>
-                <Frame Padding="3" HorizontalOptions="FillAndExpand"
+                <Frame Padding="3" HorizontalOptions="FillAndExpand" Visual="Default"
                        xtc:TouchEffect.Command="{Binding RemindersViewCommand}"
                        xtc:TouchEffect.PressedScale="0.9" BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
                     <Label Text="RECORDATORIOS" TextColor="White" FontAttributes="Bold" FontSize="16"

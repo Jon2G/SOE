@@ -2,7 +2,8 @@
 using System.Windows.Input;
 using AsyncAwaitBestPractices;
 using SOE.Data;
-using SOE.Models.TaskFirst;
+using SOE.Models.TodoModels;
+using SOE.Models.TodoModels;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
 using SOE.Views.ViewItems;
@@ -64,12 +65,10 @@ namespace SOE.ViewModels.Pages
                             .SafeFireAndForget();
                         return;
                     }
-                    bool IncludeFiles = await App.Current.MainPage.DisplayAlert(ToDo.Title,
-                        "¿Compartir también las imágenes de esta tarea?", "Sí", "No");
                     string link = string.Empty;
                     using (Acr.UserDialogs.UserDialogs.Instance.Loading("Compartiendo..."))
                     {
-                        link = await Models.TaskFirst.ToDo.Share(ToDo, IncludeFiles);
+                        link = await ToDo.Share(ToDo);
                     }
                     if (!string.IsNullOrEmpty(link))
                     {

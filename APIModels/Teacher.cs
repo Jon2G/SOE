@@ -23,9 +23,9 @@ namespace SOEWeb.Shared
             if (response.ResponseResult == APIResponseResult.OK)
             {
                 Teacher teacher = response.Extra;
-                app.LiteConnection.Update(teacher, x => x.Id == this.Id);
-                app.LiteConnection.Update($"update teacher set IdTeacher='{teacher.Id}',IsOffline=0 where IdTeacher='{this.Id}'");
-                app.LiteConnection.Update($"update Subject set IdTeacher='{teacher.Id}' where IdTeacher='{this.Id}'");
+                app.LiteConnection.Execute($"update Subject set IdTeacher='{teacher.Id}' where IdTeacher='{this.Id}'");
+                this.Id = teacher.Id;
+                this.IsOffline = false;
                 return true;
             }
             return false;

@@ -12,7 +12,6 @@ using SOE.Data.Images;
 using SOE.Enums;
 using SOE.Models;
 using SOE.Models.Data;
-using SOE.Models.TaskFirst;
 using SOE.Services;
 using SOE.Views.Pages;
 using SOE.Views.ViewItems;
@@ -24,6 +23,7 @@ using Device = Kit.Daemon.Devices.Device;
 using SOEWeb.Shared.Enums;
 using SOEWeb.Shared.Interfaces;
 using SOEWeb.Shared.Processors;
+using SOE.Models.TodoModels;
 
 namespace SOE.API
 {
@@ -162,7 +162,7 @@ namespace SOE.API
             }
             return JsonConvert.DeserializeObject<Response<int>>(result.Response);
         }
-        internal static async Task<Response<TodoBase>> DownloadSharedTodo(Guid todoGuid, bool includeFiles)
+        internal static async Task<Response<TodoBase>> DownloadSharedTodo(Guid todoGuid)
         {
             if (Guid.Empty == todoGuid)
             {
@@ -199,7 +199,7 @@ namespace SOE.API
                 }
 
                 List<PhotoArchive> photos = null;
-                if (includeFiles)
+                if (todo.HasPictures)
                 {
                     photos = new List<PhotoArchive>();
 
@@ -594,12 +594,13 @@ namespace SOE.API
         public static async Task<Response<Subject>> PostSubject(Subject subject)
         {
             await Task.Yield();
-            int userId = AppData.Instance.User.Id;
-            if (userId <= 0 || subject.IsOffline)
+            var user = AppData.Instance.User;
+            int userId = user.Id;
+            if (userId <= 0 || user.IsOffline)
             {
                 return Response<Subject>.InvalidRequest;
             }
-            int suffixer = subject.Id - OfflineConstants.IdBase;
+            int suffixer = (subject.Id - OfflineConstants.IdBase)+1;
             string suffix = ClassTimeDigester.GetGroupSuffix(subject.Group, ref suffixer);
             return await PostSubject(userId, subject.Group, suffix, subject.IdTeacher, subject.Name);
         }

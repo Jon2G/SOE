@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Kit.Forms.Extensions;
 using SOE.Data;
 using SOE.Data.Images;
-using SOE.Models.TaskFirst;
+using SOE.Models.TodoModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

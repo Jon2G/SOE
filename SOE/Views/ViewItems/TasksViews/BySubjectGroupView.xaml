@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:tasksViews="clr-namespace:SOE.Views.ViewItems.TasksViews;assembly=SOE"
-             xmlns:taskFirst="clr-namespace:SOE.Models.TaskFirst;assembly=SOE"
+             xmlns:taskFirst="clr-namespace:SOE.Models.TodoModels;assembly=SOE"
              xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
              x:Class="SOE.Views.ViewItems.TasksViews.BySubjectGroupView" Visual="Material"
              x:DataType="taskFirst:BySubjectGroup">

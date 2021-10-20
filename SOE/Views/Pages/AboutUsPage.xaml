@@ -70,7 +70,7 @@
                                               BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
                                               IsArrowVisible="False" Command="{Binding ReportBugCommand}">
                                 <controls:ArrowButton.Icon>
-                                    <FontImageSource Color="Black" FontFamily="{x:Static fonts:FontelloIcons.Font}" Glyph="{x:Static fonts:FontelloIcons.GitHub}"/>
+                                    <FontImageSource Color="Black" FontFamily="{x:Static fonts:FontelloIcons.Font}" Glyph="{x:Static fonts:FontelloIcons.Bug}"/>
                                 </controls:ArrowButton.Icon>
                             </controls:ArrowButton>
                             <controls:ArrowButton Title="Solicitar una nueva característica"

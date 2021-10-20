@@ -1,7 +1,7 @@
 ﻿using AsyncAwaitBestPractices;
 using SOE.Data;
 using SOE.FireBase;
-using SOE.Models.TaskFirst;
+using SOE.Models.TodoModels;
 using SOE.Views.Pages;
 using System;
 using System.Threading.Tasks;
@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace SOE.Services.ActionResponse
 {
-   public class TodoWidgetAction : IActionResponse
+    public class TodoWidgetAction : IActionResponse
     {
        public readonly Guid Id;
        public TodoWidgetAction(Guid Id)

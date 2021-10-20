@@ -2,7 +2,7 @@
 using System.Windows.Input;
 
 using SOE.Data.Images;
-using SOE.Models.TaskFirst;
+using SOE.Models.TodoModels;
 using SOE.ViewModels.Pages;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

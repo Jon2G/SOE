@@ -365,6 +365,12 @@
       "css": "signal",
       "code": 59439,
       "src": "modernpics"
+    },
+    {
+      "uid": "7432077e6a2d6aa19984ca821bb6bbda",
+      "css": "bug",
+      "code": 61832,
+      "src": "fontawesome"
     }
   ]
 }

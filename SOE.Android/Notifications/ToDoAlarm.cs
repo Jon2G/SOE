@@ -6,7 +6,7 @@ using Android.Content;
 using Android.OS;
 using Plugin.CurrentActivity;
 using SOE.Models.Scheduler;
-using SOE.Models.TaskFirst;
+using SOE.Models.TodoModels;
 using SOE.Widgets;
 
 namespace SOE.Droid.Notifications

@@ -6,7 +6,7 @@
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
              xmlns:effects="http://xamarin.com/schemas/2020/toolkit"
              xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
-             x:Class="SOE.Views.ViewItems.SchoolGrades"
+             x:Class="SOE.Views.ViewItems.SchoolGrades" Visual="Material"
              x:DataType="viewModels:SchoolGradesViewModel"
              Background="{DynamicResource Background}">
     <models:IconView.BindingContext>

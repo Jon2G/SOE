@@ -26,8 +26,9 @@ namespace SOE.API
                 });
             if (response.ResponseResult == APIResponseResult.OK)
             {
-                AppData.Instance.LiteConnection.EXEC($"UPDATE USER SET ID='{response.Extra}' WHERE ID='{user.Id}'");
+                AppData.Instance.LiteConnection.EXEC($"UPDATE USER SET ID='{response.Extra}',IsOffline='0' WHERE ID='{user.Id}'");
                 AppData.Instance.User.Id = response.Extra;
+                AppData.Instance.User.IsOffline =false;
 
                 return new Response<UserBase>(APIResponseResult.OK, "Ok", AppData.Instance.User);
             }
@@ -62,7 +63,8 @@ namespace SOE.API
             if (response.ResponseResult == APIResponseResult.OK)
             {
                 Subject NewSubject = response.Extra;
-                AppData.Instance.LiteConnection.EXEC($"UPDATE Subject SET ID='{NewSubject}',IsOffline=0 WHERE ID='{subject.Id}'");
+                AppData.Instance.LiteConnection.EXEC($"UPDATE Subject SET ID='{NewSubject.Id}',IsOffline=0 WHERE ID='{subject.Id}'");
+                AppData.Instance.LiteConnection.Update(NewSubject);
                 return new Response<Subject>(APIResponseResult.OK, "Ok", NewSubject);
             }
             return new Response<Subject>(APIResponseResult.INTERNAL_ERROR, "ERROR");

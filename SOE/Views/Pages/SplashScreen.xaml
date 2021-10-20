@@ -6,7 +6,7 @@
              xmlns:pages="clr-namespace:SOE.Views.Pages;assembly=SOE"
              xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
              x:Class="SOE.Views.Pages.SplashScreen"
-             x:DataType="pages:SplashScreen"
+             x:DataType="pages:SplashScreen" Visual="Material"
              BackgroundColor="{StaticResource PrimaryLightColor}">
 
     <StackLayout>

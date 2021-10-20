@@ -49,6 +49,8 @@ namespace SOEWeb.Shared
                 this.Raise(() => this.Time);
             }
         }
+        public bool HasPictures { get; set; }
+
         private Subject _Subject;
         [Ignore]
         public Subject Subject

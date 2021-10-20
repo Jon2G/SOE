@@ -77,7 +77,7 @@ namespace SOE.ViewModels.Pages
             this.Views = new ObservableCollection<IconView>();
             if (Subject.IsOffline)
             {
-                SyncSubject().SafeFireAndForget(); ;
+                SyncSubject().SafeFireAndForget();
                 return;
             }
             Load().SafeFireAndForget();

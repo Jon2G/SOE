@@ -8,7 +8,7 @@
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:viewItems1="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
-             x:Class="SOE.Views.ViewItems.MainView" Margin="0" Padding="0"
+             x:Class="SOE.Views.ViewItems.MainView" Margin="0" Padding="0" Visual="Material"
              x:DataType="viewItems1:MainViewModel" VerticalOptions="FillAndExpand">
     <models:IconView.BindingContext>
         <viewItems1:MainViewModel x:Name="Model" x:FieldModifier="public"/>

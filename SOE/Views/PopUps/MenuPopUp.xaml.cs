@@ -6,7 +6,7 @@ using System;
 using System.Threading.Tasks;
 using SOE.ViewModels.Pages;
 using Xamarin.Forms.Xaml;
-using SOE.Models.TaskFirst;
+using SOE.Models.TodoModels;
 
 namespace SOE.Views.PopUps
 {

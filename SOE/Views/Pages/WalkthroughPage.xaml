@@ -5,7 +5,7 @@
               xmlns:tool="http://xamarin.com/schemas/2020/toolkit"
               xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
               xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
-              x:Class="SOE.Views.Pages.WalkthroughPage"
+              x:Class="SOE.Views.Pages.WalkthroughPage" Visual="Material"
               x:DataType="pages:WalkthroughPageViewModel">
     <CarouselPage.BindingContext>
         <pages:WalkthroughPageViewModel/>

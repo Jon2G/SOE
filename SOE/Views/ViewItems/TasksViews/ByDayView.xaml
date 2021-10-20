@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:taskFirst="clr-namespace:SOE.Models.TaskFirst;assembly=SOE"
+             xmlns:taskFirst="clr-namespace:SOE.Models.TodoModels;assembly=SOE"
              xmlns:tasksViews="clr-namespace:SOE.Views.ViewItems.TasksViews;assembly=SOE"
-             x:Class="SOE.Views.ViewItems.TasksViews.ByDayView"
+             x:Class="SOE.Views.ViewItems.TasksViews.ByDayView" Visual="Material"
              x:DataType="taskFirst:ByDayGroup">
   <ContentView.Content>
         <ContentView>

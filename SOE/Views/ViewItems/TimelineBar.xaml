@@ -4,7 +4,7 @@
              xmlns:horario="clr-namespace:SOE.Models.Scheduler;assembly=SOE"
              xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
              xmlns:models="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
-             xmlns:converters="clr-namespace:SOE.Converters;assembly=SOE"
+             xmlns:converters="clr-namespace:SOE.Converters;assembly=SOE" Visual="Material"
              x:Class="SOE.Views.ViewItems.TimelineBar"
              HorizontalOptions="FillAndExpand" x:Name="Me" x:DataType="models:TimelineBarViewModel"
              VerticalOptions="FillAndExpand" Background="{DynamicResource Background}"

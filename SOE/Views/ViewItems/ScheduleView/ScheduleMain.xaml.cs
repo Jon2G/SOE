@@ -4,7 +4,6 @@ using System.Windows.Input;
 using SOEWeb.Shared;
 using SOE.Data;
 using SOE.Models.Scheduler;
-using SOE.Models.TaskFirst;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
 using Xamarin.Forms;
@@ -13,6 +12,7 @@ using Kit;
 using SOE.Fonts;
 using SOE.Models;
 using System;
+using SOE.Models.TodoModels;
 
 namespace SOE.Views.ViewItems.ScheduleView
 {

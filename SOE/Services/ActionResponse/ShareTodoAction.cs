@@ -18,11 +18,9 @@ namespace SOE.Services.ActionResponse
         public async Task Execute()
         {
             await Task.Yield();
-            bool IncludeFiles = await App.Current.MainPage.DisplayAlert("Descargar tarea",
-                "¿Descargar también las imágenes de esta tarea?", "Sí", "No");
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Descargando tarea..."))
             {
-                await APIService.DownloadSharedTodo(this.Id, IncludeFiles);
+                await APIService.DownloadSharedTodo(this.Id);
             }
 
         }

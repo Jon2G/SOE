@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
-             Shell.NavBarIsVisible="True"
+             Shell.NavBarIsVisible="True" Visual="Material"
              x:Class="SOE.Views.Pages.PrivacityPage" Title="Política de privacidad">
     <ContentPage.Content>
         <StackLayout>

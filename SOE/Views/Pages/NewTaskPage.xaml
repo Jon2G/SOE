@@ -6,7 +6,7 @@
              xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-              xmlns:images="clr-namespace:SOE.Data.Images;assembly=SOE" 
+              xmlns:images="clr-namespace:SOE.Data.Images;assembly=SOE"  Visual="Material"
               x:DataType="viewModels:NewTaskPageViewModel" 
              Shell.NavBarIsVisible="True"
              Title="Tarea">
@@ -33,7 +33,7 @@
                     <StackLayout Spacing="10" Margin="5" >
                         <StackLayout Spacing="10">
 
-                            <Editor AutoSize="TextChanges" Placeholder="Agregar titulo"  
+                            <Editor AutoSize="TextChanges" Placeholder="Agregar título"  
                                     Text="{Binding Tarea.Title}" MaxLength="100"/>
 
                             <Label  VerticalTextAlignment="Center" 
@@ -47,15 +47,19 @@
                                     BorderWidth="1" 
                                     Command="{Binding TaskCommand}"/>
                             <StackLayout  Orientation="Horizontal" Spacing="0" Padding="0">
-                                <Label Margin="10,0" Text="Fecha:" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Italic" FontSize="18"/>
+                                <Label Margin="10,0" Text="Fecha:" VerticalTextAlignment="Center" LineBreakMode="NoWrap"
+                                       HorizontalOptions="Start" FontAttributes="Italic" FontSize="18"/>
                                 <DatePicker DateSelected="DatePick_OnDateSelected" 
                                             HorizontalOptions="StartAndExpand" Margin="0"  FontAttributes="Bold" 
                                     Format="dd/MM/yyyy" 
                                     Date="{Binding Tarea.Date}" 
                                             MinimumDate="{x:Static x:DateTime.Now}"
                                 />
-                                <Label Margin="10,0" Text="Hora:" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Italic" FontSize="18"/>
-                                <TimePicker HorizontalOptions="End" Margin="0" 
+
+                                <BoxView Background="{DynamicResource PrimaryColor}" WidthRequest="3" 
+                                         HorizontalOptions="Center"/>
+                                
+                                <TimePicker HorizontalOptions="EndAndExpand" Margin="0" 
                                             Time="{Binding Tarea.Time}"
                                     FontFamily="Italic" />
                             </StackLayout>
@@ -85,7 +89,7 @@
                         <Button Grid.Column="1" Text="{x:Static fonts:FontelloIcons.Camera}" 
                                 FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                 TextColor="{DynamicResource PrimaryLightColor}"  
-                                HeightRequest="40" WidthRequest="98" 
+                                HeightRequest="50" WidthRequest="98" 
                                 BorderColor="{DynamicResource PrimaryLightColor}" 
                                 BorderWidth="2" Padding="0" CornerRadius="15" 
                                 FontSize="18" Command="{Binding CameraImageCommand}" />
@@ -93,7 +97,7 @@
                         <Button  Grid.Column="2" Text="{x:Static fonts:FontelloIcons.Photo}" 
                                  FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                                  TextColor="{DynamicResource PrimaryLightColor}"
-                                 HeightRequest="40" WidthRequest="98" 
+                                 HeightRequest="50" WidthRequest="98" 
                                  BorderColor="{DynamicResource PrimaryLightColor}" 
                                  BorderWidth="2" Padding="0" CornerRadius="15" 
                                  FontSize="18" Command="{Binding GaleryImageCommand}"/>

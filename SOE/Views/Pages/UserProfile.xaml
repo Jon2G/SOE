@@ -6,7 +6,7 @@
              xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
              xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              x:Class="SOE.Views.Pages.UserProfile" 
-             Shell.NavBarIsVisible="True"
+             Shell.NavBarIsVisible="True" Visual="Material"
              Background="{DynamicResource Background}"
              Title="Perfil de usuario" x:DataType="pages:UserProfileViewModel">
     <ContentPage.BindingContext>

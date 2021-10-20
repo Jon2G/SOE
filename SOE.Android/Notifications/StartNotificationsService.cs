@@ -14,7 +14,7 @@ using Plugin.CurrentActivity;
 using SOE.Droid.Notifications;
 using SOE.Interfaces;
 using Xamarin.Forms;
-using SOE.Models.TaskFirst;
+using SOE.Models.TodoModels;
 
 [assembly: Xamarin.Forms.Dependency(typeof(SOE.Droid.Notifications.StartNotificationsService))]
 namespace SOE.Droid.Notifications

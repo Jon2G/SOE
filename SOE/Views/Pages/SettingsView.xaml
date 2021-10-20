@@ -7,7 +7,7 @@
              xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
              xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
              xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
-             xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
+             xmlns:data="clr-namespace:SOE.Data;assembly=SOE" Visual="Material"
              Shell.NavBarIsVisible="True"
              Title="Ajustes"
              Background="{DynamicResource Background}">

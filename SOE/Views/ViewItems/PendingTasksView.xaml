@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <models:IconView xmlns="http://xamarin.com/schemas/2014/forms" 
           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-          xmlns:taskFirst="clr-namespace:SOE.Models.TaskFirst;assembly=SOE"
+          xmlns:taskFirst="clr-namespace:SOE.Models.TodoModels;assembly=SOE"
           xmlns:tasksViews="clr-namespace:SOE.Views.ViewItems.TasksViews;assembly=SOE"
           xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
           xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
           xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
           xmlns:viewItems1="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
-          x:Class="SOE.Views.ViewItems.PendingTasksView"
+          x:Class="SOE.Views.ViewItems.PendingTasksView" Visual="Material"
           x:DataType="viewItems1:PendingTasksViewModel">
     <models:IconView.BindingContext>
         <viewItems1:PendingTasksViewModel x:Name="Model" x:FieldModifier="public"/>

@@ -654,7 +654,7 @@ namespace SOEAWS.Controllers
             return new WResponse(registered ? APIResponseResult.YES : APIResponseResult.NO, "Ok");
         }
         [HttpGet("PostSubject/{UserId}/{Group}/{Suffix}/{TeacherId}/{SubjectName}")]
-        public static ActionResult<Response<Subject>> PostSubject(int UserId, string Group, string Suffix, int TeacherId, string SubjectName)
+        public ActionResult<Response<Subject>> PostSubject(int UserId, string Group, string Suffix, int TeacherId, string SubjectName)
         {
             if (UserId <= 0)
             {
@@ -671,7 +671,7 @@ namespace SOEAWS.Controllers
             }
         }
         [HttpGet("PostTeacher/{TeacherName}")]
-        public static ActionResult<Response<Teacher>> PostTeacher(string TeacherName)
+        public ActionResult<Response<Teacher>> PostTeacher(string TeacherName)
         {
             if (string.IsNullOrEmpty(TeacherName))
             {
@@ -689,7 +689,7 @@ namespace SOEAWS.Controllers
 
         }
         [HttpGet("PostClassTime/{TeacherId}/{SubjectId},{Day},{Begin},{End}")]
-        public static ActionResult<Response<ClassTime>> PostClassTime(int TeacherId, int SubjectId, int Day, TimeSpan Begin, TimeSpan End)
+        public ActionResult<Response<ClassTime>> PostClassTime(int TeacherId, int SubjectId, int Day, TimeSpan Begin, TimeSpan End)
         {
             DayOfWeek EnumDay = (DayOfWeek)(Day);
             try
@@ -703,7 +703,7 @@ namespace SOEAWS.Controllers
             }
         }
         [HttpGet("PostGrade/{partial}/{text_score},{numeric_score},{group},{User}")]
-        public static ActionResult<Response<Grade>> PostGrade(int partial, string text_score, int numeric_score, string group, string User)
+        public ActionResult<Response<Grade>> PostGrade(int partial, string text_score, int numeric_score, string group, string User)
         {
             GradePartial EnumPartial = (GradePartial)(partial);
             try

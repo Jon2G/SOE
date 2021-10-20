@@ -75,7 +75,8 @@
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <CodesignExtraArgs>
     </CodesignExtraArgs>
-    <MtouchSdkVersion></MtouchSdkVersion>
+    <MtouchSdkVersion>
+    </MtouchSdkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -252,7 +253,7 @@
       <Version>2.1.4</Version>
     </PackageReference>
     <PackageReference Include="Rg.Plugins.Popup">
-      <Version>2.0.0.13</Version>
+      <Version>2.0.0.14</Version>
     </PackageReference>
     <PackageReference Include="SkiaSharp.Views.Forms">
       <Version>2.80.3</Version>
@@ -287,7 +288,7 @@
     <PackageReference Include="Xamarin.Firebase.iOS.DynamicLinks">
       <Version>4.3.1</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2125" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
     <PackageReference Include="Xamarin.Forms.PancakeView">
       <Version>2.3.0.759</Version>
@@ -353,20 +354,17 @@
   <ItemGroup>
     <Folder Include="FireBase\" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Include="Widgets\ViewController.cs" />
     <Compile Include="Widgets\ViewController.designer.cs">
       <DependentUpon>Widgets\ViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Widgets\FakeData.cs" />
-
     <AdditionalAppExtensions Include="/Users/jon2g/Desktop/git/SOE/SOE.iOS/SwiftExtension/DerivedData/TestNativeApp/Build/Products/">
       <Name>NativeWidgetExtension</Name>
       <BuildOutput Condition="'$(Platform)' == 'iPhone'">Debug-iphoneos</BuildOutput>
       <BuildOutput Condition="'$(Platform)' == 'iPhoneSimulator'">Debug-iphonesimulator</BuildOutput>
     </AdditionalAppExtensions>
-
   </ItemGroup>
   <ItemGroup />
 </Project>

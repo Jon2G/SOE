@@ -117,7 +117,6 @@ namespace SOEWeb.Shared
             Response<UserBase> response = await apiService.Sync(this);
             if (response.ResponseResult == APIResponseResult.OK)
             {
-                app.LiteConnection.Update(this, x => x.Id == this.Id, false);
                 return true;
             }
             return false;

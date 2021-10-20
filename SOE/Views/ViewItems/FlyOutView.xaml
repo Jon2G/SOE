@@ -7,7 +7,7 @@
              xmlns:data="clr-namespace:SOE.Models.Data;assembly=SOE"
              xmlns:data1="clr-namespace:SOE.Data;assembly=SOE"
              xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
-             xmlns:views="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:views="http://xamarin.com/schemas/2020/toolkit" Visual="Material"
              Background="{DynamicResource Background}"
              x:DataType="viewItems:FlyOutViewModel"
              xmlns:kit="clr-namespace:Kit;assembly=Kit" xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"

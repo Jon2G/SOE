@@ -7,7 +7,7 @@
              xmlns:SOEWeb.Shared="clr-namespace:SOEWeb.Shared;assembly=SOEWeb.Shared"
              xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
              x:Name="Me"
-             x:Class="SOE.Views.Pages.SchoolSelector"
+             x:Class="SOE.Views.Pages.SchoolSelector" Visual="Material"
              x:DataType="pages:SchoolSelectorViewModel">
     <ContentPage.BindingContext>
         <pages:SchoolSelectorViewModel x:Name="Model"/>

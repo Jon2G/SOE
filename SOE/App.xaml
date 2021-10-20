@@ -4,7 +4,7 @@
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
-             xmlns:renders="clr-namespace:SOE.Renders;assembly=SOE"
+             xmlns:renders="clr-namespace:SOE.Renders;assembly=SOE"  
              xmlns:converters="clr-namespace:SOE.Converters;assembly=SOE"
              
              xmlns:dotMorten="clr-namespace:dotMorten.Xamarin.Forms;assembly=dotMorten.Xamarin.Forms.AutoSuggestBox"

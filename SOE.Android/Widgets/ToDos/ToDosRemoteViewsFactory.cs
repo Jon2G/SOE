@@ -10,7 +10,7 @@ using Kit;
 using Kit.Droid;
 using SOE.Data;
 using SOE.Models.Scheduler;
-using SOE.Models.TaskFirst;
+using SOE.Models.TodoModels;
 using SOE.Widgets;
 
 namespace SOE.Droid.Widgets.ToDos

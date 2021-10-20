@@ -7,7 +7,7 @@
              xmlns:SOEWeb.Shared="clr-namespace:SOEWeb.Shared;assembly=SOEWeb.Shared"
              xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
              xmlns:viewItems1="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
-             x:Class="SOE.Views.ViewItems.SubjectClassmatesView"
+             x:Class="SOE.Views.ViewItems.SubjectClassmatesView" Visual="Material"
              x:DataType="viewItems:SubjectClassmatesViewModel"
              x:Name="Me"
              Background="{DynamicResource Background}">

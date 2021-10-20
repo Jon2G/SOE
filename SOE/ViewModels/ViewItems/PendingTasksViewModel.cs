@@ -8,13 +8,14 @@ using Kit.Model;
 using P42.Utils;
 using SOE.Data;
 using SOE.Enums;
-using SOE.Models.TaskFirst;
+using SOE.Models.TodoModels;
 using SOE.Views.ViewItems;
 using SOE.Views.ViewItems.TasksViews;
 using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Collections;
+using SOE.Models.TodoModels;
 
 namespace SOE.ViewModels.ViewItems
 {

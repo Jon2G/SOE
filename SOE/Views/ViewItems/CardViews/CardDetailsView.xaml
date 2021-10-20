@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SOE.Views.ViewItems.CardViews.CardDetailsView"
+             x:Class="SOE.Views.ViewItems.CardViews.CardDetailsView" Visual="Material"
              BackgroundColor="White"
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
               xmlns:cardViews="clr-namespace:SOE.Views.ViewItems.CardViews;assembly=SOE"

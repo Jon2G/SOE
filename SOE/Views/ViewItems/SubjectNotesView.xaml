@@ -6,7 +6,7 @@
           xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
           xmlns:viewmodels="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
           xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
-          x:Class="SOE.Views.ViewItems.SubjectNotesView" x:Name="Me"
+          x:Class="SOE.Views.ViewItems.SubjectNotesView" x:Name="Me" Visual="Material"
           x:DataType="viewmodels:SubjectNotesViewModel" VerticalOptions="FillAndExpand"
           Background="{DynamicResource Background}">
     <Grid VerticalOptions="FillAndExpand" 

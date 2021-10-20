@@ -27,6 +27,7 @@ namespace SOE.Views.ViewItems
             GestureRecognizers.Add(GetSwipeGestureRecognizer(SwipeDirection.Right));
             //GestureRecognizers.Add(GetSwipeGestureRecognizer(SwipeDirection.Up));
             //GestureRecognizers.Add(GetSwipeGestureRecognizer(SwipeDirection.Down));
+            this.Visual = VisualMarker.Material;
         }
         SwipeGestureRecognizer GetSwipeGestureRecognizer(SwipeDirection direction)
         {

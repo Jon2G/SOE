@@ -8,7 +8,7 @@
              xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
              xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
-             x:DataType="pages:LinksPageViewModel"
+             x:DataType="pages:LinksPageViewModel" Visual="Material"
              x:Class="SOE.Views.Pages.LinksPage" 
              Title="Enlaces del grupo" x:Name="Me"
              Shell.NavBarIsVisible="True"

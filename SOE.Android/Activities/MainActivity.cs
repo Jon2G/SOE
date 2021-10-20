@@ -10,6 +10,7 @@ using Firebase.DynamicLinks;
 using Java.Net;
 using Kit.Droid;
 using Kit.Droid.Services;
+using Kit.Forms.Services.Interfaces;
 using PanCardView.Droid;
 using Plugin.CurrentActivity;
 using Plugin.Fingerprint;
@@ -20,7 +21,6 @@ using SOE.Droid.Notifications;
 using SOE.FireBase;
 using SOE.Interfaces;
 using SOE.Models.Scheduler;
-using SOE.Models.TaskFirst;
 using SOE.Services.ActionResponse;
 using SOE.Views.Pages;
 using SOE.Widgets;
@@ -28,6 +28,7 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using Xamarin.Forms;
 using Uri = Android.Net.Uri;
+using SOE.Models.TodoModels;
 
 [assembly: Dependency(typeof(MainActivity))]
 namespace SOE.Droid.Activities
@@ -52,7 +53,6 @@ namespace SOE.Droid.Activities
     {
         protected override void OnStart()
         {
-
 
             base.OnStart();
         }
@@ -79,6 +79,8 @@ namespace SOE.Droid.Activities
             Kit.Droid.Tools.Init(this, savedInstanceState);
             CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
             CardsViewRenderer.Preserve();
+            TinyIoC.TinyIoCContainer.Current.Register<IUpdateWidget>(this);
+            DependencyService.RegisterSingleton(this);
             LoadApplication(new SOE.App());
             if (this.Intent != null)
                 OnNewIntent(this.Intent);

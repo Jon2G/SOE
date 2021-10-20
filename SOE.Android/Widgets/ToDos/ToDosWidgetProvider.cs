@@ -6,10 +6,10 @@ using Android.Widget;
 using SOEWeb.Shared;
 using SOE.Droid.Activities;
 using SOE.Models.Scheduler;
-using SOE.Models.TaskFirst;
 using SOE.Widgets;
 using SQLitePCL;
 using String = System.String;
+using SOE.Models.TodoModels;
 
 namespace SOE.Droid.Widgets.ToDos
 {

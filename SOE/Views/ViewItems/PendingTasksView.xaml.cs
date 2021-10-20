@@ -22,14 +22,15 @@ namespace SOE.Views.ViewItems
         }
         public Action OnRefreshCompleteAction => this.OnRefreshComplete;
 
-        public async void OnRefreshComplete()
+        public void OnRefreshComplete()
         {
-            await Task.Delay(500);
-            if (this.Model.DayGroups.Any() && AppData.Instance.User.Settings.ExpandCards)
+            if ((this.Model?.DayGroups.Any() ?? false) && (AppData.Instance?.User?.Settings?.ExpandCards ?? false))
             {
-                await this.Model.DayGroups.First().ExpandAll(true);
+                Task task = this.Model.DayGroups?.FirstOrDefault()?.ExpandAll(true);
+                if (task is not null)
+                    Task.Delay(500).ContinueWith((t)=>task).SafeFireAndForget();
             }
-            this.CollectionView.InvalidateMeasureNonVirtual(InvalidationTrigger.RendererReady);
+            this.CollectionView?.InvalidateMeasureNonVirtual(InvalidationTrigger.RendererReady);
         }
     }
 }

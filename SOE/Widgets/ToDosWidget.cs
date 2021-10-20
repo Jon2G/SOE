@@ -3,14 +3,16 @@ using System.Linq;
 using Kit.Forms.Services.Interfaces;
 using SOE.Data;
 using SOE.Enums;
-using SOE.Models.TaskFirst;
+using SOE.Models.TodoModels;
 using Xamarin.Forms;
 
 namespace SOE.Widgets
 {
-    public static class ToDosWidget
+    public class ToDosWidget : IWidget
     {
-        public const string ITEM_CLICK = "TODOS_WIDGET_ITEM_CLICK"; 
+        public const string AppWidgetProviderFullClass = "SOE.Droid.Widgets.ToDos.ToDosWidgetProvider";
+        public override string AppWidgetProviderFullClassName => AppWidgetProviderFullClass;
+        public const string ITEM_CLICK = "TODOS_WIDGET_ITEM_CLICK";
         public const string EXTRA_ITEM = "com.example.widgets.WidgetProviders.EXTRA_ITEM";
         private static readonly Dictionary<int, List<ToDo>> WidgetsTodos;
         static ToDosWidget()
@@ -27,7 +29,7 @@ namespace SOE.Widgets
             return WidgetsTodos[WidgetId] = GetTasks();
         }
 
-        public static List<ToDo> GetTasks()=> AppData.Instance.LiteConnection.DeferredQuery<ToDo>
+        public static List<ToDo> GetTasks() => AppData.Instance.LiteConnection.DeferredQuery<ToDo>
                 ($"SELECT * from {nameof(ToDo)} where STATUS={(int)PendingStatus.Pending} order by Date,Time,SubjectId")
             .Select(x => x.LoadSubject()).ToList();
 
@@ -49,7 +51,7 @@ namespace SOE.Widgets
         {
             return GetTasks(appWidgetId)[itemPosition];
         }
-      
+
         public static string GetColor(ToDo toDo) => GetColor(ToDo.DaysLeft(toDo));
         public static string GetEmoji(ToDo toDo) => GetEmoji(ToDo.DaysLeft(toDo));
 
@@ -78,8 +80,6 @@ namespace SOE.Widgets
                     return "⏰";
             }
         }
-
-
         public static string GetColor(int DaysLeft)
         {
             switch (DaysLeft)
@@ -105,17 +105,10 @@ namespace SOE.Widgets
                     return Color.LightBlue.ToHex();
             }
         }
+
         public static void UpdateWidget()
         {
-            IUpdateWidget iWidget = DependencyService.Get<IUpdateWidget>();
-            switch (Device.RuntimePlatform)
-            {
-                case Device.Android:
-                    iWidget?.UpdateWidget("SOE.Droid", "SOE.Droid.Widgets.ToDos.ToDosWidgetProvider");
-                    break;
-                case Device.iOS:
-                    break;
-            }
+            IWidget.UpdateWidget(new ToDosWidget());
         }
     }
 }

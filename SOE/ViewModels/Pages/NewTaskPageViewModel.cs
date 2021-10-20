@@ -12,12 +12,12 @@ using SOE.Data;
 using SOE.Data.Images;
 using SOE.Enums;
 using SOE.Interfaces;
-using SOE.Models.TaskFirst;
 using SOE.Views.PopUps;
 using SOE.Widgets;
 using System.IO;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using SOE.Models.TodoModels;
 
 namespace SOE.ViewModels.Pages
 {
@@ -189,19 +189,37 @@ namespace SOE.ViewModels.Pages
             AddPhoto(await MediaPicker.CapturePhotoAsync()).SafeFireAndForget();
         }
 
-        private async Task AddPhoto(FileResult result)
+        private async Task AddPhoto(FileResult result, bool retry = true)
         {
-            if (result is null)
+            await Task.Yield();
+            try
             {
-                return;
+                if (result is null)
+                {
+                    return;
+                }
+
+                FileInfo file = await result.LoadPhotoAsync();
+                if (file is not null)
+                {
+                    PhotoArchive archive = new(file.FullName, FileType.Photo);
+                    Photos.Add(archive);
+                }
+            }
+            catch (System.IO.IOException ioException)
+            {
+                if (retry && await Permisos.RequestStorage())
+                {
+                    await AddPhoto(result, retry: false);
+                    return;
+                }
+                Log.Logger.Error(ioException, "IOException- AddPhoto");
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(e, "AddPhoto");
             }
 
-            FileInfo file = await result.LoadPhotoAsync();
-            if (file is not null)
-            {
-                PhotoArchive archive = new(file.FullName, FileType.Photo);
-                Photos.Add(archive);
-            }
         }
 
 

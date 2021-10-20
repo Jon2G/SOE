@@ -55,12 +55,8 @@ namespace SOE.Data
            
         }
 
-        /*PRUEBAS 
-YA ESTA LSITO JONATHAN!!!!!!!!!!!!!!!!!*/
-
         public static AppData Init()
         {
-            SOEWeb.Shared.Secrets.DotNetEnviroment.Load();
             AppData._Instance = new AppData
             {
                 User = new User(),

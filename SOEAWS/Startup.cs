@@ -25,8 +25,7 @@ namespace SOEAWS
     {
         static Startup()
         {
-            DotNetEnviroment.Load();
-            WebData.ConnectionString = Environment.GetEnvironmentVariable("AWSCONNECTIONSTRING");
+            WebData.ConnectionString = DotNetEnviroment.AWSCONNECTIONSTRING;
         }
         public Startup(IConfiguration configuration)
         {

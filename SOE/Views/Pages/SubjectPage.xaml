@@ -7,7 +7,7 @@
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
              xmlns:panCardView="clr-namespace:PanCardView;assembly=PanCardView"
              x:Class="SOE.Views.Pages.SubjectPage"
-             Shell.NavBarIsVisible="True"
+             Shell.NavBarIsVisible="True" Visual="Material"
              x:DataType="pages:SubjectPageViewModel"
              Title="{Binding Subject.Group}"
              Shell.BackgroundColor="{Binding Subject,Converter={StaticResource SubjectColorAppThemeConverter}}"

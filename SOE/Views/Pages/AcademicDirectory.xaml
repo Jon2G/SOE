@@ -11,7 +11,7 @@
              xmlns:converters="clr-namespace:Kit.Forms.Converters;assembly=Kit.Forms"
              xmlns:kit="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
              xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
-             Shell.NavBarIsVisible="True"
+             Shell.NavBarIsVisible="True" Visual="Material"
              Background="{DynamicResource Background}"
              Title="{Binding User.School.Name,Source={x:Static data:AppData.Instance}}"
              x:Class="SOE.Views.Pages.AcademicDirectory" x:DataType="pages:AcademicDirectoryViewModel">

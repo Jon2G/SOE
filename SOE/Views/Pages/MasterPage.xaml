@@ -11,7 +11,7 @@
              xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
              xmlns:tasksViews="clr-namespace:SOE.Views.ViewItems.TasksViews;assembly=SOE"
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
-             xmlns:panCardView="clr-namespace:PanCardView;assembly=PanCardView"
+             xmlns:panCardView="clr-namespace:PanCardView;assembly=PanCardView" Visual="Material"
              xmlns:saes="clr-namespace:SOE.Saes;assembly=SOE"
              x:DataType="pages:MasterPageViewModel" x:Name="Me"
              Title="{Binding SelectedView.Title}">
@@ -42,7 +42,7 @@
 
                 <Frame Padding="3" HorizontalOptions="FillAndExpand"
                    BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
-                       toolkit:TouchEffect.Command="{Binding GradesViewCommand}"
+                       toolkit:TouchEffect.Command="{Binding GradesViewCommand}" Visual="Default"
                        toolkit:TouchEffect.PressedScale="0.9" >
                     <Image HeightRequest="30">
                         <Image.Source>
@@ -62,7 +62,7 @@
                         </Style>
                     </Frame.Style>
                 </Frame>
-                <Frame Padding="3" HorizontalOptions="FillAndExpand"
+                <Frame Padding="3" HorizontalOptions="FillAndExpand" Visual="Default"
                    toolkit:TouchEffect.Command="{Binding TareasViewCommand}"
                    toolkit:TouchEffect.PressedScale="0.9" BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
                     <Image HeightRequest="30">
@@ -85,7 +85,8 @@
                 </Frame>
                 <Frame Padding="3" HorizontalOptions="FillAndExpand"
                    toolkit:TouchEffect.Command="{Binding ClassTimeViewCommand}"
-                   toolkit:TouchEffect.PressedScale="0.9" BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
+                   toolkit:TouchEffect.PressedScale="0.9" Visual="Default"
+                       BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
                     <Image HeightRequest="30">
                         <Image.Source>
                             <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"

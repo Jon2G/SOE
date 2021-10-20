@@ -184,7 +184,10 @@ namespace SOE.ViewModels.Pages.Login
                 Sex = GeneratorBase.SexTypes.All,
                 GeneratorFlags = GeneratorBase.NameTypes.None
             };
-            NickName = tagGenerator.Generate();
+            while(!SOEWeb.Shared.Validations.IsValidNickName(NickName))
+            {
+                NickName = tagGenerator.Generate();
+            }
             Acr.UserDialogs.UserDialogs.Instance.ShowLoading("Validando información");
             await AppData.Instance.SAES.GetName();
             await AppData.Instance.SAES.GetEmail();

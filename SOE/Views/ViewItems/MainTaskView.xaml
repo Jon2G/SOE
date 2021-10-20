@@ -12,7 +12,7 @@
              xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
              x:DataType="viewModels:MainTaskViewModel"
-             xmlns:pancard="clr-namespace:PanCardView;assembly=PanCardView"
+             xmlns:pancard="clr-namespace:PanCardView;assembly=PanCardView" Visual="Material"
              VerticalOptions="FillAndExpand" >
     <ContentView.BindingContext>
         <viewModels:MainTaskViewModel x:Name="Model" x:FieldModifier="public"/>

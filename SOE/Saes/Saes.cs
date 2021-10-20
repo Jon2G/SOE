@@ -63,6 +63,7 @@ namespace SOE.Saes
             this.ShowLoading = true;
             this.Navigated += Browser_Navigated;
             this._navigationQueue = new Queue<NavigationRequest>();
+            this.Visual = VisualMarker.Material;
 
         }
 

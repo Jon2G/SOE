@@ -4,7 +4,7 @@
              xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
              xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
              x:Class="SOE.Views.ViewItems.OfflineView"
-             x:DataType="viewItems:OfflineView" x:Name="Me"
+             x:DataType="viewItems:OfflineView" x:Name="Me" Visual="Material"
             Background="{DynamicResource Background}">
   <ContentView.Content>
       <StackLayout Padding="20" VerticalOptions="CenterAndExpand">

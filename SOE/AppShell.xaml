@@ -6,7 +6,7 @@
        xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
        x:Class="SOE.AppShell"
        Shell.NavBarIsVisible="False"
-       TabBarTitleColor="White"
+       TabBarTitleColor="White"  Visual="Material"
        Shell.BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
        Shell.Background="{DynamicResource PrimaryColor}"
        FlyoutBackgroundColor="{AppThemeBinding Light={StaticResource BackgroundDarkColor},Dark={StaticResource BackgroundLightColor}}"

@@ -4,7 +4,7 @@
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
              xmlns:cardViews="clr-namespace:SOE.Views.ViewItems.CardViews;assembly=SOE"
              xmlns:viewItems1="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
-             x:Class="SOE.Views.ViewItems.CardViews.PinnedTasks"
+             x:Class="SOE.Views.ViewItems.CardViews.PinnedTasks" Visual="Material"
              x:DataType="viewItems1:PinnedTasksViewModel">
     <ContentView.BindingContext>
         <viewItems1:PinnedTasksViewModel/>

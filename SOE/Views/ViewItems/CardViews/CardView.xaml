@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SOE.Views.ViewItems.CardViews.CardView"
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-             xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
+             xmlns:models="clr-namespace:SOE.Models;assembly=SOE" Visual="Material"
              xmlns:cardViews="clr-namespace:SOE.Views.ViewItems.CardViews;assembly=SOE"
              x:DataType="models:Card">
     <pancakeView:PancakeView  BackgroundColor="#E3E3E3"

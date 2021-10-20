@@ -8,7 +8,7 @@
              xmlns:images="clr-namespace:SOE.Data.Images;assembly=SOE"
              xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
              x:Class="SOE.Views.Pages.TaskDetails" 
-             Title="{Binding ToDo.Title}" 
+             Title="{Binding ToDo.Title}"  Visual="Material"
              x:DataType="pages:TaskDetailsViewModel"
              Shell.NavBarIsVisible="True"
              x:Name="Me">

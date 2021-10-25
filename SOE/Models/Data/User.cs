@@ -42,7 +42,7 @@ namespace SOE.Models.Data
         }
         public Settings GetSettings()
         {
-            var settings = AppData.Instance.LiteConnection
+            Settings settings = AppData.Instance.LiteConnection
                 .Table<Settings>()
                 .FirstOrDefault();
             if (settings is null)

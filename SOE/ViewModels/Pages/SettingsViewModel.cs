@@ -22,7 +22,7 @@ namespace SOE.ViewModels.Pages
             this.OnFingerPrintToogledCommand = new Command(OnFingerPrintToogled);
             this.SaveCommand = new Command(Save);
             ViewChangeCommand = new Command(ViewOpen);
-            Settings = AppData.Instance.User.Settings;
+            Settings = AppData.Instance.User.Settings?? AppData.Instance.User.GetSettings();
         }
         
         private async void OnFingerPrintToogled()

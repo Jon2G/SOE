@@ -90,7 +90,8 @@
                             </BindableLayout.ItemTemplate>
                         </StackLayout>
                     </ScrollView>
-                    <Label FontSize="20" HorizontalOptions="EndAndExpand" FontAttributes="Bold" VerticalOptions="Start">
+                    <Label Margin="5" FontSize="20" HorizontalOptions="EndAndExpand" 
+                           FontAttributes="Bold" VerticalOptions="Start">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Promedio semestre: "/>

@@ -32,7 +32,7 @@ namespace SOE.API
         public const string ShareTodo = "ShareTodo";
         public const string ShareReminder = "ShareReminder";
 
-#if DEBUG
+#if RELEASE //DEBUG
         //LOCAL
         public const string NonHttpsUrl = "192.168.0.32:5001";
         public const string NonProdUrl = "192.168.0.32";
@@ -164,6 +164,7 @@ namespace SOE.API
         }
         internal static async Task<Response<TodoBase>> DownloadSharedTodo(Guid todoGuid)
         {
+            await Task.Yield();
             if (Guid.Empty == todoGuid)
             {
                 return Response<TodoBase>.Error;

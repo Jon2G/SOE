@@ -10,6 +10,7 @@ using Firebase.DynamicLinks;
 using Java.Net;
 using Kit.Droid;
 using Kit.Droid.Services;
+using Kit.Forms.Services;
 using Kit.Forms.Services.Interfaces;
 using PanCardView.Droid;
 using Plugin.CurrentActivity;
@@ -29,8 +30,8 @@ using System.Security.Cryptography.X509Certificates;
 using Xamarin.Forms;
 using Uri = Android.Net.Uri;
 using SOE.Models.TodoModels;
+using Application = Xamarin.Forms.Application;
 
-[assembly: Dependency(typeof(MainActivity))]
 namespace SOE.Droid.Activities
 {
     [Activity(Label = "SOE", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
@@ -68,7 +69,6 @@ namespace SOE.Droid.Activities
         }
 
 
-
         protected override async void OnCreate(Bundle savedInstanceState)
         {
             ServicePointManager.ServerCertificateValidationCallback += ServerCertificateValidationCallback;
@@ -79,9 +79,8 @@ namespace SOE.Droid.Activities
             Kit.Droid.Tools.Init(this, savedInstanceState);
             CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
             CardsViewRenderer.Preserve();
-            TinyIoC.TinyIoCContainer.Current.Register<IUpdateWidget>(this);
-            DependencyService.RegisterSingleton(this);
-            LoadApplication(new SOE.App());
+            LoadApplication(new App());
+            FontCache.DeleteFontCacheIfFontChanged(typeof(App));
             if (this.Intent != null)
                 OnNewIntent(this.Intent);
         }

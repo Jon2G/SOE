@@ -38,7 +38,8 @@
 
             <StackLayout VerticalOptions="FillAndExpand"
                      BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
-                         Padding="5" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Margin="0">
+                         Padding="5" HorizontalOptions="FillAndExpand" 
+                     Orientation="Horizontal" Margin="0" HeightRequest="30">
 
                 <Frame Padding="3" HorizontalOptions="FillAndExpand"
                    BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
@@ -90,7 +91,8 @@
                     <Image HeightRequest="30">
                         <Image.Source>
                             <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                         Glyph="{x:Static fonts:FontelloIcons.Calendar}" Color="White"/>
+                                         Glyph="{x:Static fonts:FontelloIcons.Calendar}" 
+                                         Color="White" Size="20"/>
                         </Image.Source>
                     </Image>
                     <Frame.Style>

@@ -1,6 +1,8 @@
 ﻿using Kit.Model;
 using Kit.Sql.Attributes;
 using Kit.Sql.Interfaces;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 
 namespace SOEWeb.Shared
@@ -30,6 +32,7 @@ namespace SOEWeb.Shared
             }
         }
         private DateTime _Date;
+        [JsonConverter(typeof(Newtonsoft.Json.Converters.IsoDateTimeConverter))]
         public DateTime Date
         {
             get => this._Date;
@@ -40,6 +43,7 @@ namespace SOEWeb.Shared
             }
         }
         private TimeSpan _Time;
+ 
         public TimeSpan Time
         {
             get => this._Time;
@@ -63,5 +67,9 @@ namespace SOEWeb.Shared
             }
         }
 
+        public TodoBase()
+        {
+            
+        }
     }
 }

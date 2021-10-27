@@ -8,9 +8,7 @@ namespace SOE
 
         public App()
         {
-
             InitializeComponent();
-
             App.Current.MainPage = new SplashScreen();
         }
 

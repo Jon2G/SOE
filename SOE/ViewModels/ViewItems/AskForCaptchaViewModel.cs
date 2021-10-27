@@ -8,6 +8,7 @@ using SOE.Data;
 using SOE.Views.PopUps;
 using Xamarin.Forms;
 using Command = Xamarin.Forms.Command;
+using Kit;
 
 namespace SOE.ViewModels.ViewItems
 {
@@ -104,7 +105,7 @@ namespace SOE.ViewModels.ViewItems
             }
             catch (Exception ex)
             {
-
+                Log.Logger.Error(ex, "Ask for captach SignIn");
             }
             finally
             {

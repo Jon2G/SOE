@@ -18,7 +18,7 @@
                 <pancakeView:PancakeView 
                     CornerRadius="10" 
                 Padding="10" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
-                Margin="20,10">
+                Margin="10">
                     <StackLayout>
                         <Label Text="Selecciona tu escuela" HorizontalOptions="Center" FontSize="20" FontAttributes="Bold" />
                         <SearchBar Placeholder="Buscar mi escuela" x:Name="SearchBar">

@@ -16,7 +16,7 @@
 
 
   <ItemGroup>
-    <EmbeddedResource Include="Fonts\Fontello\font\fontello_28.ttf" />
+    <EmbeddedResource Include="Fonts\Fontello\font\fontello_29.ttf" />
     <EmbeddedResource Include="Resources\CalendarioEscolar.pdf" />
   </ItemGroup>
 

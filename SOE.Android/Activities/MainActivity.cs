@@ -30,7 +30,6 @@ using Xamarin.Forms;
 using Uri = Android.Net.Uri;
 using SOE.Models.TodoModels;
 
-[assembly: Dependency(typeof(MainActivity))]
 namespace SOE.Droid.Activities
 {
     [Activity(Label = "SOE", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
@@ -81,7 +80,7 @@ namespace SOE.Droid.Activities
             CardsViewRenderer.Preserve();
             TinyIoC.TinyIoCContainer.Current.Register<IUpdateWidget>(this);
             DependencyService.RegisterSingleton(this);
-            LoadApplication(new SOE.App());
+            Initialize();
             if (this.Intent != null)
                 OnNewIntent(this.Intent);
         }

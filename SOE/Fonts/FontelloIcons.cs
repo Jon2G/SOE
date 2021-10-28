@@ -1,9 +1,11 @@
 ﻿using SOE.Fonts;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
-[assembly: ExportFont("fontello_28.ttf", Alias = FontelloIcons.Font)]
+[assembly: ExportFont(FontelloIcons.ResourceFileName, Alias = FontelloIcons.Font)]
 namespace SOE.Fonts
 {
+    [Preserve()]
     public static class FontelloIcons
     {
         public const string AddressBook = "\ue801";
@@ -73,6 +75,7 @@ namespace SOE.Fonts
         public const string SignalAnthena = "\uE82F";
         public const string Bug = "\uF188";
 
-        public const string Font = "FontIcon";
+        public const string Font = "font_icons";
+        public const string ResourceFileName = "fontello_29.ttf";
     }
 }

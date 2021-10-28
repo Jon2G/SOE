@@ -16,7 +16,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidUseAapt2>true</AndroidUseAapt2>
@@ -209,7 +208,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Kit\Kit.Droid\Kit.Droid.csproj">
-      <Project>{69924835-ccfb-4764-a16f-f31295748c29}</Project>
+      <Project>{7F3FAB21-7412-4D23-9308-E374489E588C}</Project>
       <Name>Kit.Droid</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Kit\Kit.Forms\Kit.Forms.csproj">

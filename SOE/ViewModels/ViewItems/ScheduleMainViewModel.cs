@@ -56,10 +56,10 @@ namespace SOE.ViewModels.ViewItems
         private async Task ExportToPdf()
         {
             await Task.Yield();
-            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Generando horrario..."))
-            {
+            //using (Acr.UserDialogs.UserDialogs.Instance.Loading("Generando horrario..."))
+            //{
                 await _ExportToPdf();
-            }
+            //}
             Acr.UserDialogs.UserDialogs.Instance.HideLoading();
         }
         private async Task _ExportToPdf()

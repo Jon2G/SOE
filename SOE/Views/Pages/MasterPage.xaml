@@ -38,17 +38,17 @@
 
             <StackLayout VerticalOptions="FillAndExpand"
                      BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
-                         Padding="5" HorizontalOptions="FillAndExpand" 
-                     Orientation="Horizontal" Margin="0" HeightRequest="30">
+                         Padding="5" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Margin="0">
 
                 <Frame Padding="3" HorizontalOptions="FillAndExpand"
                    BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}"
                        toolkit:TouchEffect.Command="{Binding GradesViewCommand}" Visual="Default"
                        toolkit:TouchEffect.PressedScale="0.9" >
-                    <Image HeightRequest="30">
+                    <Image>
                         <Image.Source>
                             <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                         Glyph="{x:Static fonts:FontelloIcons.Cal}" Color="White"/>
+                                         Glyph="{x:Static fonts:FontelloIcons.Cal}" Color="White"
+                                             Size="30"/>
                         </Image.Source>
                     </Image>
                     <Frame.Style>
@@ -66,10 +66,11 @@
                 <Frame Padding="3" HorizontalOptions="FillAndExpand" Visual="Default"
                    toolkit:TouchEffect.Command="{Binding TareasViewCommand}"
                    toolkit:TouchEffect.PressedScale="0.9" BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
-                    <Image HeightRequest="30">
+                    <Image>
                         <Image.Source>
                             <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                         Glyph="{x:Static fonts:FontelloIcons.Book}" Color="White"/>
+                                         Glyph="{x:Static fonts:FontelloIcons.Book}" Color="White"
+                                             Size="30"/>
                         </Image.Source>
                     </Image>
                     <Frame.Style>
@@ -88,11 +89,11 @@
                    toolkit:TouchEffect.Command="{Binding ClassTimeViewCommand}"
                    toolkit:TouchEffect.PressedScale="0.9" Visual="Default"
                        BackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDarkColor},Light={StaticResource PrimaryLightColor}}">
-                    <Image HeightRequest="30">
+                    <Image>
                         <Image.Source>
                             <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                         Glyph="{x:Static fonts:FontelloIcons.Calendar}" 
-                                         Color="White" Size="20"/>
+                                         Glyph="{x:Static fonts:FontelloIcons.Calendar}" Color="White"
+                                             Size="30"/>
                         </Image.Source>
                     </Image>
                     <Frame.Style>

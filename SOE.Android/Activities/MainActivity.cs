@@ -79,6 +79,7 @@ namespace SOE.Droid.Activities
             Kit.Droid.Tools.Init(this, savedInstanceState);
             CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
             CardsViewRenderer.Preserve();
+            TinyIoC.TinyIoCContainer.Current.Register<IUpdateWidget>(this);
             LoadApplication(new App());
             FontCache.DeleteFontCacheIfFontChanged(typeof(App));
             if (this.Intent != null)

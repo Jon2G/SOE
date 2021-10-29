@@ -6,26 +6,24 @@ using Android.Util;
 using AndroidX.Core.App;
 using SOE.Data;
 using SOE.Droid.Activities;
+using SOE.Notifications;
 using System;
 using System.Globalization;
+using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.Android;
 using Environment = System.Environment;
+using Log = Android.Util.Log;
 
 [assembly: UsesPermission(Name = Manifest.Permission.UseFullScreenIntent)]
 [assembly: UsesPermission(Name = Manifest.Permission.SystemAlertWindow)]
 namespace SOE.Droid.Notifications
 {
-    public class Notification
+    [Preserve]
+    public class Notification : LocalNotification
     {
-        public const string ClassTimeCode = "80";
+
         public const int MidnightCode = 800;
-        private readonly string Title;
-        private string Content;
-        public int Index;
-        private readonly Xamarin.Forms.Color Color;
-        private readonly DateTime Date;
-        private readonly Context Context;
-        private readonly NotificationChannel NotificationChannel;
+        private Context Context { get;  set; }
         private const string TitleKey = nameof(Title);
         private const string ContentKey = nameof(Content);
         private const string IndexKey = nameof(Index);
@@ -50,14 +48,19 @@ namespace SOE.Droid.Notifications
                 return false;
             }
         }
-        public Notification(string Title, string Content, int Index, string Color, DateTime Date, Context Context,
-            NotificationChannel NotificationChannel) :
-            this(Title, Content, Index, Color, Date.ToString(DateFormat), Context, NotificationChannel)
+
+        public Notification()
         {
 
         }
 
-        public Notification(string Title, string Content, int Index, string Color, string Date, Context Context, NotificationChannel NotificationChannel)
+        public Notification(string Title, string Content, uint Index, string Color, DateTime Date, Context Context,
+            IChannel NotificationChannel)
+        : this(Title, Content, Index, Color, Date.ToString(DateFormat, CultureInfo.InvariantCulture), Context, NotificationChannel)
+        {
+
+        }
+        public Notification(string Title, string Content, uint Index, string Color, string Date, Context Context, IChannel NotificationChannel)
         {
             this.Title = Title;
             this.Content = Content;
@@ -72,7 +75,7 @@ namespace SOE.Droid.Notifications
             }
             this.Date = DateTime.ParseExact(Date, DateFormat, CultureInfo.InvariantCulture);
             this.Context = Context;
-            this.NotificationChannel = NotificationChannel;
+            this.Channel = NotificationChannel;
         }
         public Android.App.Notification Build()
         {
@@ -81,8 +84,8 @@ namespace SOE.Droid.Notifications
             NotificationCompat.Builder builder;
             if (Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.O)
             {
-                builder = new NotificationCompat.Builder(this.Context, this.NotificationChannel.ChannelId);
-                builder.SetChannelId(this.NotificationChannel.ChannelId);
+                builder = new NotificationCompat.Builder(this.Context, this.Channel.ChannelId);
+                builder.SetChannelId(this.Channel.ChannelId);
             }
             else
             {
@@ -126,29 +129,30 @@ namespace SOE.Droid.Notifications
             return BuildedNotification;
         }
 
-        public Bundle ToExtras()
+        public Bundle ToExtras(IChannel channel)
         {
             Bundle bundle = new Bundle();
             bundle.PutString(nameof(Notification), nameof(Notification));
             bundle.PutString(TitleKey, this.Title);
             bundle.PutString(ContentKey, this.Content);
-            bundle.PutInt(IndexKey, this.Index);
+            bundle.PutInt(IndexKey, (int)this.Index);
             bundle.PutString(ColorKey, this.Color.ToHex());
             bundle.PutString(DateKey, this.Date.ToString(DateFormat, CultureInfo.InvariantCulture));
-            bundle.PutString(NotificationChanelIdKey, this.NotificationChannel.ChannelId);
+            bundle.PutString(NotificationChanelIdKey, channel.ChannelId);
             return bundle;
         }
-        internal static Notification FromExtras(Bundle extras, Context context)
+        public static Notification FromExtras(Bundle extras, Context context)
         {
             return new Notification(
                 extras.GetString(TitleKey),
                 extras.GetString(ContentKey),
-                extras.GetInt(IndexKey),
+                (uint)extras.GetInt(IndexKey),
                 extras.GetString(ColorKey),
                 extras.GetString(DateKey, DateTime.MinValue.ToString(DateFormat)),
                 context,
-                NotificationChannel.GetNotificationChannel(context, extras.GetString(NotificationChanelIdKey)));
+                SOE.Droid.Notifications.NotificationChannel.GetNotificationChannel(context, extras.GetString(NotificationChanelIdKey)));
         }
+
         /* when your phone is locked screen wakeup method*/
         protected void WakeUpScreen()
         {
@@ -166,26 +170,32 @@ namespace SOE.Droid.Notifications
             }
         }
 
-
-        public void Notify()
+        public override void Notify()
         {
-            if ((Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.O) && !this.NotificationChannel.IsRegistered)
+            if ((Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.O) && !this.Channel.IsRegistered)
             {
-                this.NotificationChannel.RegisterNotificationChannel(Context);
+                (this.Channel as NotificationChannel)?.Register(this.Context);
             }
             WakeUpScreen();
 
             if ((Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.O))
             {
-                this.NotificationChannel.NotificationManager.Notify(this.Index, this.Build());
+                (this.Channel as NotificationChannel)?.NotificationManager.Notify((int)this.Index, this.Build());
             }
             else
             {
                 NotificationManager notificationManager = (NotificationManager)this.Context.GetSystemService(
                    Java.Lang.Class.FromType(typeof(Android.App.NotificationManager)));
-                notificationManager.Notify(this.Index, this.Build());
+                notificationManager.Notify((int)this.Index, this.Build());
             }
         }
 
+
+
+        public override void Schedule()
+        {
+            this.Context = NotificationHelper.GetContext();
+            Alarm.ProgramFor(this, this.Date, this.Context, this.Index, this.Channel);
+        }
     }
 }

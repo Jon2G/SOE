@@ -3,14 +3,18 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using AndroidX.Core.App;
+using SOE.Droid.Notifications.Alarms;
+using SOE.Notifications;
+using Xamarin.Forms.Internals;
 
 namespace SOE.Droid.Notifications
 {
-    public class NotificationChannel
+    [Preserve]
+    public class NotificationChannel : IChannel
     {
         public const string ToDoChannelId = "todo_channel_id_school_organizer";
         public const string ClassChannelId = "class_channel_id_school_organizer";
-        public readonly string ChannelId;
+        public string ChannelId { get; }
         public readonly string Name;
         public readonly string Description;
         private readonly Context Context;
@@ -23,7 +27,12 @@ namespace SOE.Droid.Notifications
             this.ChannelId = ChannelId;
             this.NotificationManager = GetNotificationManager(this.Context);
         }
-        public void RegisterNotificationChannel(Context context, NotificationImportance Importance = NotificationImportance.High)
+
+        public void Register()
+        {
+            this.Register(this.Context);
+        }
+        public void Register(Context context, NotificationImportance Importance = NotificationImportance.High)
         {
             // Create the NotificationChannel, but only on API 26+ because
             // the NotificationChannel class is new and not in the support library
@@ -48,7 +57,6 @@ namespace SOE.Droid.Notifications
             this.IsRegistered = true;
             //}
         }
-
 
 
         private static NotificationManager GetNotificationManager(Context Context)
@@ -89,7 +97,7 @@ namespace SOE.Droid.Notifications
             if (Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.O)
             {
                 //no existe antes de OREO
-                this.RegisterNotificationChannel(this.Context);
+                this.Register(this.Context);
             }
 
             NotificationCompat.Builder builder;

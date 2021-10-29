@@ -6,13 +6,15 @@ using Android.Content;
 using Android.OS;
 using Kit.Droid;
 using SOE.Notifications;
+using Xamarin.Forms.Internals;
 using Exception = Java.Lang.Exception;
 
 [assembly: UsesPermission(Name = Manifest.Permission.WakeLock)]
 namespace SOE.Droid.Notifications
 {
     [BroadcastReceiver(Exported = true, Enabled = true)]
-    [IntentFilter(new[] { LocalNotifications.START_ALARM })]
+    [IntentFilter(new[] { LocalNotification.START_ALARM })]
+    [Preserve]
     public class Alarm : BroadcastReceiver
     {
         public override void OnReceive(Context context, Intent intent)
@@ -52,18 +54,18 @@ namespace SOE.Droid.Notifications
         }
 
 
-        internal static void ProgramFor(Bundle extras, DateTime date, Context context, int requestId)
+        internal static void ProgramFor(Bundle extras, DateTime date, Context context, uint requestId)
         {
             long trigger_milis = date.ToUniversalTime().ToUnixTimestamp();
             Intent i = new Intent(context, typeof(Alarm));
             i.PutExtras(extras);
-            PendingIntent pi = PendingIntent.GetBroadcast(context, requestId, i, 0);
+            PendingIntent pi = PendingIntent.GetBroadcast(context, (int)requestId, i, 0);
             AlarmManager am = (AlarmManager)context.GetSystemService(Context.AlarmService);
             am.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, trigger_milis, pi);
         }
-        internal static void ProgramFor(Notification notification, DateTime date, Context context, int requestId)
+        internal static void ProgramFor(Notification notification, DateTime date, Context context, uint requestId,IChannel channel)
         {
-            ProgramFor(notification.ToExtras(), date, context, requestId);
+            ProgramFor(notification.ToExtras(channel), date, context, requestId);
         }
 
         public void Cancel(Context context)

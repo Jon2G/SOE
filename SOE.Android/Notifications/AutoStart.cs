@@ -2,6 +2,7 @@
 using Android;
 using Android.App;
 using Android.Content;
+using Xamarin.Forms.Internals;
 
 [assembly: UsesPermission(Name = Manifest.Permission.ReceiveBootCompleted)]
 namespace SOE.Droid.Notifications
@@ -12,6 +13,7 @@ namespace SOE.Droid.Notifications
         Intent.ActionBootCompleted, Intent.ActionLockedBootCompleted, Intent.ActionReboot,
         "android.intent.action.QUICKBOOT_POWERON","com.htc.intent.action.QUICKBOOT_POWERON"
     })]
+    [Preserve]
     public class AutoStart : BroadcastReceiver
     {
         public AutoStart()

@@ -3,12 +3,15 @@ using Android.Content;
 using Android.OS;
 using Kit.Droid.Services;
 using SOE.Droid.Notifications;
+using SOE.Droid.Notifications.Alarms;
+using Xamarin.Forms.Internals;
 
 [assembly: Xamarin.Forms.Dependency(typeof(NotificationService))]
 namespace SOE.Droid.Notifications
 {
     [Service(Enabled = true, Exported = true)]
     [IntentFilter(new[] { ".NotificationService" })]
+    [Preserve]
     public class NotificationService : Service
     {
         public override ComponentName? StartForegroundService(Intent? service)
@@ -26,8 +29,12 @@ namespace SOE.Droid.Notifications
         {
             var Context = MainActivity.GetAppContext();
             //start a separate thread and start listening to your network object
-            ClassAlarm.ProgramAlarms(Context);
-            ToDoAlarm.ProgramAlarms(Context);
+            ClassAlarm alarm = new ClassAlarm();
+            alarm.ScheduleAlll();
+
+            ToDoAlarm todo = new ToDoAlarm();
+            alarm.ScheduleAlll();
+            
             base.OnCreate();
         }
     }

@@ -172,10 +172,11 @@
     <Compile Include="FireBase\OnFailureListener.cs" />
     <Compile Include="FireBase\OnSuccessListener.cs" />
     <Compile Include="Notifications\Alarm.cs" />
+    <Compile Include="Notifications\NotificationHelper.cs" />
     <Compile Include="Notifications\AutoStart.cs" />
     <Compile Include="Notifications\StartNotificationsService.cs" />
-    <Compile Include="Notifications\ToDoAlarm.cs" />
-    <Compile Include="Notifications\ClassAlarm.cs" />
+    <Compile Include="Notifications\Alarms\ToDoAlarm.cs" />
+    <Compile Include="Notifications\Alarms\ClassAlarm.cs" />
     <Compile Include="Notifications\Notification.cs" />
     <Compile Include="Notifications\NotificationChannel.cs" />
     <Compile Include="Notifications\NotificationService.cs" />
@@ -208,7 +209,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Kit\Kit.Droid\Kit.Droid.csproj">
-      <Project>{7F3FAB21-7412-4D23-9308-E374489E588C}</Project>
+      <Project>{3ce47640-f47d-4db8-8d45-d2a5a43c952f}</Project>
       <Name>Kit.Droid</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Kit\Kit.Forms\Kit.Forms.csproj">

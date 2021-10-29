@@ -71,24 +71,16 @@ namespace SOE.Droid.Activities
 
         protected override async void OnCreate(Bundle savedInstanceState)
         {
-            ServicePointManager.ServerCertificateValidationCallback += ServerCertificateValidationCallback;
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             await CrossMedia.Current.Initialize();//
             base.OnCreate(savedInstanceState);
-            Kit.Droid.Tools.Init(this, savedInstanceState);
             CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
             CardsViewRenderer.Preserve();
-            TinyIoC.TinyIoCContainer.Current.Register<IUpdateWidget>(this);
             LoadApplication(new App());
-            FontCache.DeleteFontCacheIfFontChanged(typeof(App));
+            Initialize(savedInstanceState,typeof(App));
             if (this.Intent != null)
                 OnNewIntent(this.Intent);
-        }
-
-        private bool ServerCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslpolicyerrors)
-        {
-            return true;
         }
 
         protected override void OnNewIntent(Intent intent)

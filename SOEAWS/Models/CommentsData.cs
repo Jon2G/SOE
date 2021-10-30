@@ -12,7 +12,7 @@ namespace SOEAWS.Models
     public struct CommentsData
     {
         public readonly int UserId;
-        public readonly int TeacherId;
+        public readonly Teacher Teacher;
         public readonly int GroupId;
         public readonly int SubjectId;
         public readonly string NickName;
@@ -22,7 +22,6 @@ namespace SOEAWS.Models
             int GroupId, int SubjectId, IStateHasChanged IStateHasChanged)
         {
             this.UserId = UserId;
-            this.TeacherId = TeacherId;
             this.GroupId = GroupId;
             this.SubjectId = SubjectId;
             this.IStateHasChanged = IStateHasChanged;
@@ -31,7 +30,8 @@ namespace SOEAWS.Models
                 this.NickName = UserBase.GetNickName(UserId, con);
             }
             this.SubjectId = SubjectId;
-            this.Subject = SubjectService.GetById(SubjectId); ;
+            this.Subject = SubjectService.GetById(SubjectId);
+            this.Teacher = TeacherService.GetById(TeacherId);
         }
     }
 }

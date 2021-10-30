@@ -1,6 +1,8 @@
-﻿using SOE.Models.Scheduler;
+﻿using Kit;
+using SOE.Models.Scheduler;
 using System;
 using System.Collections.Generic;
+using Xamarin.Forms.PlatformConfiguration;
 
 namespace SOE.Notifications.Alarms
 {
@@ -11,7 +13,7 @@ namespace SOE.Notifications.Alarms
 
         public ClassAlarm()
         {
-            
+
         }
         public override void ScheduleAlll()
         {
@@ -30,12 +32,13 @@ namespace SOE.Notifications.Alarms
                 //bool InProgress = now <= end && begin <= now;
                 bool InProgress = (now.Ticks >= begin.Ticks && now <= end);
 
-                int programmedId = Convert.ToInt32($"{LocalNotification.ClassTimeCode}{cl.Subject.Id}{(int)day.DayOfWeek}");
+                uint programmedId = Convert.ToUInt32($"{LocalNotification.ClassTimeCode}{cl.Subject.Id}{(int)day.DayOfWeek}");
                 DateTime desiredDate = DateTime.MinValue;
 
                 //si ya inicio enviar una notificación ahora!
                 if (InProgress)
                 {
+                    desiredDate = DateTime.Now;
                     //notification.Index = 0;
                     //notification.Notify();
                 }
@@ -49,11 +52,22 @@ namespace SOE.Notifications.Alarms
                     desiredDate = day.Date.AddDays(7).Add(cl.Begin).AddMinutes(-10);
                 }
 
+                LocalNotification notification =
                 TinyIoC.TinyIoCContainer.Current.Resolve<LocalNotification>()
                     .Set(cl.Subject.Name,
                     $"{cl.FormattedTime} ,{cl.Subject.Group}\n{(InProgress ? "En curso..." : "Comienza pronto")}",
-                    1, Xamarin.Forms.Color.FromHex(cl.Subject.Color), desiredDate, this.Channel)
-                    .Schedule();
+                    programmedId, Xamarin.Forms.Color.FromHex(cl.Subject.Color), desiredDate, this.Channel);
+#if DEBUG
+                Log.Logger.Debug(notification.ToString());
+#endif
+                if (InProgress)
+                {
+                    notification.Notify();
+                }
+                else
+                {
+                    notification.Schedule();
+                }
             }
 
             this.SetMidnightService();

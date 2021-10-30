@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace SOE.Notifications
 {
@@ -31,6 +32,17 @@ namespace SOE.Notifications
             return this;
         }
 
-    
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append('[')
+                .Append(this.Index)
+                .Append("] ")
+                .Append(this.Date)
+                .Append(" ~(")
+                .Append(this.Title)
+                .Append(")~ ");
+            return sb.ToString();
+        }
     }
 }

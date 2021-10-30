@@ -26,6 +26,7 @@ namespace SOE.iOS.Notifications
             // modify the badge
             notification.ApplicationIconBadgeNumber = 1;
 
+
             // set the sound to be the default sound
             notification.SoundName = UILocalNotification.DefaultSoundName;
             return notification;

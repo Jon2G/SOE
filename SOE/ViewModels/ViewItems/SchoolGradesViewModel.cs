@@ -74,7 +74,7 @@ namespace SOE.ViewModels
             SemesterAvg = 0;
             if (Grades.Any())
             {
-                List<SOEWeb.Shared.Grade> grades = this.Grades.SelectMany(x => x.Grades.Where(y => y.Partial == GradePartial.Final&&y.NumericScore > 0)).ToList();
+                List<SOEWeb.Shared.Grade> grades = this.Grades.SelectMany(x => x.Grades.Where(y => y.Partial == GradePartial.Final && y.NumericScore > 0)).ToList();
                 if (grades?.Any() ?? false)
                 {
                     this.SemesterAvg = (float)grades.Average(x => x.NumericScore);
@@ -111,7 +111,8 @@ namespace SOE.ViewModels
             {
                 await AppData.Instance.SAES.GetGrades(await APIService.IsOnline());
             }
-            await captcha?.Close();
+            if (captcha is not null)
+                await captcha.Close();
             GetGrades();
             return true;
         }

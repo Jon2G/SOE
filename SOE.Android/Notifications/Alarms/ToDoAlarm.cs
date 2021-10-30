@@ -10,7 +10,7 @@ namespace SOE.Droid.Notifications.Alarms
     [Preserve]
     public class ToDoAlarm : SOE.Notifications.Alarms.TodoAlarm
     {
-        public void ReSheduleTask(ToDo todo)
+        public override void ReSheduleTask(ToDo todo)
         {
             Context context = CrossCurrentActivity.Current.AppContext;
             DateTime date = todo.Date.Add(todo.Time);

@@ -4,9 +4,9 @@ using Android.OS;
 using Kit.Droid.Services;
 using SOE.Droid.Notifications;
 using SOE.Droid.Notifications.Alarms;
+using SOE.Notifications;
 using Xamarin.Forms.Internals;
 
-[assembly: Xamarin.Forms.Dependency(typeof(NotificationService))]
 namespace SOE.Droid.Notifications
 {
     [Service(Enabled = true, Exported = true)]
@@ -27,15 +27,16 @@ namespace SOE.Droid.Notifications
         }
         public override void OnCreate()
         {
-            var Context = MainActivity.GetAppContext();
-            //start a separate thread and start listening to your network object
-            ClassAlarm alarm = new ClassAlarm();
-            alarm.ScheduleAlll();
-
-            ToDoAlarm todo = new ToDoAlarm();
-            alarm.ScheduleAlll();
-            
+            this.ScheduleAll();
             base.OnCreate();
+        }
+
+        public void ScheduleAll()
+        {
+            ClassAlarm alarm = new();
+            alarm.ScheduleAlll();
+            ToDoAlarm todo = new();
+            todo.ScheduleAlll();
         }
     }
 }

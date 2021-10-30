@@ -34,6 +34,7 @@
     <CodesignKey>Apple Development: Jonathan Garcia (L2WMS2JE6E)</CodesignKey>
     <CodesignProvision>VS: WildCard Development</CodesignProvision>
     <MtouchSdkVersion>15.0</MtouchSdkVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -51,6 +52,7 @@
     <MtouchDebug>true</MtouchDebug>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <MtouchSdkVersion>14.5</MtouchSdkVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -77,6 +79,7 @@
     </CodesignExtraArgs>
     <MtouchSdkVersion>
     </MtouchSdkVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -96,6 +99,7 @@
     <MtouchFloat32>false</MtouchFloat32>
     <MtouchSdkVersion>15.0</MtouchSdkVersion>
     <IOSDebuggerPort>10001</IOSDebuggerPort>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
     <AppExtensionDebugBundleId />
@@ -110,6 +114,7 @@
     <Compile Include="Notifications\Alarms\ClassAlarm.cs" />
     <Compile Include="Notifications\Alarms\ToDoAlarm.cs" />
     <Compile Include="Notifications\Notification.cs" />
+    <Compile Include="Notifications\NotificationHelper.cs" />
     <Compile Include="Notifications\NotificationService.cs" />
     <Compile Include="Renders\NoLineEntryRender.cs" />
     <None Include="Entitlements.plist" />
@@ -216,6 +221,10 @@
       <Name>Kit.iOS</Name>
       <IsAppExtension>false</IsAppExtension>
       <IsWatchApp>false</IsWatchApp>
+    </ProjectReference>
+    <ProjectReference Include="..\APIModels\SOEWeb.Shared.csproj">
+      <Project>{2A23810F-E1DC-4005-A55E-BDD18B341790}</Project>
+      <Name>SOEWeb.Shared</Name>
     </ProjectReference>
     <ProjectReference Include="..\SOE\SOE.csproj">
       <Project>{20ccea58-74b4-41b0-9e9e-22b7b328c798}</Project>

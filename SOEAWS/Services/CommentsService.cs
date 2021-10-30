@@ -129,7 +129,8 @@ namespace SOEAWS.Services
                             HasSubComments = Convert.ToBoolean(reader[2]),
                             Text = Convert.ToString(reader[3]),
                             UserName = Convert.ToString(reader[4]),
-                            Votes = Convert.ToInt32(reader[5])
+                            Votes = Convert.ToInt32(reader[5]),
+                            TeacherName = data.Teacher.Name
                         };
                     }
                     , new CommandConfig() { CommandType = CommandType.StoredProcedure }
@@ -137,7 +138,7 @@ namespace SOEAWS.Services
                     , new SqlParameter("TEXT", textBox.CommentText)
                     , new SqlParameter("USER_ID", data.UserId)
                     , new SqlParameter("GROUP_ID", data.GroupId)
-                    , new SqlParameter("TEACHER_ID", data.TeacherId)
+                    , new SqlParameter("TEACHER_ID", data.Teacher.Id)
                     , new SqlParameter("PARENT_COMMENT_ID", (object)ParentComment?.Id ?? DBNull.Value));
                 if (ParentComment is not null)
                 {

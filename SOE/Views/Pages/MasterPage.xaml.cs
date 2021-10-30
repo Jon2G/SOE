@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AsyncAwaitBestPractices;
 using Kit;
+using Kit.Enums;
 using Kit.Forms.Services.Interfaces;
 using SOE.API;
 using SOE.Data;
@@ -10,6 +11,7 @@ using SOE.FireBase;
 using SOE.Interfaces;
 using SOE.Models.Scheduler;
 using SOE.Models.TodoModels;
+using SOE.Notifications;
 using SOE.Services;
 using SOE.Services.ActionResponse;
 using SOE.Views.ViewItems.ScheduleView;
@@ -68,7 +70,8 @@ namespace SOE.Views.Pages
                     Dispatcher.BeginInvokeOnMainThread(CenterCarrousel);
                 }
                 await this.Model.OnAppearing();
-                DependencyService.Get<IStartNotificationsService>()?.StartNotificationsService();
+                if (Tools.Instance.RuntimePlatform == RuntimePlatform.Android)
+                    DependencyService.Get<ILocalNotificationService>().ScheduleAll();
                 TimeLineWidget.UpdateWidget();
                 ToDosWidget.UpdateWidget();
                 UpdateService.AvaibleUpdate();

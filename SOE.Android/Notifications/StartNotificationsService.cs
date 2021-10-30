@@ -16,12 +16,13 @@ using SOE.Droid.Notifications.Alarms;
 using SOE.Interfaces;
 using Xamarin.Forms;
 using SOE.Models.TodoModels;
+using SOE.Notifications;
 
 [assembly: Xamarin.Forms.Dependency(typeof(SOE.Droid.Notifications.StartNotificationsService))]
 namespace SOE.Droid.Notifications
 {
     [Xamarin.Forms.Internals.Preserve]
-    public class StartNotificationsService : IStartNotificationsService
+    public class StartNotificationsService : ILocalNotificationService
     {
         public void ReSheduleTask(ToDo toDo)
         {
@@ -29,7 +30,17 @@ namespace SOE.Droid.Notifications
             alarm.ReSheduleTask(toDo);
         }
 
-        void IStartNotificationsService.StartNotificationsService()
+        public void ScheduleAll() => this.StartNotificationService();
+
+        public void UnScheduleAll()
+        {
+            Context activity = CrossCurrentActivity.Current?.AppContext;
+            NotificationManager notificationManager = activity?.GetSystemService(Context.NotificationService)
+                as NotificationManager;
+            notificationManager?.CancelAll();
+
+        }
+        private void StartNotificationService()
         {
             var activity = CrossCurrentActivity.Current.AppContext;
             if (!activity.IsServiceRunning(typeof(NotificationService)))

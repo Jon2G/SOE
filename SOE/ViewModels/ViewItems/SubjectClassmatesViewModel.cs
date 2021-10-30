@@ -40,9 +40,9 @@ namespace SOE.ViewModels.ViewItems
         }
         public ICommand RetryCommand { get; }
         private readonly bool Online;
-        public SubjectClassmatesViewModel(Subject subject, bool Online)
+        public SubjectClassmatesViewModel(Subject subject, bool online)
         {
-            this.Online = this.Online;
+            this.Online = online;
             this.Subject = subject;
             Classmates = new ObservableCollection<Classmate>();
             this.RetryCommand = new AsyncCommand(this.Load);

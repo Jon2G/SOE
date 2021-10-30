@@ -35,10 +35,11 @@ namespace SOE.Droid.Notifications
             {
                 //if (Build.VERSION.SdkInt < BuildVersionCodes.Q)
                 //{
-                if (!context.IsServiceRunning(typeof(NotificationService)))
-                {
+                //if (!context.IsServiceRunning(typeof(NotificationService)))
+                //{
                     context.StartService(new Intent(context, typeof(NotificationService)));
-                }
+                //}
+
                 //}
                 //else
                 //{
@@ -63,7 +64,7 @@ namespace SOE.Droid.Notifications
             AlarmManager am = (AlarmManager)context.GetSystemService(Context.AlarmService);
             am.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, trigger_milis, pi);
         }
-        internal static void ProgramFor(Notification notification, DateTime date, Context context, uint requestId,IChannel channel)
+        internal static void ProgramFor(Notification notification, DateTime date, Context context, uint requestId, IChannel channel)
         {
             ProgramFor(notification.ToExtras(channel), date, context, requestId);
         }

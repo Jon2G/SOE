@@ -18,6 +18,7 @@ using System.IO;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using SOE.Models.TodoModels;
+using SOE.Notifications;
 
 namespace SOE.ViewModels.Pages
 {
@@ -108,7 +109,7 @@ namespace SOE.ViewModels.Pages
             {
                 await ToDo.Save(this.Tarea, Photos);
                 ToDosWidget.UpdateWidget();
-                DependencyService.Get<IStartNotificationsService>()?.ReSheduleTask(this.Tarea);
+                DependencyService.Get<ILocalNotificationService>().ReSheduleTask(this.Tarea);
 
             }
         }

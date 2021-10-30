@@ -1,9 +1,11 @@
-﻿namespace SOE.Notifications
+﻿using SOE.Models.TodoModels;
+
+namespace SOE.Notifications
 {
     public interface ILocalNotificationService
     {
-        void Start();
-        //void LocalNotification(string title, string body, int id, DateTime notifyTime);
-        void Cancel();
+        void ScheduleAll();
+        void UnScheduleAll();
+        void ReSheduleTask(ToDo toDo);
     }
 }

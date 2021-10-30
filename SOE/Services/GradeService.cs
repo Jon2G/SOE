@@ -7,7 +7,12 @@ namespace SOE.Services
     {
         internal static void Save(Grade grade)
         {
-            AppData.Instance.LiteConnection.InsertOrReplace(grade);
+            AppData.Instance.LiteConnection.Insert(grade);
+        }
+
+        public static void ClearAll()
+        {
+            AppData.Instance.LiteConnection.DeleteAll<Grade>(false);
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -54,6 +55,7 @@ namespace SOEWeb.Shared.Processors
         }
         public static Response<string> Digest(string HTML, string User, ILogger Log, bool Online)
         {
+            Regex justNumbersRegex = new Regex(@"(?<number>\d+)");
             string digested_xml = string.Empty;
             try
             {
@@ -83,6 +85,17 @@ namespace SOEWeb.Shared.Processors
                         GradePartial partial = (GradePartial)j - 1;
                         string text_score = score;
                         int numeric_score = -1;
+
+                        var justNumbersMatch = justNumbersRegex.Match(text_score);
+                        if (justNumbersMatch.Success)
+                        {
+                            text_score = justNumbersMatch.Groups["number"]?.Value ?? "-";
+                        }
+
+                        if (string.IsNullOrEmpty(text_score))
+                        {
+                            text_score = "-";
+                        }
                         int.TryParse(text_score, out numeric_score);
 
                         if (Online)

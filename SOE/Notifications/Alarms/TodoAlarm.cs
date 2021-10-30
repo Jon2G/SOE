@@ -39,5 +39,7 @@ namespace SOE.Notifications.Alarms
             }
             this.SetMidnightService();
         }
+
+        public abstract void ReSheduleTask(ToDo todo);
     }
 }

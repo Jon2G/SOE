@@ -30,6 +30,7 @@ using SOEWeb.Shared.Interfaces;
 using SOEWeb.Shared.Processors;
 using Xamarin.CommunityToolkit.Extensions;
 using SOE.Models.TodoModels;
+using SOE.Notifications;
 
 namespace SOE.Saes
 {
@@ -289,6 +290,7 @@ namespace SOE.Saes
         public async Task GetUserData(Models.Data.User user, bool? isWebServiceOnline = null)
         {
             await Task.Yield();
+            ILocalNotificationService notification = DependencyService.Get<ILocalNotificationService>();
             bool isOnline = isWebServiceOnline is bool online ? online : await APIService.IsOnline();
             AppData.Instance.User.IsOffline = !isOnline;
             AppData.Instance.ClearData(
@@ -296,7 +298,7 @@ namespace SOE.Saes
                 typeof(DocumentPart), typeof(Archive), typeof(Grade),
                 typeof(Keeper), typeof(Teacher), typeof(ToDo), typeof(Reminder));
             Keeper.ClearAllFiles();
-
+            notification.UnScheduleAll();
             AppData.Instance.User = user;
             await GetName();
             bool hasSubjects = await GetSubjects(isOnline);
@@ -306,7 +308,7 @@ namespace SOE.Saes
             {
                 await GetGrades(isOnline);
                 AppData.Instance.User.Semester = CalculateSemester();
-
+                notification.ScheduleAll();
             }
             else
             {
@@ -420,7 +422,7 @@ namespace SOE.Saes
                 {
                     AppData.Instance.LiteConnection.DeleteAll<Career>(false);
                     AppData.Instance.LiteConnection.Insert(
-                        new Career() { Name = carrera, Id =response.Extra }, false);
+                        new Career() { Name = carrera, Id = response.Extra }, false);
                 }
             }
             else
@@ -525,6 +527,7 @@ namespace SOE.Saes
 
             if (response.ResponseResult == APIResponseResult.OK)
             {
+                GradeService.ClearAll();
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(response.Extra);
                 XmlNodeList nodes = xmlDoc.SelectNodes("//Grades/Grade");

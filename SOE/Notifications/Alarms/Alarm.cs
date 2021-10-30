@@ -7,7 +7,7 @@ namespace SOE.Notifications.Alarms
         public abstract string Name { get; }
         public abstract string Description { get; }
         public abstract void ScheduleAlll();
-        protected abstract void SetMidnightService();
+        protected virtual void SetMidnightService(){}
         protected virtual IChannel Channel { get; }
         protected abstract Type NotificationType { get; }
 

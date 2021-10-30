@@ -1,4 +1,5 @@
 ﻿using Foundation;
+using SOE.Models.TodoModels;
 using SOE.Notifications;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,17 @@ namespace SOE.iOS.Notifications.Alarms
     public class ToDoAlarm : SOE.Notifications.Alarms.TodoAlarm
     {
         protected override Type NotificationType => typeof(Notification);
-        protected override void SetMidnightService()
+        public override void ReSheduleTask(ToDo todo)
         {
-            throw new NotImplementedException();
+            uint index = this.GetProgrammedId(todo);
+            UIApplication.SharedApplication.ScheduledLocalNotifications
+                .FirstOrDefault(x => x.MatchIndex(index))?.Cancel();
+            DateTime date = todo.Date.Add(todo.Time);
+            new Notification()
+                .Set(todo.Title,
+                    $"{todo.Subject.Name} - {todo.Subject.Group}\n{todo.Description}",
+                    this.GetProgrammedId(todo), Xamarin.Forms.Color.FromHex(todo.Subject.Color), date, this.Channel)
+                .Schedule();
         }
-
     }
 }

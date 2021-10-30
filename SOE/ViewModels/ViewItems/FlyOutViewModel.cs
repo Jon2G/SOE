@@ -109,7 +109,7 @@ namespace SOE.ViewModels.ViewItems
             AppShell.CloseFlyout();
             Shell.Current.Navigation.PushAsync(new PrivacityPage()).SafeFireAndForget(); ;
         }
-        private async void Developer() => await Application.Current.MainPage.Navigation.PushModalAsync(new DeveloperOptions());
+        private async void Developer() => await Application.Current.MainPage.Navigation.PushAsync(new DeveloperOptions());
         private async void GetAvatar()
         {
             await Task.Yield();

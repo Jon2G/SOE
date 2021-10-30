@@ -1,33 +1,34 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-             xmlns:taskFirst="clr-namespace:SOE.Models.TodoModels;assembly=SOE"
-             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
-             xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
-             xmlns:effects="http://xamarin.com/schemas/2020/toolkit" Visual="Material"
-             x:Class="SOE.Views.ViewItems.TasksViews.TaskView"
-             x:DataType="pages:TaskViewModel" x:Name="Me">
-    <ContentView.Content>
-        <pancakeView:PancakeView  Margin="0" CornerRadius="0,0,5,5" Padding="0,5"
-                                  effects:TouchEffect.Command="{Binding OpenMenuCommand}"
-                                  effects:TouchEffect.PressedScale="0.98">
-            <Grid ColumnDefinitions="*,Auto">
-                <StackLayout Margin="5,0,0,0">
-                    <Label HorizontalOptions="Start" Text="{Binding ToDo.Title}"
-                               FontAttributes="Bold" 
-                               FontSize="14"/>
-                    <Label FormattedText="{Binding ToDo.FormattedString}"   FontSize="16" TextColor="Gray"/>
-                </StackLayout>
-                <StackLayout Grid.Column="1" Margin="5,0,0,5" Orientation="Vertical" 
-                             Padding="3" Spacing="5" HorizontalOptions="End" >
-                    <Label Margin="0"  Text="{Binding ToDo.FormattedTime}"  HorizontalTextAlignment="End"
-                                    FontSize="12" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" />
-                    <Label Margin="3"  VerticalOptions="Center"  Text="{x:Static fonts:FontelloIcons.Calendar}" FontFamily="{x:Static fonts:FontelloIcons.Font}"
-                                    FontSize="12" HorizontalOptions="Center" VerticalTextAlignment="Center" 
-                                    />
-                </StackLayout>
-            </Grid>
-        </pancakeView:PancakeView>
-    </ContentView.Content>
-</ContentView>
+<pancakeView:PancakeView xmlns="http://xamarin.com/schemas/2014/forms" 
+                         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                         xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                         xmlns:taskFirst="clr-namespace:SOE.Models.TodoModels;assembly=SOE"
+                         xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+                         xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
+                         xmlns:effects="http://xamarin.com/schemas/2020/toolkit" Visual="Material"
+                         x:Class="SOE.Views.ViewItems.TasksViews.TaskView"
+                         x:DataType="pages:TaskViewModel" x:Name="Me" 
+                         BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundSecondaryDarkColor},Light={StaticResource BackgroundSecondaryLightColor}}"
+                         Margin="0" Padding="0,5" >
+    <pancakeView:PancakeView.Content>
+        <Grid ColumnDefinitions="*,Auto"
+              effects:TouchEffect.NativeAnimation="True"
+              effects:TouchEffect.Command="{Binding OpenMenuCommand}"
+              effects:TouchEffect.PressedScale="0.98">
+            <StackLayout Margin="5,0,0,0">
+                <Label HorizontalOptions="Start" Text="{Binding ToDo.Title}"
+                       FontAttributes="Bold" 
+                       FontSize="14"/>
+                <Label FormattedText="{Binding ToDo.FormattedString}"   FontSize="16" TextColor="Gray"/>
+            </StackLayout>
+            <StackLayout Grid.Column="1" Margin="5,0,0,5" Orientation="Vertical" 
+                         Padding="3" Spacing="5" HorizontalOptions="End" >
+                <Label Margin="0"  Text="{Binding ToDo.FormattedTime}"  HorizontalTextAlignment="End"
+                       FontSize="12" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" />
+                <Label Margin="3"  VerticalOptions="Center"  Text="{x:Static fonts:FontelloIcons.Calendar}" FontFamily="{x:Static fonts:FontelloIcons.Font}"
+                       FontSize="12" HorizontalOptions="Center" VerticalTextAlignment="Center" 
+                />
+            </StackLayout>
+        </Grid>
+    </pancakeView:PancakeView.Content>
+</pancakeView:PancakeView>

@@ -19,10 +19,11 @@ namespace SOE.iOS.Notifications.Alarms
             UIApplication.SharedApplication.ScheduledLocalNotifications
                 .FirstOrDefault(x => x.MatchIndex(index))?.Cancel();
             DateTime date = todo.Date.Add(todo.Time);
+            date = date.AddDays(-1);
             new Notification()
                 .Set(todo.Title,
                     $"{todo.Subject.Name} - {todo.Subject.Group}\n{todo.Description}",
-                    this.GetProgrammedId(todo), Xamarin.Forms.Color.FromHex(todo.Subject.Color), date, this.Channel,"ToDo")
+                    index, Xamarin.Forms.Color.FromHex(todo.Subject.Color), date, this.Channel, "ToDo")
                 .Schedule();
         }
     }

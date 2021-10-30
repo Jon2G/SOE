@@ -1,45 +1,40 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-             xmlns:views="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:taskFirst="clr-namespace:SOE.Models.TodoModels;assembly=SOE"
-             xmlns:tasksViews="clr-namespace:SOE.Views.ViewItems.TasksViews;assembly=SOE"
-             x:Class="SOE.Views.ViewItems.TasksViews.ByDayView" Visual="Material"
-             x:DataType="taskFirst:ByDayGroup">
-  <ContentView.Content>
-        <ContentView>
-            <pancakeView:PancakeView CornerRadius="5"  Margin="1">
-                <views:Expander IsExpanded="{Binding IsExpanded}" x:Name="Expander" x:FieldModifier="public">
-                    <views:Expander.Header>
-                        <Grid ColumnDefinitions="5,80,1,*">
+<pancakeView:PancakeView xmlns="http://xamarin.com/schemas/2014/forms" 
+                         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                         xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                         xmlns:views="http://xamarin.com/schemas/2020/toolkit"
+                         xmlns:taskFirst="clr-namespace:SOE.Models.TodoModels;assembly=SOE"
+                         xmlns:tasksViews="clr-namespace:SOE.Views.ViewItems.TasksViews;assembly=SOE"
+                         x:Class="SOE.Views.ViewItems.TasksViews.ByDayView" Visual="Material"
+                         x:DataType="taskFirst:ByDayGroup"
+                         CornerRadius="5"  Margin="1">
+    <views:Expander IsExpanded="{Binding IsExpanded}" x:Name="Expander" x:FieldModifier="public">
+        <views:Expander.Header>
+            <Grid ColumnDefinitions="5,80,1,*">
 
-                            <BoxView />
-                            <StackLayout  Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center">
-                                <Label Text="{Binding FDateTime.Day,StringFormat='{0:00}'}"  FontSize="Title"  HorizontalOptions="Center" HorizontalTextAlignment="Center"
+                <BoxView />
+                <StackLayout  Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center">
+                    <Label Text="{Binding FDateTime.Day,StringFormat='{0:00}'}"  FontSize="Title"  HorizontalOptions="Center" HorizontalTextAlignment="Center"
                                                    />
-                                <Label Text="{Binding Month}" FontSize="15"   HorizontalOptions="Center" HorizontalTextAlignment="Center"
+                    <Label Text="{Binding Month}" FontSize="15"   HorizontalOptions="Center" HorizontalTextAlignment="Center"
                                                    />
-                            </StackLayout>
-                            <BoxView Grid.Column="2" Background="LightGray"/>
-                            <StackLayout Grid.Column="3" Orientation="Horizontal">
-                                <Label Text="Tareas:" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  
+                </StackLayout>
+                <BoxView Grid.Column="2" Background="LightGray"/>
+                <StackLayout Grid.Column="3" Orientation="Horizontal">
+                    <Label Text="Tareas:" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  
                                        Margin="5" FontAttributes="Italic" FontSize="Large"
                                       />
-                                <Label Text="{Binding Tareas,StringFormat='{0}'}" FontSize="Large" 
+                    <Label Text="{Binding Tareas,StringFormat='{0}'}" FontSize="Large" 
                                                VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  Margin="5" FontAttributes="Italic" />
-                            </StackLayout>
-                        </Grid>
-                    </views:Expander.Header>
-                    <StackLayout Spacing="0" BindableLayout.ItemsSource="{Binding SubjectGroups}">
-                        <BindableLayout.ItemTemplate>
-                            <DataTemplate x:DataType="taskFirst:BySubjectGroup">
-                                <tasksViews:BySubjectGroupView/>
-                            </DataTemplate>
-                        </BindableLayout.ItemTemplate>
-                    </StackLayout>
-                </views:Expander>
-            </pancakeView:PancakeView>
-        </ContentView>
-    </ContentView.Content>
-</ContentView>
+                </StackLayout>
+            </Grid>
+        </views:Expander.Header>
+        <StackLayout Spacing="0" BindableLayout.ItemsSource="{Binding SubjectGroups}">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="taskFirst:BySubjectGroup">
+                    <tasksViews:BySubjectGroupView/>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </StackLayout>
+    </views:Expander>
+</pancakeView:PancakeView>

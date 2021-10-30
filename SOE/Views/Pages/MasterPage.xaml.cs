@@ -70,7 +70,7 @@ namespace SOE.Views.Pages
                     Dispatcher.BeginInvokeOnMainThread(CenterCarrousel);
                 }
                 await this.Model.OnAppearing();
-                //if (Tools.Instance.RuntimePlatform == RuntimePlatform.Android)
+                if (Tools.Instance.RuntimePlatform == RuntimePlatform.Android)
                     DependencyService.Get<ILocalNotificationService>().ScheduleAll();
                 TimeLineWidget.UpdateWidget();
                 ToDosWidget.UpdateWidget();

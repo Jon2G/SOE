@@ -6,7 +6,7 @@ using Xamarin.Forms.Xaml;
 namespace SOE.Views.ViewItems.TasksViews
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class BySubjectGroupView : ContentView
+    public partial class BySubjectGroupView 
     {
         public BySubjectGroup Model => BindingContext as BySubjectGroup;
         private ByDayGroup _Group;

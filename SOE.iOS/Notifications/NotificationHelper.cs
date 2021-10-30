@@ -20,10 +20,9 @@ namespace SOE.iOS.Notifications
         {
             index = 0;
             NSObject nsIndex = notification.UserInfo?[nameof(Notification.Index)];
-            object nsObject = nsIndex?.ToObject();
-            if (nsObject is uint _index)
+            if (nsIndex is NSNumber nsNumber)
             {
-                index = _index;
+                index = nsNumber.UInt32Value;
                 return true;
             }
             return false;

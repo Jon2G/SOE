@@ -22,7 +22,7 @@ namespace SOE.iOS.Notifications.Alarms
             new Notification()
                 .Set(todo.Title,
                     $"{todo.Subject.Name} - {todo.Subject.Group}\n{todo.Description}",
-                    this.GetProgrammedId(todo), Xamarin.Forms.Color.FromHex(todo.Subject.Color), date, this.Channel)
+                    this.GetProgrammedId(todo), Xamarin.Forms.Color.FromHex(todo.Subject.Color), date, this.Channel,"ToDo")
                 .Schedule();
         }
     }

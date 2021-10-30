@@ -13,6 +13,7 @@ namespace SOE.Notifications
         public Xamarin.Forms.Color Color { get; set; }
         public DateTime Date { get; set; }
         public IChannel Channel { get;  set; }
+        public string Type { get; set; }
         public LocalNotification()
         {
 
@@ -21,7 +22,7 @@ namespace SOE.Notifications
         public abstract void Schedule();
         public abstract void Notify();
 
-        public LocalNotification Set(string title, string body, uint index, Xamarin.Forms.Color color, DateTime notifyTime,IChannel channel)
+        public LocalNotification Set(string title, string body, uint index, Xamarin.Forms.Color color, DateTime notifyTime,IChannel channel,string type)
         {
             this.Title = title;
             this.Content = body;
@@ -29,6 +30,7 @@ namespace SOE.Notifications
             this.Color = color;
             this.Date = notifyTime;
             this.Channel = channel;
+            this.Type = type;
             return this;
         }
 

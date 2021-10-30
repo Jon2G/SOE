@@ -34,7 +34,7 @@ namespace SOE.Notifications.Alarms
                 TinyIoC.TinyIoCContainer.Current.Resolve<LocalNotification>()
                     .Set(todo.Title,
                         $"{todo.Subject.Name} - {todo.Subject.Group}\n{todo.Description}",
-                        GetProgrammedId(todo), Xamarin.Forms.Color.FromHex(todo.Subject.Color), date.AddDays(-1), this.Channel)
+                        GetProgrammedId(todo), Xamarin.Forms.Color.FromHex(todo.Subject.Color), date.AddDays(-1), this.Channel,"ToDo")
                     .Schedule();
             }
             this.SetMidnightService();

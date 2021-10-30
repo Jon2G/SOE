@@ -6,6 +6,7 @@ using Kit.Forms.Services.Interfaces;
 using PanCardView.iOS;
 using SOE.Widgets;
 using UIKit;
+using UserNotifications;
 using Xamarin.Forms.Platform.iOS;
 
 [assembly: Preserve(typeof(Firebase.Core.App))]
@@ -29,17 +30,36 @@ namespace SOE.iOS
             base.Initialize();
         }
 
-        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+        public override void BeforeLoadApplication(UIApplication app, NSDictionary options)
         {
-            bool result = base.FinishedLaunching(app, options);
-            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+            base.BeforeLoadApplication(app, options);
+            if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
+            {
+                // Request Permissions
+                UNUserNotificationCenter.Current.RequestAuthorization(UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound | UNAuthorizationOptions.TimeSensitive | UNAuthorizationOptions.CriticalAlert, (granted, error) =>
+                {
+                    // Do something if needed
+                });
+            }
+            else if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
             {
                 UIUserNotificationSettings notificationSettings = UIUserNotificationSettings.GetSettingsForTypes(
                     UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound, null
                 );
-
                 app.RegisterUserNotificationSettings(notificationSettings);
             }
+
+            //Get current notification settings.
+            UNUserNotificationCenter.Current.GetNotificationSettings((settings) => {
+                var alertsAllowed = (settings.AlertSetting == UNNotificationSetting.Enabled);
+            });
+            UNUserNotificationCenter.Current.Delegate = new UserNotificationCenterDelegate();
+            //----------------------
+        }
+
+        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+        {
+            bool result = base.FinishedLaunching(app, options);
             Firebase.Core.App.Configure();
             CardsViewRenderer.Preserve();
             // check for a notification
@@ -82,10 +102,10 @@ namespace SOE.iOS
             switch (AppWidgetProviderClassName)
             {
                 case TimeLineWidget.AppWidgetProviderFullClass:
-                    
+
                     break;
                 case ToDosWidget.AppWidgetProviderFullClass:
-                    
+
                     break;
             }
         }

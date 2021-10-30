@@ -12,10 +12,6 @@ namespace SOE.iOS.Notifications.Alarms
     public class ClassAlarm : SOE.Notifications.Alarms.ClassAlarm
     {
         protected override Type NotificationType => typeof(Notification);
-        protected override void SetMidnightService()
-        {
-            throw new NotImplementedException();
-        }
 
     }
 }

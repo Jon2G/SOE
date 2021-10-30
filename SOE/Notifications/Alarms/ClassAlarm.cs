@@ -18,7 +18,15 @@ namespace SOE.Notifications.Alarms
         public override void ScheduleAlll()
         {
             this.Channel?.Register();
-            Day day = Day.Today();
+            foreach (Day day in Day.Week())
+            {
+                ScheduleDay(day);
+            }
+            this.SetMidnightService();
+        }
+
+        private void ScheduleDay(Day day)
+        {
             List<ClassSquare> timeline = day?.GetTimeLine();
             if (timeline is null)
             {
@@ -56,7 +64,7 @@ namespace SOE.Notifications.Alarms
                 TinyIoC.TinyIoCContainer.Current.Resolve<LocalNotification>()
                     .Set(cl.Subject.Name,
                     $"{cl.FormattedTime} ,{cl.Subject.Group}\n{(InProgress ? "En curso..." : "Comienza pronto")}",
-                    programmedId, Xamarin.Forms.Color.FromHex(cl.Subject.Color), desiredDate, this.Channel);
+                    programmedId, Xamarin.Forms.Color.FromHex(cl.Subject.Color), desiredDate, this.Channel, "Class");
 #if DEBUG
                 Log.Logger.Debug(notification.ToString());
 #endif
@@ -69,8 +77,6 @@ namespace SOE.Notifications.Alarms
                     notification.Schedule();
                 }
             }
-
-            this.SetMidnightService();
         }
     }
 }

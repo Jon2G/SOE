@@ -54,7 +54,6 @@ namespace SOE.ViewModels.Pages
         private List<Departament> Departaments => Contacts?.Select(x => x.Departament).ToList() ?? new List<Departament>();
 
         public ICommand OpenLinkCommand { get; set; }
-        public ICommand CallnumberCommand { get; set; }
         public ICommand ContactMessageCommand { get; set; }
         public ICommand ContactCallCommand { get; set; }
         public ICommand ContactLinkCommand { get; set; }
@@ -71,12 +70,21 @@ namespace SOE.ViewModels.Pages
                 Raise(() => IsOffline);
             }
         }
+        private string _PageSchool;
+        public string PageSchool
+        {
+            get => _PageSchool;
+            set
+            {
+                _PageSchool = value;
+                Raise(() => PageSchool);
+            }
+        }
         public ICommand RetryCommand { get; }
 
         public AcademicDirectoryViewModel()
         {
             this.OpenLinkCommand = new Command(this.OpenLink);
-            this.CallnumberCommand = new Command(this.Callnumber);
             this.ContactMessageCommand = new Command<SchoolContact>(ContactMessage);
             this.ContactCallCommand = new Command<SchoolContact>(ContactCall);
             this.RetryCommand = new AsyncCommand(() => Init(true));
@@ -88,6 +96,7 @@ namespace SOE.ViewModels.Pages
                 return;
             }
             Init().SafeFireAndForget();
+            PageSchool = AppData.Instance.User.School.SchoolPage;
         }
         private async Task SyncUser()
         {
@@ -141,8 +150,7 @@ namespace SOE.ViewModels.Pages
         }
         private void ContactCall(SchoolContact contact) => PhoneDialer.Open(contact.Phone);
         private void ContactLink(SchoolContact obj) => OpenBrowser(obj.Url);
-        private void Callnumber(object obj) => PhoneDialer.Open("55 5624 2000");
-        private void OpenLink(object obj) => OpenBrowser(AppData.Instance.User.School.HomePage);
+        private void OpenLink(object obj) => OpenBrowser(PageSchool);
 
         private async void MenuContact(SchoolContact contact)
         {

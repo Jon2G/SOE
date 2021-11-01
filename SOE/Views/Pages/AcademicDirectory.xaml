@@ -30,14 +30,9 @@
                     />
             <StackLayout VerticalOptions="Start">
                 <Label  xct:TouchEffect.PressedScale="0.9" xct:TouchEffect.PressedRotationY="0.1" 
-                        Text="https://www.esimecu.ipn.mx/" TextColor="DodgerBlue" FontSize="20" HorizontalTextAlignment="Center"  >
+                        Text="{Binding PageSchool}" TextColor="DodgerBlue" FontSize="20" HorizontalTextAlignment="Center"  >
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding OpenLinkCommand}" />
-                    </Label.GestureRecognizers>
-                </Label>
-                <Label  xct:TouchEffect.PressedScale="0.9" xct:TouchEffect.PressedRotationY="0.1"   Text="55 5624 2000" TextColor="DodgerBlue" FontSize="20" HorizontalTextAlignment="Center">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding CallnumberCommand}" />
                     </Label.GestureRecognizers>
                 </Label>
             </StackLayout>

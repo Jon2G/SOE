@@ -85,10 +85,29 @@
                         <ProgressBar ProgressColor="{StaticResource AccentColor}" Progress="{Binding Progress}"/>
                     </StackLayout>
                 </pancakeView:PancakeView>
-                <forms:CachedImage
-                    Source="{Binding User.School.ImgPath, Source={x:Static data:AppData.Instance}}"
-                    HeightRequest="150" LoadingPlaceholder="logo_soe_fill" ErrorPlaceholder="logo_soe_fill"
-                    />
+
+
+
+                <ContentView>
+                    <ContentView.Content>
+                        <OnPlatform x:TypeArguments="View">
+                            <OnPlatform.Platforms>
+                                <On Platform="iOS">
+                                    <forms:CachedImage
+                                        Source="logo_moneda.png"
+                                        HeightRequest="150" LoadingPlaceholder="logo_soe_fill" ErrorPlaceholder="logo_soe_fill"/>
+                                </On>
+                                <On Platform="Android">
+                                    <forms:CachedImage
+                                        Source="{Binding User.School.ImgPath, Source={x:Static data:AppData.Instance}}"
+                                        HeightRequest="150" LoadingPlaceholder="logo_soe_fill" ErrorPlaceholder="logo_soe_fill"/>
+                                </On>
+                            </OnPlatform.Platforms>
+                        </OnPlatform>
+                    </ContentView.Content>
+                </ContentView>
+
+                
                 <Label Text="*Porcentaje de creditos aproximado"  FontSize="13"  VerticalTextAlignment="End" VerticalOptions="EndAndExpand"/>
             </StackLayout>
         </ScrollView>

@@ -13,51 +13,84 @@
         <pages:SchoolSelectorViewModel x:Name="Model"/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <Grid>
-            <ContentView IsVisible="True" Background="{DynamicResource Background}">
-                <pancakeView:PancakeView 
+        <StackLayout>
+            <Grid>
+                <ContentView IsVisible="True" Background="{DynamicResource Background}">
+                    <pancakeView:PancakeView 
                     CornerRadius="10" 
                 Padding="10" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
                 Margin="10">
-                    <StackLayout>
-                        <Label Text="Selecciona tu escuela" HorizontalOptions="Center" FontSize="20" FontAttributes="Bold" />
-                        <SearchBar Placeholder="Buscar mi escuela" x:Name="SearchBar">
-                            <SearchBar.Behaviors>
-                                <views:EventToCommandBehavior
+                        <StackLayout>
+                            <Label  HorizontalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Selecciona tu escuela" FontSize="20" FontAttributes="Bold" />
+                                        <Span Text="*" FontSize="8"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <SearchBar Placeholder="Buscar mi escuela" x:Name="SearchBar">
+                                <SearchBar.Behaviors>
+                                    <views:EventToCommandBehavior
                                     EventName="TextChanged" 
                                     Command="{Binding TextChangedCommand}"
                                     CommandParameter="{Binding Text,Source={x:Reference SearchBar}}"/>
-                            </SearchBar.Behaviors>
-                        </SearchBar>
-                        <CollectionView  ItemsSource="{Binding SchoolSearch}">
-                            <CollectionView.ItemsLayout>
-                                <GridItemsLayout Orientation="Vertical" Span="1" />
-                            </CollectionView.ItemsLayout>
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="SOEWeb.Shared:School">
-                                    <ContentView HorizontalOptions="Center">
-                                        <pancakeView:PancakeView Margin="5" 
+                                </SearchBar.Behaviors>
+                            </SearchBar>
+                            <CollectionView  ItemsSource="{Binding SchoolSearch}">
+                                <CollectionView.ItemsLayout>
+                                    <GridItemsLayout Orientation="Vertical" Span="1" />
+                                </CollectionView.ItemsLayout>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="SOEWeb.Shared:School">
+                                        <ContentView HorizontalOptions="Center">
+                                            <pancakeView:PancakeView Margin="5" 
                                                                  IsClippedToBounds="True"  
                                                                  Padding="0" 
                                                                  BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundTertiaryDarkColor},Light={StaticResource BackgroundLightColor}}">
-                                            <pancakeView:PancakeView.GestureRecognizers>
-                                                <TapGestureRecognizer 
+                                                <pancakeView:PancakeView.GestureRecognizers>
+                                                    <TapGestureRecognizer 
                                                     Command="{Binding SelectSchoolCommand ,Source={x:Reference Model}}"
                                                     CommandParameter="{Binding .}"/>
-                                            </pancakeView:PancakeView.GestureRecognizers>
-                                            <StackLayout Orientation="Horizontal">
-                                                <forms1:CachedImage Aspect="AspectFit" Source="{Binding ImgPath}" HeightRequest="70"/>
-                                                <Label VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="20" FontAttributes="Bold" Text="{Binding Name}"/>
-                                            </StackLayout>
-                                        </pancakeView:PancakeView>
-                                    </ContentView>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
+                                                </pancakeView:PancakeView.GestureRecognizers>
+                                                <StackLayout Orientation="Horizontal">
+                                                    <ContentView>
+                                                        <ContentView.Content>
+                                                            <OnPlatform x:TypeArguments="View">
+                                                                <OnPlatform.Platforms>
+                                                                    <On Platform="Android">
+                                                                        <forms1:CachedImage Aspect="AspectFit" Source="{Binding ImgPath}" HeightRequest="70"/>
+                                                                    </On>
+                                                                    <On Platform="iOS">
+                                                                        <forms1:CachedImage Aspect="AspectFit" Source="logo_moneda.png" HeightRequest="70"/>
+                                                                    </On>
+                                                                </OnPlatform.Platforms>
+                                                            </OnPlatform>
+                                                        </ContentView.Content>
 
-                    </StackLayout>
-                </pancakeView:PancakeView>
-            </ContentView>
-        </Grid>
+                                                    </ContentView>
+
+
+                                                    <Label VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="20" FontAttributes="Bold" Text="{Binding Name}"/>
+                                                </StackLayout>
+                                            </pancakeView:PancakeView>
+                                        </ContentView>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </StackLayout>
+                    </pancakeView:PancakeView>
+                </ContentView>
+            </Grid>
+            <pancakeView:PancakeView Margin="10" Padding="5">
+                <Label FontSize="14">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="*Esta aplicación es un desarrollo independiente del IPN, creado como un proyecto de titulación."/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </pancakeView:PancakeView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

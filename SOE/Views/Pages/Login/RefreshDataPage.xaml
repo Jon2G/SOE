@@ -53,11 +53,27 @@
                                            Grid.RowSpan="2"
                                            HorizontalOptions="FillAndExpand" 
                                            VerticalOptions="FillAndExpand"/>
-                                    <forms:CachedImage Grid.Row="0" 
-                                           Grid.Column="1"
-                                           HeightRequest="40"
-                                           Aspect="AspectFill" 
-                                           Source="{Binding User.School.ImgPath,Source={x:Static data:AppData.Instance}}"/>
+
+
+                                    <ContentView Grid.Row="0" 
+                                                 Grid.Column="1" HeightRequest="40">
+                                        <ContentView.Content>
+                                            <OnPlatform x:TypeArguments="View">
+                                                <OnPlatform.Platforms>
+                                                    <On Platform="iOS">
+                                                        <forms:CachedImage HeightRequest="40"
+                                                                           Aspect="AspectFill" 
+                                                                           Source="logo_moneda.png"/>
+                                                    </On>
+                                                    <On Platform="Android">
+                                                        <forms:CachedImage HeightRequest="40"
+                                                                           Aspect="AspectFill" 
+                                                                           Source="{Binding User.School.ImgPath,Source={x:Static data:AppData.Instance}}"/>
+                                                    </On>
+                                                </OnPlatform.Platforms>
+                                            </OnPlatform>
+                                        </ContentView.Content>
+                                    </ContentView>
                                 </Grid>
                             </Grid>
                         </StackLayout>

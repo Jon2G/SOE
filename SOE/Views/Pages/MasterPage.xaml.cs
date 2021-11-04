@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AsyncAwaitBestPractices;
 using Kit;
 using Kit.Enums;
+using Kit.Forms.Pages;
 using Kit.Forms.Services.Interfaces;
 using SOE.API;
 using SOE.Data;
@@ -20,13 +21,12 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
-using DeviceInfo = Xamarin.Forms.Internals.DeviceInfo;
 using Log = Kit.Log;
 
 namespace SOE.Views.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MasterPage
+    public partial class MasterPage:BasePage
     {
         public static MasterPage Instance { get; private set; }
         public MasterPage()
@@ -49,9 +49,9 @@ namespace SOE.Views.Pages
             return base.OnBackButtonPressed();
         }
 
-        protected override void OnAppearing()
+        protected override void OnFirstAppearing()
         {
-            base.OnAppearing();
+            base.OnFirstAppearing();
             this.OnAppearingAsync().SafeFireAndForget();
         }
 
@@ -75,10 +75,12 @@ namespace SOE.Views.Pages
                 TimeLineWidget.UpdateWidget();
                 ToDosWidget.UpdateWidget();
                 UpdateService.AvaibleUpdate();
-                if (Device.RuntimePlatform == Device.iOS)
+                if (Device.RuntimePlatform == Device.iOS && Xamarin.Essentials.DeviceInfo.Version.Major>=14)
                 {
-                    var appTrackingTransparencyPermission = DependencyService.Get<IAppTrackingTransparencyPermission>();
-                    var status = await appTrackingTransparencyPermission.CheckStatusAsync();
+                    var appTrackingTransparencyPermission =TinyIoC.TinyIoCContainer.Current.Resolve<IAppTrackingTransparencyPermission>();
+                    var status = PermissionStatus.Denied;
+                    if(appTrackingTransparencyPermission is not null)
+                        status = await appTrackingTransparencyPermission.CheckStatusAsync();
                     switch (status)
                     {
                         case PermissionStatus.Denied:
@@ -94,6 +96,7 @@ namespace SOE.Views.Pages
             catch (Exception ex) { Log.Logger.Error(ex, "CenterCarrousel"); this.DisplayAlert("Error", ex.ToString(), "Ok").SafeFireAndForget(); }
 
         }
+   
         public static void ResponseTo(IActionResponse PendingAction) =>
             App.Current.Dispatcher.BeginInvokeOnMainThread(action: () => Execute(PendingAction).SafeFireAndForget());
         private static async Task Execute(IActionResponse pendingAction)

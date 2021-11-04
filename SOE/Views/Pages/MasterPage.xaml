@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<pages2:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit"
              x:Class="SOE.Views.Pages.MasterPage"
@@ -22,7 +22,7 @@
 <Grid>
     <saes:Saes x:Name="Saes" InputTransparent="True" Opacity="1" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
     <StackLayout VerticalOptions="FillAndExpand" Spacing="0" Opacity="1">
-            <BoxView HeightRequest="20" Background="{DynamicResource PrimaryColor}">
+            <BoxView HeightRequest="25" Background="{DynamicResource PrimaryColor}">
                 <BoxView.IsVisible>
                     <OnPlatform x:TypeArguments="x:Boolean">
                         <On Platform="Android" Value="False" />
@@ -109,7 +109,15 @@
                     </Frame.Style>
                 </Frame>
             </StackLayout>
+        <BoxView HeightRequest="25" Background="{DynamicResource PrimaryColor}">
+                <BoxView.IsVisible>
+                    <OnPlatform x:TypeArguments="x:Boolean">
+                        <On Platform="Android" Value="False" />
+                        <On Platform="iOS" Value="True" />
+                    </OnPlatform>
+                </BoxView.IsVisible>
+            </BoxView>
         </StackLayout>
     </Grid>
 
-</ContentPage>
+</pages2:BasePage>

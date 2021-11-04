@@ -21,6 +21,7 @@ using SOE.Services;
 using SOEWeb.Shared.Interfaces;
 using System.Linq;
 using Xamarin.CommunityToolkit.ObjectModel;
+using SOE.Data;
 
 namespace SOE.ViewModels.Pages
 {
@@ -70,16 +71,7 @@ namespace SOE.ViewModels.Pages
                 Raise(() => IsOffline);
             }
         }
-        private string _PageSchool;
-        public string PageSchool
-        {
-            get => _PageSchool;
-            set
-            {
-                _PageSchool = value;
-                Raise(() => PageSchool);
-            }
-        }
+
         public ICommand RetryCommand { get; }
 
         public AcademicDirectoryViewModel()
@@ -96,7 +88,6 @@ namespace SOE.ViewModels.Pages
                 return;
             }
             Init().SafeFireAndForget();
-            PageSchool = AppData.Instance.User.School.SchoolPage;
         }
         private async Task SyncUser()
         {
@@ -150,17 +141,17 @@ namespace SOE.ViewModels.Pages
         }
         private void ContactCall(SchoolContact contact) => PhoneDialer.Open(contact.Phone);
         private void ContactLink(SchoolContact obj) => OpenBrowser(obj.Url);
-        private void OpenLink(object obj) => OpenBrowser(PageSchool);
+        private void OpenLink(object obj) => OpenBrowser(AppData.Instance.User.School.SchoolPage);
 
-        private async void MenuContact(SchoolContact contact)
+        private void MenuContact(SchoolContact contact)
         {
             MenuContactPopUp pr = new(Departaments, contact);
-            await pr.ShowDialog();
+            pr.ShowDialog().SafeFireAndForget();
         }
         private async void AddContact(SchoolContact obj)
         {
             AddContactPage pr = new(this.Departaments);
-            await pr.ShowDialog();
+            pr.ShowDialog().SafeFireAndForget();
         }
 
 

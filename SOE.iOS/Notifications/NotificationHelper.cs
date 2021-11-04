@@ -9,6 +9,7 @@ using UserNotifications;
 
 namespace SOE.iOS.Notifications
 {
+    [Preserve]
     public static class NotificationHelper
     {
         public static void Cancel(this UILocalNotification notification)

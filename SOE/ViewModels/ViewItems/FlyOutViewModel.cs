@@ -9,7 +9,6 @@ using Kit;
 using Kit.Forms.Extensions;
 using Kit.Forms.Services;
 using Kit.Model;
-using Kit.Sql.Reflection;
 using Plugin.XamarinFormsSaveOpenPDFPackage;
 using SOE.Data;
 using SOE.Data.Images;

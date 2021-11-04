@@ -30,6 +30,10 @@
                         <Span Text="Esta aplicación no venderá, cederá ni distribuirá la información personal que es recopilada sin su consentimiento, salvo que sea requerido por un juez con un orden judicial."/>
                         <Span Text="&#10;"/>
                         <Span Text="Tus datos personales y acceso nunca saldrán de tu dispositivo y nosotros no tendremos conocimiento de estos. SOE se reserva el derecho de cambiar los términos de la presente Política de Privacidad en cualquier momento."/>
+                        <Span Text="&#10;"/>
+                        <Span Text="Esta aplicación es un desarrollo independiente del IPN, creado como un proyecto de titulación."/>
+                        <Span Text="&#10;"/>
+                        <Span Text="Todos los derechos reservados para el I.P.N."/>
                     </FormattedString>
                 </Label.FormattedText>
             </Label>

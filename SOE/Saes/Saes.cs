@@ -76,11 +76,12 @@ namespace SOE.Saes
 
         private async void Browser_Navigated(object sender, WebNavigatedEventArgs e)
         {
-            if (e.Result == WebNavigationResult.Timeout || e.Result == WebNavigationResult.Cancel ||
-                e.Result == WebNavigationResult.Failure)
+            if (e.Result == WebNavigationResult.Timeout || e.Result == WebNavigationResult.Cancel ||             
+                (e.Result == WebNavigationResult.Failure&& Kit.Tools.Instance.RuntimePlatform != Kit.Enums.RuntimePlatform.iOS )
+                )
             {
                 Acr.UserDialogs.UserDialogs.Instance.Alert(
-                    "No fue posible conectarse al SAES, verifique si el sitio esta activo", "Sin conexión");
+                    $"No fue posible conectarse al SAES, verifique si el sitio esta activo - {e.Result}", "Sin conexión");
                 return;
             }
             await this.EvaluateJavaScript(@"window.onerror = function myErrorHandler(errorMsg, url, lineNumber) { console.log('Error occured: ' + errorMsg); return false; }");

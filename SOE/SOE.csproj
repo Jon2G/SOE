@@ -16,7 +16,7 @@
 
 
   <ItemGroup>
-    <EmbeddedResource Include="Fonts\Fontello\font\fontello_29.ttf" />
+    <EmbeddedResource Include="Fonts\Fontello\font\fontello30.ttf" />
     <EmbeddedResource Include="Resources\CalendarioEscolar.pdf" />
   </ItemGroup>
 
@@ -40,7 +40,7 @@
     <PackageReference Include="System.Management" Version="5.0.0" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />
     <PackageReference Include="Xam.Plugin.DeviceInfo" Version="4.1.1" />
-    <PackageReference Include="Xamarin.CommunityToolkit" Version="1.2.0" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="1.3.0" />
     <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />  
@@ -282,6 +282,9 @@
     </Compile>
     <Compile Update="Views\ViewItems\MainTaskView.xaml.cs">
       <DependentUpon>MainTaskView.xaml</DependentUpon>
+    </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Fonts\FontelloIcons.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
 </Project>

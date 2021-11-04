@@ -18,10 +18,8 @@ namespace SOE.iOS
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
     [Register("AppDelegate")]
-    public partial class AppDelegate : Kit.iOS.Services.AppDelegate
+    public partial class AppDelegate : Kit.iOS.Services.AppDelegate<App>
     {
-        protected override Xamarin.Forms.Application GetApp => new App();
-
         protected override void Initialize()
         {
             UINavigationBar.Appearance.Translucent = false;

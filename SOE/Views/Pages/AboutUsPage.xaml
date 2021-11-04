@@ -109,7 +109,12 @@
                         <controls:ArrowButton Title="Política de privacidad"
                                               TextColor="{AppThemeBinding Light=Black,Dark=White}"
                                               IsArrowVisible="False" 
-                                              Command="{Binding PrivacityCommand}"/>
+                                              Command="{Binding PrivacityCommand}">
+                             <controls:ArrowButton.Icon>
+                                <FontImageSource Color="Firebrick" FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                             Glyph="{x:Static fonts:FontelloIcons.Stop}"/>
+                            </controls:ArrowButton.Icon>
+                        </controls:ArrowButton>
 
                         <Label Text="Licencias y créditos"/>
                         <controls:ArrowButton 
@@ -123,6 +128,12 @@
                         TextColor="{AppThemeBinding Light=Black,Dark=White}"
                             IsArrowVisible="False" Title="App menu icons by Fontello" 
                                               SubTitle="https://github.com/fontello/fontello"/>
+
+                        <controls:ArrowButton 
+                        BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundSecondaryLightColor},Dark={StaticResource BackgroundSecondaryDarkColor}}"
+                        TextColor="{AppThemeBinding Light=Black,Dark=White}"
+                            IsArrowVisible="False" Title="Esta aplicación es un desarrollo independiente del IPN, creado como un proyecto de titulación."
+                                              SubTitle="Todos los derechos reservados para el I.P.N."/>
 
                         <!--<Label VerticalOptions="End" Text="{x:Static resource:AppResources.SpecialThanks}" FontSize="18" Padding="0,0,0,0" 
                            TextColor="{AppThemeBinding Light=Black,Dark=White}"/>-->

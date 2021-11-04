@@ -68,11 +68,23 @@
                         </Grid>
                         <controls:ArrowButton Title="{Binding User.School.Name,Source={x:Static data:AppData.Instance}}" TitleFontSize="25"
                                               TitleFontAttributes="Bold" Background="{DynamicResource TertiaryBackground}"
-                                              Icon="{Binding User.School.ImgPath,Source={x:Static data:AppData.Instance}}"
                                               Margin="3" ArrowColor="{StaticResource AccentColor}"
                                               HorizontalOptions="CenterAndExpand"
                                               TitleFontFamily="KarlaSB" Command="{Binding SelectSchoolCommand}"
-                                              />
+                                              >
+                            <controls:ArrowButton.Icon>
+                                <OnPlatform x:TypeArguments="ImageSource">
+                                        <OnPlatform.Platforms>
+                                            <On Platform="iOS">
+                                                <FileImageSource File="logo_moneda.png"/>
+                                            </On>
+                                            <On Platform="Android">
+                                                <FileImageSource File="{Binding User.School.ImgPath,Source={x:Static data:AppData.Instance}}"/>
+                                            </On>
+                                        </OnPlatform.Platforms>
+                                    </OnPlatform>
+                            </controls:ArrowButton.Icon>
+                            </controls:ArrowButton>
                       
                         <BoxView HeightRequest="1"
                          Background="{DynamicResource PrimaryColor}" />

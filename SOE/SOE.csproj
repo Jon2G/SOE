@@ -16,7 +16,7 @@
 
 
   <ItemGroup>
-    <EmbeddedResource Include="Fonts\Fontello\font\fontello_29.ttf" />
+    <EmbeddedResource Include="Fonts\Fontello\font\fontello30.ttf" />
     <EmbeddedResource Include="Resources\CalendarioEscolar.pdf" />
   </ItemGroup>
 
@@ -282,6 +282,9 @@
     </Compile>
     <Compile Update="Views\ViewItems\MainTaskView.xaml.cs">
       <DependentUpon>MainTaskView.xaml</DependentUpon>
+    </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Fonts\FontelloIcons.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
 </Project>

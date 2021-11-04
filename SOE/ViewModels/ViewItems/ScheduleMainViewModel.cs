@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Input;
 using Kit.Model;
-using Kit.Sql.Reflection;
+using Kit;
 using SOE.Models.Scheduler;
 using SOE.Services;
 using SOE.Views.Pages;

@@ -239,6 +239,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Optimize>false</Optimize>
     </BundleResource>
+    <BundleResource Include="..\SOE\Fonts\Fontello\font\fontello30.ttf">
+      <Link>Resources\fontello30.ttf</Link>
+    </BundleResource>
+    <BundleResource Include="..\Images\xamarin_icon.png">
+      <Link>Resources\xamarin_icon.png</Link>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\Images\horario.mp4">

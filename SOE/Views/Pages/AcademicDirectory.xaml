@@ -53,12 +53,13 @@
 
             <StackLayout VerticalOptions="Start">
                 <Label  xct:TouchEffect.PressedScale="0.9" xct:TouchEffect.PressedRotationY="0.1" 
-                        Text="{Binding PageSchool}" TextColor="DodgerBlue" FontSize="20" HorizontalTextAlignment="Center"  >
+                        Text="{x:Binding User.School.SchoolPage, Source={x:Static data:AppData.Instance}}" TextColor="DodgerBlue" FontSize="20" HorizontalTextAlignment="Center"  >
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding OpenLinkCommand}" />
                     </Label.GestureRecognizers>
                 </Label>
             </StackLayout>
+
             <Grid VerticalOptions="FillAndExpand">
 
                 <StackLayout Spacing="0" Padding="0" Orientation="Vertical" VerticalOptions="FillAndExpand" >

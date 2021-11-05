@@ -41,7 +41,7 @@
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Permite el acceso para que puedas adjuntar fotos desde tu galeria.</string>
 	<key>NSUserTrackingUsageDescription</key>
-	<string>Asocia este dispositivo con tu cuenta SOE.</string>
+	<string>Tu información se utiliza como seguimiento de tu cuenta en las distintas funcionalidades de la aplicación. (Opcional)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>2.2.3</string>
 	<key>UIMainStoryboardFile</key>

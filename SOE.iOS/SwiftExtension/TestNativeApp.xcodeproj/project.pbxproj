@@ -64,9 +64,7 @@
 		429AB1CB24ABA40600D106F0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		429AB1CD24ABA40600D106F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		429AB23024AD035E00D106F0 /* TestDataReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDataReader.swift; sourceTree = "<group>"; };
-		429AB23324AD123100D106F0 /* NativeWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NativeWidgetExtension.entitlements; sourceTree = "<group>"; };
 		429AB23424AD128800D106F0 /* TestNativeApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TestNativeApp.entitlements; sourceTree = "<group>"; };
-		92FA30A927156BDE00BA3F0F /* NativeWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NativeWidget.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,7 +90,6 @@
 		429AB18124ABA3E400D106F0 = {
 			isa = PBXGroup;
 			children = (
-				429AB23324AD123100D106F0 /* NativeWidgetExtension.entitlements */,
 				429AB18C24ABA3E400D106F0 /* TestNativeApp */,
 				429AB1C724ABA40600D106F0 /* NativeWidget */,
 				429AB1C224ABA40600D106F0 /* Frameworks */,
@@ -149,7 +146,6 @@
 				429AB1CB24ABA40600D106F0 /* Assets.xcassets */,
 				429AB1CD24ABA40600D106F0 /* Info.plist */,
 				429AB23024AD035E00D106F0 /* TestDataReader.swift */,
-				92FA30A927156BDE00BA3F0F /* NativeWidget.entitlements */,
 			);
 			path = NativeWidget;
 			sourceTree = "<group>";
@@ -345,7 +341,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -400,7 +396,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -467,6 +463,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = NativeWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 25782E8V9A;
 				INFOPLIST_FILE = NativeWidget/Info.plist;

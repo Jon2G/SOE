@@ -1,0 +1,66 @@
+{
+  "_buildCommand2" : {
+    "command" : "build",
+    "skipDependencies" : false,
+    "style" : "buildOnly"
+  },
+  "buildCommand" : "build",
+  "configuredTargets" : [
+    {
+      "guid" : "0747ab2297bdf7698e0bd13988b8f32cc20fcc4881afdc4137169224e20b8412"
+    }
+  ],
+  "containerPath" : "/Users/jonyj/Desktop/source/repos/SOE/SOE.iOS/SwiftExtension/TestNativeApp.xcodeproj",
+  "continueBuildingAfterErrors" : false,
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "arm64",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : false,
+      "platform" : "iphoneos",
+      "sdk" : "iphoneos15.0",
+      "sdkVariant" : "iphoneos",
+      "supportedArchitectures" : [
+        "arm64e",
+        "arm64v8",
+        "arm64",
+        "armv8"
+      ],
+      "targetArchitecture" : "arm64"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Users/jonyj/Desktop/source/repos/SOE/SOE.iOS/SwiftExtension/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Users/jonyj/Desktop/source/repos/SOE/SOE.iOS/SwiftExtension/Build/Products",
+      "derivedDataPath" : "/Users/jonyj/Library/Developer/Xcode/DerivedData",
+      "indexDataStoreFolderPath" : "/Users/jonyj/Library/Developer/Xcode/DerivedData/TestNativeApp-dvnfyjvomlrjurebhkyhcbshquff/Index/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/jonyj/Library/Developer/Xcode/DerivedData/TestNativeApp-dvnfyjvomlrjurebhkyhcbshquff/Index/PrecompiledHeaders",
+      "pchPath" : "/Users/jonyj/Desktop/source/repos/SOE/SOE.iOS/SwiftExtension/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "synthesized" : {
+        "table" : {
+          "ASSETCATALOG_FILTER_FOR_DEVICE_MODEL" : "iPhone12,8",
+          "ASSETCATALOG_FILTER_FOR_DEVICE_OS_VERSION" : "15.0.2",
+          "BUILD_ACTIVE_RESOURCES_ONLY" : "YES",
+          "ENABLE_PREVIEWS" : "NO",
+          "TARGET_DEVICE_IDENTIFIER" : "00008030-001244911A69802E",
+          "TARGET_DEVICE_MODEL" : "iPhone12,8",
+          "TARGET_DEVICE_OS_VERSION" : "15.0.2",
+          "TARGET_DEVICE_PLATFORM_NAME" : "iphoneos"
+        }
+      }
+    }
+  },
+  "schemeCommand" : "launch",
+  "schemeCommand2" : "launch",
+  "shouldCollectMetrics" : false,
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}

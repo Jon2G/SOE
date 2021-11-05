@@ -22,7 +22,21 @@ struct Provider: IntentTimelineProvider {
     public func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<DataEntry>) -> Void) {
         var entries: [DataEntry] = []
 
+        //entries.append(DataEntry(value: "Hi", delta: "delta", date: Date.now, configuration: configuration));
+        let date = Date()
+        let calendar = Calendar.current
+        let hour   =  calendar.component(.hour, from: date)
+        let minute = calendar.component(.minute, from: date)
+        let second = calendar.component(.second, from: date)
+        
         let jsonData = readTestData();
+        let datas=jsonData.data;
+        if(datas.isEmpty){
+            entries.append(DataEntry(value: "Is empty", delta:"\(hour):\(minute):\(second)", date: Date.now, configuration: configuration));
+        }//else{
+         //   entries.append(DataEntry(value: "Is not empty", delta: "delta", date: Date.now, configuration: configuration));
+        //}
+        
         for entry in jsonData.data {
             let dateFormatter = DateFormatter()
             dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
@@ -33,6 +47,7 @@ struct Provider: IntentTimelineProvider {
         }
         
         let timeline = Timeline(entries: entries, policy: .atEnd)
+        
         completion(timeline)
     }
     

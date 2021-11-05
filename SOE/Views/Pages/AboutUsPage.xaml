@@ -100,11 +100,23 @@
                             </controls:ArrowButton.Icon>
                         </controls:ArrowButton>
 
-                        <controls:ArrowButton Title="Cómpranos un café"
+                        <ContentView>
+                            <ContentView.Content>
+                                <OnPlatform x:TypeArguments="View">
+                                    <On Platform="iOS">
+                                        <x:Null/>
+                                    </On>
+                                    <On Platform="Android">
+                                        <controls:ArrowButton Title="Cómpranos un café"
                                           Icon="bmc_logo_yellow.png"  TextColor="{AppThemeBinding Light=Black,Dark=White}"
                                           BackgroundColor="#ffdd00"
                                           IsArrowVisible="False" 
                                           Command="{Binding BuyMeACoffeCommand}"/>
+                                    </On>
+                                </OnPlatform>
+                            </ContentView.Content>
+                        </ContentView>
+                        
 
                         <controls:ArrowButton Title="Política de privacidad"
                                               TextColor="{AppThemeBinding Light=Black,Dark=White}"

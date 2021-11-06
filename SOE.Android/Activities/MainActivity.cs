@@ -41,7 +41,7 @@ namespace SOE.Droid.Activities
        actions: new[] { Intent.ActionView },
        Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
        DataPathPattern = ".*", DataPathPrefix = ".*",
-       DataHost = APIService.NonProdUrl, DataSchemes = new[] { "http", "https" })]
+       DataHost = APIService.NonHttpsUrl, DataSchemes = new[] { "http", "https" })]
 
     [IntentFilter(
         actions: new[] { Intent.ActionView },

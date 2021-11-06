@@ -1,0 +1,13 @@
+
+{
+    "region" : "us-east-2",
+    "configuration" : "Release",
+    "framework"     : "netcoreapp3.1",
+    "self-contained" : false,
+    "application"    : "WebApplication1",
+    "environment"    : "WebApplication1-prod",
+    "enable-xray"    : false,
+    "enhanced-health-type" : "basic",
+    "additional-options"   : "",
+    "proxy-server"         : "nginx"
+}

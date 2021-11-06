@@ -1,4 +1,5 @@
 using AsyncAwaitBestPractices;
+using Kit;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -13,118 +14,108 @@ using SOEWeb.Shared;
 using System.Threading;
 using Microsoft.AspNetCore.Http;
 using Microsoft.JSInterop;
+using MimeKit;
+using SOEWeb.Shared.Secrets;
+using System.IO;
+using System.Text;
 
 namespace SOEAWS.Pages
 {
     public partial class SupportPage : IStateHasChanged
     {
-        [Inject]
-        public NavigationManager NavigationManagerManager { get; set; }
-        [Parameter]
-        public string ShareId { get; set; }
-        public Guid ShareGuid { get; set; }
-        [Parameter]
-        public string ShareType { get; set; }
-        public string UserName { get; set; }
-        public string SubjectName { get; private set; }
-        public string SubjectColor { get; private set; }
-
-        public string CardTitle { get; private set; }
-        public string CardDateTime { get; set; }
-        [Inject]
-        public ILogger<AppController> _logger { get; set; }
-        [Inject]
-        public IJSRuntime JsRuntime { get; set; }
+        public string Report { get; set; }
+        public bool Thankyou { get; set; }
         public SupportPage()
         {
+            Thankyou = false;
+            Report = @"**Describe el problema**
+Una clara y concisa descripción del problema.
 
+Pasos para reproducir el problema:
+1. Vaya a '...'
+2. Haga clic en '....'
+3. Desplácese hacia abajo hasta '....'
+
+**Comportamiento esperado**
+Una descripción clara y concisa de lo que esperaba que sucediera.
+
+** Capturas de pantalla **
+Si corresponde, agregue capturas de pantalla para ayudar a explicar su problema.
+
+** Smartphone (complete la siguiente información): **
+  - Dispositivo: [p. Ej. iphone 6]
+  - SO: [p. Ej. iOS8.1]
+  - Versión [p. Ej. 22]
+
+** Contexto adicional **
+Agregue aquí cualquier otro contexto sobre el problema.";
         }
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            GetOriginAsync().SafeFireAndForget();
         }
 
-        private async Task GetOriginAsync()
-        {
-            string origin = await JsRuntime.InvokeAsync<string>("GetOrigin");
-        }
-
-
-        private void GotoDownloadPage()
+        private async void Send()
         {
             try
             {
-                string url = DynamicLinkFormatter.GetDynamicUrl("share",
-                    new Dictionary<string, string>() { { "type", ShareType }, { "id", ShareGuid.ToString() } });
-                NavigationManagerManager.NavigateTo(url);
+
+                MimeMessage message = new MimeMessage();
+                message.From.Add(new MailboxAddress("", DotNetEnviroment.CORREOSOE));
+                message.To.Add(new MailboxAddress("", DotNetEnviroment.CORREOSOE));
+                message.Subject = $"BUG REPORT - [WEB PAGE] - {DateTime.Now}";
+
+
+                Kit.Daemon.Devices.Device device = Kit.Daemon.Devices.Device.Current;
+                StringBuilder sb = new StringBuilder(Report);
+                Multipart multipart = new Multipart("mixed");
+                multipart.Add(new TextPart("plain") { Text = sb.ToString() });
+                FileInfo log = new FileInfo(Log.Current.LoggerPath);
+                if (log.Exists)
+                {
+                    multipart.Add(new MimePart("text", "plain")
+                    {
+                        Content = new MimeContent(File.OpenRead(log.FullName)),
+                        ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                        ContentTransferEncoding = ContentEncoding.Base64,
+                        FileName = Path.GetFileName(log.FullName)
+                    });
+                }
+                FileInfo critical_log = new FileInfo(Log.Current.CriticalLoggerPath);
+                if (log.Exists)
+                {
+                    multipart.Add(new MimePart("text", "plain")
+                    {
+                        Content = new MimeContent(File.OpenRead(critical_log.FullName)),
+                        ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                        ContentTransferEncoding = ContentEncoding.Base64,
+                        FileName = Path.GetFileName(critical_log.FullName)
+                    });
+                }
+
+                message.Body = multipart;
+
+
+
+                MailKit.Net.Smtp.SmtpClient SmtpServer = new();
+                SmtpServer.CheckCertificateRevocation = false;
+                SmtpServer.Connect("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
+                SmtpServer.Authenticate(DotNetEnviroment.CORREOSOE, DotNetEnviroment.PASSWORDSOE);
+                SmtpServer.Send(message);
+                SmtpServer.Disconnect(true);
+
             }
+
             catch (Exception ex)
             {
-                _logger.LogError(ex, "GotoDownloadPage");
-            }
-        }
-        protected override void OnParametersSet()
-        {
-            base.OnParametersSet();
-            if (!Guid.TryParse(ShareId, out Guid guid))
-            {
-                this.GotoDownloadPage();
-                return;
+                Log.Logger.Error(ex, nameof(Report));
             }
 
-            ShareGuid = guid;
-            if (ShareGuid == Guid.Empty)
-            {
-                this.GotoDownloadPage();
-                return;
-            }
 
-            switch (ShareType)
-            {
-                case "todo":
-                    TodoBase todo = TodoService.Find(ShareGuid, this._logger, out string nick);
-                    if (todo is null)
-                    {
-                        this.GotoDownloadPage();
-                        return;
-                    }
-                    UserName = nick;
-                    todo.Subject = SubjectService.GetById(todo.Subject.Id);
-                    this.SubjectColor = todo.Subject.ColorDark;
-                    this.SubjectName = todo.Subject.Name;
-                    this.CardTitle = todo.Title;
-                    this.CardDateTime = $"{todo.Date:dd-MM-yyyy} {todo.Time.Hours:D2}:{todo.Time.Minutes:D2}";
-                    break;
-                case "reminder":
-                    ReminderBase reminder = ReminderService.Find(ShareGuid, this._logger, out string nickr);
-                    if (reminder is null)
-                    {
-                        this.GotoDownloadPage();
-                        return;
-                    }
-                    if (reminder.Subject is not null)
-                    {
-                        this.SubjectName = reminder.Subject.Name;
-                        this.SubjectColor = reminder.Subject.ColorDark;
-                    }
-                    else
-                    {
-                        this.SubjectName = "Recordatorio";
-                        this.SubjectColor = "#0277bd";
-                    }
-                    UserName = nickr;
-                    this.CardTitle = reminder.Title;
-                    this.CardDateTime = $"{reminder.Date:dd-MM-yyyy} {reminder.Time:HH-mm}";
-                    break;
-                default:
-                    this.GotoDownloadPage();
-                    return;
-            }
-            this.InvokeStateHasChanged();
-            Timer timer = new(o => this.GotoDownloadPage());
-            timer.Change(TimeSpan.FromSeconds(3), Timeout.InfiniteTimeSpan);
+            Thankyou = true;
         }
+
+
 
         public void InvokeStateHasChanged()
         {

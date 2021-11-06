@@ -35,15 +35,13 @@ namespace SOE.API
 #if DEBUG
         //LOCAL
         public const string NonHttpsUrl = "192.168.0.32:5001";
-        public const string NonProdUrl = "192.168.0.32";
 #else
         //AWS
-        public const string NonProdUrl = "dhokq2d69j.execute-api.us-east-2.amazonaws.com";
-        public static string NonHttpsUrl => $"{NonProdUrl}/Prod";
+        public const string NonHttpsUrl = "soewebapp-prod.us-east-2.elasticbeanstalk.com";
 #endif
 
         //Otros
-        public static string BaseUrl => $"https://{NonHttpsUrl}";
+        public static string BaseUrl => $"http://{NonHttpsUrl}";
         public static string Url => $"{BaseUrl}/App";
 
         public static async Task<Response> TestDb()

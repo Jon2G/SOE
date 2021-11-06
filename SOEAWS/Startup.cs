@@ -17,6 +17,7 @@ using Radzen;
 using SOEAWS.Services;
 using SOEWeb.Shared;
 using SOEWeb.Shared.Secrets;
+using System.Globalization;
 using System.Net.Http;
 
 namespace SOEAWS
@@ -37,6 +38,7 @@ namespace SOEAWS
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            CultureInfo.CurrentCulture = new CultureInfo("es-MX");
             services.AddControllers().AddNewtonsoftJson();
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddServerSideBlazor();

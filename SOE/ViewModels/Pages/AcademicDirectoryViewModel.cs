@@ -1,16 +1,12 @@
 ﻿using Kit;
 using Kit.Model;
 using SOE.Data;
-using SOE.Models.Data;
-using SOE.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using SOE.Views.Pages;
 using SOE.Views.PopUps;
 using System.Threading.Tasks;
 using SOEWeb.Shared;
@@ -21,7 +17,6 @@ using SOE.Services;
 using SOEWeb.Shared.Interfaces;
 using System.Linq;
 using Xamarin.CommunityToolkit.ObjectModel;
-using SOE.Data;
 
 namespace SOE.ViewModels.Pages
 {
@@ -38,7 +33,6 @@ namespace SOE.ViewModels.Pages
                 Raise(() => IsLoading);
             }
         }
-
 
         private ObservableCollection<ContactsByDeparment> _Contacts;
 
@@ -122,7 +116,7 @@ namespace SOE.ViewModels.Pages
                 }
             }
 
-            var response
+            Response<IEnumerable<ContactsByDeparment>> response
                 = await APIService.GetContacts(AppData.Instance.User.School);
             switch (response.ResponseResult)
             {
@@ -139,21 +133,34 @@ namespace SOE.ViewModels.Pages
             }
             IsLoading = false;
         }
-        private void ContactCall(SchoolContact contact) => PhoneDialer.Open(contact.Phone);
-        private void ContactLink(SchoolContact obj) => OpenBrowser(obj.Url);
-        private void OpenLink(object obj) => OpenBrowser(AppData.Instance.User.School.SchoolPage);
+        private void ContactCall(SchoolContact contact)
+        {
+            try
+            {
+                PhoneDialer.Open(contact.Phone);
+            }
+            catch(Exception ex)
+            {
+                Log.Logger.Error(ex, "ContactCall");
+                Acr.UserDialogs.UserDialogs.Instance.Alert("Oops..", "Esta característica no es soportada por su dispositivo.\nSe ha copiado el número en el portapapeles.", "Ok");
+                Clipboard.SetTextAsync(contact.Phone).SafeFireAndForget();
+
+            }
+        }
+            
+        private void ContactLink(SchoolContact obj) => OpenBrowser(obj.Url).SafeFireAndForget();
+        private void OpenLink(object obj) => OpenBrowser(AppData.Instance.User.School.SchoolPage).SafeFireAndForget();
 
         private void MenuContact(SchoolContact contact)
         {
             MenuContactPopUp pr = new(Departaments, contact);
             pr.ShowDialog().SafeFireAndForget();
         }
-        private async void AddContact(SchoolContact obj)
+        private void AddContact(SchoolContact obj)
         {
             AddContactPage pr = new(this.Departaments);
             pr.ShowDialog().SafeFireAndForget();
         }
-
 
         private async void ContactMessage(SchoolContact contact)
         {
@@ -173,9 +180,9 @@ namespace SOE.ViewModels.Pages
             }
         }
 
-
-        private async void OpenBrowser(string url)
+        private async Task OpenBrowser(string url)
         {
+            await Task.Yield();
             try
             {
                 Uri uri = new Uri(url);
@@ -186,7 +193,5 @@ namespace SOE.ViewModels.Pages
                 Log.Logger.Error(e, nameof(OpenBrowser));
             }
         }
-
-
     }
 }

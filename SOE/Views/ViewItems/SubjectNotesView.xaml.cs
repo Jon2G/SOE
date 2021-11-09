@@ -63,7 +63,8 @@ namespace SOE.Views.ViewItems
                 return;
             }
             this.SoeWebView.FailureCommand = new Kit.Extensions.Command<WebNavigationResult>((e) => IsOffline = true);
-            await SoeWebView.GoTo(DotNetEnviroment.BaseUrl);
+            if(Kit.Tools.Instance.RuntimePlatform != Kit.Enums.RuntimePlatform.iOS)
+                await SoeWebView.GoTo(APIService.BaseUrl);
             await SoeWebView.GoToSubjectNotesPage(Model.Subject, AppData.Instance.User);
             IsLoading = false;
         }

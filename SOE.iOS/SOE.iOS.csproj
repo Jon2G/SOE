@@ -284,11 +284,12 @@
       <DependentUpon>Widgets\ViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Widgets\FakeData.cs" />
-    <!--<AdditionalAppExtensions Include="SwiftExtension/DerivedData/TestNativeApp/Build/Products/">-->
-    <!--<Name>NativeWidgetExtension</Name>-->
-    <!--<BuildOutput Condition="'$(Platform)' == 'iPhone'">Debug-iphoneos</BuildOutput>-->
-    <!--<BuildOutput Condition="'$(Platform)' == 'iPhoneSimulator'">Debug-iphonesimulator</BuildOutput>-->
-    <!--</AdditionalAppExtensions>-->
+<!--  <AdditionalAppExtensions Include="/Users/jonyj/Desktop/source/repos/SOE/SOE.iOS/SwiftExtension/Build/Products/">
+         <SmartLink>false</SmartLink>
+        <Name>NativeWidgetExtension</Name>
+        <BuildOutput Condition="'$(Platform)' == 'iPhone'">Debug-iphoneos</BuildOutput>
+        <BuildOutput Condition="'$(Platform)' == 'iPhoneSimulator'">Debug-iphonesimulator</BuildOutput>
+  </AdditionalAppExtensions>-->
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

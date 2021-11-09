@@ -221,13 +221,13 @@
       <Project>{fbdd1dcc-b804-4690-8113-98d775de9a88}</Project>
       <Name>Kit</Name>
     </ProjectReference>
-    <ProjectReference Include="..\APIModels\SOEWeb.Shared.csproj">
-      <Project>{2a23810f-e1dc-4005-a55e-bdd18b341790}</Project>
-      <Name>APIModels</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SOE\SOE.csproj">
       <Project>{20ccea58-74b4-41b0-9e9e-22b7b328c798}</Project>
       <Name>SOE</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\APIModels\SOEWeb.Shared.csproj">
+      <Project>{2A23810F-E1DC-4005-A55E-BDD18B341790}</Project>
+      <Name>SOEWeb.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

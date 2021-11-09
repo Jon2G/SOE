@@ -76,9 +76,7 @@ namespace SOE.Saes
 
         private async void Browser_Navigated(object sender, WebNavigatedEventArgs e)
         {
-            if (e.Result == WebNavigationResult.Timeout || e.Result == WebNavigationResult.Cancel ||
-                (e.Result == WebNavigationResult.Failure && Kit.Tools.Instance.RuntimePlatform != Kit.Enums.RuntimePlatform.iOS)
-                )
+            if (e.Result == WebNavigationResult.Timeout || e.Result == WebNavigationResult.Cancel)
             {
                 Acr.UserDialogs.UserDialogs.Instance.Alert(
                     $"No fue posible conectarse al SAES, verifique si el sitio esta activo - {e.Result}", "Sin conexión");

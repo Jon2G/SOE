@@ -31,8 +31,8 @@ using Xamarin.Forms;
 using Uri = Android.Net.Uri;
 using SOE.Models.TodoModels;
 using Application = Xamarin.Forms.Application;
-using SOEWeb.Shared.Secrets;
-using Android.Runtime;
+using Xamarin.Android;
+using Xamarin.Forms.Internals;
 
 namespace SOE.Droid.Activities
 {

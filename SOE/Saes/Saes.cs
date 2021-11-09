@@ -76,8 +76,8 @@ namespace SOE.Saes
 
         private async void Browser_Navigated(object sender, WebNavigatedEventArgs e)
         {
-            if (e.Result == WebNavigationResult.Timeout || e.Result == WebNavigationResult.Cancel ||             
-                (e.Result == WebNavigationResult.Failure&& Kit.Tools.Instance.RuntimePlatform != Kit.Enums.RuntimePlatform.iOS )
+            if (e.Result == WebNavigationResult.Timeout || e.Result == WebNavigationResult.Cancel ||
+                (e.Result == WebNavigationResult.Failure && Kit.Tools.Instance.RuntimePlatform != Kit.Enums.RuntimePlatform.iOS)
                 )
             {
                 Acr.UserDialogs.UserDialogs.Instance.Alert(
@@ -169,7 +169,7 @@ namespace SOE.Saes
             }
         }
 
-        public async Task<ImageSource> GetCaptcha()
+        public async Task<ImageSource> GetCaptcha(bool recursive = false)
         {
             ImageSource imageSource = null;
             await GoHome();
@@ -193,6 +193,9 @@ namespace SOE.Saes
                 string base64 = await EvaluateJavaScript(sb.ToString());
                 if (string.IsNullOrEmpty(base64))
                 {
+                    await Task.Delay(TimeSpan.FromSeconds(3));
+                    if (!recursive)
+                        return await GetCaptcha(true);
                     return null;
                 }
                 base64 = base64.Replace("data:image/png;base64,", string.Empty);
@@ -230,7 +233,16 @@ namespace SOE.Saes
         private async Task<string> EvaluateJavaScript(string script)
         {
             await Task.Delay(50);
-            return await EvaluateJavaScriptAsync(script);
+            try
+            {
+                return await EvaluateJavaScriptAsync(script);
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Error(ex, "EvaluateJavaScript - {0}", script);
+                return String.Empty;
+            }
+
         }
 
         public async Task<bool> IsLoggedIn()

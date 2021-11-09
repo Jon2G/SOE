@@ -20,6 +20,7 @@ using Task = Com.Google.Android.Play.Core.Tasks.Task;
 [assembly: Xamarin.Forms.Dependency(typeof(SOE.Droid.Services.AvailableUpdateService))]
 namespace SOE.Droid.Services
 {
+    [Preserve]
     public class AvailableUpdateService : IAvailableUpdateService
     {
         public void HasUpdate()

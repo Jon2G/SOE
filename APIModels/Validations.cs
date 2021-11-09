@@ -17,7 +17,7 @@ namespace SOEWeb.Shared
 
         public static bool IsValidUser(string user) => IsValidBoleta(user) || IsValidEmail(user);
 
-        
+
         public static bool IsValidEmail(string email)
         {
             try
@@ -34,6 +34,7 @@ namespace SOEWeb.Shared
         public static bool IsValidNickName(string NickName) =>
             !string.IsNullOrEmpty(NickName) && NickName.Length >= 4 && NickName.Length <= 10;
 
+
         public static string ValidateLogin(string Boleta, string NickName, string Email, School School, string DeviceKey, UserType UserType)
         {
             if (string.IsNullOrEmpty(Boleta))
@@ -46,7 +47,7 @@ namespace SOEWeb.Shared
             }
             if (!Validations.IsValidNickName(NickName))
             {
-                return "El password debe contener al menos 8 carácteres";
+                return "El nickname debe contener al menos 4 carácteres";
             }
 
             if (!Validations.IsValidEmail(Email))
@@ -59,7 +60,7 @@ namespace SOEWeb.Shared
                 return "Debe seleccionar una escuela";
             }
 
-            if (string.IsNullOrEmpty(School.Name))
+            if (School.Id <= 0)
             {
                 return "La escuela no debe estar vacia";
             }

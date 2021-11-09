@@ -148,6 +148,7 @@
                                                     validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"
                                                           Placeholder="Email"
                                                           Margin="0,10" />
+                                        <Label Text="Nickname:"/>
                                         <Entry  TextColor="{DynamicResource secondaryTextColor}" IsTextPredictionEnabled="False"
                                                                   Text="{Binding NickName}"
                                                                   Placeholder="NickName"

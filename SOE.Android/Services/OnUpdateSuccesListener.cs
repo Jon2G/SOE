@@ -13,6 +13,7 @@ using System.Text;
 
 namespace SOE.Droid.Services
 {
+    [Preserve]
     public class OnUpdateSuccesListener : Java.Lang.Object, Com.Google.Android.Play.Core.Tasks.IOnSuccessListener
     {
         private readonly IAppUpdateManager AppUpdateManager;

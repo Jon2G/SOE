@@ -49,15 +49,15 @@ namespace SOE.ViewModels.Pages
         private void GetSchools()
         {
             SchoolSearch = new List<School>();
-            for (int i = 1; i <= 19; i++)
+            int Id = 1;
+            for (;Id <= 19; Id++)
             {
-                string HomePage = $"https://www.saes.cecyt{i}.ipn.mx/";
-                string SchoolPage = $"https://www.cecyt{i}.ipn.mx/";
-                this.SchoolSearch.Add(new School(i, HomePage, $"CECyT {i}",
-                    $"{HomePage}Images/logos/{i:D2}.png",SchoolPage));
+                string HomePage = $"https://www.saes.cecyt{Id}.ipn.mx/";
+                string SchoolPage = $"https://www.cecyt{Id}.ipn.mx/";
+                this.SchoolSearch.Add(new School(Id, HomePage, $"CECyT {Id}",
+                    $"{HomePage}Images/logos/{Id:D2}.png",SchoolPage));
             }
-
-            int Id = 15;
+            Id--;
             this.SchoolSearch.AddRange(
                 new School[]{
                     new (++Id,"https://www.saes.cet1.ipn.mx/", $"CET 1", $"https://www.saes.cet1.ipn.mx/Images/logos/17.png","https://www.cet1.ipn.mx/"),

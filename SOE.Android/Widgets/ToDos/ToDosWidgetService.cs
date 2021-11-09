@@ -1,9 +1,11 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Runtime;
 using Android.Widget;
 
 namespace SOE.Droid.Widgets.ToDos
 {
+    [Preserve]
     [Service(Permission = "android.permission.BIND_REMOTEVIEWS",Exported = false)]
     public class ToDosWidgetService : RemoteViewsService
     {

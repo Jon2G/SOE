@@ -3,10 +3,12 @@ using Android.Content;
 using Android.Content.PM;
 using Android.Gms.Extensions;
 using Android.OS;
+using Android.Runtime;
 using Firebase.DynamicLinks;
 
 namespace SOE.Droid.Activities
 {
+    [Preserve]
     [Activity(Label = "SOE", Theme = "@style/SplashTheme",
         MainLauncher = true, NoHistory = true, ConfigurationChanges = ConfigChanges.ScreenSize)]
     public class SplashActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity

@@ -5,6 +5,7 @@ using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
 using Android.OS;
+using Android.Runtime;
 using Android.Widget;
 using Kit;
 using Kit.Droid;
@@ -15,7 +16,7 @@ using SOE.Widgets;
 
 namespace SOE.Droid.Widgets.ToDos
 {
-
+    [Preserve]
     public class ToDosRemoteViewsFactory : Java.Lang.Object, RemoteViewsService.IRemoteViewsFactory
     {
         private Context mContext;

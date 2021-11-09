@@ -17,7 +17,7 @@ namespace SOEWeb.Shared
 
         public static Response<T> FromSql<T>(string sql, params SqlParameter[] parameters)
         {
-            Response<T> response = Response<T>.NotExecuted;
+            Response<T> response = Response<T>.InvalidRequest;
             try
             {
                 using (SqlConnection con = WebData.Connection)

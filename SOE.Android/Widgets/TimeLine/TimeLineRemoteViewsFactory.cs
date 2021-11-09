@@ -4,6 +4,7 @@ using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
+using Android.Runtime;
 using Android.Widget;
 using Kit;
 using SOE.Data;
@@ -13,6 +14,7 @@ using SOE.Widgets;
 namespace SOE.Droid.Widgets.TimeLine
 {
 
+    [Preserve]
     public class TimeLineRemoteViewsFactory : Java.Lang.Object, RemoteViewsService.IRemoteViewsFactory
     {
         private Context mContext;

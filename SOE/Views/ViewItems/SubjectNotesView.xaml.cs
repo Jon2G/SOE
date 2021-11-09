@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using SOEWeb.Shared.Secrets;
 
 namespace SOE.Views.ViewItems
 {
@@ -62,7 +63,7 @@ namespace SOE.Views.ViewItems
                 return;
             }
             this.SoeWebView.FailureCommand = new Kit.Extensions.Command<WebNavigationResult>((e) => IsOffline = true);
-            await SoeWebView.GoTo(APIService.BaseUrl);
+            await SoeWebView.GoTo(DotNetEnviroment.BaseUrl);
             await SoeWebView.GoToSubjectNotesPage(Model.Subject, AppData.Instance.User);
             IsLoading = false;
         }

@@ -152,7 +152,7 @@ namespace SOEWeb.Shared.Processors
             }
             if (UserId <= 0)
             {
-                return new Response<string>(APIResponseResult.NOT_EXECUTED, $"User : [{user}] not found");
+                return new Response<string>(APIResponseResult.INVALID_REQUEST, $"User : [{user}] not found");
             }
 
             return Digest(HTML, UserId, Log, true);

@@ -38,7 +38,7 @@ namespace SOEAWS.Controllers
         [HttpGet("Hello")]
         public ActionResult<WResponse> Hello()
         {
-            return new WResponse(APIResponseResult.OK, $"2.0.1 - Hello there, it's {DateExtensions.MexicoCityCurrentDateTime().ToShortTimeString()} o'clock , {DateExtensions.MexicoCityCurrentDateTime().ToShortDateString()}");
+            return new WResponse(APIResponseResult.OK, $"2.0.2 - Hello there, it's {DateExtensions.MexicoCityCurrentDateTime().ToShortTimeString()} o'clock , {DateExtensions.MexicoCityCurrentDateTime().ToShortDateString()}");
         }
         [HttpGet("TestDb")]
         public ActionResult<WResponse> TestDb()
@@ -75,18 +75,14 @@ namespace SOEAWS.Controllers
         }
         private Response<int> SignUp(string Boleta, string Nombre, string NickName, string Email, int SchoolId, UserType Type, Device Device)
         {
-            if (string.IsNullOrEmpty(Boleta)
-                || !Validations.IsValidEmail(Email)
-                || !Validations.IsValidBoleta(Boleta)
-                || SchoolId <= 0
-                || string.IsNullOrEmpty(Nombre)
-                || string.IsNullOrEmpty(NickName)
-                || string.IsNullOrEmpty(Device.DeviceKey)
-                || Type == UserType.INVALID)
-            {
-                return new Response<int>(APIResponseResult.INVALID_REQUEST,
-                    "!Solicitud invalida!");
-            }
+            //if (SOEWeb.Shared.Validations.ValidateLogin(Boleta, NickName, Email,new School(){Id = SchoolId },
+            //            Device.DeviceKey, Type)
+            //        is string v_error
+            //    && !string.IsNullOrEmpty(v_error))
+            //{
+            //    return new Response<int>(APIResponseResult.NOT_EXECUTED, v_error);
+            //}
+
             try
             {
                 Response<int> response = ResponseExtensions.FromSql<int>("SP_SIGNUP"
@@ -191,7 +187,7 @@ namespace SOEAWS.Controllers
         {
             if (Img is null || Img.Length <= 0 || Guid.Empty == ToDoGuid)
             {
-                return WResponse.NotExecuted;
+                return WResponse.InvalidRequest;
             }
 
 

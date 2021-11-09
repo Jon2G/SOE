@@ -31,9 +31,12 @@ using Xamarin.Forms;
 using Uri = Android.Net.Uri;
 using SOE.Models.TodoModels;
 using Application = Xamarin.Forms.Application;
+using SOEWeb.Shared.Secrets;
+using Android.Runtime;
 
 namespace SOE.Droid.Activities
 {
+    [Preserve]
     [Activity(Label = "SOE", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
         MainLauncher = false, Exported = true,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
@@ -41,7 +44,7 @@ namespace SOE.Droid.Activities
        actions: new[] { Intent.ActionView },
        Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
        DataPathPattern = ".*", DataPathPrefix = ".*",
-       DataHost = APIService.NonHttpsUrl, DataSchemes = new[] { "http", "https" })]
+       DataHost = DotNetEnviroment.NonHttpsUrl, DataSchemes = new[] { "http", "https" })]
 
     [IntentFilter(
         actions: new[] { Intent.ActionView },

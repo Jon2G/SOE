@@ -1,4 +1,5 @@
 ﻿using Android.Gms.Tasks;
+using Android.Runtime;
 using Firebase.DynamicLinks;
 using Java.Interop;
 using SOE.FireBase;
@@ -11,6 +12,7 @@ using Uri = Android.Net.Uri;
 
 namespace SOE.Droid.FireBase
 {
+    [Preserve]
     public class OnSuccessListener : Java.Lang.Object, IOnSuccessListener
     {
         private readonly Command<IActionResponse> ActionResponse;

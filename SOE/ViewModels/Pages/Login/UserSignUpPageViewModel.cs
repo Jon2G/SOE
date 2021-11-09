@@ -218,7 +218,6 @@ namespace SOE.ViewModels.Pages.Login
                         AppData.Instance.User.Id = Convert.ToInt32(response.Extra);
                         App.Current.MainPage = new RefreshDataPage(true);
                         break;
-                    case APIResponseResult.NOT_EXECUTED:
                     case APIResponseResult.INVALID_REQUEST:
                         App.Current.MainPage.DisplayAlert("Mensaje informativo", response.Message, "Ok").SafeFireAndForget();
                         break;

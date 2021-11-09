@@ -17,6 +17,7 @@ using Xamarin.Forms;
 [assembly: Dependency(typeof(FirebaseAnalyticsService))]
 namespace SOE.Droid.FireBase
 {
+    [Preserve]
     public class FirebaseAnalyticsService : Java.Lang.Object, IFirebaseAnalyticsService
     {
         public void LogEvent(string eventId)

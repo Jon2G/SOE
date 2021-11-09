@@ -1,10 +1,12 @@
 ﻿using Android.Gms.Tasks;
+using Android.Runtime;
 using Java.Interop;
 using System;
 using Exception = Java.Lang.Exception;
 
 namespace SOE.Droid.FireBase
 {
+    [Preserve]
     public class OnFailureListener : Java.Lang.Object, IOnFailureListener
     {
         public OnFailureListener()

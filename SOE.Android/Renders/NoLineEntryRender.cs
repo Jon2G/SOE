@@ -1,6 +1,7 @@
 ﻿using Android.Content;
 using Android.Content.Res;
 using Android.Graphics.Drawables;
+using Android.Runtime;
 using Android.Text;
 using SOE.Droid.Renders;
 using SOE.Renders;
@@ -10,6 +11,7 @@ using Xamarin.Forms.Platform.Android;
 [assembly: ExportRenderer(typeof(NoLineEntry), typeof(NoLineEntryRender))]
 namespace SOE.Droid.Renders
 {
+    [Preserve]
     public class NoLineEntryRender : EntryRenderer
     {
         public NoLineEntryRender(Context Context) : base(Context)

@@ -15,6 +15,7 @@ using Xamarin.Forms.Platform.Android;
 [assembly: ExportRenderer(typeof(WebView), typeof(MyWebViewRenderer))]
 namespace SOE.Droid.Renders
 {
+    [Preserve]
     public class MyWebViewRenderer : WebViewRenderer
     {
         public MyWebViewRenderer(Context context) : base(context)

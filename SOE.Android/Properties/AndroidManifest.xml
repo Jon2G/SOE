@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="224" android:versionName="2.2.4" package="com.soe.soe_app" android:installLocation="auto" xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="226" android:versionName="2.2.6" package="com.soe.soe_app" android:installLocation="auto" xmlns:tools="http://schemas.android.com/tools">
 	<uses-sdk android:minSdkVersion="23" android:targetSdkVersion="30" />
 	<application android:label="SOE" android:theme="@style/AppTheme" android:networkSecurityConfig="@xml/network_security_config" android:icon="@mipmap/ic_launcher" android:usesCleartextTraffic="true" android:allowBackup="true">
 		<provider android:name="android.support.v4.content.FileProvider" android:authorities="${applicationId}.provider" android:exported="false" android:grantUriPermissions="true">

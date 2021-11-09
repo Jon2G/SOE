@@ -16,7 +16,7 @@ namespace Tests.Views
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            Response response = await APIService.PostClassTime(System.Text.Encoding.UTF8.GetBytes(this.TxtHtml.Text), "2015130425");
+            var response = await APIService.PostClassTime(System.Text.Encoding.UTF8.GetBytes(this.TxtHtml.Text), "2015130425");
             
         }
     }

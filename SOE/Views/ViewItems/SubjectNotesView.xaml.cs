@@ -64,7 +64,7 @@ namespace SOE.Views.ViewItems
             }
             this.SoeWebView.FailureCommand = new Kit.Extensions.Command<WebNavigationResult>((e) => IsOffline = true);
             if(Kit.Tools.Instance.RuntimePlatform != Kit.Enums.RuntimePlatform.iOS)
-                await SoeWebView.GoTo(APIService.BaseUrl);
+                await SoeWebView.GoTo(DotNetEnviroment.BaseUrl);
             await SoeWebView.GoToSubjectNotesPage(Model.Subject, AppData.Instance.User);
             IsLoading = false;
         }

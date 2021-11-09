@@ -33,6 +33,7 @@ using SOE.Models.TodoModels;
 using Application = Xamarin.Forms.Application;
 using Xamarin.Android;
 using Xamarin.Forms.Internals;
+using SOEWeb.Shared.Secrets;
 
 namespace SOE.Droid.Activities
 {

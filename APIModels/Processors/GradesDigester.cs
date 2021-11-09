@@ -18,7 +18,7 @@ namespace SOEWeb.Shared.Processors
 {
     public static class GradesDigester
     {
-        public static Grade PostGrade(GradePartial partial, string text_score, int numeric_score, string group, string User)
+        public static Grade PostGrade(GradePartial partial, string text_score, int numeric_score, string group, string User, string subject_name = null)
         {
             Grade grade = null;
             WebData.Connection.Read("SP_UPDATE_GRADES",
@@ -34,10 +34,10 @@ namespace SOEWeb.Shared.Processors
                     grade = new Grade()
                     {
                         Id = Convert.ToInt32(reader[0]),
-                        SubjectId = Convert.ToInt32(reader[1]),
                         NumericScore = Convert.ToInt32(reader[2]),
                         TextScore = Convert.ToString(reader[3]),
-                        Partial = (GradePartial)Convert.ToInt32(reader[4])
+                        Partial = (GradePartial)Convert.ToInt32(reader[4]),
+                        SubjectId = Convert.ToInt32(reader[5])
                     };
                 }
                 , new CommandConfig() { CommandType = CommandType.StoredProcedure, ManualRead = true }
@@ -46,6 +46,7 @@ namespace SOEWeb.Shared.Processors
                 , new SqlParameter("NUMERIC_SCORE", numeric_score)
                 , new SqlParameter("GROUP", group)
                 , new SqlParameter("USER", User)
+                , new SqlParameter("SUBJECT_NAME", Kit.Sql.Helpers.Sqlh.IsNull(subject_name) ? DBNull.Value : subject_name)
             );
             return grade;
         }
@@ -68,6 +69,9 @@ namespace SOEWeb.Shared.Processors
                     .Where(tr => tr.Elements("td").Count() > 1)
                     .Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
                     .ToList();
+
+
+
                 List<Grade> grades = new List<Grade>();
                 foreach (var row in table)
                 {
@@ -98,17 +102,30 @@ namespace SOEWeb.Shared.Processors
                         }
                         int.TryParse(text_score, out numeric_score);
 
+                        string subjectName = null;
+
+                        subjectName = row[1].ToUpper()?.Trim();
+                        Regex subjectNameRegex = new Regex(@"(?<Prefix>.+-+)(?<SubjectName>(\w| )+)");
+                        var match = subjectNameRegex.Match(subjectName);
+                        if (match.Success)
+                        {
+                            subjectName = match.Groups["SubjectName"].Value.ToUpper().Trim();
+                        }
+
+
                         if (Online)
                         {
-                            row_grades[index] = PostGrade(partial, text_score, numeric_score, group, User);
-
+                            row_grades[index] = PostGrade(partial, text_score, numeric_score, group, User, subjectName);
                         }
                         else
                         {
                             Subject local_subject = null;
                             using (var lite = new SQLiteConnection(WebData.LiteDbPath, 0))
                             {
-                                local_subject = lite.Table<Subject>().FirstOrDefault(x => x.Group == group);
+
+                                local_subject = lite.Table<Subject>().FirstOrDefault(x => x.Name.ToUpper() == subjectName);
+                                //local_subject = lite.Table<Subject>().FirstOrDefault(x => x.Group == group);
+
                             }
                             if (local_subject is not null)
                                 row_grades[index] = new Grade()
@@ -152,7 +169,7 @@ namespace SOEWeb.Shared.Processors
             }
             catch (Exception ex)
             {
-                Log.Log(LogLevel.Error, ex, "At gradedigester");
+                Log?.Log(LogLevel.Error, ex, "At gradedigester");
                 return new Response<string>(APIResponseResult.INTERNAL_ERROR, ex.Message);
             }
         }

@@ -105,6 +105,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Kit\Kit\Kit.csproj">
+      <Project>{FBDD1DCC-B804-4690-8113-98D775DE9A88}</Project>
+      <Name>Kit</Name>
+    </ProjectReference>
     <ProjectReference Include="..\APIModels\SOEWeb.Shared.csproj">
       <Project>{D22F0B32-6AF8-4030-9852-539EC73D11E6}</Project>
       <Name>SOEWeb.Shared</Name>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SOEWeb.Shared.Secrets;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace Tests.Models
@@ -13,7 +14,7 @@ namespace Tests.Models
         public static List<AppColor> GetAll()
         {
             List<AppColor> colors = new ();
-            using (SqlConnection con=new (@"Data Source=soe-database-instance.c5kv8sy96hgu.us-east-2.rds.amazonaws.com,1433;Initial Catalog=SOE_DATABASE;Integrated Security=False;Persist Security Info=True;User ID=admin;Encrypt=False;Password=Octopus$2021.;"))
+            using (SqlConnection con=new (DotNetEnviroment.AWSCONNECTIONSTRING))
             {
                 con.Open();
                 using (SqlCommand cmd=new ("select IDENTIFIER,COLOR,DARK_COLOR from APP_COLORS", con))

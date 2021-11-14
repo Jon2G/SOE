@@ -33,10 +33,18 @@ namespace SOE.Droid.Notifications
 
         public void ScheduleAll()
         {
-            ClassAlarm alarm = new();
-            alarm.ScheduleAlll();
-            ToDoAlarm todo = new();
-            todo.ScheduleAlll();
+            try
+            {
+                ClassAlarm alarm = new();
+                alarm.ScheduleAll();
+                ToDoAlarm todo = new();
+                todo.ScheduleAll();
+            }
+            catch (System.Exception ex)
+            {
+                Kit.Log.Logger?.Error(ex, "ScheduleAll");
+            }
+
         }
     }
 }

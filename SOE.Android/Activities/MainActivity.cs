@@ -34,10 +34,12 @@ using Application = Xamarin.Forms.Application;
 using Xamarin.Android;
 using Xamarin.Forms.Internals;
 using SOEWeb.Shared.Secrets;
+using Android.Runtime;
+using Android.Views;
 
 namespace SOE.Droid.Activities
 {
-    [Preserve]
+    [Android.Runtime.Preserve]
     [Activity(Label = "SOE", Icon = "@mipmap/icon", Theme = "@style/MainTheme",
         MainLauncher = false, Exported = true,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
@@ -72,7 +74,10 @@ namespace SOE.Droid.Activities
             base.OnResume();
         }
 
-
+        public override bool OnKeyUp([GeneratedEnum] Keycode keyCode, KeyEvent e)
+        {
+            return false;
+        }
         protected override async void OnCreate(Bundle savedInstanceState)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
@@ -82,7 +87,7 @@ namespace SOE.Droid.Activities
             CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
             CardsViewRenderer.Preserve();
             LoadApplication(new App());
-            Initialize(savedInstanceState,typeof(App));
+            Initialize(savedInstanceState, typeof(App));
             if (this.Intent != null)
                 OnNewIntent(this.Intent);
         }

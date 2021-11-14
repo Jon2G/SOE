@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
              xmlns:viewmodels="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
-             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:pancakeView="clr-namespace:SOE.Renders"
              xmlns:saes="clr-namespace:SOE.Saes;assembly=SOE"
              xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
              xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
@@ -13,7 +13,7 @@
              x:DataType="viewItems:AskForCaptchaViewModel" 
              CloseWhenBackgroundIsClicked="True" BackgroundColor="#70FFFFFF">
     <ContentPage.Content>
-        <pancakeView:PancakeView IsVisible="True" VerticalOptions="CenterAndExpand"  Padding="20">
+        <pancakeView:CustomPancakeView Visual="Default" IsVisible="True" VerticalOptions="CenterAndExpand"  Padding="20">
                 <StackLayout>
                     <Label Text="Debes ingresar el captcha primero." FontSize="20" />
                     <Grid RowDefinitions="Auto,*">
@@ -57,6 +57,6 @@
 
                     <Button Text="¡Listo!" Command="{Binding SignInCommand}"/>
                 </StackLayout>
-            </pancakeView:PancakeView>
+            </pancakeView:CustomPancakeView>
     </ContentPage.Content>
 </pages:BasePopUp>

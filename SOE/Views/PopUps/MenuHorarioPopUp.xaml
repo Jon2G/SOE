@@ -5,10 +5,10 @@
                    xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE" 
                   xmlns:pages1="clr-namespace:SOE.ViewModels.Pages" 
                   x:DataType="pages1:MenuHorarioPopUpViewModel"
-                  xmlns:pankk="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                  xmlns:pankk="clr-namespace:SOE.Renders"
                   xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
                   x:Class="SOE.Views.PopUps.MenuHorarioPopUp" >
-    <pankk:PancakeView HorizontalOptions="Center" VerticalOptions="Center" >
+    <pankk:CustomPancakeView Visual="Default" HorizontalOptions="Center" VerticalOptions="Center" >
         <StackLayout Margin="0" Spacing="0">
             <Label Text="{Binding ClassSquare.Subject.Name}" FontSize="20"
                    FontAttributes="Bold" HorizontalTextAlignment="Center"
@@ -23,14 +23,14 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <pankk:PancakeView 
+                <pankk:CustomPancakeView Visual="Default" 
                 BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundTertiaryDarkColor},Light={StaticResource BackgroundTertiaryLightColor}}"
                 xct:TouchEffect.PressedScale="0.9"
                 xct:TouchEffect.PressedRotationY="0.1" Grid.Column="0" Grid.Row="0">
-                    <pankk:PancakeView.GestureRecognizers>
+                    <pankk:CustomPancakeView.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding TapedCommand}" 
                            CommandParameter="Nueva tarea"/>
-                    </pankk:PancakeView.GestureRecognizers>
+                    </pankk:CustomPancakeView.GestureRecognizers>
                     <StackLayout VerticalOptions="Center" Margin="5">
                         <Label Text="Nueva tarea" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                         <Image>
@@ -39,14 +39,14 @@
                             </Image.Source>
                         </Image>
                     </StackLayout>
-                </pankk:PancakeView>
-                <pankk:PancakeView 
+                </pankk:CustomPancakeView>
+                <pankk:CustomPancakeView Visual="Default" 
                 BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundTertiaryDarkColor},Light={StaticResource BackgroundTertiaryLightColor}}"
                 xct:TouchEffect.PressedScale="0.9"
                 xct:TouchEffect.PressedRotationY="0.1" Grid.Column="1" Grid.Row="0">
-                    <pankk:PancakeView.GestureRecognizers>
+                    <pankk:CustomPancakeView.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding TapedCommand}" CommandParameter="Recordatorio"/>
-                    </pankk:PancakeView.GestureRecognizers>
+                    </pankk:CustomPancakeView.GestureRecognizers>
                     <StackLayout VerticalOptions="Center" Margin="5">
                         <Label Text="Recordatorio" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                         <Image>
@@ -55,14 +55,14 @@
                             </Image.Source>
                         </Image>
                     </StackLayout>
-                </pankk:PancakeView>
-                <pankk:PancakeView 
+                </pankk:CustomPancakeView>
+                <pankk:CustomPancakeView Visual="Default" 
                 BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundTertiaryDarkColor},Light={StaticResource BackgroundTertiaryLightColor}}"
                 xct:TouchEffect.PressedScale="0.9"
                 xct:TouchEffect.PressedRotationY="0.1" Grid.Column="0" Grid.Row="1" >
-                    <pankk:PancakeView.GestureRecognizers>
+                    <pankk:CustomPancakeView.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding TapedCommand}" CommandParameter="Info Materia"/>
-                    </pankk:PancakeView.GestureRecognizers>
+                    </pankk:CustomPancakeView.GestureRecognizers>
                     <StackLayout VerticalOptions="Center" Margin="5">
                         <Label Text="Info Materia" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                         <Image>
@@ -71,15 +71,15 @@
                             </Image.Source>
                         </Image>
                     </StackLayout>
-                </pankk:PancakeView>
-                <pankk:PancakeView 
+                </pankk:CustomPancakeView>
+                <pankk:CustomPancakeView Visual="Default" 
                     BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundTertiaryDarkColor},Light={StaticResource BackgroundTertiaryLightColor}}"
                     xct:TouchEffect.PressedScale="0.9"
                     xct:TouchEffect.PressedRotationY="0.1" Grid.Column="1" Grid.Row="1" >
-                    <pankk:PancakeView.GestureRecognizers>
+                    <pankk:CustomPancakeView.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding TapedCommand}"
                                               CommandParameter="Links"/>
-                    </pankk:PancakeView.GestureRecognizers>
+                    </pankk:CustomPancakeView.GestureRecognizers>
                     <StackLayout VerticalOptions="Center" Margin="5">
                         <Label Text="Enlaces del grupo" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                         <Image>
@@ -89,7 +89,7 @@
                             </Image.Source>
                         </Image>
                     </StackLayout>
-                </pankk:PancakeView>
+                </pankk:CustomPancakeView>
             </Grid>
 
 
@@ -109,5 +109,5 @@
                 </Label.FormattedText>
             </Label>
         </StackLayout>
-    </pankk:PancakeView>
+    </pankk:CustomPancakeView>
 </pages:BasePopUp>

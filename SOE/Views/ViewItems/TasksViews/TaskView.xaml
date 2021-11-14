@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<pancakeView:PancakeView xmlns="http://xamarin.com/schemas/2014/forms" 
+<pancakeView:CustomPancakeView Visual="Default" xmlns="http://xamarin.com/schemas/2014/forms" 
                          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                         xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                         xmlns:pancakeView="clr-namespace:SOE.Renders"
                          xmlns:taskFirst="clr-namespace:SOE.Models.TodoModels;assembly=SOE"
                          xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
                          xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
-                         xmlns:effects="http://xamarin.com/schemas/2020/toolkit" Visual="Material"
+                         xmlns:effects="http://xamarin.com/schemas/2020/toolkit" 
                          x:Class="SOE.Views.ViewItems.TasksViews.TaskView"
                          x:DataType="pages:TaskViewModel" x:Name="Me" 
                          BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundSecondaryDarkColor},Light={StaticResource BackgroundSecondaryLightColor}}"
                          Margin="0" Padding="0,5" >
-    <pancakeView:PancakeView.Content>
-        <Grid ColumnDefinitions="*,Auto"
+    <pancakeView:CustomPancakeView.Content>
+        <Grid ColumnDefinitions="*,Auto" Visual="Material"
               effects:TouchEffect.NativeAnimation="True"
               effects:TouchEffect.Command="{Binding OpenMenuCommand}"
               effects:TouchEffect.PressedScale="0.98">
@@ -30,5 +30,5 @@
                 />
             </StackLayout>
         </Grid>
-    </pancakeView:PancakeView.Content>
-</pancakeView:PancakeView>
+    </pancakeView:CustomPancakeView.Content>
+</pancakeView:CustomPancakeView>

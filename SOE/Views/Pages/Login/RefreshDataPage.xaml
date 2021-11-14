@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:pancakeView="clr-namespace:SOE.Renders"
              mc:Ignorable="d"
              xmlns:viewModels="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
              x:Class="SOE.Views.Pages.Login.RefreshDataPage"
@@ -23,7 +23,7 @@
     <Grid>
         <saes:Saes x:Name="SAES" IsVisible="True"  VerticalOptions="FillAndExpand"/>
         <ContentView Background="{DynamicResource Background}" Opacity="1" x:Name="ContentView">
-            <pancakeView:PancakeView 
+            <pancakeView:CustomPancakeView Visual="Default" 
                 CornerRadius="10" 
                 Padding="10" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
                 Margin="20,10">
@@ -110,7 +110,7 @@
                                  Margin="0, 10, 0, 0"/>
                     </StackLayout>
                 </StackLayout>
-            </pancakeView:PancakeView>
+            </pancakeView:CustomPancakeView>
         </ContentView>
     </Grid>
 </pages:BasePage>

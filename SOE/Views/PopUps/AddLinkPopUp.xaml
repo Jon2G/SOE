@@ -3,13 +3,13 @@
            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
            xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
            xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
-           xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+           xmlns:pancakeView="clr-namespace:SOE.Renders"
            x:Class="SOE.Views.PopUps.AddLinkPopUp"
            x:DataType="viewItems:AddLinkPopUpViewModel" 
            x:Name="Me">
 
     <ContentPage.Content>
-        <pancakeView:PancakeView HorizontalOptions="FillAndExpand" VerticalOptions="Center" Margin="10" 
+        <pancakeView:CustomPancakeView Visual="Default" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Margin="10" 
                                  BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundLightColor},Dark={StaticResource BackgroundDarkColor}}">
             <StackLayout Margin="0" Spacing="0">
                 <Label Text="Agregar enlace" FontSize="20"
@@ -32,6 +32,6 @@
                 </StackLayout>
                 
             </StackLayout>
-        </pancakeView:PancakeView>
+        </pancakeView:CustomPancakeView>
     </ContentPage.Content>
 </pages:BasePopUp>

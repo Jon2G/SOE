@@ -1,9 +1,10 @@
-﻿using SOE.Views.Pages;
+﻿using Kit.Forms.Pages;
+using SOE.Views.Pages;
 using Xamarin.Forms;
 
 namespace SOE
 {
-    public partial class App : Application
+    public partial class App 
     {
 
         public App()
@@ -18,7 +19,9 @@ namespace SOE
 
         protected override void OnSleep()
         {
+            base.OnSleep();
         }
+
 
         protected override void OnResume()
         {

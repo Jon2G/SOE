@@ -35,10 +35,10 @@ namespace SOE.iOS.Notifications
         public void ScheduleAll()
         {
             ClassAlarm alarm = new();
-            alarm.ScheduleAlll();
+            alarm.ScheduleAll();
 
             ToDoAlarm todo = new();
-            todo.ScheduleAlll();
+            todo.ScheduleAll();
         }
 
         public void ReSheduleTask(ToDo toDo)

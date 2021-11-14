@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:pancakeView="clr-namespace:SOE.Renders"
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:forms1="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:SOEWeb.Shared="clr-namespace:SOEWeb.Shared;assembly=SOEWeb.Shared"
@@ -17,7 +17,7 @@
             <BoxView BackgroundColor="Transparent" HeightRequest="50"/>
             <Grid VerticalOptions="FillAndExpand">
                 <ContentView IsVisible="True" VerticalOptions="FillAndExpand">
-                    <pancakeView:PancakeView 
+                    <pancakeView:CustomPancakeView Visual="Default" 
                     CornerRadius="10" 
                 Padding="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
                 Margin="10">
@@ -45,15 +45,15 @@
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="SOEWeb.Shared:School">
                                         <ContentView HorizontalOptions="Center">
-                                            <pancakeView:PancakeView Margin="5" 
+                                            <pancakeView:CustomPancakeView Visual="Default" Margin="5" 
                                                                  IsClippedToBounds="True"  
                                                                  Padding="0" 
                                                                  BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundTertiaryDarkColor},Light={StaticResource BackgroundLightColor}}">
-                                                <pancakeView:PancakeView.GestureRecognizers>
+                                                <pancakeView:CustomPancakeView.GestureRecognizers>
                                                     <TapGestureRecognizer 
                                                     Command="{Binding SelectSchoolCommand ,Source={x:Reference Model}}"
                                                     CommandParameter="{Binding .}"/>
-                                                </pancakeView:PancakeView.GestureRecognizers>
+                                                </pancakeView:CustomPancakeView.GestureRecognizers>
                                                 <StackLayout Orientation="Horizontal">
                                                     <ContentView>
                                                         <ContentView.Content>
@@ -74,16 +74,16 @@
 
                                                     <Label VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" FontSize="20" FontAttributes="Bold" Text="{Binding Name}"/>
                                                 </StackLayout>
-                                            </pancakeView:PancakeView>
+                                            </pancakeView:CustomPancakeView>
                                         </ContentView>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
                         </StackLayout>
-                    </pancakeView:PancakeView>
+                    </pancakeView:CustomPancakeView>
                 </ContentView>
             </Grid>
-            <pancakeView:PancakeView Margin="5" Padding="5" VerticalOptions="End">
+            <pancakeView:CustomPancakeView Visual="Default" Margin="5" Padding="5" VerticalOptions="End">
                 <Label FontSize="14">
                     <Label.FormattedText>
                         <FormattedString>
@@ -93,7 +93,7 @@
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-            </pancakeView:PancakeView>
+            </pancakeView:CustomPancakeView>
              <BoxView BackgroundColor="Transparent" VerticalOptions="End" HeightRequest="30"/>
         </StackLayout>
     </ContentPage.Content>

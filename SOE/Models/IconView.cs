@@ -1,6 +1,5 @@
 ﻿using SOE.Fonts;
 using Xamarin.Forms;
-using ContentView = Forms9Patch.ContentView;
 
 namespace SOE.Models
 {

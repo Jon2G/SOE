@@ -2,14 +2,14 @@
 <pages:BasePopUp  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
                   xmlns="http://xamarin.com/schemas/2014/forms"
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                  xmlns:pancakeView="clr-namespace:SOE.Renders"
                   xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
                   xmlns:pages1="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
                   xmlns:login="clr-namespace:SOE.ViewModels.Pages.Login;assembly=SOE"
                   x:Class="SOE.Views.PopUps.SAESPrivacyAlert"
              x:DataType="login:SAESPrivacyAlertViewModel">
     <ContentPage.Content>
-        <pancakeView:PancakeView  HorizontalOptions="Center"  VerticalOptions="Center" Margin="5">
+        <pancakeView:CustomPancakeView Visual="Default"  HorizontalOptions="Center"  VerticalOptions="Center" Margin="5">
             <StackLayout>
 
                 <Label  Background="{StaticResource PrimaryColor}" 
@@ -59,7 +59,7 @@
                     </Label>
                 </StackLayout>
             </StackLayout>
-        </pancakeView:PancakeView>
+        </pancakeView:CustomPancakeView>
     </ContentPage.Content>
 </pages:BasePopUp>
 

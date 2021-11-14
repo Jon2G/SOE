@@ -56,20 +56,27 @@ namespace SOE.Models.Scheduler
         }
         public List<ClassSquare> GetTimeLine()
         {
-            if (AppData.Instance is null)
+            List<ClassSquare> classSquares = new List<ClassSquare>();
+            try
             {
-                AppData.Init();
+                if (AppData.Instance is null)
+                {
+                    AppData.Init();
+                }
+                TimeSpan EndTime = TimeSpan.Zero;
+                foreach (ClassTime classTime in AppData.Instance.LiteConnection.Table<ClassTime>()
+                    .Where(x => x.Day == this.DayOfWeek)
+                    .OrderBy(x => x.Begin))
+                {
+                    Subject subject = AppData.Instance.LiteConnection.Find<Subject>(classTime.IdSubject);
+                    classSquares.Add(new ClassSquare(subject, classTime.Begin, classTime.End, classTime.Day));
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Logger?.Error(ex, "GetTimeLine");
             }
 
-            TimeSpan EndTime=TimeSpan.Zero;
-            List<ClassSquare> classSquares = new List<ClassSquare>();
-            foreach (ClassTime classTime in AppData.Instance.LiteConnection.Table<ClassTime>()
-                .Where(x => x.Day == this.DayOfWeek)
-                .OrderBy(x => x.Begin))
-            {
-                Subject subject = AppData.Instance.LiteConnection.Find<Subject>(classTime.IdSubject);
-                classSquares.Add(new ClassSquare(subject, classTime.Begin, classTime.End, classTime.Day));
-            }
             return classSquares;
         }
 

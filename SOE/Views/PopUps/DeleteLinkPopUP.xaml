@@ -2,14 +2,14 @@
 <pages:BasePopUp  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
                   xmlns="http://xamarin.com/schemas/2014/forms"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  xmlns:pankk="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                  xmlns:pankk="clr-namespace:SOE.Renders"
                    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
                    xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
                    xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
                    x:Class="SOE.Views.PopUps.DeleteLinkPopUp"
                   Title="Eliminar Link" 
                   x:DataType="viewItems:DeleteLinkPopUpViewModel">
-    <pankk:PancakeView HorizontalOptions="FillAndExpand"
+    <pankk:CustomPancakeView Visual="Default" HorizontalOptions="FillAndExpand"
                        VerticalOptions="End" Margin="10"
                        BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDarkColor},Light={StaticResource BackgroundLightColor}}" Padding="0">
         <StackLayout Margin="0" Spacing="0" >
@@ -42,7 +42,7 @@
                   </Label.FormattedText>
               </Label>
               <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal" Spacing="5" Padding="3" Margin="3">
-                  <pankk:PancakeView HorizontalOptions="StartAndExpand"
+                  <pankk:CustomPancakeView Visual="Default" HorizontalOptions="StartAndExpand"
                                      WidthRequest="100" Padding="10"
                                      BackgroundColor="Firebrick" CornerRadius="3"
                                      xct:TouchEffect.PressedScale="0.9"
@@ -50,9 +50,9 @@
                                      xct:TouchEffect.Command="{Binding DeleteCommand}"
                                      >
                       <Label Text="Eliminar" TextColor="White" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
-                  </pankk:PancakeView>
+                  </pankk:CustomPancakeView>
 
-                  <pankk:PancakeView HorizontalOptions="EndAndExpand" 
+                  <pankk:CustomPancakeView Visual="Default" HorizontalOptions="EndAndExpand" 
                                      WidthRequest="100" Padding="10"
                                      BackgroundColor="Gray" CornerRadius="3"
                                      xct:TouchEffect.PressedScale="0.9"
@@ -60,9 +60,9 @@
                                      xct:TouchEffect.Command="{Binding CancelCommand}"
                                     >
                       <Label Text="Cancelar" FontSize="20" TextColor="White" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
-                  </pankk:PancakeView>
+                  </pankk:CustomPancakeView>
                 </StackLayout>
             </StackLayout>
         </StackLayout>
-    </pankk:PancakeView>
+    </pankk:CustomPancakeView>
 </pages:BasePopUp>

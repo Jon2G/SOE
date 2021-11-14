@@ -6,7 +6,7 @@
              xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
              xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
-             xmlns:pankk="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
+             xmlns:pankk="clr-namespace:SOE.Renders" 
              xmlns:models="clr-namespace:SOE.Models" xmlns:shared="clr-namespace:SOEWeb.Shared;assembly=SOEWeb.Shared"
              xmlns:converters="clr-namespace:Kit.Forms.Converters;assembly=Kit.Forms"
              xmlns:kit="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
@@ -91,7 +91,7 @@
                                         <StackLayout BindableLayout.ItemsSource="{Binding Contacts}">
                                             <BindableLayout.ItemTemplate>
                                                 <DataTemplate  x:DataType="shared:SchoolContact">
-                                                    <pankk:PancakeView Margin="0" CornerRadius="0,0,5,5" Padding="0,6"   >
+                                                    <pankk:CustomPancakeView Visual="Default" Margin="0" CornerRadius="0,0,5,5" Padding="0,6"   >
                                                         <StackLayout>
                                                             <Grid>
                                                                 <Grid.ColumnDefinitions>
@@ -177,7 +177,7 @@
                                                             </Grid>
                                                             <BoxView BackgroundColor="White" HeightRequest="5"/>
                                                         </StackLayout>
-                                                    </pankk:PancakeView>
+                                                    </pankk:CustomPancakeView>
                                                 </DataTemplate>
                                             </BindableLayout.ItemTemplate>
                                         </StackLayout>

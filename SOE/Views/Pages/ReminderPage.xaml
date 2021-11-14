@@ -2,13 +2,13 @@
 <pages:BasePopUp  xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
                   xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-                  xmlns:pankk="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
+                  xmlns:pankk="clr-namespace:SOE.Renders" 
                   xmlns:viewitems="clr-namespace:SOE.ViewModels.ViewItems"
                    xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
                   x:Class="SOE.Views.Pages.ReminderPage"
                   x:DataType="viewitems:ReminderPageVIewModel" 
                   Title="Recordatorios">
-    <pankk:PancakeView HorizontalOptions="FillAndExpand"
+    <pankk:CustomPancakeView Visual="Default" HorizontalOptions="FillAndExpand"
                        VerticalOptions="Center" Margin="10"
                        BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDarkColor},Light={StaticResource BackgroundLightColor}}">
         <StackLayout Margin="0" Spacing="4" >
@@ -49,5 +49,5 @@
                 </StackLayout>
             </StackLayout>
         </StackLayout>
-    </pankk:PancakeView>
+    </pankk:CustomPancakeView>
 </pages:BasePopUp>

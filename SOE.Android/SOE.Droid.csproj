@@ -78,12 +78,12 @@
     <AndroidSigningKeyPass>SchoolOrganizer</AndroidSigningKeyPass>
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
     <AndroidSupportedAbis>armeabi-v7a;x86_64;arm64-v8a</AndroidSupportedAbis>
-    <AndroidLinkSkip>SOE;SOE.Droid;Kit;SOEWeb.Shared</AndroidLinkSkip>
+    <AndroidLinkSkip>SOE;SOE.Droid;Kit;SOEWeb.Shared;Forms9Patch;Kit;Kit.Droid;Xamarin.Forms.PancakeView;</AndroidLinkSkip>
     <LangVersion>latest</LangVersion>
     <AndroidSigningKeyStore>C:\Users\jonyj\AppData\Local\Xamarin\Mono for Android\Keystore\JonathanEduardoGG\JonathanEduardoGG.keystore</AndroidSigningKeyStore>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AndroidLinkTool>r8</AndroidLinkTool>
-    <Debugger>Xamarin</Debugger>
+    <Debugger>Native</Debugger>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -181,6 +181,7 @@
     <Compile Include="Notifications\Notification.cs" />
     <Compile Include="Notifications\NotificationChannel.cs" />
     <Compile Include="Notifications\NotificationService.cs" />
+    <Compile Include="Renders\CustomPancakeViewRenderer.cs" />
     <Compile Include="Renders\MyWebViewRenderer.cs" />
     <Compile Include="Renders\NoLineEntryRender.cs" />
     <Compile Include="Resources\Resource.designer.cs" />

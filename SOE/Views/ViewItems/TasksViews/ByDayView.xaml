@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<pancakeView:PancakeView xmlns="http://xamarin.com/schemas/2014/forms" 
+<pancakeView:CustomPancakeView Visual="Default" xmlns="http://xamarin.com/schemas/2014/forms" 
                          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                         xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                         xmlns:pancakeView="clr-namespace:SOE.Renders"
                          xmlns:views="http://xamarin.com/schemas/2020/toolkit"
                          xmlns:taskFirst="clr-namespace:SOE.Models.TodoModels;assembly=SOE"
                          xmlns:tasksViews="clr-namespace:SOE.Views.ViewItems.TasksViews;assembly=SOE"
-                         x:Class="SOE.Views.ViewItems.TasksViews.ByDayView" Visual="Material"
+                         x:Class="SOE.Views.ViewItems.TasksViews.ByDayView" 
                          x:DataType="taskFirst:ByDayGroup"
                          CornerRadius="5"  Margin="1">
     <views:Expander IsExpanded="{Binding IsExpanded}" x:Name="Expander" x:FieldModifier="public">
@@ -37,4 +37,4 @@
             </BindableLayout.ItemTemplate>
         </StackLayout>
     </views:Expander>
-</pancakeView:PancakeView>
+</pancakeView:CustomPancakeView>

@@ -15,7 +15,7 @@ namespace SOE.Notifications.Alarms
         {
 
         }
-        public override void ScheduleAlll()
+        public override void ScheduleAll()
         {
             this.Channel?.Register();
             foreach (Day day in Day.Week())
@@ -27,55 +27,62 @@ namespace SOE.Notifications.Alarms
 
         private void ScheduleDay(Day day)
         {
-            List<ClassSquare> timeline = day?.GetTimeLine();
-            if (timeline is null)
+            try
             {
-                return;
-            }
-            DateTime now = DateTime.Now;
-            foreach (ClassSquare cl in timeline)
-            {
-                DateTime begin = day.Date.Add(cl.Begin);
-                DateTime end = day.Date.Add(cl.End).AddMinutes(-10);
-                //bool InProgress = now <= end && begin <= now;
-                bool InProgress = (now.Ticks >= begin.Ticks && now <= end);
-
-                uint programmedId = Convert.ToUInt32($"{LocalNotification.ClassTimeCode}{cl.Subject.Id}{(int)day.DayOfWeek}");
-                DateTime desiredDate = DateTime.MinValue;
-
-                //si ya inicio enviar una notificación ahora!
-                if (InProgress)
+                List<ClassSquare> timeline = day?.GetTimeLine();
+                if (timeline is null)
                 {
-                    desiredDate = DateTime.Now;
-                    //notification.Index = 0;
-                    //notification.Notify();
+                    return;
                 }
-                else if (begin > now) //si no ha iniciado se debe programar una alerta
+                DateTime now = DateTime.Now;
+                foreach (ClassSquare cl in timeline)
                 {
-                    desiredDate = begin.AddMinutes(-10);
-                }
-                else if (begin < now)
-                {
-                    //Program for next week
-                    desiredDate = day.Date.AddDays(7).Add(cl.Begin).AddMinutes(-10);
-                }
+                    DateTime begin = day.Date.Add(cl.Begin);
+                    DateTime end = day.Date.Add(cl.End).AddMinutes(-10);
+                    //bool InProgress = now <= end && begin <= now;
+                    bool InProgress = (now.Ticks >= begin.Ticks && now <= end);
 
-                LocalNotification notification =
-                TinyIoC.TinyIoCContainer.Current.Resolve<LocalNotification>()
-                    .Set(cl.Subject.Name,
-                    $"{cl.FormattedTime} ,{cl.Subject.Group}\n{(InProgress ? "En curso..." : "Comienza pronto")}",
-                    programmedId, Xamarin.Forms.Color.FromHex(cl.Subject.Color), desiredDate, this.Channel, "Class");
+                    uint programmedId = Convert.ToUInt32($"{LocalNotification.ClassTimeCode}{cl.Subject.Id}{(int)day.DayOfWeek}");
+                    DateTime desiredDate = DateTime.MinValue;
+
+                    //si ya inicio enviar una notificación ahora!
+                    if (InProgress)
+                    {
+                        desiredDate = DateTime.Now;
+                        //notification.Index = 0;
+                        //notification.Notify();
+                    }
+                    else if (begin > now) //si no ha iniciado se debe programar una alerta
+                    {
+                        desiredDate = begin.AddMinutes(-10);
+                    }
+                    else if (begin < now)
+                    {
+                        //Program for next week
+                        desiredDate = day.Date.AddDays(7).Add(cl.Begin).AddMinutes(-10);
+                    }
+
+                    LocalNotification notification =
+                    TinyIoC.TinyIoCContainer.Current.Resolve<LocalNotification>()
+                        .Set(cl.Subject.Name,
+                        $"{cl.FormattedTime} ,{cl.Subject.Group}\n{(InProgress ? "En curso..." : "Comienza pronto")}",
+                        programmedId, Xamarin.Forms.Color.FromHex(cl.Subject.Color), desiredDate, this.Channel, "Class");
 #if DEBUG
                 Log.Logger.Debug(notification.ToString());
 #endif
-                if (InProgress)
-                {
-                    notification.Notify();
+                    if (InProgress)
+                    {
+                        notification.Notify();
+                    }
+                    else
+                    {
+                        notification.Schedule();
+                    }
                 }
-                else
-                {
-                    notification.Schedule();
-                }
+            }
+            catch (Exception ex)
+            {
+                Log.Logger?.Error(ex, "ScheduleDay");
             }
         }
     }

@@ -3,7 +3,7 @@
                   xmlns="http://xamarin.com/schemas/2014/forms"
                   xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-                  xmlns:pankk="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                  xmlns:pankk="clr-namespace:SOE.Renders"
                   xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
                   xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
                   xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
@@ -11,7 +11,7 @@
                   xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
                   x:Class="SOE.Views.PopUps.ReportLinkPopUp"
                   x:DataType="viewItems:ReportLinkPopUpViewModel">
-    <pankk:PancakeView HorizontalOptions="Center" VerticalOptions="End"
+    <pankk:CustomPancakeView Visual="Default" HorizontalOptions="Center" VerticalOptions="End"
                        Margin="10" CornerRadius="0">
         <StackLayout Margin="0" Spacing="0">
             <Label Text="Reportar Link" FontSize="20"
@@ -49,5 +49,5 @@
             </StackLayout>
             <Button Margin="3" CornerRadius="2" VerticalOptions="End" Text="Cerrar" Clicked="OnClose"/>
         </StackLayout>
-    </pankk:PancakeView>
+    </pankk:CustomPancakeView>
 </pages:BasePopUp>

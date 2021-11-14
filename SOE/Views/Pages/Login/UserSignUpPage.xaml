@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:pancakeView="clr-namespace:SOE.Renders"
              mc:Ignorable="d"
              xmlns:validations="clr-namespace:Kit.Forms.Validations;assembly=Kit.Forms"
              xmlns:viewModels="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
@@ -24,7 +24,7 @@
     <Grid>
         <saes:Saes x:Name="SAES" IsVisible="True" />
         <ContentView Background="{DynamicResource Background}">
-            <pancakeView:PancakeView 
+            <pancakeView:CustomPancakeView Visual="Default" 
                 CornerRadius="10"
                 Padding="0" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
                 Margin="7">
@@ -168,7 +168,7 @@
                             </Grid>
                     </ScrollView>
                 </StackLayout>
-            </pancakeView:PancakeView>
+            </pancakeView:CustomPancakeView>
         </ContentView>
     </Grid>
 </pages:BasePage>

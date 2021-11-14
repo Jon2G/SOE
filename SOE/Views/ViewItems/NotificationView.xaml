@@ -6,7 +6,7 @@
                  xmlns:viewitems="clr-namespace:SOE.Views.ViewItems"
                  xmlns:viewModels="clr-namespace:SOE.ViewModels;assembly=SOE"
                  xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-                 xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                 xmlns:pancakeView="clr-namespace:SOE.Renders"
                  x:DataType="viewModels:NotificationViewModel" Visual="Material"
                  x:Class="SOE.Views.ViewItems.NotificationView">
     <models:IconView.BindingContext>

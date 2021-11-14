@@ -109,7 +109,7 @@ namespace SOE.ViewModels.Pages
             {
                 await ToDo.Save(this.Tarea, Photos);
                 ToDosWidget.UpdateWidget();
-                DependencyService.Get<ILocalNotificationService>().ReSheduleTask(this.Tarea);
+                DependencyService.Get<ILocalNotificationService>()?.ReSheduleTask(this.Tarea);
 
             }
         }

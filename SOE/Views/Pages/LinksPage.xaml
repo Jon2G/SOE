@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
              xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
-             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:pancakeView="clr-namespace:SOE.Renders"
              xmlns:shared="clr-namespace:SOEWeb.Shared;assembly=SOEWeb.Shared"
              xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
@@ -35,7 +35,7 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="shared:Link">
                                 <ContentView HorizontalOptions="Center">
-                                    <pancakeView:PancakeView Margin="5"
+                                    <pancakeView:CustomPancakeView Visual="Default" Margin="5"
                                                     IsClippedToBounds="True"  Padding="0">
                                         <StackLayout Orientation="Horizontal">
                                             <StackLayout Orientation="Horizontal"  
@@ -98,7 +98,7 @@
 
 
 
-                                    </pancakeView:PancakeView>
+                                    </pancakeView:CustomPancakeView>
                                 </ContentView>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>

@@ -71,7 +71,7 @@ namespace SOE.Views.Pages
                 }
                 await this.Model.OnAppearing();
                 if (Tools.Instance.RuntimePlatform == RuntimePlatform.Android)
-                    DependencyService.Get<ILocalNotificationService>().ScheduleAll();
+                    DependencyService.Get<ILocalNotificationService>()?.ScheduleAll();
                 TimeLineWidget.UpdateWidget();
                 ToDosWidget.UpdateWidget();
                 UpdateService.AvaibleUpdate();

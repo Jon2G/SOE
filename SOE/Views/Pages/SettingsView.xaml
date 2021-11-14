@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<pages1:BasePage  xmlns:pages1="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SOE.Views.Pages.SettingsView"
              xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
@@ -65,4 +66,4 @@
 
         <Label Text="{x:Static data:AppData.Version}" Margin="10" VerticalTextAlignment="End" HorizontalOptions="End" FontSize="12"/>
     </StackLayout>
-</ContentPage>
+</pages1:BasePage>

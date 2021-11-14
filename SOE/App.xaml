@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Application xmlns="http://xamarin.com/schemas/2014/forms"
+<kit:Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:pancakeView="clr-namespace:SOE.Renders"
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
              xmlns:renders="clr-namespace:SOE.Renders;assembly=SOE"  
+             xmlns:OriginalPancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:converters="clr-namespace:SOE.Converters;assembly=SOE"
-             
+             xmlns:kit="clr-namespace:Kit.Forms;assembly=Kit.Forms"
              xmlns:dotMorten="clr-namespace:dotMorten.Xamarin.Forms;assembly=dotMorten.Xamarin.Forms.AutoSuggestBox"
              x:Class="SOE.App">
     <!--
@@ -142,10 +143,10 @@
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource BackgroundSecondaryDarkColor},Light={StaticResource BackgroundSecondaryLightColor}}" />
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource  DarkTextColor},Dark={StaticResource LightTextColor}}"/>
             </Style>
-            <Style TargetType="pancakeView:PancakeView">
+            <Style TargetType="pancakeView:CustomPancakeView">
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource BackgroundSecondaryDarkColor},Light={StaticResource BackgroundSecondaryLightColor}}" />
                 <Setter Property="CornerRadius" Value="8" />
-                <Setter Property="Shadow" Value="{pancakeView:ShadowMarkup BlurRadius=8, Opacity=0.2, Offset='4,4'}" />
+                <Setter Property="Shadow" Value="{OriginalPancakeView:ShadowMarkup BlurRadius=8, Opacity=0.2, Offset='4,4'}" />
             </Style>
             <Style TargetType="Frame">
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource BackgroundSecondaryDarkColor},Light={StaticResource BackgroundSecondaryLightColor}}" />
@@ -195,4 +196,4 @@
             <converters:SubjectColorAppThemeConverter x:Key="SubjectColorAppThemeConverter"/>
         </ResourceDictionary>
     </Application.Resources>
-</Application>
+</kit:Application>

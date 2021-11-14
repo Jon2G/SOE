@@ -20,7 +20,7 @@ namespace SOE.Notifications.Alarms
             }
             return Convert.ToUInt32($"{LocalNotification.ClassTimeCode}{todo.Subject.Id}{todo.Index}");
         }
-        public override void ScheduleAlll()
+        public override void ScheduleAll()
         {
             Channel?.Register();
             List<ToDo> todos = ToDosWidget.GetTasks();

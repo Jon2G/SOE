@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
-             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:pancakeView="clr-namespace:SOE.Renders"
              xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
              xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              x:Class="SOE.Views.Pages.UserProfile" 
@@ -55,7 +55,7 @@
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-                <pancakeView:PancakeView Margin="5" >
+                <pancakeView:CustomPancakeView Visual="Default" Margin="5" >
                     <StackLayout Padding="5">
                         <Label  Margin="5" Text="Creditos" HorizontalTextAlignment="Center" FontSize="18" FontAttributes="Bold"/>
                         <Label  FontSize="18" >
@@ -84,7 +84,7 @@
                         </Label>
                         <ProgressBar ProgressColor="{StaticResource AccentColor}" Progress="{Binding Progress}"/>
                     </StackLayout>
-                </pancakeView:PancakeView>
+                </pancakeView:CustomPancakeView>
 
 
 

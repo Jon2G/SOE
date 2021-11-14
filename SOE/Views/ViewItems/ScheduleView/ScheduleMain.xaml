@@ -4,7 +4,7 @@
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
              xmlns:scheduler="clr-namespace:SOE.Models.Scheduler;assembly=SOE"
-             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:pancakeView="clr-namespace:SOE.Renders"
              xmlns:scheduleView="clr-namespace:SOE.Views.ViewItems.ScheduleView;assembly=SOE"
              xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
              xmlns:converters="clr-namespace:SOE.Converters;assembly=SOE"
@@ -22,7 +22,7 @@
                     <ContentView  HeightRequest="{Binding HoursHeigthRequest}" 
                                   BackgroundColor="#9D7AB4" TabIndex="0"
                                   MinimumHeightRequest="{Binding HoursHeigthRequest}" >
-                        <pancakeView:PancakeView  Margin="3"  
+                        <pancakeView:CustomPancakeView Visual="Default"  Margin="3"  
                                                  BackgroundColor="#E1CEEE" CornerRadius="0"
                                                  Padding="3">
                             <StackLayout >
@@ -38,7 +38,7 @@
                                     </Image.Source>
                                 </Image>
                             </StackLayout>
-                        </pancakeView:PancakeView>
+                        </pancakeView:CustomPancakeView>
                     </ContentView>
                 </DataTemplate>
             </scheduleView:ClassSquareDataTemplateSelector.FreeHourTemplate>
@@ -47,7 +47,7 @@
                     <ContentView  HeightRequest="{Binding HoursHeigthRequest}" 
                                   TabIndex="0"
                                                                       MinimumHeightRequest="{Binding HoursHeigthRequest}" >
-                        <pancakeView:PancakeView  Margin="3" BackgroundColor="{Binding Subject,Converter={x:StaticResource SubjectColorAppThemeConverter}}"
+                        <pancakeView:CustomPancakeView Visual="Default"  Margin="3" BackgroundColor="{Binding Subject,Converter={x:StaticResource SubjectColorAppThemeConverter}}"
                                                                    Padding="3">
                             <View.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding OpenMenuCommand,Source={x:Reference Me}}"
@@ -63,7 +63,7 @@
                                 <Label FontSize="8" HorizontalTextAlignment="Start"  VerticalTextAlignment="Center" 
                                        Text="{Binding  FormattedTime}" />
                             </StackLayout>
-                        </pancakeView:PancakeView>
+                        </pancakeView:CustomPancakeView>
                     </ContentView>
                 </DataTemplate>
             </scheduleView:ClassSquareDataTemplateSelector.ClassSquareTemplate>

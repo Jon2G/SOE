@@ -21,7 +21,7 @@ namespace SOE.Models.Scheduler
             this.Name = GetNameOfDay();
         }
 
-        internal static List<Day> Week()
+        public static List<Day> Week()
         {
             return new List<Day>()
             {

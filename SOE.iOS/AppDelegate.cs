@@ -4,6 +4,7 @@ using System.Linq;
 using Foundation;
 using Kit.Forms.Services.Interfaces;
 using PanCardView.iOS;
+using SOE.iOS.Widgets;
 using SOE.Widgets;
 using UIKit;
 using UserNotifications;
@@ -97,15 +98,18 @@ namespace SOE.iOS
 
         public override void UpdateWidget(string AppWidgetProviderClassName)
         {
+            DataGenerator generator=null;
             switch (AppWidgetProviderClassName)
             {
                 case TimeLineWidget.AppWidgetProviderFullClass:
+                 generator=new TimeLineDataGenerator();
 
                     break;
                 case ToDosWidget.AppWidgetProviderFullClass:
 
                     break;
             }
+            generator?.GenerateAndRefresh();
         }
     }
 }

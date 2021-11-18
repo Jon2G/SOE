@@ -71,11 +71,6 @@
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Widgets\ViewController.cs" />
-    <Compile Include="Widgets\ViewController.designer.cs">
-      <DependentUpon>..\..\..\..\SOE.iOS\Widgets\Widgets\ViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Widgets\DataGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -147,17 +142,21 @@
       <Project>{8F198950-2819-4114-9317-886D141E25B9}</Project>
       <Name>WidgetCenterProxyBinder</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\SOE\SOE.csproj">
+      <Project>{20CCEA58-74B4-41B0-9E9E-22B7B328C798}</Project>
+      <Name>SOE</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Kit\Kit\Kit.csproj">
+      <Project>{FBDD1DCC-B804-4690-8113-98D775DE9A88}</Project>
+      <Name>Kit</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Widgets\" />
-  </ItemGroup>
-  <ItemGroup>
-     <AdditionalAppExtensions Include="/Users/jonyj/Desktop/source/repos/SOE/SOE.iOS/SwiftExtension/Build/Products/">
-         <SmartLink>false</SmartLink>
-        <Name>NativeWidgetExtension</Name>
-        <BuildOutput Condition="'$(Platform)' == 'iPhone'">Debug-iphoneos</BuildOutput>
-        <BuildOutput Condition="'$(Platform)' == 'iPhoneSimulator'">Debug-iphonesimulator</BuildOutput>
-  </AdditionalAppExtensions>
+<AdditionalAppExtensions Include="/Users/jonyj/Desktop/source/repos/xamarin-ios-swift-extension/SwiftExtension/TestNativeApp">
+		<Name>NativeWidgetExtension</Name>
+        <BuildOutput Condition="'$(Platform)' == 'iPhone'">DerivedData/TestNativeApp/Build/Products/Debug-iphoneos</BuildOutput>
+        <BuildOutput Condition="'$(Platform)' == 'iPhoneSimulator'">DerivedData/TestNativeApp/Build/Products/Debug-iphonesimulator</BuildOutput>
+	</AdditionalAppExtensions>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

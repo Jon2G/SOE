@@ -74,12 +74,15 @@ namespace SOEAWS
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
-            if (env.IsDevelopment())
+            if (true) //env.IsDevelopment())
             {
                 //app.UseWebAssemblyDebugging();
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SOEWeb v1"));
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "SOEWeb v1");
+                });
             }
             else
             {

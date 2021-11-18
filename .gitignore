@@ -358,3 +358,6 @@ MigrationBackup/
 
 ##_MACOSX temps
 __MACOSX/
+
+## Swift derivedData
+[Dd]erivedData/

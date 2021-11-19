@@ -1,4 +1,5 @@
 ﻿using AsyncAwaitBestPractices;
+using Kit;
 using SOE.Data;
 using SOE.ViewModels.Pages.Login;
 using SOE.Views.PopUps;
@@ -18,7 +19,12 @@ namespace SOE.Views.Pages.Login
         }
         public UserSignUpPage(bool DisplayPrivacyAlert)
         {
-            InitializeComponent();
+            InitializeComponent(); 
+            if (Tools.Debugging)
+            {
+                ContentView.Opacity =
+                    PancakeView.Opacity = 0.8;
+            }
             this.Model = new UserSignUpPageViewModel(this.FirstForm, this.SecondForm);
             this.BindingContext = this.Model;
             AppData.Instance.SAES = this.SAES;

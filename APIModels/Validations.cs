@@ -12,7 +12,8 @@ namespace SOEWeb.Shared
             {
                 return false;
             }
-            return Regex.IsMatch(boleta, "20([0-9]{8})");
+            var match = Regex.Match(boleta, "20([0-9]{8})");
+            return (match.Success && match.Value == boleta);
         }
 
         public static bool IsValidUser(string user) => IsValidBoleta(user) || IsValidEmail(user);

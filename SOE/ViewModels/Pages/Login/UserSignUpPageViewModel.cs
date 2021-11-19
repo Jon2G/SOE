@@ -21,9 +21,12 @@ using NameGenerator.Generators;
 using SOE.Views.Pages;
 using SOEWeb.Shared.Interfaces;
 using System.Security.Cryptography;
+using Kit.Sql.Attributes;
+using MaxLengthAttribute = System.ComponentModel.DataAnnotations.MaxLengthAttribute;
 
 namespace SOE.ViewModels.Pages.Login
 {
+    [Preserve]
     public class UserSignUpPageViewModel : ValidationsModelbase
     {
         private string _NickName;
@@ -73,7 +76,7 @@ namespace SOE.ViewModels.Pages.Login
             get => _Boleta;
             set
             {
-                _Boleta = value;
+                _Boleta = value?.Trim();
                 Raise(() => Boleta);
                 ValidateProperty(value);
                 this.SignInCommand.RaiseCanExecuteChanged();
@@ -89,7 +92,7 @@ namespace SOE.ViewModels.Pages.Login
             get => _Captcha;
             set
             {
-                _Captcha = value;
+                _Captcha = value?.Trim();
                 Raise(() => Captcha);
                 this.SignUpCommand.RaiseCanExecuteChanged();
             }

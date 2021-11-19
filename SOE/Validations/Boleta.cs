@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Xamarin.Forms.Internals;
 
 namespace SOE.Validations
 {
+    [Preserve]
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
     public class Boleta : DataTypeAttribute
     {

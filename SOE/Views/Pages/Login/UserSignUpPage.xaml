@@ -22,12 +22,14 @@
              Background="{DynamicResource Background}"
              x:Name="Me">
     <Grid>
-        <saes:Saes x:Name="SAES" IsVisible="True" />
-        <ContentView Background="{DynamicResource Background}">
+        <saes:Saes x:Name="SAES" IsVisible="True"/>
+        <ContentView Background="{DynamicResource Background}"
+                     x:Name="ContentView" BackgroundColor="Red">
             <pancakeView:CustomPancakeView Visual="Default" 
-                CornerRadius="10"
-                Padding="0" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
-                Margin="7">
+                                           CornerRadius="10" x:Name="PancakeView"
+                                           Padding="0" VerticalOptions="Center"
+                                           HorizontalOptions="FillAndExpand"
+                                           Margin="7">
                 <StackLayout Spacing="0">
                     <StackLayout Spacing="0" Padding="0">
                         <Label FontFamily="KarlaSB" Text="Iniciar sesión" Margin="5" FontSize="25"
@@ -74,18 +76,18 @@
                                               >
                             <controls:ArrowButton.Icon>
                                 <OnPlatform x:TypeArguments="ImageSource">
-                                        <OnPlatform.Platforms>
-                                            <On Platform="iOS">
-                                                <FileImageSource File="logo_moneda.png"/>
-                                            </On>
-                                            <On Platform="Android">
-                                                <FileImageSource File="{Binding User.School.ImgPath,Source={x:Static data:AppData.Instance}}"/>
-                                            </On>
-                                        </OnPlatform.Platforms>
-                                    </OnPlatform>
+                                    <OnPlatform.Platforms>
+                                        <On Platform="iOS">
+                                            <FileImageSource File="logo_moneda.png"/>
+                                        </On>
+                                        <On Platform="Android">
+                                            <FileImageSource File="{Binding User.School.ImgPath,Source={x:Static data:AppData.Instance}}"/>
+                                        </On>
+                                    </OnPlatform.Platforms>
+                                </OnPlatform>
                             </controls:ArrowButton.Icon>
-                            </controls:ArrowButton>
-                      
+                        </controls:ArrowButton>
+
                         <BoxView HeightRequest="1"
                          Background="{DynamicResource PrimaryColor}" />
                     </StackLayout>
@@ -97,16 +99,16 @@
                                              Spacing="1">
 
                                 <Grid>
-                                        <StackLayout x:Name="FirstForm" Spacing="0">
-                                            <Label FontSize="18" FontAttributes="Bold" Text="Credenciales de acceso al SAES"/>
-                                            <Entry  TextColor="{DynamicResource secondaryTextColor}"  x:Name="Usuario"
+                                    <StackLayout x:Name="FirstForm" Spacing="0">
+                                        <Label FontSize="18" FontAttributes="Bold" Text="Credenciales de acceso al SAES"/>
+                                        <Entry  TextColor="{DynamicResource secondaryTextColor}"  x:Name="Usuario"
                                                                   IsTextPredictionEnabled="False"
                                                           Text="{Binding Boleta}"
                                                           Placeholder="Boleta"
                                                      validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"
                                                           Margin="0,3" IsReadOnly="False" />
 
-                                            <Entry IsPassword="True" 
+                                        <Entry IsPassword="True" 
                                                          Text="{Binding Password}"
                                                          Placeholder="Contraseña" Margin="0"/>
                                         <Grid RowDefinitions="Auto,*">
@@ -122,27 +124,27 @@
                                                 </Label.GestureRecognizers>
                                             </Label>
                                         </Grid>
-                                            <Entry IsPassword="False" 
+                                        <Entry IsPassword="False" 
                                                    Text="{Binding Captcha}"
                                                    Placeholder="Captcha" IsTextPredictionEnabled="False"
                                                    Margin="0,10"/>
                                         <Label Text="*Debe utilizar la misma contraseña que utiliza para accesar al sistema SAES" FontSize="12" FontAttributes="Bold"/>
-                                            <Label Text="*Tus datos de acceso NUNCA saldrán tu de dispositivo y nosotros no tendremos conocimiento de los mismos." FontSize="12" FontAttributes="Bold"/>
+                                        <Label Text="*Tus datos de acceso NUNCA saldrán tu de dispositivo y nosotros no tendremos conocimiento de los mismos." FontSize="12" FontAttributes="Bold"/>
 
-                                            
 
-                                            
 
-                                            <Button  Text="Soy un alumno!"
+
+
+                                        <Button  Text="Soy un alumno!"
                                              FontFamily="KarlaSB"
                                              TextColor="{DynamicResource primaryTextColor}"
                                              Command="{Binding SignInCommand}"
                                              CornerRadius="20" 
                                              Margin="0, 10, 0, 0"/>
-                                        </StackLayout>
+                                    </StackLayout>
 
-                                        <StackLayout Background="{DynamicResource SecondaryBackground}" x:Name="SecondForm" IsEnabled="False" IsVisible="False" Opacity="0">
-                                            <Label FontSize="18" FontAttributes="Bold" Text="{Binding User.Name,StringFormat='Bienvenido {0},ahora vamos a crearte un nuevo usuario.',Source={x:Static data:AppData.Instance}}"/>
+                                    <StackLayout Background="{DynamicResource SecondaryBackground}" x:Name="SecondForm" IsEnabled="False" IsVisible="False" Opacity="0">
+                                        <Label FontSize="18" FontAttributes="Bold" Text="{Binding User.Name,StringFormat='Bienvenido {0},ahora vamos a crearte un nuevo usuario.',Source={x:Static data:AppData.Instance}}"/>
                                         <Entry  TextColor="{DynamicResource secondaryTextColor}" IsTextPredictionEnabled="False"
                                                           Text="{Binding Email}"
                                                     validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"
@@ -155,20 +157,21 @@
                                                     validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"
                                                                   Margin="0,10" />
 
-                                            <Button  Text="Finalizar"
+                                        <Button  Text="Finalizar"
                                              FontFamily="KarlaSB"
                                              TextColor="{DynamicResource primaryTextColor}"
                                              Command="{Binding SignUpCommand}"
                                              CommandParameter="{Binding .}"
                                              CornerRadius="20" 
                                              Margin="0, 10, 0, 0"/>
-                                        </StackLayout>
-                                    </Grid>
-                                </StackLayout>
-                            </Grid>
+                                    </StackLayout>
+                                </Grid>
+                            </StackLayout>
+                        </Grid>
                     </ScrollView>
                 </StackLayout>
             </pancakeView:CustomPancakeView>
         </ContentView>
+
     </Grid>
 </pages:BasePage>

@@ -11,6 +11,7 @@ using AsyncAwaitBestPractices;
 using FFImageLoading;
 using Kit;
 using Kit.Forms.Extensions;
+using Kit.Forms.Services.Interfaces;
 using Kit.Services.Web;
 using Newtonsoft.Json;
 using SOE.API;
@@ -121,34 +122,61 @@ namespace SOE.Models.TodoModels
         internal static async Task<string> Share(ToDo toDo)
         {
             await Task.Yield();
-            if (toDo.Subject.IsOffline)
+            try
             {
-                if (!await toDo.Subject.Sync(AppData.Instance, new SyncService()))
+                if (toDo.Subject.IsOffline)
                 {
-                    Application.Current.MainPage.DisplayAlert("Opps...",
-                        "No fue posible compartir esta tarea, revise su conexión a internet", "Ok").SafeFireAndForget();
-                    return null;
-                }
-            }
-            Response Response = await APIService.PostToDo(toDo);
-            if (Response.ResponseResult != APIResponseResult.OK)
-            {
-                Application.Current.MainPage.DisplayAlert("Opps...",
-                    "No fue posible compartir esta tarea, revise su conexión a internet", "Ok").SafeFireAndForget();
-                return null;
-            }
-            if (toDo.HasPictures)
-            {
-                foreach (PhotoArchive photo in GetPhotos(toDo))
-                {
-                    using (Stream stream = await photo.GetStream())
+
+                    if (!await toDo.Subject.Sync(AppData.Instance, new SyncService()))
                     {
-                        await APIService.PostTodoPicture(stream.ToByteArray(), toDo.Guid);
+                        Application.Current.MainPage.DisplayAlert("Opps...",
+                                "No fue posible compartir esta tarea, revise su conexión a internet", "Ok")
+                            .SafeFireAndForget();
+                        return null;
                     }
                 }
+
+                Response Response = await APIService.PostToDo(toDo);
+                if (Response.ResponseResult != APIResponseResult.OK)
+                {
+                    Application.Current.MainPage.DisplayAlert("Opps...",
+                        $"No fue posible compartir esta tarea, revise su conexión a internet.\n{Response.Message}",
+                        "Ok").SafeFireAndForget();
+                    return null;
+                }
+
+                if (toDo.HasPictures)
+                {
+                    await PostPictures();
+                }
+
+                return DynamicLinkFormatter.GetDynamicUrl("share",
+                    new Dictionary<string, string>() { { "type", "todo" }, { "id", toDo.Guid.ToString("N") } });
             }
-            return DynamicLinkFormatter.GetDynamicUrl("share",
-                new Dictionary<string, string>() { { "type", "todo" }, { "id", toDo.Guid.ToString("N") } });
+            catch (Exception ex)
+            {
+                App.Current.MainPage.DisplayAlert("Error", ex.ToString(), "Ok").SafeFireAndForget();
+                return null;
+            }
+
+            async Task PostPictures()
+            {
+                await Task.Yield();
+                try
+                {
+                    foreach (PhotoArchive photo in GetPhotos(toDo))
+                    {
+                        using (Stream stream = await photo.GetStream())
+                        {
+                            await APIService.PostTodoPicture(stream.ToByteArray(), toDo.Guid);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Logger?.Error(ex, "PostPictures");
+                }
+            }
         }
 
 

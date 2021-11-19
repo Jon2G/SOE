@@ -78,12 +78,13 @@
     <AndroidSigningKeyPass>SchoolOrganizer</AndroidSigningKeyPass>
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
     <AndroidSupportedAbis>armeabi-v7a;x86_64;arm64-v8a</AndroidSupportedAbis>
-    <AndroidLinkSkip>SOE;SOE.Droid;Kit;SOEWeb.Shared;Forms9Patch;Kit;Kit.Droid;Xamarin.Forms.PancakeView;</AndroidLinkSkip>
+    <AndroidLinkSkip>SOE;SOE.Droid;Kit;SOEWeb.Shared;Forms9Patch;Kit;Kit.Droid;Xamarin.Forms.PancakeView;PanCardView;Newtonsoft.Json;</AndroidLinkSkip>
     <LangVersion>latest</LangVersion>
     <AndroidSigningKeyStore>C:\Users\jonyj\AppData\Local\Xamarin\Mono for Android\Keystore\JonathanEduardoGG\JonathanEduardoGG.keystore</AndroidSigningKeyStore>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AndroidLinkTool>r8</AndroidLinkTool>
-    <Debugger>Native</Debugger>
+    <Debugger>Xamarin</Debugger>
+    <AndroidProguardMappingFile>F:\source\repos\SOE\SOE.Android\mapping.txt</AndroidProguardMappingFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />

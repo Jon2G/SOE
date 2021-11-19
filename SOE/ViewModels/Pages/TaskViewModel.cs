@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using AsyncAwaitBestPractices;
+using AsyncAwaitBestPractices.MVVM;
 using SOE.Data;
 using SOE.Models.TodoModels;
 using SOE.Models.TodoModels;
@@ -8,6 +9,7 @@ using SOE.Views.Pages;
 using SOE.Views.PopUps;
 using SOE.Views.ViewItems;
 using SOE.Views.ViewItems.TasksViews;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -16,7 +18,7 @@ namespace SOE.ViewModels.Pages
     public class TaskViewModel
     {
         public ICommand _OpenMenuCommand;
-        public ICommand OpenMenuCommand => _OpenMenuCommand ??= new Command(OpenMenu);
+        public ICommand OpenMenuCommand => _OpenMenuCommand ??= new AsyncCommand(OpenMenu);
         public ToDo ToDo { get; set; }
         private readonly BySubjectGroup BySubjectGroup;
         public TaskViewModel(ToDo ToDo, BySubjectGroup BySubjectGroup)
@@ -24,8 +26,9 @@ namespace SOE.ViewModels.Pages
             this.BySubjectGroup = BySubjectGroup;
             this.ToDo = ToDo;
         }
-        private async void OpenMenu(object obj)
+        private async Task OpenMenu()
         {
+            await Task.Yield();
             var pr = new MenuPopUp(ToDo);
             await pr.ShowDialog();
             switch (pr.Model.Action)
@@ -58,26 +61,52 @@ namespace SOE.ViewModels.Pages
                     Eliminar();
                     break;
                 case "Compartir":
-                    if (DateTime.Now > ToDo.Date.Add(ToDo.Time))
-                    {
-                        App.Current.MainPage.DisplayAlert(ToDo.Title,
-                            "Esta tarea ya ha expirado, cambie la fecha de entrega si desea compartirla", "Ok.")
-                            .SafeFireAndForget();
-                        return;
-                    }
-                    string link = string.Empty;
-                    using (Acr.UserDialogs.UserDialogs.Instance.Loading("Compartiendo..."))
-                    {
-                        link = await ToDo.Share(ToDo);
-                    }
-                    if (!string.IsNullOrEmpty(link))
-                    {
-                        Share.RequestAsync(link, "Compartir tarea").SafeFireAndForget();
-                    }
+                    await Compartir();
                     return;
             }
-            Device.BeginInvokeOnMainThread(() =>
-                PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction,ToDo.Status));
+            Device.BeginInvokeOnMainThread(Refresh);
+            void Refresh()
+            {
+                try
+                {
+                    PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction,
+                        ToDo.Status);
+                }
+                catch (Exception ex)
+                {
+                    App.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok").SafeFireAndForget();
+                }
+            }
+        }
+
+        private async Task Compartir()
+        {
+            await Task.Yield();
+            try
+            {
+                if (DateTime.Now > ToDo.Date.Add(ToDo.Time))
+                {
+                    App.Current.MainPage.DisplayAlert(ToDo.Title,
+                            "Esta tarea ya ha expirado, cambie la fecha de entrega si desea compartirla", "Ok.")
+                        .SafeFireAndForget();
+                    return;
+                }
+
+                string link = string.Empty;
+                using (Acr.UserDialogs.UserDialogs.Instance.Loading("Compartiendo..."))
+                {
+                    link = await ToDo.Share(ToDo);
+                }
+
+                if (!string.IsNullOrEmpty(link))
+                {
+                    Share.RequestAsync(link, "Compartir tarea").SafeFireAndForget();
+                }
+            }
+            catch (Exception ex)
+            {
+                App.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok").SafeFireAndForget();
+            }
         }
         public void Eliminar()
         {

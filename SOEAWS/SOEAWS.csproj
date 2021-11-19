@@ -8,11 +8,15 @@
     <LangVersion>Latest</LangVersion>
     <AssemblyName>SOEAWS</AssemblyName>
     <StaticWebAssetBasePath>_content/$(PackageId)</StaticWebAssetBasePath>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Pages\SharePage.razor.css" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".platform\nginx\conf.d\myconfig.conf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Pages\SharePage.razor.css" />
     <Content Include="wwwroot\.well-known\assetlinks.json" />
   </ItemGroup>

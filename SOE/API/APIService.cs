@@ -25,6 +25,7 @@ using SOEWeb.Shared.Interfaces;
 using SOEWeb.Shared.Processors;
 using SOE.Models.TodoModels;
 using SOEWeb.Shared.Secrets;
+using System.Net;
 
 namespace SOE.API
 {
@@ -53,7 +54,7 @@ namespace SOE.API
             await Task.Yield();
             try
             {
-                WebService WebService = new (DotNetEnviroment.Url);
+                WebService WebService = new(DotNetEnviroment.Url);
                 Kit.Services.Web.ResponseResult result = await WebService.GET(nameof(Hello));
                 return JsonConvert.DeserializeObject<Response>(result.Response);
             }
@@ -73,7 +74,7 @@ namespace SOE.API
             await Task.Yield();
             try
             {
-                WebService WebService = new (DotNetEnviroment.Url);
+                WebService WebService = new(DotNetEnviroment.Url);
 
                 if (!await IsOnline())
                 {
@@ -108,7 +109,7 @@ namespace SOE.API
         public static async Task<Response<string>> PostClassTime(byte[] byteArray, string User)
         {
             await Task.Yield();
-            WebService WebService = new (DotNetEnviroment.Url);
+            WebService WebService = new(DotNetEnviroment.Url);
             if (byteArray.Length <= 0)
             {
                 return Response<string>.Error;
@@ -123,7 +124,7 @@ namespace SOE.API
         public static async Task<Response<string>> PostGrades(byte[] HTML)
         {
             await Task.Yield();
-            WebService WebService = new (DotNetEnviroment.Url);
+            WebService WebService = new(DotNetEnviroment.Url);
             if (HTML.Length <= 0)
             {
                 return Response<string>.Error;
@@ -138,7 +139,7 @@ namespace SOE.API
         }
         public static async Task<Response<int>> PostCareer(string CareerName, string User)
         {
-            WebService WebService = new (DotNetEnviroment.Url);
+            WebService WebService = new(DotNetEnviroment.Url);
             if (string.IsNullOrEmpty(CareerName))
             {
                 return Response<int>.Error;
@@ -157,7 +158,7 @@ namespace SOE.API
             {
                 return Response<TodoBase>.Error;
             }
-            WebService webService = new (DotNetEnviroment.Url);
+            WebService webService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result = await webService.GET("ShareTodo",
                 todoGuid.ToString("N"));
             if (result.Response == "ERROR")
@@ -215,7 +216,7 @@ namespace SOE.API
 
 
 
-            WebService webService = new (DotNetEnviroment.Url);
+            WebService webService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result = await webService.GET("ShareReminder",
                 reminderGuide.ToString("N"));
             if (result.Response == "ERROR")
@@ -264,7 +265,7 @@ namespace SOE.API
             {
                 return Response<int[]>.InvalidRequest;
             }
-            WebService webService = new (DotNetEnviroment.Url);
+            WebService webService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result = await webService.GET("GetArchieveIds", guid.ToString("N"));
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
             {
@@ -275,7 +276,7 @@ namespace SOE.API
 
         private static async Task<string> DownloadPictureById(int id)
         {
-            WebService webService = new (DotNetEnviroment.Url);
+            WebService webService = new(DotNetEnviroment.Url);
             FileInfo file = await Keeper.Save(webService.DownloadFile("GetArchieveById", id.ToString()));
             return file.FullName;
         }
@@ -291,7 +292,7 @@ namespace SOE.API
                 return Response.Error;
             }
             string json_todo = todo.JsonSerializeObject<TodoBase>();
-            WebService WebService = new (DotNetEnviroment.Url);
+            WebService WebService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result = await WebService.PostAsBody(
                 System.Text.Encoding.UTF8.GetBytes(json_todo),
                 "PostToDo", AppData.Instance.User.Boleta);
@@ -310,7 +311,7 @@ namespace SOE.API
                 return Response.Error;
             }
             string json_Reminder = Reminder.JsonSerializeObject<ReminderBase>();
-            WebService WebService = new (DotNetEnviroment.Url);
+            WebService WebService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result = await WebService.PostAsBody(
                 System.Text.Encoding.UTF8.GetBytes(json_Reminder),
                 "PostReminder", AppData.Instance.User.Boleta);
@@ -327,16 +328,18 @@ namespace SOE.API
             {
                 return Response.Error;
             }
-            WebService WebService = new (DotNetEnviroment.Url);
+            WebService WebService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result = await WebService.PostAsBody(
                 Img, "PostTodoPicture", ToDoGuid.ToString());
-
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
             {
                 return new Response(APIResponseResult.INTERNAL_ERROR, result.Response);
             }
-
-            return JsonConvert.DeserializeObject<Response>(result.Response);
+            else if (result.HttpStatusCode == HttpStatusCode.OK)
+            {
+                return JsonConvert.DeserializeObject<Response>(result.Response);
+            }
+            return Response.InvalidRequest;
         }
 
         internal static Task<Response<IEnumerable<Classmate>>> GetClassmates(Subject subject)
@@ -347,7 +350,7 @@ namespace SOE.API
             {
                 return Response<IEnumerable<Classmate>>.InvalidRequest;
             }
-            WebService WebService = new (DotNetEnviroment.Url);
+            WebService WebService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result = await WebService.GET("GetClassmates",
                 group, TeacherId.ToString(), SubjectId.ToString());
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
@@ -373,7 +376,7 @@ namespace SOE.API
 
             Link.Url = uri.AbsoluteUri;
             string jsonlink = JsonConvert.SerializeObject(Link);
-            WebService WebService = new (DotNetEnviroment.Url);
+            WebService WebService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result =
                 await WebService.PostAsBody(
                     byteArray: Encoding.UTF8.GetBytes(jsonlink),
@@ -396,7 +399,7 @@ namespace SOE.API
 
         internal static async Task<bool> ReportLink(Link link, ReportReason reason)
         {
-            WebService webService = new (DotNetEnviroment.Url);
+            WebService webService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result = await webService.GET(
                 "ReportLink",
                 AppData.Instance.User.Id.ToString(),
@@ -414,7 +417,7 @@ namespace SOE.API
         }
         internal static async Task<bool> DeleteLink(Link link, int userId)
         {
-            WebService webService = new (DotNetEnviroment.Url);
+            WebService webService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result = await webService.GET("DeleteLink",
                 userId.ToString(), link.Guid.ToString("N"));
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
@@ -438,7 +441,7 @@ namespace SOE.API
             {
                 return Response<IEnumerable<Link>>.InvalidRequest;
             }
-            WebService webService = new (DotNetEnviroment.Url);
+            WebService webService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result = await webService.GET("GetLinks",
                 group, teacherId.ToString(), subjectId.ToString(), AppData.Instance.User.Id.ToString());
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
@@ -461,7 +464,7 @@ namespace SOE.API
                 contact.Url = uri.AbsoluteUri;
             }
             string jsonContact = JsonConvert.SerializeObject(contact);
-            WebService webService = new (DotNetEnviroment.Url);
+            WebService webService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result =
                 await webService.PostAsBody(
                     byteArray: Encoding.UTF8.GetBytes(jsonContact),
@@ -486,7 +489,7 @@ namespace SOE.API
             {
                 return new Response<IEnumerable<ContactsByDeparment>>(APIResponseResult.INVALID_REQUEST, "Escuela invalida");
             }
-            WebService webService = new (DotNetEnviroment.Url);
+            WebService webService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result = await webService.GET("GetContacts",
                 school.Id.ToString(), AppData.Instance.User.Id.ToString());
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
@@ -499,7 +502,7 @@ namespace SOE.API
         }
         internal static async Task<bool> ReportContact(SchoolContact contact, ReportReason reason)
         {
-            WebService webService = new (DotNetEnviroment.Url);
+            WebService webService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result = await webService.GET(
                 "ReportContact",
                 contact.Guid.ToString("N"),
@@ -522,7 +525,7 @@ namespace SOE.API
             {
                 return true;
             }
-            WebService webService = new (DotNetEnviroment.Url);
+            WebService webService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result =
                 await webService.GET(nameof(IsNickNameAvaible), nickname);
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
@@ -541,7 +544,7 @@ namespace SOE.API
             {
                 return false;
             }
-            WebService webService = new (DotNetEnviroment.Url);
+            WebService webService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result =
                 await webService.GET(nameof(BoletaIsRegistered), boleta, school.Id.ToString());
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
@@ -554,7 +557,7 @@ namespace SOE.API
 
         internal static async Task<bool> DeleteContact(int userId, SchoolContact contact)
         {
-            WebService webService = new (DotNetEnviroment.Url);
+            WebService webService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result = await webService.GET("DeleteContact",
                 userId.ToString(), contact.Guid.ToString("N"));
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
@@ -570,7 +573,7 @@ namespace SOE.API
         internal static async Task<Response<int>> GetSchoolId(User user)
         {
             await Task.Yield();
-            WebService webService = new (DotNetEnviroment.Url);
+            WebService webService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result =
                 await webService.GET("GetSchoolId", user.Id.ToString());
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
@@ -589,14 +592,14 @@ namespace SOE.API
             {
                 return Response<Subject>.InvalidRequest;
             }
-            int suffixer = (subject.Id - OfflineConstants.IdBase)+1;
+            int suffixer = (subject.Id - OfflineConstants.IdBase) + 1;
             string suffix = ClassTimeDigester.GetGroupSuffix(subject.Group, ref suffixer);
             return await PostSubject(userId, subject.Group, suffix, subject.IdTeacher, subject.Name);
         }
         public static async Task<Response<Subject>> PostSubject(int UserId, string Group, string Suffix, int TeacherId, string SubjectName)
         {
             await Task.Yield();
-            WebService webService = new (DotNetEnviroment.Url);
+            WebService webService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result =
                 await webService.GET(nameof(PostSubject), UserId.ToString(), Group, Suffix, TeacherId.ToString(), SubjectName);
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
@@ -609,7 +612,7 @@ namespace SOE.API
         public static async Task<Response<Teacher>> PostTeacher(Teacher teacher)
         {
             await Task.Yield();
-            WebService webService = new (DotNetEnviroment.Url);
+            WebService webService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result =
                 await webService.GET(nameof(PostTeacher), teacher.Name);
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
@@ -622,7 +625,7 @@ namespace SOE.API
         public static async Task<Response<ClassTime>> PostClassTime(int TeacherId, int SubjectId, DayOfWeek Day, TimeSpan Begin, TimeSpan End)
         {
             await Task.Yield();
-            WebService webService = new (DotNetEnviroment.Url);
+            WebService webService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result =
                 await webService.GET(nameof(PostClassTime), TeacherId.ToString(), SubjectId.ToString(), ((int)(Day)).ToString(), Begin.ToString("c"), End.ToString("c"));
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
@@ -634,7 +637,7 @@ namespace SOE.API
         public static async Task<Response<Grade>> PostGrade(Grade grade, Subject subject)
         {
             await Task.Yield();
-            WebService webService = new (DotNetEnviroment.Url);
+            WebService webService = new(DotNetEnviroment.Url);
             Kit.Services.Web.ResponseResult result =
                 await webService.GET(nameof(PostGrade), ((int)grade.Partial).ToString(), grade.NumericScore.ToString(), subject.Group, AppData.Instance.User.Boleta);
             if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))

@@ -46,6 +46,12 @@ namespace SOE.Data.Images
         {
             await Task.Yield();
             Value = await cached.CompressImage(80);
+            FileInfo file = new FileInfo(Value.File);
+            var size = file.Length.ToSize(BytesConverter.SizeUnits.MB);
+            if (size>= 9)
+            {
+                await CompressAsync(Value);
+            }
             this.Path = Value.File;
         }
 
@@ -123,7 +129,7 @@ namespace SOE.Data.Images
         public async Task<Stream> GetStream()
         {
             MemoryStream stream = new MemoryStream();
-            using (FileStream SourceStream =new FileStream(this.Path,FileMode.Open,FileAccess.Read))
+            using (FileStream SourceStream = new FileStream(this.Path, FileMode.Open, FileAccess.Read))
             {
                 await SourceStream.CopyToAsync(stream);
             }

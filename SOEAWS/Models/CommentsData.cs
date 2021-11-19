@@ -1,4 +1,5 @@
-﻿using SOEAWS.Services;
+﻿using Kit.SetUpConnectionString;
+using SOEAWS.Services;
 using SOEWeb.Shared;
 using System;
 using System.Collections.Generic;

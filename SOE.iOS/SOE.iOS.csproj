@@ -48,7 +48,7 @@
     <CodesignProvision>VS: com.soe.soe-app Development</CodesignProvision>
     <OptimizePNGs>true</OptimizePNGs>
     <MtouchI18n>west</MtouchI18n>
-    <MtouchExtraArgs>--linkskip SOE --linkskip SOE.iOS --linkskip SOEWeb.Shared --linkskip Kit</MtouchExtraArgs>
+    <MtouchExtraArgs>--linkskip SOE --linkskip SOE.iOS --linkskip SOEWeb.Shared --linkskip Kit --linkskip PanCardView --linkskip Newtonsoft.Json</MtouchExtraArgs>
     <MtouchDebug>true</MtouchDebug>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <MtouchSdkVersion>14.5</MtouchSdkVersion>

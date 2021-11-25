@@ -76,6 +76,8 @@ namespace SOE.Droid.Activities
 
         public override bool OnKeyUp([GeneratedEnum] Keycode keyCode, KeyEvent e)
         {
+            if (e.Flags.HasFlag(Android.Views.KeyEventFlags.SoftKeyboard) || keyCode == Keycode.Back)
+                return base.OnKeyUp(keyCode, e);
             return false;
         }
         protected override async void OnCreate(Bundle savedInstanceState)

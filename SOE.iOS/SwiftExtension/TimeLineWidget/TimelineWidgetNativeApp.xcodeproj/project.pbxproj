@@ -29,14 +29,13 @@
 		60DF13F92743937C00EA7F9E /* ClassTimeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DF13F82743937C00EA7F9E /* ClassTimeList.swift */; };
 		60DF13FB27439B3900EA7F9E /* TimeLineData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DF13FA27439B3900EA7F9E /* TimeLineData.swift */; };
 		922EE1D227531E4400A753B9 /* ExtensionWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922EE1D127531E4400A753B9 /* ExtensionWidgetBundle.swift */; };
-		922EE1D427531F8200A753B9 /* ToDoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922EE1D327531F8200A753B9 /* ToDoModel.swift */; };
-		922EE1D627531F8800A753B9 /* TodoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922EE1D527531F8800A753B9 /* TodoData.swift */; };
-		922EE1DA27531F9300A753B9 /* ToDoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922EE1D727531F9300A753B9 /* ToDoList.swift */; };
-		922EE1DB27531F9300A753B9 /* ToDoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922EE1D827531F9300A753B9 /* ToDoHeader.swift */; };
-		922EE1DC27531F9300A753B9 /* ToDoRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922EE1D927531F9300A753B9 /* ToDoRow.swift */; };
-		922EE1DE27531F9E00A753B9 /* ToDoWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922EE1DD27531F9E00A753B9 /* ToDoWidget.swift */; };
-		922EE1E027531FA700A753B9 /* ToDoWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922EE1DF27531FA700A753B9 /* ToDoWidget.swift */; };
 		922EE1E227531FE800A753B9 /* DataReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922EE1E127531FE800A753B9 /* DataReader.swift */; };
+		92B49D6B27533273008E65C6 /* TodoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B49D6927533273008E65C6 /* TodoData.swift */; };
+		92B49D6C27533273008E65C6 /* ToDoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B49D6A27533273008E65C6 /* ToDoModel.swift */; };
+		92B49D6E27533287008E65C6 /* ToDoWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B49D6D27533287008E65C6 /* ToDoWidget.swift */; };
+		92B49D78275332F2008E65C6 /* ToDoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B49D75275332F2008E65C6 /* ToDoHeader.swift */; };
+		92B49D79275332F2008E65C6 /* ToDoRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B49D76275332F2008E65C6 /* ToDoRow.swift */; };
+		92B49D7A275332F2008E65C6 /* ToDoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B49D77275332F2008E65C6 /* ToDoList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,14 +89,13 @@
 		60DF13F82743937C00EA7F9E /* ClassTimeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassTimeList.swift; sourceTree = "<group>"; };
 		60DF13FA27439B3900EA7F9E /* TimeLineData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineData.swift; sourceTree = "<group>"; };
 		922EE1D127531E4400A753B9 /* ExtensionWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionWidgetBundle.swift; sourceTree = "<group>"; };
-		922EE1D327531F8200A753B9 /* ToDoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ToDoModel.swift; path = ../../../TodoWidget/NativeWidget/Model/ToDoModel.swift; sourceTree = "<group>"; };
-		922EE1D527531F8800A753B9 /* TodoData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoData.swift; path = ../../../TodoWidget/NativeWidget/Model/TodoData.swift; sourceTree = "<group>"; };
-		922EE1D727531F9300A753B9 /* ToDoList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ToDoList.swift; path = ../../TodoWidget/NativeWidget/ToDoList.swift; sourceTree = "<group>"; };
-		922EE1D827531F9300A753B9 /* ToDoHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ToDoHeader.swift; path = ../../TodoWidget/NativeWidget/ToDoHeader.swift; sourceTree = "<group>"; };
-		922EE1D927531F9300A753B9 /* ToDoRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ToDoRow.swift; path = ../../TodoWidget/NativeWidget/ToDoRow.swift; sourceTree = "<group>"; };
-		922EE1DD27531F9E00A753B9 /* ToDoWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ToDoWidget.swift; path = ../../TodoWidget/NativeWidget/ToDoWidget.swift; sourceTree = "<group>"; };
-		922EE1DF27531FA700A753B9 /* ToDoWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ToDoWidget.swift; path = ../../TodoWidget/NativeWidget/ToDoWidget.swift; sourceTree = "<group>"; };
 		922EE1E127531FE800A753B9 /* DataReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataReader.swift; sourceTree = "<group>"; };
+		92B49D6927533273008E65C6 /* TodoData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoData.swift; sourceTree = "<group>"; };
+		92B49D6A27533273008E65C6 /* ToDoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToDoModel.swift; sourceTree = "<group>"; };
+		92B49D6D27533287008E65C6 /* ToDoWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToDoWidget.swift; sourceTree = "<group>"; };
+		92B49D75275332F2008E65C6 /* ToDoHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToDoHeader.swift; sourceTree = "<group>"; };
+		92B49D76275332F2008E65C6 /* ToDoRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToDoRow.swift; sourceTree = "<group>"; };
+		92B49D77275332F2008E65C6 /* ToDoList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToDoList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,7 +180,6 @@
 				429AB1CA24ABA40600D106F0 /* NativeWidget.intentdefinition */,
 				429AB1CB24ABA40600D106F0 /* Assets.xcassets */,
 				429AB1CD24ABA40600D106F0 /* Info.plist */,
-				922EE1DF27531FA700A753B9 /* ToDoWidget.swift */,
 				922EE1D127531E4400A753B9 /* ExtensionWidgetBundle.swift */,
 				922EE1E127531FE800A753B9 /* DataReader.swift */,
 			);
@@ -192,10 +189,10 @@
 		60DF13E82743802C00EA7F9E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				922EE1DD27531F9E00A753B9 /* ToDoWidget.swift */,
-				922EE1D827531F9300A753B9 /* ToDoHeader.swift */,
-				922EE1D727531F9300A753B9 /* ToDoList.swift */,
-				922EE1D927531F9300A753B9 /* ToDoRow.swift */,
+				92B49D6D27533287008E65C6 /* ToDoWidget.swift */,
+				92B49D77275332F2008E65C6 /* ToDoList.swift */,
+				92B49D75275332F2008E65C6 /* ToDoHeader.swift */,
+				92B49D76275332F2008E65C6 /* ToDoRow.swift */,
 				60DF13E92743804500EA7F9E /* ClassTimeRow.swift */,
 				60DF13F82743937C00EA7F9E /* ClassTimeList.swift */,
 				601CD85527462F2100795752 /* TimeLineHeader.swift */,
@@ -206,10 +203,10 @@
 		60DF13EC2743807600EA7F9E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				92B49D6927533273008E65C6 /* TodoData.swift */,
+				92B49D6A27533273008E65C6 /* ToDoModel.swift */,
 				60DF13EF274380D700EA7F9E /* ClassSquare.swift */,
-				922EE1D327531F8200A753B9 /* ToDoModel.swift */,
 				60DF13F1274381EF00EA7F9E /* TimeLineModelData.swift */,
-				922EE1D527531F8800A753B9 /* TodoData.swift */,
 				60DF13F32743833D00EA7F9E /* DayModel.swift */,
 				60DF13FA27439B3900EA7F9E /* TimeLineData.swift */,
 			);
@@ -336,19 +333,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				922EE1DE27531F9E00A753B9 /* ToDoWidget.swift in Sources */,
+				92B49D6C27533273008E65C6 /* ToDoModel.swift in Sources */,
 				429AB1C924ABA40600D106F0 /* TimelineWidget.swift in Sources */,
+				92B49D79275332F2008E65C6 /* ToDoRow.swift in Sources */,
 				60DF13F42743833D00EA7F9E /* DayModel.swift in Sources */,
 				60DF13EB2743805100EA7F9E /* ClassTimeRow.swift in Sources */,
 				922EE1E227531FE800A753B9 /* DataReader.swift in Sources */,
-				922EE1DA27531F9300A753B9 /* ToDoList.swift in Sources */,
 				60DF13F0274380D700EA7F9E /* ClassSquare.swift in Sources */,
 				429AB22F24ABA5F400D106F0 /* NativeWidget.intentdefinition in Sources */,
-				922EE1DC27531F9300A753B9 /* ToDoRow.swift in Sources */,
-				922EE1D627531F8800A753B9 /* TodoData.swift in Sources */,
-				922EE1E027531FA700A753B9 /* ToDoWidget.swift in Sources */,
-				922EE1D427531F8200A753B9 /* ToDoModel.swift in Sources */,
-				922EE1DB27531F9300A753B9 /* ToDoHeader.swift in Sources */,
+				92B49D78275332F2008E65C6 /* ToDoHeader.swift in Sources */,
+				92B49D7A275332F2008E65C6 /* ToDoList.swift in Sources */,
+				92B49D6B27533273008E65C6 /* TodoData.swift in Sources */,
+				92B49D6E27533287008E65C6 /* ToDoWidget.swift in Sources */,
 				922EE1D227531E4400A753B9 /* ExtensionWidgetBundle.swift in Sources */,
 				601CD85627462F2100795752 /* TimeLineHeader.swift in Sources */,
 				60DF13FB27439B3900EA7F9E /* TimeLineData.swift in Sources */,

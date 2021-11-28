@@ -33,7 +33,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
-    <EmbedAssembliesIntoApk>false</EmbedAssembliesIntoApk>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidUseSharedRuntime>true</AndroidUseSharedRuntime>
     <AotAssemblies>false</AotAssemblies>
     <EnableLLVM>false</EnableLLVM>
@@ -84,7 +84,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AndroidLinkTool>r8</AndroidLinkTool>
     <Debugger>Xamarin</Debugger>
-    <AndroidProguardMappingFile>F:\source\repos\SOE\SOE.Android\mapping.txt</AndroidProguardMappingFile>
+    <AndroidProguardMappingFile>/Users/jon2g/Desktop/Source/Repos/SOE/SOE.Android/mapping.txt</AndroidProguardMappingFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -196,6 +196,8 @@
     <Compile Include="Widgets\ToDos\ToDosRemoteViewsFactory.cs" />
     <Compile Include="Widgets\ToDos\ToDosWidgetService.cs" />
     <Compile Include="Widgets\ToDos\ToDosWidgetProvider.cs" />
+    <Compile Include="Notifications\ServiceConnection.cs" />
+    <Compile Include="Notifications\AlarmBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <GoogleServicesJson Include="google-services.json" />

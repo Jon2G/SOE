@@ -21,7 +21,7 @@ namespace SOE.Droid.Notifications
     [Preserve]
     public class Notification : LocalNotification
     {
-
+        public const int ServiceNotificationId = 555;
         public const int MidnightCode = 800;
         private Context Context { get;  set; }
         private const string TitleKey = nameof(Title);
@@ -194,8 +194,15 @@ namespace SOE.Droid.Notifications
 
         public override void Schedule()
         {
-            this.Context = NotificationHelper.GetContext();
+            this.Context = NotificationHelper.GetContext(this.Context);
             Alarm.ProgramFor(this, this.Date, this.Context, this.Index, this.Channel);
+        }
+
+        public static void Cancel(Context context,int Id)
+        {
+            NotificationManager notificationManager = (NotificationManager)context.GetSystemService(
+                       Java.Lang.Class.FromType(typeof(Android.App.NotificationManager)));
+            notificationManager.Cancel(Id);
         }
     }
 }

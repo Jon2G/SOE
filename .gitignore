@@ -366,3 +366,6 @@ __MACOSX/
 
 ##Mapping
 mapping.txt
+
+#DS FILE
+.DS_Store

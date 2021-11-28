@@ -18,7 +18,7 @@ namespace SOE.Models.Scheduler
         {
             this.Date = Date;
             this.DayOfWeek = Date.DayOfWeek;
-            this.Name = GetNameOfDay();
+            this.Name =DayOfWeek.GetDayName();
         }
 
         public static List<Day> Week()
@@ -33,27 +33,8 @@ namespace SOE.Models.Scheduler
             };
         }
 
-        string GetNameOfDay()
-        {
-            switch (DayOfWeek)
-            {
-                case DayOfWeek.Sunday:
-                    return "Domingo";
-                case DayOfWeek.Monday:
-                    return "Lunes";
-                case DayOfWeek.Tuesday:
-                    return "Martes";
-                case DayOfWeek.Wednesday:
-                    return "Miércoles";
-                case DayOfWeek.Thursday:
-                    return "Jueves";
-                case DayOfWeek.Friday:
-                    return "Viernes";
-                case DayOfWeek.Saturday:
-                    return "Sábado";
-            }
-            return string.Empty;
-        }
+   
+
         public List<ClassSquare> GetTimeLine()
         {
             List<ClassSquare> classSquares = new List<ClassSquare>();

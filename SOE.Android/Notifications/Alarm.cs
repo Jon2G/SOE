@@ -4,6 +4,7 @@ using Android;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Widget;
 using Kit.Droid;
 using SOE.Notifications;
 using Xamarin.Forms.Internals;
@@ -37,7 +38,12 @@ namespace SOE.Droid.Notifications
                 //{
                 //if (!context.IsServiceRunning(typeof(NotificationService)))
                 //{
-                    context.StartService(new Intent(context, typeof(NotificationService)));
+                Intent service = new Intent(context, typeof(NotificationService));
+                Context appContext = NotificationHelper.GetContext(context) ?? context;
+                appContext.StartService(intent);
+                IBinder binder = PeekService(appContext, service);
+                appContext.BindService(service, new ServiceConnection(appContext), Bind.AutoCreate);
+                    
                 //}
 
                 //}
@@ -47,7 +53,7 @@ namespace SOE.Droid.Notifications
                 //}
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 NotificationChannel chanel = NotificationChannel.GetNotificationChannel(context, NotificationChannel.ClassChannelId);
                 chanel?.Notify("OnReceive", $"{intent?.Action}");

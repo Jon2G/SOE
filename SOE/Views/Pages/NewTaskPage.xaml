@@ -27,7 +27,7 @@
                     <FontImageSource 
                         FontFamily="{x:Static fonts:FontelloIcons.Font}"
                         Glyph="{x:Static fonts:FontelloIcons.Book1}"
-                        Color="{DynamicResource primaryTextColor}" Size="20" />
+                        Color="White" Size="20" />
                 </views:TabViewItem.Icon>
                 <ScrollView Background="{DynamicResource Background}">
                     <StackLayout Spacing="10" Margin="5" >
@@ -82,7 +82,7 @@
                     <FontImageSource
                         FontFamily="{x:Static fonts:FontelloIcons.Font}"
                         Glyph="{x:Static fonts:FontelloIcons.Photo}"
-                        Color="{DynamicResource primaryTextColor}" Size="20" />
+                        Color="White" Size="20" />
                 </views:TabViewItem.Icon>
                 <StackLayout Background="{DynamicResource Background}">
                     <Grid Margin="5" ColumnDefinitions="*,Auto,Auto">

@@ -1,10 +1,9 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using Kit.Droid.Services;
-using SOE.Droid.Notifications;
+using Android.Support.V4.Content;
+using AndroidX.Core.App;
 using SOE.Droid.Notifications.Alarms;
-using SOE.Notifications;
 using Xamarin.Forms.Internals;
 
 namespace SOE.Droid.Notifications
@@ -14,16 +13,62 @@ namespace SOE.Droid.Notifications
     [Preserve]
     public class NotificationService : Service
     {
+        private static AlarmBinder alarmBinder = new();
+
         public override ComponentName? StartForegroundService(Intent? service)
         {
             return base.StartForegroundService(service);
         }
 
-        public override IBinder? OnBind(Intent? intent) => null;
+        public override IBinder OnBind(Intent intent)
+        {
+            alarmBinder.OnBind(this);
+            return alarmBinder;
+        }
+
+        public void StartCommand()
+        {
+            ForceForeground();
+            ScheduleAll();
+        }
+
+        private void ForceForeground()
+        {
+            Android.App.Notification notification;
+            // API lower than 26 do not need this work around.
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+            {
+                Intent intent = new Intent(this, typeof(NotificationService));
+                // service has already been initialized.
+                // startForeground method should be called within 5 seconds.
+                ContextCompat.StartForegroundService(this, intent);
+                Android.App.Notification.Builder builder = new Android.App.Notification.Builder(this, NotificationChannel.ClassChannelId)
+                        .SetContentTitle("SOE")
+                        .SetContentText("SOE Running")
+                        .SetAutoCancel(true);
+                notification = builder.Build();
+
+            }
+            else
+            {
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                        .SetContentTitle("SOE")
+                        .SetContentText("SOE is Running...")
+                        .SetPriority(NotificationCompat.PriorityDefault)
+                        .SetAutoCancel(true);
+                notification = builder.Build();
+            }
+            // call startForeground just after startForegroundService.
+            StartForeground(Notification.ServiceNotificationId, notification);
+        }
+
+
+
+
         public override StartCommandResult OnStartCommand(Intent? intent, StartCommandFlags flags, int startId)
         {
             base.OnStartCommand(intent, flags, startId);
-            return StartCommandResult.Sticky;
+            return StartCommandResult.NotSticky;
         }
         public override void OnCreate()
         {

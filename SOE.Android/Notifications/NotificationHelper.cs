@@ -13,16 +13,25 @@ namespace SOE.Droid.Notifications
     {
         public static NotificationChannel Native(this IChannel channel)
         {
-            Context context = GetContext();
+            Context context = GetContext(null);
             return NotificationChannel.GetNotificationChannel(context, channel.ChannelId);
         }
-        public static Context GetContext()
+        public static Context GetContext(Context context)
         {
-            return MainActivity.GetAppContext() ?? CrossCurrentActivity.Current.AppContext;
+            Context appContext=null;
+            if (context is not null)
+            {
+                appContext = context.ApplicationContext;
+            }
+            if (appContext is null)
+            {
+                appContext = MainActivity.GetAppContext() ?? CrossCurrentActivity.Current?.AppContext??context;
+             }
+            return appContext;
         }
         public static NotificationChannel GetChannel(this SOE.Notifications.Alarms.Alarm alarm)
         {
-            Context context = GetContext();
+            Context context = GetContext(null);
             NotificationChannel chanel = new NotificationChannel(context, NotificationChannel.ClassChannelId
                 , alarm.Name,
                 alarm.Description);
@@ -35,10 +44,11 @@ namespace SOE.Droid.Notifications
         }
         public static void MidnightService(this SOE.Notifications.Alarms.Alarm alarm)
         {
-            Context context = GetContext();
+            Context context = GetContext(null);
             Bundle extras = new Bundle(1);
             extras.PutInt(nameof(Notification.MidnightCode), Notification.MidnightCode);
-            Alarm.ProgramFor(extras, DateTime.Today.Date.AddDays(1), context, Notification.MidnightCode);
+            DateTime midnight = DateTime.Today.Date.AddDays(1).AddMinutes(10);
+            Alarm.ProgramFor(extras, midnight, context, Notification.MidnightCode);
         }
     }
 }

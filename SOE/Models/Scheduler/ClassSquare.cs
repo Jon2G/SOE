@@ -18,7 +18,7 @@ namespace SOE.Models.Scheduler
         public TimeSpan Begin { get; internal set; }
         public TimeSpan End { get; internal set; }
         public DayOfWeek Day { get; set; }
-        public string DayName => Day.Dia();
+        public string DayName => Day.GetDayName();
         public string FormattedTime => $"{Begin:hh}:{Begin:mm} - {End:hh}:{End:mm}";
         public TimeSpan Duration => End - Begin;
 

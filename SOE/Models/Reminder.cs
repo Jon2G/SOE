@@ -38,7 +38,7 @@ namespace SOE.Models
         [Ignore]
         public string FormattedTime => $"{this.Time:hh}:{this.Time:mm}";
         [Ignore]
-        public string FormattedDate => $"{this.Date.DayOfWeek.Dia()} - {this.Date:dd/MM}";
+        public string FormattedDate => $"{this.Date.DayOfWeek.GetDayName()} - {this.Date:dd/MM}";
         //public Reminder(string Title, DateTime dateTime)
         //{
         //    this.Title = Title;

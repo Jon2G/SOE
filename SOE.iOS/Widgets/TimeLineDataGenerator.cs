@@ -2,6 +2,7 @@
 using SOE.iOS.Widgets.Models;
 using SOE.Models.Scheduler;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace SOE.iOS.Widgets
@@ -11,7 +12,7 @@ namespace SOE.iOS.Widgets
     {
         protected override string FileName => "timelineAppState.json";
 
-        protected override object GenerateData()
+        protected override IEnumerable GenerateData()
         {
            List<Day> week = Day.Week();
             List<DayModel> days = new List<DayModel>();

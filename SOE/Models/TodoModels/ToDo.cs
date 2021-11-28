@@ -34,7 +34,7 @@ namespace SOE.Models.TodoModels
         [Ignore]
         public string FormattedTime => $"{Time:hh}:{Time:mm}";
         [Ignore]
-        public string FormattedDate => $"{Date.DayOfWeek.Dia()} - {Date:dd/MM}";
+        public string FormattedDate => $"{Date.DayOfWeek.GetDayName()} - {Date:dd/MM}";
 
         internal static List<PhotoArchive> GetPhotos(ToDo toDo)
         {

@@ -1,4 +1,0 @@
-Target dependency graph (2 targets)
-NativeWidgetExtension in TestNativeApp, no dependencies
-TestNativeApp in TestNativeApp, depends on:
-NativeWidgetExtension in TestNativeApp (explicit)

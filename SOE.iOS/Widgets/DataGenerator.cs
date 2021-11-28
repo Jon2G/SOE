@@ -2,6 +2,7 @@
 using Foundation;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
@@ -15,7 +16,7 @@ namespace SOE.iOS.Widgets
     {
         protected const string GroupId = "group.com.soe.soe-app";
         protected abstract string FileName { get; }
-        protected abstract object GenerateData();
+        protected abstract IEnumerable GenerateData();
         protected string SerializateData(object data)
         {
             if (data is null)
@@ -41,7 +42,7 @@ namespace SOE.iOS.Widgets
             if (File.Exists(url.Path))
             {
                 Console.WriteLine("File already exists");
-                Console.WriteLine(File.ReadAllText(url.Path));
+                //Console.WriteLine(File.ReadAllText(url.Path));
             }
             else
             {
@@ -60,12 +61,9 @@ namespace SOE.iOS.Widgets
             WidgetCenterProxy proxy = new WidgetCenterProxy();
             proxy.ReloadAllTimeLines();
             proxy.GetCurrentConfigurationsWithCompletion((widgets) => {
-
                 foreach (WidgetInfoProxy widget in widgets)
-                {
-                    
+               {
                     Console.WriteLine(widget.Kind + " " + widget.Family);
-
                 }
                 Console.WriteLine("After widgets " + widgets.Count);
             });

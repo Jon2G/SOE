@@ -1,7 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using Foundation;
+using Newtonsoft.Json;
+using SOEWeb.Shared;
 using System;
 namespace SOE.iOS.Widgets.Models
 {
+    [Preserve]
     public class ClassSquare
     {
         [JsonProperty("id")]
@@ -19,6 +22,15 @@ namespace SOE.iOS.Widgets.Models
 
         public ClassSquare()
         {
+        }
+        public ClassSquare(Subject subject,int index,string formattedTime)
+        {
+            Id = subject.Id;
+            Index = index;
+            SubjectName = subject.Name;
+            FormattedTime = formattedTime;
+            Group = subject.Group;
+            Color = subject.Color;
         }
     }
 }

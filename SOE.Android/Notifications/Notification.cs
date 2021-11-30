@@ -139,6 +139,7 @@ namespace SOE.Droid.Notifications
             bundle.PutString(ColorKey, this.Color.ToHex());
             bundle.PutString(DateKey, this.Date.ToString(DateFormat, CultureInfo.InvariantCulture));
             bundle.PutString(NotificationChanelIdKey, channel.ChannelId);
+            bundle.PutBoolean(nameof(InProgress), InProgress);
             return bundle;
         }
         public static Notification FromExtras(Bundle extras, Context context)
@@ -150,7 +151,10 @@ namespace SOE.Droid.Notifications
                 extras.GetString(ColorKey),
                 extras.GetString(DateKey, DateTime.MinValue.ToString(DateFormat)),
                 context,
-                SOE.Droid.Notifications.NotificationChannel.GetNotificationChannel(context, extras.GetString(NotificationChanelIdKey)));
+                SOE.Droid.Notifications.NotificationChannel.GetNotificationChannel(context, extras.GetString(NotificationChanelIdKey)))
+            {
+                InProgress = extras.GetBoolean(nameof(InProgress))
+            };
         }
 
         /* when your phone is locked screen wakeup method*/

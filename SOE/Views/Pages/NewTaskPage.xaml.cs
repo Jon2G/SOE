@@ -40,7 +40,7 @@ namespace SOE.Views.Pages
 
         private void ToolbarItem_Clicked(object sender, EventArgs e)
         {
-            var Task = this.Modelo.Tarea;
+            ToDo Task = this.Modelo.Tarea;
             //this.Modelo.Tareas.Add(Task);
             this.Modelo.Tarea = new ToDo();
 

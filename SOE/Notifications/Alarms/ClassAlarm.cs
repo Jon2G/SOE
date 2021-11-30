@@ -72,6 +72,7 @@ namespace SOE.Notifications.Alarms
 #endif
                     if (InProgress)
                     {
+                        notification.InProgress = true;
                         notification.Notify();
                     }
                     else

@@ -45,7 +45,7 @@ namespace SOE.Droid.Notifications
                 ContextCompat.StartForegroundService(this, intent);
                 NotificationChannel channel = new(this.ApplicationContext, NotificationChannel.BackgroundServiceId,
                     "Servicio de notificaciones", "Servicio para la programaición de notificaciones recurrentes");
-                if (channel.HasBeenRegistered())
+                if (!channel.HasBeenRegistered())
                 {
                     channel.RegisterSilently();
                 }

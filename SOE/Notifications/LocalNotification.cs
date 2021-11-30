@@ -14,6 +14,7 @@ namespace SOE.Notifications
         public DateTime Date { get; set; }
         public IChannel Channel { get;  set; }
         public string Type { get; set; }
+        public bool InProgress { get; set; }
         public LocalNotification()
         {
 

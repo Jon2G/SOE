@@ -14,7 +14,7 @@ using Exception = Java.Lang.Exception;
 namespace SOE.Droid.Notifications
 {
     [BroadcastReceiver(Exported = true, Enabled = true)]
-   [IntentFilter(new[] { LocalNotification.START_ALARM })]
+    [IntentFilter(new[] { LocalNotification.START_ALARM })]
     [Preserve]
     public class Alarm : BroadcastReceiver
     {
@@ -34,6 +34,11 @@ namespace SOE.Droid.Notifications
 
             try
             {
+                if (intent.HasExtra(nameof(Notification.InProgress)) &&
+                    intent.GetBooleanExtra(nameof(Notification.InProgress), false))
+                {
+                    return;
+                }
                 Intent service = new Intent(context, typeof(NotificationService));
                 Context appContext = NotificationHelper.GetContext(context) ?? context;
                 appContext.StartService(intent);

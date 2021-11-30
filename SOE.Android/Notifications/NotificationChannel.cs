@@ -14,6 +14,7 @@ namespace SOE.Droid.Notifications
     {
         public const string ToDoChannelId = "todo_channel_id_school_organizer";
         public const string ClassChannelId = "class_channel_id_school_organizer";
+        public const string BackgroundServiceId = "class_channel_id_soe_background_service";
         public string ChannelId { get; }
         public readonly string Name;
         public readonly string Description;
@@ -28,6 +29,24 @@ namespace SOE.Droid.Notifications
             this.NotificationManager = GetNotificationManager(this.Context);
         }
 
+        public void RegisterSilently()
+        {
+            // Create the NotificationChannel, but only on API 26+ because
+            // the NotificationChannel class is new and not in the support library
+            //if (Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
+            //{
+            Android.App.NotificationChannel channel =
+                new Android.App.NotificationChannel(this.ChannelId, this.Name, NotificationImportance.None)
+                {
+                    Description = Description,
+                    LockscreenVisibility = NotificationVisibility.Secret
+                };
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            this.NotificationManager.CreateNotificationChannel(channel);
+            this.IsRegistered = true;
+            //}
+        }
         public void Register()
         {
             this.Register(this.Context);

@@ -18,6 +18,6 @@
         <viewItems:FlyOutView/>
     </Shell.FlyoutContent>
     <ShellContent>
-        <pages:MasterPage/>
+        <pages:MasterPage x:Name="MasterPage"/>
     </ShellContent>
 </Shell>

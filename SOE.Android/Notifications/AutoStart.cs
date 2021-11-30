@@ -2,6 +2,7 @@
 using Android;
 using Android.App;
 using Android.Content;
+using Android.OS;
 using Xamarin.Forms.Internals;
 
 [assembly: UsesPermission(Name = Manifest.Permission.ReceiveBootCompleted)]
@@ -16,21 +17,17 @@ namespace SOE.Droid.Notifications
     [Preserve]
     public class AutoStart : BroadcastReceiver
     {
-        public AutoStart()
-        {
-        }
         public override void OnReceive(Context context, Intent intent)
         {
-            //if (intent.Action == Intent.ActionBootCompleted)
-
-            //chanel.Notify("AutoStart.OnReceive", intent?.Action ?? "No action", 4);
             if (context != null)
             {
-                //chanel.Notify("AutoStart.OnReceive", "Service fired", 5);
                 try
                 {
-                    Intent myIntent = new Intent(context, Java.Lang.Class.FromType(typeof(NotificationService)));
-                    context.StartForegroundService(myIntent);
+                    Intent service = new Intent(context, typeof(NotificationService));
+                    Context appContext = NotificationHelper.GetContext(context) ?? context;
+                    appContext.StartService(intent);
+                    IBinder binder = PeekService(appContext, service);
+                    appContext.BindService(service, new ServiceConnection(appContext), Bind.AutoCreate);
                 }
                 catch (Exception ex)
                 {

@@ -30,6 +30,7 @@ namespace SOE.Droid.Notifications
         {
             ForceForeground();
             ScheduleAll();
+            StopSelf();
         }
 
         private void ForceForeground()
@@ -42,7 +43,13 @@ namespace SOE.Droid.Notifications
                 // service has already been initialized.
                 // startForeground method should be called within 5 seconds.
                 ContextCompat.StartForegroundService(this, intent);
-                Android.App.Notification.Builder builder = new Android.App.Notification.Builder(this, NotificationChannel.ClassChannelId)
+                NotificationChannel channel = new(this.ApplicationContext, NotificationChannel.BackgroundServiceId,
+                    "Servicio de notificaciones", "Servicio para la programaición de notificaciones recurrentes");
+                if (channel.HasBeenRegistered())
+                {
+                    channel.RegisterSilently();
+                }
+                Android.App.Notification.Builder builder = new Android.App.Notification.Builder(this, channel.ChannelId)
                         .SetContentTitle("SOE")
                         .SetContentText("SOE Running")
                         .SetAutoCancel(true);
@@ -51,7 +58,9 @@ namespace SOE.Droid.Notifications
             }
             else
             {
+#pragma warning disable CS0618 // Type or member is obsolete
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+#pragma warning restore CS0618 // Type or member is obsolete
                         .SetContentTitle("SOE")
                         .SetContentText("SOE is Running...")
                         .SetPriority(NotificationCompat.PriorityDefault)
@@ -72,8 +81,8 @@ namespace SOE.Droid.Notifications
         }
         public override void OnCreate()
         {
-            this.ScheduleAll();
             base.OnCreate();
+            this.StartCommand();
         }
 
         public void ScheduleAll()

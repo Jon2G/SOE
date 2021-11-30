@@ -26,7 +26,7 @@ using Log = Kit.Log;
 namespace SOE.Views.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MasterPage:BasePage
+    public partial class MasterPage
     {
         public static MasterPage Instance { get; private set; }
         public MasterPage()
@@ -94,7 +94,6 @@ namespace SOE.Views.Pages
                 }
             }
             catch (Exception ex) { Log.Logger.Error(ex, "CenterCarrousel"); this.DisplayAlert("Error", ex.ToString(), "Ok").SafeFireAndForget(); }
-
         }
    
         public static void ResponseTo(IActionResponse PendingAction) =>

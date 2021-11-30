@@ -9,6 +9,7 @@ using SOE.Views.PopUps;
 using Xamarin.Forms;
 using Command = Xamarin.Forms.Command;
 using Kit;
+using Microsoft.AppCenter.Crashes;
 
 namespace SOE.ViewModels.ViewItems
 {
@@ -105,7 +106,7 @@ namespace SOE.ViewModels.ViewItems
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, "Ask for captach SignIn");
+                Crashes.GenerateTestCrash(); Log.Logger.Error(ex, "Ask for captach SignIn");
             }
             finally
             {

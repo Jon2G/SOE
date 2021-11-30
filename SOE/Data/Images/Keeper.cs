@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Kit.Sql.Attributes;
 using Kit.Sql.Interfaces;
+using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Log = Kit.Log;
@@ -95,7 +96,7 @@ namespace SOE.Data.Images
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, "Keeper.Save");
+                Crashes.GenerateTestCrash(); Log.Logger.Error(ex, "Keeper.Save");
             }
             return TargetFile;
         }

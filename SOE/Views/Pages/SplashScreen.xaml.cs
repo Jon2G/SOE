@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using Kit;
+using Microsoft.AppCenter.Crashes;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 using SOE.Data;
@@ -118,7 +119,7 @@ namespace SOE.Views.Pages
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, "Al establecer el progreso en SpashScreen");
+                Crashes.GenerateTestCrash(); Log.Logger.Error(ex, "Al establecer el progreso en SpashScreen");
             }
         }
         private async void TapGestureRecognizer_OnTapped(object sender, EventArgs e)

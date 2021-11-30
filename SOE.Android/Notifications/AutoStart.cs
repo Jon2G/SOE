@@ -3,6 +3,7 @@ using Android;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms.Internals;
 
 [assembly: UsesPermission(Name = Manifest.Permission.ReceiveBootCompleted)]
@@ -33,6 +34,7 @@ namespace SOE.Droid.Notifications
                 {
                     NotificationChannel chanel = NotificationChannel.GetNotificationChannel(context, NotificationChannel.ClassChannelId);
                     chanel?.Notify("Exception", ex?.Message??"No message");
+                    Crashes.GenerateTestCrash(); 
                 }
 
             }

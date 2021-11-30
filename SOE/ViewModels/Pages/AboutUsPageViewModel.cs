@@ -1,6 +1,7 @@
 ﻿using AsyncAwaitBestPractices;
 using Kit;
 using Kit.Model;
+using Microsoft.AppCenter.Crashes;
 using SOE.Data;
 using SOE.Views.Pages;
 using SOEWeb.Shared;
@@ -53,7 +54,8 @@ namespace SOE.ViewModels.Pages
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, nameof(GMail));
+                
+                Crashes.GenerateTestCrash(); Log.Logger.Error(ex, nameof(GMail));
             }
 
         }

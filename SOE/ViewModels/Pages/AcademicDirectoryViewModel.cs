@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using SOEWeb.Shared;
 using AsyncAwaitBestPractices;
 using Kit.Services.Web;
+using Microsoft.AppCenter.Crashes;
 using SOE.API;
 using SOE.Services;
 using SOEWeb.Shared.Interfaces;
@@ -141,7 +142,7 @@ namespace SOE.ViewModels.Pages
             }
             catch(Exception ex)
             {
-                Log.Logger.Error(ex, "ContactCall");
+                Crashes.GenerateTestCrash(); Log.Logger.Error(ex, "ContactCall");
                 Acr.UserDialogs.UserDialogs.Instance.Alert("Oops..", "Esta característica no es soportada por su dispositivo.\nSe ha copiado el número en el portapapeles.", "Ok");
                 Clipboard.SetTextAsync(contact.Phone).SafeFireAndForget();
 
@@ -176,7 +177,7 @@ namespace SOE.ViewModels.Pages
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, nameof(ContactMessage));
+                Crashes.GenerateTestCrash(); Log.Logger.Error(ex, nameof(ContactMessage));
             }
         }
 

@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using SOE.Views.Pages;
 using AsyncAwaitBestPractices;
+using Microsoft.AppCenter.Crashes;
 using SOEWeb.Shared.Secrets;
 using System.Text;
 using System.Net.Mail;
@@ -106,7 +107,7 @@ namespace SOE.ViewModels.PopUps
 
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, nameof(SendReport));
+                Crashes.GenerateTestCrash(); Log.Logger.Error(ex, nameof(SendReport));
             }
         }
     }

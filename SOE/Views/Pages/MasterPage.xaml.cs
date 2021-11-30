@@ -6,6 +6,7 @@ using Kit;
 using Kit.Enums;
 using Kit.Forms.Pages;
 using Kit.Forms.Services.Interfaces;
+using Microsoft.AppCenter.Crashes;
 using SOE.API;
 using SOE.Data;
 using SOE.FireBase;
@@ -64,7 +65,7 @@ namespace SOE.Views.Pages
                 {
                     void CenterCarrousel()
                     {
-                        try { this.Model.SelectedIndex = 1; } catch (Exception ex) { Log.Logger.Error(ex, "CenterCarrousel"); }
+                        try { this.Model.SelectedIndex = 1; } catch (Exception ex) { Crashes.GenerateTestCrash(); Log.Logger.Error(ex, "CenterCarrousel"); }
 
                     }
                     Dispatcher.BeginInvokeOnMainThread(CenterCarrousel);
@@ -93,7 +94,7 @@ namespace SOE.Views.Pages
                     }
                 }
             }
-            catch (Exception ex) { Log.Logger.Error(ex, "CenterCarrousel"); this.DisplayAlert("Error", ex.ToString(), "Ok").SafeFireAndForget(); }
+            catch (Exception ex) { Crashes.GenerateTestCrash(); Log.Logger.Error(ex, "CenterCarrousel"); this.DisplayAlert("Error", ex.ToString(), "Ok").SafeFireAndForget(); }
         }
    
         public static void ResponseTo(IActionResponse PendingAction) =>
@@ -110,7 +111,7 @@ namespace SOE.Views.Pages
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, "Execute");
+                Crashes.GenerateTestCrash(); Log.Logger.Error(ex, "Execute");
                 App.Current.MainPage.DisplayAlert("Error", ex.ToString(), "Ok").SafeFireAndForget();
             }
         }

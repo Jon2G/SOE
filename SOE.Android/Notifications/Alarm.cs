@@ -6,6 +6,7 @@ using Android.Content;
 using Android.OS;
 using Android.Widget;
 using Kit.Droid;
+using Microsoft.AppCenter.Crashes;
 using SOE.Notifications;
 using Xamarin.Forms.Internals;
 using Exception = Java.Lang.Exception;
@@ -48,6 +49,7 @@ namespace SOE.Droid.Notifications
             }
             catch (Exception ex)
             {
+                Crashes.GenerateTestCrash();
                 NotificationChannel chanel = NotificationChannel.GetNotificationChannel(context, NotificationChannel.ClassChannelId);
                 chanel?.Notify("OnReceive", $"{intent?.Action}");
             }

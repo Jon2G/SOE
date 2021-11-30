@@ -11,6 +11,7 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Log = Kit.Log;
 using Kit;
+using Microsoft.AppCenter.Crashes;
 
 namespace SOE.Data.Images
 {
@@ -121,7 +122,7 @@ namespace SOE.Data.Images
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, "Al eliminar un archivo de keeper");
+                Crashes.GenerateTestCrash(); Log.Logger.Error(ex, "Al eliminar un archivo de keeper");
                 Acr.UserDialogs.UserDialogs.Instance.Alert("No se pudo eliminar este archivo", "Alerta");
             }
         }

@@ -23,6 +23,7 @@ using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
 using WebView = Xamarin.Forms.WebView;
 using Kit.Forms.Controls.WebView;
 using Kit.Services.Web;
+using Microsoft.AppCenter.Crashes;
 using SOE.Data.Images;
 using SOE.Models;
 using SOE.Models.TodoModels;
@@ -237,7 +238,7 @@ namespace SOE.Saes
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, "EvaluateJavaScript - {0}", script);
+                Crashes.GenerateTestCrash(); Log.Logger.Error(ex, "EvaluateJavaScript - {0}", script);
                 return String.Empty;
             }
 
@@ -252,7 +253,7 @@ namespace SOE.Saes
                     !string.IsNullOrEmpty(await EvaluateJavaScript(
                         "var label= document.getElementById('ctl00_leftColumn_LoginNameSession'); if(label) label.innerHTML; else ''"));
             }
-            catch (Exception ex) { Log.Logger.Error(ex, "IsLoggedIn"); return false; }
+            catch (Exception ex) { Crashes.GenerateTestCrash(); Log.Logger.Error(ex, "IsLoggedIn"); return false; }
         }
         public async Task<string> GetCurrentUser()
         {

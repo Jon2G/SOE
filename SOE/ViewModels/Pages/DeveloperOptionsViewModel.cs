@@ -8,6 +8,7 @@ using AsyncAwaitBestPractices.MVVM;
 using Kit;
 using Kit.Forms.Extensions;
 using Kit.Model;
+using Microsoft.AppCenter.Crashes;
 using SOE.API;
 using SOE.Data;
 using SOE.Views.Pages;
@@ -88,7 +89,7 @@ namespace SOE.ViewModels.Pages
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, "Al abrir el archivo");
+                Crashes.GenerateTestCrash(); Log.Logger.Error(ex, "Al abrir el archivo");
                 await UserDialogs.Instance.AlertAsync($"No se pudo abrir el archivo\n{ex?.Message}", "Mensaje informativo");
                 return false;
             }

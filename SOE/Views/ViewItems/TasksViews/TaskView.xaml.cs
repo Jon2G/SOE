@@ -1,5 +1,4 @@
 ﻿using SOE.Models.TodoModels;
-using SOE.Models.TodoModels;
 using Xamarin.Forms.Xaml;
 
 namespace SOE.Views.ViewItems.TasksViews

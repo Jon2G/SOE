@@ -2,7 +2,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
-[assembly: ExportFont(FontelloIcons.ResourceFileName, Alias = FontelloIcons.Font,EmbeddedFontResourceId = "SOE.Fonts.Fontello.font.fontello30.ttf")]
+[assembly: ExportFont(FontelloIcons.ResourceFileName, Alias = FontelloIcons.Font)]
 namespace SOE.Fonts
 {
     [Preserve()]

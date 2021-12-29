@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Collections;
-using SOE.Models.TodoModels;
+
 
 namespace SOE.ViewModels.ViewItems
 {

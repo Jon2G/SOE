@@ -126,7 +126,7 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2244" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2291" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
@@ -137,8 +137,6 @@
       <Project>{AD3B6668-7863-44CA-BBED-00353A15583A}</Project>
       <Name>SoeWidget</Name>
     </ProjectReference>
-
-    
     <ProjectReference Include="..\..\..\SOE\SOE.csproj">
       <Project>{20CCEA58-74B4-41B0-9E9E-22B7B328C798}</Project>
       <Name>SOE</Name>
@@ -149,20 +147,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-      <ProjectReference Include="..\..\..\..\WidgetCenterProxy\WidgetCenterProxyBinder\WidgetCenterProxyBinder\WidgetCenterProxyBinder.csproj">
+    <ProjectReference Include="..\..\..\..\WidgetCenterProxy\WidgetCenterProxyBinder\WidgetCenterProxyBinder\WidgetCenterProxyBinder.csproj">
       <Project>{8F198950-2819-4114-9317-886D141E25B9}</Project>
       <Name>WidgetCenterProxyBinder</Name>
     </ProjectReference>
-<AdditionalAppExtensions Include="/Users/jon2g/Desktop/Source/Repos/SOE/SOE.iOS/SwiftExtension/TimeLineWidget">
-		<Name>NativeWidgetExtension</Name>
-        <BuildOutput Condition="'$(Platform)' == 'iPhone'">DerivedData/TestNativeApp/Build/Products/Debug-iphoneos</BuildOutput>
-        <BuildOutput Condition="'$(Platform)' == 'iPhoneSimulator'">DerivedData/TestNativeApp/Build/Products/Debug-iphonesimulator</BuildOutput>
-	</AdditionalAppExtensions>
-<AdditionalAppExtensions Include="/Users/jon2g/Desktop/Source/Repos/SOE/SOE.iOS/SwiftExtension/TodoWidget">
-		<Name>NativeWidgetExtension</Name>
-        <BuildOutput Condition="'$(Platform)' == 'iPhone'">DerivedData/TestNativeApp/Build/Products/Debug-iphoneos</BuildOutput>
-        <BuildOutput Condition="'$(Platform)' == 'iPhoneSimulator'">DerivedData/TestNativeApp/Build/Products/Debug-iphonesimulator</BuildOutput>
-	</AdditionalAppExtensions>
+    <AdditionalAppExtensions Include="/Users/jon2g/Desktop/Source/Repos/SOE/SOE.iOS/SwiftExtension/TimeLineWidget">
+      <Name>NativeWidgetExtension</Name>
+      <BuildOutput Condition="'$(Platform)' == 'iPhone'">DerivedData/TestNativeApp/Build/Products/Debug-iphoneos</BuildOutput>
+      <BuildOutput Condition="'$(Platform)' == 'iPhoneSimulator'">DerivedData/TestNativeApp/Build/Products/Debug-iphonesimulator</BuildOutput>
+    </AdditionalAppExtensions>
+    <AdditionalAppExtensions Include="/Users/jon2g/Desktop/Source/Repos/SOE/SOE.iOS/SwiftExtension/TodoWidget">
+      <Name>NativeWidgetExtension</Name>
+      <BuildOutput Condition="'$(Platform)' == 'iPhone'">DerivedData/TestNativeApp/Build/Products/Debug-iphoneos</BuildOutput>
+      <BuildOutput Condition="'$(Platform)' == 'iPhoneSimulator'">DerivedData/TestNativeApp/Build/Products/Debug-iphonesimulator</BuildOutput>
+    </AdditionalAppExtensions>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

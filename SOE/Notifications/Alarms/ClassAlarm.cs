@@ -62,6 +62,11 @@ namespace SOE.Notifications.Alarms
                         desiredDate = day.Date.AddDays(7).Add(cl.Begin).AddMinutes(-10);
                     }
 
+                    if (desiredDate < now)
+                    {
+                        continue;
+                    }
+
                     LocalNotification notification =
                     TinyIoC.TinyIoCContainer.Current.Resolve<LocalNotification>()
                         .Set(cl.Subject.Name,
@@ -72,7 +77,6 @@ namespace SOE.Notifications.Alarms
 #endif
                     if (InProgress)
                     {
-                        notification.InProgress = true;
                         notification.Notify();
                     }
                     else

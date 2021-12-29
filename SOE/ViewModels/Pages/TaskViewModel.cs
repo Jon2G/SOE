@@ -4,7 +4,6 @@ using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
 using SOE.Data;
 using SOE.Models.TodoModels;
-using SOE.Models.TodoModels;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
 using SOE.Views.ViewItems;

@@ -29,8 +29,6 @@ using SOE.Models;
 using SOE.Models.TodoModels;
 using SOEWeb.Shared.Interfaces;
 using SOEWeb.Shared.Processors;
-using Xamarin.CommunityToolkit.Extensions;
-using SOE.Models.TodoModels;
 using SOE.Notifications;
 
 namespace SOE.Saes

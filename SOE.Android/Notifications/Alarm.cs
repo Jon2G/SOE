@@ -32,19 +32,16 @@ namespace SOE.Droid.Notifications
                     notification.Notify();
                 intent.Extras.Clear();
             }
-
             try
             {
-                if (intent.HasExtra(nameof(Notification.InProgress)) &&
-                    intent.GetBooleanExtra(nameof(Notification.InProgress), false))
+                if (!context.IsServiceRunning(typeof(NotificationService)))
                 {
-                    return;
+                    Intent service = new Intent(context, typeof(NotificationService));
+                    Context appContext = NotificationHelper.GetContext(context) ?? context;
+                    appContext.StartService(intent);
+                    IBinder binder = PeekService(appContext, service);
+                    appContext.BindService(service, new ServiceConnection(appContext), Bind.AutoCreate);
                 }
-                Intent service = new Intent(context, typeof(NotificationService));
-                Context appContext = NotificationHelper.GetContext(context) ?? context;
-                appContext.StartService(intent);
-                IBinder binder = PeekService(appContext, service);
-                appContext.BindService(service, new ServiceConnection(appContext), Bind.AutoCreate);
 
             }
             catch (Exception ex)

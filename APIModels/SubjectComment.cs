@@ -1,4 +1,4 @@
-﻿using Kit.Razor.Data;
+﻿using Kit.Model;
 using Kit.Sql.Attributes;
 using System;
 using System.Collections.Generic;

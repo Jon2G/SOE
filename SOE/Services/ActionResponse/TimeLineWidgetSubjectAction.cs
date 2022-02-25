@@ -1,6 +1,7 @@
 ﻿using AsyncAwaitBestPractices;
 using Kit;
 using SOE.FireBase;
+using SOE.Models;
 using SOE.Models.TodoModels;
 using SOE.Views.Pages;
 using System;
@@ -12,10 +13,10 @@ namespace SOE.Services.ActionResponse
     public class TimeLineWidgetSubjectAction : IActionResponse
     {
         public readonly DateTime Date;
-        public readonly int SubjectId;
+        public readonly string SubjectId;
         public readonly DayOfWeek Day;
 
-        public TimeLineWidgetSubjectAction(DateTime Date, int SubjectId, DayOfWeek Day)
+        public TimeLineWidgetSubjectAction(DateTime Date, string SubjectId, DayOfWeek Day)
         {
             this.Date = Date;
             this.SubjectId = SubjectId;
@@ -28,7 +29,7 @@ namespace SOE.Services.ActionResponse
             ToDo Tarea = new ToDo
             {
                 Date = Day.GetNearest(),
-                Subject = SubjectService.Get(SubjectId),
+                Subject = await Subject.Get(SubjectId),
                 Time = Date.TimeOfDay
             };
             await Task.Run(() => { while (Shell.Current is null) { } });

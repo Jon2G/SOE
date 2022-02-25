@@ -2,6 +2,7 @@
 using Rg.Plugins.Popup.Animations;
 using Rg.Plugins.Popup.Enums;
 using Rg.Plugins.Popup.Services;
+using SOE.Models;
 using SOE.ViewModels.PopUps;
 using SOEWeb.Shared;
 using System;

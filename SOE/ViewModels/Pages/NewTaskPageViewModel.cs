@@ -1,24 +1,23 @@
 ﻿using AsyncAwaitBestPractices;
-using System;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using System.Windows.Input;
-
+using AsyncAwaitBestPractices.MVVM;
 using Kit;
 using Kit.Forms.Extensions;
 using Kit.Forms.Services;
 using Kit.Model;
-using SOE.Data;
-using SOE.Data.Images;
+using SOE.Data.Archives;
 using SOE.Enums;
-using SOE.Interfaces;
-using SOE.Views.PopUps;
-using SOE.Widgets;
-using System.IO;
-using Xamarin.Essentials;
-using Xamarin.Forms;
+using SOE.Models;
 using SOE.Models.TodoModels;
 using SOE.Notifications;
+using SOE.Views.PopUps;
+using SOE.Widgets;
+using System;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace SOE.ViewModels.Pages
 {
@@ -67,18 +66,19 @@ namespace SOE.ViewModels.Pages
             SaveCommand = new Command(Save);
             CameraImageCommand = new Command(UsarCamara);
             GaleryImageCommand = new Command(Galeria);
-            OnDateChangedCommand = new Command(OnDateChanged);
+            OnDateChangedCommand = new AsyncCommand(OnDateChanged);
             DeleteImageCommand = new Command<PhotoArchive>(DeleteImage);
             this.Photos = new ObservableCollection<PhotoArchive>();
         }
 
-        private void OnDateChanged()
+        private async Task OnDateChanged()
         {
+            await Task.Yield();
             if (this.Tarea is not null && this.Tarea.Subject != null && this.Tarea.Date != null)
             {
-                this.Tarea.Time =
-                    TimeSpan.FromTicks(AppData.Instance.LiteConnection.Single<long>
-                        ($"SELECT BEGIN FROM ClassTime WHERE IdSubject={this.Tarea.Subject.Id} AND DAY={(int)this.Tarea.Date.DayOfWeek}"));
+                ClassTime classTime = await this.Tarea.Subject.GetClassTime(this.Tarea.Date.DayOfWeek);
+                if (classTime is not null)
+                    this.Tarea.Time = classTime.Begin;
             }
         }
 
@@ -98,16 +98,16 @@ namespace SOE.ViewModels.Pages
                     Save(obj);
                 return;
             }
-            if (Tarea.Title == null)
+            if (string.IsNullOrEmpty(Tarea.Title))
             {
                 Acr.UserDialogs.UserDialogs.Instance.Alert("La tarea debe contener titulo para poder ser guardada");
-                if (Tarea.Title is not null)
+                if (string.IsNullOrEmpty(Tarea.Title))
                     Save(obj);
                 return;
             }
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Guardando tarea..."))
             {
-                await ToDo.Save(this.Tarea, Photos);
+                await this.Tarea.Save(Photos);
                 ToDosWidget.UpdateWidget();
                 DependencyService.Get<ILocalNotificationService>()?.ReSheduleTask(this.Tarea);
 

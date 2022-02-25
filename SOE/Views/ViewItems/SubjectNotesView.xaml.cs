@@ -3,12 +3,13 @@ using System.Threading.Tasks;
 using SOEWeb.Shared;
 using SOE.Data;
 using SOE.Fonts;
+using SOE.Models;
+using SOE.Secrets;
 using SOE.ViewModels.ViewItems;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using SOEWeb.Shared.Secrets;
 
 namespace SOE.Views.ViewItems
 {
@@ -65,7 +66,7 @@ namespace SOE.Views.ViewItems
             this.SoeWebView.FailureCommand = new Kit.Extensions.Command<WebNavigationResult>((e) => IsOffline = true);
             if(Kit.Tools.Instance.RuntimePlatform != Kit.Enums.RuntimePlatform.iOS)
                 await SoeWebView.GoTo(DotNetEnviroment.BaseUrl);
-            await SoeWebView.GoToSubjectNotesPage(Model.Subject, AppData.Instance.User);
+            //await SoeWebView.GoToSubjectNotesPage(Model.Subject, AppData.Instance.User);
             IsLoading = false;
         }
 

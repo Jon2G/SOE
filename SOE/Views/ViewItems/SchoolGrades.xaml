@@ -91,7 +91,7 @@
                         </StackLayout>
                     </ScrollView>
                     <Label Margin="5" FontSize="20" HorizontalOptions="EndAndExpand" 
-                           FontAttributes="Bold" VerticalOptions="Start">
+                           FontAttributes="Bold" VerticalOptions="Start" IsVisible="{Binding SemesterAvg,Converter={StaticResource IsGreaterThanConverter},ConverterParameter=0}">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Promedio semestre: "/>

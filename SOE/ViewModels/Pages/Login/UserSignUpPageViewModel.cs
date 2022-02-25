@@ -1,27 +1,20 @@
-﻿using System.Windows.Input;
-using SOEWeb.Shared;
-using SOEWeb.Shared.Enums;
-using AsyncAwaitBestPractices;
+﻿using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
-using Kit.Model;
-using SOE.API;
-using SOE.Data;
-using SOE.Models.Data;
-using SOE.Views.Pages.Login;
-using System;
-using System.Threading.Tasks;
-using Xamarin.Forms;
-using Device = Kit.Daemon.Devices.Device;
+using Google.Cloud.Firestore;
 using Kit.Forms.Model;
-using System.ComponentModel.DataAnnotations;
-using Kit.Forms.ComponentDataAnnotations;
-using Kit.Services.Web;
+using Kit.Sql.Attributes;
 using NameGenerator;
 using NameGenerator.Generators;
+using SOE.Data;
+using SOE.Models.Data;
+using SOE.Validations;
 using SOE.Views.Pages;
-using SOEWeb.Shared.Interfaces;
-using System.Security.Cryptography;
-using Kit.Sql.Attributes;
+using SOE.Views.Pages.Login;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
+using Device = Kit.Daemon.Devices.Device;
 using MaxLengthAttribute = System.ComponentModel.DataAnnotations.MaxLengthAttribute;
 
 namespace SOE.ViewModels.Pages.Login
@@ -70,7 +63,7 @@ namespace SOE.ViewModels.Pages.Login
             }
         }
         private string _Boleta;
-        [Validations.Boleta(ErrorMessage = "Boleta no valida.")]
+        [BoletaValidation(ErrorMessage = "Boleta no valida.")]
         public string Boleta
         {
             get => _Boleta;
@@ -159,11 +152,9 @@ namespace SOE.ViewModels.Pages.Login
         private bool SignInCanExecute(object obj)
         {
             return !string.IsNullOrEmpty(Boleta)
-                   && SOEWeb.Shared.Validations.IsValidBoleta(Boleta)
+                   && Models.Data.Validations.IsValidBoleta(Boleta)
                    && !string.IsNullOrEmpty(Password);
         }
-
-
         public async void RefreshCaptcha()
         {
             this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
@@ -187,13 +178,34 @@ namespace SOE.ViewModels.Pages.Login
                 Sex = GeneratorBase.SexTypes.All,
                 GeneratorFlags = GeneratorBase.NameTypes.None
             };
-            while(!SOEWeb.Shared.Validations.IsValidNickName(NickName))
-            {
-                NickName = tagGenerator.Generate();
-            }
+
             Acr.UserDialogs.UserDialogs.Instance.ShowLoading("Validando información");
+            User? fireUser = await User.Get();
+            if (fireUser is not null)
+            {
+                AppData.Instance.User = fireUser;
+            }
+            NickName = AppData.Instance.User.NickName;
+            AppData.Instance.User.Email = AppData.Instance.User.Email;
+            Email = AppData.Instance.User.Email;
+            if (!string.IsNullOrEmpty(NickName) && !string.IsNullOrEmpty(Email))
+            {
+                SignUp().SafeFireAndForget();
+                return;
+            }
+            if (string.IsNullOrEmpty(AppData.Instance.User.NickName))
+            {
+                while (!Models.Data.Validations.IsValidNickName(NickName))
+                {
+                    NickName = tagGenerator.Generate();
+                }
+            }
+            if (string.IsNullOrEmpty(AppData.Instance.User.Email))
+            {
+                await AppData.Instance.SAES.GetEmail();
+            }
             await AppData.Instance.SAES.GetName();
-            await AppData.Instance.SAES.GetEmail();
+
             this.Email = AppData.Instance.User.Email;
             Acr.UserDialogs.UserDialogs.Instance.HideLoading();
 
@@ -202,43 +214,55 @@ namespace SOE.ViewModels.Pages.Login
         {
             await Task.Yield();
             AppData.Instance.User.NickName = NickName;
-            Response<int> response = Response<int>.Error;
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Iniciando sesión..."))
             {
-                AppData.Instance.User.Email = this.Email;
-                response = await APIService.SignUp(UserType.REGULAR_USER,
-                    new SOEWeb.Shared.Device()
-                    {
-                        DeviceKey = Device.Current.DeviceId,
-                        Brand = Device.Current.GetDeviceBrand(),
-                        Platform = Device.Current.GetDevicePlatform(),
-                        Model = Device.Current.GetDeviceModel(),
-                        Name = Device.Current.GetDeviceName()
-                    });
-                switch (response.ResponseResult)
+
+                User user = await AppData.Instance.User.Save();
+                var device = new SOE.Models.Device()
                 {
-                    case APIResponseResult.OK:
-                        AppData.Instance.User.Id = Convert.ToInt32(response.Extra);
-                        App.Current.MainPage = new RefreshDataPage(true);
-                        break;
-                    case APIResponseResult.INVALID_REQUEST:
-                        App.Current.MainPage.DisplayAlert("Mensaje informativo", response.Message, "Ok").SafeFireAndForget();
-                        break;
-                    case APIResponseResult.INTERNAL_ERROR:
-                        AppData.Instance.User.Id = OfflineConstants.IdBase;
-                        AppData.Instance.User.IsOffline = true;
-                        App.Current.MainPage = new RefreshDataPage(true, false);
-                        break;
-                    default:
-                        Acr.UserDialogs.UserDialogs.Instance.Alert(response.Message);
-                        return;
-                }
+                    DeviceKey = Device.Current.DeviceId,
+                    Brand = Device.Current.GetDeviceBrand(),
+                    Platform = Device.Current.GetDevicePlatform(),
+                    Model = Device.Current.GetDeviceModel(),
+                    Name = Device.Current.GetDeviceName(),
+                    UserId = user.DocumentId,
+                    LastTimeSeen = Timestamp.GetCurrentTimestamp()
+                };
+                await device.Save();
+                UserLocalData localData = new UserLocalData()
+                {
+                    SchoolId = user.School.DocumentId,
+                    Boleta = Boleta,
+                    Password = Password,
+                    UserKey = user.DocumentId
+                };
+                localData.Save();
+                App.Current.MainPage = new RefreshDataPage(true);
+
+                //switch (response.ResponseResult)
+                //{
+                //    case APIResponseResult.OK:
+                //        AppData.Instance.User.Id = Convert.ToInt32(response.Extra);
+                //        App.Current.MainPage = new RefreshDataPage(true);
+                //        break;
+                //    case APIResponseResult.INVALID_REQUEST:
+                //        App.Current.MainPage.DisplayAlert("Mensaje informativo", response.Message, "Ok").SafeFireAndForget();
+                //        break;
+                //    case APIResponseResult.INTERNAL_ERROR:
+                //        AppData.Instance.User.Id = OfflineConstants.IdBase;
+                //        AppData.Instance.User.IsOffline = true;
+                //        App.Current.MainPage = new RefreshDataPage(true, false);
+                //        break;
+                //    default:
+                //        Acr.UserDialogs.UserDialogs.Instance.Alert(response.Message);
+                //        return;
+                //}
             }
         }
         private bool SignUpCanExecute =>
              !string.IsNullOrEmpty(Email) &&
              !string.IsNullOrEmpty(NickName) &&
-             SOEWeb.Shared.Validations.IsValidNickName(NickName);
+             Models.Data.Validations.IsValidNickName(NickName);
 
 
     }

@@ -14,6 +14,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Kit;
 using Kit.Forms;
+using SOE.Models;
 
 namespace SOE.Views.PopUps
 {

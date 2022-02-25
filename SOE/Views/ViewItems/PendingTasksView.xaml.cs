@@ -18,8 +18,13 @@ namespace SOE.Views.ViewItems
         {
             Instance = this;
             InitializeComponent();
+        }
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
             this.Model.Refresh(OnRefreshComplete);
         }
+
         public Action OnRefreshCompleteAction => this.OnRefreshComplete;
 
         public void OnRefreshComplete()
@@ -28,7 +33,7 @@ namespace SOE.Views.ViewItems
             {
                 Task task = this.Model.DayGroups?.FirstOrDefault()?.ExpandAll(true);
                 if (task is not null)
-                    Task.Delay(500).ContinueWith((t)=>task).SafeFireAndForget();
+                    Task.Delay(500).ContinueWith((t) => task).SafeFireAndForget();
             }
             this.CollectionView?.InvalidateMeasureNonVirtual(InvalidationTrigger.RendererReady);
         }

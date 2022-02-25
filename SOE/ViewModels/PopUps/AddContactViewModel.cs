@@ -153,7 +153,7 @@ namespace SOE.ViewModels.PopUps
                     return false;
                 Url = uri.AbsoluteUri;
             }
-            if (!string.IsNullOrEmpty(Correo) && !SOEWeb.Shared.Validations.IsValidEmail(Correo))
+            if (!string.IsNullOrEmpty(Correo) && !Models.Data.Validations.IsValidEmail(Correo))
             {
                 return false;
             }
@@ -196,7 +196,7 @@ namespace SOE.ViewModels.PopUps
                     return;
                 }
             }
-            if (!string.IsNullOrEmpty(this.Correo) && !SOEWeb.Shared.Validations.IsValidEmail(this.Correo))
+            if (!string.IsNullOrEmpty(this.Correo) && !Models.Data.Validations.IsValidEmail(this.Correo))
             {
                 Shell.Current.CurrentPage.DisplayAlert("El correo es invalido",
                     "La dirección correo es invalida.", "Entiendo").SafeFireAndForget();

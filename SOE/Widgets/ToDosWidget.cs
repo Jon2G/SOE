@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Kit.Forms.Services.Interfaces;
-using SOE.Data;
-using SOE.Enums;
+﻿using Kit.Forms.Services.Interfaces;
 using SOE.Models.TodoModels;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace SOE.Widgets
@@ -20,24 +18,24 @@ namespace SOE.Widgets
             WidgetsTodos = new Dictionary<int, List<ToDo>>();
         }
 
-        public static List<ToDo> Refresh(int WidgetId)
+        public static async Task<List<ToDo>> Refresh(int WidgetId)
         {
+            await Task.Yield();
             if (!WidgetsTodos.ContainsKey(WidgetId))
             {
-                return WidgetsTodos[WidgetId] = GetTasks(WidgetId);
+                return WidgetsTodos[WidgetId] = await GetTasks(WidgetId);
             }
-            return WidgetsTodos[WidgetId] = GetTasks();
+            return WidgetsTodos[WidgetId] = await GetTasks();
         }
 
-        public static List<ToDo> GetTasks() => AppData.Instance.LiteConnection.DeferredQuery<ToDo>
-                ($"SELECT * from {nameof(ToDo)} where STATUS={(int)PendingStatus.Pending} order by Date,Time,SubjectId")
-            .Select(x => x.LoadSubject()).ToList();
+        public static Task<List<ToDo>> GetTasks() => ToDo.Get();
 
-        public static List<ToDo> GetTasks(int WidgetId)
+        public static async Task<List<ToDo>> GetTasks(int WidgetId)
         {
+            await Task.Yield();
             if (!WidgetsTodos.ContainsKey(WidgetId))
             {
-                return WidgetsTodos[WidgetId] = GetTasks();
+                return WidgetsTodos[WidgetId] = await GetTasks();
             }
             return WidgetsTodos[WidgetId];
         }
@@ -49,7 +47,7 @@ namespace SOE.Widgets
         }
         public static ToDo GetItemAt(int appWidgetId, int itemPosition)
         {
-            return GetTasks(appWidgetId)[itemPosition];
+            return GetTasks(appWidgetId).GetAwaiter().GetResult()[itemPosition];
         }
 
         public static string GetColor(ToDo toDo) => GetColor(ToDo.DaysLeft(toDo));

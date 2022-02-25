@@ -75,24 +75,24 @@ namespace SOE.ViewModels.Pages
         {
             this.Subject = Subject;
             this.Views = new ObservableCollection<IconView>();
-            if (Subject.IsOffline)
-            {
-                SyncSubject().SafeFireAndForget();
-                return;
-            }
+            //if (Subject.IsOffline)
+            //{
+            //    SyncSubject().SafeFireAndForget();
+            //    return;
+            //}
             Load().SafeFireAndForget();
         }
 
         private async Task SyncSubject()
         {
             await Task.Yield();
-            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Actualizando información..."))
-            {
-                if (!await Subject.Sync(AppData.Instance, new SyncService()))
-                {
-                    await this.Load(false);
-                }
-            }
+            //using (Acr.UserDialogs.UserDialogs.Instance.Loading("Actualizando información..."))
+            //{
+            //    if (!await Subject.Sync(AppData.Instance, new SyncService()))
+            //    {
+            //        await this.Load(false);
+            //    }
+            //}
             this.Load().SafeFireAndForget();
         }
         private async Task Load(bool Online = true)

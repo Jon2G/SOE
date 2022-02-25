@@ -1,8 +1,10 @@
-﻿using Android.App;
+﻿#nullable enable
+using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Support.V4.Content;
 using AndroidX.Core.App;
+using AsyncAwaitBestPractices;
 using SOE.Droid.Notifications.Alarms;
 using Xamarin.Forms.Internals;
 
@@ -92,7 +94,7 @@ namespace SOE.Droid.Notifications
                 ClassAlarm alarm = new();
                 alarm.ScheduleAll();
                 ToDoAlarm todo = new();
-                todo.ScheduleAll();
+                todo.ScheduleAll().SafeFireAndForget();
             }
             catch (System.Exception ex)
             {

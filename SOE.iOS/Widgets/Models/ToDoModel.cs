@@ -1,13 +1,14 @@
 ﻿using Foundation;
+using Kit.Sql.Interfaces;
 using Newtonsoft.Json;
 using System;
 namespace SOE.iOS.Widgets.Models
 {
-    [Serializable,Preserve]
-    public class ToDoModel
+    [Serializable, Preserve]
+    public class ToDoModel : IGuid
     {
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public Guid Guid { get; set; }
         [JsonProperty("title")]
         public string Title { get; set; }
         [JsonProperty("subject")]

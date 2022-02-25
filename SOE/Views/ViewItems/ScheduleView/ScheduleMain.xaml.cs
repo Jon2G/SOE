@@ -1,18 +1,16 @@
 ﻿using AsyncAwaitBestPractices;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using SOEWeb.Shared;
+using Kit;
 using SOE.Data;
+using SOE.Models;
 using SOE.Models.Scheduler;
+using SOE.Models.TodoModels;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Kit;
-using SOE.Fonts;
-using SOE.Models;
-using System;
-using SOE.Models.TodoModels;
+using Device = Xamarin.Forms.Device;
 
 namespace SOE.Views.ViewItems.ScheduleView
 {
@@ -59,7 +57,8 @@ namespace SOE.Views.ViewItems.ScheduleView
         private async void OpenMenu(ClassSquare classSquare)
         {
             var pr = new MenuHorarioPopUp(classSquare);
-            await pr.ShowDialog();
+            pr.ShowDialog().ContinueWith(t =>
+            {
                 switch (pr.Model.Action)
                 {
                     case "Nueva tarea":
@@ -68,13 +67,14 @@ namespace SOE.Views.ViewItems.ScheduleView
                     case "Recordatorio":
                         Reminder(classSquare);
                         break;
-                 case "Info Materia":
-                     InfoSub(classSquare.Subject);
-                    break;
-                case "Links":
-                    ShowLinks(classSquare);
-                    break;
-            }
+                    case "Info Materia":
+                        InfoSub(classSquare.Subject);
+                        break;
+                    case "Links":
+                        ShowLinks(classSquare);
+                        break;
+                }
+            }).SafeFireAndForget();
         }
 
         private void ShowLinks(ClassSquare classSquare)
@@ -82,7 +82,7 @@ namespace SOE.Views.ViewItems.ScheduleView
             Shell.Current.Navigation.PushAsync(new LinksPage(classSquare));
         }
 
-        private void InfoSub(Subject subject) => 
+        private void InfoSub(Subject subject) =>
             Shell.Current.Navigation.PushAsync(new SubjectPage(subject));
 
         private void Reminder(ClassSquare classSquare)
@@ -100,8 +100,11 @@ namespace SOE.Views.ViewItems.ScheduleView
             var Tarea = new ToDo();
             Tarea.Subject = classSquare.Subject;
             Tarea.Time = classSquare.Begin;
-            Tarea.Date = classSquare.Day.GetNearest();
-            App.Current.MainPage.Navigation.PushAsync(new NewTaskPage(Tarea));
+            Tarea.Date = classSquare.Day.GetNextOrToday();
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                App.Current.MainPage.Navigation.PushAsync(new NewTaskPage(Tarea));
+            });
         }
 
 

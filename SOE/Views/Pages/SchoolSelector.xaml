@@ -4,8 +4,9 @@
              xmlns:pancakeView="clr-namespace:SOE.Renders"
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              xmlns:forms1="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             xmlns:SOEWeb.Shared="clr-namespace:SOEWeb.Shared;assembly=SOEWeb.Shared"
+             
              xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
+             xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
              x:Name="Me" Background="{DynamicResource SecondaryBackground}"
              x:Class="SOE.Views.Pages.SchoolSelector" Visual="Material"
              x:DataType="pages:SchoolSelectorViewModel">
@@ -43,7 +44,7 @@
                                     <GridItemsLayout Orientation="Vertical" Span="1" />
                                 </CollectionView.ItemsLayout>
                                 <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="SOEWeb.Shared:School">
+                                    <DataTemplate x:DataType="models:School">
                                         <ContentView HorizontalOptions="Center">
                                             <pancakeView:CustomPancakeView Visual="Default" Margin="5" 
                                                                  IsClippedToBounds="True"  

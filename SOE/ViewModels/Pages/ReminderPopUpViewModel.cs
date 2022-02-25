@@ -7,8 +7,6 @@ using SOE.ViewModels.ViewItems;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -87,22 +85,19 @@ namespace SOE.ViewModels
         {
             AppData.Instance.LiteConnection.Delete(this.reminder);
             PendingRemindersViewModel.Instance.Reminders.Remove(this.reminder);
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                PendingRemindersViewModel.Instance.Load();
-            });
+            PendingRemindersViewModel.Instance.Load();
         }
         private void Archivar()
         {
             this.reminder.Status |= PendingStatus.Archived;
             AppData.Instance.LiteConnection.Update(this.reminder);
         }
-        
+
         private void Desarchivar()
         {
             this.reminder.Status -= PendingStatus.Archived;
             AppData.Instance.LiteConnection.Update(this.reminder);
         }
-       
+
     }
 }

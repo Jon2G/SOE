@@ -12,6 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FirebaseDatabase.net" Version="4.0.7" />
+    <PackageReference Include="FirestoreLINQ" Version="1.0.0" />
+    <PackageReference Include="Google.Cloud.Firestore" Version="2.5.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.42" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
@@ -19,9 +22,5 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Kit\Kit.Razor\Kit.Razor.csproj" />
     <ProjectReference Include="..\..\..\Kit\Kit\Kit.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Secrets\" />
   </ItemGroup>
 </Project>

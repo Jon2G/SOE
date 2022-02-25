@@ -5,11 +5,12 @@ using Kit.Model;
 using Kit.Services.Web;
 using SOE.API;
 using SOE.Data;
+using SOE.Models;
 using SOE.Models.Scheduler;
 using SOE.Services;
 using SOE.Views.PopUps;
 using SOEWeb.Shared;
-using SOEWeb.Shared.Interfaces;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,7 +22,7 @@ using Xamarin.Forms;
 
 namespace SOE.ViewModels.Pages
 {
-    public class LinksPageViewModel : ModelBase, IOffline
+    public class LinksPageViewModel : ModelBase
     {
         public ObservableCollection<Link> Links { get; set; }
         public ClassSquare ClassSquare { get; }
@@ -90,31 +91,31 @@ namespace SOE.ViewModels.Pages
                 return;
             }
             Links.Clear();
-            if (ClassSquare.Subject.IsOffline)
-            {
-                if (!await ClassSquare.Subject.Sync(AppData.Instance, new SyncService()))
-                {
-                    IsOffline = true;
-                    IsLoading = false;
-                    return;
-                }
-            }
+            //if (ClassSquare.Subject.IsOffline)
+            //{
+            //    if (!await ClassSquare.Subject.Sync(AppData.Instance, new SyncService()))
+            //    {
+            //        IsOffline = true;
+            //        IsLoading = false;
+            //        return;
+            //    }
+            //}
 
-            var response= await APIService.GetLinks(ClassSquare.Subject);
-            switch (response.ResponseResult)
-            {
-                case APIResponseResult.OK:
-                    IsOffline = false;
-                    this.Links.AddRange(response.Extra);
-                    break;
-                case APIResponseResult.INTERNAL_ERROR:
-                    this.IsOffline = true;
-                    break;
-                default:
-                    this.IsOffline = true;
-                    Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Alerta", response.Message).SafeFireAndForget();
-                    break;
-            }
+            //var response= await APIService.Current.GetLinks(ClassSquare.Subject);
+            //switch (response.ResponseResult)
+            //{
+            //    case APIResponseResult.OK:
+            //        IsOffline = false;
+            //        this.Links.AddRange(response.Extra);
+            //        break;
+            //    case APIResponseResult.INTERNAL_ERROR:
+            //        this.IsOffline = true;
+            //        break;
+            //    default:
+            //        this.IsOffline = true;
+            //        Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Alerta", response.Message).SafeFireAndForget();
+            //        break;
+            //}
             this.IsLoading = false;
         }
     }

@@ -21,7 +21,10 @@ namespace SOE.ViewModels.ViewItems
 
         public NoInscriptionViewModel()
         {
-            InscriptionDate = InscriptionDate.Get();
+            InscriptionDate.Get().ContinueWith(t =>
+            {
+                InscriptionDate = t.Result;
+            }).SafeFireAndForget();
         }
         private async Task RefreshData()
         {
@@ -47,7 +50,7 @@ namespace SOE.ViewModels.ViewItems
             }
 
             App.Current.MainPage = new RefreshDataPage(false);
-            await AppData.Instance.SAES.GetUserData(AppData.Instance.User);
+            await AppData.Instance.SAES.GetUserData();
             Application.Current.MainPage = new SplashScreen();
             return true;
         }

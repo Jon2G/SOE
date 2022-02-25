@@ -3,8 +3,7 @@ using SOE.Widgets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace SOE.Notifications.Alarms
 {
@@ -14,16 +13,19 @@ namespace SOE.Notifications.Alarms
         public override string Description => "Te notificaremos y recordaremos sobre tus actividades programadas";
         protected uint GetProgrammedId(ToDo todo)
         {
-            if (todo.Index <= 0)
+            ProgrammedNotifications? programmed =
+                ProgrammedNotifications.Get(Enums.NotificationType.TODO, todo.DocumentId);
+            if (programmed is null)
             {
-                todo.SetNextIndex();
+                programmed = ProgrammedNotifications.Save(Enums.NotificationType.TODO, todo.DocumentId);
             }
-            return Convert.ToUInt32($"{LocalNotification.ClassTimeCode}{todo.Subject.Id}{todo.Index}");
+            return Convert.ToUInt32($"{LocalNotification.ClassTimeCode}{programmed.Id}");
         }
-        public override void ScheduleAll()
+        public override async Task ScheduleAll()
         {
+            await Task.Yield();
             Channel?.Register();
-            List<ToDo> todos = ToDosWidget.GetTasks();
+            List<ToDo> todos = await ToDosWidget.GetTasks();
             if (todos is null)
             {
                 return;
@@ -34,7 +36,7 @@ namespace SOE.Notifications.Alarms
                 TinyIoC.TinyIoCContainer.Current.Resolve<LocalNotification>()
                     .Set(todo.Title,
                         $"{todo.Subject.Name} - {todo.Subject.Group}\n{todo.Description}",
-                        GetProgrammedId(todo), Xamarin.Forms.Color.FromHex(todo.Subject.Color), date.AddDays(-1), this.Channel,"ToDo")
+                        GetProgrammedId(todo), Xamarin.Forms.Color.FromHex(todo.Subject.Color), date.AddDays(-1), this.Channel, "ToDo")
                     .Schedule();
             }
             this.SetMidnightService();

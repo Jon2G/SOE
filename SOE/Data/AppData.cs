@@ -1,36 +1,31 @@
-﻿using System;
-using System.IO;
-using SOEWeb.Shared;
-using Kit.Model;
+﻿using Kit.Model;
 using Kit.Sql.Sqlite;
-using SOE.Data.Images;
-using SOE.Models;
-using SOE.Models.Academic;
 using SOE.Models.Data;
-using SOE.Models.TodoModels;
-using SOE.Notifications;
-using SOEWeb.Shared.Interfaces;
-using SOEWeb.Shared.Secrets;
+using System;
+using System.IO;
 using Xamarin.Essentials;
+using Xamarin.Forms.Internals;
 
 namespace SOE.Data
 {
-    public class AppData : ModelBase, IApplicationData
+    [Preserve(AllMembers = true)]
+    public class AppData : ModelBase
     {
         public static string Version = $"{VersionTracking.CurrentVersion}";
-        public static bool IsInitialized => _Instance is not null;
-        
-        private static AppData _Instance;
 
-        public static AppData Instance
+        private static readonly Lazy<AppData> _Instance = new Lazy<AppData>(() =>
         {
-            get
+            FileInfo liteDbPath = new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SOE.db"));
+            var liteConnection = new SQLiteConnection(liteDbPath, 100);
+            liteConnection.CreateTable<UserLocalData>();
+            return new AppData
             {
-                if (IsInitialized)
-                    return _Instance;
-                return Init();
-            }
-        }
+                User = new User(),
+                LiteConnection = liteConnection
+            };
+        });
+
+        public static AppData Instance => _Instance.Value;
 
         private User _User;
         public User User
@@ -43,7 +38,6 @@ namespace SOE.Data
             }
         }
 
-        public UserBase UserBase => User;
         public Saes.Saes SAES
         {
             get;
@@ -52,46 +46,20 @@ namespace SOE.Data
         public SQLiteConnection LiteConnection { get; private set; }
         private AppData()
         {
-           
+
         }
 
-        public static AppData Init()
-        {
-            AppData._Instance = new AppData
-            {
-                User = new User(),
-                LiteConnection = new SQLiteConnection(WebData.LiteDbPath, 100)
-            };
-            return Instance;
-        }
+        //public void ClearData(params Type[] Tables)
+        //{
+        //    foreach (Type type in Tables)
+        //    {
+        //        var table = AppData.Instance.LiteConnection.Table(type);
+        //        AppData.Instance.LiteConnection.Execute($"DROP TABLE IF EXISTS {table.Table.TableName}");
+        //        AppData.Instance.LiteConnection.CreateTable(table.Table);
+        //    }
 
-        public void ClearData(params Type[] Tables)
-        {
-            foreach (Type type in Tables)
-            {
-                var table = AppData.Instance.LiteConnection.Table(type);
-                AppData.Instance.LiteConnection.Execute($"DROP TABLE IF EXISTS {table.Table.TableName}");
-                AppData.Instance.LiteConnection.CreateTable(table.Table);
-            }
-
-            AppData.Instance.User.HasSubjects = false;
-            AppData.Instance.User.Save();
-        }
-        public static void CreateDatabase()
-        {
-            Type[] tables = new[]{
-                typeof(Teacher), typeof(Subject), typeof(User),
-                typeof(Career), typeof(ClassTime), typeof(Grade),
-                typeof(Credits), typeof(ToDo), typeof(Settings),
-                typeof(Document), typeof(DocumentPart),
-                typeof(Archive), typeof(Keeper),
-                typeof(School), typeof(Reminder),
-                typeof(InscriptionDate)};
-            foreach (Type table in tables)
-            {
-                Instance.LiteConnection.CreateTable(table);
-            }
-        }
-
+        //    AppData.Instance.User.HasSubjects = false;
+        //  await  AppData.Instance.User.Save();
+        //}
     }
 }

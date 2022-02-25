@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Windows.Input;
+﻿using AsyncAwaitBestPractices;
 using Kit.Model;
 using SOE.Models.Scheduler;
 using SOE.Views.ViewItems;
+using System.Collections.Generic;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace SOE.ViewModels.ViewItems
@@ -32,8 +33,7 @@ namespace SOE.ViewModels.ViewItems
         public TimelineBarViewModel()
         {
             Day = Day.Today();
-
-            ClassSquares = Day.GetTimeLine();
+            this.Refresh();
             this.IsExpanded = false;
             this.ExpandCommand = new Command(Expand);
             this.CollapseCommand = new Command(Collapse);
@@ -43,8 +43,16 @@ namespace SOE.ViewModels.ViewItems
 
         private void Current_RequestedThemeChanged(object sender, AppThemeChangedEventArgs e)
         {
-            ClassSquares = Day.GetTimeLine();
-            Raise(()=>ClassSquares);
+            this.Refresh();
+        }
+
+        private void Refresh()
+        {
+            Day.GetTimeLine(from: System.DateTime.Now.TimeOfDay).ContinueWith(t =>
+             {
+                 ClassSquares = t.Result;
+                 Raise(() => ClassSquares);
+             }).SafeFireAndForget();
         }
 
         private void ToggleMenu(object obj)

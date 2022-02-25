@@ -1,7 +1,9 @@
-﻿using Kit.Model;
+﻿using AsyncAwaitBestPractices;
+using Kit.Model;
 using SOE.Data;
 using SOE.Models.Academic;
 using SOE.Models.Data;
+using System.Threading.Tasks;
 
 namespace SOE.ViewModels.Pages
 {
@@ -14,10 +16,17 @@ namespace SOE.ViewModels.Pages
         public UserProfileViewModel()
         {
             this.User = AppData.Instance.User;
-            this.Credits =
-                AppData.Instance.LiteConnection.Table<Credits>().FirstOrDefault();
+            this.Load().SafeFireAndForget();
+        }
+
+        private async Task Load()
+        {
+            await Task.Yield();
+            this.Credits = await Credits.Get();
+            Raise(() => Credits);
             if (Credits is not null)
                 this.Progress = Credits.Percentage / 100;
+            Raise(() => Progress);
         }
     }
 

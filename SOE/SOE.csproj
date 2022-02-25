@@ -7,17 +7,23 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UserSecretsId>2e4b0392-c909-4468-9569-fccdfaa16cda</UserSecretsId>
     <Configurations>Release;Debug</Configurations>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Secrets\Schools.json" />
+  </ItemGroup>
+
 
 
   <ItemGroup>
     <EmbeddedResource Include="Fonts\Fontello\font\fontello30.ttf" />
     <EmbeddedResource Include="Resources\CalendarioEscolar.pdf" />
+    <EmbeddedResource Include="Secrets\Schools.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,7 +33,11 @@
     <PackageReference Include="DeviceId" Version="6.2.0" />
     <PackageReference Include="dotMorten.Xamarin.Forms.AutoSuggestBox" Version="1.1.1" />
     <PackageReference Include="dotMorten.Xamarin.Forms.AutoSuggestBoxChange" Version="1.1.1" />
+    <PackageReference Include="FirebaseDatabase.net" Version="4.0.7" />
+    <PackageReference Include="FirestoreLINQ" Version="1.0.2" />
     <PackageReference Include="Forms9Patch" Version="2.4.9" />
+    <PackageReference Include="Google.Cloud.Firestore" Version="2.5.0" />
+    <PackageReference Include="Grpc.Core.Xamarin" Version="2.44.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.42" />
     <PackageReference Include="MailKit" Version="3.1.1" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.0" />
@@ -53,7 +63,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Kit\Kit.Forms\Kit.Forms.csproj" />
     <ProjectReference Include="..\..\..\Kit\Kit\Kit.csproj" />
-    <ProjectReference Include="..\APIModels\SOEWeb.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

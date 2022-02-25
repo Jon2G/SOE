@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AsyncAwaitBestPractices.MVVM;
+using System;
 using System.Windows.Input;
 using Kit.Model;
 using Plugin.Fingerprint;
@@ -20,11 +21,15 @@ namespace SOE.ViewModels.Pages
         public SettingsViewModel()
         {
             this.OnFingerPrintToogledCommand = new Command(OnFingerPrintToogled);
-            this.SaveCommand = new Command(Save);
+            this.SaveCommand = new AsyncCommand(() =>
+            {
+                AppData.Instance.User.Settings = Settings;
+                return AppData.Instance.User.Save();
+            });
             ViewChangeCommand = new Command(ViewOpen);
-            Settings = AppData.Instance.User.Settings?? AppData.Instance.User.GetSettings();
+            Settings = AppData.Instance.User.Settings;
         }
-        
+
         private async void OnFingerPrintToogled()
         {
             if (this.Settings.IsFingerPrintActive)
@@ -67,10 +72,7 @@ namespace SOE.ViewModels.Pages
             await a.ShowDialog();
         }
 
-        private void Save()
-        {
-            Settings.Save();
-        }
+
 
     }
 

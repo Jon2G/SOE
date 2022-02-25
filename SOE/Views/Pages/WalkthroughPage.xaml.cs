@@ -1,4 +1,5 @@
 ﻿using SOE.Data;
+using SOE.Models.Data;
 using Xamarin.Forms.Xaml;
 
 namespace SOE.Views.Pages
@@ -11,11 +12,11 @@ namespace SOE.Views.Pages
             InitializeComponent();
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
             if (AppData.Instance.User.Settings is null)
-                AppData.Instance.User.GetSettings();
+                AppData.Instance.User.Settings = new Settings();
         }
     }
 }

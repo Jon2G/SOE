@@ -1,6 +1,8 @@
-﻿using System.Windows.Input;
+﻿using AsyncAwaitBestPractices.MVVM;
 using SOE.Models.Scheduler;
 using SOE.ViewModels.ViewItems;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -22,7 +24,7 @@ namespace SOE.Views.ViewItems.ScheduleView
         private ScheduleMainViewModel _MainModel;
         public ScheduleMainViewModel MainModel
         {
-            get=> _MainModel;
+            get => _MainModel;
             set
             {
                 _MainModel = value;
@@ -44,19 +46,19 @@ namespace SOE.Views.ViewItems.ScheduleView
         public ScheduleViewDay()
         {
             this.OnDayTappedCommand = new Command(OnDayTapped);
-            this.TomorrowCommand = new Command(Tomorrow);
-            this.YesterdayCommand = new Command(Yesterday);
+            this.TomorrowCommand = new AsyncCommand(Tomorrow);
+            this.YesterdayCommand = new AsyncCommand(Yesterday);
             InitializeComponent();
         }
 
-        private void Yesterday()
+        private async Task Yesterday()
         {
-            this.DayModel =new SheduleDay(this.DayModel.Day.Yesterday());
+            this.DayModel = await SheduleDay.GetDay(this.DayModel.Day.Yesterday());
         }
 
-        private void Tomorrow()
+        private async Task Tomorrow()
         {
-            this.DayModel = new SheduleDay(this.DayModel.Day.Tommorrow());
+            this.DayModel = await SheduleDay.GetDay(this.DayModel.Day.Tommorrow());
         }
 
         private void OnDayTapped()

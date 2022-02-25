@@ -5,9 +5,10 @@
              x:Class="SOE.Views.PopUps.SubjectPopUp"            
              xmlns:viewModels="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
              xmlns:scheduler="clr-namespace:SOE.Models.Scheduler;assembly=SOE"
-             xmlns:SOEWeb.Shared="clr-namespace:SOEWeb.Shared;assembly=SOEWeb.Shared"
+             
              xmlns:popUps="clr-namespace:SOE.ViewModels.PopUps;assembly=SOE"
              xmlns:yummy="clr-namespace:SOE.Renders"
+             xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
              x:DataType="popUps:SubjectSelectorPopUpViewModel" x:Name="Me">
     <yummy:CustomPancakeView Visual="Default" Margin="10" CornerRadius="0" Padding="10"
                              VerticalOptions="Center" HorizontalOptions="Center" >
@@ -17,7 +18,7 @@
 
             <CollectionView VerticalOptions="FillAndExpand" ItemsSource="{Binding Subjects}">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="SOEWeb.Shared:Subject">
+                    <DataTemplate x:DataType="models:Subject">
                         <ContentView>
                             <yummy:CustomPancakeView Visual="Default" Margin="3"  Padding="10"
                                                CornerRadius="0" BackgroundColor="{Binding Converter={x:StaticResource SubjectColorAppThemeConverter }}">

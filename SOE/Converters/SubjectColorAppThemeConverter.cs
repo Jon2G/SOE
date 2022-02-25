@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SOE.Models;
+using System;
 using System.Globalization;
 using SOEWeb.Shared;
 using Xamarin.Forms;
@@ -9,7 +10,7 @@ namespace SOE.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is Subject subject && subject.Id > 0)
+            if (value is Subject subject && !string.IsNullOrEmpty(subject.DocumentId))
             {
                 if (App.Current.RequestedTheme == OSAppTheme.Dark)
                 {

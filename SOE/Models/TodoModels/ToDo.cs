@@ -1,59 +1,132 @@
-﻿using System;
+﻿using AsyncAwaitBestPractices;
+using FirestoreLINQ;
+using Google.Cloud.Firestore;
+using Kit;
+using Kit.Forms.Extensions;
+using Kit.Model;
+using SOE.API;
+using SOE.Data.Archives;
+using SOE.Enums;
+using SOE.Views.ViewItems;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Kit.Sql.Attributes;
-using Xamarin.Forms;
 using System.Windows.Input;
-using System.Xml.Serialization;
-using AsyncAwaitBestPractices;
-using FFImageLoading;
-using Kit;
-using Kit.Forms.Extensions;
-using Kit.Forms.Services.Interfaces;
-using Kit.Services.Web;
-using Newtonsoft.Json;
-using SOE.API;
-using SOE.Data;
-using SOE.Data.Images;
-using SOE.Enums;
-using SOE.Services;
-using SOE.Views.ViewItems.TasksViews;
 using Xamarin.Essentials;
-using SOEWeb.Shared;
-using SOEWeb.Shared.Enums;
-using SOE.Views.ViewItems;
-using Device = Xamarin.Forms.Device;
-using SOE.Models.TodoModels;
+using Xamarin.Forms;
 
 namespace SOE.Models.TodoModels
 {
-    public class ToDo : TodoBase
+    [FirestoreData, FireStoreCollection("ToDo")]
+    public class ToDo : ModelBase
     {
-        [Ignore]
+        [FirestoreDocumentId]
+        public string DocumentId { get; set; }
+
+        private string _Title;
+        [FirestoreProperty]
+        public string Title
+        {
+            get => this._Title;
+            set
+            {
+                this._Title = value;
+                this.Raise(() => this.Title);
+            }
+        }
+        private string _Description;
+        private Document _Document;
+        [FirestoreProperty]
+        public Document Document
+        {
+            get => _Document;
+            set
+            {
+                if (this._Document != value)
+                {
+                    _Document = value;
+                    Raise(() => Document);
+                    this.LoadDocument();
+                }
+            }
+        }
+        [FirestoreProperty]
+        public string Description
+        {
+            get => this._Description;
+            set
+            {
+                this._Description = value;
+                this.Raise(() => this.Description);
+            }
+        }
+        [FirestoreProperty]
+        public Google.Cloud.Firestore.Timestamp GDate { get; set; }
+        public DateTime Date
+        {
+            get => this.GDate.ToDateTime().ToLocalTime();
+            set
+            {
+                GDate = Google.Cloud.Firestore.Timestamp.FromDateTime(value.ToUniversalTime());
+                Raise(() => Date);
+            }
+        }
+        [FirestoreProperty]
+        public int DueTime { get; set; }
+        public TimeSpan Time
+        {
+            get => FireStoreExtensions.ToFirestoreTime(DueTime);
+            set
+            {
+                DueTime = FireStoreExtensions.ToFirestoreTime(value);
+                Raise(() => Time);
+            }
+        }
+        [FirestoreProperty]
+        public bool HasPictures { get; set; }
+
+        private Subject _Subject;
+        [FirestoreProperty]
+        public Subject Subject
+        {
+            get => this._Subject;
+            set
+            {
+                this._Subject = value;
+                this.Raise(() => this.Subject);
+            }
+        }
         public string FormattedTime => $"{Time:hh}:{Time:mm}";
-        [Ignore]
         public string FormattedDate => $"{Date.DayOfWeek.GetDayName()} - {Date:dd/MM}";
 
-        internal static List<PhotoArchive> GetPhotos(ToDo toDo)
+        public async Task<List<PhotoArchive>> GetPhotos()
         {
-            if (!toDo.HasPictures)
-            {
-                return new List<PhotoArchive>();
-            }
+            await Task.Yield();
             List<PhotoArchive> photos = new();
-            foreach (Archive archive in AppData.Instance.LiteConnection.Table<Archive>()
-                .Where(x => x.IdKeeper == toDo.IdKeeper))
+            if (!HasPictures)
             {
-                photos.Add(new PhotoArchive(archive.Path, FileType.Photo, false));
+                return photos;
+            }
+            try
+            {
+                photos = await
+                    Keeper.GetById<PhotoArchive>(this.DocumentId)
+                        .ToListAsync();
+                foreach (PhotoArchive photoArchive in photos)
+                {
+                    photoArchive.LoadImage().SafeFireAndForget();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Error(ex, "GetPhotos");
             }
             return photos;
         }
 
         private FormattedString _FormattedString;
-
-        [Ignore, XmlIgnore, JsonIgnore]
         public FormattedString FormattedString
         {
             get => _FormattedString; set
@@ -62,12 +135,11 @@ namespace SOE.Models.TodoModels
                 Raise(() => FormattedString);
             }
         }
-        [XmlIgnore]
         public ICommand OpenBrowserCommand { get; }
-        internal void LoadDocument()
+        private void LoadDocument()
         {
-            FormattedString = new FormattedString();
-            foreach (var part in DocumentPart.GetDoc(this.IdDocument))
+            var formattedString = new FormattedString();
+            foreach (var part in this.Document.DocumentParts)
             {
                 var span = new Span()
                 {
@@ -82,23 +154,14 @@ namespace SOE.Models.TodoModels
                         span.GestureRecognizers.Add(new TapGestureRecognizer() { CommandParameter = part.Content, Command = OpenBrowserCommand });
                         break;
                 }
-                FormattedString.Spans.Add(span);
+                formattedString.Spans.Add(span);
             }
+            FormattedString = formattedString;
         }
-        public int SubjectId
-        {
-            get => Subject.Id;
-            set
-            {
-                if (Subject is null)
-                {
-                    Subject = new Subject();
-                }
-                Subject.Id = value;
-            }
-        }
+
         private PendingStatus _Status;
 
+        [FirestoreProperty]
         public PendingStatus Status
         {
             get => _Status;
@@ -108,75 +171,66 @@ namespace SOE.Models.TodoModels
                 Raise(() => Status);
             }
         }
-        public Guid IdDocument { get; set; }
-        public int IdKeeper { get; set; }
 
-        public int Index { get; set; }
-        public void SetNextIndex()
-        {
-            int index = AppData.Instance.LiteConnection.Single<int>("SELECT MAX([INDEX]) FROM TODO");
-            index++;
-            AppData.Instance.LiteConnection.Execute("UPDATE TODO SET [INDEX]=? WHERE GUID=?", index, this.Guid);
-            this.Index = index;
-        }
         internal static async Task<string> Share(ToDo toDo)
         {
             await Task.Yield();
-            try
-            {
-                if (toDo.Subject.IsOffline)
-                {
+            throw new NotImplementedException();
+            //try
+            //{
+            //    if (toDo.Subject.IsOffline)
+            //    {
 
-                    if (!await toDo.Subject.Sync(AppData.Instance, new SyncService()))
-                    {
-                        Application.Current.MainPage.DisplayAlert("Opps...",
-                                "No fue posible compartir esta tarea, revise su conexión a internet", "Ok")
-                            .SafeFireAndForget();
-                        return null;
-                    }
-                }
+            //        if (!await toDo.Subject.Sync(AppData.Instance, new SyncService()))
+            //        {
+            //            Application.Current.MainPage.DisplayAlert("Opps...",
+            //                    "No fue posible compartir esta tarea, revise su conexión a internet", "Ok")
+            //                .SafeFireAndForget();
+            //            return null;
+            //        }
+            //    }
 
-                Response Response = await APIService.PostToDo(toDo);
-                if (Response.ResponseResult != APIResponseResult.OK)
-                {
-                    Application.Current.MainPage.DisplayAlert("Opps...",
-                        $"No fue posible compartir esta tarea, revise su conexión a internet.\n{Response.Message}",
-                        "Ok").SafeFireAndForget();
-                    return null;
-                }
+            //    Response Response = await APIService.Current.PostToDo(toDo);
+            //    if (Response.ResponseResult != APIResponseResult.OK)
+            //    {
+            //        Application.Current.MainPage.DisplayAlert("Opps...",
+            //            $"No fue posible compartir esta tarea, revise su conexión a internet.\n{Response.Message}",
+            //            "Ok").SafeFireAndForget();
+            //        return null;
+            //    }
 
-                if (toDo.HasPictures)
-                {
-                    await PostPictures();
-                }
+            //    if (toDo.HasPictures)
+            //    {
+            //        await PostPictures();
+            //    }
 
-                return DynamicLinkFormatter.GetDynamicUrl("share",
-                    new Dictionary<string, string>() { { "type", "todo" }, { "id", toDo.Guid.ToString("N") } });
-            }
-            catch (Exception ex)
-            {
-                App.Current.MainPage.DisplayAlert("Error", ex.ToString(), "Ok").SafeFireAndForget();
-                return null;
-            }
+            //    return DynamicLinkFormatter.GetDynamicUrl("share",
+            //        new Dictionary<string, string>() { { "type", "todo" }, { "id", toDo.Guid.ToString("N") } });
+            //}
+            //catch (Exception ex)
+            //{
+            //    App.Current.MainPage.DisplayAlert("Error", ex.ToString(), "Ok").SafeFireAndForget();
+            //    return null;
+            //}
 
-            async Task PostPictures()
-            {
-                await Task.Yield();
-                try
-                {
-                    foreach (PhotoArchive photo in GetPhotos(toDo))
-                    {
-                        using (Stream stream = await photo.GetStream())
-                        {
-                            await APIService.PostTodoPicture(stream.ToByteArray(), toDo.Guid);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Log.Logger?.Error(ex, "PostPictures");
-                }
-            }
+            //async Task PostPictures()
+            //{
+            //    await Task.Yield();
+            //    try
+            //    {
+            //        foreach (PhotoArchive photo in GetPhotos(toDo))
+            //        {
+            //            using (Stream stream = await photo.GetStream())
+            //            {
+            //                await APIService.Current.PostTodoPicture(stream.ToByteArray(), toDo.Guid);
+            //            }
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Log.Logger?.Error(ex, "PostPictures");
+            //    }
+            //}
         }
 
 
@@ -187,43 +241,51 @@ namespace SOE.Models.TodoModels
             this.Status = PendingStatus.Pending;
             OpenBrowserCommand = new Command<string>(OpenBrowser);
             Date = DateTime.Now;
+            Time = DateTime.Now.TimeOfDay;
 
         }
         private async void OpenBrowser(string zelda)
         {
-            UriBuilder builder = new UriBuilder(zelda);
+            UriBuilder builder = new(zelda);
             await Browser.OpenAsync(builder.Uri, BrowserLaunchMode.SystemPreferred);
         }
 
         public ToDo LoadSubject()
         {
-            this.Subject = SubjectService.Get(this.SubjectId);
+            //this.Subject = SubjectService.Get(this.SubjectId);
             return this;
         }
 
-        public static ToDo GetById(Guid Id) =>
-            AppData.Instance.LiteConnection.DeferredQuery<ToDo>($"SELECT * FROM {nameof(ToDo)} WHERE Guid=? LIMIT 1", Id)
-                .ToList().FirstOrDefault();
+        public static CollectionReference Collection =>
+            FireBaseConnection.Instance.UserDocument.Collection<ToDo>();
 
-        public static async Task Save(ToDo Todo, IEnumerable<PhotoArchive> Photos = null)
+        public static async IAsyncEnumerable<ToDo> Query(Query query)
+        {
+            QuerySnapshot capitalQuerySnapshot = await query.GetSnapshotAsync();
+            foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
+            {
+                yield return documentSnapshot.ConvertTo<ToDo>();
+            }
+        }
+
+        public async Task Save(IEnumerable<PhotoArchive> Photos = null)
         {
             await Task.Yield();
-            Todo.HasPictures = Photos?.Any() ?? false;
-            if (Todo.IdDocument != Guid.Empty)
+            HasPictures = Photos is not null && Photos.Any();
+            if (Description is null)
             {
-                Document.Delete(Todo.IdDocument);
+                Description = "";
             }
-            if (Todo.Description == null)
+            this.Document = new Document().Parse(Description);
+            //le quita las horas y segundos a la fecha
+            Date = new DateTime(Date.Year, Date.Month, Date.Day);
+            var result = await ToDo.Collection.AddAsync(this);
+            this.DocumentId = result.Id;
+            if (HasPictures)
             {
-                Todo.Description = "";
-            }
-            Document doc = Document.PaseAndSave(Todo.Description);
-            Todo.IdDocument = doc.Guid;
-            if (Todo.HasPictures)
-            {
-                Keeper keeper = Keeper.New();
                 foreach (PhotoArchive archive in Photos)
                 {
+                    archive.ParentId = this.DocumentId;
                     FileImageSource image = archive.Value;
                     if (!File.Exists(archive.Path))
                     {
@@ -236,27 +298,29 @@ namespace SOE.Models.TodoModels
                             }
                         }
                     }
-                    await keeper.Save(archive);
+                    await Keeper.Save(archive);
                 }
-                Keeper.Delete(Todo.IdKeeper);
-                Todo.IdKeeper = keeper.Id;
             }
-            /////////////
-
-            //le quita las horas y segundos a la fecha
-            Todo.Date = new DateTime(Todo.Date.Year, Todo.Date.Month, Todo.Date.Day);
-
-            AppData.Instance.LiteConnection.InsertOrReplace(Todo);
-            Todo.SetNextIndex();
             /////////////
             if (Shell.Current is AppShell app)
             {
-                Device.BeginInvokeOnMainThread(() =>
-                    PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction));
+                PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction);
             }
             await Shell.Current.Navigation.PopToRootAsync(true);
-            //photos ?
         }
 
+        public static Task<List<ToDo>> Get(PendingStatus status = PendingStatus.Pending)
+        {
+            return ToDo.Query(ToDo.Collection
+                     .WhereEqualTo(nameof(ToDo.Status), status)
+                     .OrderBy(nameof(ToDo.GDate)).OrderBy(nameof(ToDo.Subject)).OrderBy(nameof(ToDo.DueTime)))
+                 .ToListAsync()
+                 .AsTask();
+        }
+        public static ValueTask<ToDo> Get(string DocumentId)
+        {
+            Query q = Collection.WhereEqualTo(nameof(DocumentId), DocumentId);
+            return Query(q).FirstOrDefaultAsync();
+        }
     }
 }

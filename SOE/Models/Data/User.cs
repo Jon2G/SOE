@@ -1,16 +1,128 @@
-﻿using Kit.Sql.Attributes;
+﻿using FirestoreLINQ;
+using Google.Cloud.Firestore;
+using Kit;
+using Kit.Model;
+using Kit.Sql.Attributes;
 using SOE.API;
-using SOE.Data;
-using SOE.Services;
-using SOEWeb.Shared;
-using SOEWeb.Shared.Interfaces;
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SOE.Models.Data
 {
-    public class User : UserBase
+    [FireStoreCollection("Users"), FirestoreData]
+    public class User : ModelBase
     {
+        [FirestoreDocumentId]
+        public string DocumentId { get; set; }
+
+        private string _NickName;
+        [FirestoreProperty]
+        public string NickName
+        {
+            get => this._NickName;
+            set
+            {
+                _NickName = value;
+                this.Raise(() => this.NickName);
+            }
+        }
+
+        private string _Boleta;
+
+        [Column("Boleta"), MaxLength(10), FirestoreProperty]
+        public string Boleta
+        {
+            get => this._Boleta;
+            set
+            {
+                if (!Validations.IsValidBoleta(value))
+                {
+                    return;
+                }
+                this._Boleta = value;
+                this.Raise(() => this.Boleta);
+
+            }
+        }
+        private string _Password;
+        [FirestoreProperty]
+        public string Password { get => this._Password; set { this._Password = value; this.Raise(() => this.Password); } }
+        [FirestoreProperty]
+        public School School
+        {
+            get => this._School;
+            set
+            {
+                this._School = value;
+                this.Raise(() => this.School);
+            }
+        }
+        private School _School;
+        private string _Semester;
+        [FirestoreProperty]
+        public string Semester
+        {
+            get => _Semester;
+            set
+            {
+                _Semester = value;
+                Raise(() => Semester);
+            }
+        }
+
+        private string _Career;
+        [FirestoreProperty]
+        public string Career
+        {
+            get => _Career;
+            set
+            {
+                _Career = value;
+                Raise(() => Career);
+            }
+        }
+
+        public string _Email;
+        [FirestoreProperty]
+        public string Email
+        {
+            get => _Email;
+            set
+            {
+                _Email = value;
+                Raise(() => Email);
+            }
+        }
+
+        public string _Name;
+        [FirestoreProperty]
+        public string Name { get => _Name; set { _Name = value; Raise(() => Name); } }
+
+        public static string GetNickName(int UserId, SqlConnection con) =>
+            con.Single<string>("SP_GET_NICKNAME", CommandType.StoredProcedure,
+                new SqlParameter("USER_ID", UserId));
+        internal static Guid GetId(string user, SqlConnection con)
+        {
+            throw new NotImplementedException();
+            //try
+            //{
+            //    return con.Single<Guid>("SP_GET_USER_ID", CommandType.StoredProcedure,
+            //        new SqlParameter("USER", user));
+            //}
+            //catch (Exception ex)
+            //{
+            //    Log.Logger.Error(ex, "User.GetId");
+            //}
+
+            //return Guid.Empty;
+        }
+
+
         private Settings _Settings;
-        [Ignore]
+        [FirestoreProperty]
         public Settings Settings
         {
             get => _Settings;
@@ -21,38 +133,25 @@ namespace SOE.Models.Data
             }
         }
 
-        internal static User Get()
+        internal static async Task<User> Get()
         {
-            User User = AppData.Instance.LiteConnection.Table<User>().FirstOrDefault();
-            if (User is not null)
-            {
-                User.School = SchoolService.Get();
-            }
-            return User;
+            DocumentReference docRef = FireBaseConnection.Instance.UserDocument;
+            DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
+            var user = snapshot.ConvertTo<User>();
+            user.Settings ??= new();
+            return user;
         }
-
+        [FirestoreProperty]
         public bool HasSubjects { get; set; }
         public User() { }
 
-        public void Save()
+        public async Task<User> Save()
         {
-            AppData.Instance.LiteConnection.DeleteAll<User>(false);
-            AppData.Instance.LiteConnection.Insert(this, false);
-            SchoolService.Save(this.School);
+            await Task.Yield();
+            var wr = await FireBaseConnection.Instance.UserDocument.SetAsync(this);
+            this.DocumentId = FireBaseConnection.Instance.UserDocument.Id;
+            return this;
         }
-        public Settings GetSettings()
-        {
-            Settings settings = AppData.Instance.LiteConnection
-                .Table<Settings>()
-                .FirstOrDefault();
-            if (settings is null)
-            {
-                settings = new Settings();
-                settings.Save();
-            }
 
-            this.Settings = settings;
-            return settings;
-        }
     }
 }

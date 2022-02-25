@@ -1,5 +1,4 @@
 ﻿using AsyncAwaitBestPractices;
-using Kit;
 using Kit.Model;
 using SOE.Enums;
 using SOE.Models;
@@ -29,14 +28,9 @@ namespace SOE.ViewModels.ViewItems
                     if (SelectedIndex == 1 && MainView.Instance?.Model is not null && MainView.Instance.Model.Title == "Archivadas")
                     {
                         MainView.Instance.Model.Title = "Pendientes";
-
-
-                        Device.BeginInvokeOnMainThread(() =>
-                        {
-                            PendingRemindersViewModel.Instance.Load(PendingStatus.Pending);
-                            PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance
-                                ?.OnRefreshCompleteAction);
-                        });
+                        PendingRemindersViewModel.Instance.Load(PendingStatus.Pending);
+                        PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance
+                            ?.OnRefreshCompleteAction);
                     }
                 }
                 _SelectedIndex = value;

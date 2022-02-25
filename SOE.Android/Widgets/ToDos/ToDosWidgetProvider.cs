@@ -3,13 +3,11 @@ using Android.Appwidget;
 using Android.Content;
 using Android.OS;
 using Android.Widget;
-using SOEWeb.Shared;
 using SOE.Droid.Activities;
-using SOE.Models.Scheduler;
+using SOE.Models.TodoModels;
 using SOE.Widgets;
 using SQLitePCL;
 using String = System.String;
-using SOE.Models.TodoModels;
 
 namespace SOE.Droid.Widgets.ToDos
 {
@@ -51,7 +49,7 @@ namespace SOE.Droid.Widgets.ToDos
             AppWidgetManager mgr = AppWidgetManager.GetInstance(context);
             String IntentAction = intent.Action;
             int[]? appWidgetIds = intent.GetIntArrayExtra(AppWidgetManager.ExtraAppwidgetIds);
-            if (appWidgetIds is null|| appWidgetIds.Length <= 0)
+            if (appWidgetIds is null || appWidgetIds.Length <= 0)
             {
                 appWidgetIds = new[] { intent.GetIntExtra(AppWidgetManager.ExtraAppwidgetId, 0) };
             }
@@ -61,12 +59,12 @@ namespace SOE.Droid.Widgets.ToDos
                 {
                     case AppWidgetManager.ActionAppwidgetUpdate:
                         ToDosWidget.Refresh(appWidgetId);
-                        OnUpdate(context, mgr, new int[] {appWidgetId});
+                        OnUpdate(context, mgr, new int[] { appWidgetId });
                         break;
                     case AppWidgetManager.ActionAppwidgetOptionsChanged:
                     case AppWidgetManager.ActionAppwidgetEnabled:
                         ToDosWidget.Refresh(appWidgetId);
-                        OnUpdate(context, mgr, new int[] {appWidgetId});
+                        OnUpdate(context, mgr, new int[] { appWidgetId });
                         break;
                     case AppWidgetManager.ActionAppwidgetDeleted:
                         ToDosWidget.Unload(appWidgetId);
@@ -75,7 +73,7 @@ namespace SOE.Droid.Widgets.ToDos
                         Intent OpenClassTimeDetails = new Intent(context, typeof(MainActivity));
                         int itemPosition = intent.GetIntExtra(ToDosWidget.EXTRA_ITEM, 0);
                         ToDo todoItem = ToDosWidget.GetItemAt(appWidgetId, itemPosition);
-                        OpenClassTimeDetails.PutExtra(nameof(ToDo.Guid), todoItem.Guid.ToString());
+                        OpenClassTimeDetails.PutExtra(nameof(ToDo.DocumentId), todoItem.DocumentId);
                         //OpenClassTimeDetails.SetFlags(ActivityFlags.NewTask);
                         OpenClassTimeDetails.SetAction(IntentAction);
                         OpenClassTimeDetails.SetFlags(ActivityFlags.SingleTop | ActivityFlags.BroughtToFront |
@@ -83,7 +81,7 @@ namespace SOE.Droid.Widgets.ToDos
                         context.StartActivity(OpenClassTimeDetails);
                         break;
                     default:
-                        OnUpdate(context, mgr, new[] {appWidgetId});
+                        OnUpdate(context, mgr, new[] { appWidgetId });
                         break;
                 }
             }

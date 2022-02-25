@@ -6,6 +6,7 @@ using Kit;
 using Kit.Model;
 using Kit.Services.Web;
 using SOE.API;
+using SOE.Models;
 using SOE.Models.Scheduler;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -52,28 +53,28 @@ namespace SOE.ViewModels.ViewItems
         private async Task Load()
         {
             IsLoading = true;
-            await Task.Delay(100);
-            if (!Online)
-            {
-                IsLoading = false;
-                IsOffline = true;
-                return;
-            }
-            var response
-                = await APIService.GetClassmates(this.Subject);
-            switch (response.ResponseResult)
-            {
-                case APIResponseResult.OK:
-                    this.Classmates.AddRange(response.Extra);
-                    break;
-                case APIResponseResult.INTERNAL_ERROR:
-                    this.IsOffline = true;
-                    break;
-                default:
-                    this.IsOffline = true;
-                    Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Alerta", response.Message).SafeFireAndForget();
-                    break;
-            }
+            //await Task.Delay(100);
+            //if (!Online)
+            //{
+            //    IsLoading = false;
+            //    IsOffline = true;
+            //    return;
+            //}
+            //var response
+            //    = await APIService.Current.GetClassmates(this.Subject);
+            //switch (response.ResponseResult)
+            //{
+            //    case APIResponseResult.OK:
+            //        this.Classmates.AddRange(response.Extra);
+            //        break;
+            //    case APIResponseResult.INTERNAL_ERROR:
+            //        this.IsOffline = true;
+            //        break;
+            //    default:
+            //        this.IsOffline = true;
+            //        Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Alerta", response.Message).SafeFireAndForget();
+            //        break;
+            //}
             IsLoading = false;
         }
     }

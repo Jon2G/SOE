@@ -1,5 +1,10 @@
-﻿using AsyncAwaitBestPractices.MVVM;
+﻿using AsyncAwaitBestPractices;
+using AsyncAwaitBestPractices.MVVM;
+using Kit;
 using Kit.Forms.Extensions;
+using Kit.Model;
+using SOE.Models.Scheduler;
+using SOE.Views.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,11 +12,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Input;
-using Kit.Model;
-using Kit;
-using SOE.Models.Scheduler;
-using SOE.Services;
-using SOE.Views.Pages;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Task = System.Threading.Tasks.Task;
@@ -41,16 +41,14 @@ namespace SOE.ViewModels.ViewItems
             WeekDays = new ObservableCollection<SheduleDay>();
             WeekHours = new ObservableCollection<Hour>();
             App.Current.RequestedThemeChanged += Current_RequestedThemeChanged;
-            GetWeek();
+            GetWeek().SafeFireAndForget();
         }
 
         private void Current_RequestedThemeChanged(object sender, AppThemeChangedEventArgs e)
         {
             WeekDays = new ObservableCollection<SheduleDay>();
             WeekHours = new ObservableCollection<Hour>();
-            GetWeek();
-            Raise(() => WeekDays);
-            Raise(() => WeekHours);
+            GetWeek().SafeFireAndForget();
         }
 
         private async Task ExportToPdf()
@@ -58,7 +56,7 @@ namespace SOE.ViewModels.ViewItems
             await Task.Yield();
             //using (Acr.UserDialogs.UserDialogs.Instance.Loading("Generando horrario..."))
             //{
-                await _ExportToPdf();
+            await _ExportToPdf();
             //}
             Acr.UserDialogs.UserDialogs.Instance.HideLoading();
         }
@@ -217,13 +215,10 @@ namespace SOE.ViewModels.ViewItems
             return sb.ToString();
         }
 
-        private bool GetRow(SheduleDay day)
+        private async Task GetWeek()
         {
-            throw new NotImplementedException();
-        }
-
-        private void GetWeek()
-        {
+            await Task.Yield();
+            List<Task> AddTasks = new List<Task>();
             ClassSquare FirstWeekClass = null;
             TimeSpan min_hourtime = TimeSpan.Zero;
             TimeSpan max_hourtime = TimeSpan.Zero;
@@ -231,9 +226,12 @@ namespace SOE.ViewModels.ViewItems
             int max_hour = -1;
             for (DayOfWeek dayOfWeek = DayOfWeek.Monday; dayOfWeek <= DayOfWeek.Friday; dayOfWeek++)
             {
-                var schedule = new SheduleDay(Day.GetNearest(dayOfWeek));
+                SheduleDay schedule = await SheduleDay.GetDay(Day.GetNearest(dayOfWeek));
                 if (!schedule.Class.Any()) { continue; }
-                WeekDays.Add(schedule);
+                AddTasks.Add(Device.InvokeOnMainThreadAsync(() =>
+                {
+                    WeekDays.Add(schedule);
+                }));
 
                 TimeSpan max_newhourtime = schedule.Class.Max(x => x.End);
                 TimeSpan min_newhourtime = schedule.Class.Min(x => x.Begin);
@@ -256,19 +254,26 @@ namespace SOE.ViewModels.ViewItems
             int j = 0;
             for (int i = min_hour; i <= max_hour; i++, j++)
             {
-                this.WeekHours.Add(new Hour(j, i));
+                Hour hour = new Hour(j, i);
+                AddTasks.Add(Device.InvokeOnMainThreadAsync(() =>
+                {
+                    WeekHours.Add(hour);
+                }));
             }
 
             this.StartTime = min_hourtime;
             this.EndTime = max_hourtime;
-            FillBlankHours(FirstWeekClass);
-
+            Task.WhenAll(AddTasks).ContinueWith(t =>
+            {
+                FillBlankHours(FirstWeekClass).SafeFireAndForget();
+            }).SafeFireAndForget();
             CalculateTimeLineOffset(null);
             this.UpateOffsetTimer.Change(TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
         }
 
-        private void FillBlankHours(ClassSquare FirstWeekClass)
+        private async Task FillBlankHours(ClassSquare FirstWeekClass)
         {
+            await Task.Yield();
             //Rellenar horas vacias en la parte de arriba
             foreach (SheduleDay day in WeekDays)
             {
@@ -282,10 +287,13 @@ namespace SOE.ViewModels.ViewItems
                 //si empieza DESPUES de la primera hora rellenar el espacio de esa clase 
                 if (cl.Begin != FirstWeekClass.Begin)
                 {
-                    day.Class.Insert(0, new FreeClass(
-                        FirstWeekClass.Begin,
-                        cl.Begin,
-                        day.Day.DayOfWeek));
+                    await Device.InvokeOnMainThreadAsync(() =>
+                     {
+                         day.Class.Insert(0, new FreeClass(
+                             FirstWeekClass.Begin,
+                             cl.Begin,
+                             day.Day.DayOfWeek));
+                     });
                 }
             }
 
@@ -300,7 +308,7 @@ namespace SOE.ViewModels.ViewItems
                 }
                 //primera clase del dia
                 FirstClass = day.Class.First();
-                for (var i = 1; i < day.Class.Count; i++)
+                for (int i = 1; i < day.Class.Count; i++)
                 {
                     ClassSquare cl = day.Class[i];
                     if (FirstClass.End != cl.Begin)
@@ -309,14 +317,15 @@ namespace SOE.ViewModels.ViewItems
                             FirstClass.End,
                             cl.Begin,
                             day.Day.DayOfWeek);
-                        day.Class.Insert(i, FirstClass);
+                        await Device.InvokeOnMainThreadAsync(() =>
+                        {
+                            day.Class.Insert(i, FirstClass);
+                        });
                         continue;
                     }
                     FirstClass = day.Class[i];
                 }
             }
-
-
         }
 
         private void CalculateTimeLineOffset(object obj)

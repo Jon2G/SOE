@@ -116,7 +116,7 @@ namespace SOE.ViewModels.ViewItems
         private bool ValidateCanExecute(object o)
         {
             return !string.IsNullOrEmpty(AppData.Instance.User.Boleta)
-                   && SOEWeb.Shared.Validations.IsValidBoleta(AppData.Instance.User.Boleta)
+                   && Models.Data.Validations.IsValidBoleta(AppData.Instance.User.Boleta)
                    && !string.IsNullOrEmpty(AppData.Instance.User.Password)
                    && !string.IsNullOrEmpty(Captcha) && !IsLoading;
         }

@@ -1,32 +1,39 @@
-﻿using Kit.Sql.Attributes;
-using SOE.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using FirestoreLINQ;
+using Google.Cloud.Firestore;
+using Kit.Sql.Attributes;
+using SOE.API;
+using System.Threading.Tasks;
 
 namespace SOE.Models.Data
 {
+    [FirestoreData, FireStoreCollection("InscriptionDate")]
     public class InscriptionDate
     {
-        [PrimaryKey,AutoIncrement]
-        public int Id { get; set; }
-        public string Date { get;  set; }
+        [FirestoreDocumentId, Preserve(AllMembers = true)]
+        public string DocumentId { get; set; }
+        [FirestoreProperty]
+        public string Date { get; set; }
 
         public InscriptionDate()
         {
-            
+
         }
         public InscriptionDate(string Date)
         {
             this.Date = Date;
         }
 
-        public void Save()
+        public Task Save()
         {
-            AppData.Instance.LiteConnection.DeleteAll<InscriptionDate>(false);
-            AppData.Instance.LiteConnection.Insert(this, false);
+            return FireBaseConnection.Instance.UserDocument.Collection<InscriptionDate>()
+                    .Document("InscriptionDate").SetAsync(this);
         }
 
-        public static InscriptionDate Get() => AppData.Instance.LiteConnection.Table<InscriptionDate>().FirstOrDefault();
+        public static async Task<InscriptionDate> Get()
+        {
+            var snap = await FireBaseConnection.Instance.UserDocument.Collection<InscriptionDate>()
+                 .Document("InscriptionDate").GetSnapshotAsync();
+            return snap.ConvertTo<InscriptionDate>();
+        }
     }
 }

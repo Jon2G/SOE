@@ -1,18 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Android.Appwidget;
+﻿using Android.Appwidget;
 using Android.Content;
-using Android.Content.Res;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Widget;
 using Kit;
 using Kit.Droid;
-using SOE.Data;
-using SOE.Models.Scheduler;
 using SOE.Models.TodoModels;
 using SOE.Widgets;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SOE.Droid.Widgets.ToDos
 {
@@ -36,10 +33,8 @@ namespace SOE.Droid.Widgets.ToDos
             // In onCreate() you setup any connections / cursors to your data source. Heavy lifting,
             // for example downloading or creating content etc, should be deferred to onDataSetChanged()
             // or getViewAt(). Taking more than 20 seconds in this call will result in an ANR.
-            if (AppData.Instance is null)
-            {
-                AppData.Init();
-            }
+
+
             // We sleep for 3 seconds here to show how the empty view appears in the interim.
             // The empty view is set in the StackWidgetProvider and should be a sibling of the
             // collection view.
@@ -74,7 +69,7 @@ namespace SOE.Droid.Widgets.ToDos
             RemoteViews rv = new RemoteViews(mContext.PackageName, Resource.Layout.widget_todos_task);
 
             rv.SetTextViewText(Resource.Id.widget_todos_SubjectName, todo.Subject.Name);
-            rv.SetTextViewText(Resource.Id.widget_todos_SubjectGroup, todo.Subject.Group);
+            rv.SetTextViewText(Resource.Id.widget_todos_SubjectGroup, todo.Subject.Group.Name);
             rv.SetTextViewText(Resource.Id.widget_todos_TaskName, todo.Title);
             rv.SetTextViewText(Resource.Id.widget_todos_TaskTime, todo.FormattedTime);
             rv.SetTextViewText(Resource.Id.widget_todos_TaskDate, todo.FormattedDate);
@@ -123,7 +118,7 @@ namespace SOE.Droid.Widgets.ToDos
             // from the network, etc., it is ok to do it here, synchronously. The widget will remain
             // in its current state while work is being done here, so you don't need to worry about
             // locking up the widget.
-            this.Todos = ToDosWidget.GetTasks(this.mAppWidgetId);
+            this.Todos = ToDosWidget.GetTasks(this.mAppWidgetId).GetAwaiter().GetResult();
         }
 
 

@@ -1,4 +1,16 @@
 ﻿using AsyncAwaitBestPractices;
+using HtmlAgilityPack;
+using Kit;
+using Kit.Forms.Controls.WebView;
+using Microsoft.AppCenter.Crashes;
+using SOE.Data;
+using SOE.Models;
+using SOE.Models.Academic;
+using SOE.Models.Data;
+using SOE.Notifications;
+using SOE.Processors;
+using SOE.Widgets;
+using SOEWeb.Shared.Processors;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,30 +18,10 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml;
-using SOEWeb.Shared;
-using SOEWeb.Shared.Enums;
-using HtmlAgilityPack;
-using Kit;
-using SOE.API;
-using SOE.Data;
-using SOE.Models.Academic;
-using SOE.Models.Data;
-using SOE.Services;
-using SOE.Widgets;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
 using WebView = Xamarin.Forms.WebView;
-using Kit.Forms.Controls.WebView;
-using Kit.Services.Web;
-using Microsoft.AppCenter.Crashes;
-using SOE.Data.Images;
-using SOE.Models;
-using SOE.Models.TodoModels;
-using SOEWeb.Shared.Interfaces;
-using SOEWeb.Shared.Processors;
-using SOE.Notifications;
 
 namespace SOE.Saes
 {
@@ -284,7 +276,7 @@ namespace SOE.Saes
                 if (await IsLoggedIn())
                 {
                     if (shouldGetUserData)
-                        await GetUserData(AppData.Instance.User);
+                        await GetUserData();
                     return true;
                 }
             }
@@ -297,26 +289,23 @@ namespace SOE.Saes
             return false;
         }
 
-        public async Task GetUserData(Models.Data.User user, bool? isWebServiceOnline = null)
+        public async Task GetUserData()
         {
             await Task.Yield();
             ILocalNotificationService notification = DependencyService.Get<ILocalNotificationService>();
-            bool isOnline = isWebServiceOnline is bool online ? online : await APIService.IsOnline();
-            AppData.Instance.User.IsOffline = !isOnline;
-            AppData.Instance.ClearData(
-                typeof(Subject), typeof(ClassTime), typeof(Document),
-                typeof(DocumentPart), typeof(Archive), typeof(Grade),
-                typeof(Keeper), typeof(Teacher), typeof(ToDo), typeof(Reminder));
-            Keeper.ClearAllFiles();
+            //AppData.Instance.ClearData(
+            //    typeof(Subject), typeof(ClassTime), typeof(Document),
+            //    typeof(DocumentPart), typeof(Archive), typeof(Grade),
+            //    typeof(Keeper), typeof(Teacher), typeof(ToDo), typeof(Reminder));
+            //Keeper.ClearAllFiles();
             notification.UnScheduleAll();
-            AppData.Instance.User = user;
             await GetName();
-            bool hasSubjects = await GetSubjects(isOnline);
-            await GetKardexInfo(isOnline);
+            bool hasSubjects = (await GetSubjects()).Any();
+            await GetKardexInfo();
             await GetCitasReinscripcionInfo();
             if (hasSubjects)
             {
-                await GetGrades(isOnline);
+                await GetGrades();
                 AppData.Instance.User.Semester = CalculateSemester();
                 notification.ScheduleAll();
             }
@@ -328,7 +317,7 @@ namespace SOE.Saes
                         "Sin inscripción", "Ok").SafeFireAndForget();
             }
             AppData.Instance.User.HasSubjects = hasSubjects;
-            AppData.Instance.LiteConnection.InsertOrReplace(AppData.Instance.User);
+            await AppData.Instance.User.Save();
         }
 
         private string CalculateSemester()
@@ -337,7 +326,7 @@ namespace SOE.Saes
             try
             {
                 semester =
-                    string.Join(",", AppData.Instance.LiteConnection.Lista<string>(@"SELECT ""Group"" FROM ""Subject""")
+                    string.Join(",", ClassTime.GetAsQuerable().ToList().Select(x => x.Group.Name)
                         .Select(x => x.FirstOrDefault()).Distinct());
             }
             catch (Exception e)
@@ -358,94 +347,34 @@ namespace SOE.Saes
             await GoTo(CambioCorreoPersonal);
             AppData.Instance.User.Email = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_txtcorreoper').value;");
         }
-        private async Task<bool> GetSubjects(bool isWebServiceOnline)
+        private async Task<List<Subject>> GetSubjects()
         {
             await Task.Yield();
             await GoTo(HorariosPage);
-            //if (DataInfo.HasTimeTable())
-            //{
-            //    return;
-            //}
             string horarioHtml = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_GV_Horario').outerHTML");
             Unescape(ref horarioHtml);
             if (string.IsNullOrEmpty(horarioHtml))
             {
-                return false;
+                return new List<Subject>();
             }
-            return await DigestSubjects(horarioHtml, isWebServiceOnline);
+            return await DigestSubjects(horarioHtml);
         }
-        private async Task<bool> DigestSubjects(string horarioHtml, bool isWebServiceOnline)
+        private async Task<List<Subject>> DigestSubjects(string horarioHtml)
         {
             await Task.Yield();
-            Response<string> response;
-            if (isWebServiceOnline)
-            {
-                response = await APIService.PostClassTime(System.Text.Encoding.UTF8.GetBytes(horarioHtml), AppData.Instance.User.Boleta);
-                if (response.ResponseResult != APIResponseResult.OK) return await DigestSubjects(horarioHtml, false);
-            }
-            else
-            {
-                response = ClassTimeDigester.Digest(horarioHtml, AppData.Instance.User.Id, null, false);
-            }
-            if (response.ResponseResult == APIResponseResult.OK)
-            {
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.LoadXml(response.Extra);
-                XmlNodeList nodes = xmlDoc.SelectNodes("//Teachers/Teacher");
-                foreach (XmlNode tNode in nodes)
-                {
-                    TeacherService.Save(tNode.ConvertNode<Teacher>());
-                }
-                nodes = xmlDoc.SelectNodes("//Subjects/Subject");
-                foreach (XmlNode tNode in nodes)
-                {
-                    SubjectService.Save(tNode.ConvertNode<Subject>());
-                }
-                if (nodes.Count <= 0)
-                {
-                    return false;
-                }
-                nodes = xmlDoc.SelectNodes("//ClassTimes/ClassTime");
-                foreach (XmlNode tNode in nodes)
-                {
-                    var classTime = tNode.ConvertNode<ClassTime>();
-                    ClassTimeService.Save(classTime);
-                }
-                TimeLineWidget.UpdateWidget();
-                return true;
-            }
-            return false;
+            var subjects = await ClassTimeDigester.Digest(horarioHtml);
+            TimeLineWidget.UpdateWidget();
+            return subjects;
         }
-        private async Task GetKardexInfo(bool isWebServiceOnline)
+        private async Task GetKardexInfo()
         {
+            await Task.Yield();
             await GoTo(KardexPage);
             string carrera = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_Lbl_Carrera').innerHTML");
             AppData.Instance.User.Career = carrera;
             if (string.IsNullOrEmpty(carrera))
             {
                 return;
-            }
-            if (isWebServiceOnline)
-            {
-                Response<int> response = await APIService.PostCareer(carrera, AppData.Instance.User.Boleta);
-                if (response.ResponseResult == APIResponseResult.OK)
-                {
-                    AppData.Instance.LiteConnection.DeleteAll<Career>(false);
-                    AppData.Instance.LiteConnection.Insert(
-                        new Career() { Name = carrera, Id = response.Extra }, false);
-                }
-            }
-            else
-            {
-                if (AppData.Instance.LiteConnection.Table<Career>().Any())
-                {
-                    AppData.Instance.LiteConnection.EXEC($"UPDATE Career SET Name='{carrera}'");
-                }
-                else
-                {
-                    AppData.Instance.LiteConnection.Insert(
-                        new Career() { Name = carrera, Id = OfflineConstants.IdBase, IsOffline = true }, false);
-                }
             }
         }
         private async Task GetCitasReinscripcionInfo()
@@ -475,24 +404,20 @@ namespace SOE.Saes
             double result = (creditosAlumno / creditosTotales) * 100;
             result = Math.Round(result, 2);
 
-            Credits credits = new Credits
+            await new Credits
             {
-                Id = 1,
+                //Id = 1,
                 CurrentCredits = creditosAlumno,
                 TotalCredits = creditosTotales,
-                Percentage = result,
-                UserId = AppData.Instance.User.Boleta
-            };
-            AppData.Instance.LiteConnection.InsertOrReplace(credits);
-
+                Percentage = result
+            }.Save();
             //Save fecha de reinscripción
             Unescape(ref citaReinscripcionHtml);
             if (!string.IsNullOrEmpty(citaReinscripcionHtml))
             {
                 List<List<string>> table = HtmlToTable(citaReinscripcionHtml);
                 string _date = table[0][3];
-                InscriptionDate date = new InscriptionDate(_date);
-                date.Save();
+                await new InscriptionDate(_date).Save();
             }
         }
         private List<List<string>> HtmlToTable(string html)
@@ -507,7 +432,7 @@ namespace SOE.Saes
                 .Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
                 .ToList();
         }
-        public async Task<bool> GetGrades(bool isWebServiceOnline)
+        public async Task<bool> GetGrades()
         {
             await Task.Yield();
             await GoTo(CalificacionesPage);
@@ -517,38 +442,12 @@ namespace SOE.Saes
             {
                 return false;
             }
-            return await DigestGrades(gradesHtml, isWebServiceOnline);
+            await GradesDigester.Digest(gradesHtml);
+            return true;
 
 
         }
-        private async Task<bool> DigestGrades(string gradesHtml, bool isWebServiceOnline)
-        {
-            await Task.Yield();
-            Response<string> response;
-            if (isWebServiceOnline)
-            {
-                response = await APIService.PostGrades(System.Text.Encoding.UTF8.GetBytes(gradesHtml));
-                if (response.ResponseResult != APIResponseResult.OK) return await DigestGrades(gradesHtml, false);
-            }
-            else
-            {
-                response = GradesDigester.Digest(gradesHtml, AppData.Instance.User.Boleta, null, false);
-            }
 
-            if (response.ResponseResult == APIResponseResult.OK)
-            {
-                GradeService.ClearAll();
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.LoadXml(response.Extra);
-                XmlNodeList nodes = xmlDoc.SelectNodes("//Grades/Grade");
-                foreach (XmlNode tNode in nodes)
-                {
-                    GradeService.Save(tNode.ConvertNode<Grade>());
-                }
-                return true;
-            }
-            return false;
-        }
         private static void Unescape(ref string html)
         {
             if (string.IsNullOrEmpty(html))

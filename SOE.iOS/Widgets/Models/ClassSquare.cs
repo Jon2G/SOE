@@ -1,14 +1,17 @@
 ﻿using Foundation;
+using Kit.Sql.Interfaces;
 using Newtonsoft.Json;
+using SOE.Models;
 using SOEWeb.Shared;
 using System;
 namespace SOE.iOS.Widgets.Models
 {
     [Preserve]
-    public class ClassSquare
+    public class ClassSquare : IFireBaseKey
     {
-        [JsonProperty("id")]
-        public int Id { get; set; }
+        [JsonProperty("key")]
+        public string Id { get; set; }
+        public Subject Subject { get; set; }
         [JsonProperty("index")]
         public int Index { get; set; }
         [JsonProperty("subjectName")]
@@ -16,16 +19,16 @@ namespace SOE.iOS.Widgets.Models
         [JsonProperty("formattedTime")]
         public string FormattedTime { get; set; }
         [JsonProperty("group")]
-        public string Group { get; set; }
+        public Group Group { get; set; }
         [JsonProperty("color")]
         public string Color { get; set; }
 
         public ClassSquare()
         {
         }
-        public ClassSquare(Subject subject,int index,string formattedTime)
+        public ClassSquare(Subject subject, int index, string formattedTime)
         {
-            Id = subject.Id;
+            Subject = subject;
             Index = index;
             SubjectName = subject.Name;
             FormattedTime = formattedTime;

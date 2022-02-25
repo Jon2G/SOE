@@ -1,35 +1,37 @@
-﻿using System.Windows.Input;
+﻿using AsyncAwaitBestPractices.MVVM;
+using System.Windows.Input;
 using Kit.Forms.Model;
 using Kit.Model;
 using SOE.Data;
 using SOE.Models.Data;
+using SOE.Validations;
 using SOE.Views.PopUps;
+using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace SOE.ViewModels.Pages.Login
 {
-
-    class LoginPopUpViewModel :ValidationsModelbase
+    [Preserve(AllMembers = true)]
+    class LoginPopUpViewModel : ValidationsModelbase
     {
-
-        User user = User.Get();
         private string _Boleta;
         private string _Password;
-        [Validations.Boleta(ErrorMessage = "Boleta no valida.")]
+        [BoletaValidation(ErrorMessage = "Boleta no valida.")]
         public string Boleta { get => _Boleta; set { _Boleta = value; ValidateProperty(value); Raise(() => Boleta); } }
         public string Password { get => _Password; set { _Password = value; Raise(() => Password); } }
         public ICommand IngresarCommand { get; set; }
         public LoginPopUpViewModel()
         {
-            this.Boleta = user.Boleta;
-            IngresarCommand = new Command<LoginPopUp>(Ingresar);
+            this.Boleta = UserLocalData.Instance.Boleta;
+            IngresarCommand = new AsyncCommand<LoginPopUp>(Ingresar);
         }
 
-        private async void Ingresar(LoginPopUp obj)
+        private async Task Ingresar(LoginPopUp obj)
         {
-            if (this.Password == user.Password)
+            if (this.Password == UserLocalData.Instance.Password)
             {
-                AppData.Instance.User = user;
+                AppData.Instance.User = await User.Get();
                 await obj.Close();
             }
             else

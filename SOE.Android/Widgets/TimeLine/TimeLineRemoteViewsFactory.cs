@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Android.Appwidget;
+﻿using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Widget;
 using Kit;
-using SOE.Data;
 using SOE.Models.Scheduler;
 using SOE.Widgets;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SOE.Droid.Widgets.TimeLine
 {
@@ -34,10 +33,7 @@ namespace SOE.Droid.Widgets.TimeLine
             // In onCreate() you setup any connections / cursors to your data source. Heavy lifting,
             // for example downloading or creating content etc, should be deferred to onDataSetChanged()
             // or getViewAt(). Taking more than 20 seconds in this call will result in an ANR.
-            if (AppData.Instance is null)
-            {
-                AppData.Init();
-            }
+
             // We sleep for 3 seconds here to show how the empty view appears in the interim.
             // The empty view is set in the StackWidgetProvider and should be a sibling of the
             // collection view.
@@ -73,7 +69,7 @@ namespace SOE.Droid.Widgets.TimeLine
 
             rv.SetTextViewText(Resource.Id.widget_timetable_TextViewSubjectName, subject.Subject.Name);
             rv.SetTextViewText(Resource.Id.widget_timetable_TextViewSubjectTime, subject.FormattedTime);
-            rv.SetTextViewText(Resource.Id.widget_timetable_TextViewSalon, subject.Subject.Group);
+            rv.SetTextViewText(Resource.Id.widget_timetable_TextViewSalon, subject.Subject.Group.Name);
             rv.SetInt(Resource.Id.widget_timetable_SubjectColor, "setBackgroundColor", Color.ParseColor(subject.Subject.Color));
 
 
@@ -117,7 +113,7 @@ namespace SOE.Droid.Widgets.TimeLine
             // from the network, etc., it is ok to do it here, synchronously. The widget will remain
             // in its current state while work is being done here, so you don't need to worry about
             // locking up the widget.
-            this.Schedule = TimeLineWidget.GetTimeLine(this.mAppWidgetId);
+            this.Schedule = TimeLineWidget.GetTimeLine(this.mAppWidgetId).GetAwaiter().GetResult();
         }
 
 

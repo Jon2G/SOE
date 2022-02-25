@@ -14,14 +14,15 @@ using AsyncAwaitBestPractices;
 using Kit.Services.Web;
 using Microsoft.AppCenter.Crashes;
 using SOE.API;
+using SOE.Models;
 using SOE.Services;
-using SOEWeb.Shared.Interfaces;
+
 using System.Linq;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace SOE.ViewModels.Pages
 {
-    public class AcademicDirectoryViewModel : ModelBase, IOffline
+    public class AcademicDirectoryViewModel : ModelBase
     {
         private bool _IsLoading;
 
@@ -77,25 +78,25 @@ namespace SOE.ViewModels.Pages
             this.RetryCommand = new AsyncCommand(() => Init(true));
             AddContactCommand = new Command<SchoolContact>(AddContact);
             ContactLinkCommand = new Command<SchoolContact>(ContactLink);
-            if (AppData.Instance.User.IsOffline)
-            {
-                SyncUser().SafeFireAndForget();
-                return;
-            }
+            //if (AppData.Instance.User.IsOffline)
+            //{
+            //    SyncUser().SafeFireAndForget();
+            //    return;
+            //}
             Init().SafeFireAndForget();
         }
-        private async Task SyncUser()
-        {
-            await Task.Yield();
-            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Actualizando información..."))
-            {
-                if (!await AppData.Instance.User.Sync(AppData.Instance, new SyncService()))
-                {
-                    await this.Init(false);
-                }
-            }
-            this.Init().SafeFireAndForget();
-        }
+        //private async Task SyncUser()
+        //{
+        //    await Task.Yield();
+        //    using (Acr.UserDialogs.UserDialogs.Instance.Loading("Actualizando información..."))
+        //    {
+        //        if (!await AppData.Instance.User.Sync(AppData.Instance, new SyncService()))
+        //        {
+        //            await this.Init(false);
+        //        }
+        //    }
+        //    this.Init().SafeFireAndForget();
+        //}
         public async Task Init(bool Online = true)
         {
             IsOffline = false;
@@ -107,31 +108,31 @@ namespace SOE.ViewModels.Pages
                 IsLoading = false;
                 return;
             }
-            if (AppData.Instance.User.School.Id <= 0)
-            {
-                using (Acr.UserDialogs.UserDialogs.Instance.Loading("Cargando información de la escuela..."))
-                {
-                    AppData.Instance.LiteConnection.CreateTable<School>();
-                    AppData.Instance.User.School.Id = await SchoolService.GetId(AppData.Instance.User);
-                    AppData.Instance.User.Save();
-                }
-            }
+            //if (AppData.Instance.User.School.Id <= 0)
+            //{
+            //    using (Acr.UserDialogs.UserDialogs.Instance.Loading("Cargando información de la escuela..."))
+            //    {
+            //        AppData.Instance.LiteConnection.CreateTable<School>();
+            //        AppData.Instance.User.School.Id = await SchoolService.GetId(AppData.Instance.User);
+            //        AppData.Instance.User.Save();
+            //    }
+            //}
 
-            Response<IEnumerable<ContactsByDeparment>> response
-                = await APIService.GetContacts(AppData.Instance.User.School);
-            switch (response.ResponseResult)
-            {
-                case APIResponseResult.OK:
-                    this.Contacts = new ObservableCollection<ContactsByDeparment>(response.Extra);
-                    break;
-                case APIResponseResult.INTERNAL_ERROR:
-                    this.IsOffline = true;
-                    break;
-                default:
-                    this.IsOffline = true;
-                    Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Alerta", response.Message).SafeFireAndForget();
-                    break;
-            }
+            //Response<IEnumerable<ContactsByDeparment>> response
+            //    = await APIService.Current.GetContacts(AppData.Instance.User.School);
+            //switch (response.ResponseResult)
+            //{
+            //    case APIResponseResult.OK:
+            //        this.Contacts = new ObservableCollection<ContactsByDeparment>(response.Extra);
+            //        break;
+            //    case APIResponseResult.INTERNAL_ERROR:
+            //        this.IsOffline = true;
+            //        break;
+            //    default:
+            //        this.IsOffline = true;
+            //        Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Alerta", response.Message).SafeFireAndForget();
+            //        break;
+            //}
             IsLoading = false;
         }
         private void ContactCall(SchoolContact contact)

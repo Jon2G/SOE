@@ -1,23 +1,34 @@
-﻿using System;
+﻿using FirestoreLINQ;
+using Google.Cloud.Firestore;
 using Kit.Sql.Attributes;
-using Kit.Sql.Interfaces;
+using SOE.API;
+using System.Threading.Tasks;
 
 namespace SOE.Models.Academic
 {
-    [Table("CREDITS")]
-    public class Credits : IGuid
+    [FireStoreCollection("Credits"), FirestoreData, Preserve(AllMembers = true)]
+    public class Credits
     {
-        [PrimaryKey,AutoIncrement]
-        public int Id { get; set; }
-        [MaxLength(10),Column("BOLETA")]
-        public string UserId { get; set; }
-        [Column("CREDITOS_OBTENIDOS")]
+        [FirestoreDocumentId]
+        public string DocumentId { get; set; }
+        [FirestoreProperty]
         public double CurrentCredits { get; set; }
-        [Column("CREDITOS_TOTALES")]
+        [FirestoreProperty]
         public double TotalCredits { get; set; }
-        [Column("PORCENTAJE")]
+        [FirestoreProperty]
         public double Percentage { get; set; }
-        public Guid Guid { get; set; }
         public Credits() { }
+        public Task Save()
+        {
+            return FireBaseConnection.Instance.UserDocument.Collection<Credits>()
+                .Document("Credits").SetAsync(this);
+        }
+
+        public static async Task<Credits> Get()
+        {
+            var snap = await FireBaseConnection.Instance.UserDocument.Collection<Credits>()
+                .Document("Credits").GetSnapshotAsync();
+            return snap.ConvertTo<Credits>();
+        }
     }
 }

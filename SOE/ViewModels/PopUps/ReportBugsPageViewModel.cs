@@ -9,7 +9,7 @@ using Xamarin.Forms;
 using SOE.Views.Pages;
 using AsyncAwaitBestPractices;
 using Microsoft.AppCenter.Crashes;
-using SOEWeb.Shared.Secrets;
+using SOE.Secrets;
 using System.Text;
 using System.Net.Mail;
 using System.IO;

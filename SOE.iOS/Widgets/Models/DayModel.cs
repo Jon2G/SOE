@@ -1,13 +1,14 @@
 ﻿using Foundation;
+using Kit.Sql.Interfaces;
 using Newtonsoft.Json;
 using System;
 namespace SOE.iOS.Widgets.Models
 {
     [Serializable,Preserve]
-    public class DayModel
+    public class DayModel:IGuid
     {
-        [JsonProperty("id")]
-        public int Id { get; set; }
+        [JsonProperty("guid")]
+        public Guid Guid { get; set; }
         [JsonProperty("name")]
         public string Name { get; set; }
         [JsonProperty("classes")]

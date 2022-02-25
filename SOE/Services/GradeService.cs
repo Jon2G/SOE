@@ -1,5 +1,6 @@
 ﻿using SOEWeb.Shared;
 using SOE.Data;
+using SOE.Models;
 
 namespace SOE.Services
 {

@@ -1,8 +1,9 @@
-﻿using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+﻿using AsyncAwaitBestPractices;
 using P42.Utils;
-using SOE.Data.Images;
+using SOE.Data.Archives;
 using SOE.Models.TodoModels;
+using System.Collections.ObjectModel;
+using Xamarin.Forms;
 
 namespace SOE.ViewModels.Pages
 {
@@ -18,10 +19,15 @@ namespace SOE.ViewModels.Pages
             GetPhotos();
         }
 
-        private async void GetPhotos()
+        private void GetPhotos()
         {
-            await Task.Yield();
-            this.Photos.AddRange(ToDo.GetPhotos(this.ToDo));
+            this.ToDo.GetPhotos().ContinueWith(t =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    this.Photos.AddRange(t.Result);
+                });
+            }).SafeFireAndForget();
         }
     }
 }

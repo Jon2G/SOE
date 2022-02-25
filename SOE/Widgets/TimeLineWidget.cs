@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using Kit.Forms.Services.Interfaces;
+﻿using Kit.Forms.Services.Interfaces;
 using SOE.Models.Scheduler;
-using Xamarin.Forms;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SOE.Widgets
 {
     public class TimeLineWidget : IWidget
     {
         public const string AppWidgetProviderFullClass = "SOE.Droid.Widgets.TimeLine.TimeLineWidgetProvider";
-        public override string AppWidgetProviderFullClassName =>AppWidgetProviderFullClass;
+        public override string AppWidgetProviderFullClassName => AppWidgetProviderFullClass;
         public const string FOWARD_ACTION = "TIMELINE_FOWARD_ACTION";
         public const string BACKWARD_ACTION = "TIMELINE_BACKWARD_ACTION";
         public const string EXTRA_ITEM = "com.example.widgets.WidgetProviders.EXTRA_ITEM";
@@ -47,15 +47,16 @@ namespace SOE.Widgets
             //Log.Logger.Debug("Yesterday ->{0}", day.DayOfWeek);
         }
 
-        public static List<ClassSquare> GetTimeLine(int WidgetId)
+        public static async Task<List<ClassSquare>> GetTimeLine(int WidgetId)
         {
+            await Task.Yield();
             Day day = GetDay(WidgetId);
             if (!SavedTimeLines.ContainsKey(day.DayOfWeek))
             {
                 Init(WidgetId);
                 //Log.Logger.Debug("GetTimeLine of day {0}", day.DayOfWeek);
-                SavedTimeLines.Add(day.DayOfWeek, day.GetTimeLine());
-                return GetTimeLine(WidgetId);
+                SavedTimeLines.Add(day.DayOfWeek, await day.GetTimeLine());
+                return await GetTimeLine(WidgetId);
             }
             return SavedTimeLines[day.DayOfWeek];
         }
@@ -80,9 +81,11 @@ namespace SOE.Widgets
             return day;
         }
 
-        public static ClassSquare GetItemAt(int appWidgetId, int itemPosition)
+        public static async Task<ClassSquare> GetItemAt(int appWidgetId, int itemPosition)
         {
-            return GetTimeLine(appWidgetId)[itemPosition];
+            await Task.Yield();
+            List<ClassSquare> list = await GetTimeLine(appWidgetId);
+            return list[itemPosition];
         }
         public static Day Refresh(int WidgetId)
         {

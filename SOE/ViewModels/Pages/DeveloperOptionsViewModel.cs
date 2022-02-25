@@ -30,7 +30,7 @@ namespace SOE.ViewModels.Pages
 
         private async Task HelloAPI()
         {
-           var response=await APIService.Hello();
+           var response=await APIService.Current.Hello();
            Acr.UserDialogs.UserDialogs.Instance.AlertAsync(
                    $"Result:{response.ResponseResult}\nMessage:\n{response.Message}")
                .SafeFireAndForget();

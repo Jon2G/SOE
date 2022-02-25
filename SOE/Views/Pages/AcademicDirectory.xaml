@@ -7,7 +7,7 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
              xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
              xmlns:pankk="clr-namespace:SOE.Renders" 
-             xmlns:models="clr-namespace:SOE.Models" xmlns:shared="clr-namespace:SOEWeb.Shared;assembly=SOEWeb.Shared"
+             xmlns:models="clr-namespace:SOE.Models" 
              xmlns:converters="clr-namespace:Kit.Forms.Converters;assembly=Kit.Forms"
              xmlns:kit="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
              xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
@@ -83,14 +83,14 @@
                     <ScrollView VerticalOptions="FillAndExpand">
                         <StackLayout BindableLayout.ItemsSource="{Binding Contacts}">
                             <BindableLayout.ItemTemplate>
-                                <DataTemplate x:DataType="shared:ContactsByDeparment">
+                                <DataTemplate x:DataType="models:ContactsByDeparment">
                                     <StackLayout>
                                         <Label Text="{Binding Departament.Name}" 
                                            FontAttributes="Bold" FontSize="16" TextColor="White" Margin="0,3"
                                            BackgroundColor="{StaticResource AccentColor}"/>
                                         <StackLayout BindableLayout.ItemsSource="{Binding Contacts}">
                                             <BindableLayout.ItemTemplate>
-                                                <DataTemplate  x:DataType="shared:SchoolContact">
+                                                <DataTemplate  x:DataType="models:SchoolContact">
                                                     <pankk:CustomPancakeView Visual="Default" Margin="0" CornerRadius="0,0,5,5" Padding="0,6"   >
                                                         <StackLayout>
                                                             <Grid>

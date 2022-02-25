@@ -73,8 +73,8 @@ namespace SOE.ViewModels.Pages
             await AppData.Instance.SAES.GoTo(AppData.Instance.User.School.HomePage);
             if (await AppData.Instance.SAES.IsLoggedIn())
             {
-                await AppData.Instance.SAES.GetUserData(AppData.Instance.User, IsOnline);
-                AppData.Instance.User.Save();
+                await AppData.Instance.SAES.GetUserData();
+               await AppData.Instance.User.Save();
                 Application.Current.MainPage = new WalkthroughPage();
             }
             else

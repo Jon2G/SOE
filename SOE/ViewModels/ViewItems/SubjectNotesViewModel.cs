@@ -2,6 +2,7 @@
 using SOEWeb.Shared;
 using AsyncAwaitBestPractices;
 using Kit.Model;
+using SOE.Models;
 using SOE.Services;
 
 namespace SOE.ViewModels.ViewItems
@@ -28,7 +29,7 @@ namespace SOE.ViewModels.ViewItems
         private async Task Load()
         {
             await Task.Yield();
-            this.Teacher = TeacherService.Get(this.Subject.IdTeacher);
+            this.Teacher = Subject.Teacher;
 
         }
     }

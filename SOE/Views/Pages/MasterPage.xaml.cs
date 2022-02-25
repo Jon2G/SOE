@@ -1,26 +1,18 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using AsyncAwaitBestPractices;
+﻿using AsyncAwaitBestPractices;
 using Kit;
 using Kit.Enums;
-using Kit.Forms.Pages;
 using Kit.Forms.Services.Interfaces;
 using Microsoft.AppCenter.Crashes;
-using SOE.API;
 using SOE.Data;
 using SOE.FireBase;
-using SOE.Interfaces;
-using SOE.Models.Scheduler;
-using SOE.Models.TodoModels;
 using SOE.Notifications;
 using SOE.Services;
-using SOE.Services.ActionResponse;
 using SOE.Views.ViewItems.ScheduleView;
 using SOE.Widgets;
+using System;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 using Log = Kit.Log;
 
@@ -65,22 +57,30 @@ namespace SOE.Views.Pages
                 {
                     void CenterCarrousel()
                     {
-                        try { this.Model.SelectedIndex = 1; } catch (Exception ex) { Crashes.GenerateTestCrash(); Log.Logger.Error(ex, "CenterCarrousel"); }
+                        try { this.Model.SelectedIndex = 1; }
+                        catch (Exception ex)
+                        {
+                            Crashes.GenerateTestCrash();
+                            Log.Logger.Error(ex, "CenterCarrousel");
+                        }
 
                     }
+
                     Dispatcher.BeginInvokeOnMainThread(CenterCarrousel);
                 }
+
                 await this.Model.OnAppearing();
                 if (Tools.Instance.RuntimePlatform == RuntimePlatform.Android)
                     DependencyService.Get<ILocalNotificationService>()?.ScheduleAll();
                 TimeLineWidget.UpdateWidget();
                 ToDosWidget.UpdateWidget();
                 UpdateService.AvaibleUpdate();
-                if (Device.RuntimePlatform == Device.iOS && Xamarin.Essentials.DeviceInfo.Version.Major>=14)
+                if (Device.RuntimePlatform == Device.iOS && Xamarin.Essentials.DeviceInfo.Version.Major >= 14)
                 {
-                    var appTrackingTransparencyPermission =TinyIoC.TinyIoCContainer.Current.Resolve<IAppTrackingTransparencyPermission>();
+                    var appTrackingTransparencyPermission =
+                        TinyIoC.TinyIoCContainer.Current.Resolve<IAppTrackingTransparencyPermission>();
                     var status = PermissionStatus.Denied;
-                    if(appTrackingTransparencyPermission is not null)
+                    if (appTrackingTransparencyPermission is not null)
                         status = await appTrackingTransparencyPermission.CheckStatusAsync();
                     switch (status)
                     {
@@ -94,9 +94,14 @@ namespace SOE.Views.Pages
                     }
                 }
             }
-            catch (Exception ex) { Crashes.GenerateTestCrash(); Log.Logger.Error(ex, "CenterCarrousel"); this.DisplayAlert("Error", ex.ToString(), "Ok").SafeFireAndForget(); }
+            catch (Exception ex)
+            {
+                Crashes.GenerateTestCrash();
+                Log.Logger.Error(ex, "CenterCarrousel");
+                this.DisplayAlert("Error", ex.ToString(), "Ok").SafeFireAndForget();
+            }
         }
-   
+
         public static void ResponseTo(IActionResponse PendingAction) =>
             App.Current.Dispatcher.BeginInvokeOnMainThread(action: () => Execute(PendingAction).SafeFireAndForget());
         private static async Task Execute(IActionResponse pendingAction)

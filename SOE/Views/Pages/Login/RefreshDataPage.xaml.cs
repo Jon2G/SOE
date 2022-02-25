@@ -36,7 +36,6 @@ namespace SOE.Views.Pages.Login
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            AppData.CreateDatabase();
             if (FirstTime)
                 Model.GetUserData().SafeFireAndForget();
         }

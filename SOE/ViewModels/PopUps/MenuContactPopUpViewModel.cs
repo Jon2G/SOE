@@ -1,5 +1,6 @@
 ﻿using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
+using SOE.Models;
 using SOE.Services;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
@@ -45,29 +46,29 @@ namespace SOE.ViewModels.PopUps
         {
             await Task.Yield();
             
-            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Eliminado contacto"))
-            {
-                if (await Contact.Delete())
-                {
+            //using (Acr.UserDialogs.UserDialogs.Instance.Loading("Eliminado contacto"))
+            //{
+            //    if (await Contact.Delete())
+            //    {
                     
-                    await AcademicDirectory.Instance.Model.Init();
-                    Shell.Current.CurrentPage.DisplayAlert(
-                     title: "¡Gracias!",
-                     message:
-                     "Este contacto a sido eliminado exitosamente.",
-                      "Ok").SafeFireAndForget();
-                }
-                else
-                {
-                    Shell.Current.CurrentPage.DisplayAlert(
-                        title: "Opps...",
-                        message: "Ocurrio un error al tratar eliminar de  este contacto.\nPor favor intente más tarde o envie un correo a soporte  técnico.",
-                        "Ok")
-                    .SafeFireAndForget();
+            //        await AcademicDirectory.Instance.Model.Init();
+            //        Shell.Current.CurrentPage.DisplayAlert(
+            //         title: "¡Gracias!",
+            //         message:
+            //         "Este contacto a sido eliminado exitosamente.",
+            //          "Ok").SafeFireAndForget();
+            //    }
+            //    else
+            //    {
+            //        Shell.Current.CurrentPage.DisplayAlert(
+            //            title: "Opps...",
+            //            message: "Ocurrio un error al tratar eliminar de  este contacto.\nPor favor intente más tarde o envie un correo a soporte  técnico.",
+            //            "Ok")
+            //        .SafeFireAndForget();
                     
-                }
-                this.PopUp.Close().SafeFireAndForget();
-            }
+            //    }
+            //    this.PopUp.Close().SafeFireAndForget();
+            //}
         }
 
         private void Reportar()

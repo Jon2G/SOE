@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Acr.UserDialogs;
-using AsyncAwaitBestPractices;
+﻿using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
 using Kit;
 using Kit.Forms.Extensions;
-using Kit.Forms.Services;
 using Kit.Model;
 using Plugin.XamarinFormsSaveOpenPDFPackage;
 using SOE.Data;
-using SOE.Data.Images;
-using SOE.Models.Data;
+using SOE.Data.Archives;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
 using System.IO;
-using Xamarin.Essentials;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 using Command = Xamarin.Forms.Command;
 
@@ -127,7 +121,7 @@ namespace SOE.ViewModels.ViewItems
             await Task.Yield();
             return this.AvatarSource.ImageToStream();
         }
-      
+
         private void Goto(int index)
         {
             App.Current.Dispatcher.BeginInvokeOnMainThread(() => MasterPage.Instance.Model.SelectedIndex = index);

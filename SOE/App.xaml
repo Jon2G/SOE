@@ -9,6 +9,7 @@
              xmlns:converters="clr-namespace:SOE.Converters;assembly=SOE"
              xmlns:kit="clr-namespace:Kit.Forms;assembly=Kit.Forms"
              xmlns:dotMorten="clr-namespace:dotMorten.Xamarin.Forms;assembly=dotMorten.Xamarin.Forms.AutoSuggestBox"
+             xmlns:converters1="clr-namespace:Kit.Forms.Converters;assembly=Kit.Forms"
              x:Class="SOE.App">
     <!--
         Define global resources and styles here, that apply to all pages in your app.
@@ -194,6 +195,7 @@
                 <Setter Property="TabStripPlacement" Value="Bottom" />
             </Style>
             <converters:SubjectColorAppThemeConverter x:Key="SubjectColorAppThemeConverter"/>
+            <converters1:IsGreaterThanConverter x:Key="IsGreaterThanConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </kit:Application>

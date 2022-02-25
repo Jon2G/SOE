@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Google.Cloud.Firestore;
 using Kit.Model;
-using Kit.Sql.Attributes;
-using Kit.Sql.Interfaces;
-using SOE.Data;
 using SOE.Enums;
 
 namespace SOE.Models.TodoModels
 {
-
-    public class DocumentPart : ModelBase, IGuid
+    [FirestoreData]
+    public class DocumentPart : ModelBase
     {
+        [FirestoreDocumentId]
+        public string DocumentId { get; set; }
         private string _Content;
-        [PrimaryKey, AutoIncrement]
-        public Guid Guid { get; set; }
-
+        [FirestoreProperty]
         public string Content
         {
             get => _Content;
@@ -24,17 +20,11 @@ namespace SOE.Models.TodoModels
                 Raise(() => Content);
             }
         }
-        public Guid IdDocumento { get; set; }
+        [FirestoreProperty]
         public DocType DocType { get; set; }
-        public void Save(Document origin)
+        public DocumentPart()
         {
-            this.IdDocumento = origin.Guid;
-            AppData.Instance.LiteConnection.Insert(this, false);
-        }
 
-        internal static IEnumerable<DocumentPart> GetDoc(Guid idDocument)
-        {
-            return AppData.Instance.LiteConnection.Table<DocumentPart>().Where(x => x.IdDocumento == idDocument);
         }
     }
 }

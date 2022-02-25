@@ -39,34 +39,22 @@ namespace SOE.Views.Pages
 
         private async Task Init()
         {
-            AppData.Init();
-            if (Tools.Debugging)
-            {
-                AppData.CreateDatabase();
-            }
-            User user = null;
-            if (AppData.Instance.LiteConnection.TableExists<User>())
-            {
-                user = User.Get();
-            }
-            else
-            {
-                AppData.Instance.LiteConnection.CreateTable<User>();
-                AppData.Instance.LiteConnection.CreateTable<School>();
-            }
-
-            if (user is null)
+            var localData = UserLocalData.Instance;
+            if (localData is null)
             {
                 App.Current.MainPage = new UserSignUpPage();
                 return;
             }
-            Settings settings = user.GetSettings();
-            if (settings.IsFingerPrintActive)
+
+            AppData.Instance.User.Boleta = localData.Boleta;
+            User user=await User.Get();
+
+            if (user.Settings.IsFingerPrintActive)
             {
                 if (!await CrossFingerprint.Current.IsAvailableAsync(true))
                 {
                     Acr.UserDialogs.UserDialogs.Instance.Alert("La autenticación biométrica no esta disponible  o no esta configurada.", "Atención", "OK");
-                    GotoManualLogin(user, settings);
+                    GotoManualLogin(null, user.Settings);
                     return;
                 }
                 var authResult = await Device.InvokeOnMainThreadAsync(() =>
@@ -81,20 +69,20 @@ namespace SOE.Views.Pages
                     authResult.ErrorMessage == "Authentication canceled")
                 {
                     Log.Logger.Error("Tu telegono no jala con pin amiko Im so sorry");
-                    GotoManualLogin(user, settings);
+                    GotoManualLogin(user, user.Settings);
                 }
                 if (authResult.Authenticated)
                 {
-                    GotoApp(user, settings);
+                    GotoApp(user, user.Settings);
                 }
                 else
                 {
-                    GotoManualLogin(user, settings);
+                    GotoManualLogin(user, user.Settings);
                 }
             }
             else
             {
-                GotoApp(user, settings);
+                GotoApp(user, user.Settings);
             }
         }
 

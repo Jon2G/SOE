@@ -1,41 +1,25 @@
-﻿using System;
-using System.Net;
-using Android.App;
+﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.Gms.Extensions;
 using Android.OS;
-using Android.Webkit;
+using Android.Runtime;
+using Android.Views;
 using Firebase.DynamicLinks;
-using Java.Net;
-using Kit.Droid;
-using Kit.Droid.Services;
-using Kit.Forms.Services;
-using Kit.Forms.Services.Interfaces;
 using PanCardView.Droid;
 using Plugin.CurrentActivity;
 using Plugin.Fingerprint;
 using Plugin.Media;
-using SOE.API;
 using SOE.Droid.FireBase;
-using SOE.Droid.Notifications;
 using SOE.FireBase;
-using SOE.Interfaces;
 using SOE.Models.Scheduler;
+using SOE.Models.TodoModels;
+using SOE.Secrets;
 using SOE.Services.ActionResponse;
 using SOE.Views.Pages;
 using SOE.Widgets;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
+using System;
 using Xamarin.Forms;
 using Uri = Android.Net.Uri;
-using SOE.Models.TodoModels;
-using Application = Xamarin.Forms.Application;
-using Xamarin.Android;
-using Xamarin.Forms.Internals;
-using SOEWeb.Shared.Secrets;
-using Android.Runtime;
-using Android.Views;
 
 namespace SOE.Droid.Activities
 {
@@ -117,14 +101,11 @@ namespace SOE.Droid.Activities
                     }
                     break;
                 case ToDosWidget.ITEM_CLICK:
-                    if (Guid.TryParse(intent.GetStringExtra(nameof(ToDo.Guid)), out Guid TodoId))
-                    {
-                        pendingAction = new TodoWidgetAction(TodoId);
-                    }
+                    pendingAction = new TodoWidgetAction(intent.GetStringExtra(nameof(ToDo.DocumentId)));
                     break;
                 case TimeLineWidget.ITEM_CLICK:
                     long ticks = intent.GetLongExtra(nameof(ClassSquare.Begin), 0);
-                    int subjectId = intent.GetIntExtra(nameof(ClassSquare.Subject.Id), 0);
+                    string subjectId = intent.GetStringExtra(nameof(ClassSquare.Subject.DocumentId));
                     DayOfWeek dayOfWeek = (DayOfWeek)intent.GetIntExtra(nameof(ClassSquare.Day), 1);
                     pendingAction = new TimeLineWidgetSubjectAction(new DateTime(ticks), subjectId, dayOfWeek);
                     break;

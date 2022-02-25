@@ -1,8 +1,7 @@
-﻿using SOEWeb.Shared;
-using AsyncAwaitBestPractices;
+﻿using AsyncAwaitBestPractices;
 using Kit.Model;
+using SOE.Models;
 using SOE.Models.Scheduler;
-using SOE.Services;
 using SOE.Views.PopUps;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -13,9 +12,9 @@ namespace SOE.ViewModels.Pages
     public class MenuHorarioPopUpViewModel : ModelBase
     {
         private readonly MenuHorarioPopUp PopUp;
-        public ClassSquare ClassSquare { get;}
+        public ClassSquare ClassSquare { get; }
         public Teacher Teacher { get; set; }
-        public MenuHorarioPopUpViewModel(MenuHorarioPopUp PopUp,ClassSquare square)
+        public MenuHorarioPopUpViewModel(MenuHorarioPopUp PopUp, ClassSquare square)
         {
             this.PopUp = PopUp;
             this.ClassSquare = square;
@@ -24,7 +23,7 @@ namespace SOE.ViewModels.Pages
         private async Task LoadTeacher()
         {
             await Task.Yield();
-            this.Teacher = TeacherService.Get(ClassSquare.Subject.IdTeacher);
+            this.Teacher = ClassSquare.Subject.Teacher;
             Raise(() => Teacher);
         }
         private ICommand _TapedCommand;
@@ -34,8 +33,6 @@ namespace SOE.ViewModels.Pages
         {
             this.Action = Action;
             PopUp.Close().SafeFireAndForget();
-
         }
-        
     }
 }

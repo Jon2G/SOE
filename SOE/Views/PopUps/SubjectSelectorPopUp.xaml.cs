@@ -1,16 +1,16 @@
-﻿using SOE.ViewModels.Pages;
+﻿using AsyncAwaitBestPractices;
 using SOE.ViewModels.PopUps;
 using Xamarin.Forms.Xaml;
 
 namespace SOE.Views.PopUps
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SubjectPopUp 
+    public partial class SubjectPopUp
     {
         public SubjectSelectorPopUpViewModel Modelo { get; set; }
         public SubjectPopUp()
         {
-            this.Modelo=new SubjectSelectorPopUpViewModel(this); 
+            this.Modelo = new SubjectSelectorPopUpViewModel(this);
             InitializeComponent();
             this.BindingContext = this.Modelo;
             App.Current.RequestedThemeChanged += Current_RequestedThemeChanged;
@@ -18,7 +18,7 @@ namespace SOE.Views.PopUps
 
         private void Current_RequestedThemeChanged(object sender, Xamarin.Forms.AppThemeChangedEventArgs e)
         {
-            this.Modelo.Refresh();
+            this.Modelo.Refresh().SafeFireAndForget();
         }
     }
 }

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Windows.Input;
-using AsyncAwaitBestPractices;
-using AsyncAwaitBestPractices.MVVM;
+﻿using AsyncAwaitBestPractices;
 using SOE.Data;
 using SOE.Models.TodoModels;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
 using SOE.Views.ViewItems;
-using SOE.Views.ViewItems.TasksViews;
+using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -17,7 +15,7 @@ namespace SOE.ViewModels.Pages
     public class TaskViewModel
     {
         public ICommand _OpenMenuCommand;
-        public ICommand OpenMenuCommand => _OpenMenuCommand ??= new AsyncCommand(OpenMenu);
+        public ICommand OpenMenuCommand => _OpenMenuCommand ??= new Command(OpenMenu);
         public ToDo ToDo { get; set; }
         private readonly BySubjectGroup BySubjectGroup;
         public TaskViewModel(ToDo ToDo, BySubjectGroup BySubjectGroup)
@@ -25,57 +23,51 @@ namespace SOE.ViewModels.Pages
             this.BySubjectGroup = BySubjectGroup;
             this.ToDo = ToDo;
         }
-        private async Task OpenMenu()
+        private void OpenMenu()
         {
-            await Task.Yield();
             var pr = new MenuPopUp(ToDo);
-            await pr.ShowDialog();
-            switch (pr.Model.Action)
+            pr.ShowDialog()
+                .ContinueWith(t =>
             {
-                case "Ver":
-                    Detail();
-                    return;
-                case "Hecho":
-                    if (ToDo.Status == Enums.PendingStatus.Done)
-                    {
-                        Pendiente();
-                    }
-                    else
-                    {
-                        Completada();
-                    }
-                    break;
-                case "Editar":
-                    OpenTask();
-                    break;
-                case "Archivar":
-                    if (ToDo.Status.HasFlag(Enums.PendingStatus.Archived))
-                    {
-                        Desarchivar();
+                switch (pr.Model.Action)
+                {
+                    case "Ver":
+                        Detail();
+                        return;
+                    case "Hecho":
+                        if (ToDo.Status == Enums.PendingStatus.Done)
+                        {
+                            Pendiente();
+                        }
+                        else
+                        {
+                            Completada();
+                        }
+
                         break;
-                    }
-                    Archivar();
-                    break;
-                case "Eliminar":
-                    Eliminar();
-                    break;
-                case "Compartir":
-                    await Compartir();
-                    return;
-            }
-            Device.BeginInvokeOnMainThread(Refresh);
-            void Refresh()
-            {
-                try
-                {
-                    PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction,
-                        ToDo.Status);
+                    case "Editar":
+                        OpenTask();
+                        break;
+                    case "Archivar":
+                        if (ToDo.Status.HasFlag(Enums.PendingStatus.Archived))
+                        {
+                            Desarchivar();
+                            break;
+                        }
+                        Archivar();
+                        break;
+                    case "Eliminar":
+                        Eliminar();
+                        break;
+                    case "Compartir":
+                        Compartir().SafeFireAndForget();
+                        return;
                 }
-                catch (Exception ex)
-                {
-                    App.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok").SafeFireAndForget();
-                }
-            }
+
+                PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction,
+                    ToDo.Status);
+            }).SafeFireAndForget();
+
         }
 
         private async Task Compartir()
@@ -115,11 +107,17 @@ namespace SOE.ViewModels.Pages
         }
         private void OpenTask()
         {
-            App.Current.MainPage.Navigation.PushAsync(new NewTaskPage(this.ToDo), true);
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                App.Current.MainPage.Navigation.PushAsync(new NewTaskPage(this.ToDo), true);
+            });
         }
         private void Detail()
         {
-            App.Current.MainPage.Navigation.PushAsync(new TaskDetails(this.ToDo), true);
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                App.Current.MainPage.Navigation.PushAsync(new TaskDetails(this.ToDo), true);
+            });
         }
         private void Archivar()
         {

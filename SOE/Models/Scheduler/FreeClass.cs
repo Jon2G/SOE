@@ -1,13 +1,11 @@
 ﻿using System;
-using SOE.Services;
-using SOEWeb.Shared;
 using FontelloIcons = SOE.Fonts.FontelloIcons;
 
 namespace SOE.Models.Scheduler
 {
-    public class FreeClass:ClassSquare
+    public class FreeClass : ClassSquare
     {
-        public static int Count=0;
+        private static int Count = 0;
 
         public string Icon
         {
@@ -35,10 +33,10 @@ namespace SOE.Models.Scheduler
             }
         }
 
-        public FreeClass(TimeSpan Begin, TimeSpan End, DayOfWeek Day) :
-            base(new(-1, -1, "Hora libre", new ThemeColor(Xamarin.Forms.Color.Gainsboro.ToHex()), String.Empty), Begin, End, Day)
+        public FreeClass(TimeSpan begin, TimeSpan end, DayOfWeek day) :
+            base(new Subject(Teacher.Free, "Hora libre", new ThemeColor(Xamarin.Forms.Color.Gainsboro.ToHex()), Group.None), begin, end, day)
         {
-          
+
         }
     }
 }

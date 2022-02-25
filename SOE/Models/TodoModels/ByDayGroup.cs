@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Kit;
+using Kit.Model;
+using SOE.Enums;
+using SOE.ViewModels.Pages;
+using SOE.Views.ViewItems.TasksViews;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Kit;
-using Kit.Model;
-using SOE.Data;
-using SOE.Enums;
-using SOE.Services;
-using SOE.Views.ViewItems.TasksViews;
 using System.Threading.Tasks;
-using SOE.Models.TodoModels;
+using Xamarin.Forms;
 
 namespace SOE.Models.TodoModels
 {
@@ -17,7 +18,27 @@ namespace SOE.Models.TodoModels
         public ByDayView View { get; set; }
         public DateTime FDateTime { get; }
         public string Month { get => FDateTime.Month.Mes(); }
-        public ObservableCollection<BySubjectGroup> SubjectGroups { get; set; }
+        private readonly object _SubjectGroupsLock = new object();
+
+        private ObservableCollection<BySubjectGroup> _SubjectGroups;
+        public ObservableCollection<BySubjectGroup> SubjectGroups
+        {
+            get
+            {
+                lock (_SubjectGroupsLock)
+                {
+                    return this._SubjectGroups;
+                }
+            }
+            set
+            {
+                lock (_SubjectGroupsLock)
+                {
+                    _SubjectGroups = value;
+                    Raise(() => SubjectGroups);
+                }
+            }
+        }
         public int Tareas => SubjectGroups.Sum(x => x.ToDoS.Count);
         private bool _IsExpanded;
 
@@ -34,7 +55,16 @@ namespace SOE.Models.TodoModels
         {
             this.FDateTime = date;
             this.SubjectGroups = new ObservableCollection<BySubjectGroup>();
+            Binding.EnableCollectionSynchronization(SubjectGroups, _SubjectGroupsLock, CallBack);
 
+        }
+
+        private void CallBack(IEnumerable collection, object context, Action accessmethod, bool writeaccess)
+        {
+            lock (_SubjectGroupsLock)
+            {
+                accessmethod.Invoke();
+            }
         }
 
         public async Task ExpandAll(bool expand)
@@ -55,16 +85,36 @@ namespace SOE.Models.TodoModels
 
         public void Refresh(PendingStatus status)
         {
-            SubjectGroups.Clear();
-            SubjectGroups.AddRange(AppData.Instance.LiteConnection.Lista<int>(
-                    $"SELECT Distinct {nameof(ToDo.SubjectId)} from {nameof(ToDo)} where {nameof(ToDo.Date)}={this.FDateTime.Ticks} AND STATUS={(int)status}")
-                .Select(x => new BySubjectGroup(SubjectService.Get(x))));
+            //    SubjectGroups.Clear();
+            //    SubjectGroups.AddRange(AppData.Instance.LiteConnection.Lista<int>(
+            //            $"SELECT Distinct {nameof(ToDo.SubjectId)} from {nameof(ToDo)} where {nameof(ToDo.Date)}={this.FDateTime.Ticks} AND STATUS={(int)status}")
+            //        .Select(x => new BySubjectGroup(SubjectService.Get(x))));
 
-            foreach (var group in this.SubjectGroups)
+            //    foreach (var group in this.SubjectGroups)
+            //    {
+            //        group.Refresh(this.FDateTime, status);
+            //    }
+            //    RefreshCount();
+        }
+
+        public void Add(ToDo toDo, List<BySubjectGroup> groups)
+        {
+            try
             {
-                group.Refresh(this.FDateTime, status);
+                BySubjectGroup? group = groups.FirstOrDefault(x => x.Subject == toDo.Subject);
+                if (group is not null)
+                {
+                    group.ToDoS.Add(new TaskViewModel(toDo, group));
+                    return;
+                }
+                var newGroup = new BySubjectGroup(toDo.Subject);
+                groups.Add(newGroup);
+                newGroup.ToDoS.Add(new TaskViewModel(toDo, newGroup));
             }
-            RefreshCount();
+            catch (Exception ex)
+            {
+                Log.Logger.Error(ex, "Add");
+            }
         }
     }
 }

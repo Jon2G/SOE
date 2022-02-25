@@ -1,10 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-
-using Kit.Forms.Extensions;
-using SOE.Data;
-using SOE.Data.Images;
+﻿using P42.Utils;
 using SOE.Models.TodoModels;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -27,7 +23,6 @@ namespace SOE.Views.Pages
         }
         public NewTaskPage()
         {
-
             InitializeComponent();
         }
 
@@ -51,15 +46,15 @@ namespace SOE.Views.Pages
             this.Modelo?.OnDateChangedCommand?.Execute(sender);
         }
 
-        private async void GetPhotos(ToDo toDo)
+        private void GetPhotos(ToDo toDo)
         {
-            await Task.Yield();
-            foreach (Archive file in AppData.Instance.LiteConnection.Table<Archive>()
-                .Where(x => x.IdKeeper == toDo.IdKeeper))
+            toDo.GetPhotos().ContinueWith(t =>
             {
-                PhotoArchive archive = new(file.Path, Enums.FileType.Photo,false);
-                this.Modelo.Photos.Add(archive);
-            }
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    this.Modelo.Photos.AddRange(t.Result);
+                });
+            });
         }
     }
 }

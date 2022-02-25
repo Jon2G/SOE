@@ -3,8 +3,8 @@ using Android.Appwidget;
 using Android.Content;
 using Android.OS;
 using Android.Widget;
-using SOEWeb.Shared;
 using SOE.Droid.Activities;
+using SOE.Models;
 using SOE.Models.Scheduler;
 using SOE.Widgets;
 using SQLitePCL;
@@ -44,7 +44,7 @@ namespace SOE.Droid.Widgets.TimeLine
             base.OnAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
         }
 
-        public override void OnReceive(Context context, Intent intent)
+        public override async void OnReceive(Context context, Intent intent)
         {
             base.OnReceive(context, intent);
             AppWidgetManager mgr = AppWidgetManager.GetInstance(context);
@@ -52,7 +52,7 @@ namespace SOE.Droid.Widgets.TimeLine
             int[]? appWidgetIds = intent.GetIntArrayExtra(AppWidgetManager.ExtraAppwidgetIds);
             if (appWidgetIds is null || appWidgetIds.Length <= 0)
             {
-                appWidgetIds = new[] {intent.GetIntExtra(AppWidgetManager.ExtraAppwidgetId, 0)};
+                appWidgetIds = new[] { intent.GetIntExtra(AppWidgetManager.ExtraAppwidgetId, 0) };
             }
             foreach (int appWidgetId in appWidgetIds)
             {
@@ -87,8 +87,8 @@ namespace SOE.Droid.Widgets.TimeLine
                     case TimeLineWidget.ITEM_CLICK:
                         Intent OpenClassTimeDetails = new Intent(context, typeof(MainActivity));
                         int itemPosition = intent.GetIntExtra(TimeLineWidget.EXTRA_ITEM, 0);
-                        ClassSquare classItem = TimeLineWidget.GetItemAt(appWidgetId, itemPosition);
-                        OpenClassTimeDetails.PutExtra(nameof(ClassTime.Id), classItem.Subject.Id);
+                        ClassSquare classItem = await TimeLineWidget.GetItemAt(appWidgetId, itemPosition);
+                        OpenClassTimeDetails.PutExtra(nameof(ClassTime.IdDocument), classItem.Subject.DocumentId);
                         OpenClassTimeDetails.PutExtra(nameof(ClassTime.Begin), classItem.Begin.Ticks);
                         OpenClassTimeDetails.PutExtra(nameof(ClassTime.Day), (int)classItem.Day);
                         //OpenClassTimeDetails.SetFlags(ActivityFlags.NewTask);

@@ -20,7 +20,7 @@ namespace SOE.Services.ActionResponse
             await Task.Yield();
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Descargando tarea..."))
             {
-                await APIService.DownloadSharedTodo(this.Id);
+                //await APIService.Current.DownloadSharedTodo(this.Id);
             }
 
         }

@@ -21,7 +21,7 @@ namespace SOE.Services.ActionResponse
             await Task.Yield();
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Descargando recordatorio..."))
             {
-                await APIService.DownloadSharedReminder(this.Id);
+                //await APIService.Current.DownloadSharedReminder(this.Id);
             }
         }
     }

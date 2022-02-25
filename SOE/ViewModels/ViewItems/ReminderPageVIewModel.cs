@@ -7,6 +7,7 @@ using SOE.Views.PopUps;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Device = Xamarin.Forms.Device;
 
 namespace SOE.ViewModels.ViewItems
 {
@@ -66,8 +67,8 @@ namespace SOE.ViewModels.ViewItems
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     PendingRemindersViewModel.Instance.Reminders.Clear();
-                    PendingRemindersViewModel.Instance.Load();
                 });
+                PendingRemindersViewModel.Instance.Load();
             }
         }
     }

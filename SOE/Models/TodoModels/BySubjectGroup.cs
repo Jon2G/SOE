@@ -47,16 +47,16 @@ namespace SOE.Models.TodoModels
 
         internal void Refresh(DateTime date, PendingStatus status)
         {
-            this.ToDoS.AddRange(AppData.Instance.LiteConnection
-                .DeferredQuery<ToDo>(
-                    $"SELECT * from {nameof(ToDo)} where {nameof(ToDo.SubjectId)}=? AND STATUS=? AND {nameof(ToDo.Date)}=? order by Time",
-                    this.Subject.Id, status, date)
-                .Select(x => new TaskViewModel(x, this)));
-            foreach (var todo in ToDoS)
-            {
-                todo.ToDo.Subject = Subject;
-                todo.ToDo.LoadDocument();
-            }
+            //this.ToDoS.AddRange(AppData.Instance.LiteConnection
+            //    .DeferredQuery<ToDo>(
+            //        $"SELECT * from {nameof(ToDo)} where {nameof(ToDo.SubjectId)}=? AND STATUS=? AND {nameof(ToDo.Date)}=? order by Time",
+            //        this.Subject.Guid, status, date)
+            //    .Select(x => new TaskViewModel(x, this)));
+            //foreach (var todo in ToDoS)
+            //{
+            //    todo.ToDo.Subject = Subject;
+            //    todo.ToDo.LoadDocument();
+            //}
         }
 
 

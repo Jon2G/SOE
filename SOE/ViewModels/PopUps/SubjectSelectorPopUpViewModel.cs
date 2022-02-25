@@ -1,11 +1,8 @@
-﻿using AsyncAwaitBestPractices.MVVM;
+﻿using AsyncAwaitBestPractices;
 using Kit.Model;
-using SOE.Data;
-using SOE.Services;
+using SOE.Models;
 using SOE.Views.PopUps;
-using SOEWeb.Shared;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -17,26 +14,27 @@ namespace SOE.ViewModels.PopUps
         public List<Subject> Subjects { get; set; }
 
         private ICommand _ClosePopUpCommand;
-        public ICommand ClosePopUpCommand => this._ClosePopUpCommand ??= new AsyncCommand<Subject>(ClosePopUp);
+        public ICommand ClosePopUpCommand => this._ClosePopUpCommand ??= new Command<Subject>(ClosePopUp);
 
         private readonly SubjectPopUp SubjectsPopUp;
         public Subject SelectedSubject { get; private set; }
         public SubjectSelectorPopUpViewModel(SubjectPopUp sub)
         {
-            this.Refresh();
+            this.Refresh().SafeFireAndForget();
             this.SubjectsPopUp = sub;
         }
 
-        internal void Refresh()
+        internal async Task Refresh()
         {
-            this.Subjects = SubjectService.ToList();
+            await Task.Yield();
+            this.Subjects = await Subject.GetAll();
             this.Raise(() => this.Subjects);
         }
 
-        public async Task ClosePopUp(Subject subject)
+        public void ClosePopUp(Subject subject)
         {
             this.SelectedSubject = subject;
-            await this.SubjectsPopUp.Close();
+            this.SubjectsPopUp.Close().SafeFireAndForget();
             //?
         }
     }

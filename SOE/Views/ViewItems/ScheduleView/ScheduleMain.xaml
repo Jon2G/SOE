@@ -20,7 +20,7 @@
             <scheduleView:ClassSquareDataTemplateSelector.FreeHourTemplate>
                 <DataTemplate x:DataType="scheduler:FreeClass">
                     <ContentView  HeightRequest="{Binding HoursHeigthRequest}" 
-                                  BackgroundColor="#9D7AB4" TabIndex="0"
+                                  BackgroundColor="#9D7AB4" TabIndex="0" IsVisible="True"
                                   MinimumHeightRequest="{Binding HoursHeigthRequest}" >
                         <pancakeView:CustomPancakeView Visual="Default"  Margin="3"  
                                                  BackgroundColor="#E1CEEE" CornerRadius="0"
@@ -100,7 +100,8 @@
                 </Image>
             </StackLayout>
             <Grid>
-                <StackLayout BindingContext="{x:Reference Model}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="5">
+                <StackLayout VerticalOptions="FillAndExpand" 
+                             HorizontalOptions="FillAndExpand" Padding="5">
                     <Grid  ColumnDefinitions="20,*" >
                         <views:UniformGrid Grid.Column="1"
                     BindableLayout.ItemsSource="{Binding WeekDays}">
@@ -159,6 +160,5 @@
                                           HorizontalOptions="FillAndExpand"/>
             </Grid>
         </StackLayout>
-     
     </models:IconView.Content>
 </models:IconView>

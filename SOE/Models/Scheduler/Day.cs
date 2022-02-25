@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using SOEWeb.Shared;
+﻿using Kit;
 using Kit.Model;
-using SOE.Data;
-using Kit;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 namespace SOE.Models.Scheduler
 {
     public class Day : ModelBase
@@ -18,7 +19,7 @@ namespace SOE.Models.Scheduler
         {
             this.Date = Date;
             this.DayOfWeek = Date.DayOfWeek;
-            this.Name =DayOfWeek.GetDayName();
+            this.Name = DayOfWeek.GetDayName();
         }
 
         public static List<Day> Week()
@@ -33,32 +34,37 @@ namespace SOE.Models.Scheduler
             };
         }
 
-   
 
-        public List<ClassSquare> GetTimeLine()
+
+        public Task<List<ClassSquare>> GetTimeLine(TimeSpan? from = null)
         {
-            List<ClassSquare> classSquares = new List<ClassSquare>();
             try
             {
-                if (AppData.Instance is null)
-                {
-                    AppData.Init();
-                }
-                TimeSpan EndTime = TimeSpan.Zero;
-                foreach (ClassTime classTime in AppData.Instance.LiteConnection.Table<ClassTime>()
-                    .Where(x => x.Day == this.DayOfWeek)
-                    .OrderBy(x => x.Begin))
-                {
-                    Subject subject = AppData.Instance.LiteConnection.Find<Subject>(classTime.IdSubject);
-                    classSquares.Add(new ClassSquare(subject, classTime.Begin, classTime.End, classTime.Day));
-                }
+                return ClassTime.Query(
+                          ClassTime.Collection
+                              .WhereEqualTo(nameof(ClassTime.Day), (int)DayOfWeek)
+                              .OrderBy(nameof(ClassTime.BeginTimestamp))
+                              )
+                      .ToListAsync()
+                      .AsTask()
+                      .ContinueWith(t =>
+                      {
+                          List<ClassSquare> classSquares = new List<ClassSquare>();
+                          IEnumerable<ClassTime> results = from is null ? t.Result : t.Result.Where(x => x.End > from);
+                          foreach (ClassTime classTime in results)
+                          {
+                              classSquares.Add(new ClassSquare(classTime.Subject, classTime.Begin, classTime.End,
+                                  classTime.Day));
+                          }
+
+                          return classSquares;
+                      });
             }
             catch (Exception ex)
             {
                 Log.Logger?.Error(ex, "GetTimeLine");
             }
-
-            return classSquares;
+            return Task.FromResult(new List<ClassSquare>());
         }
 
         public static Day Today()
@@ -68,7 +74,6 @@ namespace SOE.Models.Scheduler
             {
                 Day = new Day(Day.Date.AddDays(1));
             }
-
             return Day;
         }
 

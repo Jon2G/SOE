@@ -1,4 +1,5 @@
-﻿using SOEWeb.Shared;
+﻿using SOE.Models;
+using SOEWeb.Shared;
 using SOE.ViewModels.Pages;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

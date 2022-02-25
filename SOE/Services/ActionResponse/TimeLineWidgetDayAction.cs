@@ -20,7 +20,7 @@ namespace SOE.Services.ActionResponse
         {
             await Task.Run(() => { while (ScheduleViewMain.Instance is null) { } });
             MasterPage.Instance.Model.SelectedIndex = 2;
-            SheduleDay sheduleDay = new SheduleDay(new Day(Day.GetNearest()));
+            SheduleDay sheduleDay = await SheduleDay.GetDay(new Day(Day.GetNearest()));
             ScheduleViewMain.Instance.OnDayTappedCommand.Execute(sheduleDay);
         }
     }

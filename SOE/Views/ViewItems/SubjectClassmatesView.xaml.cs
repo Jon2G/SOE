@@ -1,5 +1,6 @@
 ﻿using SOEWeb.Shared;
 using SOE.Fonts;
+using SOE.Models;
 using SOE.ViewModels.ViewItems;
 using Xamarin.Forms.Xaml;
 

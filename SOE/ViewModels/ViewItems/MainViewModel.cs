@@ -1,11 +1,8 @@
-﻿using System.Windows.Input;
-using AsyncAwaitBestPractices;
-using Kit.Model;
+﻿using Kit.Model;
 using SOE.Enums;
-using SOE.Models;
 using SOE.Views.PopUps;
 using SOE.Views.ViewItems;
-using SOE.Views.ViewItems.TasksViews;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace SOE.ViewModels.ViewItems
@@ -38,28 +35,16 @@ namespace SOE.ViewModels.ViewItems
             switch (pr.Model.Action)
             {
                 case "Completadas":
-                    Device.BeginInvokeOnMainThread(() =>
-                        {
-                            PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction,
-                                PendingStatus.Done);
-                            PendingRemindersViewModel.Instance.Load(PendingStatus.Done);
-
-                        });
+                    PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction, PendingStatus.Done);
+                    PendingRemindersViewModel.Instance.Load(PendingStatus.Done);
                     break;
                 case "Pendientes":
-                    Device.BeginInvokeOnMainThread(() =>
-                    {
-                        PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction);
-                        PendingRemindersViewModel.Instance.Load(PendingStatus.Pending);
-                    });
+                    PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction);
+                    PendingRemindersViewModel.Instance.Load(PendingStatus.Pending);
                     break;
                 case "Archivadas":
-                    Device.BeginInvokeOnMainThread(() =>
-                    {
-                        PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction,
-                            PendingStatus.Archived);
-                        PendingRemindersViewModel.Instance.Load(PendingStatus.Pending);
-                    });
+                    PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction, PendingStatus.Archived);
+                    PendingRemindersViewModel.Instance.Load(PendingStatus.Pending);
                     break;
             }
         }

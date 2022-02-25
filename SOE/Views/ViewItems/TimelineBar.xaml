@@ -17,13 +17,14 @@
         <models:TimelineBarViewModel x:Name="Model"/>
     </ContentView.BindingContext>
     <ContentView.Content>
-        <Grid>
-            <ScrollView InputTransparent="True" VerticalScrollBarVisibility="Default" HorizontalScrollBarVisibility="Never"  Orientation="Vertical">
-                <viewItems:SwipeContainer SwipeCommand="{Binding ToggleCommand}"
-                                   CommandParameter="{x:Reference Me}">
-                    <viewItems:SwipeContainer.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ToggleCommand}" CommandParameter="{x:Reference Me}"/>
-                    </viewItems:SwipeContainer.GestureRecognizers>
+        <viewItems:SwipeContainer SwipeCommand="{Binding ToggleCommand}"
+                                  CommandParameter="{x:Reference Me}">
+                <viewItems:SwipeContainer.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ToggleCommand}" CommandParameter="{x:Reference Me}"/>
+                </viewItems:SwipeContainer.GestureRecognizers>
+                <!--<ScrollView InputTransparent="True" VerticalScrollBarVisibility="Default"
+                            HorizontalScrollBarVisibility="Never" 
+                            Orientation="Neither" CascadeInputTransparent="True">-->
                     <StackLayout Spacing="0"  BindableLayout.ItemsSource="{Binding ClassSquares}">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="{x:Type horario:ClassSquare}">
@@ -54,8 +55,7 @@
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </StackLayout>
-                </viewItems:SwipeContainer>
-            </ScrollView>
-        </Grid>
+                <!--</ScrollView>-->
+            </viewItems:SwipeContainer>
     </ContentView.Content>
 </ContentView>

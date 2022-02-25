@@ -1,18 +1,15 @@
-﻿using System;
+﻿using Google.Cloud.Firestore;
 using Kit.Model;
 using Kit.Sql.Attributes;
-using Kit.Sql.Interfaces;
-using SOE.Data;
 
 namespace SOE.Models.Data
 {
-    [Preserve]
-    public class Settings : ModelBase, IGuid
+    [Preserve, FirestoreData]
+    public class Settings : ModelBase
     {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
 
         private bool _ShowTimelineBar;
+        [FirestoreProperty]
         public bool ShowTimelineBar
         {
             get => _ShowTimelineBar;
@@ -23,6 +20,7 @@ namespace SOE.Models.Data
             }
         }
         private bool _IsFingerPrintActive;
+        [FirestoreProperty]
         public bool IsFingerPrintActive
         {
             get => _IsFingerPrintActive;
@@ -34,6 +32,7 @@ namespace SOE.Models.Data
         }
 
         private bool _ExpandCards;
+        [FirestoreProperty]
         public bool ExpandCards
         {
             get => _ExpandCards;
@@ -49,13 +48,19 @@ namespace SOE.Models.Data
             this.ShowTimelineBar = true;
             this.ExpandCards = true;
         }
-        public Guid Guid { get; set; }
-        internal void Save()
-        {
-            AppData.Instance.LiteConnection.CreateTable<Settings>();
-            AppData.Instance.LiteConnection.InsertOrReplace(this);
-            Notifications();
-        }
+        //public static async Task<Settings> Get()
+        //{
+        //    var snap = await FireBaseConnection.Instance.UserDocument.Collection<Settings>().Document("Settings")
+        //             .GetSnapshotAsync();
+        //    return snap.ConvertTo<Settings>()??new Settings();
+        //}
+
+        //internal async Task Save()
+        //{
+        //    await FireBaseConnection.Instance.UserDocument.Collection<Settings>().Document("Settings")
+        //            .SetAsync(this);
+        //    Notifications();
+        //}
         public void Notifications()
         {
             //if (IsNotificationsActive)

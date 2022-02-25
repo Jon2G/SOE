@@ -4,14 +4,10 @@ using Kit.Model;
 using SOE.Data;
 using SOE.Enums;
 using SOE.Models;
-using SOE.Models.TodoModels;
-using SOE.Services;
-using SOE.ViewModels.Pages;
-using SOE.Views.Pages;
 using SOE.Views.PopUps;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -46,19 +42,31 @@ namespace SOE.ViewModels.ViewItems
 
         }
 
-        public void Load(PendingStatus Status = PendingStatus.Pending)
+        public void Load(PendingStatus status = PendingStatus.Pending)
         {
-            Reminders.Clear();
-            Reminders.AddRange(
-                AppData.Instance.LiteConnection.Table<Reminder>()
-                .Where(x => x.Status == Status).ToList());
-            foreach (Reminder reminder in Reminders)
+            try
             {
-                if (reminder.SubjectId > 0)
-                {
-                    reminder.Subject = SubjectService.Get(reminder.SubjectId);
-                }
+                Reminder.Query(Reminder.Collection.WhereEqualTo(nameof(Reminder.Status), status))
+                    .ToListAsync().AsTask().ContinueWith(t =>
+                    {
+                        Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                         {
+                             Reminders.Clear();
+                             Reminders.AddRange(t.Result);
+                         });
+                    }).SafeFireAndForget();
             }
+            catch (Exception ex)
+            {
+                Log.Logger.Error(ex, "Getting reminders");
+            }
+            //foreach (Reminder reminder in Reminders)
+            //{
+            //    if (reminder.SubjectId > 0)
+            //    {
+            //        reminder.Subject = SubjectService.Get(reminder.SubjectId);
+            //    }
+            //}
         }
 
         private async void Completada(CheckBox checkBox)

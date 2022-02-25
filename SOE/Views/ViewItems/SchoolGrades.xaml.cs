@@ -1,8 +1,5 @@
-﻿using System.Threading.Tasks;
-using AsyncAwaitBestPractices;
+﻿using AsyncAwaitBestPractices;
 using SOE.Data;
-using SOE.Fonts;
-using SOE.ViewModels;
 using Xamarin.Forms.Xaml;
 
 namespace SOE.Views.ViewItems
@@ -23,7 +20,7 @@ namespace SOE.Views.ViewItems
         }
         public override void OnAppearing()
         {
-            this.Model.GetGrades();
+            this.Model.GetGrades().SafeFireAndForget();
         }
     }
 }

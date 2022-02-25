@@ -1,4 +1,4 @@
-﻿using SOEWeb.Shared.Secrets;
+﻿using SOE.Secrets;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 

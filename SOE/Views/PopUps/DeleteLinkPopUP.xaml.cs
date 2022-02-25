@@ -3,6 +3,7 @@ using Kit.Forms.Pages;
 using Rg.Plugins.Popup.Animations;
 using Rg.Plugins.Popup.Enums;
 using Rg.Plugins.Popup.Services;
+using SOE.Models;
 using SOE.ViewModels.ViewItems;
 using SOEWeb.Shared;
 using System;

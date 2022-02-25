@@ -1,18 +1,25 @@
-﻿using System.Collections.Generic;
-using Kit.Model;
+﻿using Kit.Model;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace SOE.Models.Scheduler
 {
-    public class SheduleDay: ModelBase
+    public class SheduleDay : ModelBase
     {
         public Day Day { get; set; }
-        public List<ClassSquare> Class { get; set; }
+        public ObservableCollection<ClassSquare> Class { get; set; }
 
 
-        public SheduleDay(Day Day)
+        private SheduleDay(Day day, ObservableCollection<ClassSquare> classes)
         {
-            this.Day = Day;
-            this.Class = Day.GetTimeLine();
+            this.Day = day;
+            this.Class = classes;
+        }
+
+        public static async Task<SheduleDay> GetDay(Day day)
+        {
+            var observable = new ObservableCollection<ClassSquare>(await day.GetTimeLine());
+            return new SheduleDay(day, observable);
         }
     }
 }

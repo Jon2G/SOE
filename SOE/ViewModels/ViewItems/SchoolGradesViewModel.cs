@@ -1,20 +1,19 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Acr.UserDialogs;
+﻿using Acr.UserDialogs;
 using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
 using Kit;
 using Kit.Model;
 using Kit.Services.Interfaces;
-using SOE.API;
 using SOE.Data;
+using SOE.Enums;
+using SOE.Models;
 using SOE.Models.Academic;
-using SOE.Services;
 using SOE.Views.PopUps;
-using SOEWeb.Shared.Enums;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace SOE.ViewModels
@@ -62,24 +61,32 @@ namespace SOE.ViewModels
 
         private void Current_RequestedThemeChanged(object sender, AppThemeChangedEventArgs e)
         {
-            GetGrades();
-            Raise(() => Grades);
-            Raise(() => SemesterAvg);
+            GetGrades().SafeFireAndForget();
         }
 
-        public void GetGrades()
+        public async Task GetGrades()
         {
-            this.Grades.Clear();
-            this.Grades.AddRange(SubjectService.ToList().Select(s => new SchoolGrade(s)));
-            SemesterAvg = 0;
-            if (Grades.Any())
+            await Task.Yield();
+            List<SchoolGrade> schoolGrades = new List<SchoolGrade>();
+            List<Subject> subjects = await Subject.GetAll();
+            foreach (Subject subject in subjects)
             {
-                List<SOEWeb.Shared.Grade> grades = this.Grades.SelectMany(x => x.Grades.Where(y => y.Partial == GradePartial.Final && y.NumericScore > 0)).ToList();
+                SchoolGrade grade = await SchoolGrade.FromSubject(subject);
+                schoolGrades.Add(grade);
+            }
+            SemesterAvg = 0;
+            if (schoolGrades.Any())
+            {
+                List<Grade> grades = schoolGrades.SelectMany(x => x.Grades.Where(y => y.Partial == GradePartial.Final && y.NumericScore > 0)).ToList();
                 if (grades?.Any() ?? false)
                 {
                     this.SemesterAvg = (float)grades.Average(x => x.NumericScore);
                 }
             }
+            this.Grades.Clear();
+            this.Grades.AddRange(schoolGrades);
+            Raise(() => Grades);
+            Raise(() => SemesterAvg);
         }
 
         private async Task Refresh()
@@ -109,11 +116,11 @@ namespace SOE.ViewModels
             await AppData.Instance.SAES.GoHome();
             using (UserDialogs.Instance.Loading("Actualizando calificaciones...."))
             {
-                await AppData.Instance.SAES.GetGrades(await APIService.IsOnline());
+                await AppData.Instance.SAES.GetGrades();
             }
             if (captcha is not null)
                 await captcha.Close();
-            GetGrades();
+            await GetGrades();
             return true;
         }
     }

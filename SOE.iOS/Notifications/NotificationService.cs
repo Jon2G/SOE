@@ -1,13 +1,12 @@
-﻿using Forms9Patch.iOS;
+﻿using AsyncAwaitBestPractices;
+using Forms9Patch.iOS;
 using Foundation;
 using SOE.iOS.Notifications;
 using SOE.iOS.Notifications.Alarms;
 using SOE.Models.TodoModels;
 using SOE.Notifications;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UIKit;
 using UserNotifications;
 [assembly: Xamarin.Forms.Dependency(typeof(NotificationService))]
@@ -38,7 +37,7 @@ namespace SOE.iOS.Notifications
             alarm.ScheduleAll();
 
             ToDoAlarm todo = new();
-            todo.ScheduleAll();
+            todo.ScheduleAll().SafeFireAndForget();
         }
 
         public void ReSheduleTask(ToDo toDo)

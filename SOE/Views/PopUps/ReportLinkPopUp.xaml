@@ -7,8 +7,9 @@
                   xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
                   xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
                   xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
-                  xmlns:enums="clr-namespace:SOEWeb.Shared.Enums;assembly=SOEWeb.Shared"
+                  
                   xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+                  xmlns:enums="clr-namespace:SOE.Enums;assembly=SOE"
                   x:Class="SOE.Views.PopUps.ReportLinkPopUp"
                   x:DataType="viewItems:ReportLinkPopUpViewModel">
     <pankk:CustomPancakeView Visual="Default" HorizontalOptions="Center" VerticalOptions="End"

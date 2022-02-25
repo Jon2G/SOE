@@ -29,24 +29,24 @@ namespace SOE.Views.Pages
         private async Task SyncSubject()
         {
             await Task.Yield();
-            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Actualizando información..."))
-            {
-                if (!await Model.ClassSquare.Subject.Sync(AppData.Instance, new SyncService()))
-                {
-                    await this.Model.Init(false);
-                    return;
-                }
-            }
+            //using (Acr.UserDialogs.UserDialogs.Instance.Loading("Actualizando información..."))
+            //{
+            //    if (!await Model.ClassSquare.Subject.Sync(AppData.Instance, new SyncService()))
+            //    {
+            //        await this.Model.Init(false);
+            //        return;
+            //    }
+            //}
             this.Model.Init().SafeFireAndForget();
         }
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            if (Model.ClassSquare.Subject.IsOffline)
-            {
-                SyncSubject().SafeFireAndForget(); 
-                return;
-            }
+            //if (Model.ClassSquare.Subject.IsOffline)
+            //{
+            //    SyncSubject().SafeFireAndForget(); 
+            //    return;
+            //}
             this.Model.Init().SafeFireAndForget();
         }
     }

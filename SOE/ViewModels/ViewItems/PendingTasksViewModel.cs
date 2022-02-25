@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using AsyncAwaitBestPractices;
-using Kit.Daemon.Devices;
+﻿using AsyncAwaitBestPractices;
+using Kit;
 using Kit.Model;
-using P42.Utils;
-using SOE.Data;
 using SOE.Enums;
 using SOE.Models.TodoModels;
-using SOE.Views.ViewItems;
-using SOE.Views.ViewItems.TasksViews;
-using System.Collections.Generic;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Xamarin.Forms;
 
 
 namespace SOE.ViewModels.ViewItems
@@ -53,18 +46,39 @@ namespace SOE.ViewModels.ViewItems
 
         public void Refresh(Action OnRefreshComplete, PendingStatus status = PendingStatus.Pending)
         {
-            DayGroups.Clear();
-            List<long> dates =
-                AppData.Instance.LiteConnection.Lista<long>($"SELECT Distinct {nameof(ToDo.Date)} from {nameof(ToDo)} where  STATUS={(int)status} order by date");
-            foreach (long ldate in dates)
+            try
             {
-                var date = new DateTime(ldate);
-                var day = new ByDayGroup(date);
-                day.Refresh(status);
-                DayGroups.Add(day);
+                ToDo.Get(status)
+                    .ContinueWith(t =>
+                    {
+                        List<ToDo>? todos = t.Result;
+                        Dictionary<DateTime, ByDayGroup> groups = new Dictionary<DateTime, ByDayGroup>();
+                        List<BySubjectGroup> subjectGroups = null;
+                        foreach (ToDo toDo in todos)
+                        {
+                            if (!groups.TryGetValue(toDo.Date, out ByDayGroup group))
+                            {
+                                subjectGroups = new List<BySubjectGroup>();
+                                group = new ByDayGroup(toDo.Date);
+                                groups.Add(toDo.Date, group);
+                            }
+                            group.Add(toDo, subjectGroups);
+                            group.SubjectGroups = new ObservableCollection<BySubjectGroup>(subjectGroups);
+                        }
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            DayGroups.Clear();
+                            DayGroups.AddRange(groups.Values);
+                            this.OnPropertyChanged(nameof(this.DayGroups));
+                            OnRefreshComplete?.Invoke();
+                        });
+                    }).SafeFireAndForget();
             }
-            this.OnPropertyChanged(nameof(this.DayGroups));
-            OnRefreshComplete?.Invoke();
+            catch (Exception e)
+            {
+                Log.Logger.Error(e, "Refresh pending tasks viewmodel");
+
+            }
         }
 
     }

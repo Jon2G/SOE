@@ -2,7 +2,7 @@
 using SOE.Models.Scheduler;
 using System;
 using System.Collections.Generic;
-using Xamarin.Forms.PlatformConfiguration;
+using System.Threading.Tasks;
 
 namespace SOE.Notifications.Alarms
 {
@@ -15,21 +15,23 @@ namespace SOE.Notifications.Alarms
         {
 
         }
-        public override void ScheduleAll()
+        public override async Task ScheduleAll()
         {
+            await Task.Yield();
             this.Channel?.Register();
             foreach (Day day in Day.Week())
             {
-                ScheduleDay(day);
+                await ScheduleDay(day);
             }
             this.SetMidnightService();
         }
 
-        private void ScheduleDay(Day day)
+        private async Task ScheduleDay(Day day)
         {
+            await Task.Yield();
             try
             {
-                List<ClassSquare> timeline = day?.GetTimeLine();
+                List<ClassSquare>? timeline = await day?.GetTimeLine();
                 if (timeline is null)
                 {
                     return;
@@ -42,7 +44,8 @@ namespace SOE.Notifications.Alarms
                     //bool InProgress = now <= end && begin <= now;
                     bool InProgress = (now.Ticks >= begin.Ticks && now <= end);
 
-                    uint programmedId = Convert.ToUInt32($"{LocalNotification.ClassTimeCode}{cl.Subject.Id}{(int)day.DayOfWeek}");
+                    uint programmedId = 0;
+                    //uint programmedId = Convert.ToUInt32($"{LocalNotification.ClassTimeCode}{cl.Subject.Guid}{(int)day.DayOfWeek}");
                     DateTime desiredDate = DateTime.MinValue;
 
                     //si ya inicio enviar una notificación ahora!
@@ -73,7 +76,7 @@ namespace SOE.Notifications.Alarms
                         $"{cl.FormattedTime} ,{cl.Subject.Group}\n{(InProgress ? "En curso..." : "Comienza pronto")}",
                         programmedId, Xamarin.Forms.Color.FromHex(cl.Subject.Color), desiredDate, this.Channel, "Class");
 #if DEBUG
-                Log.Logger.Debug(notification.ToString());
+                    Log.Logger.Debug(notification.ToString());
 #endif
                     if (InProgress)
                     {

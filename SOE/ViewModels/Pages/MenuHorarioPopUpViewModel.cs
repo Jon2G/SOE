@@ -14,6 +14,7 @@ namespace SOE.ViewModels.Pages
         private readonly MenuHorarioPopUp PopUp;
         public ClassSquare ClassSquare { get; }
         public Teacher Teacher { get; set; }
+
         public MenuHorarioPopUpViewModel(MenuHorarioPopUp PopUp, ClassSquare square)
         {
             this.PopUp = PopUp;
@@ -22,8 +23,7 @@ namespace SOE.ViewModels.Pages
         }
         private async Task LoadTeacher()
         {
-            await Task.Yield();
-            this.Teacher = ClassSquare.Subject.Teacher;
+            this.Teacher = await ClassSquare.Subject.GetTeacher();
             Raise(() => Teacher);
         }
         private ICommand _TapedCommand;

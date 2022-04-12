@@ -76,7 +76,7 @@ namespace SOE.ViewModels.Pages
             await Task.Yield();
             if (this.Tarea is not null && this.Tarea.Subject != null && this.Tarea.Date != null)
             {
-                ClassTime classTime = await this.Tarea.Subject.GetClassTime(this.Tarea.Date.DayOfWeek);
+                ClassTime? classTime = await this.Tarea.Subject.GetClassTime(this.Tarea.Date.DayOfWeek);
                 if (classTime is not null)
                     this.Tarea.Time = classTime.Begin;
             }

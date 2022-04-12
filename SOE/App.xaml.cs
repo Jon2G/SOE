@@ -1,12 +1,11 @@
-﻿using Kit.Forms.Pages;
-using SOE.Views.Pages;
-using Xamarin.Forms;
-using Microsoft.AppCenter;
+﻿using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using SOE.Views.Pages;
+
 namespace SOE
 {
-    public partial class App 
+    public partial class App
     {
 
         public App()

@@ -15,6 +15,7 @@ namespace SOE.Models.Scheduler
         public DayOfWeek DayOfWeek { get; private set; }
         public bool IsWeekend => (DayOfWeek == DayOfWeek.Sunday || DayOfWeek == DayOfWeek.Saturday);
 
+
         public Day(DateTime Date)
         {
             this.Date = Date;
@@ -35,36 +36,31 @@ namespace SOE.Models.Scheduler
         }
 
 
-
-        public Task<List<ClassSquare>> GetTimeLine(TimeSpan? from = null)
+        public async Task<List<ClassSquare>> GetTimeLine(TimeSpan? from = null)
         {
             try
             {
-                return ClassTime.Query(
-                          ClassTime.Collection
-                              .WhereEqualTo(nameof(ClassTime.Day), (int)DayOfWeek)
-                              .OrderBy(nameof(ClassTime.BeginTimestamp))
-                              )
-                      .ToListAsync()
-                      .AsTask()
-                      .ContinueWith(t =>
-                      {
-                          List<ClassSquare> classSquares = new List<ClassSquare>();
-                          IEnumerable<ClassTime> results = from is null ? t.Result : t.Result.Where(x => x.End > from);
-                          foreach (ClassTime classTime in results)
-                          {
-                              classSquares.Add(new ClassSquare(classTime.Subject, classTime.Begin, classTime.End,
-                                  classTime.Day));
-                          }
-
-                          return classSquares;
-                      });
+                IEnumerable<ClassTime> classTimes = await ClassTime.IQuery(
+                     ClassTime.Collection
+                         .WhereEqualsTo(nameof(ClassTime.Day), DayOfWeek.ToString())
+                         .OrderBy(nameof(ClassTime.Begin))
+                         .OrderBy(nameof(ClassTime.End)));
+                List<ClassSquare> classSquares = new List<ClassSquare>();
+                ClassTime[] results = (from is null ? classTimes : classTimes.Where(x => x.End > from)).ToArray();
+                foreach (ClassTime classTime in results)
+                {
+                    await classTime.GetSubject();
+                    Group group = await classTime.Subject.GetGroup();
+                    classSquares.Add(new ClassSquare(classTime.Subject, group, classTime.Begin, classTime.End,
+                        classTime.Day));
+                }
+                return classSquares;
             }
             catch (Exception ex)
             {
                 Log.Logger?.Error(ex, "GetTimeLine");
             }
-            return Task.FromResult(new List<ClassSquare>());
+            return await Task.FromResult(new List<ClassSquare>());
         }
 
         public static Day Today()

@@ -1,9 +1,6 @@
 ﻿using Kit.Sql.Attributes;
 using SOE.Data;
-using SOEWeb.Shared;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SOE.Models.Data
 {
@@ -36,10 +33,12 @@ namespace SOE.Models.Data
 
         public static UserLocalData Get()
         {
-            return AppData.Instance.LiteConnection.Table<UserLocalData>().FirstOrDefault();
+            if (!AppData.Instance.LiteConnection.TableExists<UserLocalData>())
+                AppData.Instance.LiteConnection.CreateTable<UserLocalData>();
+            return AppData.Instance.LiteConnection.Table<UserLocalData>().FirstOrDefault() ?? new UserLocalData();
         }
 
-        internal void Save()
+        public void Save()
         {
             AppData.Instance.LiteConnection.InsertOrReplace(this);
         }

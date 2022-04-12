@@ -56,26 +56,27 @@
                         </Image>
                     </StackLayout>
                 </pankk:CustomPancakeView>
-                <pankk:CustomPancakeView Visual="Default" 
+                <!--TODO: Blog-->
+                <!--<pankk:CustomPancakeView Visual="Default" 
                 BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundTertiaryDarkColor},Light={StaticResource BackgroundTertiaryLightColor}}"
                 xct:TouchEffect.PressedScale="0.9"
                 xct:TouchEffect.PressedRotationY="0.1" Grid.Column="0" Grid.Row="1" >
                     <pankk:CustomPancakeView.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding TapedCommand}" CommandParameter="Info Materia"/>
+                        <TapGestureRecognizer Command="{Binding TapedCommand}" CommandParameter="Blog"/>
                     </pankk:CustomPancakeView.GestureRecognizers>
                     <StackLayout VerticalOptions="Center" Margin="5">
-                        <Label Text="Info Materia" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                        <Label Text="Blog" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                         <Image>
                             <Image.Source>
                                 <FontImageSource Glyph="{x:Static fonts:FontelloIcons.Book1}" FontFamily="{x:Static fonts:FontelloIcons.Font}" Color="{AppThemeBinding Dark=White,Light=Black}"/>
                             </Image.Source>
                         </Image>
                     </StackLayout>
-                </pankk:CustomPancakeView>
+                </pankk:CustomPancakeView>-->
                 <pankk:CustomPancakeView Visual="Default" 
                     BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundTertiaryDarkColor},Light={StaticResource BackgroundTertiaryLightColor}}"
                     xct:TouchEffect.PressedScale="0.9"
-                    xct:TouchEffect.PressedRotationY="0.1" Grid.Column="1" Grid.Row="1" >
+                    xct:TouchEffect.PressedRotationY="0.1" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" >
                     <pankk:CustomPancakeView.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding TapedCommand}"
                                               CommandParameter="Links"/>
@@ -100,7 +101,7 @@
                    FontAttributes="Bold" HorizontalTextAlignment="Center">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="{Binding ClassSquare.Subject.Group} "/>
+                        <Span Text="{Binding ClassSquare.Group.Name} "/>
                         <Span Text="  "/>
                         <Span Text="{Binding ClassSquare.DayName} "/>
                         <Span Text="  "/>

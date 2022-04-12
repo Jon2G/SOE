@@ -60,14 +60,9 @@ namespace SOE.Processors
                         {
                             subjectName = match.Groups["SubjectName"].Value.ToUpper().Trim();
                         }
-
-                        await new Grade()
-                        {
-                            Partial = partial,
-                            TextScore = textScore,
-                            NumericScore = numericScore,
-                            Subject = await Subject.FindByName(subjectName)
-                        }.Save();
+                        Subject? subject = await Subject.FindByName(subjectName);
+                        if (subject is not null)
+                            await new Grade(partial, textScore, numericScore, subject.GetDocumentId()).Save();
                     }
                 }
             }

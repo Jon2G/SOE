@@ -4,16 +4,10 @@ using Kit;
 using Kit.Model;
 using SOE.Models;
 using SOE.Models.Scheduler;
-using SOE.Services;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
-using SOEWeb.Shared;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace SOE.ViewModels.ViewItems
@@ -59,7 +53,7 @@ namespace SOE.ViewModels.ViewItems
             {
                 if (this._AddLinkCommand is null)
                 {
-                    _AddLinkCommand = new AsyncCommand<AddLinkPopUp>(AddLink,CanAddLink);
+                    _AddLinkCommand = new AsyncCommand<AddLinkPopUp>(AddLink, CanAddLink);
                 }
 
                 return this._AddLinkCommand;
@@ -90,7 +84,7 @@ namespace SOE.ViewModels.ViewItems
                     "Debe ingresar un nombre para este link.", "Entiendo").SafeFireAndForget();
                 return;
             }
-            if (string.IsNullOrEmpty(this.Url) || !UriExtensions.IsValidUrl(this.Url,out Uri uri))
+            if (string.IsNullOrEmpty(this.Url) || !UriExtensions.IsValidUrl(this.Url, out Uri uri))
             {
                 Shell.Current.CurrentPage.DisplayAlert("El link es invalido",
                     "La dirección url es invalida.", "Entiendo").SafeFireAndForget();
@@ -100,18 +94,10 @@ namespace SOE.ViewModels.ViewItems
             Link link = new Link(Name, uri.AbsoluteUri);
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Compartiendo enlace"))
             {
-                //if (await link.Upload(this.ClassSquare.Subject))
-                //{
-                //    Shell.Current.CurrentPage.DisplayAlert("Gracias por compartir",
-                //        "Este enlace será revisado por los moderadores para garantizar un entorno seguro en la comunidad.",
-                //        "Entiendo").SafeFireAndForget();
-                //}
-                //else
-                //{
-                //    Shell.Current.CurrentPage.DisplayAlert("Ooops",
-                //        "Ocurrio un problema al compartir este enlace por favor intente nuevamente ó reporte este problema",
-                //        "Entiendo").SafeFireAndForget();
-                //}
+                await link.Save(this.ClassSquare.Subject);
+                Shell.Current.CurrentPage.DisplayAlert("Gracias por compartir",
+                     "Este enlace será revisado por los moderadores para garantizar un entorno seguro en la comunidad.",
+                     "Entiendo").SafeFireAndForget();
             }
             LinksPage.Instance.Model.Init().SafeFireAndForget();
             popUp.Close().SafeFireAndForget();

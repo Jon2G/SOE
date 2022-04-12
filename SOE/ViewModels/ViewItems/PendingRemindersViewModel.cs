@@ -46,7 +46,7 @@ namespace SOE.ViewModels.ViewItems
         {
             try
             {
-                Reminder.Query(Reminder.Collection.WhereEqualTo(nameof(Reminder.Status), status))
+                Reminder.IQuery(Reminder.Collection.WhereEqualsTo(nameof(Reminder.Status), status))
                     .ToListAsync().AsTask().ContinueWith(t =>
                     {
                         Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>

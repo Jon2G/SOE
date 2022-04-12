@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<pages:BasePage xmlns="http://xamarin.com/schemas/2014/forms" 
+          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
+          xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+          xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
+          xmlns:viewmodels="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
+          xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
+          xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+          xmlns:pages1="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
+          x:Class="SOE.Views.Pages.BlogPage" x:Name="Me" Visual="Material"
+          x:DataType="pages1:BlogPageViewModel" 
+          Background="{DynamicResource Background}">
+    <Grid VerticalOptions="FillAndExpand" 
+          Padding="0">
+        <viewItems:SOEWebView HeightRequest="1000" x:Name="SoeWebView" HorizontalOptions="FillAndExpand" 
+                              Background="{DynamicResource SecondaryBackground}"
+                              VerticalOptions="FillAndExpand" ShowLoading="False"/>
+
+
+        <controls:ActivityIndicatorView VerticalOptions="FillAndExpand" Indicator="ThreeArcsWithTwoInSamePosition" Background="{DynamicResource SecondaryBackground}"
+                                        IsVisible="{Binding IsLoading,Source={x:Reference Me}}"/>
+
+        <viewItems:OfflineView VerticalOptions="FillAndExpand" RetryCommand="{Binding RetryCommand,Source={x:Reference Me}}"
+                                IsVisible="{Binding IsOffline,Source={x:Reference Me}}"/>
+
+    </Grid>
+</pages:BasePage>

@@ -5,6 +5,7 @@
              xmlns:pancakeView="clr-namespace:SOE.Renders"
              xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
              xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:data1="clr-namespace:SOE.Models.Data;assembly=SOE"
              x:Class="SOE.Views.Pages.UserProfile" 
              Shell.NavBarIsVisible="True" Visual="Material"
              Background="{DynamicResource Background}"
@@ -13,13 +14,13 @@
         <pages:UserProfileViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <ScrollView VerticalScrollBarVisibility="Always" HorizontalScrollBarVisibility="Never">
-            <StackLayout Margin="20">
+        <ScrollView VerticalScrollBarVisibility="Always" HorizontalScrollBarVisibility="Never" BindingContext="{Binding User}">
+            <StackLayout Margin="20" x:DataType="data1:User">
                 <Label  FontSize="18">
                     <Label.FormattedText>
                         <FormattedString>
                             <Span Text="Nombre: "/>
-                            <Span Text= "{Binding User.Name}"/>
+                            <Span Text= "{Binding Name}"/>
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
@@ -27,7 +28,7 @@
                     <Label.FormattedText>
                         <FormattedString>
                             <Span Text="Escuela: "/>
-                            <Span Text= "{Binding User.School.Name}"/>
+                            <Span Text= "{Binding School.Name}"/>
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
@@ -35,7 +36,7 @@
                     <Label.FormattedText>
                         <FormattedString>
                             <Span Text="Boleta: "/>
-                            <Span Text= "{Binding User.Boleta}"/>
+                            <Span Text= "{Binding Boleta}"/>
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
@@ -43,7 +44,7 @@
                     <Label.FormattedText>
                         <FormattedString>
                             <Span Text="Carrera: "/>
-                            <Span Text= "{Binding User.Career}"/>
+                            <Span Text= "{Binding Career}"/>
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
@@ -51,7 +52,7 @@
                     <Label.FormattedText>
                         <FormattedString>
                             <Span Text="Semestre: "/>
-                            <Span Text= "{Binding User.Semester}"/>
+                            <Span Text= "{Binding Semester}"/>
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
@@ -82,7 +83,7 @@
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
-                        <ProgressBar ProgressColor="{StaticResource AccentColor}" Progress="{Binding Progress}"/>
+                        <ProgressBar ProgressColor="{StaticResource AccentColor}" Progress="{Binding  Credits.Progress}"/>
                     </StackLayout>
                 </pancakeView:CustomPancakeView>
 

@@ -22,7 +22,7 @@ namespace SOE.iOS.Notifications.Alarms
             date = date.AddDays(-1);
             new Notification()
                 .Set(todo.Title,
-                    $"{todo.Subject.Name} - {todo.Subject.Group}\n{todo.Description}",
+                    $"{todo.Subject.Name} - {todo.Subject.GroupId}\n{todo.Description}",
                     index, Xamarin.Forms.Color.FromHex(todo.Subject.Color), date, this.Channel, "ToDo")
                 .Schedule();
         }

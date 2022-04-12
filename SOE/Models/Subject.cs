@@ -1,7 +1,8 @@
 ﻿using FirestoreLINQ;
-using Google.Cloud.Firestore;
 using Kit.Model;
 using Kit.Sql.Attributes;
+using Plugin.CloudFirestore;
+using Plugin.CloudFirestore.Attributes;
 using SOE.API;
 using System;
 using System.Collections.Generic;
@@ -10,13 +11,19 @@ using System.Threading.Tasks;
 
 namespace SOE.Models
 {
-    [Preserve(AllMembers = true), FirestoreData, FireStoreCollection("Subjects")]
+    [Preserve(AllMembers = true), FireStoreCollection("Subjects")]
     public class Subject : ModelBase, IComparable<Subject>, IEquatable<Subject>
     {
-        [FirestoreProperty]
+        [Ignored]
+        private static readonly Dictionary<string, Subject> Cache = new Dictionary<string, Subject>();
+        [Ignored]
+        private static readonly object _CacheLock = new object();
+        [Id]
+        public string DocumentId { get; set; }
+
         public string Name { get; set; }
         private ThemeColor _ThemeColor;
-        [FirestoreProperty]
+
         public ThemeColor ThemeColor
         {
             get => this._ThemeColor;
@@ -56,15 +63,56 @@ namespace SOE.Models
                 }
             }
         }
-        [FirestoreProperty]
-        public Group Group { get; set; }
-        [FirestoreProperty]
-        public Teacher Teacher { get; set; }
+        public string GroupId
+        {
+            get;
+            set;
+        }
 
-        [FirestoreDocumentId]
-        public string DocumentId { get; set; }
+        public string TeacherId { get; set; }
+        public Subject()
+        {
 
-        public static CollectionReference Collection => FireBaseConnection.Instance.UserDocument.Collection<Subject>();
+        }
+        public Subject(string teacherId, string Name, ThemeColor color, string group)
+        {
+            this.TeacherId = teacherId;
+            this.Name = Name;
+            this.ThemeColor = color;
+            this.GroupId = group;
+            this.DocumentId = this.GetDocumentId();
+        }
+        public Task<Teacher> GetTeacher()
+        {
+            return Teacher.Get(TeacherId);
+        }
+        public Task<Group> GetGroup()
+        {
+            return Group.GetCachedGroup(GroupId);
+        }
+
+
+        public static ICollectionReference Collection => FireBaseConnection.SchoolDocument.Collection<Subject>();
+
+        public static Subject FreeTime => new Subject(Teacher.Free.GetDocumentId(), "Hora libre",
+            new ThemeColor(Xamarin.Forms.Color.Gainsboro.ToHex()), Group.None.GetDocumentId());
+        public static async Task<Subject> GetCachedSubject(string subjectId)
+        {
+            Subject subject = null;
+            if (!Cache.TryGetValue(subjectId, out subject))
+            {
+                subject = await Subject.Get(subjectId);
+                lock (_CacheLock)
+                {
+                    if (!Cache.ContainsKey(subjectId))
+                        Cache.Add(subjectId, subject);
+                }
+            }
+
+            return subject;
+        }
+        private static Task<Subject> Get(string documentId) =>
+            Collection.Document(documentId).GetAsync().Get<Subject>();
         internal async Task<Subject> Save()
         {
             await Task.Yield();
@@ -72,36 +120,25 @@ namespace SOE.Models
             await Collection.Document(DocumentId).SetAsync(this);
             return this;
         }
-        public Subject()
-        {
 
-        }
-        public Subject(Teacher teacher, string Name, ThemeColor color, Group group)
-        {
-            this.Teacher = teacher;
-            this.Name = Name;
-            this.ThemeColor = color;
-            this.Group = group;
-            this.DocumentId = this.GetDocumentId();
-        }
 
-        public static ValueTask<List<Subject>> GetAll() => Query(Collection).ToListAsync();
+        //public static ValueTask<List<Subject>> GetAll() => IQuery(Collection).ToListAsync();
 
-        public static Task<Subject> FindByName(string subjectName) =>
-            Query(Collection.WhereEqualTo(nameof(Name), subjectName)).FirstOrDefaultAsync().AsTask();
-        public static Task<Subject> Get(string DocumentId) =>
-            Query(Collection.WhereEqualTo(nameof(DocumentId), DocumentId)).FirstOrDefaultAsync().AsTask();
-        public static async IAsyncEnumerable<Subject> Query(Query query)
+        public static Task<Subject?> FindByName(string subjectName) =>
+            IQuery(Collection.WhereEqualsTo(nameof(Name), subjectName)).FirstOrDefaultAsync().AsTask();
+
+
+        public static async IAsyncEnumerable<Subject> IQuery(IQuery IQuery)
         {
-            QuerySnapshot capitalQuerySnapshot = await query.GetSnapshotAsync();
-            foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
+            IQuerySnapshot capitalQuerySnapshot = await IQuery.GetAsync();
+            foreach (IDocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
             {
-                yield return documentSnapshot.ConvertTo<Subject>();
+                yield return documentSnapshot.ToObject<Subject>();
             }
         }
-        private string GetDocumentId()
+        public string GetDocumentId()
         {
-            string subjectUniqueName = this.Name.ToLower();
+            string subjectUniqueName = $"{this.Name.ToLower()}";
             foreach (string s in new[] { ".", " ", "\n", "\r" })
             {
                 subjectUniqueName = subjectUniqueName.Replace(s, string.Empty);
@@ -111,9 +148,12 @@ namespace SOE.Models
 
         public Task<ClassTime> GetClassTime(DayOfWeek dateDayOfWeek)
         {
-            return ClassTime.Query(ClassTime.Collection.WhereEqualTo(nameof(ClassTime.Day), dateDayOfWeek))
-                .Where(x => x.Subject == this)
-                .FirstOrDefaultAsync().AsTask();
+            return ClassTime.IQuery(ClassTime.Collection
+                    .WhereEqualsTo(nameof(ClassTime.Day), dateDayOfWeek))
+                .ContinueWith(t =>
+                {
+                    return t.Result.FirstOrDefault(x => x.Subject == this);
+                });
         }
 
         public static bool operator !=(Subject original, Subject other)
@@ -151,6 +191,11 @@ namespace SOE.Models
         public bool Equals(Subject other)
         {
             return this.CompareTo(other) == 0;
+        }
+
+        public override string ToString()
+        {
+            return $"{Name}-{GroupId}";
         }
     }
 }

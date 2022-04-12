@@ -1,8 +1,10 @@
 ﻿using FirestoreLINQ;
-using Google.Cloud.Firestore;
+
 using Kit;
 using Kit.Model;
 using Kit.Sql.Attributes;
+using Plugin.CloudFirestore;
+using Plugin.CloudFirestore.Attributes;
 using SOE.API;
 using SOE.Data;
 using SOE.Enums;
@@ -12,13 +14,13 @@ using System.Threading.Tasks;
 
 namespace SOE.Models
 {
-    [FirestoreData, FireStoreCollection("Reminders")]
+    [FireStoreCollection("Reminders")]
     public class Reminder : ModelBase
     {
-        [FirestoreDocumentId]
+        [Id]
         public string DocumentId { get; set; }
         private string _Title;
-        [FirestoreProperty]
+
         public string Title
         {
             get => _Title;
@@ -29,33 +31,25 @@ namespace SOE.Models
             }
         }
 
-        [FirestoreProperty]
-        public Google.Cloud.Firestore.Timestamp GDate
-        {
-            get => Timestamp.FromDateTime(Date);
-            set => Date.ToDateTime();
-        }
+
+        private DateTime _Date;
         public DateTime Date
         {
-            get => this.GDate.ToDateTime();
+            get => _Date;
             set
             {
-                GDate = Google.Cloud.Firestore.Timestamp.FromDateTime(value);
+                _Date = value;
                 Raise(() => Date);
             }
         }
-        [FirestoreProperty]
-        public int DueTime
-        {
-            get => Time.ToFirestoreTime();
-            set => FireStoreExtensions.ToFirestoreTime(value);
-        }
+
+        private TimeSpan _Time;
         public TimeSpan Time
         {
-            get => FireStoreExtensions.ToFirestoreTime(DueTime);
+            get => _Time;
             set
             {
-                DueTime = FireStoreExtensions.ToFirestoreTime(value);
+                _Time = value;
                 Raise(() => Time);
             }
         }
@@ -80,7 +74,7 @@ namespace SOE.Models
         //}
 
         private Subject _Subject;
-        [FirestoreProperty]
+
         public Subject Subject
         {
             get => _Subject;
@@ -91,7 +85,7 @@ namespace SOE.Models
             }
         }
         private PendingStatus _Status;
-        [FirestoreProperty]
+
         public PendingStatus Status
         {
             get => _Status;
@@ -102,7 +96,7 @@ namespace SOE.Models
                 Raise(() => IsComplete);
             }
         }
-        [FirestoreProperty]
+
         public bool IsComplete => Status == PendingStatus.Done;
 
         [Ignore]
@@ -126,15 +120,15 @@ namespace SOE.Models
 
         }
 
-        public static CollectionReference Collection =>
-            FireBaseConnection.Instance.UserDocument.Collection<Reminder>();
+        public static ICollectionReference Collection =>
+            FireBaseConnection.UserDocument.Collection<Reminder>();
 
-        public static async IAsyncEnumerable<Reminder> Query(Query query)
+        public static async IAsyncEnumerable<Reminder> IQuery(IQuery IQuery)
         {
-            QuerySnapshot capitalQuerySnapshot = await query.GetSnapshotAsync();
-            foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
+            IQuerySnapshot capitalQuerySnapshot = await IQuery.GetAsync();
+            foreach (IDocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
             {
-                yield return documentSnapshot.ConvertTo<Reminder>();
+                yield return documentSnapshot.ToObject<Reminder>();
             }
         }
         internal static async Task<string> ShareReminder(Reminder reminder)

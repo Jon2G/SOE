@@ -3,7 +3,7 @@
 namespace SOE.Views.ViewItems
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class NoInscriptionView 
+    public partial class NoInscriptionView
     {
         public NoInscriptionView()
         {

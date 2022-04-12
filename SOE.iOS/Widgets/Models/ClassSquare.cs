@@ -32,7 +32,7 @@ namespace SOE.iOS.Widgets.Models
             Index = index;
             SubjectName = subject.Name;
             FormattedTime = formattedTime;
-            Group = subject.Group;
+            Group = subject.GroupId;
             Color = subject.Color;
         }
     }

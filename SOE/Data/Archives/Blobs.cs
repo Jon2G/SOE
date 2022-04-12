@@ -1,34 +1,35 @@
 ﻿using FirestoreLINQ;
-using Google.Cloud.Firestore;
+using Plugin.CloudFirestore;
+using Plugin.CloudFirestore.Attributes;
 using SOE.API;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SOE.Data.Archives
 {
-    [FirestoreData, FireStoreCollection("Blobs")]
+    [FireStoreCollection("Blobs")]
     public class Blobs
     {
-        [FirestoreDocumentId]
+        [Id]
         public string DocumentId { get; set; }
-        [FirestoreProperty]
+
         public string Base64 { get; set; }
-        [FirestoreProperty]
+
         public string ArchiveDocumentId { get; set; }
 
         public Blobs()
         {
 
         }
-        public static CollectionReference Collection =>
-            FireBaseConnection.Instance.UserDocument.Collection<Blobs>();
+        public static ICollectionReference Collection =>
+            FireBaseConnection.UserDocument.Collection<Blobs>();
 
-        public static async IAsyncEnumerable<Blobs> Query(Query query)
+        public static async IAsyncEnumerable<Blobs> IQuery(IQuery IQuery)
         {
-            QuerySnapshot capitalQuerySnapshot = await query.GetSnapshotAsync();
-            foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
+            IQuerySnapshot capitalQuerySnapshot = await IQuery.GetAsync();
+            foreach (IDocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
             {
-                yield return documentSnapshot.ConvertTo<Blobs>();
+                yield return documentSnapshot.ToObject<Blobs>();
             }
         }
         public static Task Save(Blobs blobs)

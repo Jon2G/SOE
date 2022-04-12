@@ -103,9 +103,9 @@ namespace SOEWeb.Shared.Processors
                     }
                     Subject subject = await new Subject()
                     {
-                        Teacher = teacher,
+                        TeacherId = teacher.GetDocumentId(),
                         Name = subjectName,
-                        Group = group,
+                        GroupId = group.GetDocumentId(),
                         ThemeColor = offlineColors.Get(suffixfixer)
                     }.Save();
 
@@ -117,7 +117,7 @@ namespace SOEWeb.Shared.Processors
                         @"(?<begin_hour>\d\d):(?<begin_minutes>\d\d)\s*-\s*(?<end_hour>\d\d):(?<end_minutes>\d\d)");
 
 
-                for (var index = 0; index < table.Count; index++)
+                for (int index = 0; index < table.Count; index++)
                 {
                     List<string> rows = table[index];
                     Subject subject = subjects[index];
@@ -135,7 +135,7 @@ namespace SOEWeb.Shared.Processors
                             int end_minutes = Convert.ToInt32(match.Groups["end_minutes"].Value);
                             TimeSpan begin = TimeSpan.FromHours(begin_hour).Add(TimeSpan.FromMinutes(begin_minutes));
                             TimeSpan end = TimeSpan.FromHours(end_hour).Add(TimeSpan.FromMinutes(end_minutes));
-                            await new ClassTime(group, subject, dayOfWeek, begin, end).Save();
+                            await new ClassTime(group.GetDocumentId(), subject.GetDocumentId(), dayOfWeek, begin, end).Save();
                         }
                         dayOfWeek++;
                     }

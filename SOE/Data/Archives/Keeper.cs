@@ -1,7 +1,8 @@
 ﻿using FFImageLoading;
-using Google.Cloud.Firestore;
+
 using Kit;
 using Microsoft.AppCenter.Crashes;
+using Plugin.CloudFirestore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,7 +35,7 @@ namespace SOE.Data.Archives
                 new FileInfo(System.IO.Path.Combine(Keeper.Directory.FullName,
                     $"{Guid.NewGuid():N}{archive.Extension}"));
             archive.Path = file.FullName;
-            DocumentReference result = await
+            IDocumentReference result = await
                 Archive.Collection.AddAsync(archive);
             archive.DocumentId = result.Id;
             using (Stream stream = await Archive.GetStream(path))
@@ -137,8 +138,8 @@ namespace SOE.Data.Archives
         }
         public static IAsyncEnumerable<T> GetById<T>(string documentId) where T : Archive, new()
         {
-            Query q = Archive.Collection.WhereEqualTo(nameof(Archive.ParentId), documentId);
-            return Archive.Query<T>(q);
+            IQuery q = Archive.Collection.WhereEqualsTo(nameof(Archive.ParentId), documentId);
+            return Archive.IQuery<T>(q);
         }
     }
 }

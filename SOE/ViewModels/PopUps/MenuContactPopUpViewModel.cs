@@ -1,13 +1,9 @@
 ﻿using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
 using SOE.Models;
-using SOE.Services;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
-using SOEWeb.Shared;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -25,9 +21,9 @@ namespace SOE.ViewModels.PopUps
         public ICommand DeleteCommand => _DeleteCommand ??= new AsyncCommand(Eliminar);
         private ICommand _ReportCommand;
         public ICommand ReportCommand => _ReportCommand ??= new Command(Reportar);
-        private List<Departament> Departaments { get; }
+        private List<string> Departaments { get; }
 
-        public MenuContactPopUpViewModel(List<Departament> Departaments, MenuContactPopUp popUp, SchoolContact contact)
+        public MenuContactPopUpViewModel(List<string> Departaments, MenuContactPopUp popUp, SchoolContact contact)
         {
             this.Departaments = Departaments;
             this.PopUp = popUp;
@@ -45,30 +41,18 @@ namespace SOE.ViewModels.PopUps
         private async Task Eliminar()
         {
             await Task.Yield();
-            
-            //using (Acr.UserDialogs.UserDialogs.Instance.Loading("Eliminado contacto"))
-            //{
-            //    if (await Contact.Delete())
-            //    {
-                    
-            //        await AcademicDirectory.Instance.Model.Init();
-            //        Shell.Current.CurrentPage.DisplayAlert(
-            //         title: "¡Gracias!",
-            //         message:
-            //         "Este contacto a sido eliminado exitosamente.",
-            //          "Ok").SafeFireAndForget();
-            //    }
-            //    else
-            //    {
-            //        Shell.Current.CurrentPage.DisplayAlert(
-            //            title: "Opps...",
-            //            message: "Ocurrio un error al tratar eliminar de  este contacto.\nPor favor intente más tarde o envie un correo a soporte  técnico.",
-            //            "Ok")
-            //        .SafeFireAndForget();
-                    
-            //    }
-            //    this.PopUp.Close().SafeFireAndForget();
-            //}
+            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Eliminado contacto"))
+            {
+                await Contact.Delete();
+                await AcademicDirectory.Instance.Model.Init();
+                Shell.Current.CurrentPage.DisplayAlert(
+                 title: "¡Gracias!",
+                 message:
+                 "Este contacto a sido eliminado exitosamente.",
+                  "Ok").SafeFireAndForget();
+
+                this.PopUp.Close().SafeFireAndForget();
+            }
         }
 
         private void Reportar()

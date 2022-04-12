@@ -1,18 +1,19 @@
 ﻿using FirestoreLINQ;
-using Google.Cloud.Firestore;
+
 using Kit.Model;
+using Plugin.CloudFirestore.Attributes;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace SOE.Models.TodoModels
 {
-    [FirestoreData, FireStoreCollection("Document")]
+    [FireStoreCollection("Document")]
     public class Document : ModelBase
     {
-        [FirestoreDocumentId]
+        [Id]
         public string DocumentId { get; set; }
-        [FirestoreProperty]
+
         public List<DocumentPart> DocumentParts { get; set; }
 
         public Document()

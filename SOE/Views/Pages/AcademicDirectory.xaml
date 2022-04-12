@@ -85,7 +85,7 @@
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate x:DataType="models:ContactsByDeparment">
                                     <StackLayout>
-                                        <Label Text="{Binding Departament.Name}" 
+                                        <Label Text="{Binding Departament}" 
                                            FontAttributes="Bold" FontSize="16" TextColor="White" Margin="0,3"
                                            BackgroundColor="{StaticResource AccentColor}"/>
                                         <StackLayout BindableLayout.ItemsSource="{Binding Contacts}">

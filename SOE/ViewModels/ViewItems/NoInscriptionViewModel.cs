@@ -1,14 +1,13 @@
-﻿using System.Threading.Tasks;
-using System.Windows.Input;
-using AsyncAwaitBestPractices;
+﻿using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
 using Kit.Services.Interfaces;
-using SOE.API;
 using SOE.Data;
 using SOE.Models.Data;
 using SOE.Views.Pages;
 using SOE.Views.Pages.Login;
 using SOE.Views.PopUps;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace SOE.ViewModels.ViewItems
@@ -17,14 +16,11 @@ namespace SOE.ViewModels.ViewItems
     {
         private ICommand _RefreshDataCommand;
         public ICommand RefreshDataCommand => _RefreshDataCommand ??= new AsyncCommand(RefreshData);
-        public InscriptionDate InscriptionDate { get; set; }
+        public User User { get; set; }
 
         public NoInscriptionViewModel()
         {
-            InscriptionDate.Get().ContinueWith(t =>
-            {
-                InscriptionDate = t.Result;
-            }).SafeFireAndForget();
+            User = AppData.Instance.User;
         }
         private async Task RefreshData()
         {

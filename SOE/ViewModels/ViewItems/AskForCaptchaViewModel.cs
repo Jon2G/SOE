@@ -1,15 +1,15 @@
 ﻿using AsyncAwaitBestPractices.MVVM;
+using Kit;
+using Kit.Model;
+using Microsoft.AppCenter.Crashes;
+using SOE.Data;
+using SOE.Models.Data;
+using SOE.Views.PopUps;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using SOEWeb.Shared;
-using Kit.Model;
-using SOE.Data;
-using SOE.Views.PopUps;
 using Xamarin.Forms;
 using Command = Xamarin.Forms.Command;
-using Kit;
-using Microsoft.AppCenter.Crashes;
 
 namespace SOE.ViewModels.ViewItems
 {
@@ -88,8 +88,8 @@ namespace SOE.ViewModels.ViewItems
             {
                 if (NewPasword is { Length: > 0 })
                 {
-                    AppData.Instance.User.Password = NewPasword;
-                    AppData.Instance.User.Save();
+                    UserLocalData.Instance.Password = NewPasword;
+                    UserLocalData.Instance.Save();
                 }
 
                 if (await AppData.Instance.SAES.LogIn(this.Captcha, this.AttemptCount, false))
@@ -117,7 +117,7 @@ namespace SOE.ViewModels.ViewItems
         {
             return !string.IsNullOrEmpty(AppData.Instance.User.Boleta)
                    && Models.Data.Validations.IsValidBoleta(AppData.Instance.User.Boleta)
-                   && !string.IsNullOrEmpty(AppData.Instance.User.Password)
+                   && !string.IsNullOrEmpty(UserLocalData.Instance.Password)
                    && !string.IsNullOrEmpty(Captcha) && !IsLoading;
         }
     }

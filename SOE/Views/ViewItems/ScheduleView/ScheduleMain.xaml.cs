@@ -67,8 +67,8 @@ namespace SOE.Views.ViewItems.ScheduleView
                     case "Recordatorio":
                         Reminder(classSquare);
                         break;
-                    case "Info Materia":
-                        InfoSub(classSquare.Subject);
+                    case "Blog":
+                        Blog(classSquare.Subject);
                         break;
                     case "Links":
                         ShowLinks(classSquare);
@@ -79,11 +79,20 @@ namespace SOE.Views.ViewItems.ScheduleView
 
         private void ShowLinks(ClassSquare classSquare)
         {
-            Shell.Current.Navigation.PushAsync(new LinksPage(classSquare));
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                Shell.Current.Navigation.PushAsync(new LinksPage(classSquare));
+            });
         }
 
-        private void InfoSub(Subject subject) =>
-            Shell.Current.Navigation.PushAsync(new SubjectPage(subject));
+        private void Blog(Subject subject)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                Shell.Current.Navigation.PushAsync(new BlogPage(subject));
+            });
+        }
+
 
         private void Reminder(ClassSquare classSquare)
         {

@@ -1,39 +1,52 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SOE.Models
 {
-    [Serializable]
-    public class ContactsByDeparment 
+    public class ContactsByDeparment
     {
-        [JsonProperty("Departament")]
-        public Departament Departament { get;  set; }
-
-        [JsonProperty("Contacts")]
+        public string Departament { get; set; }
         public SchoolContact[] Contacts
         {
-            get=> this._Contacts.ToArray();
+            get => this._Contacts.ToArray();
             set
             {
                 this._Contacts = new List<SchoolContact>(value);
             }
         }
         private List<SchoolContact> _Contacts;
-        public ContactsByDeparment(Departament Departament):this()
+        public ContactsByDeparment(string departament)
         {
-            this.Departament = Departament;
-            
-        }
-
-        public ContactsByDeparment()
-        {
+            this.Departament = departament;
             this._Contacts = new List<SchoolContact>();
+
         }
 
         public void Add(SchoolContact contact)
         {
-           this._Contacts.Add(contact);
+            this._Contacts.Add(contact);
+        }
+
+        public static Task<List<ContactsByDeparment>> GetByDepartment()
+        {
+            return SchoolContact.GetAll().ContinueWith(t =>
+             {
+                 var contacts = t.Result;
+                 string lastDepartment = string.Empty;
+                 List<ContactsByDeparment> contactsByDeparment = new List<ContactsByDeparment>();
+                 ContactsByDeparment byDeparment = null;
+                 foreach (SchoolContact schoolContact in contacts)
+                 {
+                     if (lastDepartment != schoolContact.Departament)
+                     {
+                         lastDepartment = schoolContact.Departament;
+                         byDeparment = new ContactsByDeparment(lastDepartment);
+                         contactsByDeparment.Add(byDeparment);
+                     }
+                     byDeparment?.Add(schoolContact);
+                 }
+                 return contactsByDeparment;
+             });
         }
     }
 

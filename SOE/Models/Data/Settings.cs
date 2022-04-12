@@ -1,15 +1,15 @@
-﻿using Google.Cloud.Firestore;
+﻿
 using Kit.Model;
 using Kit.Sql.Attributes;
 
 namespace SOE.Models.Data
 {
-    [Preserve, FirestoreData]
+    [Preserve]
     public class Settings : ModelBase
     {
 
         private bool _ShowTimelineBar;
-        [FirestoreProperty]
+        
         public bool ShowTimelineBar
         {
             get => _ShowTimelineBar;
@@ -20,7 +20,7 @@ namespace SOE.Models.Data
             }
         }
         private bool _IsFingerPrintActive;
-        [FirestoreProperty]
+        
         public bool IsFingerPrintActive
         {
             get => _IsFingerPrintActive;
@@ -32,7 +32,7 @@ namespace SOE.Models.Data
         }
 
         private bool _ExpandCards;
-        [FirestoreProperty]
+        
         public bool ExpandCards
         {
             get => _ExpandCards;
@@ -50,14 +50,14 @@ namespace SOE.Models.Data
         }
         //public static async Task<Settings> Get()
         //{
-        //    var snap = await FireBaseConnection.Instance.UserDocument.Collection<Settings>().Document("Settings")
-        //             .GetSnapshotAsync();
-        //    return snap.ConvertTo<Settings>()??new Settings();
+        //    var snap = await FireBaseConnection.UserDocument.Collection<Settings>().Document("Settings")
+        //             .GetAsync();
+        //    return snap.ToObject<Settings>()??new Settings();
         //}
 
         //internal async Task Save()
         //{
-        //    await FireBaseConnection.Instance.UserDocument.Collection<Settings>().Document("Settings")
+        //    await FireBaseConnection.UserDocument.Collection<Settings>().Document("Settings")
         //            .SetAsync(this);
         //    Notifications();
         //}

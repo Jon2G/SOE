@@ -406,7 +406,7 @@ namespace SOE.API
         //        await WebService.PostAsBody(
         //            byteArray: Encoding.UTF8.GetBytes(jsonlink),
         //            method: "PostLink",
-        //            query: null,
+        //            IQuery: null,
         //            parameters: new[]
         //            {
         //                Subject.Guid.ToString(),
@@ -440,21 +440,21 @@ namespace SOE.API
         //        return r.ResponseResult == APIResponseResult.OK;
         //    }
         //}
-        internal async Task<bool> DeleteLink(Link link, Guid userId)
-        {
-            WebService webService = new(DotNetEnviroment.Url);
-            Kit.Services.Web.ResponseResult result = await webService.GET("DeleteLink",
-                userId.ToString(), link.Guid.ToString("N"));
-            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
-            {
-                return false;
-            }
-            else
-            {
-                Response r = JsonConvert.DeserializeObject<Response>(result.Response);
-                return r.ResponseResult == APIResponseResult.OK;
-            }
-        }
+        //internal async Task<bool> DeleteLink(Link link, Guid userId)
+        //{
+        //    WebService webService = new(DotNetEnviroment.Url);
+        //    Kit.Services.Web.ResponseResult result = await webService.GET("DeleteLink",
+        //        userId.ToString(), link.Guid.ToString("N"));
+        //    if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+        //    {
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        Response r = JsonConvert.DeserializeObject<Response>(result.Response);
+        //        return r.ResponseResult == APIResponseResult.OK;
+        //    }
+        //}
 
         //internal Task<Response<IEnumerable<Link>>> GetLinks(Subject subject)
         //    => GetLinks(subject.Group, subject.IdTeacher, subject.Guid);
@@ -494,7 +494,7 @@ namespace SOE.API
         //        await webService.PostAsBody(
         //            byteArray: Encoding.UTF8.GetBytes(jsonContact),
         //            method: "PostContact",
-        //            query: null,
+        //            IQuery: null,
         //            parameters: new[]
         //            {
         //                user.Boleta,
@@ -580,21 +580,21 @@ namespace SOE.API
         //    return r.ResponseResult == APIResponseResult.YES;
         //}
 
-        internal async Task<bool> DeleteContact(Guid userId, SchoolContact contact)
-        {
-            WebService webService = new(DotNetEnviroment.Url);
-            Kit.Services.Web.ResponseResult result = await webService.GET("DeleteContact",
-                userId.ToString(), contact.Guid.ToString("N"));
-            if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
-            {
-                return false;
-            }
-            else
-            {
-                Response r = JsonConvert.DeserializeObject<Response>(result.Response);
-                return r.ResponseResult == APIResponseResult.OK;
-            }
-        }
+        //internal async Task<bool> DeleteContact(Guid userId, SchoolContact contact)
+        //{
+        //    WebService webService = new(DotNetEnviroment.Url);
+        //    Kit.Services.Web.ResponseResult result = await webService.GET("DeleteContact",
+        //        userId.ToString(), contact.Guid.ToString("N"));
+        //    if (result.Response == "ERROR" || string.IsNullOrEmpty(result.Response))
+        //    {
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        Response r = JsonConvert.DeserializeObject<Response>(result.Response);
+        //        return r.ResponseResult == APIResponseResult.OK;
+        //    }
+        //}
         //internal async Task<Response<int>> GetSchoolId(User user)
         //{
         //    await Task.Yield();

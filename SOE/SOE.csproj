@@ -33,26 +33,25 @@
     <PackageReference Include="DeviceId" Version="6.2.0" />
     <PackageReference Include="dotMorten.Xamarin.Forms.AutoSuggestBox" Version="1.1.1" />
     <PackageReference Include="dotMorten.Xamarin.Forms.AutoSuggestBoxChange" Version="1.1.1" />
-    <PackageReference Include="FirebaseDatabase.net" Version="4.0.7" />
-    <PackageReference Include="FirestoreLINQ" Version="1.0.2" />
     <PackageReference Include="Forms9Patch" Version="2.4.9" />
-    <PackageReference Include="Google.Cloud.Firestore" Version="2.5.0" />
     <PackageReference Include="Grpc.Core.Xamarin" Version="2.44.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.42" />
-    <PackageReference Include="MailKit" Version="3.1.1" />
+    <PackageReference Include="MailKit" Version="3.2.0" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.0" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />
     <PackageReference Include="NameGenerator" Version="2.0.4" />
+    <PackageReference Include="Plugin.CloudFirestore" Version="4.1.0" />
     <PackageReference Include="Plugin.Fingerprint" Version="2.1.5" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.1.0" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.3" />
     <PackageReference Include="sqlite-net" Version="1.6.292" />
+    <PackageReference Include="System.Linq.Async" Version="6.0.1" />
     <PackageReference Include="System.Management" Version="6.0.0" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />
     <PackageReference Include="Xam.Plugin.DeviceInfo" Version="4.1.1" />
-    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.0" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.1" />
     <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.7.1" />  
@@ -115,9 +114,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\SplashScreen.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Pages\SubjectPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\TaskDetails.xaml">
@@ -183,10 +179,7 @@
     <EmbeddedResource Update="Views\ViewItems\PrivacyView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ViewItems\SubjectClassmatesView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\ViewItems\SubjectNotesView.xaml">
+    <EmbeddedResource Update="Views\Pages\BlogPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ViewItems\TasksViews\ByDayView.xaml">
@@ -269,6 +262,9 @@
     </Compile>
     <Compile Update="Views\Pages\NewTaskPage.xaml.cs">
       <DependentUpon>NewTaskPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Pages\BlogPage.xaml.cs">
+      <DependentUpon>BlogPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\PopUps\DeleteLinkPopUP.xaml.cs">
       <DependentUpon>DeleteLinkPopUp.xaml</DependentUpon>

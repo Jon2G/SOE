@@ -2,16 +2,13 @@
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Util;
 using AndroidX.Core.App;
-using SOE.Data;
 using SOE.Droid.Activities;
 using SOE.Notifications;
 using System;
 using System.Globalization;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.Android;
-using Environment = System.Environment;
 using Log = Android.Util.Log;
 
 [assembly: UsesPermission(Name = Manifest.Permission.UseFullScreenIntent)]
@@ -23,7 +20,7 @@ namespace SOE.Droid.Notifications
     {
         public const int ServiceNotificationId = 555;
         public const int MidnightCode = 800;
-        private Context Context { get;  set; }
+        private Context Context { get; set; }
         private const string TitleKey = nameof(Title);
         private const string ContentKey = nameof(Content);
         private const string IndexKey = nameof(Index);
@@ -199,7 +196,7 @@ namespace SOE.Droid.Notifications
             Alarm.ProgramFor(this, this.Date, this.Context, this.Index, this.Channel);
         }
 
-        public static void Cancel(Context context,int Id)
+        public static void Cancel(Context context, int Id)
         {
             NotificationManager notificationManager = (NotificationManager)context.GetSystemService(
                        Java.Lang.Class.FromType(typeof(Android.App.NotificationManager)));

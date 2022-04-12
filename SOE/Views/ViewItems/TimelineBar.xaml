@@ -38,7 +38,7 @@
                                         <StackLayout Padding="5" >
                                             <Label  Text="{Binding Subject.Name,Mode=OneWay}" FontFamily="KarlaSB" FontSize="18" 
                                                     />
-                                            <Label  Text="{Binding Subject.Group}" 
+                                            <Label  Text="{Binding Group.Name}" 
                                                     
                                                     FontFamily="KarlaSB" FontSize="18"/>
                                             <StackLayout Orientation="Horizontal"  >

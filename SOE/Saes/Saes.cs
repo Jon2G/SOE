@@ -57,7 +57,6 @@ namespace SOE.Saes
             this.Navigated += Browser_Navigated;
             this._navigationQueue = new Queue<NavigationRequest>();
             this.Visual = VisualMarker.Material;
-
         }
 
         protected override void OnParentSet()
@@ -262,11 +261,11 @@ namespace SOE.Saes
             if (attemptCount < 3)
             {
                 Regex regex = new Regex("[\"\\\\]");
-                string password = regex.Replace(AppData.Instance.User.Password, "\\");
+                string password = regex.Replace(UserLocalData.Instance.Password, "\\");
                 //binding.captchaDisplayer.visibility = View.GONE
                 await this.EvaluateJavaScript(
                     $"document.getElementById('ctl00_leftColumn_LoginUser_UserName').value = '{AppData.Instance.User.Boleta}';" +
-                    $"document.getElementById('ctl00_leftColumn_LoginUser_Password').value = '{AppData.Instance.User.Password}';" +
+                    $"document.getElementById('ctl00_leftColumn_LoginUser_Password').value = '{UserLocalData.Instance.Password}';" +
                     $"document.getElementById('ctl00_leftColumn_LoginUser_CaptchaCodeTextBox').value ='{captcha}';"
                     );
                 await Task.Delay(100);
@@ -306,7 +305,7 @@ namespace SOE.Saes
             if (hasSubjects)
             {
                 await GetGrades();
-                AppData.Instance.User.Semester = CalculateSemester();
+                AppData.Instance.User.Semester = await CalculateSemester();
                 notification.ScheduleAll();
             }
             else
@@ -320,14 +319,15 @@ namespace SOE.Saes
             await AppData.Instance.User.Save();
         }
 
-        private string CalculateSemester()
+        private async Task<string> CalculateSemester()
         {
             string semester = "?";
             try
             {
-                semester =
-                    string.Join(",", ClassTime.GetAsQuerable().ToList().Select(x => x.Group.Name)
-                        .Select(x => x.FirstOrDefault()).Distinct());
+
+                IEnumerable<ClassTime> classTimes = await ClassTime.GetAll();
+                semester = string.Join(",",
+                    classTimes.Select(x => x.GroupId).Select(x => x.FirstOrDefault()).Distinct());
             }
             catch (Exception e)
             {
@@ -380,8 +380,8 @@ namespace SOE.Saes
         private async Task GetCitasReinscripcionInfo()
         {
             await GoTo(CitaReinscripcionPage);
-            double creditosTotales = 0;
-            double creditosAlumno = 0;
+            float creditosTotales = 0f;
+            float creditosAlumno = 0f;
 
             string creditosCarreraHtml = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_CREDITOSCARRERA').outerHTML");
             string alumnoHtml = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_alumno').outerHTML");
@@ -391,33 +391,33 @@ namespace SOE.Saes
             if (!string.IsNullOrEmpty(alumnoHtml))
             {
                 var table = HtmlToTable(alumnoHtml);
-                creditosAlumno = Convert.ToDouble(table[0][1]);
+                creditosAlumno = Convert.ToSingle(table[0][1]);
             }
 
             Unescape(ref creditosCarreraHtml);
             if (!string.IsNullOrEmpty(creditosCarreraHtml))
             {
                 List<List<string>> table = HtmlToTable(creditosCarreraHtml);
-                creditosTotales = Convert.ToDouble(table[0][1]);
+                creditosTotales = Convert.ToSingle(table[0][1]);
             }
 
-            double result = (creditosAlumno / creditosTotales) * 100;
-            result = Math.Round(result, 2);
-
-            await new Credits
-            {
-                //Id = 1,
-                CurrentCredits = creditosAlumno,
-                TotalCredits = creditosTotales,
-                Percentage = result
-            }.Save();
+            float result = (creditosAlumno / creditosTotales) * 100;
+            result = (float)Math.Round(result, 2);
+            AppData.Instance.User.Credits =
+                new Credits
+                {
+                    //Id = 1,
+                    CurrentCredits = creditosAlumno,
+                    TotalCredits = creditosTotales,
+                    Percentage = result
+                };
             //Save fecha de reinscripción
             Unescape(ref citaReinscripcionHtml);
             if (!string.IsNullOrEmpty(citaReinscripcionHtml))
             {
                 List<List<string>> table = HtmlToTable(citaReinscripcionHtml);
                 string _date = table[0][3];
-                await new InscriptionDate(_date).Save();
+                AppData.Instance.User.InscriptionDate = _date;
             }
         }
         private List<List<string>> HtmlToTable(string html)

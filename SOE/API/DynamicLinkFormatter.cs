@@ -12,17 +12,17 @@ namespace SOEWeb.Shared
 
         public static string GetDynamicUrl(string verb, Dictionary<string, string> parameters)
         {
-            string query = $"?params={nameof(verb)}={verb}?";
+            string IQuery = $"?params={nameof(verb)}={verb}?";
             foreach (KeyValuePair<string, string> param in parameters)
             {
-                query += $"{param.Key}={param.Value}?";
+                IQuery += $"{param.Key}={param.Value}?";
             }
 
-            if (!query.EndsWith("?"))
+            if (!IQuery.EndsWith("?"))
             {
-                query += '?';
+                IQuery += '?';
             }
-            return string.Format(FireBaseLargeUrl, query);
+            return string.Format(FireBaseLargeUrl, IQuery);
         }
     }
 }

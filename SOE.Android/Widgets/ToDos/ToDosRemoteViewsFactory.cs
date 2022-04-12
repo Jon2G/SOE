@@ -69,7 +69,7 @@ namespace SOE.Droid.Widgets.ToDos
             RemoteViews rv = new RemoteViews(mContext.PackageName, Resource.Layout.widget_todos_task);
 
             rv.SetTextViewText(Resource.Id.widget_todos_SubjectName, todo.Subject.Name);
-            rv.SetTextViewText(Resource.Id.widget_todos_SubjectGroup, todo.Subject.Group.Name);
+            rv.SetTextViewText(Resource.Id.widget_todos_SubjectGroup, todo.Subject.GroupId);
             rv.SetTextViewText(Resource.Id.widget_todos_TaskName, todo.Title);
             rv.SetTextViewText(Resource.Id.widget_todos_TaskTime, todo.FormattedTime);
             rv.SetTextViewText(Resource.Id.widget_todos_TaskDate, todo.FormattedDate);

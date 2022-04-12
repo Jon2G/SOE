@@ -1,21 +1,26 @@
 ﻿using Kit;
 using Kit.Model;
-using Kit.Sql.Interfaces;
-using System;
+using Plugin.CloudFirestore;
+using Plugin.CloudFirestore.Attributes;
+using SOE.API;
+using SOE.FireBase;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SOE.Models
 {
-    public class SchoolContact : ModelBase,IGuid
+    public class SchoolContact : ModelBase, IFireStoreObject
     {
-        
+
         private string _Url;
         private string _Phone;
         private string _Name;
         private string _Correo;
-        public Guid Guid { get; set; }
+        [Id]
+        public string DocumentId { get; set; }
 
-        private Departament _Departament;
-        public Departament Departament
+        private string _Departament;
+        public string Departament
         {
             get => this._Departament;
             set
@@ -24,7 +29,7 @@ namespace SOE.Models
                 this.Raise(() => this.Departament);
             }
         }
-
+        [Ignored]
         public string Initials => this.Name.ExtractInitialsFromName(2);
         public string Name
         {
@@ -62,14 +67,9 @@ namespace SOE.Models
                 this.Raise(() => this.Correo);
             }
         }
-        public bool IsOwner
-        {
-            get;set;
-        }
 
-        public SchoolContact(Guid Guid,Departament Departament, string Name, string Phone, string Url,string Correo)
+        public SchoolContact(string Departament, string Name, string Phone, string Url, string Correo)
         {
-            this.Guid = Guid;
             this.Departament = Departament;
             this.Name = Name;
             this.Phone = Phone;
@@ -79,6 +79,39 @@ namespace SOE.Models
         public SchoolContact()
         {
 
+        }
+        public string GetDocumentId()
+        {
+            return DocumentId;
+        }
+        public static ICollectionReference Collection => FireBaseConnection.SchoolDocument.Collection<SchoolContact>();
+
+        public static Task<IEnumerable<SchoolContact>> IQuery(IQuery IQuery)
+        {
+            return IQuery.GetAsync().ContinueWith(t => GetEnumerable(t.Result));
+        }
+
+        public static IEnumerable<SchoolContact> GetEnumerable(IQuerySnapshot capitalQuerySnapshot)
+        {
+            foreach (IDocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
+            {
+                yield return documentSnapshot.ToObject<SchoolContact>();
+            }
+        }
+
+        public static Task<IEnumerable<SchoolContact>> GetAll()
+        {
+            return IQuery(Collection.OrderBy(nameof(Departament)));
+        }
+
+        public Task<SchoolContact> Save()
+        {
+            return Collection.AddAsync(this).ContinueWith(t => this);
+        }
+
+        public Task Delete()
+        {
+            return Collection.Document(this.DocumentId).DeleteAsync();
         }
     }
 }

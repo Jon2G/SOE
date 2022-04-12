@@ -59,7 +59,7 @@
                                                                        Text="{Binding Subject.Name}"/>
                                             <Label FontSize="16" 
                                                                        HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
-                                                                       Text="{Binding Subject.Group}" />
+                                                                       Text="{Binding Group.Name}" />
                                             <Label FontSize="16"
                                                                        HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"
                                                                        Text="{Binding  FormattedTime}" />

@@ -29,7 +29,7 @@ namespace SOE.Services.ActionResponse
             ToDo Tarea = new ToDo
             {
                 Date = Day.GetNearest(),
-                Subject = await Subject.Get(SubjectId),
+                Subject = await Subject.GetCachedSubject(SubjectId),
                 Time = Date.TimeOfDay
             };
             await Task.Run(() => { while (Shell.Current is null) { } });

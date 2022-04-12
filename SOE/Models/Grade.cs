@@ -1,62 +1,91 @@
 ﻿using FirestoreLINQ;
-using Google.Cloud.Firestore;
+
 using Kit.Model;
+using Plugin.CloudFirestore;
+using Plugin.CloudFirestore.Attributes;
 using SOE.API;
 using SOE.Enums;
-
+using SOE.FireBase;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SOE.Models
 {
 
-    [FireStoreCollection("Grades"), FirestoreData]
-    public class Grade : ModelBase
+    [FireStoreCollection("Grades")]
+    public class Grade : ModelBase, IFireStoreObject
     {
         public const int Undefined = -1;
-        [FirestoreDocumentId]
+        [Id]
         public string DocumentId { get; set; }
-        [FirestoreProperty]
+
         public GradePartial Partial { get; set; }
-        [FirestoreProperty]
+
         public string TextScore { get; set; }
-        [FirestoreProperty]
         public int NumericScore { get; set; }
-        [FirestoreProperty]
-        public Subject Subject { get; set; }
+
+        public string SubjectId { get; set; }
+        [Ignored]
+        private Subject _Subject;
+        [Ignored]
+        public Subject Subject
+        {
+            get
+            {
+                return this._Subject;
+            }
+            set
+            {
+                this._Subject = value;
+            }
+        }
+        public async Task<Subject> GetSubject()
+        {
+            this.Subject = await Models.Subject.GetCachedSubject(SubjectId);
+            return this.Subject;
+        }
 
         public Grade() { }
-        public Grade(GradePartial Partial, string TextScore, int NumericScore, Subject subject)
+        public Grade(GradePartial Partial, string TextScore, int NumericScore, string subjectId)
         {
             this.TextScore = TextScore;
             this.NumericScore = NumericScore;
             this.Partial = Partial;
-            this.Subject = subject;
+            this.SubjectId = subjectId;
             this.DocumentId = this.GetDocumentId();
         }
-        private string GetDocumentId()
+        public string GetDocumentId()
         {
-            return String.Concat(Subject.DocumentId, Partial);
+            return String.Concat(SubjectId, Partial);
         }
-        public static CollectionReference Collection =>
-            FireBaseConnection.Instance.UserDocument.Collection<Grade>();
 
-        public static async IAsyncEnumerable<Grade> Query(Query query)
+        public static Task<Grade[]> GetAll()
         {
-            QuerySnapshot capitalQuerySnapshot = await query.GetSnapshotAsync();
-            foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
+            return Collection.OrderBy(nameof(SubjectId)).OrderBy(nameof(Partial)).GetAsync().GetEnumerable().ToArrayAsync().AsTask();
+        }
+        public static ICollectionReference Collection =>
+            FireBaseConnection.UserDocument.Collection<Grade>();
+
+        public static Task<IEnumerable<Grade>> IQuery(IQuery IQuery)
+        {
+            return IQuery.GetAsync().ContinueWith(t => GetEnumerable(t.Result));
+        }
+
+        public static IEnumerable<Grade> GetEnumerable(IQuerySnapshot capitalQuerySnapshot)
+        {
+            foreach (IDocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
             {
-                yield return documentSnapshot.ConvertTo<Grade>();
+                yield return documentSnapshot.ToObject<Grade>();
             }
         }
-        public async Task<Grade> Save()
+        public Task<Grade> Save()
         {
-            await Task.Yield();
             DocumentId = this.GetDocumentId();
-            await FireBaseConnection.Instance.UserDocument.Collection<Grade>()
-                .Document(this.DocumentId).SetAsync(this);
-            return this;
+            return FireBaseConnection.UserDocument.Collection<Grade>()
+                .Document(this.DocumentId).SetAsync(this)
+                .ContinueWith(t => this);
         }
     }
 }

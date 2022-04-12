@@ -2,19 +2,11 @@
 using AsyncAwaitBestPractices.MVVM;
 using Kit;
 using Kit.Model;
-using Kit.Services.Web;
-using SOE.API;
-using SOE.Data;
 using SOE.Models;
 using SOE.Models.Scheduler;
-using SOE.Services;
 using SOE.Views.PopUps;
-using SOEWeb.Shared;
-
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
@@ -59,7 +51,14 @@ namespace SOE.ViewModels.Pages
         public ICommand RetryCommand { get; }
         private void OpenLink(Link link)
         {
-            Browser.OpenAsync(link.Url, BrowserLaunchMode.SystemPreferred).SafeFireAndForget();
+            try
+            {
+                Browser.OpenAsync(link.Url, BrowserLaunchMode.SystemPreferred).SafeFireAndForget();
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(e, "At open link");
+            }
         }
 
         private void AddLink()
@@ -91,32 +90,17 @@ namespace SOE.ViewModels.Pages
                 return;
             }
             Links.Clear();
-            //if (ClassSquare.Subject.IsOffline)
-            //{
-            //    if (!await ClassSquare.Subject.Sync(AppData.Instance, new SyncService()))
-            //    {
-            //        IsOffline = true;
-            //        IsLoading = false;
-            //        return;
-            //    }
-            //}
-
-            //var response= await APIService.Current.GetLinks(ClassSquare.Subject);
-            //switch (response.ResponseResult)
-            //{
-            //    case APIResponseResult.OK:
-            //        IsOffline = false;
-            //        this.Links.AddRange(response.Extra);
-            //        break;
-            //    case APIResponseResult.INTERNAL_ERROR:
-            //        this.IsOffline = true;
-            //        break;
-            //    default:
-            //        this.IsOffline = true;
-            //        Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Alerta", response.Message).SafeFireAndForget();
-            //        break;
-            //}
-            this.IsLoading = false;
+            Link.GetLinks(ClassSquare.Subject)
+                .ContinueWith(t =>
+                {
+                    Tools.Instance.SynchronizeInvoke.InvokeOnMainThreadAsync(() =>
+                    {
+                        Links.AddRange(t.Result);
+                    }).ContinueWith(t =>
+                    {
+                        this.IsLoading = false;
+                    }).SafeFireAndForget();
+                }).SafeFireAndForget();
         }
     }
 

@@ -4,14 +4,9 @@ using Rg.Plugins.Popup.Enums;
 using Rg.Plugins.Popup.Services;
 using SOE.Models;
 using SOE.ViewModels.PopUps;
-using SOEWeb.Shared;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace SOE.Views.PopUps
@@ -20,7 +15,7 @@ namespace SOE.Views.PopUps
     public partial class MenuContactPopUp
     {
         public MenuContactPopUpViewModel Model { get; set; }
-        public MenuContactPopUp(List<Departament> Departaments,SchoolContact contact)
+        public MenuContactPopUp(List<string> Departaments, SchoolContact contact)
         {
             Model = new MenuContactPopUpViewModel(Departaments, this, contact);
             this.BindingContext = Model;

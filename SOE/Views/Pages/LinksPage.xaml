@@ -74,12 +74,10 @@
                                                     </Image>
                                                 </StackLayout>
 
-                                                <StackLayout IsVisible="{Binding IsOwner}"
+                                                <StackLayout 
                                                 HorizontalOptions="EndAndExpand" Spacing="10" Orientation="Horizontal"
                                                 Padding="15,0,10,0"
                                                 BackgroundColor="Firebrick">
-
-
                                                     <Image  HorizontalOptions="EndAndExpand">
                                                         <Image.Source>
                                                             <FontImageSource

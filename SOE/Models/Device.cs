@@ -1,28 +1,25 @@
 ﻿using FirestoreLINQ;
-using Google.Cloud.Firestore;
 using SOE.API;
+using System;
 using System.Threading.Tasks;
 using Xamarin.Forms.Internals;
 
 namespace SOE.Models
 {
-    [Preserve(AllMembers = true), FireStoreCollection("Devices"), FirestoreData]
+    [Preserve(AllMembers = true), FireStoreCollection("Devices")]
     public class Device
     {
-        [FirestoreProperty]
-        public string UserId { get; set; }
-        [FirestoreProperty]
         public string DeviceKey { get; set; }
-        [FirestoreProperty]
+
         public string Brand { get; set; }
-        [FirestoreProperty]
+
         public string Platform { get; set; }
-        [FirestoreProperty]
+
         public string Model { get; set; }
-        [FirestoreProperty]
+
         public string Name { get; set; }
-        [FirestoreProperty]
-        public Timestamp LastTimeSeen { get; set; }
+
+        public DateTime LastTimeSeen { get; set; }
 
         public Device()
         {
@@ -31,7 +28,7 @@ namespace SOE.Models
         internal async Task Save()
         {
             await Task.Yield();
-            await FireBaseConnection.Instance.UserDocument.Collection<Device>()
+            await FireBaseConnection.UserDocument.Collection<Device>()
                 .Document(DeviceKey).SetAsync(this);
         }
     }

@@ -1,5 +1,5 @@
 ﻿using AsyncAwaitBestPractices;
-using Google.Cloud.Firestore;
+
 using Kit;
 using Kit.Forms.Extensions;
 using SOE.Enums;
@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace SOE.Data.Archives
 {
-    [FirestoreData]
+    
     public class PhotoArchive : Archive<FileImageSource>
     {
         private FileImageSource _Value;

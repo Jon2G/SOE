@@ -1,24 +1,25 @@
 ﻿using FirestoreLINQ;
-using Google.Cloud.Firestore;
+
 using Newtonsoft.Json;
+using Plugin.CloudFirestore;
+using Plugin.CloudFirestore.Attributes;
 using SOE.API;
-using SOEWeb.Shared;
 using System.Threading.Tasks;
 
 namespace SOE.Models
 {
-    [FirestoreData, FireStoreCollection("Schools")]
+    [FireStoreCollection("Schools")]
     public class School
     {
-        [JsonProperty(nameof(DocumentId)), FirestoreProperty]
+        [JsonProperty(nameof(DocumentId)), Id]
         public string DocumentId { get; set; }
-        [JsonProperty(nameof(HomePage)), FirestoreProperty]
+        [JsonProperty(nameof(HomePage))]
         public string HomePage { get; set; }
-        [JsonProperty(nameof(Name)), FirestoreProperty]
+        [JsonProperty(nameof(Name))]
         public string Name { get; set; }
-        [JsonProperty(nameof(ImgPath)), FirestoreProperty]
+        [JsonProperty(nameof(ImgPath))]
         public string ImgPath { get; set; }
-        [JsonProperty(nameof(SchoolPage)), FirestoreProperty]
+        [JsonProperty(nameof(SchoolPage))]
         public string SchoolPage { get; set; }
         public School()
         {
@@ -32,9 +33,20 @@ namespace SOE.Models
             this.SchoolPage = SchoolPage;
         }
 
-        public DocumentReference GetDocuent()
+        public static ICollectionReference Collection = FireBaseConnection.GetCollection<School>();
+        public Task<School> Get(string id)
         {
-            return FireBaseConnection.GetCollection<School>().Document(this.DocumentId);
+            return Collection.Document(id).GetAsync().Get<School>();
+        }
+        public static Task<School> Get()
+        {
+            return FireBaseConnection.SchoolDocument.GetAsync().Get<School>();
+        }
+        public Task<School> Save()
+        {
+            return FireBaseConnection.SchoolDocument.SetAsync(this)
+                .ContinueWith(t => this);
+
         }
     }
 }

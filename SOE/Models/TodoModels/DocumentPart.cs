@@ -1,16 +1,17 @@
-﻿using Google.Cloud.Firestore;
+﻿
 using Kit.Model;
+using Plugin.CloudFirestore.Attributes;
 using SOE.Enums;
 
 namespace SOE.Models.TodoModels
 {
-    [FirestoreData]
+
     public class DocumentPart : ModelBase
     {
-        [FirestoreDocumentId]
+        [Id]
         public string DocumentId { get; set; }
         private string _Content;
-        [FirestoreProperty]
+
         public string Content
         {
             get => _Content;
@@ -20,7 +21,7 @@ namespace SOE.Models.TodoModels
                 Raise(() => Content);
             }
         }
-        [FirestoreProperty]
+
         public DocType DocType { get; set; }
         public DocumentPart()
         {

@@ -15,7 +15,7 @@ namespace SOE.Droid.Notifications.Alarms
             Context context = CrossCurrentActivity.Current.AppContext;
             DateTime date = todo.Date.Add(todo.Time);
             new Notification(todo.Title,
-                    $"{todo.Subject.Name} - {todo.Subject.Group}\n{todo.Description}",
+                    $"{todo.Subject.Name} - {todo.Subject.GroupId}\n{todo.Description}",
                     this.GetProgrammedId(todo), todo.Subject.Color, date, context, this.Channel)
                 .Schedule();
         }

@@ -34,7 +34,7 @@ namespace SOE.Models.Scheduler
         }
 
         public FreeClass(TimeSpan begin, TimeSpan end, DayOfWeek day) :
-            base(new Subject(Teacher.Free, "Hora libre", new ThemeColor(Xamarin.Forms.Color.Gainsboro.ToHex()), Group.None), begin, end, day)
+            base(Subject.FreeTime, Group.None, begin, end, day)
         {
 
         }

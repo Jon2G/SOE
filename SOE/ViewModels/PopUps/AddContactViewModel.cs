@@ -2,18 +2,11 @@
 using AsyncAwaitBestPractices.MVVM;
 using Kit;
 using Kit.Forms.Model;
-using Kit.Model;
 using SOE.Models;
-using SOE.Services;
-using SOE.ViewModels.Pages;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
-using SOEWeb.Shared;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -23,10 +16,10 @@ namespace SOE.ViewModels.PopUps
     public class AddContactViewModel : ValidationsModelbase
     {
         private readonly AddContactPage AddContactPage;
-        private Guid Guid { get; }
+
         private string _Name;
-        [Required(AllowEmptyStrings = false,ErrorMessage = "Debe ingresar un nombre")]
-        [Display(Name ="Nombre")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Debe ingresar un nombre")]
+        [Display(Name = "Nombre")]
         public string Name
         {
             get => _Name;
@@ -44,8 +37,8 @@ namespace SOE.ViewModels.PopUps
 
         private string _Url;
 
-        [Url(ErrorMessage ="Url invalido")]
-       
+        [Url(ErrorMessage = "Url invalido")]
+
         public string Url
         {
             get => _Url;
@@ -55,7 +48,7 @@ namespace SOE.ViewModels.PopUps
                 if (_Url != value)
                 {
 
-                    _Url = value;
+                    _Url = value?.Trim();
                     ValidateProperty(value);
                     Raise(() => Url);
                     this.AddContactCommand.RaiseCanExecuteChanged();
@@ -63,15 +56,15 @@ namespace SOE.ViewModels.PopUps
             }
         }
 
-        private Departament _Departament;
+        private string _Departament;
 
-        
-        public Departament Departament
+
+        public string Departament
         {
             get => _Departament;
             set
             {
-                if (_Departament!=value)
+                if (_Departament != value)
                 {
                     _Departament = value;
                     ValidateProperty(value);
@@ -88,12 +81,12 @@ namespace SOE.ViewModels.PopUps
             get => _Phone;
             set
             {
-                this._Phone = value;
+                this._Phone = value?.Trim();
                 ValidateProperty(value);
                 this.Raise(() => this.Phone);
             }
         }
-        
+
         private string _Correo;
 
         [EmailAddress(ErrorMessage = "Correo invalido")]
@@ -102,7 +95,7 @@ namespace SOE.ViewModels.PopUps
             get => _Correo;
             set
             {
-                this._Correo = value;
+                this._Correo = value?.Trim();
                 ValidateProperty(value);
                 this.Raise(() => this.Correo);
             }
@@ -130,15 +123,14 @@ namespace SOE.ViewModels.PopUps
                 this.Url = contact.Url;
                 this.Correo = contact.Correo;
                 this.Departament = contact.Departament;
-                this.Guid = contact.Guid;
             }
         }
 
         private void DepartamentTextChanged(string Name)
         {
-            if (!string.IsNullOrEmpty(Name) && (Departament is null || Departament.Guid == Guid.Empty))
+            if (!string.IsNullOrEmpty(Name))
             {
-                Departament = new Departament() { Name = Name.Trim() };
+                Departament = Name.Trim();
             }
         }
         private bool CanAddContact(object arg)
@@ -160,11 +152,16 @@ namespace SOE.ViewModels.PopUps
             return true;
         }
 
+        private string TrimAndRemoveDots(string text)
+        {
+            return text.Trim().Replace(".", string.Empty);
+        }
+
         private async Task AddContact()
         {
             await Task.Yield();
 
-            
+
             this.Validate();
 
             if (this.HasErrors)
@@ -172,17 +169,15 @@ namespace SOE.ViewModels.PopUps
                 // Error message
                 this.ScrollToControlProperty(this.GetFirstInvalidPropertyName);
             }
-            else
-            {
-                // No error
-            }
 
+            this.Name = TrimAndRemoveDots(Name);
             if (string.IsNullOrEmpty(this.Name))
             {
                 Shell.Current.CurrentPage.DisplayAlert("¿Olvido el nombre?",
                     "Debe ingresar un nombre para este link.", "Entiendo").SafeFireAndForget();
                 return;
             }
+
             if (!string.IsNullOrEmpty(this.Url))
             {
                 if (UriExtensions.IsValidUrl(this.Url, out Uri uri))
@@ -196,34 +191,35 @@ namespace SOE.ViewModels.PopUps
                     return;
                 }
             }
+
+            this.Correo = Correo?.Trim();
             if (!string.IsNullOrEmpty(this.Correo) && !Models.Data.Validations.IsValidEmail(this.Correo))
             {
                 Shell.Current.CurrentPage.DisplayAlert("El correo es invalido",
                     "La dirección correo es invalida.", "Entiendo").SafeFireAndForget();
                 return;
             }
-            if (!(Departament?.IsValid() ?? false))
+            this.Departament = TrimAndRemoveDots(Departament);
+            if (string.IsNullOrEmpty(Departament))
             {
                 Shell.Current.CurrentPage.DisplayAlert("El departamento es invalido",
                    "El departamento no puede estar vacio.", "Entiendo").SafeFireAndForget();
                 return;
             }
-            SchoolContact contact = new SchoolContact(this.Guid, Departament, Name, Phone, Url, Correo);
+            SchoolContact contact = new SchoolContact(Departament, Name, Phone, Url, Correo);
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Compartiendo Contacto"))
             {
-                if (await contact.Upload())
-                {
+                await contact.Save();
+                Shell.Current.CurrentPage.DisplayAlert("Gracias por compartir",
+                    "Este contacto será revisado por los moderadores para garantizar un entorno seguro en la comunidad.",
+                    "Entiendo").SafeFireAndForget();
 
-                    Shell.Current.CurrentPage.DisplayAlert("Gracias por compartir",
-                        "Este contacto será revisado por los moderadores para garantizar un entorno seguro en la comunidad.",
-                        "Entiendo").SafeFireAndForget();
-                }
-                else
-                {
-                    Shell.Current.CurrentPage.DisplayAlert("Ooops",
-                        "Ocurrio un problema al compartir este contacto por favor intente nuevamente ó reporte este problema",
-                        "Entiendo").SafeFireAndForget();
-                }
+                //else
+                //{
+                //    Shell.Current.CurrentPage.DisplayAlert("Ooops",
+                //        "Ocurrio un problema al compartir este contacto por favor intente nuevamente ó reporte este problema",
+                //        "Entiendo").SafeFireAndForget();
+                //}
             }
 
             AcademicDirectory.Instance.Model.Init().SafeFireAndForget();

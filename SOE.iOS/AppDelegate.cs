@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Foundation;
-using Kit.Forms.Services.Interfaces;
+﻿using Foundation;
 using PanCardView.iOS;
 using SOE.iOS.Widgets;
 using SOE.Widgets;
@@ -26,6 +22,7 @@ namespace SOE.iOS
             UINavigationBar.Appearance.Translucent = false;
             UINavigationBar.Appearance.BackgroundColor = Xamarin.Forms.Color.MidnightBlue.ToUIColor();
             UINavigationBar.Appearance.BarTintColor = Xamarin.Forms.Color.White.ToUIColor();
+            Firebase.Core.App.Configure();
             base.Initialize();
         }
 
@@ -49,7 +46,8 @@ namespace SOE.iOS
             }
 
             //Get current notification settings.
-            UNUserNotificationCenter.Current.GetNotificationSettings((settings) => {
+            UNUserNotificationCenter.Current.GetNotificationSettings((settings) =>
+            {
                 var alertsAllowed = (settings.AlertSetting == UNNotificationSetting.Enabled);
             });
             UNUserNotificationCenter.Current.Delegate = new UserNotificationCenterDelegate();
@@ -98,11 +96,11 @@ namespace SOE.iOS
 
         public override void UpdateWidget(string AppWidgetProviderClassName)
         {
-            DataGenerator generator=null;
+            DataGenerator generator = null;
             switch (AppWidgetProviderClassName)
             {
                 case TimeLineWidget.AppWidgetProviderFullClass:
-                 generator=new TimeLineDataGenerator();
+                    generator = new TimeLineDataGenerator();
 
                     break;
                 case ToDosWidget.AppWidgetProviderFullClass:

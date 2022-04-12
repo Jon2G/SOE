@@ -1,7 +1,9 @@
 ﻿using FirestoreLINQ;
-using Google.Cloud.Firestore;
+
 using Kit.Model;
 using Microsoft.AppCenter.Crashes;
+using Plugin.CloudFirestore;
+using Plugin.CloudFirestore.Attributes;
 using SOE.API;
 using SOE.Enums;
 using System;
@@ -13,7 +15,7 @@ using Log = Kit.Log;
 
 namespace SOE.Data.Archives
 {
-    [FirestoreData]
+
     public abstract class Archive<T> : Archive
     {
         public virtual T Value { get; set; }
@@ -31,18 +33,18 @@ namespace SOE.Data.Archives
 
         }
     }
-    [FireStoreCollection("Archive"), FirestoreData]
+    [FireStoreCollection("Archive")]
     public abstract class Archive : ModelBase
     {
-        [FirestoreDocumentId]
+        [Id]
         public string DocumentId { get; set; }
-        [FirestoreProperty]
+
         public string ParentId { get; set; }
-        [FirestoreProperty]
+
         public string Path { get; set; }
-        [FirestoreProperty]
+
         public string Extension { get; set; }
-        [FirestoreProperty]
+
         public FileType FileType { get; set; }
 
         protected Archive(Archive archive)
@@ -90,14 +92,14 @@ namespace SOE.Data.Archives
             return stream;
 
         }
-        public static CollectionReference Collection =>
-            FireBaseConnection.Instance.UserDocument.Collection<Archive>();
-        public static async IAsyncEnumerable<T> Query<T>(Query query) where T : Archive, new()
+        public static ICollectionReference Collection =>
+            FireBaseConnection.UserDocument.Collection<Archive>();
+        public static async IAsyncEnumerable<T> IQuery<T>(IQuery IQuery) where T : Archive, new()
         {
-            QuerySnapshot capitalQuerySnapshot = await query.GetSnapshotAsync();
-            foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
+            IQuerySnapshot capitalQuerySnapshot = await IQuery.GetAsync();
+            foreach (IDocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
             {
-                yield return documentSnapshot.ConvertTo<T>();
+                yield return documentSnapshot.ToObject<T>();
             }
         }
     }

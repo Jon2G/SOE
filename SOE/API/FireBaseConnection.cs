@@ -1,60 +1,64 @@
-﻿using FirestoreLINQ;
-using Google.Cloud.Firestore;
-using Google.Cloud.Firestore.V1;
-using Kit;
-using SOE.Data;
-
+﻿using Plugin.CloudFirestore;
 using SOE.Models;
 using SOE.Models.Data;
-using SOE.Secrets;
-using SOEWeb.Shared;
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace SOE.API
 {
-    public class FireBaseConnection
+    public static class FireBaseConnection
     {
-        public static FireBaseConnection Instance => _Instance.Value;
-        private static readonly Lazy<FireBaseConnection> _Instance = new Lazy<FireBaseConnection>(() => new FireBaseConnection());
-        public readonly FirestoreDb Database;
-        public FirestoreClient Client => Database.Client;
+        public static IFirestore Database => CrossCloudFirestore.Current.Instance;
+        public static string UserPath => $"user_{UserLocalData.Instance.Boleta}";
+        public static IDocumentReference UserDocument => SchoolDocument.Collection<User>().Document(FireBaseConnection.UserPath);
+        public static IDocumentReference SchoolDocument => School.Collection.Document(UserLocalData.Instance.SchoolId);
 
-        public DocumentReference UserDocument => Database.Collection<User>().Document(FireBaseConnection.UserPath);
-        public IQueryable<School> Schools => Database.AsQuerable<School>();
-        public static string UserPath => $"user_{AppData.Instance.User.Boleta}";
-
-        public static IQueryable<T> GetQueryable<T>() where T : class
+        public static ICollectionReference GetCollection<T>() where T : class
         {
-            return Instance.Database.Collection<T>().AsQuerable<T>();
+            return Database.Collection<T>();
         }
-
-
-        public static CollectionReference GetCollection<T>() where T : class
+        public static IDocumentReference GetDocument<T>()
         {
-            return Instance.Database.Collection<T>();
+            return Database.GetDocument<T>();
         }
-        public static DocumentReference GetDocument<T>()
+        public static async IAsyncEnumerable<Grade> GetEnumerable(this Task<IQuerySnapshot> task)
         {
-            return Instance.Database.GetDocument<T>();
-        }
-
-        public static async Task<T> Add<T>(T obj) where T : IFireBaseKey
-        {
-            await Task.Yield();
-            DocumentReference a = await FireBaseConnection.GetCollection<School>().AddAsync(obj);
-            return obj;
-        }
-        public FireBaseConnection()
-        {
-            FirestoreDbBuilder builder = new FirestoreDbBuilder
+            var capitalQuerySnapshot = await task;
+            foreach (IDocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
             {
-                ProjectId = DotNetEnviroment.FireStoreProjectId,
-                JsonCredentials = DotNetEnviroment.FireBaseServiceAccountCredentials,
-                WarningLogger = (l) => Log.Logger.Warning("FIREBASE:{0}", l)
+                yield return documentSnapshot.ToObject<Grade>();
+            }
+        }
+        public static async Task<T> GetFistOrDefault<T>(this Task<IQuerySnapshot> task) where T : class
+        {
+            var capitalQuerySnapshot = await task;
+            return capitalQuerySnapshot.GetFistOrDefault<T>();
+        }
+        public static T GetFistOrDefault<T>(this IQuerySnapshot capitalQuerySnapshot) where T : class
+        {
+            return capitalQuerySnapshot.Documents.FirstOrDefault()?.ToObject<T>();
+        }
+        public static IEnumerable<T> GetEnumerable<T>(this IQuerySnapshot capitalQuerySnapshot) where T : class
+        {
+            foreach (IDocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
+            {
+                yield return documentSnapshot.ToObject<T>();
+            }
+        }
+
+        public static async Task<T> Get<T>(this Task<IDocumentSnapshot> task) where T : class
+        {
+            IDocumentSnapshot documentSnapshot = await task;
+            return documentSnapshot.ToObject<T>();
+        }
+        static FireBaseConnection()
+        {
+            CrossCloudFirestore.Current.Instance.FirestoreSettings = new FirestoreSettings
+            {
+                CacheSizeBytes = FirestoreSettings.CacheSizeUnlimited,
+                IsPersistenceEnabled = true
             };
-            Database = builder.Build();
         }
     }
 }

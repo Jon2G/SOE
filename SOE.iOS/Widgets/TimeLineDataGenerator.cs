@@ -26,7 +26,7 @@ namespace SOE.iOS.Widgets
                     classes.Add(new Models.ClassSquare()
                     {
                         Color=classSquare.Subject.Color,
-                        Group=classSquare.Subject.Group,
+                        Group=classSquare.Subject.GroupId,
                         FormattedTime=classSquare.FormattedTime,
                         Id=classSquare.Subject.Id,
                         Index=i,

@@ -1,9 +1,11 @@
 ﻿using AsyncAwaitBestPractices;
 using FirestoreLINQ;
-using Google.Cloud.Firestore;
+
 using Kit;
 using Kit.Forms.Extensions;
 using Kit.Model;
+using Plugin.CloudFirestore;
+using Plugin.CloudFirestore.Attributes;
 using SOE.API;
 using SOE.Data.Archives;
 using SOE.Enums;
@@ -19,14 +21,14 @@ using Xamarin.Forms;
 
 namespace SOE.Models.TodoModels
 {
-    [FirestoreData, FireStoreCollection("ToDo")]
+    [FireStoreCollection("ToDo")]
     public class ToDo : ModelBase
     {
-        [FirestoreDocumentId]
+        [Id]
         public string DocumentId { get; set; }
 
         private string _Title;
-        [FirestoreProperty]
+
         public string Title
         {
             get => this._Title;
@@ -38,7 +40,7 @@ namespace SOE.Models.TodoModels
         }
         private string _Description;
         private Document _Document;
-        [FirestoreProperty]
+
         public Document Document
         {
             get => _Document;
@@ -52,7 +54,7 @@ namespace SOE.Models.TodoModels
                 }
             }
         }
-        [FirestoreProperty]
+
         public string Description
         {
             get => this._Description;
@@ -62,33 +64,33 @@ namespace SOE.Models.TodoModels
                 this.Raise(() => this.Description);
             }
         }
-        [FirestoreProperty]
-        public Google.Cloud.Firestore.Timestamp GDate { get; set; }
+
+        private DateTime _Date;
         public DateTime Date
         {
-            get => this.GDate.ToDateTime().ToLocalTime();
+            get => _Date;
             set
             {
-                GDate = Google.Cloud.Firestore.Timestamp.FromDateTime(value.ToUniversalTime());
+                _Date = value;
                 Raise(() => Date);
             }
         }
-        [FirestoreProperty]
-        public int DueTime { get; set; }
+
+        private TimeSpan _Time;
         public TimeSpan Time
         {
-            get => FireStoreExtensions.ToFirestoreTime(DueTime);
+            get => _Time;
             set
             {
-                DueTime = FireStoreExtensions.ToFirestoreTime(value);
+                _Time = value;
                 Raise(() => Time);
             }
         }
-        [FirestoreProperty]
+
         public bool HasPictures { get; set; }
 
         private Subject _Subject;
-        [FirestoreProperty]
+
         public Subject Subject
         {
             get => this._Subject;
@@ -161,7 +163,7 @@ namespace SOE.Models.TodoModels
 
         private PendingStatus _Status;
 
-        [FirestoreProperty]
+
         public PendingStatus Status
         {
             get => _Status;
@@ -256,15 +258,15 @@ namespace SOE.Models.TodoModels
             return this;
         }
 
-        public static CollectionReference Collection =>
-            FireBaseConnection.Instance.UserDocument.Collection<ToDo>();
+        public static ICollectionReference Collection =>
+            FireBaseConnection.UserDocument.Collection<ToDo>();
 
-        public static async IAsyncEnumerable<ToDo> Query(Query query)
+        public static async IAsyncEnumerable<ToDo> IQuery(IQuery IQuery)
         {
-            QuerySnapshot capitalQuerySnapshot = await query.GetSnapshotAsync();
-            foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
+            IQuerySnapshot capitalQuerySnapshot = await IQuery.GetAsync();
+            foreach (IDocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
             {
-                yield return documentSnapshot.ConvertTo<ToDo>();
+                yield return documentSnapshot.ToObject<ToDo>();
             }
         }
 
@@ -311,16 +313,16 @@ namespace SOE.Models.TodoModels
 
         public static Task<List<ToDo>> Get(PendingStatus status = PendingStatus.Pending)
         {
-            return ToDo.Query(ToDo.Collection
-                     .WhereEqualTo(nameof(ToDo.Status), status)
-                     .OrderBy(nameof(ToDo.GDate)).OrderBy(nameof(ToDo.Subject)).OrderBy(nameof(ToDo.DueTime)))
-                 .ToListAsync()
+            return ToDo.IQuery(ToDo.Collection
+                     .WhereEqualsTo(nameof(ToDo.Status), status)
+                     .OrderBy(nameof(ToDo.Date)).OrderBy(nameof(ToDo.Subject)).OrderBy(nameof(ToDo.Time)))
+                .ToListAsync()
                  .AsTask();
         }
         public static ValueTask<ToDo> Get(string DocumentId)
         {
-            Query q = Collection.WhereEqualTo(nameof(DocumentId), DocumentId);
-            return Query(q).FirstOrDefaultAsync();
+            IQuery q = Collection.WhereEqualsTo(nameof(DocumentId), DocumentId);
+            return IQuery(q).FirstOrDefaultAsync();
         }
     }
 }

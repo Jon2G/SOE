@@ -27,7 +27,7 @@ namespace SOE.ViewModels.PopUps
         internal async Task Refresh()
         {
             await Task.Yield();
-            this.Subjects = await Subject.GetAll();
+            //this.Subjects = await Subject.GetAll();
             this.Raise(() => this.Subjects);
         }
 

@@ -73,7 +73,7 @@ namespace SOE.Notifications.Alarms
                     LocalNotification notification =
                     TinyIoC.TinyIoCContainer.Current.Resolve<LocalNotification>()
                         .Set(cl.Subject.Name,
-                        $"{cl.FormattedTime} ,{cl.Subject.Group}\n{(InProgress ? "En curso..." : "Comienza pronto")}",
+                        $"{cl.FormattedTime} ,{cl.Subject.GroupId}\n{(InProgress ? "En curso..." : "Comienza pronto")}",
                         programmedId, Xamarin.Forms.Color.FromHex(cl.Subject.Color), desiredDate, this.Channel, "Class");
 #if DEBUG
                     Log.Logger.Debug(notification.ToString());

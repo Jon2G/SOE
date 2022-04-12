@@ -1,97 +1,106 @@
 ﻿using FirestoreLINQ;
-using Google.Cloud.Firestore;
 using Kit;
 using Kit.Model;
 using Kit.Sql.Attributes;
+using Plugin.CloudFirestore;
+using Plugin.CloudFirestore.Attributes;
+using Plugin.CloudFirestore.Converters;
 using SOE.API;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SOE.Models
 {
-    [Preserve(AllMembers = true), FirestoreData, FireStoreCollection("Classtimes")]
+    [Preserve(AllMembers = true), FireStoreCollection("Classtimes")]
     public class ClassTime : ModelBase
     {
-
-        [FirestoreProperty]
-        public Subject Subject { get; set; }
-        [FirestoreDocumentId]
+        [Id]
         public string IdDocument { get; set; }
-        [FirestoreProperty]
-        public Group Group { get; set; }
-        [FirestoreProperty]
-        public DayOfWeek Day { get; set; }
-
-        [FirestoreProperty]
-        public int BeginTimestamp
+        public string SubjectId { get; set; }
+        [Ignored]
+        private Subject _Subject;
+        [Ignored]
+        public Subject Subject
         {
-            get => _Begin.ToFirestoreTime();
-            set => this._Begin = FireStoreExtensions.ToFirestoreTime(value);
+            get
+            {
+                return this._Subject;
+            }
+            set
+            {
+                this._Subject = value;
+            }
         }
 
-        private TimeSpan _Begin;
+        public string GroupId { get; set; }
+        [DocumentConverter(typeof(EnumStringConverter))]
+        public DayOfWeek Day { get; set; }
+        [DocumentConverter(typeof(SOE.Converters.TimeSpanConverter))]
         public TimeSpan Begin
         {
-            get => _Begin;
-            set => this._Begin = value;
+            get;
+            set;
         }
-        [FirestoreProperty]
-        public int EndTimestamp
-        {
-            get => _End.ToFirestoreTime();
-            set => this._End = FireStoreExtensions.ToFirestoreTime(value);
-        }
-        private TimeSpan _End;
+        [DocumentConverter(typeof(SOE.Converters.TimeSpanConverter))]
         public TimeSpan End
         {
-            get => this._End;
-            set => _End = value;
+            get;
+            set;
         }
         public ClassTime()
         {
 
         }
 
-        public ClassTime(Group group, Subject subject, DayOfWeek Day, TimeSpan Begin, TimeSpan End)
+        public ClassTime(string group, string subjectId, DayOfWeek Day, TimeSpan Begin, TimeSpan End)
         {
-            this.Group = group;
+            this.GroupId = group;
             this.Day = Day;
-            this.Subject = subject;
+            this.SubjectId = subjectId;
             this.Begin = Begin;
             this.End = End;
             IdDocument = this.GetDocumentId();
         }
-        public static CollectionReference Collection =>
-            FireBaseConnection.Instance.UserDocument.Collection<ClassTime>();
 
-        public static async IAsyncEnumerable<ClassTime> Query(Query query)
+        public async Task<Subject> GetSubject()
         {
-            QuerySnapshot capitalQuerySnapshot = await query.GetSnapshotAsync();
-            foreach (DocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
+            this.Subject = await Models.Subject.GetCachedSubject(SubjectId);
+            this.Subject.GroupId = this.GroupId;
+            return this.Subject;
+        }
+        public static ICollectionReference Collection =>
+            FireBaseConnection.UserDocument.Collection<ClassTime>();
+        public static async Task<IEnumerable<ClassTime>> GetAll()
+        {
+            IQuerySnapshot capitalQuerySnapshot = await Collection.GetAsync();
+            return GetEnumerable(capitalQuerySnapshot);
+        }
+        public static IEnumerable<ClassTime> GetEnumerable(IQuerySnapshot capitalQuerySnapshot)
+        {
+            foreach (IDocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
             {
-                yield return documentSnapshot.ConvertTo<ClassTime>();
+                yield return documentSnapshot.ToObject<ClassTime>();
             }
+        }
+        public static Task<IEnumerable<ClassTime>> IQuery(IQuery IQuery)
+        {
+            return IQuery.GetAsync().ContinueWith(t =>
+           {
+               return GetEnumerable(t.Result);
+           });
         }
         public string GetDocumentId()
         {
-            return String.Concat(Day.GetDayName(), Group.DocumentId, Subject.DocumentId);
+            return String.Concat(Day.GetDayName(), GroupId, SubjectId);
         }
 
-        public async Task<ClassTime> Save()
+        public Task<ClassTime> Save()
         {
-            await Task.Yield();
-            IdDocument = this.GetDocumentId();
-            await FireBaseConnection.Instance.UserDocument.Collection<ClassTime>()
-                    .Document(this.IdDocument).SetAsync(this);
-            return this;
-        }
-        public static IQueryable<ClassTime> GetAsQuerable()
-        {
-            return FireBaseConnection.Instance.UserDocument.Collection<ClassTime>()
-                .AsQuerable<ClassTime>();
+            return FireBaseConnection.UserDocument.Collection<ClassTime>()
+                .Document(GetDocumentId()).SetAsync(this)
+                .ContinueWith(t => this);
         }
     }
 }

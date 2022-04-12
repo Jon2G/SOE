@@ -1,6 +1,5 @@
-﻿using System;
-using SOEWeb.Shared;
-using Kit;
+﻿using Kit;
+using System;
 namespace SOE.Models.Scheduler
 {
     public class ClassSquare
@@ -15,6 +14,7 @@ namespace SOE.Models.Scheduler
             }
         }
         public Subject Subject { get; set; }
+        public Group Group { get; set; }
         public TimeSpan Begin { get; internal set; }
         public TimeSpan End { get; internal set; }
         public DayOfWeek Day { get; set; }
@@ -22,9 +22,10 @@ namespace SOE.Models.Scheduler
         public string FormattedTime => $"{Begin:hh}:{Begin:mm} - {End:hh}:{End:mm}";
         public TimeSpan Duration => End - Begin;
 
-        public ClassSquare(Subject Subject, TimeSpan Begin, TimeSpan End, DayOfWeek Day)
+        public ClassSquare(Subject Subject, Group group, TimeSpan Begin, TimeSpan End, DayOfWeek Day)
         {
             this.Subject = Subject;
+            this.Group = group;
             this.Begin = Begin;
             this.End = End;
             this.Day = Day;

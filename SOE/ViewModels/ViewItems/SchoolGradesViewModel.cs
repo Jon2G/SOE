@@ -67,26 +67,42 @@ namespace SOE.ViewModels
         public async Task GetGrades()
         {
             await Task.Yield();
-            List<SchoolGrade> schoolGrades = new List<SchoolGrade>();
-            List<Subject> subjects = await Subject.GetAll();
-            foreach (Subject subject in subjects)
-            {
-                SchoolGrade grade = await SchoolGrade.FromSubject(subject);
-                schoolGrades.Add(grade);
-            }
             SemesterAvg = 0;
+            Grade[]? grades = await Grade.GetAll();
+            List<SchoolGrade> schoolGrades = new List<SchoolGrade>();
+            SchoolGrade schoolGrade = null;
+            string lastSubject = null;
+            foreach (Grade grade in grades)
+            {
+                if (lastSubject != grade.SubjectId)
+                {
+                    Subject subject = await grade.GetSubject();
+                    Group group = await subject.GetGroup();
+                    lastSubject = subject.GetDocumentId();
+                    schoolGrade = new SchoolGrade(subject, new List<Grade>() { grade }, group);
+                    schoolGrades.Add(schoolGrade);
+                    continue;
+                }
+                grade.Subject = schoolGrade.Subject;
+                schoolGrade.Grades.Add(grade);
+
+            }
             if (schoolGrades.Any())
             {
-                List<Grade> grades = schoolGrades.SelectMany(x => x.Grades.Where(y => y.Partial == GradePartial.Final && y.NumericScore > 0)).ToList();
-                if (grades?.Any() ?? false)
+                var avgGrades = grades.Where(y => y.Partial == GradePartial.Final && y.NumericScore > 0).ToArray();
+                if (avgGrades?.Any() ?? false)
                 {
-                    this.SemesterAvg = (float)grades.Average(x => x.NumericScore);
+                    this.SemesterAvg = (float)avgGrades.Average(x => x.NumericScore);
                 }
             }
-            this.Grades.Clear();
-            this.Grades.AddRange(schoolGrades);
-            Raise(() => Grades);
-            Raise(() => SemesterAvg);
+
+            Tools.Instance.SynchronizeInvoke.BeginInvokeOnMainThread(() =>
+            {
+                this.Grades.Clear();
+                this.Grades.AddRange(schoolGrades);
+                Raise(() => Grades);
+                Raise(() => SemesterAvg);
+            });
         }
 
         private async Task Refresh()
@@ -106,10 +122,9 @@ namespace SOE.ViewModels
             {
                 RefreshGrades(null).SafeFireAndForget();
             }
-
         }
 
-        private async Task<bool> RefreshGrades(ICrossWindow captcha)
+        private async Task<bool> RefreshGrades(ICrossWindow? captcha)
         {
             await Task.Yield();
             AppData.Instance.SAES.ShowLoading = false;

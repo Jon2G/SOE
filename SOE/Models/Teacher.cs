@@ -1,31 +1,32 @@
-﻿using Google.Cloud.Firestore;
+﻿
 using Kit.Model;
-using SOE.Data;
+using Plugin.CloudFirestore.Attributes;
+using SOE.API;
 
 using System.Threading.Tasks;
 
 namespace SOE.Models
 {
-    [FirestoreData]
+
     public class Teacher : ModelBase
     {
-        [FirestoreDocumentId]
+        [Id]
         public string DocumentId { get; set; }
-        [FirestoreProperty]
+
         public string Name { get; set; }
 
         public static Teacher Free => new Teacher() { Name = "LIBRE" };
         public async Task<Teacher> Save(School school)
         {
             this.DocumentId = this.GetDocumentId();
-            var wr = await school.GetDocuent().Collection<Teacher>().Document(DocumentId).SetAsync(this);
+            await FireBaseConnection.SchoolDocument.Collection<Teacher>().Document(DocumentId).SetAsync(this);
             return this;
         }
 
         internal static async Task<Teacher> Get(string DocumentId)
         {
-            var snapshot = await AppData.Instance.User.School.GetDocuent().Collection<Teacher>().Document(DocumentId).GetSnapshotAsync();
-            return snapshot.ConvertTo<Teacher>();
+            var snapshot = await FireBaseConnection.SchoolDocument.Collection<Teacher>().Document(DocumentId).GetAsync();
+            return snapshot.ToObject<Teacher>();
 
         }
         public string GetDocumentId()

@@ -1,6 +1,6 @@
 ﻿using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
-using Google.Cloud.Firestore;
+
 using Kit.Forms.Model;
 using Kit.Sql.Attributes;
 using NameGenerator;
@@ -10,6 +10,7 @@ using SOE.Models.Data;
 using SOE.Validations;
 using SOE.Views.Pages;
 using SOE.Views.Pages.Login;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -127,7 +128,9 @@ namespace SOE.ViewModels.Pages.Login
         {
             this.AttemptCount++;
             AppData.Instance.User.Boleta = Boleta;
-            AppData.Instance.User.Password = Password;
+            UserLocalData.Instance.Boleta = Boleta;
+            UserLocalData.Instance.Password = Password;
+            UserLocalData.Instance.SchoolId = AppData.Instance.User.School.DocumentId;
             if (await AppData.Instance.SAES.LogIn(this.Captcha, this.AttemptCount, false))
             {
                 LoginSucceed().SafeFireAndForget();
@@ -142,7 +145,7 @@ namespace SOE.ViewModels.Pages.Login
                     App.Current.MainPage = new SplashScreen();
                     return;
                 }
-                AppData.Instance.User.Password =
+                UserLocalData.Instance.Password =
                 AppData.Instance.User.Boleta =
                 this.Captcha = string.Empty;
                 this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
@@ -183,10 +186,10 @@ namespace SOE.ViewModels.Pages.Login
             User? fireUser = await User.Get();
             if (fireUser is not null)
             {
-                AppData.Instance.User = fireUser;
+                AppData.Instance.User.NickName = fireUser.NickName;
+                AppData.Instance.User.Email = fireUser.Email;
             }
             NickName = AppData.Instance.User.NickName;
-            AppData.Instance.User.Email = AppData.Instance.User.Email;
             Email = AppData.Instance.User.Email;
             if (!string.IsNullOrEmpty(NickName) && !string.IsNullOrEmpty(Email))
             {
@@ -216,7 +219,7 @@ namespace SOE.ViewModels.Pages.Login
             AppData.Instance.User.NickName = NickName;
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Iniciando sesión..."))
             {
-
+                await AppData.Instance.User.School.Save();
                 User user = await AppData.Instance.User.Save();
                 var device = new SOE.Models.Device()
                 {
@@ -225,8 +228,7 @@ namespace SOE.ViewModels.Pages.Login
                     Platform = Device.Current.GetDevicePlatform(),
                     Model = Device.Current.GetDeviceModel(),
                     Name = Device.Current.GetDeviceName(),
-                    UserId = user.DocumentId,
-                    LastTimeSeen = Timestamp.GetCurrentTimestamp()
+                    LastTimeSeen = DateTime.Now
                 };
                 await device.Save();
                 UserLocalData localData = new UserLocalData()

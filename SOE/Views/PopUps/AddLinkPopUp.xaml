@@ -15,7 +15,7 @@
                 <Label Text="Agregar enlace" FontSize="20"
                        FontAttributes="Bold" HorizontalTextAlignment="Center"
                        BackgroundColor="{Binding ClassSquare.Subject,Converter={StaticResource SubjectColorAppThemeConverter}}" Padding="5"/>
-                <Label Text="{Binding ClassSquare.Subject.Group}" FontSize="20"
+                <Label Text="{Binding ClassSquare.Group.Name}" FontSize="20"
                        FontAttributes="Bold" HorizontalTextAlignment="Center"
                        BackgroundColor="{Binding ClassSquare.Subject,Converter={StaticResource SubjectColorAppThemeConverter}}" Padding="5,0"/>
                

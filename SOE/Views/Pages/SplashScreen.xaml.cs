@@ -1,6 +1,4 @@
 ﻿using AsyncAwaitBestPractices;
-using System;
-using System.Threading.Tasks;
 using Kit;
 using Microsoft.AppCenter.Crashes;
 using Plugin.Fingerprint;
@@ -9,7 +7,8 @@ using SOE.Data;
 using SOE.Models.Data;
 using SOE.Views.Pages.Login;
 using SOE.Views.PopUps;
-using SOEWeb.Shared;
+using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Device = Xamarin.Forms.Device;
@@ -39,16 +38,22 @@ namespace SOE.Views.Pages
 
         private async Task Init()
         {
-            var localData = UserLocalData.Instance;
-            if (localData is null)
+            User user = null;
+            bool signIn = true;
+            UserLocalData localData = UserLocalData.Instance;
+            if (!string.IsNullOrEmpty(localData.Boleta))
+            {
+                user = await User.Get();
+                if (!string.IsNullOrEmpty(user.Boleta))
+                    signIn = false;
+            }
+            if (signIn)
             {
                 App.Current.MainPage = new UserSignUpPage();
                 return;
             }
-
             AppData.Instance.User.Boleta = localData.Boleta;
-            User user=await User.Get();
-
+            user ??= await User.Get();
             if (user.Settings.IsFingerPrintActive)
             {
                 if (!await CrossFingerprint.Current.IsAvailableAsync(true))

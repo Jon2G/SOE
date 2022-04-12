@@ -16,10 +16,14 @@ namespace SOE.Models.Scheduler
             this.Class = classes;
         }
 
-        public static async Task<SheduleDay> GetDay(Day day)
+        public static Task<SheduleDay> GetDay(Day day)
         {
-            var observable = new ObservableCollection<ClassSquare>(await day.GetTimeLine());
-            return new SheduleDay(day, observable);
+            return day.GetTimeLine()
+                 .ContinueWith(t =>
+                 {
+                     var observable = new ObservableCollection<ClassSquare>(t.Result);
+                     return new SheduleDay(day, observable);
+                 });
         }
     }
 }

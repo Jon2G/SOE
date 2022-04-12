@@ -11,6 +11,7 @@ using Plugin.Fingerprint;
 using Plugin.Media;
 using SOE.Droid.FireBase;
 using SOE.FireBase;
+using SOE.Models;
 using SOE.Models.Scheduler;
 using SOE.Models.TodoModels;
 using SOE.Secrets;
@@ -104,10 +105,11 @@ namespace SOE.Droid.Activities
                     pendingAction = new TodoWidgetAction(intent.GetStringExtra(nameof(ToDo.DocumentId)));
                     break;
                 case TimeLineWidget.ITEM_CLICK:
-                    long ticks = intent.GetLongExtra(nameof(ClassSquare.Begin), 0);
-                    string subjectId = intent.GetStringExtra(nameof(ClassSquare.Subject.DocumentId));
-                    DayOfWeek dayOfWeek = (DayOfWeek)intent.GetIntExtra(nameof(ClassSquare.Day), 1);
-                    pendingAction = new TimeLineWidgetSubjectAction(new DateTime(ticks), subjectId, dayOfWeek);
+                    long ticks = intent.GetLongExtra(nameof(ClassTime.Begin), 0);
+                    string subjectId = intent.GetStringExtra(nameof(ClassTime.IdDocument));
+                    DayOfWeek dayOfWeek = (DayOfWeek)intent.GetIntExtra(nameof(ClassTime.Day), 1);
+                    if (!string.IsNullOrEmpty(subjectId) && ticks > 0)
+                        pendingAction = new TimeLineWidgetSubjectAction(new DateTime(ticks), subjectId, dayOfWeek);
                     break;
                 case TimeLineWidget.DAY_CLICK:
                     DayOfWeek dayclicked = (DayOfWeek)intent.GetIntExtra(nameof(ClassSquare.Day), 1);

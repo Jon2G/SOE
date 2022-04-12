@@ -69,7 +69,7 @@ namespace SOE.Droid.Widgets.TimeLine
 
             rv.SetTextViewText(Resource.Id.widget_timetable_TextViewSubjectName, subject.Subject.Name);
             rv.SetTextViewText(Resource.Id.widget_timetable_TextViewSubjectTime, subject.FormattedTime);
-            rv.SetTextViewText(Resource.Id.widget_timetable_TextViewSalon, subject.Subject.GroupId);
+            rv.SetTextViewText(Resource.Id.widget_timetable_TextViewSalon, subject.Group.Name);
             rv.SetInt(Resource.Id.widget_timetable_SubjectColor, "setBackgroundColor", Color.ParseColor(subject.Subject.Color));
 
 

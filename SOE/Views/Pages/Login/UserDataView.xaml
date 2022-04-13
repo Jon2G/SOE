@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
+             xmlns:validations="clr-namespace:Kit.Forms.Validations;assembly=Kit.Forms"
+             xmlns:login="clr-namespace:SOE.ViewModels.Pages.Login;assembly=SOE"
+             x:Class="SOE.Views.Pages.Login.UserDataView"
+             x:DataType="login:UserSignUpPageViewModel">
+    <ScrollView>
+        <Grid Padding="0">
+            <StackLayout Background="{DynamicResource SecondaryBackground}" x:Name="SecondForm" IsEnabled="False" IsVisible="False" Opacity="0">
+                <Label FontSize="18" FontAttributes="Bold" Text="{Binding User.Name,StringFormat='Bienvenido {0},ahora vamos a crearte un nuevo usuario.',Source={x:Static data:AppData.Instance}}"/>
+                <Entry  TextColor="{DynamicResource secondaryTextColor}" IsTextPredictionEnabled="False"
+                                                          Text="{Binding Email}"
+                                                    validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"
+                                                          Placeholder="Email"
+                                                          Margin="0,10" />
+                <Label Text="Nickname:"/>
+                <Entry  TextColor="{DynamicResource secondaryTextColor}" IsTextPredictionEnabled="False"
+                                                                  Text="{Binding NickName}"
+                                                                  Placeholder="NickName"
+                                                    validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"
+                                                                  Margin="0,10" />
+
+                <Button  Text="Finalizar"
+                                             FontFamily="KarlaSB"
+                                             TextColor="{DynamicResource primaryTextColor}"
+                                             Command="{Binding SignUpCommand}"
+                                             CommandParameter="{Binding .}"
+                                             CornerRadius="20" 
+                                             Margin="0, 10, 0, 0"/>
+            </StackLayout>
+        </Grid>
+    </ScrollView>
+</ContentView>

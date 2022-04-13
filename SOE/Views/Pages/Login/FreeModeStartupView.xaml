@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:validations="clr-namespace:Kit.Forms.Validations;assembly=Kit.Forms"
+             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+             xmlns:login="clr-namespace:SOE.ViewModels.Pages.Login;assembly=SOE"
+             x:Class="SOE.Views.Pages.Login.FreeModeStartupView"
+             x:DataType="login:FreeModePageViewModel">
+    <ScrollView>
+        <Grid Padding="0">
+            <StackLayout 
+                 Padding="60,10"
+                 Orientation="Vertical"
+                 Spacing="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Label FontSize="18" FontAttributes="Bold" Text="Comenzemos"/>
+                <Entry  TextColor="{DynamicResource secondaryTextColor}"  x:Name="Usuario"
+                                                                  IsTextPredictionEnabled="False"
+                                                          Text="{Binding Boleta}"
+                                                          Placeholder="Boleta"
+                                                     validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"
+                                                          Margin="0,3" IsReadOnly="False" />
+                
+                    <Button  Text="Continuar"
+                             FontFamily="KarlaSB"
+                             TextColor="{DynamicResource primaryTextColor}"
+                             Command="{Binding SignInCommand}"
+                             CornerRadius="20" 
+                             Margin="0, 10, 0, 0"/>
+                
+
+            </StackLayout>
+        </Grid>
+    </ScrollView>
+</ContentView>

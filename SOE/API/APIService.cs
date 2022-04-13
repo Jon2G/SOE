@@ -35,8 +35,7 @@ namespace SOE.API
 
         private Task<PingReply> PingOrTimeout()
         {
-            Kit.Services.Web.ScanIpAddress scan = new Kit.Services.Web.ScanIpAddress();
-            return scan.PingOrTimeout(DotNetEnviroment.ServiceIP, 1000);
+            return Kit.PingExtensions.PingOrTimeout(DotNetEnviroment.ServiceIP, 1000);
         }
         public async Task<bool> IsPingRechable()
         {

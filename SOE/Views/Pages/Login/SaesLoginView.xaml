@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:validations="clr-namespace:Kit.Forms.Validations;assembly=Kit.Forms"
+             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+             xmlns:login="clr-namespace:SOE.ViewModels.Pages.Login;assembly=SOE"
+             x:Class="SOE.Views.Pages.Login.SaesLoginView"
+             x:DataType="login:UserSignUpPageViewModel">
+    <ScrollView>
+        <Grid Padding="0">
+            <StackLayout 
+                 Padding="60,10"
+                 Orientation="Vertical"
+                 Spacing="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Label FontSize="18" FontAttributes="Bold" Text="Credenciales de acceso al SAES"/>
+                <Entry  TextColor="{DynamicResource secondaryTextColor}"  x:Name="Usuario"
+                                                                  IsTextPredictionEnabled="False"
+                                                          Text="{Binding Boleta}"
+                                                          Placeholder="Boleta"
+                                                     validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"
+                                                          Margin="0,3" IsReadOnly="False" />
+
+                <Entry IsPassword="True" 
+                                                         Text="{Binding Password}"
+                                                         Placeholder="Contraseña" Margin="0"/>
+                <Grid RowDefinitions="Auto,*">
+                    <Image Source="{Binding CaptchaImg}" 
+                                                   HeightRequest="80" Grid.RowSpan="2" />
+                    <Label HorizontalOptions="End" Margin="5,0" HeightRequest="30"
+                                                   Background="{StaticResource SecondaryBackground}"
+                                                   FontFamily="{x:Static fonts:FontelloIcons.Font}" FontSize="30"
+                                                   Text="{x:Static fonts:FontelloIcons.Refresh}" TextColor="ForestGreen"
+                                                   IsEnabled="True" >
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding RefreshCaptchaCommand}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+                <Entry IsPassword="False" 
+                                                   Text="{Binding Captcha}"
+                                                   Placeholder="Captcha" IsTextPredictionEnabled="False"
+                                                   Margin="0,10"/>
+                <Label Text="*Debe utilizar la misma contraseña que utiliza para accesar al sistema SAES" FontSize="12" FontAttributes="Bold"/>
+                <Label Text="*Tus datos de acceso NUNCA saldrán tu de dispositivo y nosotros no tendremos conocimiento de los mismos." FontSize="12" FontAttributes="Bold"/>
+
+
+
+
+
+                <Button  Text="Acceder"
+                                             FontFamily="KarlaSB"
+                                             TextColor="{DynamicResource primaryTextColor}"
+                                             Command="{Binding SignInCommand}"
+                                             CornerRadius="20" 
+                                             Margin="0, 10, 0, 0"/>
+            </StackLayout>
+        </Grid>
+    </ScrollView>
+</ContentView>

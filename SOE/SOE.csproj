@@ -77,6 +77,21 @@
     <EmbeddedResource Update="Views\Pages\AcademicDirectory.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Pages\Login\FreeModePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Pages\Login\FreeSignUpView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Pages\Login\ModeSelectorView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Pages\Login\SaesLoginView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Pages\Login\UserDataView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\ReportBugsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -251,8 +266,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\Pages\Login\FreeLoginView.xaml.cs">
+      <DependentUpon>FreeLoginView.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Pages\Login\RefreshDataPage.xaml.cs">
       <DependentUpon>RefreshDataPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Pages\Login\FreeModeStartupView.xaml.cs">
+      <DependentUpon>FreeModeStartupView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Pages\Login\UserSignUpPage.xaml.cs">
       <DependentUpon>UserSignUpPage.xaml</DependentUpon>

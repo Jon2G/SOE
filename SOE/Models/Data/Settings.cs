@@ -9,7 +9,7 @@ namespace SOE.Models.Data
     {
 
         private bool _ShowTimelineBar;
-        
+
         public bool ShowTimelineBar
         {
             get => _ShowTimelineBar;
@@ -20,7 +20,7 @@ namespace SOE.Models.Data
             }
         }
         private bool _IsFingerPrintActive;
-        
+
         public bool IsFingerPrintActive
         {
             get => _IsFingerPrintActive;
@@ -32,7 +32,7 @@ namespace SOE.Models.Data
         }
 
         private bool _ExpandCards;
-        
+
         public bool ExpandCards
         {
             get => _ExpandCards;
@@ -42,6 +42,7 @@ namespace SOE.Models.Data
                 Raise(() => ExpandCards);
             }
         }
+
 
         public Settings()
         {

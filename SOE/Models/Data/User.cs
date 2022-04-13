@@ -3,6 +3,8 @@
 using Kit;
 using Kit.Model;
 using Kit.Sql.Attributes;
+using NameGenerator;
+using NameGenerator.Generators;
 using Plugin.CloudFirestore;
 using Plugin.CloudFirestore.Attributes;
 using SOE.API;
@@ -104,7 +106,7 @@ namespace SOE.Models.Data
             con.Single<string>("SP_GET_NICKNAME", CommandType.StoredProcedure,
                 new SqlParameter("USER_ID", UserId));
 
-
+        public string ApplicationPassword { get; set; }
         private Settings _Settings;
 
         public Settings Settings
@@ -140,15 +142,16 @@ namespace SOE.Models.Data
                 Raise(() => InscriptionDate);
             }
         }
+        public bool HasSubjects { get; set; }
+        public User() { }
+
         public async Task<School> GetSchool()
         {
             School = await Models.School.Get();
             return School;
         }
-
-        internal static async Task<User> Get()
+        private static async Task<User> Get(IDocumentReference docRef)
         {
-            IDocumentReference docRef = FireBaseConnection.UserDocument;
             IDocumentSnapshot snapshot = await docRef.GetAsync();
             var user = snapshot.ToObject<User>();
             if (user is not null)
@@ -157,18 +160,45 @@ namespace SOE.Models.Data
                 user.Credits ??= new();
                 await user.GetSchool();
             }
-
             return user ?? new User() { Settings = new Settings() };
         }
+        internal static Task<User> Get() => Get(FireBaseConnection.UserDocument);
 
-        public bool HasSubjects { get; set; }
-        public User() { }
 
         public Task<User> Save()
         {
             this.DocumentId = FireBaseConnection.UserDocument.Id;
             return FireBaseConnection.UserDocument.SetAsync(this)
                 .ContinueWith(t => this);
+        }
+
+        public async static Task<bool> Exists(string boleta)
+        {
+            User user = await
+                Get(FireBaseConnection.GetUserDocument(FireBaseConnection.GetUserPath(boleta)));
+            return user.Boleta == boleta;
+        }
+        public static async Task<bool> LogIn(string boleta, string password)
+        {
+            User user = await
+            Get(FireBaseConnection.GetUserDocument(FireBaseConnection.GetUserPath(boleta)));
+            return (user.ApplicationPassword == password);
+        }
+
+        internal static string GetRandomNickName()
+        {
+            string nickName = string.Empty;
+            while (!Models.Data.Validations.IsValidNickName(nickName))
+            {
+                GamerTagGenerator tagGenerator = new()
+                {
+                    SpaceCharacter = "_",
+                    Sex = GeneratorBase.SexTypes.All,
+                    GeneratorFlags = GeneratorBase.NameTypes.None
+                };
+                nickName = tagGenerator.Generate();
+            }
+            return nickName;
         }
     }
 }

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:validations="clr-namespace:Kit.Forms.Validations;assembly=Kit.Forms"
+             xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
+             xmlns:login="clr-namespace:SOE.ViewModels.Pages.Login;assembly=SOE"
+             x:Class="SOE.Views.Pages.Login.FreeSignUpView"
+             x:DataType="login:FreeModePageViewModel">
+    <ContentView.Content>
+        <ScrollView>
+            <Grid Padding="10">
+                <StackLayout Background="{DynamicResource SecondaryBackground}">
+
+                    <Label FontSize="18" FontAttributes="Bold" Text="{Binding User.Name,StringFormat='Bienvenido {0},ahora vamos a crearte un nuevo usuario.',Source={x:Static data:AppData.Instance}}"/>
+
+                    <Label Text="Email:"/>
+                    <Entry  TextColor="{DynamicResource secondaryTextColor}" IsTextPredictionEnabled="False"
+                      Text="{Binding Email}"
+                      validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"
+                      Placeholder="Email"
+                      Margin="0,0,0,5" />
+                    <Label Text="Nickname:"/>
+                    <Entry  TextColor="{DynamicResource secondaryTextColor}" IsTextPredictionEnabled="False"
+                      Text="{Binding NickName}"
+                      Placeholder="NickName"
+                      validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"
+                      Margin="0,0,0,5" />
+
+                    <Label Text="Contraseña:" FontSize="12" FontAttributes="Bold"/>
+                    <Entry IsPassword="True" 
+                 Text="{Binding Password}"
+                 Placeholder="Contraseña" Margin="0"/>
+                    <Label Text="Confirmación:" FontSize="12" FontAttributes="Bold"/>
+                    <Entry IsPassword="True" 
+                 Text="{Binding PasswordMatch}"
+                 Placeholder="Confirmación" Margin="0"/>
+
+                    <Button  Text="Finalizar"
+                   FontFamily="KarlaSB"
+                   TextColor="{DynamicResource primaryTextColor}"
+                   Command="{Binding SignUpCommand}"
+                   CornerRadius="20" 
+                   Margin="0,0,0,5"/>
+                </StackLayout>
+            </Grid>
+        </ScrollView>
+    </ContentView.Content>
+</ContentView>

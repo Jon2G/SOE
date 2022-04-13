@@ -10,8 +10,8 @@ namespace SOE.API
     public static class FireBaseConnection
     {
         public static IFirestore Database => CrossCloudFirestore.Current.Instance;
-        public static string UserPath => $"user_{UserLocalData.Instance.Boleta}";
-        public static IDocumentReference UserDocument => SchoolDocument.Collection<User>().Document(FireBaseConnection.UserPath);
+        public static string UserPath => GetUserPath(UserLocalData.Instance.Boleta);
+        public static IDocumentReference UserDocument => GetUserDocument(FireBaseConnection.UserPath);
         public static IDocumentReference SchoolDocument => School.Collection.Document(UserLocalData.Instance.SchoolId);
 
         public static ICollectionReference GetCollection<T>() where T : class
@@ -22,6 +22,10 @@ namespace SOE.API
         {
             return Database.GetDocument<T>();
         }
+
+        public static string GetUserPath(string boleta) => $"user_{boleta}";
+        public static IDocumentReference GetUserDocument(string userPath) => SchoolDocument.Collection<User>().Document(userPath);
+
         public static async IAsyncEnumerable<Grade> GetEnumerable(this Task<IQuerySnapshot> task)
         {
             var capitalQuerySnapshot = await task;

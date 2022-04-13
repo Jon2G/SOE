@@ -19,33 +19,32 @@ namespace SOE.Views.Pages.Login
         }
         public UserSignUpPage(bool DisplayPrivacyAlert)
         {
-            InitializeComponent(); 
+            InitializeComponent();
             if (Tools.Debugging)
             {
                 ContentView.Opacity =
                     PancakeView.Opacity = 0.8;
             }
-            this.Model = new UserSignUpPageViewModel(this.FirstForm, this.SecondForm);
+            this.Model = new UserSignUpPageViewModel();
             this.BindingContext = this.Model;
             AppData.Instance.SAES = this.SAES;
             AppData.Instance.SAES.ShowLoading = false;
-            this.Model.PrivacyAlertDisplayed = !DisplayPrivacyAlert;
+            UserSignUpPageViewModel.PrivacyAlertDisplayed = !DisplayPrivacyAlert;
         }
         protected override void OnAppearing()
         {
             base.OnAppearing();
             if (AppData.Instance.User.School is null)
             {
-                this.Model.SelectSchoolCommand.ExecuteAsync().SafeFireAndForget();
+                this.Model.SelectSchoolCommand.Execute(this);
                 return;
             }
-            if (!this.Model.PrivacyAlertDisplayed)
+            if (!UserSignUpPageViewModel.PrivacyAlertDisplayed)
             {
                 SAESPrivacyAlert.Display().SafeFireAndForget();
-                this.Model.PrivacyAlertDisplayed = true;
+                UserSignUpPageViewModel.PrivacyAlertDisplayed = true;
             }
             this.Init().SafeFireAndForget();
-            Usuario.Focus();
         }
 
         private async Task Init()

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:login="clr-namespace:SOE.ViewModels.Pages.Login;assembly=SOE"
+             xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
+             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+             x:Class="SOE.Views.Pages.Login.ModeSelectorView"
+             x:DataType="login:UserSignUpPageViewModel"
+             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="10">
+        <controls:ArrowButton IsArrowVisible="True" Title="Ingresar con el SAES" SubTitle="(Recomendado)" Command="{Binding SaesModeCommand}"
+                              HorizontalOptions="FillAndExpand" ArrowColor="{StaticResource SecondaryColor}">
+            <controls:ArrowButton.Icon>
+                <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}" Glyph="{x:Static fonts:FontelloIcons.Community}"
+                                 Color="{AppThemeBinding Dark={StaticResource LightTextColor},Light={StaticResource DarkTextColor}}"/>
+            </controls:ArrowButton.Icon>
+        </controls:ArrowButton>
+        <controls:ArrowButton IsArrowVisible="True" Title="Modo libre"  ArrowColor="{StaticResource SecondaryColor}"
+                              HorizontalOptions="FillAndExpand" Command="{Binding FreeModeCommand}">
+            <controls:ArrowButton.Icon>
+                <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}" Glyph="{x:Static fonts:FontelloIcons.User}"
+                                 Color="{AppThemeBinding Dark={StaticResource LightTextColor},Light={StaticResource DarkTextColor}}"/>
+            </controls:ArrowButton.Icon>
+        </controls:ArrowButton>
+    </StackLayout>
+</ContentView>

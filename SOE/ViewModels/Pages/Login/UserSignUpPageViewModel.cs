@@ -3,8 +3,6 @@ using AsyncAwaitBestPractices.MVVM;
 
 using Kit.Forms.Model;
 using Kit.Sql.Attributes;
-using NameGenerator;
-using NameGenerator.Generators;
 using SOE.Data;
 using SOE.Models.Data;
 using SOE.Validations;
@@ -46,7 +44,7 @@ namespace SOE.ViewModels.Pages.Login
             get => _Email;
             set
             {
-                _Email = value;
+                _Email = value?.Trim();
                 Raise(() => Email);
                 ValidateProperty(value);
                 this.SignUpCommand.RaiseCanExecuteChanged();
@@ -76,10 +74,6 @@ namespace SOE.ViewModels.Pages.Login
                 this.SignInCommand.RaiseCanExecuteChanged();
             }
         }
-
-
-        private readonly View SecondForm;
-        private readonly View FirstForm;
         private string _Captcha;
         public string Captcha
         {
@@ -105,24 +99,49 @@ namespace SOE.ViewModels.Pages.Login
 
         private ICommand _RefreshCaptchaCommand;
         public ICommand RefreshCaptchaCommand => _RefreshCaptchaCommand ??= new Command(RefreshCaptcha);
+        private ICommand _SaesModeCommand;
+        public ICommand SaesModeCommand => _SaesModeCommand ??= new Command(SaesMode);
+
+        private AsyncCommand _FreeModeCommand;
+        public AsyncCommand FreeModeCommand => _FreeModeCommand ??= new AsyncCommand(this.FreeMode);
 
         private AsyncCommand _SignUpCommand;
         public AsyncCommand SignUpCommand => _SignUpCommand ??= new AsyncCommand(SignUp, (o) => SignUpCanExecute);
         private AsyncCommand _SignInCommand;
         public AsyncCommand SignInCommand => _SignInCommand ??= new AsyncCommand(SignIn, SignInCanExecute);
-        public AsyncCommand SelectSchoolCommand { get; }
+        public ICommand SelectSchoolCommand { get; }
         public int AttemptCount { get; set; }
 
-        public bool PrivacyAlertDisplayed { get; set; }
+        public static bool PrivacyAlertDisplayed { get; set; }
+        private ContentView _CurrentView;
 
-        public UserSignUpPageViewModel(View FirstForm, View SecondForm)
+        public ContentView CurrentView
         {
-            this.FirstForm = FirstForm;
-            this.SecondForm = SecondForm;
-            this.SelectSchoolCommand = new AsyncCommand(SelectSchool);
+            get => this._CurrentView;
+            set
+            {
+                this._CurrentView = value;
+                Raise(() => CurrentView);
+            }
         }
 
-        private Task SelectSchool() => App.Current.MainPage.Navigation.PushModalAsync(new SchoolSelector(!this.PrivacyAlertDisplayed));
+        public UserSignUpPageViewModel()
+        {
+            this.SelectSchoolCommand = new Command(SelectSchool);
+            this.CurrentView = new ModeSelectorView(this);
+        }
+
+        private void SaesMode()
+        {
+            this.CurrentView = new SaesLoginView(this);
+        }
+
+        private Task FreeMode() => App.Current.MainPage.Navigation.PushModalAsync(new FreeModePage(new FreeModePageViewModel(AppData.Instance.User.School, this.SelectSchoolCommand)));
+
+        private void SelectSchool()
+        {
+            App.Current.MainPage.Navigation.PushModalAsync(new SchoolSelector(!PrivacyAlertDisplayed)).SafeFireAndForget();
+        }
 
         private async Task SignIn()
         {
@@ -170,18 +189,7 @@ namespace SOE.ViewModels.Pages.Login
         private async Task LoginSucceed()
         {
             await Task.Yield();
-            SecondForm.IsEnabled = true;
-            SecondForm.IsVisible = true;
-            SecondForm.FadeTo(1, 500).SafeFireAndForget();
-            FirstForm.FadeTo(0, 500).SafeFireAndForget();
-            FirstForm.IsEnabled = false;
-            GamerTagGenerator tagGenerator = new()
-            {
-                SpaceCharacter = "_",
-                Sex = GeneratorBase.SexTypes.All,
-                GeneratorFlags = GeneratorBase.NameTypes.None
-            };
-
+            CurrentView = new UserDataView(this);
             Acr.UserDialogs.UserDialogs.Instance.ShowLoading("Validando información");
             User? fireUser = await User.Get();
             if (fireUser is not null)
@@ -198,10 +206,7 @@ namespace SOE.ViewModels.Pages.Login
             }
             if (string.IsNullOrEmpty(AppData.Instance.User.NickName))
             {
-                while (!Models.Data.Validations.IsValidNickName(NickName))
-                {
-                    NickName = tagGenerator.Generate();
-                }
+                NickName = User.GetRandomNickName();
             }
             if (string.IsNullOrEmpty(AppData.Instance.User.Email))
             {

@@ -1,8 +1,11 @@
-﻿using Kit.Model;
+﻿using Kit;
+using Kit.Model;
 using Kit.Sql.Sqlite;
 using SOE.Models.Data;
 using System;
 using System.IO;
+using System.Net.NetworkInformation;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms.Internals;
 
@@ -44,6 +47,22 @@ namespace SOE.Data
             set;
         }
         public SQLiteConnection LiteConnection { get; private set; }
+
+        public static bool HasConnectivity =>
+            Connectivity.NetworkAccess == NetworkAccess.ConstrainedInternet ||
+            Connectivity.NetworkAccess == NetworkAccess.Internet;
+
+        public static async Task<bool> HasInternetAccess()
+        {
+            PingReply reply = await new Ping().PingOrTimeout("8.8.8.8"); //Google Public DNS IP address
+            return reply?.Status == IPStatus.Success;
+        }
+
+        public static Task<bool> EnsureHasInternetAccess()
+        {
+            return AppData.HasConnectivity ? AppData.HasInternetAccess() : Task.FromResult(false);
+        }
+
         private AppData()
         {
 

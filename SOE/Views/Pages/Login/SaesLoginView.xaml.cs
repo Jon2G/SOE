@@ -1,4 +1,6 @@
-﻿using SOE.ViewModels.Pages.Login;
+﻿using SOE.Data;
+using SOE.Enums;
+using SOE.ViewModels.Pages.Login;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -11,6 +13,7 @@ namespace SOE.Views.Pages.Login
     {
         public SaesLoginView(UserSignUpPageViewModel model)
         {
+            AppData.Instance.User.Mode = UserMode.SAES;
             this.BindingContext = model;
             InitializeComponent();
             Task.Delay(TimeSpan.FromSeconds(0.5)).ContinueWith(t => this.Usuario.Focus());

@@ -1,9 +1,9 @@
-﻿using System.Windows.Input;
-using AsyncAwaitBestPractices;
+﻿using AsyncAwaitBestPractices;
 using Kit.Model;
 using SOE.Fonts;
 using SOE.Models.TodoModels;
 using SOE.Views.PopUps;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace SOE.ViewModels.Pages
@@ -12,7 +12,7 @@ namespace SOE.ViewModels.Pages
     {
         private readonly MenuPopUp PopUp;
         private readonly ToDo todo;
-        public MenuPopUpViewModel(MenuPopUp PopUp,ToDo todo)
+        public MenuPopUpViewModel(MenuPopUp PopUp, ToDo todo)
         {
             this.todo = todo;
             this.PopUp = PopUp;
@@ -33,9 +33,9 @@ namespace SOE.ViewModels.Pages
         {
             get
             {
-                if (this.todo.Status== Enums.PendingStatus.Pending)
+                if (this.todo.Status == Enums.PendingStatus.Pending)
                 {
-                    return  "Marcar como completado";
+                    return "Marcar como completado";
                 }
 
                 return "Marcar como pendiente";
@@ -45,7 +45,7 @@ namespace SOE.ViewModels.Pages
         {
             get
             {
-                var Icon = new FontImageSource()
+                FontImageSource? Icon = new FontImageSource()
                 {
                     FontFamily = FontelloIcons.Font,
                     Glyph = todo.Status.HasFlag(Enums.PendingStatus.Pending) ? FontelloIcons.Hourglass : FontelloIcons.CheckBox
@@ -59,7 +59,7 @@ namespace SOE.ViewModels.Pages
         {
             get
             {
-                var Icon = new FontImageSource()
+                FontImageSource? Icon = new FontImageSource()
                 {
                     FontFamily = FontelloIcons.Font,
                     Glyph = todo.Status.HasFlag(Enums.PendingStatus.Archived) ? FontelloIcons.Folder : FontelloIcons.Archive

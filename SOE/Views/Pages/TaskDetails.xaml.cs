@@ -1,4 +1,5 @@
-﻿using SOE.Data.Archives;
+﻿using AsyncAwaitBestPractices;
+using SOE.Data.Archives;
 using SOE.Models.TodoModels;
 using SOE.ViewModels.Pages;
 using System.Linq;
@@ -23,14 +24,14 @@ namespace SOE.Views.Pages
         }
         private void ShowGallery(PhotoArchive obj)
         {
-            this.GalleryView.Show(this.Model.Photos.Select(x => x.Value), obj.Value);
+            this.GalleryView.Show(this.Model.Photos.Select(x => x.Value), obj.Value).SafeFireAndForget();
         }
 
         protected override bool OnBackButtonPressed()
         {
             if (GalleryView.IsVisible)
             {
-                this.GalleryView.Hide();
+                this.GalleryView.Hide().SafeFireAndForget();
                 return true;
             }
             return false;

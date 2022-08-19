@@ -1,14 +1,11 @@
-﻿using AsyncAwaitBestPractices;
-using SOE.Views.Pages.Login;
-using SOE.Views.PopUps;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms.Xaml;
 
 namespace SOE.Views.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SchoolSelector
     {
-        public SchoolSelector():this(false)
+        public SchoolSelector() : this(false)
         {
 
         }
@@ -18,7 +15,7 @@ namespace SOE.Views.Pages
             this.Model.PrivacyAlertDisplayed = PrivacyAlertDisplayed;
         }
 
-        //protected override async void OnAppearing()
+        //protected override void OnAppearing()
         //{
         //    base.OnAppearing();
         //    this.InputTransparent = true;

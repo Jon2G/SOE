@@ -1,7 +1,6 @@
 ﻿using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
-using Android.OS;
 using Android.Runtime;
 using Android.Widget;
 using Kit;
@@ -10,6 +9,7 @@ using SOE.Models.TodoModels;
 using SOE.Widgets;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SOE.Droid.Widgets.ToDos
 {
@@ -69,7 +69,7 @@ namespace SOE.Droid.Widgets.ToDos
             RemoteViews rv = new RemoteViews(mContext.PackageName, Resource.Layout.widget_todos_task);
 
             rv.SetTextViewText(Resource.Id.widget_todos_SubjectName, todo.Subject.Name);
-            rv.SetTextViewText(Resource.Id.widget_todos_SubjectGroup, todo.Subject.GroupId);
+            rv.SetTextViewText(Resource.Id.widget_todos_SubjectGroup, todo.Subject.Group.Name);
             rv.SetTextViewText(Resource.Id.widget_todos_TaskName, todo.Title);
             rv.SetTextViewText(Resource.Id.widget_todos_TaskTime, todo.FormattedTime);
             rv.SetTextViewText(Resource.Id.widget_todos_TaskDate, todo.FormattedDate);
@@ -78,13 +78,15 @@ namespace SOE.Droid.Widgets.ToDos
             rv.SetInt(Resource.Id.widget_todos_StatusColor, "setBackgroundColor", Color.ParseColor(ToDosWidget.GetColor(todo)));
 
 
+
             // Next, we set a fill-intent which will be used to fill-in the pending intent template
             // which is set on the collection view in StackWidgetProvider.
-            Bundle extras = new Bundle();
-            extras.PutInt(TimeLineWidget.EXTRA_ITEM, position);
-            Intent fillInIntent = new Intent();
-            fillInIntent.PutExtras(extras);
-            rv.SetOnClickFillInIntent(Resource.Id.widget_todo_item, fillInIntent);
+
+            Intent clickIntent = new Intent();
+            clickIntent.PutExtra(ToDosWidget.ITEM_INDEX, position);
+            clickIntent.SetFlags(ActivityFlags.NewTask); // Make the pending intent unique...
+            rv.SetOnClickFillInIntent(Resource.Id.widget_todo_item, clickIntent);
+
             // You can do heaving lifting in here, synchronously. For example, if you need to
             // process an image, fetch something from the network, etc., it is ok to do it here,
             // synchronously. A loading view will show up in lieu of the actual contents in the
@@ -118,7 +120,14 @@ namespace SOE.Droid.Widgets.ToDos
             // from the network, etc., it is ok to do it here, synchronously. The widget will remain
             // in its current state while work is being done here, so you don't need to worry about
             // locking up the widget.
+            List<Task> tasks = new List<Task>();
             this.Todos = ToDosWidget.GetTasks(this.mAppWidgetId).GetAwaiter().GetResult();
+            foreach (ToDo? todo in this.Todos)
+            {
+                tasks.Add(todo.GetSubject());
+                tasks.Add(todo.Subject.GetGroup());
+            }
+            Task.WaitAll(tasks.ToArray());
         }
 
 

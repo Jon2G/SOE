@@ -6,7 +6,6 @@ using SOE.Views.Pages;
 using SOE.Views.PopUps;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.Forms;
 using Device = Xamarin.Forms.Device;
 
 namespace SOE.ViewModels.ViewItems
@@ -31,7 +30,7 @@ namespace SOE.ViewModels.ViewItems
         {
             this.ReminderPage = reminderPage;
             PReminder = new Reminder();
-            SubjectCommand = new Command(SubjectClicked);
+            SubjectCommand = new AsyncCommand(SelectSubject);
             SaveReminderCommand = new AsyncCommand<Reminder>(Save);
         }
 
@@ -41,14 +40,11 @@ namespace SOE.ViewModels.ViewItems
 
         private async Task SelectSubject()
         {
-            var pr = new SubjectPopUp();
+            SubjectPopUp? pr = new SubjectPopUp();
             await pr.ShowDialog();
             this.PReminder.Subject = pr.Modelo.SelectedSubject;
         }
-        private async void SubjectClicked()
-        {
-            await SelectSubject();
-        }
+
 
         private async Task Save(Reminder obj)
         {
@@ -62,7 +58,7 @@ namespace SOE.ViewModels.ViewItems
             //}
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Guardando recordatorio..."))
             {
-                await Reminder.Save(this.PReminder);
+                await this.PReminder.Save();
                 ReminderPage.Close().SafeFireAndForget();
                 Device.BeginInvokeOnMainThread(() =>
                 {

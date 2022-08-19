@@ -18,10 +18,10 @@ namespace SOE.Services.ActionResponse
 
         public async Task Execute()
         {
-            await Task.Run(() => { while (ScheduleViewMain.Instance is null) { } });
+            await Task.Run(() => { while (Tools.Container.Get<ScheduleViewMain>() is null) { } });
             MasterPage.Instance.Model.SelectedIndex = 2;
             SheduleDay sheduleDay = await SheduleDay.GetDay(new Day(Day.GetNearest()));
-            ScheduleViewMain.Instance.OnDayTappedCommand.Execute(sheduleDay);
+            Tools.Container.Get<ScheduleViewMain>()?.OnDayTappedCommand.Execute(sheduleDay);
         }
     }
 }

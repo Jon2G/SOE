@@ -12,7 +12,7 @@ namespace SOE.Views.Pages
             InitializeComponent();
         }
 
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
             if (AppData.Instance.User.Settings is null)

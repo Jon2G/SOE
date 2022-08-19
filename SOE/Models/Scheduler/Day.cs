@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 
 namespace SOE.Models.Scheduler
 {
-    public class Day : ModelBase
+    public class Day : ModelBase, IEquatable<Day>, IComparable, IComparable<Day>
     {
         public string Name { get; private set; }
         public string ShortName => Name.Substring(0, 3);
         public DateTime Date { get; private set; }
         public DayOfWeek DayOfWeek { get; private set; }
         public bool IsWeekend => (DayOfWeek == DayOfWeek.Sunday || DayOfWeek == DayOfWeek.Saturday);
-
 
         public Day(DateTime Date)
         {
@@ -93,6 +92,42 @@ namespace SOE.Models.Scheduler
             return Day;
         }
 
+        public override int GetHashCode()
+        {
+            return DayOfWeek.GetHashCode();
+        }
         public static Day GetNearest(DayOfWeek day) => new Day(day.GetNearest());
+        public static bool operator !=(Day day, Day otherDay) => !(day == otherDay);
+        public static bool operator ==(Day day, Day otherDay)
+        {
+            if (day is null && otherDay is null)
+                return true;
+            if ((day is null && otherDay is { }) || (otherDay is { } && day is null))
+                return false;
+            return day.Equals(otherDay);
+        }
+        public bool Equals(Day other)
+        {
+            if (other is null)
+            {
+                return false;
+            }
+            return other.CompareTo(this) == 0;
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj is Day day)
+            {
+                return day.CompareTo(this);
+            }
+            return -1;
+        }
+
+        public int CompareTo(Day other)
+        {
+            if (other is null) return -1;
+            return other.DayOfWeek.CompareTo(this.DayOfWeek);
+        }
     }
 }

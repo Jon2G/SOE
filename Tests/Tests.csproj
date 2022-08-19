@@ -105,7 +105,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Kit\Kit\Kit.csproj">
+    <ProjectReference Include="..\..\Kit\Kit\Kit.csproj">
       <Project>{FBDD1DCC-B804-4690-8113-98D775DE9A88}</Project>
       <Name>Kit</Name>
     </ProjectReference>
@@ -116,7 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms.Platform.WPF">
-      <Version>5.0.0.2337</Version>
+      <Version>5.0.0.2478</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

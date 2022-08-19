@@ -1,9 +1,9 @@
 ﻿using AsyncAwaitBestPractices;
 using Kit;
-using System;
-using System.Threading.Tasks;
 using SOE.Data;
 using SOE.Models.SkiaSharp;
+using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -42,7 +42,7 @@ namespace SOE.Views.Pages.Login
         private void InitAnimation()
         {
             Task.Run(AnimateBorder);
-            var settings = new HighlightSettings()
+            HighlightSettings? settings = new HighlightSettings()
             {
                 StrokeWidth = 6,
                 StrokeStartColor = (Color)Application.Current.Resources["SecondaryColor"],
@@ -51,7 +51,7 @@ namespace SOE.Views.Pages.Login
                 AnimationEasing = Easing.CubicInOut,
             };
         }
-        private async void AnimateBorder()
+        private async Task AnimateBorder()
         {
             Action<double> tealMovement = tInput => tealGrad.Offset = (float)tInput;
             Action<double> orangeMovement = oInput => orangeGrad.Offset = (float)oInput;

@@ -1,12 +1,9 @@
 ﻿using FirestoreLINQ;
-
 using Kit;
 using Kit.Model;
-using Kit.Sql.Attributes;
 using Plugin.CloudFirestore;
 using Plugin.CloudFirestore.Attributes;
 using SOE.API;
-using SOE.Data;
 using SOE.Enums;
 using System;
 using System.Collections.Generic;
@@ -44,6 +41,7 @@ namespace SOE.Models
         }
 
         private TimeSpan _Time;
+        [Ignored]
         public TimeSpan Time
         {
             get => _Time;
@@ -53,37 +51,31 @@ namespace SOE.Models
                 Raise(() => Time);
             }
         }
-        //public Guid SubjectId
-        //{
-        //    get
-        //    {
-        //        if (Subject is null)
-        //        {
-        //            Subject = new Subject();
-        //        }
-        //        return Subject.Guid;
-        //    }
-        //    set
-        //    {
-        //        if (Subject is null)
-        //        {
-        //            Subject = new Subject();
-        //        }
-        //        Subject.Guid = value;
-        //    }
-        //}
-
-        private Subject _Subject;
-
-        public Subject Subject
+        public double TotalHours
         {
-            get => _Subject;
+            get => Time.TotalHours;
             set
             {
-                _Subject = value;
-                Raise(() => Subject);
+                if (Time.TotalHours != value)
+                {
+                    Time = TimeSpan.FromHours(value);
+                }
             }
         }
+
+        private Subject _Subject;
+        [Ignored]
+        public Subject Subject
+        {
+            get => this._Subject;
+            set
+            {
+                this._Subject = value;
+                this.SubjectId = value?.GetDocumentId();
+                this.Raise(() => this.Subject);
+            }
+        }
+        public string? SubjectId { get; set; }
         private PendingStatus _Status;
 
         public PendingStatus Status
@@ -96,12 +88,12 @@ namespace SOE.Models
                 Raise(() => IsComplete);
             }
         }
-
+        [Ignored]
         public bool IsComplete => Status == PendingStatus.Done;
 
-        [Ignore]
+        [Ignored]
         public string FormattedTime => $"{this.Time:hh}:{this.Time:mm}";
-        [Ignore]
+        [Ignored]
         public string FormattedDate => $"{this.Date.DayOfWeek.GetDayName()} - {this.Date:dd/MM}";
         //public Reminder(string Title, DateTime dateTime)
         //{
@@ -112,12 +104,20 @@ namespace SOE.Models
         {
             this.Date = DateTime.Today;
         }
-        public static async Task Save(Reminder reminder)
+
+        public Task Delete() => Collection.Document(this.DocumentId)?.DeleteAsync() ?? Task.CompletedTask;
+
+        public async Task<Reminder> Save()
         {
             await Task.Yield();
-            reminder.Date = new DateTime(reminder.Date.Year, reminder.Date.Month, reminder.Date.Day);
-            AppData.Instance.LiteConnection.InsertOrReplace(reminder);
-
+            if (string.IsNullOrEmpty(this.DocumentId))
+            {
+                Date = new DateTime(Date.Year, Date.Month, Date.Day);
+                await Collection.AddAsync(this);
+                return this;
+            }
+            await Collection.Document(DocumentId).SetAsync(this);
+            return this;
         }
 
         public static ICollectionReference Collection =>

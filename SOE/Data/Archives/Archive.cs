@@ -74,7 +74,7 @@ namespace SOE.Data.Archives
                 {
                     file.Delete();
                 }
-                AppData.Instance.LiteConnection.Delete(this);
+                //AppData.Instance.LiteDatabase.Delete(this);
             }
             catch (Exception ex)
             {

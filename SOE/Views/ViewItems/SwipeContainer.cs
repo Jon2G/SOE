@@ -31,7 +31,7 @@ namespace SOE.Views.ViewItems
         }
         SwipeGestureRecognizer GetSwipeGestureRecognizer(SwipeDirection direction)
         {
-            var swipe = new SwipeGestureRecognizer {Direction = direction};
+            SwipeGestureRecognizer? swipe = new SwipeGestureRecognizer { Direction = direction };
             swipe.Threshold = 15;
             swipe.Swiped += Swipe_Swiped;
             return swipe;

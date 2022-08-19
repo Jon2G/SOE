@@ -10,6 +10,8 @@
              xmlns:kit="clr-namespace:Kit.Forms;assembly=Kit.Forms"
              xmlns:dotMorten="clr-namespace:dotMorten.Xamarin.Forms;assembly=dotMorten.Xamarin.Forms.AutoSuggestBox"
              xmlns:converters1="clr-namespace:Kit.Forms.Converters;assembly=Kit.Forms"
+             xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+             xmlns:pages1="http://rotorgames.com"
              x:Class="SOE.App">
     <!--
         Define global resources and styles here, that apply to all pages in your app.
@@ -67,6 +69,10 @@
                              Color="{AppThemeBinding Dark={StaticResource DisabledDarkAccentColor},Light={StaticResource DisabledLightAccentColor}}"/>
             <Style TargetType="Label">
                 <Setter Property="TextColor" 
+                        Value="{AppThemeBinding Dark={StaticResource LightTextColor},Light={StaticResource DarkTextColor}}"/>
+            </Style>
+            <Style TargetType="CheckBox">
+                <Setter Property="Color" 
                         Value="{AppThemeBinding Dark={StaticResource LightTextColor},Light={StaticResource DarkTextColor}}"/>
             </Style>
             <Style TargetType="ImageButton">
@@ -167,8 +173,12 @@
             <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
             <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
             <Style TargetType="Shell" BasedOn="{StaticResource BaseStyle}" />
-            <Style TargetType="ContentPage">
+            <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+                <Setter Property="Background" Value="{DynamicResource Background}" />
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource BackgroundDarkColor},Light={StaticResource BackgroundLightColor}}" />
+            </Style>
+            <Style TargetType="pages1:PopupPage" ApplyToDerivedTypes="True">
+                <Setter Property="Background" Value="{x:Null}" />
             </Style>
             <Style TargetType="controls:ArrowButton">
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource  DarkTextColor},Dark={StaticResource LightTextColor}}"/>
@@ -196,6 +206,7 @@
             </Style>
             <converters:SubjectColorAppThemeConverter x:Key="SubjectColorAppThemeConverter"/>
             <converters1:IsGreaterThanConverter x:Key="IsGreaterThanConverter" />
+            <converters1:IfNullOrEmptyConverter x:Key="IfNullOrEmptyConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </kit:Application>

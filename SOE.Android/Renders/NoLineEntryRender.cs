@@ -1,8 +1,6 @@
 ﻿using Android.Content;
-using Android.Content.Res;
 using Android.Graphics.Drawables;
 using Android.Runtime;
-using Android.Text;
 using SOE.Droid.Renders;
 using SOE.Renders;
 using Xamarin.Forms;
@@ -27,7 +25,8 @@ namespace SOE.Droid.Renders
                 GradientDrawable gd = new GradientDrawable();
                 gd.SetColor(global::Android.Graphics.Color.Transparent);
                 this.Control.SetBackground(gd);
-                this.Control.SetRawInputType(InputTypes.TextFlagNoSuggestions);
+                this.Control.SetPadding(0, 0, 0, 0);
+                //this.Control.SetRawInputType(InputTypes.TextFlagNoSuggestions);
             }
         }
     }

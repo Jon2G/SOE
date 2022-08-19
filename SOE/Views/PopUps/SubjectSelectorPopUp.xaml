@@ -5,44 +5,58 @@
              x:Class="SOE.Views.PopUps.SubjectPopUp"            
              xmlns:viewModels="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
              xmlns:scheduler="clr-namespace:SOE.Models.Scheduler;assembly=SOE"
-             
-             xmlns:popUps="clr-namespace:SOE.ViewModels.PopUps;assembly=SOE"
+                  xmlns:popUps="clr-namespace:SOE.ViewModels.PopUps;assembly=SOE"
              xmlns:yummy="clr-namespace:SOE.Renders"
              xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
+             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
              x:DataType="popUps:SubjectSelectorPopUpViewModel" x:Name="Me">
-    <yummy:CustomPancakeView Visual="Default" Margin="10" CornerRadius="0" Padding="10"
-                             VerticalOptions="Center" HorizontalOptions="Center" >
-        <StackLayout VerticalOptions="FillAndExpand">
-            <Label VerticalOptions="Start" Text="Seleccione una materia" FontAttributes="Bold" FontSize="18"/>
+    <StackLayout VerticalOptions="FillAndExpand" Padding="3">
+        <yummy:CustomPancakeView Visual="Default" Margin="10" CornerRadius="0" Padding="10"
+                             VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" >
+            <StackLayout VerticalOptions="Center">
+                <Label VerticalOptions="Start" Text="Seleccione una materia" FontAttributes="Bold" FontSize="18"/>
 
+                <ScrollView>
+                    <StackLayout BindableLayout.ItemsSource="{Binding Subjects}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:Subject">
+                                <ContentView>
+                                    <yummy:CustomPancakeView Visual="Default" Margin="3"  Padding="10"
+                                                             CornerRadius="0" BackgroundColor="{Binding Converter={x:StaticResource SubjectColorAppThemeConverter }}">
+                                        <Label  FontFamily="Karla_SemiBold" 
+                                                Text="{Binding Name}"
+                                                FontSize="14"  FontAttributes="Bold">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer 
+                                                    Command="{Binding Modelo.ClosePopUpCommand,Source={x:Reference Me}}" 
+                                                    CommandParameter="{Binding .}" />
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                    </yummy:CustomPancakeView>
+                                </ContentView>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+                </ScrollView>
 
-            <CollectionView VerticalOptions="FillAndExpand" ItemsSource="{Binding Subjects}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Subject">
-                        <ContentView>
-                            <yummy:CustomPancakeView Visual="Default" Margin="3"  Padding="10"
-                                               CornerRadius="0" BackgroundColor="{Binding Converter={x:StaticResource SubjectColorAppThemeConverter }}">
-                                <Label  FontFamily="Karla_SemiBold" 
-                                        Text="{Binding Name}"
-                                        FontSize="14"  FontAttributes="Bold">
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer 
-                                            Command="{Binding Modelo.ClosePopUpCommand,Source={x:Reference Me}}" 
-                                            CommandParameter="{Binding .}" />
-                                    </Label.GestureRecognizers>
-                                </Label>
-                            </yummy:CustomPancakeView>
-                        </ContentView>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-
-            </CollectionView>
-
-            <yummy:CustomPancakeView Visual="Default" Margin="3"  VerticalOptions="End"
-                               CornerRadius="0" BackgroundColor="Firebrick"
-                               Padding="10">
-                <Label  FontFamily="Karla_SemiBold" TextColor="White"
-                        Text="Cancelar"
+                <!--<StackLayout Orientation="Horizontal" Spacing="10" VerticalOptions="End">
+                    <Image>
+                        <Image.Source>
+                            <FontImageSource Glyph="{x:Static fonts:FontelloIcons.CirclePlus}" Color="{StaticResource AccentColor}"
+                                             FontFamily="{x:Static fonts:FontelloIcons.Font}"/> 
+                        </Image.Source>
+                    </Image>
+                    <Label Text="Agregar nueva materia" VerticalOptions="Center" FontSize="14">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                Command="{Binding Modelo.AddNewSubjectCommand,Source={x:Reference Me}}" 
+                                CommandParameter="{x:Null}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>-->
+                
+                <Label  FontFamily="Karla_SemiBold" TextColor="{StaticResource AccentColor}" 
+                        Text="Cancelar" Margin="10"  VerticalOptions="End" HorizontalOptions="End"
                         FontSize="14"  FontAttributes="Bold">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer 
@@ -50,8 +64,8 @@
                             CommandParameter="{x:Null}" />
                     </Label.GestureRecognizers>
                 </Label>
-            </yummy:CustomPancakeView>
-        </StackLayout>
+            </StackLayout>
+        </yummy:CustomPancakeView>
+    </StackLayout>
 
-    </yummy:CustomPancakeView>
 </pages:BasePopUp>

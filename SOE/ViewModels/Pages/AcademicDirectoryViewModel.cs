@@ -121,17 +121,17 @@ namespace SOE.ViewModels.Pages
             pr.ShowDialog().SafeFireAndForget();
         }
 
-        private async void ContactMessage(SchoolContact contact)
+        private void ContactMessage(SchoolContact contact)
         {
             try
             {
                 string saludo = DateTime.Now.Saludo();
-                await Email.ComposeAsync(new EmailMessage
+                Email.ComposeAsync(new EmailMessage
                 {
                     Subject = contact.Name,
                     Body = $"Estimado(a): {contact.Name}\n{saludo}\n#Escribe aquí tu mensaje.#\nAtt.{AppData.Instance.User.Name}",
                     To = new List<string>() { contact.Correo },
-                });
+                }).SafeFireAndForget();
             }
             catch (Exception ex)
             {

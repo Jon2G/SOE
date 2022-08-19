@@ -2,6 +2,7 @@
 using SOE.Models.Scheduler;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SOE.Notifications.Alarms
@@ -31,8 +32,8 @@ namespace SOE.Notifications.Alarms
             await Task.Yield();
             try
             {
-                List<ClassSquare>? timeline = await day?.GetTimeLine();
-                if (timeline is null)
+                List<ClassSquare> timeline = await day.GetTimeLine();
+                if (!timeline.Any())
                 {
                     return;
                 }
@@ -70,11 +71,23 @@ namespace SOE.Notifications.Alarms
                         continue;
                     }
 
+                    var channel = this.Channel;
+                    if (channel is null) { continue; }
+
+                    if (cl.Subject is null)
+                    {
+                        continue;
+                    }
+                    await cl.Subject.GetGroup();
+                    if (cl.Subject.Group is null)
+                    {
+                        continue;
+                    }
                     LocalNotification notification =
-                    TinyIoC.TinyIoCContainer.Current.Resolve<LocalNotification>()
+                        Kit.Tools.Container.Resolve<LocalNotification>()
                         .Set(cl.Subject.Name,
-                        $"{cl.FormattedTime} ,{cl.Subject.GroupId}\n{(InProgress ? "En curso..." : "Comienza pronto")}",
-                        programmedId, Xamarin.Forms.Color.FromHex(cl.Subject.Color), desiredDate, this.Channel, "Class");
+                        $"{cl.FormattedTime} ,{cl.Subject.Group.Name}\n{(InProgress ? "En curso..." : "Comienza pronto")}",
+                        programmedId, Xamarin.Forms.Color.FromHex(cl.Subject.Color), desiredDate, channel, "Class");
 #if DEBUG
                     Log.Logger.Debug(notification.ToString());
 #endif

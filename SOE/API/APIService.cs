@@ -39,7 +39,7 @@ namespace SOE.API
         }
         public async Task<bool> IsPingRechable()
         {
-            var reachable = await PingOrTimeout();
+            PingReply? reachable = await PingOrTimeout();
             bool isReachable = reachable is not null && (reachable.Status == System.Net.NetworkInformation.IPStatus.Success);
             return isReachable;
         }
@@ -59,7 +59,7 @@ namespace SOE.API
         }
         private bool HasWifiOrData()
         {
-            var profiles = Connectivity.ConnectionProfiles.ToArray();
+            ConnectionProfile[]? profiles = Connectivity.ConnectionProfiles.ToArray();
             return profiles.Contains(ConnectionProfile.WiFi) || profiles.Contains(ConnectionProfile.Cellular);
         }
 

@@ -31,7 +31,7 @@ namespace SOE.Models
         {
             return SchoolContact.GetAll().ContinueWith(t =>
              {
-                 var contacts = t.Result;
+                 IEnumerable<SchoolContact>? contacts = t.Result;
                  string lastDepartment = string.Empty;
                  List<ContactsByDeparment> contactsByDeparment = new List<ContactsByDeparment>();
                  ContactsByDeparment byDeparment = null;

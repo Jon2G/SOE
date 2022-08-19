@@ -1,19 +1,12 @@
 ﻿using AsyncAwaitBestPractices;
-using FirestoreLINQ;
-
 using Kit;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Input;
-using SOEWeb.Shared;
 using Kit.Model;
-using SOE.API;
 using SOE.Data;
 using SOE.Models;
-using SOE.Views.Pages.Login;
-using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 using static Xamarin.Forms.Application;
 
 namespace SOE.ViewModels.Pages
@@ -60,7 +53,7 @@ namespace SOE.ViewModels.Pages
             this.Schools =
 #pragma warning disable CS8601 // Possible null reference assignment.
                 Newtonsoft.Json.JsonConvert.DeserializeObject<School[]>(
-                    ReflectionCaller.ToText(ReflectionCaller.FromThis(this).GetResource("Schools.json"),Encoding.UTF7));
+                    ReflectionCaller.ToText(ReflectionCaller.FromThis(this).GetResource("Schools.json"), Encoding.UTF7));
 #pragma warning restore CS8601 // Possible null reference assignment.
             SchoolSearch = this.Schools.ToList();
         }
@@ -69,7 +62,7 @@ namespace SOE.ViewModels.Pages
         private void SelectSchool(School School)
         {
             AppData.Instance.User.School = School;
-            Current.MainPage.Navigation.PushModalAsync(new UserSignUpPage(this.PrivacyAlertDisplayed), true);
+            Current.MainPage.Navigation.PopModalAsync(true).SafeFireAndForget();
         }
     }
 }

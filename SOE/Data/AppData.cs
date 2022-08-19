@@ -1,6 +1,6 @@
 ﻿using Kit;
 using Kit.Model;
-using Kit.Sql.Sqlite;
+using LiteDB;
 using SOE.Models.Data;
 using System;
 using System.IO;
@@ -18,13 +18,9 @@ namespace SOE.Data
 
         private static readonly Lazy<AppData> _Instance = new Lazy<AppData>(() =>
         {
-            FileInfo liteDbPath = new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SOE.db"));
-            var liteConnection = new SQLiteConnection(liteDbPath, 100);
-            liteConnection.CreateTable<UserLocalData>();
             return new AppData
             {
-                User = new User(),
-                LiteConnection = liteConnection
+                User = new User()
             };
         });
 
@@ -46,7 +42,22 @@ namespace SOE.Data
             get;
             set;
         }
-        public SQLiteConnection LiteConnection { get; private set; }
+
+        public static string DatabasePath =>
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SOE_DB");
+        private readonly Lazy<LiteDatabase> _LiteDatabase = new Lazy<LiteDatabase>(() =>
+        {
+            FileInfo liteDbPath = new FileInfo(DatabasePath);
+            return new LiteDatabase(new ConnectionString()
+            {
+                Filename = liteDbPath.FullName,
+                Connection = ConnectionType.Direct,
+                Collation = Collation.Default,
+                Upgrade = true
+            });
+        });
+
+        public LiteDB.LiteDatabase LiteDatabase => this._LiteDatabase.Value;
 
         public static bool HasConnectivity =>
             Connectivity.NetworkAccess == NetworkAccess.ConstrainedInternet ||

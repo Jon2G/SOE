@@ -1,5 +1,4 @@
 ﻿using AsyncAwaitBestPractices;
-using SOE.Data;
 using SOE.Enums;
 using SOE.Fonts;
 using SOE.Models;
@@ -7,6 +6,7 @@ using SOE.ViewModels.ViewItems;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -16,88 +16,91 @@ namespace SOE.ViewModels
     public class ReminderPopUpViewModel
     {
         private readonly ReminderPopUp PopUp;
-        private readonly Reminder reminder;
+        private readonly Reminder Reminder;
         public ReminderPopUpViewModel(ReminderPopUp popUp, Reminder Reminder)
         {
             this.PopUp = popUp;
-            this.reminder = Reminder;
+            this.Reminder = Reminder;
         }
         private ICommand _TappedCommand;
         public ICommand TappedCommand => _TappedCommand ??= new Command<string>(Tapped);
 
 
-        public string ArchiveText => reminder.Status.HasFlag(PendingStatus.Archived) ? "Desarchivar" : "Archivar";
+        public string ArchiveText => Reminder.Status.HasFlag(PendingStatus.Archived) ? "Desarchivar" : "Archivar";
         public FontImageSource IconTwo
         {
             get
             {
-                var IconTwo = new FontImageSource()
+                FontImageSource? IconTwo = new FontImageSource()
                 {
                     FontFamily = FontelloIcons.Font,
-                    Glyph = reminder.Status.HasFlag(PendingStatus.Archived) ? FontelloIcons.Folder : FontelloIcons.Archive
+                    Glyph = Reminder.Status.HasFlag(PendingStatus.Archived) ? FontelloIcons.Folder : FontelloIcons.Archive
                 };
                 IconTwo.SetOnAppTheme(FontImageSource.ColorProperty, Color.Black, Color.White);
                 return IconTwo;
             }
         }
-        private async void Tapped(string Action)
+        private void Tapped(string Action)
         {
             PopUp.Close().SafeFireAndForget();
             switch (Action)
             {
                 case "Editar":
-                    OpenTask();
+                    OpenTask().SafeFireAndForget();
                     break;
                 case "Eliminar":
-                    Eliminar();
+                    Eliminar().SafeFireAndForget();
                     break;
                 case "Archivar":
-                    if (reminder.Status.HasFlag(PendingStatus.Archived))
+                    if (Reminder.Status.HasFlag(PendingStatus.Archived))
                     {
-                        Desarchivar();
+                        Desarchivar().SafeFireAndForget();
                         break;
                     }
-                    Archivar();
+                    Archivar().SafeFireAndForget();
                     break;
                 case "Compartir":
-                    if (DateTime.Now > reminder.Date)
+                    if (DateTime.Now > Reminder.Date)
                     {
-                        App.Current.MainPage.DisplayAlert(reminder.Title,
+                        App.Current.MainPage.DisplayAlert(Reminder.Title,
                             "Este recordatorio ya ha expirado, cambie la fecha de entrega si desea compartirla", "Ok.")
                             .SafeFireAndForget();
                         return;
                     }
-                    string link = await Models.Reminder.ShareReminder(reminder);
-                    if (!string.IsNullOrEmpty(link))
+
+                    Models.Reminder.ShareReminder(Reminder).ContinueWith(t =>
                     {
-                        Share.RequestAsync(link, "Compartir recordatorio").SafeFireAndForget();
-                    }
+                        string link = t.Result;
+                        if (!string.IsNullOrEmpty(link))
+                        {
+                            Share.RequestAsync(link, "Compartir recordatorio").SafeFireAndForget();
+                        }
+                    }).SafeFireAndForget();
                     return;
             }
 
         }
-        private async void OpenTask()
+        private Task OpenTask()
         {
-            ReminderPage pr = new ReminderPage(this.reminder);
-            await pr.ShowDialog();
+            ReminderPage pr = new ReminderPage(this.Reminder);
+            return pr.ShowDialog();
         }
-        public void Eliminar()
+        public async Task Eliminar()
         {
-            AppData.Instance.LiteConnection.Delete(this.reminder);
-            PendingRemindersViewModel.Instance.Reminders.Remove(this.reminder);
+            await this.Reminder.Delete();
+            PendingRemindersViewModel.Instance.Reminders.Remove(this.Reminder);
             PendingRemindersViewModel.Instance.Load();
         }
-        private void Archivar()
+        private Task Archivar()
         {
-            this.reminder.Status |= PendingStatus.Archived;
-            AppData.Instance.LiteConnection.Update(this.reminder);
+            this.Reminder.Status |= PendingStatus.Archived;
+            return this.Reminder.Save();
         }
 
-        private void Desarchivar()
+        private Task Desarchivar()
         {
-            this.reminder.Status -= PendingStatus.Archived;
-            AppData.Instance.LiteConnection.Update(this.reminder);
+            this.Reminder.Status -= PendingStatus.Archived;
+            return this.Reminder.Save();
         }
-
     }
 }

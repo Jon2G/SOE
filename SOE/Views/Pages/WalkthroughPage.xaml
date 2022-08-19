@@ -22,12 +22,11 @@
             <StackLayout VerticalOptions="FillAndExpand" >
                 <StackLayout VerticalOptions="CenterAndExpand">
                     <Label Text="Bienvenido a la comunidad de  SOE" 
-                           Margin="20,0"  TextColor="White" FontSize="40" FontAttributes="Bold"/>
+                           Margin="20,0" FontSize="40" FontAttributes="Bold"/>
                     <Image Source="logo_soe.png" 
                            HeightRequest="150" Aspect="AspectFit" VerticalOptions="StartAndExpand" />
                 </StackLayout>
-                <Label 
-                    TextColor="White" FontSize="22" FontAttributes="Bold" >
+                <Label  FontSize="22" FontAttributes="Bold" >
                     <Label.FormattedText>
                         <FormattedString>
                             <Span Text="Estamos aquí para ayudarte."/>
@@ -43,13 +42,13 @@
                          HorizontalOptions="FillAndExpand" Margin="10,0">
                 <Label VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" 
                        HorizontalOptions="StartAndExpand"
-                       Text="Deslize para continuar" TextColor="White"  FontSize="25" FontAttributes="Bold" />
+                       Text="Deslize para continuar" FontSize="25" FontAttributes="Bold" />
                 <Image RotationY="180" VerticalOptions="CenterAndExpand" HorizontalOptions="End">
                     <Image.Source>
                         <FontImageSource 
                             FontFamily="{x:Static fonts:FontelloIcons.Font}" 
                             Glyph="{x:Static fonts:FontelloIcons.GoBack}"
-                            Color="White"/>
+                            Color="{AppThemeBinding Dark=White,Light=Black}"/>
                     </Image.Source>
                 </Image>
             </StackLayout>
@@ -59,8 +58,7 @@
 
     <ContentPage>
         <tool:DockLayout VerticalOptions="FillAndExpand" >
-            <Label tool:DockLayout.Dock="Top" Text="Seguimiento de tareas pendientes" VerticalOptions="Start" 
-                   TextColor="White" FontSize="40" FontAttributes="Bold" Margin="20,10"/>
+            <Label tool:DockLayout.Dock="Top" Text="Seguimiento de tareas pendientes" VerticalOptions="Start" FontSize="40" FontAttributes="Bold" Margin="20,10"/>
             <tool:MediaElement  tool:DockLayout.Dock="Bottom"  Source="ms-appx:///tareas.mp4" 
                                 VerticalOptions="FillAndExpand" HeightRequest="800" 
                                 ShowsPlaybackControls="False" AutoPlay="True" Volume="0" IsLooping="True" />
@@ -69,8 +67,7 @@
 
     <ContentPage>
         <tool:DockLayout VerticalOptions="FillAndExpand">
-            <Label tool:DockLayout.Dock="Top" Text="Horario escolar" VerticalOptions="Start" 
-                   TextColor="White" FontSize="40" FontAttributes="Bold" Margin="20"/>
+            <Label tool:DockLayout.Dock="Top" Text="Horario escolar" VerticalOptions="Start" FontSize="40" FontAttributes="Bold" Margin="20"/>
             <tool:MediaElement  tool:DockLayout.Dock="Bottom"  Source="ms-appx:///horario.mp4" 
                                 VerticalOptions="FillAndExpand" HeightRequest="800" Margin="20"
                                 ShowsPlaybackControls="False" AutoPlay="True" Volume="0" IsLooping="True" />
@@ -78,8 +75,7 @@
     </ContentPage>
     <ContentPage>
         <tool:DockLayout VerticalOptions="FillAndExpand">
-            <Label tool:DockLayout.Dock="Top" Text="Consulta tus calificaciones" VerticalOptions="Start" 
-                   TextColor="White" FontSize="40" FontAttributes="Bold" Margin="20,10"/>
+            <Label tool:DockLayout.Dock="Top" Text="Consulta tus calificaciones" VerticalOptions="Start" FontSize="40" FontAttributes="Bold" Margin="20,10"/>
             <tool:MediaElement  tool:DockLayout.Dock="Bottom"  Source="ms-appx:///calificaciones.mp4" 
                                 VerticalOptions="FillAndExpand" HeightRequest="800" Margin="20"
                                 ShowsPlaybackControls="False" AutoPlay="True" Volume="0" IsLooping="True" />

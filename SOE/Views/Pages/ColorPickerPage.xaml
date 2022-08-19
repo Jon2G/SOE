@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages1:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:SOE.ViewModels.Pages;assembly=SOE"
+             xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
+             xmlns:viewItems="clr-namespace:SOE.Views.ViewItems;assembly=SOE"
+             xmlns:pages1="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+             x:Class="SOE.Views.Pages.ColorPickerPage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             Shell.NavBarIsVisible="True"
+             Title="Seleccione un color" 
+             x:DataType="{x:Type pages:ColorPickerPageViewModel}">
+    <ContentPage.BindingContext>
+        <pages:ColorPickerPageViewModel x:Name="Model" x:FieldModifier="public"/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <ListView ItemsSource="{Binding Colors}" Margin="15"
+                  RowHeight="60" SeparatorColor="DarkGray" SeparatorVisibility="Default">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:ThemeColor">
+                    <ViewCell Tapped="Cell_OnTapped">
+                        <viewItems:DualColorView HeightRequest="50" Margin="5" 
+                                                 xct:TouchEffect.PressedScale="0.9"
+                                                 xct:TouchEffect.Command="{Binding SelectColorCommand,Source={x:Reference Model}}"
+                                                 xct:TouchEffect.CommandParameter="{Binding .}"
+                                                 ThemeColor="{Binding .}"/>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
+</pages1:BasePage>

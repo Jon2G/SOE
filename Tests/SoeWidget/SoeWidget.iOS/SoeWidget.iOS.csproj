@@ -126,8 +126,8 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.1" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2478" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
     </PackageReference>
@@ -141,7 +141,7 @@
       <Project>{20CCEA58-74B4-41B0-9E9E-22B7B328C798}</Project>
       <Name>SOE</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Kit\Kit\Kit.csproj">
+    <ProjectReference Include="..\..\..\..\Kit\Kit\Kit.csproj">
       <Project>{FBDD1DCC-B804-4690-8113-98D775DE9A88}</Project>
       <Name>Kit</Name>
     </ProjectReference>

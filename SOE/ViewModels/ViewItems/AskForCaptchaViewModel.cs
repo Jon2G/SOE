@@ -9,7 +9,6 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Command = Xamarin.Forms.Command;
 
 namespace SOE.ViewModels.ViewItems
 {
@@ -37,7 +36,7 @@ namespace SOE.ViewModels.ViewItems
             }
         }
         private ICommand _RefreshCaptchaCommand;
-        public ICommand RefreshCaptchaCommand => _RefreshCaptchaCommand ??= new Command(RefreshCaptcha);
+        public ICommand RefreshCaptchaCommand => _RefreshCaptchaCommand ??= new AsyncCommand(RefreshCaptcha);
         private AsyncCommand _SignInCommand;
         public AsyncCommand SignInCommand => _SignInCommand ??= new AsyncCommand(SignIn, ValidateCanExecute);
         public int AttemptCount { get; set; }
@@ -70,7 +69,7 @@ namespace SOE.ViewModels.ViewItems
             this.AskForCaptcha = AskForCaptcha;
             this.OnSucceedAction = OnSucceedAction;
         }
-        public async void RefreshCaptcha()
+        public async Task RefreshCaptcha()
         {
             this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
         }
@@ -100,7 +99,7 @@ namespace SOE.ViewModels.ViewItems
                 {
                     this.ShouldConfirmPassword = true;
                     this.Captcha = string.Empty;
-                    RefreshCaptcha();
+                    await RefreshCaptcha();
                     Acr.UserDialogs.UserDialogs.Instance.Alert("Usuario o contraseña invalidos", "Atención", "Ok");
                 }
             }

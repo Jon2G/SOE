@@ -1,5 +1,6 @@
 ﻿using AsyncAwaitBestPractices;
 using SOE.Data;
+using SOE.Enums;
 using Xamarin.Forms.Xaml;
 
 namespace SOE.Views.ViewItems
@@ -14,7 +15,10 @@ namespace SOE.Views.ViewItems
             InitializeComponent();
             if (!AppData.Instance.User.HasSubjects)
             {
-                this.Content = new NoInscriptionView();
+                this.Content =
+                    AppData.Instance.User.Mode == UserMode.SAES ?
+                        new NoInscriptionView() :
+                        new NoSubjectsView();
                 return;
             }
         }

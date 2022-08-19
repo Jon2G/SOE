@@ -23,13 +23,14 @@
                 <Label Text="Contraseña:" FontSize="12" FontAttributes="Bold"/>
                 <Entry IsPassword="True" 
                        Text="{Binding Password}"
+                       validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"
                        Placeholder="Contraseña" Margin="0"/>
 
              
                     <Button  Text="Iniciar sesión"
                              FontFamily="KarlaSB"
                              TextColor="{DynamicResource primaryTextColor}"
-                             Command="{Binding SignInCommand}"
+                             Command="{Binding LogInCommand}"
                              CornerRadius="20" 
                              Margin="0, 10, 0, 0"/>
                

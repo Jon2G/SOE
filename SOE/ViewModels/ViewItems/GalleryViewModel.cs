@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
-
+﻿using AsyncAwaitBestPractices;
 using Kit;
 using Kit.Model;
 using PanCardView.Extensions;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -37,7 +37,7 @@ namespace SOE.ViewModels.ViewItems
         public ObservableCollection<ImageSource> Items { get; }
 
         private int _currentIndex;
- 
+
         public GalleryViewModel()
         {
             Items = new ObservableCollection<ImageSource>();
@@ -48,7 +48,7 @@ namespace SOE.ViewModels.ViewItems
                     return;
                 }
 
-                var index = CurrentIndex + (bool.Parse(v.ToString()) ? 1 : -1);
+                int index = CurrentIndex + (bool.Parse(v.ToString()) ? 1 : -1);
                 if (index < 0 || index >= Items.Count)
                 {
                     return;
@@ -72,14 +72,14 @@ namespace SOE.ViewModels.ViewItems
             ShareCommand = new Command(Share);
         }
 
-        private async void Share()
+        private void Share()
         {
             ImageSource seleccionada = Items[CurrentIndex];
             if (seleccionada is FileImageSource file)
             {
                 ShareFile toShare = new ShareFile(file.File);
                 ShareFileRequest request = new ShareFileRequest("Compartir", toShare);
-                await Xamarin.Essentials.Share.RequestAsync(request);
+                Xamarin.Essentials.Share.RequestAsync(request).SafeFireAndForget();
             }
         }
         public void SendImages(IEnumerable<ImageSource> photos, ImageSource seleccionada)

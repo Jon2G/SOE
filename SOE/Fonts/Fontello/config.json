@@ -371,6 +371,12 @@
       "css": "bug",
       "code": 61832,
       "src": "fontawesome"
+    },
+    {
+      "uid": "8da3ac534210aae9c0f0e13804c1df97",
+      "css": "cancel-1",
+      "code": 59440,
+      "src": "websymbols"
     }
   ]
 }

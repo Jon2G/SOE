@@ -62,7 +62,7 @@ namespace SOE.Views.Pages
                     GotoManualLogin(null, user.Settings);
                     return;
                 }
-                var authResult = await Device.InvokeOnMainThreadAsync(() =>
+                FingerprintAuthenticationResult? authResult = await Device.InvokeOnMainThreadAsync(() =>
                     CrossFingerprint.Current.AuthenticateAsync(
                         new AuthenticationRequestConfiguration("Bloqueo de aplicación",
                             "Inicio de sesíon por huella")
@@ -97,12 +97,14 @@ namespace SOE.Views.Pages
             this.Init().SafeFireAndForget();
         }
 
-        private async void GotoManualLogin(User user, Settings settings)
+        private void GotoManualLogin(User user, Settings settings)
         {
-            var a = new LoginPopUp();
-            await a.LockModal()
-             .ShowDialog();
-            GotoApp(user, settings);
+            LoginPopUp a = new LoginPopUp();
+            a.LockModal()
+             .ShowDialog().ContinueWith(t =>
+             {
+                 GotoApp(user, settings);
+             }).SafeFireAndForget();
         }
         public void SetStatus(string NewStatus)
         {
@@ -115,9 +117,9 @@ namespace SOE.Views.Pages
                 Crashes.GenerateTestCrash(); Log.Logger.Error(ex, "Al establecer el progreso en SpashScreen");
             }
         }
-        private async void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
+        private void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
         {
-            await Acr.UserDialogs.UserDialogs.Instance.AlertAsync((sender as Label).Text);
+            Acr.UserDialogs.UserDialogs.Instance.AlertAsync((sender as Label).Text).SafeFireAndForget();
         }
         private void GotoApp(User user, Settings settings)
         {

@@ -25,9 +25,9 @@ namespace SOE.Fonts
         public const string Lock = "\uE80E";
         public const string GMail = "\uE800";
         public const string GitHub = "\uE82A";
-        public const string Trello= "\uF181";
+        public const string Trello = "\uF181";
 
-        public const string Message= "\uE810";
+        public const string Message = "\uE810";
         public const string Share = "\uE811";
         public const string Refresh = "\uE812";
         public const string Off = "\uE813";
@@ -66,6 +66,7 @@ namespace SOE.Fonts
         public const string Heart = "\uE829";
         public const string Flag = "\uE82C";
         public const string Cross = "\uE82B";
+        public const string Cancel = "\uE830";
         public const string Warning = "\uE82D";
         public const string Unlink = "\uF127";
         public const string Sandwich = "\uF0C9";
@@ -76,6 +77,6 @@ namespace SOE.Fonts
         public const string Bug = "\uF188";
 
         public const string Font = "SOEFONTS";
-        public const string ResourceFileName = "fontello30.ttf";
+        public const string ResourceFileName = "fontello.ttf";
     }
 }

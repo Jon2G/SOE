@@ -7,18 +7,18 @@
                   x:DataType="pages1:MenuHorarioPopUpViewModel"
                   xmlns:pankk="clr-namespace:SOE.Renders"
                   xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-                  x:Class="SOE.Views.PopUps.MenuHorarioPopUp" >
-    <pankk:CustomPancakeView Visual="Default" HorizontalOptions="Center" VerticalOptions="Center" >
+                  x:Class="SOE.Views.PopUps.MenuHorarioPopUp">
+    <pankk:CustomPancakeView Visual="Default" HorizontalOptions="Center" VerticalOptions="Center" Margin="5">
         <StackLayout Margin="0" Spacing="0">
             <Label Text="{Binding ClassSquare.Subject.Name}" FontSize="20"
                    FontAttributes="Bold" HorizontalTextAlignment="Center"
                    BackgroundColor="{Binding ClassSquare.Subject,Converter={StaticResource SubjectColorAppThemeConverter}}" Padding="5"/>
             
             <Grid Margin="20">
-                <Grid.RowDefinitions>
+                <!--<Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
-                </Grid.RowDefinitions>
+                </Grid.RowDefinitions>-->
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -73,7 +73,7 @@
                         </Image>
                     </StackLayout>
                 </pankk:CustomPancakeView>-->
-                <pankk:CustomPancakeView Visual="Default" 
+                <!--<pankk:CustomPancakeView Visual="Default" 
                     BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundTertiaryDarkColor},Light={StaticResource BackgroundTertiaryLightColor}}"
                     xct:TouchEffect.PressedScale="0.9"
                     xct:TouchEffect.PressedRotationY="0.1" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" >
@@ -90,7 +90,7 @@
                             </Image.Source>
                         </Image>
                     </StackLayout>
-                </pankk:CustomPancakeView>
+                </pankk:CustomPancakeView>-->
             </Grid>
 
 

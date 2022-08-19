@@ -25,12 +25,12 @@ namespace SOE.ViewModels.Pages
     public class NewTaskPageViewModel : ModelBase
     {
 
-        public Command TaskCommand { get; }
-        public ICommand SaveCommand { get; }
+        public AsyncCommand TaskCommand { get; }
+        public AsyncCommand SaveCommand { get; }
         public ICommand OnDateChangedCommand { get; }
         public ICommand DeleteImageCommand { get; set; }
         public ICommand CameraImageCommand { get; set; }
-        public ICommand GaleryImageCommand { get; set; }
+        public AsyncCommand GaleryImageCommand { get; set; }
 
 
 
@@ -62,10 +62,10 @@ namespace SOE.ViewModels.Pages
         public NewTaskPageViewModel()
         {
             Tarea = new ToDo();
-            TaskCommand = new Command(TaskClicked);
-            SaveCommand = new Command(Save);
-            CameraImageCommand = new Command(UsarCamara);
-            GaleryImageCommand = new Command(Galeria);
+            TaskCommand = new AsyncCommand(SelectSubject);
+            SaveCommand = new AsyncCommand(Save);
+            CameraImageCommand = new AsyncCommand(UsarCamara);
+            GaleryImageCommand = new AsyncCommand(Galeria);
             OnDateChangedCommand = new AsyncCommand(OnDateChanged);
             DeleteImageCommand = new Command<PhotoArchive>(DeleteImage);
             this.Photos = new ObservableCollection<PhotoArchive>();
@@ -88,21 +88,22 @@ namespace SOE.ViewModels.Pages
         }
 
 
-        private async void Save(object obj)
+        private async Task Save()
         {
+            await Task.Yield();
             if (Tarea.Subject == null)
             {
                 Acr.UserDialogs.UserDialogs.Instance.Alert("Por favor seleccione una materia");
                 await SelectSubject();
                 if (Tarea.Subject is not null)
-                    Save(obj);
+                    await Save();
                 return;
             }
             if (string.IsNullOrEmpty(Tarea.Title))
             {
                 Acr.UserDialogs.UserDialogs.Instance.Alert("La tarea debe contener titulo para poder ser guardada");
                 if (string.IsNullOrEmpty(Tarea.Title))
-                    Save(obj);
+                    await Save();
                 return;
             }
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Guardando tarea..."))
@@ -116,22 +117,19 @@ namespace SOE.ViewModels.Pages
 
         private async Task SelectSubject()
         {
-            var pr = new SubjectPopUp();
+            SubjectPopUp? pr = new SubjectPopUp();
             await pr.ShowDialog();
             this.Tarea.Subject = pr.Modelo.SelectedSubject;
         }
-        private async void TaskClicked()
-        {
-            await SelectSubject();
-        }
 
-        private async void Galeria()
+
+        private async Task Galeria()
         {
             if (PhotosLimit())
             {
                 return;
             }
-            var permiso = new Permissions.Photos();
+            Permissions.Photos? permiso = new Permissions.Photos();
             if (!await Permisos.TenemosPermiso(new Permissions.Photos()))
             {
                 RequestCameraPage request = new RequestCameraPage();
@@ -163,13 +161,13 @@ namespace SOE.ViewModels.Pages
             return false;
         }
 
-        private async void UsarCamara()
+        private async Task UsarCamara()
         {
             if (PhotosLimit())
             {
                 return;
             }
-            var permiso = new Permissions.Camera();
+            Permissions.Camera? permiso = new Permissions.Camera();
             if (!await Permisos.TenemosPermiso(permiso))
             {
                 RequestCameraPage request = new();

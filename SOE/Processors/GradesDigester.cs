@@ -41,7 +41,7 @@ namespace SOE.Processors
 
                         GradePartial partial = (GradePartial)j - 1;
                         string textScore = score;
-                        var justNumbersMatch = justNumbersRegex.Match(textScore);
+                        Match? justNumbersMatch = justNumbersRegex.Match(textScore);
                         if (justNumbersMatch.Success)
                         {
                             textScore = justNumbersMatch.Groups["number"]?.Value ?? "-";

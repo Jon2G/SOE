@@ -11,7 +11,7 @@ namespace SOE.Widgets
         public const string AppWidgetProviderFullClass = "SOE.Droid.Widgets.ToDos.ToDosWidgetProvider";
         public override string AppWidgetProviderFullClassName => AppWidgetProviderFullClass;
         public const string ITEM_CLICK = "TODOS_WIDGET_ITEM_CLICK";
-        public const string EXTRA_ITEM = "com.example.widgets.WidgetProviders.EXTRA_ITEM";
+        public const string ITEM_INDEX = "com.example.widgets.WidgetProviders.ITEM_INDEX";
         private static readonly Dictionary<int, List<ToDo>> WidgetsTodos;
         static ToDosWidget()
         {

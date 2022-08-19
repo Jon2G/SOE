@@ -1,4 +1,5 @@
-﻿using Kit.Model;
+﻿using AsyncAwaitBestPractices;
+using Kit.Model;
 using SOE.Enums;
 using SOE.Views.PopUps;
 using SOE.Views.ViewItems;
@@ -26,27 +27,28 @@ namespace SOE.ViewModels.ViewItems
         {
             Title = "Pendientes";
         }
-        private async void OpenMenu()
+        private void OpenMenu()
         {
-
-            var pr = new MasterPopUp();
-            await pr.ShowDialog();
-            Title = pr.Model.Action;
-            switch (pr.Model.Action)
-            {
-                case "Completadas":
-                    PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction, PendingStatus.Done);
-                    PendingRemindersViewModel.Instance.Load(PendingStatus.Done);
-                    break;
-                case "Pendientes":
-                    PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction);
-                    PendingRemindersViewModel.Instance.Load(PendingStatus.Pending);
-                    break;
-                case "Archivadas":
-                    PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction, PendingStatus.Archived);
-                    PendingRemindersViewModel.Instance.Load(PendingStatus.Pending);
-                    break;
-            }
+            MasterPopUp popUp = new MasterPopUp();
+            popUp.ShowDialog().ContinueWith(t =>
+               {
+                   Title = popUp.Model.Action;
+                   switch (popUp.Model.Action)
+                   {
+                       case "Completadas":
+                           PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction, PendingStatus.Done);
+                           PendingRemindersViewModel.Instance.Load(PendingStatus.Done);
+                           break;
+                       case "Pendientes":
+                           PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction);
+                           PendingRemindersViewModel.Instance.Load(PendingStatus.Pending);
+                           break;
+                       case "Archivadas":
+                           PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction, PendingStatus.Archived);
+                           PendingRemindersViewModel.Instance.Load(PendingStatus.Pending);
+                           break;
+                   }
+               }).SafeFireAndForget();
         }
     }
 }

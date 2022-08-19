@@ -1,6 +1,5 @@
 ﻿using HtmlAgilityPack;
 using Kit;
-using SOE.Data;
 using SOE.Models;
 using System;
 using System.Collections.Generic;
@@ -38,6 +37,7 @@ namespace SOEWeb.Shared.Processors
 
         public static async Task<List<Subject>> Digest(string HTML)
         {
+            await Task.Yield();
             try
             {
                 ClassColors offlineColors = new ClassColors();
@@ -69,14 +69,14 @@ namespace SOEWeb.Shared.Processors
                         continue;
                     }
 
-                    Teacher teacher = await new Teacher() { Name = TeacherName }.Save(AppData.Instance.User.School);
+                    Teacher teacher = await new Teacher() { Name = TeacherName }.Save();
                     teachers.Add(teacher);
                 }
 
                 List<Group> groups = new();
                 List<Subject> subjects = new();
                 int suffixfixer = 0;
-                for (var i = 0; i < table.Count; i++)
+                for (int i = 0; i < table.Count; i++)
                 {
                     List<string> row = table[i];
                     string TeacherName = row[2];
@@ -126,7 +126,7 @@ namespace SOEWeb.Shared.Processors
                     DayOfWeek dayOfWeek = DayOfWeek.Monday;
                     foreach (string row in rows)
                     {
-                        var match = time.Match(row);
+                        Match? match = time.Match(row);
                         if (match.Success)
                         {
                             int begin_hour = Convert.ToInt32(match.Groups["begin_hour"].Value);

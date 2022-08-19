@@ -1,5 +1,4 @@
 ﻿using AsyncAwaitBestPractices;
-using SOE.Data;
 using SOE.Models.TodoModels;
 using SOE.Views.Pages;
 using SOE.Views.PopUps;
@@ -25,7 +24,7 @@ namespace SOE.ViewModels.Pages
         }
         private void OpenMenu()
         {
-            var pr = new MenuPopUp(ToDo);
+            MenuPopUp? pr = new MenuPopUp(ToDo);
             pr.ShowDialog()
                 .ContinueWith(t =>
             {
@@ -57,7 +56,7 @@ namespace SOE.ViewModels.Pages
                         Archivar();
                         break;
                     case "Eliminar":
-                        Eliminar();
+                        Eliminar().SafeFireAndForget();
                         break;
                     case "Compartir":
                         Compartir().SafeFireAndForget();
@@ -99,9 +98,9 @@ namespace SOE.ViewModels.Pages
                 App.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok").SafeFireAndForget();
             }
         }
-        public void Eliminar()
+        public async Task Eliminar()
         {
-            AppData.Instance.LiteConnection.Delete(this.ToDo);
+            await ToDo.Delete();
             BySubjectGroup.ToDoS.Remove(this);
             BySubjectGroup.View?.Resize();
         }
@@ -119,30 +118,30 @@ namespace SOE.ViewModels.Pages
                 App.Current.MainPage.Navigation.PushAsync(new TaskDetails(this.ToDo), true);
             });
         }
-        private void Archivar()
+        private async Task Archivar()
         {
             MainView.Instance.Model.Title = "Archivadas";
             this.ToDo.Status |= Enums.PendingStatus.Archived;
-            AppData.Instance.LiteConnection.Update(this.ToDo);
+            await ToDo.Save();
         }
-        private void Completada()
+        private async Task Completada()
         {
             MainView.Instance.Model.Title = "Completadas";
             this.ToDo.Status = Enums.PendingStatus.Done;
-            AppData.Instance.LiteConnection.Update(this.ToDo);
+            await ToDo.Save();
         }
-        private void Desarchivar()
+        private async Task Desarchivar()
         {
             MainView.Instance.Model.Title = "Pendientes";
             this.ToDo.Status -= Enums.PendingStatus.Archived;
-            AppData.Instance.LiteConnection.Update(this.ToDo);
+            await ToDo.Save();
         }
-        private void Pendiente()
+        private async Task Pendiente()
         {
             MainView.Instance.Model.Title = "Pendientes";
             this.ToDo.Status -= Enums.PendingStatus.Done;
             this.ToDo.Status |= Enums.PendingStatus.Pending;
-            AppData.Instance.LiteConnection.Update(this.ToDo);
+            await ToDo.Save();
         }
     }
 }

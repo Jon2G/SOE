@@ -10,8 +10,11 @@
         <viewItems:NoInscriptionViewModel/>
     </ContentView.BindingContext>
     <ContentView.Content>
-      <StackLayout VerticalOptions="Center" Margin="20">
-          <Label Text="¡El semestre ha terminado!" FontSize="25" HorizontalTextAlignment="Center"/>
+        <StackLayout VerticalOptions="FillAndExpand" Margin="0">
+            <StackLayout Background="{DynamicResource PrimaryColor}"
+                         Padding="5" Orientation="Horizontal" VerticalOptions="Start"
+                         HeightRequest="40"/>
+            <Label Text="¡El semestre ha terminado!" FontSize="25" HorizontalTextAlignment="Center"/>
           <Label Margin="10" Text="No tienes ninguna materia inscrita por ahora" FontSize="25" HorizontalTextAlignment="Center"/>
           <Image Margin="10">
               <Image.Source>

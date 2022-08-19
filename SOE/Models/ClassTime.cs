@@ -6,15 +6,16 @@ using Plugin.CloudFirestore;
 using Plugin.CloudFirestore.Attributes;
 using Plugin.CloudFirestore.Converters;
 using SOE.API;
-
+using SOE.Models.Scheduler;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SOE.Models
 {
     [Preserve(AllMembers = true), FireStoreCollection("Classtimes")]
-    public class ClassTime : ModelBase
+    public class ClassTime : ModelBase, IComparable, IComparable<ClassTime>
     {
         [Id]
         public string IdDocument { get; set; }
@@ -54,9 +55,9 @@ namespace SOE.Models
 
         }
 
-        public ClassTime(string group, string subjectId, DayOfWeek Day, TimeSpan Begin, TimeSpan End)
+        public ClassTime(string groupId, string subjectId, DayOfWeek Day, TimeSpan Begin, TimeSpan End)
         {
-            this.GroupId = group;
+            this.GroupId = groupId;
             this.Day = Day;
             this.SubjectId = subjectId;
             this.Begin = Begin;
@@ -64,6 +65,10 @@ namespace SOE.Models
             IdDocument = this.GetDocumentId();
         }
 
+        public Task<Group> GetGroup()
+        {
+            return Group.GetCachedGroup(this.GroupId);
+        }
         public async Task<Subject> GetSubject()
         {
             this.Subject = await Models.Subject.GetCachedSubject(SubjectId);
@@ -101,6 +106,75 @@ namespace SOE.Models
             return FireBaseConnection.UserDocument.Collection<ClassTime>()
                 .Document(GetDocumentId()).SetAsync(this)
                 .ContinueWith(t => this);
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj is ClassTime other)
+            {
+                return other.CompareTo(this);
+            }
+            return -1;
+        }
+
+        public int CompareTo(ClassTime other)
+        {
+            return other?.GetDocumentId()?.CompareTo(this.GetDocumentId()) ?? -1;
+        }
+
+        internal async Task<ClassTime?> EarlierClassOfWeek()
+        {
+            var classTimes = (await GetAll()).ToList();
+            if (!classTimes.Any())
+            {
+                return null;
+            }
+            TimeSpan minTime = classTimes.Min(x => x.Begin);
+            return classTimes.FirstOrDefault(x => x.Begin == minTime);
+        }
+
+        public async Task<TimeSpan?> GetFirstFreeTimeOf(Day day)
+        {
+            var classTimes = await day.GetTimeLine();
+            if (!classTimes.Any())
+            {
+                return null;
+            }
+
+            TimeSpan lastEndTime = classTimes.First().End;
+            foreach (ClassSquare classSquare in classTimes)
+            {
+                var freeTime = classSquare.Begin - lastEndTime;
+                if (freeTime.Minutes >= 50)
+                {
+                    return lastEndTime;
+                }
+
+                lastEndTime = classSquare.End;
+            }
+            return lastEndTime;
+        }
+
+        public static async Task<ClassTime?> GetLastClassOf(Day day)
+        {
+            var classTimes = await day.GetTimeLine();
+            if (!classTimes.Any())
+            {
+                return null;
+            }
+            var last = classTimes.Last();
+            return last.ToClassTime();
+        }
+
+        public async Task<TimeSpan?> GetAvgClassDuration()
+        {
+            var classTimes = (await GetAll()).ToList();
+            if (!classTimes.Any())
+            {
+                return null;
+            }
+            long avgTicks = (long)classTimes.Average(x => x.Begin.Ticks);
+            return TimeSpan.FromTicks(avgTicks);
         }
     }
 }

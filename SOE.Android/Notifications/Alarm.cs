@@ -1,13 +1,12 @@
-﻿using System;
-using Acr.UserDialogs.Builders;
+﻿using Acr.UserDialogs.Builders;
 using Android;
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Widget;
 using Kit.Droid;
 using Microsoft.AppCenter.Crashes;
 using SOE.Notifications;
+using System;
 using Xamarin.Forms.Internals;
 using Exception = Java.Lang.Exception;
 
@@ -58,7 +57,7 @@ namespace SOE.Droid.Notifications
             long trigger_milis = date.ToUniversalTime().ToUnixTimestamp();
             Intent i = new Intent(context, typeof(Alarm));
             i.PutExtras(extras);
-            PendingIntent pi = PendingIntent.GetBroadcast(context, (int)requestId, i, 0);
+            PendingIntent pi = PendingIntent.GetBroadcast(context, (int)requestId, i, PendingIntentFlags.Immutable);
             AlarmManager am = (AlarmManager)context.GetSystemService(Context.AlarmService);
             am.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, trigger_milis, pi);
         }

@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:BasePopUp xmlns="http://xamarin.com/schemas/2014/forms"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
+           xmlns:pages="clr-namespace:Kit.Forms.Pages;assembly=Kit.Forms"
+           xmlns:pancakeView="clr-namespace:SOE.Renders"
+           xmlns:popUps="clr-namespace:SOE.ViewModels.PopUps;assembly=SOE"
+           xmlns:validations="clr-namespace:Kit.Forms.Validations;assembly=Kit.Forms"
+           xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+           xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
+           xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+           xmlns:forms1="clr-namespace:dotMorten.Xamarin.Forms;assembly=dotMorten.Xamarin.Forms.AutoSuggestBox"
+           xmlns:behaviors="http://xamarin.com/schemas/2020/toolkit"
+           xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
+           xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
+           x:Class="SOE.Views.PopUps.AddTeacherPopUp"
+           x:DataType="popUps:AddTeacherPopUpViewModel" 
+           x:Name="Me">
+    <pancakeView:CustomPancakeView Visual="Default" HorizontalOptions="FillAndExpand"
+                                   VerticalOptions="Center" Margin="10" 
+                                   BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDarkColor},Light={StaticResource BackgroundLightColor}}">
+        <StackLayout Margin="0" >
+            <StackLayout Padding="5" Orientation="Horizontal"  BackgroundColor="{DynamicResource PrimaryLightColor}">
+                <forms:CachedImage 
+                    Source="{Binding User.School.ImgPath, Source={x:Static data:AppData.Instance}}"
+                    HeightRequest="60" LoadingPlaceholder="logo_soe_fill" ErrorPlaceholder="logo_soe_fill" 
+                    />
+                <Label Text="Seleccionar maestro" TextColor="White" 
+                       FontSize="20" HorizontalOptions="CenterAndExpand"
+                   FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                  Padding="5"/>
+                <Label Text="{x:Static fonts:FontelloIcons.CirclePlus}" 
+                       FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                       TextColor="White" 
+                       FontSize="40" HorizontalOptions="End"
+                   FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                       Padding="5" >
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ConfirmCommand}" 
+                                              CommandParameter="{x:Reference Me}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+            <ScrollView>
+                <StackLayout>
+                    <StackLayout Padding="10">
+                        <Label Text="Nombre:" FontAttributes="Bold"/>
+
+                        <forms1:AutoSuggestBox x:Name="AutoSuggestBox"
+                                               TextChanged="AutoSuggestBox_OnTextChanged"
+                                               QuerySubmitted="AutoSuggestBox_OnQuerySubmitted"
+                                               SuggestionChosen="AutoSuggestBox_OnSuggestionChosen"/>
+                    </StackLayout>
+                    <StackLayout>
+                        <ListView>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Teacher">
+                                    <ViewCell>
+                                        <controls:ArrowButton Title="{Binding Name}">
+                                            <controls:ArrowButton.Icon>
+                                                <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                                                 Glyph="{x:Static fonts:FontelloIcons.CredentialsCard}"
+                                                                 Color="{AppThemeBinding Light={StaticResource  DarkTextColor},Dark={StaticResource LightTextColor}}"
+                                                />
+                                            </controls:ArrowButton.Icon>
+                                        </controls:ArrowButton>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+
+                        </ListView>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+
+
+            <Button Text="Cancelar" FontAttributes="Bold" BackgroundColor="Red" 
+                    Command="{Binding CancelCommand}" 
+                    CommandParameter="{x:Reference Me}"
+                    CornerRadius="5"/>
+        </StackLayout>
+    </pancakeView:CustomPancakeView>
+</pages:BasePopUp>

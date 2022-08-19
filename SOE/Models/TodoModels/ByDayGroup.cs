@@ -107,7 +107,7 @@ namespace SOE.Models.TodoModels
                     group.ToDoS.Add(new TaskViewModel(toDo, group));
                     return;
                 }
-                var newGroup = new BySubjectGroup(toDo.Subject);
+                BySubjectGroup? newGroup = new BySubjectGroup(toDo.Subject);
                 groups.Add(newGroup);
                 newGroup.ToDoS.Add(new TaskViewModel(toDo, newGroup));
             }

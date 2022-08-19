@@ -148,10 +148,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs">
-      <Version>7.2.0.562</Version>
+      <Version>7.2.0.564</Version>
     </PackageReference>
     <PackageReference Include="CardsView">
-      <Version>2.8.0</Version>
+      <Version>2.8.1</Version>
     </PackageReference>
     <PackageReference Include="DeviceId">
       <Version>6.2.0</Version>
@@ -169,13 +169,13 @@
       <Version>2.44.0</Version>
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack">
-      <Version>1.11.42</Version>
+      <Version>1.11.43</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
-      <Version>4.5.0</Version>
+      <Version>4.5.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Crashes">
-      <Version>4.5.0</Version>
+      <Version>4.5.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CSharp">
       <Version>4.7.0</Version>
@@ -193,16 +193,10 @@
       <Version>2.1.0</Version>
     </PackageReference>
     <PackageReference Include="SkiaSharp.Views.Forms">
-      <Version>2.80.3</Version>
+      <Version>2.88.0</Version>
     </PackageReference>
     <PackageReference Include="sqlite-net">
       <Version>1.6.292</Version>
-    </PackageReference>
-    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3">
-      <Version>2.0.7</Version>
-    </PackageReference>
-    <PackageReference Include="SQLitePCLRaw.bundle_green">
-      <Version>2.0.7</Version>
     </PackageReference>
     <PackageReference Include="System.Management">
       <Version>6.0.0</Version>
@@ -214,7 +208,7 @@
       <Version>4.1.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.CommunityToolkit">
-      <Version>2.0.1</Version>
+      <Version>2.0.2</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading">
       <Version>2.4.11.982</Version>
@@ -225,8 +219,8 @@
     <PackageReference Include="Xamarin.Firebase.iOS.DynamicLinks">
       <Version>8.10.0</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.1" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2478" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
     <PackageReference Include="Xamarin.Forms.PancakeView">
       <Version>2.3.0.759</Version>
     </PackageReference>
@@ -235,11 +229,11 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Kit\Kit.Forms\Kit.Forms.csproj">
+    <ProjectReference Include="..\..\Kit\Kit.Forms\Kit.Forms.csproj">
       <Project>{34efec99-a6e9-4c5e-a4a3-cf62c8d2a3e1}</Project>
       <Name>Kit.Forms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Kit\Kit.iOS\Kit.iOS.csproj">
+    <ProjectReference Include="..\..\Kit\Kit.iOS\Kit.iOS.csproj">
       <Project>{de4b3620-b011-4ab8-84d8-05e073dab97e}</Project>
       <Name>Kit.iOS</Name>
       <IsAppExtension>false</IsAppExtension>
@@ -249,7 +243,7 @@
       <Project>{20ccea58-74b4-41b0-9e9e-22b7b328c798}</Project>
       <Name>SOE</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Kit\Kit\Kit.csproj">
+    <ProjectReference Include="..\..\Kit\Kit\Kit.csproj">
       <Project>{FBDD1DCC-B804-4690-8113-98D775DE9A88}</Project>
       <Name>Kit</Name>
     </ProjectReference>

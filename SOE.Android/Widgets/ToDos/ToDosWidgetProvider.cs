@@ -71,7 +71,11 @@ namespace SOE.Droid.Widgets.ToDos
                         break;
                     case ToDosWidget.ITEM_CLICK:
                         Intent OpenClassTimeDetails = new Intent(context, typeof(MainActivity));
-                        int itemPosition = intent.GetIntExtra(ToDosWidget.EXTRA_ITEM, 0);
+                        int itemPosition = intent.GetIntExtra(ToDosWidget.ITEM_INDEX, -1);
+                        if (itemPosition < 0)
+                        {
+                            return;
+                        }
                         ToDo todoItem = ToDosWidget.GetItemAt(appWidgetId, itemPosition);
                         OpenClassTimeDetails.PutExtra(nameof(ToDo.DocumentId), todoItem.DocumentId);
                         //OpenClassTimeDetails.SetFlags(ActivityFlags.NewTask);
@@ -93,7 +97,7 @@ namespace SOE.Droid.Widgets.ToDos
             Intent fowardIntent = new Intent(context, this.Class);
             fowardIntent.SetAction(action);
             fowardIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, widgetId);
-            return PendingIntent.GetBroadcast(context, 0, fowardIntent, PendingIntentFlags.UpdateCurrent);
+            return PendingIntent.GetBroadcast(context, 0, fowardIntent, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Mutable);
         }
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {

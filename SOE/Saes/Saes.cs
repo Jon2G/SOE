@@ -54,7 +54,7 @@ namespace SOE.Saes
             this.On<Windows>().SetIsJavaScriptAlertEnabled(true);
             this.On<Windows>().SetExecutionMode(WebViewExecutionMode.SeparateProcess);
             this.ShowLoading = true;
-            this.Navigated += Browser_Navigated;
+            this.Navigated += (s, e) => Browser_Navigated(s, e).SafeFireAndForget();
             this._navigationQueue = new Queue<NavigationRequest>();
             this.Visual = VisualMarker.Material;
         }
@@ -64,7 +64,7 @@ namespace SOE.Saes
             base.OnParentSet();
         }
 
-        private async void Browser_Navigated(object sender, WebNavigatedEventArgs e)
+        private async Task Browser_Navigated(object sender, WebNavigatedEventArgs e)
         {
             if (e.Result == WebNavigationResult.Timeout || e.Result == WebNavigationResult.Cancel)
             {
@@ -111,9 +111,9 @@ namespace SOE.Saes
                 {
                 }
             });
-            var request = new NavigationRequest(navigateUrl);
+            NavigationRequest? request = new NavigationRequest(navigateUrl);
             this._navigationQueue.Enqueue(request);
-            NavigateAsync();
+            await NavigateAsync();
             using (Acr.UserDialogs.UserDialogs.Instance.Loading("Espere un momento...", show: ShowLoading))
             {
                 await request.Wait();
@@ -124,10 +124,9 @@ namespace SOE.Saes
                     }
                 });
             }
-
             await Task.Delay(500); //Esperar el html
         }
-        private async void NavigateAsync()
+        private async Task NavigateAsync()
         {
             this.IsNavigating = true;
             await Task.Yield();
@@ -162,8 +161,7 @@ namespace SOE.Saes
             ImageSource imageSource = null;
             await GoHome();
             await Task.Delay(TimeSpan.FromSeconds(2)); //dale tiempo al captcha para cargar
-            StringBuilder sb = new StringBuilder();
-            sb.Append("var getDataUrl = function (img) {")
+            string sb = new StringBuilder().Append("var getDataUrl = function (img) {")
                 .Append("var canvas = document.createElement('canvas');")
                 .Append("var ctx = canvas.getContext('2d');")
                 // If the image is not png, the format
@@ -174,9 +172,9 @@ namespace SOE.Saes
                 .Append("return canvas.toDataURL();")
                 .Append("};")
                 .Append("var img=document.getElementById('c_default_ctl00_leftcolumn_loginuser_logincaptcha_CaptchaImage');")
-                .Append("getDataUrl(img);");
+                .Append("getDataUrl(img);").ToString();
 
-            if (!string.IsNullOrEmpty(sb.ToString()))
+            if (!string.IsNullOrEmpty(sb))
             {
                 string base64 = await EvaluateJavaScript(sb.ToString());
                 if (string.IsNullOrEmpty(base64))
@@ -195,7 +193,7 @@ namespace SOE.Saes
 
         private bool UriCompare(Uri uri1, Uri uri2)
         {
-            var result = Uri.Compare(uri1, uri2,
+            int result = Uri.Compare(uri1, uri2,
                 UriComponents.Host | UriComponents.PathAndQuery,
                 UriFormat.SafeUnescaped, StringComparison.OrdinalIgnoreCase);
             return result == 0;
@@ -269,8 +267,8 @@ namespace SOE.Saes
                     $"document.getElementById('ctl00_leftColumn_LoginUser_CaptchaCodeTextBox').value ='{captcha}';"
                     );
                 await Task.Delay(100);
-                await this.EvaluateJavaScript("document.getElementById('ctl00_leftColumn_LoginUser_LoginButton').click();");
-                await Task.Delay(TimeSpan.FromSeconds(2));
+                await this.EvaluateJavaScript("const button_login=document.getElementById('ctl00_leftColumn_LoginUser_LoginButton'); button_login.focus();button_login.click();");
+                await Task.Delay(TimeSpan.FromSeconds(3));
                 await GoTo(AppData.Instance.User.School.HomePage);
                 if (await IsLoggedIn())
                 {
@@ -324,10 +322,9 @@ namespace SOE.Saes
             string semester = "?";
             try
             {
-
                 IEnumerable<ClassTime> classTimes = await ClassTime.GetAll();
-                semester = string.Join(",",
-                    classTimes.Select(x => x.GroupId).Select(x => x.FirstOrDefault()).Distinct());
+                Models.Group[] groups = await Task.WhenAll(classTimes.Select(x => x.GetGroup()).ToArray());
+                semester = string.Join(",", groups.Select(x => x.Name).Select(x => x.FirstOrDefault()).Distinct());
             }
             catch (Exception e)
             {
@@ -362,7 +359,7 @@ namespace SOE.Saes
         private async Task<List<Subject>> DigestSubjects(string horarioHtml)
         {
             await Task.Yield();
-            var subjects = await ClassTimeDigester.Digest(horarioHtml);
+            List<Subject>? subjects = await ClassTimeDigester.Digest(horarioHtml);
             TimeLineWidget.UpdateWidget();
             return subjects;
         }
@@ -379,45 +376,63 @@ namespace SOE.Saes
         }
         private async Task GetCitasReinscripcionInfo()
         {
-            await GoTo(CitaReinscripcionPage);
-            float creditosTotales = 0f;
-            float creditosAlumno = 0f;
-
-            string creditosCarreraHtml = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_CREDITOSCARRERA').outerHTML");
-            string alumnoHtml = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_alumno').outerHTML");
-            string citaReinscripcionHtml = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_grvEstatus_alumno').outerHTML");
-
-            Unescape(ref alumnoHtml);
-            if (!string.IsNullOrEmpty(alumnoHtml))
+            await Task.Yield();
+            try
             {
-                var table = HtmlToTable(alumnoHtml);
-                creditosAlumno = Convert.ToSingle(table[0][1]);
-            }
+                await GoTo(CitaReinscripcionPage);
+                float creditosTotales = 0f;
+                float creditosAlumno = 0f;
 
-            Unescape(ref creditosCarreraHtml);
-            if (!string.IsNullOrEmpty(creditosCarreraHtml))
-            {
-                List<List<string>> table = HtmlToTable(creditosCarreraHtml);
-                creditosTotales = Convert.ToSingle(table[0][1]);
-            }
+                string creditosCarreraHtml =
+                    await this.EvaluateJavaScript(
+                        "document.getElementById('ctl00_mainCopy_CREDITOSCARRERA').outerHTML");
+                string alumnoHtml =
+                    await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_alumno').outerHTML");
+                string citaReinscripcionHtml =
+                    await this.EvaluateJavaScript(
+                        "document.getElementById('ctl00_mainCopy_grvEstatus_alumno').outerHTML");
 
-            float result = (creditosAlumno / creditosTotales) * 100;
-            result = (float)Math.Round(result, 2);
-            AppData.Instance.User.Credits =
-                new Credits
+                Unescape(ref alumnoHtml);
+                if (!string.IsNullOrEmpty(alumnoHtml))
                 {
-                    //Id = 1,
-                    CurrentCredits = creditosAlumno,
-                    TotalCredits = creditosTotales,
-                    Percentage = result
-                };
-            //Save fecha de reinscripción
-            Unescape(ref citaReinscripcionHtml);
-            if (!string.IsNullOrEmpty(citaReinscripcionHtml))
+                    List<List<string>>? table = HtmlToTable(alumnoHtml);
+                    float.TryParse(table[0][1], out creditosAlumno);
+                }
+
+                Unescape(ref creditosCarreraHtml);
+                if (!string.IsNullOrEmpty(creditosCarreraHtml))
+                {
+                    List<List<string>> table = HtmlToTable(creditosCarreraHtml);
+                    float.TryParse(table[0][1], out creditosTotales);
+                }
+
+                float result = 0f;
+                if (creditosTotales != 0)
+                {
+                    result = (creditosAlumno / creditosTotales) * 100;
+                    result = (float)Math.Round(result, 2);
+                }
+
+                AppData.Instance.User.Credits =
+                    new Credits
+                    {
+                        //Id = 1,
+                        CurrentCredits = creditosAlumno,
+                        TotalCredits = creditosTotales,
+                        Percentage = result
+                    };
+                //Save fecha de reinscripción
+                Unescape(ref citaReinscripcionHtml);
+                if (!string.IsNullOrEmpty(citaReinscripcionHtml))
+                {
+                    List<List<string>> table = HtmlToTable(citaReinscripcionHtml);
+                    string _date = table[0][3];
+                    AppData.Instance.User.InscriptionDate = _date;
+                }
+            }
+            catch (Exception ex)
             {
-                List<List<string>> table = HtmlToTable(citaReinscripcionHtml);
-                string _date = table[0][3];
-                AppData.Instance.User.InscriptionDate = _date;
+                Log.Logger.Error(ex, "GetCitasReinscripcionInfo");
             }
         }
         private List<List<string>> HtmlToTable(string html)

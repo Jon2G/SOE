@@ -1,10 +1,10 @@
-﻿using System.Windows.Input;
-using AsyncAwaitBestPractices;
+﻿using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
 using Kit.Model;
 using SOE.Data;
 using SOE.Views.Pages;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace SOE.ViewModels.Pages
@@ -46,7 +46,7 @@ namespace SOE.ViewModels.Pages
         }
 
         private ICommand _RefreshCaptchaCommand;
-        public ICommand RefreshCaptchaCommand => _RefreshCaptchaCommand ??= new Command(RefreshCaptcha);
+        public ICommand RefreshCaptchaCommand => _RefreshCaptchaCommand ??= new AsyncCommand(RefreshCaptcha);
         private AsyncCommand _ContinueCommand;
         public AsyncCommand ContinueCommand => _ContinueCommand ??= new AsyncCommand(Continue, ContinueCanExecute);
         private bool ContinueCanExecute(object obj) => !string.IsNullOrEmpty(Captcha);
@@ -74,17 +74,17 @@ namespace SOE.ViewModels.Pages
             if (await AppData.Instance.SAES.IsLoggedIn())
             {
                 await AppData.Instance.SAES.GetUserData();
-               await AppData.Instance.User.Save();
+                await AppData.Instance.User.Save();
                 Application.Current.MainPage = new WalkthroughPage();
             }
             else
             {
-                RefreshCaptcha();
+                RefreshCaptcha().SafeFireAndForget();
                 NeedsCaptcha = true;
             }
         }
 
-        public async void RefreshCaptcha()
+        public async Task RefreshCaptcha()
         {
             this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
             if (CaptchaImg is null)

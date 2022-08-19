@@ -1,6 +1,7 @@
 ﻿using AsyncAwaitBestPractices;
 using Kit;
 using SOE.Data;
+using SOE.Enums;
 using SOE.Models;
 using SOE.Models.Scheduler;
 using SOE.Models.TodoModels;
@@ -18,8 +19,6 @@ namespace SOE.Views.ViewItems.ScheduleView
     public partial class ScheduleViewMain
     {
         public override string Title => "Horario";
-
-        public static ScheduleViewMain Instance { get; private set; }
         private bool IsDayViewVisible
         {
             get => DayView.IsVisible;
@@ -39,11 +38,19 @@ namespace SOE.Views.ViewItems.ScheduleView
         public ICommand OpenMenuCommand => _OpenMenuCommand ??= new Command<ClassSquare>(OpenMenu);
         public ScheduleViewMain()
         {
-            Instance = this;
+            Tools.Container.Register(this);
             InitializeComponent();
+            this.Init();
+        }
+
+        public void Init()
+        {
             if (!AppData.Instance.User.HasSubjects)
             {
-                this.Content = new NoInscriptionView();
+                this.Content =
+                    AppData.Instance.User.Mode == UserMode.SAES ?
+                        new NoInscriptionView() :
+                        new NoSubjectsView();
                 return;
             }
             this.IsDayViewVisible = false;
@@ -54,9 +61,9 @@ namespace SOE.Views.ViewItems.ScheduleView
             base.OnAppearing();
         }
 
-        private async void OpenMenu(ClassSquare classSquare)
+        private void OpenMenu(ClassSquare classSquare)
         {
-            var pr = new MenuHorarioPopUp(classSquare);
+            MenuHorarioPopUp? pr = new MenuHorarioPopUp(classSquare);
             pr.ShowDialog().ContinueWith(t =>
             {
                 switch (pr.Model.Action)
@@ -96,17 +103,17 @@ namespace SOE.Views.ViewItems.ScheduleView
 
         private void Reminder(ClassSquare classSquare)
         {
-            var reminder = new Reminder();
+            Reminder? reminder = new Reminder();
             reminder.Subject = classSquare.Subject;
             reminder.Time = classSquare.Begin;
             reminder.Date = classSquare.Day.GetNearest();
-            var popup = new ReminderPage(reminder);
+            ReminderPage? popup = new ReminderPage(reminder);
             popup.Show().SafeFireAndForget();
         }
 
         private void Newtask(ClassSquare classSquare)
         {
-            var Tarea = new ToDo();
+            ToDo? Tarea = new ToDo();
             Tarea.Subject = classSquare.Subject;
             Tarea.Time = classSquare.Begin;
             Tarea.Date = classSquare.Day.GetNextOrToday();
@@ -125,20 +132,20 @@ namespace SOE.Views.ViewItems.ScheduleView
             if (day is null) { return; }
             DayView.DayModel = day;
             DayView.MainModel = this.Model;
-            Fade(true);
+            Fade(true).SafeFireAndForget();
         }
 
         internal bool OnBackButtonPressed()
         {
             if (IsDayViewVisible)
             {
-                Fade(false);
+                Fade(false).SafeFireAndForget();
                 return true;
             }
             return false;
         }
 
-        private async void Fade(bool IsDayViewVisible)
+        private async Task Fade(bool IsDayViewVisible)
         {
             if (IsDayViewVisible)
             {

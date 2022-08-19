@@ -1,50 +1,50 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Acr.UserDialogs;
+﻿using Acr.UserDialogs;
 using AsyncAwaitBestPractices;
 using AsyncAwaitBestPractices.MVVM;
 using Kit;
 using Kit.Forms.Extensions;
 using Kit.Model;
+using Kit.Services.Web;
 using Microsoft.AppCenter.Crashes;
 using SOE.API;
 using SOE.Data;
 using SOE.Views.Pages;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using Command = Xamarin.Forms.Command;
 
 namespace SOE.ViewModels.Pages
 {
     public class DeveloperOptionsViewModel : ModelBase
     {
         private ICommand _ImportDatabaseCommand;
-        public ICommand ImportDatabaseCommand => _ImportDatabaseCommand ??= new Command(ImportDatabase);
+        public ICommand ImportDatabaseCommand => _ImportDatabaseCommand ??= new AsyncCommand(ImportDatabase);
 
         private ICommand _ExportDatabaseCommand;
-        public ICommand ExportDatabaseCommand => _ExportDatabaseCommand ??= new Command(ExportDatabase);
+        public ICommand ExportDatabaseCommand => _ExportDatabaseCommand ??= new AsyncCommand(ExportDatabase);
         private ICommand _HelloAPICommand;
         public ICommand HelloAPICommand => _HelloAPICommand ??= new AsyncCommand(HelloAPI);
 
         private async Task HelloAPI()
         {
-           var response=await APIService.Current.Hello();
-           Acr.UserDialogs.UserDialogs.Instance.AlertAsync(
-                   $"Result:{response.ResponseResult}\nMessage:\n{response.Message}")
-               .SafeFireAndForget();
+            Response? response = await APIService.Current.Hello();
+            Acr.UserDialogs.UserDialogs.Instance.AlertAsync(
+                    $"Result:{response.ResponseResult}\nMessage:\n{response.Message}")
+                .SafeFireAndForget();
         }
 
         /// <summary>
         /// Esta función exportará una base de datos manualmente.
         /// </summary>
-        private async void ExportDatabase()
+        private async Task ExportDatabase()
         {
             using (UserDialogs.Instance.Loading("Cargando..."))
             {
                 Log.Logger.Debug("Se solicito la base de datos lite");
-                if (!await AbrirArchivo(AppData.Instance.LiteConnection.DatabasePath, "Base de datos local"))
+                if (!await AbrirArchivo(AppData.DatabasePath, "Base de datos local"))
                 {
                     await UserDialogs.Instance.AlertAsync("No se pudo abrir el archivo", "Mensaje informativo");
                 }
@@ -100,7 +100,7 @@ namespace SOE.ViewModels.Pages
         /// <summary>
         /// Esta función importará una base de datos manualmente.
         /// </summary>
-        private async void ImportDatabase()
+        private async Task ImportDatabase()
         {
             if (!await Permisos.RequestStorage())
             {
@@ -124,8 +124,7 @@ namespace SOE.ViewModels.Pages
                 await UserDialogs.Instance.AlertAsync("No has seleccionado un archivo compatible", "¡Alerta!", "Intenta de nuevo");
                 return;
             }
-
-            string target = AppData.Instance.LiteConnection.DatabasePath;
+            string target = AppData.DatabasePath;
             FileInfo targetInfo = new FileInfo(target);
             if (targetInfo.Exists)
             {

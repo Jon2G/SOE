@@ -55,7 +55,7 @@ namespace SOE.Views.Pages.Login
                 await AppData.Instance.SAES.LogOut();
                 await AppData.Instance.SAES.GoHome();
             }
-            this.Model.RefreshCaptcha();
+            await this.Model.RefreshCaptcha();
         }
     }
 }

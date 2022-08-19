@@ -1,18 +1,16 @@
-﻿using Forms9Patch;
+﻿using AsyncAwaitBestPractices;
 using Kit;
 using Kit.Model;
+using Microsoft.AppCenter.Crashes;
 using MimeKit;
 using SOE.Data;
+using SOE.Secrets;
+using SOE.Views.Pages;
 using System;
+using System.IO;
+using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
-using SOE.Views.Pages;
-using AsyncAwaitBestPractices;
-using Microsoft.AppCenter.Crashes;
-using SOE.Secrets;
-using System.Text;
-using System.Net.Mail;
-using System.IO;
 
 namespace SOE.ViewModels.PopUps
 {
@@ -35,11 +33,10 @@ namespace SOE.ViewModels.PopUps
         {
             this.PopUp = PopUp;
         }
-        public async void SendReport()
+        public void SendReport()
         {
             try
             {
-
                 MimeMessage message = new MimeMessage();
                 message.From.Add(new MailboxAddress("", DotNetEnviroment.CORREOSOE));
                 message.To.Add(new MailboxAddress("", DotNetEnviroment.CORREOSOE));
@@ -62,7 +59,7 @@ namespace SOE.ViewModels.PopUps
                   .Append("User name: ").AppendLine(AppData.Instance.User.Name)
                   .Append("User id: ").AppendLine(AppData.Instance.User.Boleta)
                   .Append("User message: ").AppendLine(this.Body);
-               
+
                 Multipart multipart = new Multipart("mixed");
                 multipart.Add(new TextPart("plain") { Text = sb.ToString() });
 
@@ -101,7 +98,7 @@ namespace SOE.ViewModels.PopUps
                 SmtpServer.Send(message);
                 SmtpServer.Disconnect(true);
                 PopUp.Close().SafeFireAndForget();
-                await Application.Current.MainPage.DisplayAlert("Confirmación", "El reporte se a mandado exitosamente", "Ok");
+                Application.Current.MainPage.DisplayAlert("Confirmación", "El reporte se a mandado exitosamente", "Ok").SafeFireAndForget();
 
             }
 

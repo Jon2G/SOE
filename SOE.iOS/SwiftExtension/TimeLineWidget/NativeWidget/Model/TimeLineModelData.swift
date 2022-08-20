@@ -24,11 +24,11 @@ func load() -> [DayModel] {
 
 func loadClasses(_ dayInt: Int) -> [ClassSquare]{
     var DummyClasses=[ClassSquare]()
-    DummyClasses.append(ClassSquare(id: 1, index: 0, subjectName:"Redes de computadoras", formattedTime: "14:30-16:00",group: "8CV1",color:"#a1d7c9"))
-    DummyClasses.append(ClassSquare(id: 2, index: 1, subjectName:"Bases de datos", formattedTime: "16:00-17:30",group: "8CV2",color: "#f7cac9"))
-    DummyClasses.append(ClassSquare(id: 3, index: 2, subjectName:"Proyecto de ingeniería", formattedTime: "17:30-19:00",group: "8CV3",color: "#FEC1FF"))
-    DummyClasses.append(ClassSquare(id: 4, index: 3, subjectName:"Estructura de datos", formattedTime: "19:00-20:30",group: "8CV4",color: "#A783F9"))
-    DummyClasses.append(ClassSquare(id: 5, index: 4, subjectName:"Metodología de la investigación", formattedTime: "20:30-22:00",group: "8CV5",color: "#f2dea4"))
+    DummyClasses.append(ClassSquare(id: "xxxx", index: 0, subjectName:"Redes de computadoras", formattedTime: "14:30-16:00",group: "8CV1",color:"#a1d7c9"))
+    DummyClasses.append(ClassSquare(id: "yyyyy", index: 1, subjectName:"Bases de datos", formattedTime: "16:00-17:30",group: "8CV2",color: "#f7cac9"))
+    DummyClasses.append(ClassSquare(id: "wwwww", index: 2, subjectName:"Proyecto de ingeniería", formattedTime: "17:30-19:00",group: "8CV3",color: "#FEC1FF"))
+    DummyClasses.append(ClassSquare(id: "zzzzzz", index: 3, subjectName:"Estructura de datos", formattedTime: "19:00-20:30",group: "8CV4",color: "#A783F9"))
+    DummyClasses.append(ClassSquare(id: "qqqq", index: 4, subjectName:"Metodología de la investigación", formattedTime: "20:30-22:00",group: "8CV5",color: "#f2dea4"))
     return DummyClasses;
     
 }

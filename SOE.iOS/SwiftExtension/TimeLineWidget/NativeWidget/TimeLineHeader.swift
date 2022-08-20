@@ -18,7 +18,7 @@ struct TimeLineHeader: View {
         VStack(spacing:0){
         HStack() {
             Text(day.name).frame(maxWidth: .infinity, alignment: .center).textCase(.uppercase).font(Font.headline.weight(.bold));
-        }.padding(10).background(Color(UIColor.init(hex: "#f5f5f5ff")))
+        }.padding(10)//.background(Color(UIColor.init(hex: "#f5f5f5ff")))
             Divider();
         }
     }

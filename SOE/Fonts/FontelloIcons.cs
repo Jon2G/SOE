@@ -5,7 +5,7 @@ using Xamarin.Forms.Internals;
 [assembly: ExportFont(FontelloIcons.ResourceFileName, Alias = FontelloIcons.Font)]
 namespace SOE.Fonts
 {
-    [Preserve()]
+    [Preserve(AllMembers =true)]
     public static class FontelloIcons
     {
         public const string AddressBook = "\ue801";
@@ -48,7 +48,6 @@ namespace SOE.Fonts
 
         public const string ThreeDots = "\uE81D";
         public const string UpArrow = "\uE81E";
-
 
         public const string Eye = "\uE81F";
         public const string CheckBox = "\uE820";

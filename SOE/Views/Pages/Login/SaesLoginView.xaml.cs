@@ -16,7 +16,11 @@ namespace SOE.Views.Pages.Login
             AppData.Instance.User.Mode = UserMode.SAES;
             this.BindingContext = model;
             InitializeComponent();
-            Task.Delay(TimeSpan.FromSeconds(0.5)).ContinueWith(t => this.Usuario.Focus());
+            _ = Task.Delay(TimeSpan.FromSeconds(0.5)).ContinueWith(t =>
+            Dispatcher.BeginInvokeOnMainThread(() =>
+            {
+                _ = this.Usuario.Focus();
+            }));
         }
     }
 }

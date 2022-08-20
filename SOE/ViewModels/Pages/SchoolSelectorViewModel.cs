@@ -3,6 +3,7 @@ using Kit;
 using Kit.Model;
 using SOE.Data;
 using SOE.Models;
+using SOE.Views.Pages.Login;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -62,6 +63,10 @@ namespace SOE.ViewModels.Pages
         private void SelectSchool(School School)
         {
             AppData.Instance.User.School = School;
+            if (Xamarin.Forms.Device.RuntimePlatform ==Xamarin.Forms.Device.iOS)
+            {
+                UserSignUpPage.Instance.OnSchoolSelected();
+            }
             Current.MainPage.Navigation.PopModalAsync(true).SafeFireAndForget();
         }
     }

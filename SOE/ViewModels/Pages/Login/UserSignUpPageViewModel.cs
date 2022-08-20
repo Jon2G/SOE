@@ -146,33 +146,38 @@ namespace SOE.ViewModels.Pages.Login
 
         private async Task SignIn()
         {
-            this.AttemptCount++;
-            AppData.Instance.User.Boleta = Boleta;
-            UserLocalData.Instance.Boleta = Boleta;
-            UserLocalData.Instance.Password = Password;
-            UserLocalData.Instance.SchoolId = AppData.Instance.User.School.DocumentId;
-            if (await AppData.Instance.SAES.LogIn(this.Captcha, this.AttemptCount, false))
+            await Task.Yield();
+            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Iniciando sesión"))
             {
-                LoginSucceed().SafeFireAndForget();
-            }
-            else
-            {
-                if (AttemptCount >= 3)
+                this.AttemptCount++;
+                AppData.Instance.User.Boleta = Boleta;
+                UserLocalData.Instance.Boleta = Boleta;
+                UserLocalData.Instance.Password = Password;
+                UserLocalData.Instance.SchoolId = AppData.Instance.User.School.DocumentId;
+                if (await AppData.Instance.SAES.LogIn(this.Captcha, this.AttemptCount, false))
                 {
-                    await Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Tienes varios intentos fallidos. Es posible que la aplicación no pueda comunicarse correctamente con el SAES o tus datos sean incorrectos." +
-                                                                " Si continuas es posible que tu cuenta sea suspendida.", "Cuidado!", "Entiendo");
-                    AppData.Instance.User = new Models.Data.User();
-                    App.Current.MainPage = new SplashScreen();
-                    return;
+                    LoginSucceed().SafeFireAndForget();
                 }
-                UserLocalData.Instance.Password =
-                AppData.Instance.User.Boleta =
-                this.Captcha = string.Empty;
-                this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
-                Acr.UserDialogs.UserDialogs.Instance.Alert("Usuario o contraseña invalidos", "Atención", "Ok");
+                else
+                {
+                    if (AttemptCount >= 3)
+                    {
+                        await Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Tienes varios intentos fallidos. Es posible que la aplicación no pueda comunicarse correctamente con el SAES o tus datos sean incorrectos." +
+                                                                    " Si continuas es posible que tu cuenta sea suspendida.", "Cuidado!", "Entiendo");
+                        AppData.Instance.User = new Models.Data.User();
+                        App.Current.MainPage = new SplashScreen();
+                        return;
+                    }
+                    UserLocalData.Instance.Password =
+                    AppData.Instance.User.Boleta =
+                    this.Captcha = string.Empty;
+                    this.CaptchaImg = await AppData.Instance.SAES.GetCaptcha();
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("Usuario o contraseña invalidos", "Atención", "Ok");
+                }
             }
+
         }
-        private bool SignInCanExecute(object obj)
+        private bool SignInCanExecute(object? obj)
         {
             return !string.IsNullOrEmpty(Boleta)
                    && Models.Data.Validations.IsValidBoleta(Boleta)
@@ -230,7 +235,7 @@ namespace SOE.ViewModels.Pages.Login
             {
                 await AppData.Instance.User.School.Save();
                 User user = await AppData.Instance.User.Save();
-                Models.Device? device = new SOE.Models.Device()
+                Models.Device device = new SOE.Models.Device()
                 {
                     DeviceKey = Device.Current.DeviceId,
                     Brand = Device.Current.GetDeviceBrand(),

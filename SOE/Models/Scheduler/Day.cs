@@ -39,15 +39,16 @@ namespace SOE.Models.Scheduler
         {
             try
             {
-                IEnumerable<ClassTime> classTimes = await ClassTime.IQuery(
+                IEnumerable<ClassTime?> classTimes = await ClassTime.IQuery(
                      ClassTime.Collection
                          .WhereEqualsTo(nameof(ClassTime.Day), DayOfWeek.ToString())
                          .OrderBy(nameof(ClassTime.Begin))
                          .OrderBy(nameof(ClassTime.End)));
                 List<ClassSquare> classSquares = new List<ClassSquare>();
-                ClassTime[] results = (from is null ? classTimes : classTimes.Where(x => x.End > from)).ToArray();
-                foreach (ClassTime classTime in results)
+                ClassTime?[] results = (from is null ? classTimes.Where(x=>x is not null) : classTimes.Where(x => (x is not null) && x.End > from)).ToArray();
+                foreach (ClassTime? classTime in results)
                 {
+                    if (classTime is null) continue;
                     await classTime.GetSubject();
                     Group group = await classTime.Subject.GetGroup();
                     classSquares.Add(new ClassSquare(classTime.Subject, group, classTime.Begin, classTime.End,
@@ -57,6 +58,8 @@ namespace SOE.Models.Scheduler
             }
             catch (Exception ex)
             {
+                Console.WriteLine("SOE.iOS" + ex.ToString());
+                Acr.UserDialogs.UserDialogs.Instance.Alert(ex.ToString());
                 Log.Logger?.Error(ex, "GetTimeLine");
             }
             return await Task.FromResult(new List<ClassSquare>());

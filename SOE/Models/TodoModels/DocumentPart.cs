@@ -2,30 +2,32 @@
 using Kit.Model;
 using Plugin.CloudFirestore.Attributes;
 using SOE.Enums;
+using System;
 
 namespace SOE.Models.TodoModels
 {
-
+    [Xamarin.Forms.Internals.Preserve(AllMembers =true),Serializable]
     public class DocumentPart : ModelBase
     {
-        [Id]
-        public string DocumentId { get; set; }
-        private string _Content;
+        private string? _Content;
 
-        public string Content
+        public string? Content
         {
             get => _Content;
             set
             {
-                _Content = value;
-                Raise(() => Content);
+                if (_Content != value)
+                {
+                    _Content = value;
+                    Raise(() => Content);
+                }
             }
         }
 
         public DocType DocType { get; set; }
         public DocumentPart()
         {
-
+            Content = string.Empty;
         }
     }
 }

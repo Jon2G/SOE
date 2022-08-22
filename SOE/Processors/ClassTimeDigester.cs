@@ -93,7 +93,7 @@ namespace SOEWeb.Shared.Processors
                     }
                     Teacher teacher = teachers[i];
                     string suffix = GetGroupSuffix(group.Name, ref suffixfixer);
-                    string? subjectName = row[1]?.Trim().ToUpper();
+                    string? subjectName = row[1]?.Trim().ToUpper()??"";
                     if (string.IsNullOrEmpty(subjectName)) { continue; }
                     Regex regex = new Regex(".+ - (?<SubjectName>.+)");
                     System.Text.RegularExpressions.Group? match = regex.Match(subjectName).Groups["SubjectName"];
@@ -101,6 +101,7 @@ namespace SOEWeb.Shared.Processors
                     {
                         subjectName = match.Value;
                     }
+                    if (string.IsNullOrEmpty(subjectName)) continue;
                     Subject subject = await new Subject()
                     {
                         TeacherId = teacher.GetDocumentId(),
@@ -120,6 +121,11 @@ namespace SOEWeb.Shared.Processors
                 for (int index = 0; index < table.Count; index++)
                 {
                     List<string> rows = table[index];
+                    if (subjects.Count <= index)
+                    {
+                        Console.WriteLine("SOE.iOS - Inconsistencia en el horario");
+                        break;
+                    }
                     Subject subject = subjects[index];
                     Group group = groups[index];
                     rows = rows.Skip(3).Take(5).ToList();
@@ -146,6 +152,8 @@ namespace SOEWeb.Shared.Processors
             catch (Exception ex)
             {
                 Log.Logger.Error(ex, "At classtimedigester");
+                Console.WriteLine("SOE.iOS" + ex.ToString());
+                Acr.UserDialogs.UserDialogs.Instance.Alert(ex.ToString());
             }
             return new List<Subject>();
         }

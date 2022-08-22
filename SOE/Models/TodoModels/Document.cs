@@ -2,17 +2,16 @@
 
 using Kit.Model;
 using Plugin.CloudFirestore.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace SOE.Models.TodoModels
 {
-    [FireStoreCollection("Document")]
+    [Xamarin.Forms.Internals.Preserve(AllMembers =true),Serializable]
     public class Document : ModelBase
     {
-        [Id]
-        public string DocumentId { get; set; }
 
         public List<DocumentPart> DocumentParts { get; set; }
 

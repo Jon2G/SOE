@@ -25,6 +25,7 @@ using WebView = Xamarin.Forms.WebView;
 
 namespace SOE.Saes
 {
+    [Xamarin.Forms.Internals.Preserve(AllMembers = true)]
     public class Saes : WebView
     {
         private const string AlumnosPage = "alumnos/default.aspx";
@@ -344,17 +345,27 @@ namespace SOE.Saes
             await GoTo(CambioCorreoPersonal);
             AppData.Instance.User.Email = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_txtcorreoper').value;");
         }
-        private async Task<List<Subject>> GetSubjects()
+        private async Task<IEnumerable<Subject>> GetSubjects()
         {
             await Task.Yield();
-            await GoTo(HorariosPage);
-            string horarioHtml = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_GV_Horario').outerHTML");
-            Unescape(ref horarioHtml);
-            if (string.IsNullOrEmpty(horarioHtml))
+            IEnumerable<Subject>? subjects = null;
+            try
             {
-                return new List<Subject>();
+                await GoTo(HorariosPage);
+                string horarioHtml = await this.EvaluateJavaScript("document.getElementById('ctl00_mainCopy_GV_Horario').outerHTML");
+                Unescape(ref horarioHtml);
+                if (string.IsNullOrEmpty(horarioHtml))
+                {
+                    return new List<Subject>();
+                }
+                subjects = await DigestSubjects(horarioHtml);
             }
-            return await DigestSubjects(horarioHtml);
+            catch (Exception ex)
+            {
+                Console.WriteLine("SOE.iOS" + ex.ToString());
+                Acr.UserDialogs.UserDialogs.Instance.Alert(ex.ToString());
+            }
+            return subjects ?? new List<Subject>();
         }
         private async Task<List<Subject>> DigestSubjects(string horarioHtml)
         {

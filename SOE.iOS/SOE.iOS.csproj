@@ -32,11 +32,12 @@
     <OptimizePNGs>true</OptimizePNGs>
     <MtouchI18n>west</MtouchI18n>
     <CodesignKey>Apple Development: Jonathan Garcia (L2WMS2JE6E)</CodesignKey>
-    <CodesignProvision>VS: WildCard Development</CodesignProvision>
+    <CodesignProvision>Automatic</CodesignProvision>
     <MtouchSdkVersion></MtouchSdkVersion>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
-    <MtouchExtraArgs>--interpreter --registrar:static</MtouchExtraArgs>
+    <MtouchExtraArgs>--registrar:static --linkskip=SOE --linkskip=SOE.iOS --linkskip=SOEWeb.Shared --linkskip=Kit --linkskip=Kit.iOS --linkskip=LiteDB --linkskip=LiteDB.dll  --linkskip=System.Linq —linkskip=SOE.Enums —linkskip=Plugin.CloudFirestore —linkskip=Plugin.CloudFirestore.dll —linkskip=FirestoreLINQ —linkskip=Plugin.CloudFirestore.ObjectDocumentInfo —linkskip=System.Linq.Enumerable —linkskip=Plugin.CloudFirestore.ObjectProvider —linkskip=System.Linq.dll —linkskip=Plugin.CloudFirestore.Converters —linkskip=Firebase.CloudFirestore —linkskip=LiteDB.BsonExpression</MtouchExtraArgs>
+    <IOSDebuggerPort>10001</IOSDebuggerPort>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -59,7 +60,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugType>portable</DebugType>
     <MtouchInterpreter>-all</MtouchInterpreter>
-    <CodesignProvision>SOEDevelopment</CodesignProvision>
+    <CodesignProvision>Automatic</CodesignProvision>
     <MtouchSdkVersion>
     </MtouchSdkVersion>
     <DebugSymbols>true</DebugSymbols>
@@ -69,16 +70,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>Apple Development: Jonathan Garcia (L2WMS2JE6E)</CodesignKey>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <MtouchLink>None</MtouchLink>
+    <MtouchLink>Full</MtouchLink>
     <MtouchInterpreter>-all</MtouchInterpreter>
     <OptimizePNGs>true</OptimizePNGs>
     <MtouchI18n>west</MtouchI18n>
     <MtouchFastDev>false</MtouchFastDev>
     <IOSDebugOverWiFi>false</IOSDebugOverWiFi>
-    <MtouchExtraArgs>--linkskip SOE --linkskip SOE.iOS --linkskip SOEWeb.Shared --linkskip Kit --linkskip Kit.iOS --registrar:static</MtouchExtraArgs>
+    <MtouchExtraArgs>--registrar:static</MtouchExtraArgs>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <CodesignExtraArgs>
     </CodesignExtraArgs>
@@ -86,6 +87,7 @@
     </MtouchSdkVersion>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
+    <IOSDebuggerPort>10001</IOSDebuggerPort>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -97,7 +99,7 @@
     <CodesignKey>Apple Distribution: Jonathan Garcia (25782E8V9A)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>Full</MtouchLink>
-    <MtouchExtraArgs>--linkskip SOE --linkskip SOE.iOS --linkskip SOEWeb.Shared --linkskip Kit --linkskip Kit.iOS --registrar:static</MtouchExtraArgs>
+    <MtouchExtraArgs>--registrar:static</MtouchExtraArgs>
     <MtouchInterpreter>-all</MtouchInterpreter>
     <MtouchFastDev>false</MtouchFastDev>
     <MtouchUseLlvm>false</MtouchUseLlvm>
@@ -353,5 +355,8 @@
 
 
   <!--<Import Project="/Library/Frameworks/Mono.framework/External/xbuild/Xamarin/iOS/Xamarin.iOS.CSharp.targets" />-->
+  <ItemGroup>
+    <LinkDescription Include="LinkDescription.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

@@ -149,13 +149,13 @@ namespace SOE.Models
             return subjectUniqueName;
         }
 
-        public Task<ClassTime> GetClassTime(DayOfWeek dateDayOfWeek)
+        public Task<ClassTime?> GetClassTime(DayOfWeek dateDayOfWeek)
         {
             return ClassTime.IQuery(ClassTime.Collection
                     .WhereEqualsTo(nameof(ClassTime.Day), dateDayOfWeek))
                 .ContinueWith(t =>
                 {
-                    return t.Result.FirstOrDefault(x => x.Subject == this);
+                    return t.Result.FirstOrDefault(x => x is not null && x.Subject == this);
                 });
         }
 

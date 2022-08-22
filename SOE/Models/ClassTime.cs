@@ -77,24 +77,45 @@ namespace SOE.Models
         }
         public static ICollectionReference Collection =>
             FireBaseConnection.UserDocument.Collection<ClassTime>();
-        public static async Task<IEnumerable<ClassTime>> GetAll()
+        public static async Task<IEnumerable<ClassTime?>> GetAll()
         {
-            IQuerySnapshot capitalQuerySnapshot = await Collection.GetAsync();
-            return GetEnumerable(capitalQuerySnapshot);
+            IEnumerable<ClassTime?>? classTimes = null;
+            try
+            {
+                IQuerySnapshot capitalQuerySnapshot = await Collection.GetAsync();
+                classTimes = GetEnumerable(capitalQuerySnapshot);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("SOE.iOS" + ex.ToString());
+                Acr.UserDialogs.UserDialogs.Instance.Alert(ex.ToString());
+            }
+            return classTimes ?? new List<ClassTime>();
         }
-        public static IEnumerable<ClassTime> GetEnumerable(IQuerySnapshot capitalQuerySnapshot)
+        private static IEnumerable<ClassTime?> GetEnumerable(IQuerySnapshot capitalQuerySnapshot)
         {
             foreach (IDocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
             {
-                yield return documentSnapshot.ToObject<ClassTime>();
+                yield return documentSnapshot?.ToObject<ClassTime>();
             }
         }
-        public static Task<IEnumerable<ClassTime>> IQuery(IQuery IQuery)
+        public static async Task<IEnumerable<ClassTime?>> IQuery(IQuery IQuery)
         {
-            return IQuery.GetAsync().ContinueWith(t =>
-           {
-               return GetEnumerable(t.Result);
-           });
+            await Task.Yield();
+            IEnumerable<ClassTime?>? classTimes = null;
+            try
+            {
+                classTimes = await IQuery.GetAsync().ContinueWith(t =>
+                {
+                    return GetEnumerable(t.Result);
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("SOE.iOS" + ex.ToString());
+                Acr.UserDialogs.UserDialogs.Instance.Alert(ex.ToString());
+            }
+            return classTimes ?? new List<ClassTime>();
         }
         public string GetDocumentId()
         {

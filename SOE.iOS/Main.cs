@@ -20,8 +20,9 @@ namespace SOE.iOS
                 UIApplication.Main(args, null, typeof(AppDelegate));
             }catch(Exception ex)
             {
+                Console.WriteLine("SOE.iOS " + ex.ToString());
                CoreFoundation.OSLog.Default.Log(OSLogLevel.Error,ex.ToString());
-                UIAlertController.Create("ERROR", ex.ToString(), UIAlertControllerStyle.Alert);
+                UIAlertController.Create("ERROR", "SOE.iOS "+ ex.ToString(), UIAlertControllerStyle.Alert);
             }
             
         }

@@ -15,7 +15,7 @@ using Device = Xamarin.Forms.Device;
 
 namespace SOE.Views.ViewItems.ScheduleView
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile),Xamarin.Forms.Internals.Preserve(AllMembers =true)]
     public partial class ScheduleViewMain
     {
         public override string Title => "Horario";

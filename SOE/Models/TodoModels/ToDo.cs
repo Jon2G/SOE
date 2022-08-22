@@ -22,7 +22,7 @@ using Xamarin.Forms;
 
 namespace SOE.Models.TodoModels
 {
-    [FireStoreCollection("ToDo")]
+    [FireStoreCollection("ToDo"),Xamarin.Forms.Internals.Preserve(AllMembers =true)]
     public class ToDo : ModelBase
     {
         [Id]
@@ -50,7 +50,7 @@ namespace SOE.Models.TodoModels
                 if (this._Document != value)
                 {
                     _Document = value;
-                    Raise(() => Document);
+                    Raise(()=>Document);
                     this.LoadDocument();
                 }
             }
@@ -294,55 +294,62 @@ namespace SOE.Models.TodoModels
 
         public Task Delete() => ToDo.Collection.Document(this.DocumentId).DeleteAsync();
 
-        public async Task Save(IEnumerable<PhotoArchive> Photos = null)
+        public async Task Save(IEnumerable<PhotoArchive>? Photos = null)
         {
             await Task.Yield();
-            HasPictures = Photos is not null && Photos.Any();
-            if (Description is null)
+            try
             {
-                Description = "";
-            }
-
-            if (string.IsNullOrEmpty(this.DocumentId))
-            {
-                this.Document = new Document().Parse(Description);
-                //le quita las horas y segundos a la fecha
-                Date = new DateTime(Date.Year, Date.Month, Date.Day);
-                IDocumentReference? result = await ToDo.Collection.AddAsync(this);
-                this.DocumentId = result.Id;
-            }
-            else
-            {
-                await Collection.Document(DocumentId).SetAsync(this);
-            }
-
-
-            if (HasPictures)
-            {
-                foreach (PhotoArchive archive in Photos)
+                HasPictures = Photos is not null && Photos.Any();
+                if (Description is null)
                 {
-                    archive.ParentId = this.DocumentId;
-                    FileImageSource image = archive.Value;
-                    if (!File.Exists(archive.Path))
+                    Description = "";
+                }
+
+                if (string.IsNullOrEmpty(this.DocumentId))
+                {
+                    this.Document = new Document().Parse(Description);
+                    //le quita las horas y segundos a la fecha
+                    Date = new DateTime(Date.Year, Date.Month, Date.Day);
+                    IDocumentReference? result = await ToDo.Collection.AddAsync<ToDo>(this);
+                    this.DocumentId = result.Id;
+                }
+                else
+                {
+                    await Collection.Document(DocumentId).SetAsync(this);
+                }
+
+
+                if (HasPictures)
+                {
+                    foreach (PhotoArchive archive in Photos)
                     {
-                        using (FileStream file = new(archive.Path, FileMode.OpenOrCreate))
+                        archive.ParentId = this.DocumentId;
+                        FileImageSource image = archive.Value;
+                        if (!File.Exists(archive.Path))
                         {
-                            if (image is not null && !image.IsEmpty) // image.Height > 0
+                            using (FileStream file = new(archive.Path, FileMode.OpenOrCreate))
                             {
-                                using Stream memory = image.ImageToStream();
-                                await memory.CopyToAsync(file);
+                                if (image is not null && !image.IsEmpty) // image.Height > 0
+                                {
+                                    using Stream memory = image.ImageToStream();
+                                    await memory.CopyToAsync(file);
+                                }
                             }
                         }
+                        await Keeper.Save(archive);
                     }
-                    await Keeper.Save(archive);
+                }
+                /////////////
+                if (Shell.Current is AppShell app)
+                {
+                    PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction);
                 }
             }
-            /////////////
-            if (Shell.Current is AppShell app)
+            catch(Exception ex)
             {
-                PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction);
+                Console.WriteLine("SOE.iOS " + ex.ToString());
+                Acr.UserDialogs.UserDialogs.Instance.Alert(ex.ToString(), "ERROR", "Ok");
             }
-
             Shell.Current.Navigation.PopToRootAsync(true).SafeFireAndForget();
         }
 
@@ -354,10 +361,11 @@ namespace SOE.Models.TodoModels
                 .GetAsync();
             return query.ToObjects<ToDo>().ToList();
         }
-        public static ValueTask<ToDo> Get(string DocumentId)
+        public static async ValueTask<ToDo?> Get(string DocumentId)
         {
             IQuery q = Collection.WhereEqualsTo(nameof(DocumentId), DocumentId);
-            return IQuery(q).FirstOrDefaultAsync();
+            var todo=await IQuery(q).FirstOrDefaultAsync();
+            return todo;
         }
     }
 }

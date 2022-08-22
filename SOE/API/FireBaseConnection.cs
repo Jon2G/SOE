@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SOE.API
 {
+    [Xamarin.Forms.Internals.Preserve(true,false)]
     public static class FireBaseConnection
     {
         public static IFirestore Database => CrossCloudFirestore.Current.Instance;

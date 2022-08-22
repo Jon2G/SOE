@@ -74,6 +74,10 @@ namespace SOE.ViewModels.ViewItems
             }
             catch (Exception e)
             {
+                if (Tools.Debugging)
+                {
+                    throw e;
+                }
                 Log.Logger.Error(e, "Refresh pending tasks viewmodel");
 
             }

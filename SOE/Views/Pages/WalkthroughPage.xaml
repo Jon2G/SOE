@@ -12,7 +12,6 @@
     </CarouselPage.BindingContext>
     <CarouselPage.Resources>
         <Style TargetType="ContentPage">
-            <Setter Property="BackgroundColor" Value="#0d0d33"/>
             <Setter Property="Padding" Value="10"/>
         </Style>
     </CarouselPage.Resources>

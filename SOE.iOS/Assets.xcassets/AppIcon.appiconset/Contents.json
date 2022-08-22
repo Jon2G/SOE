@@ -109,11 +109,13 @@
       "size" : "1024x1024"
     },
     {
+      "filename" : "Icon120-1.png",
       "idiom" : "car",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
+      "filename" : "Icon180-1.png",
       "idiom" : "car",
       "scale" : "3x",
       "size" : "60x60"
@@ -133,12 +135,14 @@
       "subtype" : "42mm"
     },
     {
+      "filename" : "Icon58-1.png",
       "idiom" : "watch",
       "role" : "companionSettings",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
+      "filename" : "Icon87-1.png",
       "idiom" : "watch",
       "role" : "companionSettings",
       "scale" : "3x",
@@ -152,6 +156,7 @@
       "subtype" : "45mm"
     },
     {
+      "filename" : "Icon80-1.png",
       "idiom" : "watch",
       "role" : "appLauncher",
       "scale" : "2x",
@@ -215,6 +220,7 @@
       "subtype" : "45mm"
     },
     {
+      "filename" : "Icon1024-2.png",
       "idiom" : "watch-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
@@ -265,6 +271,7 @@
       "size" : "512x512"
     },
     {
+      "filename" : "Icon1024-1.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"

@@ -1,14 +1,15 @@
-﻿using Kit.Sql.Attributes;
+﻿using LiteDB;
 using SOE.Data;
 using System;
+using System.Linq;
+using Xamarin.Forms.Internals;
 
 namespace SOE.Models.Data
 {
-    [Table("UserLocalData"), Preserve(AllMembers = true)]
+    [Preserve(AllMembers = true)]
     public class UserLocalData
     {
         public static readonly Lazy<UserLocalData> _Instance = new Lazy<UserLocalData>(Get);
-
         public static UserLocalData Instance
         {
             get
@@ -20,7 +21,8 @@ namespace SOE.Models.Data
                 return _Instance.Value;
             }
         }
-        [PrimaryKey, NotNull]
+        [BsonId(true)]
+        public ObjectId Id { get; set; }
         public string UserKey { get; set; }
         public string Boleta { get; set; }
         public string Password { get; set; }
@@ -28,19 +30,17 @@ namespace SOE.Models.Data
 
         public UserLocalData()
         {
-
         }
 
         public static UserLocalData Get()
         {
-            if (!AppData.Instance.LiteConnection.TableExists<UserLocalData>())
-                AppData.Instance.LiteConnection.CreateTable<UserLocalData>();
-            return AppData.Instance.LiteConnection.Table<UserLocalData>().FirstOrDefault() ?? new UserLocalData();
+            return AppData.Instance.LiteDatabase.GetCollection<UserLocalData>().FindAll()?.FirstOrDefault()
+                   ?? new UserLocalData();
         }
 
         public void Save()
         {
-            AppData.Instance.LiteConnection.InsertOrReplace(this);
+            AppData.Instance.LiteDatabase.GetCollection<UserLocalData>().Upsert(this);
         }
     }
 }

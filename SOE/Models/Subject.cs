@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace SOE.Models
 {
     [Preserve(AllMembers = true), FireStoreCollection("Subjects")]
-    public class Subject : ModelBase, IComparable<Subject>, IEquatable<Subject>
+    public class Subject : ModelBase, IComparable<Subject>, IEquatable<Subject>, IComparable
     {
         [Ignored]
         private static readonly Dictionary<string, Subject> Cache = new Dictionary<string, Subject>();
@@ -63,6 +63,8 @@ namespace SOE.Models
                 }
             }
         }
+        [Ignored]
+        public Group Group { get; set; }
         public string GroupId
         {
             get;
@@ -86,9 +88,10 @@ namespace SOE.Models
         {
             return Teacher.Get(TeacherId);
         }
-        public Task<Group> GetGroup()
+        public async Task<Group> GetGroup()
         {
-            return Group.GetCachedGroup(GroupId);
+            this.Group = await Group.GetCachedGroup(GroupId);
+            return this.Group;
         }
 
 
@@ -122,7 +125,7 @@ namespace SOE.Models
         }
 
 
-        //public static ValueTask<List<Subject>> GetAll() => IQuery(Collection).ToListAsync();
+        public static ValueTask<List<Subject>> GetAll() => IQuery(Collection).ToListAsync();
 
         public static Task<Subject?> FindByName(string subjectName) =>
             IQuery(Collection.WhereEqualsTo(nameof(Name), subjectName)).FirstOrDefaultAsync().AsTask();
@@ -146,13 +149,13 @@ namespace SOE.Models
             return subjectUniqueName;
         }
 
-        public Task<ClassTime> GetClassTime(DayOfWeek dateDayOfWeek)
+        public Task<ClassTime?> GetClassTime(DayOfWeek dateDayOfWeek)
         {
             return ClassTime.IQuery(ClassTime.Collection
                     .WhereEqualsTo(nameof(ClassTime.Day), dateDayOfWeek))
                 .ContinueWith(t =>
                 {
-                    return t.Result.FirstOrDefault(x => x.Subject == this);
+                    return t.Result.FirstOrDefault(x => x is not null && x.Subject == this);
                 });
         }
 
@@ -196,6 +199,15 @@ namespace SOE.Models
         public override string ToString()
         {
             return $"{Name}-{GroupId}";
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj is Subject other)
+            {
+                return other.CompareTo(this);
+            }
+            return -1;
         }
     }
 }

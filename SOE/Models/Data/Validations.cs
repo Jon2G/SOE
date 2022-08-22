@@ -1,4 +1,5 @@
 ﻿using SOE.Enums;
+using System.Net.Mail;
 using System.Text.RegularExpressions;
 
 namespace SOE.Models.Data
@@ -11,8 +12,20 @@ namespace SOE.Models.Data
             {
                 return false;
             }
-            var match = Regex.Match(boleta, "20([0-9]{8})");
-            return (match.Success && match.Value == boleta);
+            Match? match = Regex.Match(boleta, "20([0-9]{8})");
+            bool valid = (match.Success && match.Value == boleta);
+            if (!valid)
+            {
+                valid = IsValidPM(boleta);
+            }
+            return valid;
+        }
+
+        public static bool IsValidPM(string pm)
+        {
+            Match? match = Regex.Match(pm, "PP([0-9]{8})");
+            bool valid = (match.Success && match.Value == pm);
+            return valid;
         }
 
         public static bool IsValidUser(string user) => IsValidBoleta(user) || IsValidEmail(user);
@@ -22,7 +35,7 @@ namespace SOE.Models.Data
         {
             try
             {
-                var addr = new System.Net.Mail.MailAddress(email);
+                MailAddress? addr = new System.Net.Mail.MailAddress(email);
                 return addr.Address == email;
             }
             catch

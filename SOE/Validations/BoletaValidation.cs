@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using Xamarin.Forms.Internals;
 
 namespace SOE.Validations
@@ -22,7 +20,7 @@ namespace SOE.Validations
             };
             if (value is not string _boleta)
             {
-                return new ValidationResult(this.ErrorMessage,MemberNames);
+                return new ValidationResult(this.ErrorMessage, MemberNames);
             }
             if (string.IsNullOrEmpty(_boleta))
             {

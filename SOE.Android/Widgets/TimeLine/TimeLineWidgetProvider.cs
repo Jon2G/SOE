@@ -85,16 +85,20 @@ namespace SOE.Droid.Widgets.TimeLine
                         TimeLineWidget.Unload(appWidgetId);
                         break;
                     case TimeLineWidget.ITEM_CLICK:
-                        Intent OpenClassTimeDetails = new Intent(context, typeof(MainActivity));
-                        int itemPosition = intent.GetIntExtra(TimeLineWidget.EXTRA_ITEM, 0);
+                        Intent openClassTimeDetails = new Intent(context, typeof(MainActivity));
+                        int itemPosition = intent.GetIntExtra(TimeLineWidget.ITEM_INDEX, -1);
+                        if (itemPosition <= -1)
+                        {
+                            return;
+                        }
                         ClassSquare classItem = await TimeLineWidget.GetItemAt(appWidgetId, itemPosition);
-                        OpenClassTimeDetails.PutExtra(nameof(ClassTime.IdDocument), classItem.Subject.DocumentId);
-                        OpenClassTimeDetails.PutExtra(nameof(ClassTime.Begin), classItem.Begin.Ticks);
-                        OpenClassTimeDetails.PutExtra(nameof(ClassTime.Day), (int)classItem.Day);
+                        openClassTimeDetails.PutExtra(nameof(ClassTime.IdDocument), classItem.Subject.DocumentId);
+                        openClassTimeDetails.PutExtra(nameof(ClassTime.Begin), classItem.Begin.Ticks);
+                        openClassTimeDetails.PutExtra(nameof(ClassTime.Day), (int)classItem.Day);
                         //OpenClassTimeDetails.SetFlags(ActivityFlags.NewTask);
-                        OpenClassTimeDetails.SetAction(IntentAction);
-                        OpenClassTimeDetails.SetFlags(ActivityFlags.SingleTop | ActivityFlags.BroughtToFront | ActivityFlags.NewTask);
-                        context.StartActivity(OpenClassTimeDetails);
+                        openClassTimeDetails.SetAction(IntentAction);
+                        openClassTimeDetails.SetFlags(ActivityFlags.SingleTop | ActivityFlags.BroughtToFront | ActivityFlags.NewTask);
+                        context.StartActivity(openClassTimeDetails);
                         break;
                     case TimeLineWidget.DAY_CLICK:
                         Intent OpenDayDetails = new Intent(context, typeof(MainActivity));
@@ -115,7 +119,7 @@ namespace SOE.Droid.Widgets.TimeLine
             Intent fowardIntent = new Intent(context, this.Class);
             fowardIntent.SetAction(action);
             fowardIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, widgetId);
-            return PendingIntent.GetBroadcast(context, 0, fowardIntent, PendingIntentFlags.UpdateCurrent);
+            return PendingIntent.GetBroadcast(context, 0, fowardIntent, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Mutable);
         }
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
@@ -142,17 +146,13 @@ namespace SOE.Droid.Widgets.TimeLine
                 // cannot setup their own pending intents, instead, the collection as a whole can
                 // setup a pending intent template, and the individual items can set a fillInIntent
                 // to create unique before on an item to item basis.
-                rv.SetPendingIntentTemplate(Resource.Id.stack_view,
-                    GetIntent(context, appWidgetIds[i], TimeLineWidget.ITEM_CLICK));
+                rv.SetPendingIntentTemplate(Resource.Id.stack_view, GetIntent(context, appWidgetIds[i], TimeLineWidget.ITEM_CLICK));
 
-                rv.SetOnClickPendingIntent(Resource.Id.widget_timetable_Btntomorrow,
-                    GetIntent(context, appWidgetIds[i], TimeLineWidget.FOWARD_ACTION));
+                rv.SetOnClickPendingIntent(Resource.Id.widget_timetable_Btntomorrow, GetIntent(context, appWidgetIds[i], TimeLineWidget.FOWARD_ACTION));
 
-                rv.SetOnClickPendingIntent(Resource.Id.widget_timetable_Btnyesterday,
-                    GetIntent(context, appWidgetIds[i], TimeLineWidget.BACKWARD_ACTION));
+                rv.SetOnClickPendingIntent(Resource.Id.widget_timetable_Btnyesterday, GetIntent(context, appWidgetIds[i], TimeLineWidget.BACKWARD_ACTION));
 
-                rv.SetOnClickPendingIntent(Resource.Id.widget_timetable_TextViewCurrent_day,
-                    GetIntent(context, appWidgetIds[i], TimeLineWidget.DAY_CLICK));
+                rv.SetOnClickPendingIntent(Resource.Id.widget_timetable_TextViewCurrent_day, GetIntent(context, appWidgetIds[i], TimeLineWidget.DAY_CLICK));
 
                 //update stack list
                 appWidgetManager.NotifyAppWidgetViewDataChanged(appWidgetIds[i], Resource.Id.stack_view);

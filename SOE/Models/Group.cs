@@ -2,13 +2,14 @@
 using Plugin.CloudFirestore;
 using Plugin.CloudFirestore.Attributes;
 using SOE.API;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SOE.Models
 {
     [FireStoreCollection("Groups")]
-    public class Group
+    public class Group : IComparable<Group>, IComparable
     {
         [Ignored]
         private static readonly Dictionary<string, Group> Cache = new Dictionary<string, Group>();
@@ -50,6 +51,20 @@ namespace SOE.Models
         private static Task<Group> Get(string groupId)
         {
             return Collection.Document(groupId).GetAsync().Get<Group>();
+        }
+        public int CompareTo(object obj)
+        {
+            if (obj is Group group)
+            {
+                group.CompareTo(this);
+            }
+            return -1;
+        }
+        public int CompareTo(Group other)
+        {
+            if (other is null)
+                return -1;
+            return other.GetDocumentId().CompareTo(this.DocumentId);
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace SOE.iOS.Widgets
@@ -16,12 +17,12 @@ namespace SOE.iOS.Widgets
     {
         protected const string GroupId = "group.com.soe.soe-app";
         protected abstract string FileName { get; }
-        protected abstract IEnumerable GenerateData();
+        protected abstract Task<IEnumerable> GenerateData();
         protected string SerializateData(object data)
         {
             if (data is null)
             {
-                return null;
+                return String.Empty;
             }
             return Newtonsoft.Json.JsonConvert.SerializeObject(data, Formatting.Indented);
         }
@@ -29,7 +30,7 @@ namespace SOE.iOS.Widgets
         {
             if (jsonData is null)
             {
-                jsonData = string.Empty;
+                return;
             }
             NSUrl url = NSFileManager.DefaultManager.GetContainerUrl(GroupId);
             if(url is null)
@@ -42,18 +43,18 @@ namespace SOE.iOS.Widgets
             if (File.Exists(url.Path))
             {
                 Console.WriteLine("File already exists");
-                //Console.WriteLine(File.ReadAllText(url.Path));
             }
             else
             {
                 Console.WriteLine("File does not exists");
             }
 
-            using(FileStream fileStream=new FileStream(url.Path, FileMode.OpenOrCreate))
+            using(FileStream fileStream=new FileStream(url.Path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None))
             {
                 fileStream.Position = 0;
                 using (StreamWriter writer = new StreamWriter(fileStream))
                 {
+                    fileStream.SetLength(0); // discard the contents of the file by setting the length to 0
                     writer.Write(jsonData);
                 }
             }
@@ -68,11 +69,14 @@ namespace SOE.iOS.Widgets
                 Console.WriteLine("After widgets " + widgets.Count);
             });
         }
-        public void GenerateAndRefresh()
+        public async Task GenerateAndRefresh()
         {
+            await Task.Yield();
             try
             {
-                WriteToFile(SerializateData(GenerateData()));
+                IEnumerable data = await GenerateData();
+                if(data!=null)
+                    WriteToFile(SerializateData(data));
 
             }catch(Exception ex)
             {

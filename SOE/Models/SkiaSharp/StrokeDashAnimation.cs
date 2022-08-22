@@ -23,7 +23,7 @@ namespace SOE.Models.SkiaSharp
         {
             _currStrokeDash = From;
 
-            var anim = new Animation(_ => onValueCallback(_currStrokeDash));
+            Animation? anim = new Animation(_ => onValueCallback(_currStrokeDash));
 
             anim.Add(0, 1, new Animation(
                 callback: v => _currStrokeDash.Phase = (float)v,

@@ -24,7 +24,7 @@ namespace SOE.Converters
 
         public override bool ConvertFrom(DocumentObject value, out object? result)
         {
-            var type = Nullable.GetUnderlyingType(TargetType) ?? TargetType;
+            Type? type = Nullable.GetUnderlyingType(TargetType) ?? TargetType;
             if (type != typeof(TimeSpan) || value.Type != DocumentObjectType.Timestapm)
             {
                 result = null;

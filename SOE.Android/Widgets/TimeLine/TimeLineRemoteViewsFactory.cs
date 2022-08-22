@@ -1,7 +1,6 @@
 ﻿using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
-using Android.OS;
 using Android.Runtime;
 using Android.Widget;
 using Kit;
@@ -75,11 +74,12 @@ namespace SOE.Droid.Widgets.TimeLine
 
             // Next, we set a fill-intent which will be used to fill-in the pending intent template
             // which is set on the collection view in StackWidgetProvider.
-            Bundle extras = new Bundle();
-            extras.PutInt(TimeLineWidget.EXTRA_ITEM, position);
-            Intent fillInIntent = new Intent();
-            fillInIntent.PutExtras(extras);
-            rv.SetOnClickFillInIntent(Resource.Id.widget_timetable_item, fillInIntent);
+
+            Intent clickIntent = new Intent();
+            clickIntent.PutExtra(TimeLineWidget.ITEM_INDEX, position);
+            clickIntent.SetFlags(ActivityFlags.NewTask); // Make the pending intent unique...
+            rv.SetOnClickFillInIntent(Resource.Id.widget_timetable_item, clickIntent);
+
             // You can do heaving lifting in here, synchronously. For example, if you need to
             // process an image, fetch something from the network, etc., it is ok to do it here,
             // synchronously. A loading view will show up in lieu of the actual contents in the
@@ -90,7 +90,6 @@ namespace SOE.Droid.Widgets.TimeLine
             // Return the remote views object.
             return rv;
         }
-
 
         bool RemoteViewsService.IRemoteViewsFactory.HasStableIds => true;
         // You can create a custom loading view (for instance when getViewAt() is slow.) If you

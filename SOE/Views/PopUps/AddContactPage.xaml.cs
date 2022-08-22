@@ -25,6 +25,8 @@ namespace SOE.Views.PopUps
             this.Model = new AddContactViewModel(this, contact);
             this.BindingContext = Model;
             InitializeComponent();
+            if (contact is not null)
+                this.AutoSuggestBox.Text = contact.Departament;
             this.LockModal();
         }
 

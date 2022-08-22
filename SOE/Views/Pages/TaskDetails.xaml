@@ -27,7 +27,7 @@
             <ScrollView>
                 <StackLayout Margin="20">
 
-                            <Label Text="Title:"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
+                            <Label Text="Título:"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
                             <Label Text= "{Binding ToDo.Title}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}" />
 
                             <Label Text="Materia:"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
@@ -39,7 +39,7 @@
                             <Label Text="Entrega"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
                             <Label Text= "{Binding ToDo.Time,StringFormat='{0:hh:mm}'}" FontAttributes="Italic" FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
 
-                            <Label Text="Descripcion"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
+                            <Label Text="Descripción"  FontAttributes="Bold" FontSize="19" TextColor="{DynamicResource secondaryTextColor}" VerticalTextAlignment="Start"/>
                     <Label FormattedText="{Binding ToDo.FormattedString}"  FontSize="Medium" TextColor="{DynamicResource secondaryTextColor}"/>
 
 

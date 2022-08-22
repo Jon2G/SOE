@@ -8,6 +8,7 @@ using NameGenerator.Generators;
 using Plugin.CloudFirestore;
 using Plugin.CloudFirestore.Attributes;
 using SOE.API;
+using SOE.Enums;
 using SOE.Models.Academic;
 using System.Data;
 using System.Data.SqlClient;
@@ -29,7 +30,7 @@ namespace SOE.Models.Data
             get => this._NickName;
             set
             {
-                _NickName = value;
+                _NickName = value?.Trim();
                 this.Raise(() => this.NickName);
             }
         }
@@ -143,6 +144,7 @@ namespace SOE.Models.Data
             }
         }
         public bool HasSubjects { get; set; }
+        public UserMode Mode { get; set; }
         public User() { }
 
         public async Task<School> GetSchool()
@@ -153,7 +155,7 @@ namespace SOE.Models.Data
         private static async Task<User> Get(IDocumentReference docRef)
         {
             IDocumentSnapshot snapshot = await docRef.GetAsync();
-            var user = snapshot.ToObject<User>();
+            User? user = snapshot.ToObject<User>();
             if (user is not null)
             {
                 user.Settings ??= new();

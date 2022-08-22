@@ -106,7 +106,15 @@ namespace SOE.Models
 
         public Task<SchoolContact> Save()
         {
-            return Collection.AddAsync(this).ContinueWith(t => this);
+            if (string.IsNullOrEmpty(this.DocumentId))
+            {
+                return Collection.AddAsync(this).ContinueWith(t =>
+                {
+                    this.DocumentId = t.Result.Id;
+                    return this;
+                });
+            }
+            return Collection.Document(this.DocumentId).SetAsync(this).ContinueWith(t => this);
         }
 
         public Task Delete()

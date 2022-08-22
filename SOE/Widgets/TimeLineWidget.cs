@@ -13,6 +13,7 @@ namespace SOE.Widgets
         public const string FOWARD_ACTION = "TIMELINE_FOWARD_ACTION";
         public const string BACKWARD_ACTION = "TIMELINE_BACKWARD_ACTION";
         public const string EXTRA_ITEM = "com.example.widgets.WidgetProviders.EXTRA_ITEM";
+        public const string ITEM_INDEX = "com.example.widgets.WidgetProviders.ITEM_INDEX";
         public const string ITEM_CLICK = "TIMELINE_WIDGET_ITEM_CLICK";
         public const string DAY_CLICK = "TIMELINE_WIDGET_DAY_CLICK";
 

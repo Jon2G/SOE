@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using SkiaSharp;
+﻿using SkiaSharp;
 using SkiaSharp.Views.Forms;
+using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace SOE.Models.SkiaSharp
@@ -27,7 +27,7 @@ namespace SOE.Models.SkiaSharp
                 _skPaint = CreateHighlightSkPaint(skCanvasView, _highlightSettings, _highlightState.HighlightPath);
 
             StrokeDash strokeDash = _highlightState.StrokeDash;
-            if(strokeDash is null) { return; }
+            if (strokeDash is null) { return; }
             // Comment the next line to see whole path without dash effect
             _skPaint.PathEffect = SKPathEffect.CreateDash(strokeDash.Intervals, strokeDash.Phase);
             skCanvas.DrawPath(_highlightState.HighlightPath.Path, _skPaint);
@@ -79,7 +79,7 @@ namespace SOE.Models.SkiaSharp
         {
             if (fromDash != null)
             {
-                var anim = new StrokeDashAnimation(
+                StrokeDashAnimation? anim = new StrokeDashAnimation(
                     @from: fromDash,
                     to: toDash,
                     duration: _highlightSettings.AnimationDuration);
@@ -98,7 +98,7 @@ namespace SOE.Models.SkiaSharp
 
         static SKPaint CreateHighlightSkPaint(SKCanvasView skCanvasView, HighlightSettings highlightSettings, HighlightPath highlightPath)
         {
-            var skPaint = new SKPaint
+            SKPaint? skPaint = new SKPaint
             {
                 Style = SKPaintStyle.Stroke,
                 Color = SKColors.Red,

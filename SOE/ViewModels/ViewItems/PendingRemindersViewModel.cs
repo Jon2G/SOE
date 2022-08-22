@@ -1,7 +1,7 @@
 ﻿using AsyncAwaitBestPractices;
+using AsyncAwaitBestPractices.MVVM;
 using Kit;
 using Kit.Model;
-using SOE.Data;
 using SOE.Enums;
 using SOE.Models;
 using SOE.Views.PopUps;
@@ -23,7 +23,7 @@ namespace SOE.ViewModels.ViewItems
         public ICommand OpenMenuCommand => this._OpenMenuCommand ??= new Command<Reminder>(ReminderPopUp.ShowPopUp);
 
         private ICommand _CompleteCommand;
-        public ICommand CompleteCommand => this._CompleteCommand ??= new Command<CheckBox>(Completada);
+        public ICommand CompleteCommand => this._CompleteCommand ??= new AsyncCommand<CheckBox>(Completada);
         private ObservableCollection<Reminder> _Reminders;
         public ObservableCollection<Reminder> Reminders
         {
@@ -69,14 +69,15 @@ namespace SOE.ViewModels.ViewItems
             //}
         }
 
-        private async void Completada(CheckBox checkBox)
+        private async Task Completada(CheckBox checkBox)
         {
+            await Task.Yield();
             Reminder r = (Reminder)checkBox.BindingContext;
             r.Status = !r.IsComplete ? PendingStatus.Done : PendingStatus.Pending;
-            AppData.Instance.LiteConnection.Update(r);
+            await r.Save();
             checkBox.IsChecked = r.IsComplete;
 
-            var frame = checkBox.FindParent<Frame>();
+            Frame? frame = checkBox.FindParent<Frame>();
             if (frame != null)
             {
                 await frame.TranslateTo(300, 0, 500);

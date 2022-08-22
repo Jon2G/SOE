@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using SkiaSharp;
+﻿using SkiaSharp;
 using SkiaSharp.Views.Forms;
+using System.Collections.Generic;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace SOE.Models.SkiaSharp
@@ -35,9 +35,9 @@ namespace SOE.Models.SkiaSharp
 
         public static HighlightPath Create(SKCanvasView skCanvasView, IList<View> layoutChildren, double strokeWidth)
         {
-            var path = new SKPath();
+            SKPath? path = new SKPath();
 
-            var highlightPath = new HighlightPath()
+            HighlightPath? highlightPath = new HighlightPath()
             {
                 Path = path
             };
@@ -99,7 +99,7 @@ namespace SOE.Models.SkiaSharp
 
                 float solidDashLength = new SKPathMeasure(path).Length - dashOffset;
 
-                var strokeDash = new StrokeDash(
+                StrokeDash? strokeDash = new StrokeDash(
                     intervals: new float[] { solidDashLength, 0 },
                     phase: -dashOffset);
 

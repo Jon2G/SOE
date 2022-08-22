@@ -1,12 +1,14 @@
-﻿using AsyncAwaitBestPractices.MVVM;
-using System;
-using System.Windows.Input;
+﻿using AsyncAwaitBestPractices;
+using AsyncAwaitBestPractices.MVVM;
 using Kit.Model;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 using SOE.Data;
 using SOE.Models.Data;
 using SOE.Views.PopUps;
+using System;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace SOE.ViewModels.Pages
@@ -20,7 +22,7 @@ namespace SOE.ViewModels.Pages
 
         public SettingsViewModel()
         {
-            this.OnFingerPrintToogledCommand = new Command(OnFingerPrintToogled);
+            this.OnFingerPrintToogledCommand = new AsyncCommand(OnFingerPrintToogled);
             this.SaveCommand = new AsyncCommand(() =>
             {
                 AppData.Instance.User.Settings = Settings;
@@ -30,7 +32,7 @@ namespace SOE.ViewModels.Pages
             Settings = AppData.Instance.User.Settings;
         }
 
-        private async void OnFingerPrintToogled()
+        private async Task OnFingerPrintToogled()
         {
             if (this.Settings.IsFingerPrintActive)
             {
@@ -66,10 +68,10 @@ namespace SOE.ViewModels.Pages
             }
         }
 
-        private async void ViewOpen(object obj)
+        private void ViewOpen(object obj)
         {
-            var a = new ViewChangePopUp();
-            await a.ShowDialog();
+            ViewChangePopUp a = new ViewChangePopUp();
+            a.ShowDialog().SafeFireAndForget();
         }
 
 

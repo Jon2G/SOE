@@ -12,6 +12,7 @@ namespace SOE.Views.Pages.Login
     public partial class UserSignUpPage
     {
         public UserSignUpPageViewModel Model { get; set; }
+        public static UserSignUpPage Instance;
 
         public UserSignUpPage() : this(true)
         {
@@ -19,6 +20,7 @@ namespace SOE.Views.Pages.Login
         }
         public UserSignUpPage(bool DisplayPrivacyAlert)
         {
+            Instance = this;
             InitializeComponent();
             if (Tools.Debugging)
             {
@@ -30,6 +32,11 @@ namespace SOE.Views.Pages.Login
             AppData.Instance.SAES = this.SAES;
             AppData.Instance.SAES.ShowLoading = false;
             UserSignUpPageViewModel.PrivacyAlertDisplayed = !DisplayPrivacyAlert;
+        }
+        public void OnSchoolSelected()
+        {
+            if (!AppData.Instance.SAES.IsNavigating)
+                Init().SafeFireAndForget();
         }
         protected override void OnAppearing()
         {
@@ -55,7 +62,7 @@ namespace SOE.Views.Pages.Login
                 await AppData.Instance.SAES.LogOut();
                 await AppData.Instance.SAES.GoHome();
             }
-            this.Model.RefreshCaptcha();
+            await this.Model.RefreshCaptcha();
         }
     }
 }

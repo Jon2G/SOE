@@ -33,7 +33,6 @@ namespace SOE.Droid.Activities
        Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
        DataPathPattern = ".*", DataPathPrefix = ".*",
        DataHost = DotNetEnviroment.NonHttpsUrl, DataSchemes = new[] { "http", "https" })]
-
     [IntentFilter(
         actions: new[] { Intent.ActionView },
         Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
@@ -89,10 +88,6 @@ namespace SOE.Droid.Activities
             IActionResponse pendingAction = null;
             switch (intent?.Action)
             {
-                case "actions.intent.CREATE_THING":
-                    link = intent.DataString;
-                    pendingAction = OnCreateThing(link);
-                    break;
                 case Intent.ActionView:
                     link = intent.DataString;
                     if (!string.IsNullOrEmpty(link))
@@ -121,28 +116,6 @@ namespace SOE.Droid.Activities
             {
                 MasterPage.ResponseTo(pendingAction);
             }
-
         }
-
-        private IActionResponse OnCreateThing(string link)
-        {
-            Uri uri = Uri.Parse(link);
-            string name = uri.GetQueryParameter("name");
-            string description = uri.GetQueryParameter("description");
-            IActionResponse action = null;
-            switch (name?.ToLower()?.Trim())
-            {
-                case "tarea":
-                    action = new CreateToDoAction(description);
-                    break;
-                case "recordatorio":
-                    action = new CreateReminderAction(description);
-                    break;
-
-            }
-            return action;
-        }
-
-
     }
 }

@@ -5,10 +5,10 @@
              xmlns:validations="clr-namespace:Kit.Forms.Validations;assembly=Kit.Forms"
              xmlns:login="clr-namespace:SOE.ViewModels.Pages.Login;assembly=SOE"
              x:Class="SOE.Views.Pages.Login.UserDataView"
-             x:DataType="login:UserSignUpPageViewModel">
-    <ScrollView>
-        <Grid Padding="0">
-            <StackLayout Background="{DynamicResource SecondaryBackground}" x:Name="SecondForm" IsEnabled="False" IsVisible="False" Opacity="0">
+             x:DataType="login:UserSignUpPageViewModel" VerticalOptions="FillAndExpand">
+    <ScrollView VerticalOptions="FillAndExpand">
+        <Grid Padding="20" VerticalOptions="FillAndExpand">
+            <StackLayout Background="{DynamicResource SecondaryBackground}">
                 <Label FontSize="18" FontAttributes="Bold" Text="{Binding User.Name,StringFormat='Bienvenido {0},ahora vamos a crearte un nuevo usuario.',Source={x:Static data:AppData.Instance}}"/>
                 <Entry  TextColor="{DynamicResource secondaryTextColor}" IsTextPredictionEnabled="False"
                                                           Text="{Binding Email}"

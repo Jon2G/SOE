@@ -1,6 +1,5 @@
 ﻿using HtmlAgilityPack;
 using Kit;
-using SOE.Data;
 using SOE.Models;
 using System;
 using System.Collections.Generic;
@@ -38,6 +37,7 @@ namespace SOEWeb.Shared.Processors
 
         public static async Task<List<Subject>> Digest(string HTML)
         {
+            await Task.Yield();
             try
             {
                 ClassColors offlineColors = new ClassColors();
@@ -69,14 +69,14 @@ namespace SOEWeb.Shared.Processors
                         continue;
                     }
 
-                    Teacher teacher = await new Teacher() { Name = TeacherName }.Save(AppData.Instance.User.School);
+                    Teacher teacher = await new Teacher() { Name = TeacherName }.Save();
                     teachers.Add(teacher);
                 }
 
                 List<Group> groups = new();
                 List<Subject> subjects = new();
                 int suffixfixer = 0;
-                for (var i = 0; i < table.Count; i++)
+                for (int i = 0; i < table.Count; i++)
                 {
                     List<string> row = table[i];
                     string TeacherName = row[2];
@@ -93,7 +93,7 @@ namespace SOEWeb.Shared.Processors
                     }
                     Teacher teacher = teachers[i];
                     string suffix = GetGroupSuffix(group.Name, ref suffixfixer);
-                    string? subjectName = row[1]?.Trim().ToUpper();
+                    string? subjectName = row[1]?.Trim().ToUpper()??"";
                     if (string.IsNullOrEmpty(subjectName)) { continue; }
                     Regex regex = new Regex(".+ - (?<SubjectName>.+)");
                     System.Text.RegularExpressions.Group? match = regex.Match(subjectName).Groups["SubjectName"];
@@ -101,6 +101,7 @@ namespace SOEWeb.Shared.Processors
                     {
                         subjectName = match.Value;
                     }
+                    if (string.IsNullOrEmpty(subjectName)) continue;
                     Subject subject = await new Subject()
                     {
                         TeacherId = teacher.GetDocumentId(),
@@ -120,13 +121,18 @@ namespace SOEWeb.Shared.Processors
                 for (int index = 0; index < table.Count; index++)
                 {
                     List<string> rows = table[index];
+                    if (subjects.Count <= index)
+                    {
+                        Console.WriteLine("SOE.iOS - Inconsistencia en el horario");
+                        break;
+                    }
                     Subject subject = subjects[index];
                     Group group = groups[index];
                     rows = rows.Skip(3).Take(5).ToList();
                     DayOfWeek dayOfWeek = DayOfWeek.Monday;
                     foreach (string row in rows)
                     {
-                        var match = time.Match(row);
+                        Match? match = time.Match(row);
                         if (match.Success)
                         {
                             int begin_hour = Convert.ToInt32(match.Groups["begin_hour"].Value);
@@ -146,6 +152,8 @@ namespace SOEWeb.Shared.Processors
             catch (Exception ex)
             {
                 Log.Logger.Error(ex, "At classtimedigester");
+                Console.WriteLine("SOE.iOS" + ex.ToString());
+                Acr.UserDialogs.UserDialogs.Instance.Alert(ex.ToString());
             }
             return new List<Subject>();
         }

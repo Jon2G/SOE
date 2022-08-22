@@ -7,7 +7,7 @@ using Xamarin.Forms.Xaml;
 namespace SOE.Views.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Skip)]
-    public partial class NewTaskPage : ContentPage
+    public partial class NewTaskPage
     {
 
         private int _position;

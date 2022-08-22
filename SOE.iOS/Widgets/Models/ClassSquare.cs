@@ -1,17 +1,19 @@
-﻿using Foundation;
+﻿using FirestoreLINQ;
+using Foundation;
 using Kit.Sql.Interfaces;
 using Newtonsoft.Json;
 using SOE.Models;
 using SOEWeb.Shared;
 using System;
+using Plugin.CloudFirestore;
+using Plugin.CloudFirestore.Attributes;
 namespace SOE.iOS.Widgets.Models
 {
-    [Preserve]
-    public class ClassSquare : IFireBaseKey
+    [Serializable, Preserve(AllMembers = true)]
+    public class ClassSquare
     {
-        [JsonProperty("key")]
+        [JsonProperty("id")]
         public string Id { get; set; }
-        public Subject Subject { get; set; }
         [JsonProperty("index")]
         public int Index { get; set; }
         [JsonProperty("subjectName")]
@@ -19,20 +21,17 @@ namespace SOE.iOS.Widgets.Models
         [JsonProperty("formattedTime")]
         public string FormattedTime { get; set; }
         [JsonProperty("group")]
-        public Group Group { get; set; }
+        public string Group { get; set; }
         [JsonProperty("color")]
         public string Color { get; set; }
 
-        public ClassSquare()
-        {
-        }
         public ClassSquare(Subject subject, int index, string formattedTime)
         {
-            Subject = subject;
+            Id = subject.GetDocumentId();
             Index = index;
             SubjectName = subject.Name;
             FormattedTime = formattedTime;
-            Group = subject.GroupId;
+            Group = subject.Group.Name;
             Color = subject.Color;
         }
     }

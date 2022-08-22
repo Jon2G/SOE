@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewItems="clr-namespace:SOE.ViewModels.ViewItems;assembly=SOE"
+             xmlns:fonts="clr-namespace:SOE.Fonts;assembly=SOE"
+             x:Class="SOE.Views.ViewItems.NoSubjectsView"
+             x:DataType="viewItems:NoSubjectsViewModel">
+    <ContentView.BindingContext>
+        <viewItems:NoSubjectsViewModel/>
+    </ContentView.BindingContext>
+    <StackLayout VerticalOptions="FillAndExpand" Margin="0">
+        <StackLayout Background="{DynamicResource PrimaryColor}"
+                     Padding="5" Orientation="Horizontal" VerticalOptions="Start"
+                     HeightRequest="40"/>
+        <StackLayout VerticalOptions="CenterAndExpand" Margin="20">
+            <Label Margin="10" Text="No tienes ninguna materia por ahora" FontSize="25" HorizontalTextAlignment="Center"/>
+            <Image Margin="10">
+                <Image.Source>
+                    <FontImageSource FontFamily="{x:Static fonts:FontelloIcons.Font}" 
+                                     Glyph="{x:Static fonts:FontelloIcons.HappyBeer}"
+                                     Color="{AppThemeBinding Light=Black,Dark=White}" Size="50"/>
+                </Image.Source>
+            </Image>
+            <Label Margin="10" Text="Añade una materia para comenzar" FontSize="20"  HorizontalTextAlignment="Center"/>
+            <Button Command="{Binding AddSubjectCommand}" Text="Añadir materia" FontAttributes="Bold" FontSize="20"/>
+        </StackLayout>
+    </StackLayout>
+</ContentView>

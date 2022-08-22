@@ -1,4 +1,5 @@
-﻿using Foundation;
+﻿using AsyncAwaitBestPractices;
+using Foundation;
 using PanCardView.iOS;
 using SOE.iOS.Widgets;
 using SOE.Widgets;
@@ -57,7 +58,6 @@ namespace SOE.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             bool result = base.FinishedLaunching(app, options);
-            Firebase.Core.App.Configure();
             CardsViewRenderer.Preserve();
             // check for a notification
             if (options != null)
@@ -96,7 +96,7 @@ namespace SOE.iOS
 
         public override void UpdateWidget(string AppWidgetProviderClassName)
         {
-            DataGenerator generator = null;
+            DataGenerator? generator = null;
             switch (AppWidgetProviderClassName)
             {
                 case TimeLineWidget.AppWidgetProviderFullClass:
@@ -107,7 +107,8 @@ namespace SOE.iOS
                     generator = new TodoDataGenerator();
                     break;
             }
-            generator?.GenerateAndRefresh();
+            if (generator is null) return;
+            generator.GenerateAndRefresh().SafeFireAndForget();
         }
     }
 }

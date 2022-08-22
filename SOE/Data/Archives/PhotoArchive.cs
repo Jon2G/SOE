@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace SOE.Data.Archives
 {
-    
+
     public class PhotoArchive : Archive<FileImageSource>
     {
         private FileImageSource _Value;
@@ -46,7 +46,7 @@ namespace SOE.Data.Archives
             await Task.Yield();
             Value = await cached.CompressImage(80);
             FileInfo file = new(Value.File);
-            var size = file.Length.ToSize(BytesConverter.SizeUnits.MB);
+            double size = file.Length.ToSize(BytesConverter.SizeUnits.MB);
             if (size >= 9)
             {
                 await CompressAsync(Value);

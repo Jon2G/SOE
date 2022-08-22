@@ -13,6 +13,7 @@ using Log = Android.Util.Log;
 
 [assembly: UsesPermission(Name = Manifest.Permission.UseFullScreenIntent)]
 [assembly: UsesPermission(Name = Manifest.Permission.SystemAlertWindow)]
+[assembly: UsesPermission(Name = Manifest.Permission.ScheduleExactAlarm)]
 namespace SOE.Droid.Notifications
 {
     [Preserve]
@@ -115,8 +116,8 @@ namespace SOE.Droid.Notifications
             //notificationIntent.putExtra("data", dataa);
             //notificationIntent.putExtra("calling", "calling");
 
-            PendingIntent pIntent = PendingIntent.GetActivity(this.Context, 0, new Intent(), PendingIntentFlags.UpdateCurrent);
-            PendingIntent contentIntent = PendingIntent.GetActivity(this.Context, 0, notificationIntent, PendingIntentFlags.UpdateCurrent);
+            PendingIntent pIntent = PendingIntent.GetActivity(this.Context, 0, new Intent(), PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
+            PendingIntent contentIntent = PendingIntent.GetActivity(this.Context, 0, notificationIntent, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
 
             builder.SetFullScreenIntent(pIntent, true);
             builder.SetContentIntent(contentIntent);

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<linker>
+        <assembly fullname="LiteDB">
+                <type fullname="LiteDB*" />
+        </assembly>
+        <assembly fullname="SOE">
+            <type fullname="SOE*" />
+        </assembly>
+        <assembly fullname="SOE.iOS">
+            <type fullname="SOE.iOS*" />
+        </assembly>
+        <assembly fullname="Kit">
+            <type fullname="Kit*" />
+        </assembly>
+        <assembly fullname="Kit.iOS">
+            <type fullname="Kit.iOS*" />
+        </assembly>
+                <assembly fullname="Plugin.CloudFirestore">
+            <type fullname="Plugin.CloudFirestore*" />
+            <type fullname="Plugin.CloudFirestore.Converters*" />        
+        </assembly>
+        <assembly fullname="Firebase.CloudFirestore">
+            <type fullname="Firebase.CloudFirestore*" />         
+        </assembly>
+</linker>

@@ -30,5 +30,12 @@ namespace SOE.Models.Scheduler
             this.End = End;
             this.Day = Day;
         }
+
+        internal ClassTime? ToClassTime()
+        {
+            if (Group is null || Subject is null)
+                return null;
+            return new ClassTime(Group.DocumentId, Subject.DocumentId, this.Day, Begin, End);
+        }
     }
 }

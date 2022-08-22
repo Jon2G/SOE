@@ -1,7 +1,8 @@
-﻿using Forms9Patch;
+﻿using AsyncAwaitBestPractices;
+using Forms9Patch;
 using Plugin.XamarinFormsSaveOpenPDFPackage;
 using System.IO;
-using Xamarin.Essentials;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -19,14 +20,19 @@ namespace SOE.Views.Pages
             };
         }
 
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
+            GeneratePDF().SafeFireAndForget();
+        }
+
+        private async Task GeneratePDF()
+        {
             if (Forms9Patch.ToPdfService.IsAvailable)
             {
                 if (await this.WebView.ToPdfAsync("output.pdf",
-                    Forms9Patch.PageSize.IsoA4,
-                    PageMargin.CreateInMillimeters(0)) is ToFileResult pdfResult)
+                        Forms9Patch.PageSize.IsoA4,
+                        PageMargin.CreateInMillimeters(0)) is ToFileResult pdfResult)
                 {
                     if (pdfResult.IsError)
                         using (Toast.Create("PDF Failure", pdfResult.Result)) { }
@@ -37,7 +43,7 @@ namespace SOE.Views.Pages
                             using (MemoryStream memoryStream = new MemoryStream())
                             {
                                 fileStream.Position = 0;
-                                await fileStream.CopyToAsync(memoryStream); 
+                                await fileStream.CopyToAsync(memoryStream);
                                 await CrossXamarinFormsSaveOpenPDFPackage.Current.SaveAndView(
                                     $"Horario_Escolar.pdf", "application/pdf", memoryStream,
                                     PDFOpenContext.InApp);

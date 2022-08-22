@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:SOE.Models;assembly=SOE"
+             x:Class="SOE.Views.ViewItems.DualColorView" Padding="0"
+              HeightRequest="50" x:Name="Me">
+    <Frame Padding="0" BindingContext="{Binding ThemeColor,Source={x:Reference Me}}">
+        <Grid ColumnSpacing="0" ColumnDefinitions="*,*" VerticalOptions="FillAndExpand" 
+              HorizontalOptions="FillAndExpand" x:DataType="models:ThemeColor"
+              >
+            <Frame Grid.Column="0" HorizontalOptions="FillAndExpand" 
+                   BackgroundColor="{Binding Light}"
+                   Margin="0"
+            />
+            <Frame Grid.Column="1" HorizontalOptions="FillAndExpand" 
+                   BackgroundColor="{Binding Dark}"
+                   Margin="0"
+            />
+        </Grid>
+    </Frame>
+</ContentView>

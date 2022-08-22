@@ -89,7 +89,7 @@ namespace SOE.Data.Archives
                     TargetFile.Directory.Create();
                 }
 
-                using (var fileStream = new FileStream(TargetFile.FullName, FileMode.Create, FileAccess.Write))
+                using (FileStream fileStream = new FileStream(TargetFile.FullName, FileMode.Create, FileAccess.Write))
                 {
                     using (Stream image = stream)
                     {

@@ -2,6 +2,7 @@
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using SOE.Views.Pages;
+using Xamarin.Forms;
 
 namespace SOE
 {
@@ -11,6 +12,7 @@ namespace SOE
         public App()
         {
             InitializeComponent();
+            Color.SetAccent((Color)Resources["AccentColor"]);
             App.Current.MainPage = new SplashScreen();
         }
 
@@ -26,10 +28,10 @@ namespace SOE
         {
             base.OnSleep();
         }
-
-
         protected override void OnResume()
         {
+
+
         }
     }
 }

@@ -1,20 +1,21 @@
-﻿using System;
+﻿using AsyncAwaitBestPractices;
+using System;
 using System.Collections.Generic;
-
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace SOE.Views.ViewItems
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class GalleryView 
+    public partial class GalleryView
     {
         public GalleryView()
         {
             InitializeComponent();
         }
 
-        public async void Show(IEnumerable<ImageSource> photos, ImageSource seleccionada)
+        public async Task Show(IEnumerable<ImageSource> photos, ImageSource seleccionada)
         {
             Shell.SetNavBarIsVisible(Shell.Current.CurrentPage, false);
             this.IsVisible = true;
@@ -22,7 +23,7 @@ namespace SOE.Views.ViewItems
             this.Model.SendImages(photos, seleccionada);
         }
 
-        public async void Hide()
+        public async Task Hide()
         {
             await this.FadeTo(0, 500, Easing.Linear);
             this.IsVisible = false;
@@ -31,7 +32,7 @@ namespace SOE.Views.ViewItems
 
         private void GoBack_Tapped(object sender, EventArgs e)
         {
-           this.Hide();
+            this.Hide().SafeFireAndForget();
         }
     }
 }

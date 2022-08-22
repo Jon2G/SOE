@@ -1,5 +1,4 @@
 ﻿using Kit;
-using System;
 using Xamarin.Forms;
 
 namespace SOE
@@ -9,14 +8,7 @@ namespace SOE
         public AppShell()
         {
             InitializeComponent();
-            this.MasterPage.Appearing += this.MasterPage_Appearing;
         }
-
-        private void MasterPage_Appearing(object sender, EventArgs e)
-        {
-            
-        }
-
         protected override void OnAppearing()
         {
             base.OnAppearing();

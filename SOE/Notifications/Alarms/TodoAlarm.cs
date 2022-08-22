@@ -1,4 +1,5 @@
-﻿using SOE.Models.TodoModels;
+﻿using Kit;
+using SOE.Models.TodoModels;
 using SOE.Widgets;
 using System;
 using System.Collections.Generic;
@@ -32,16 +33,32 @@ namespace SOE.Notifications.Alarms
             }
             foreach (ToDo todo in todos.Where(x => ToDo.DaysLeft(x) > 0))
             {
+                if (todo is null)
+                {
+                    continue;
+                }
+                await todo.GetSubject();
+                if (todo.Subject is null)
+                {
+                    continue;
+                }
+                await todo.Subject.GetGroup();
+                if (todo.Subject.Group is null)
+                {
+                    continue;
+                }
+                IChannel? channel = this.Channel;
+                if (channel is null) { continue; }
                 DateTime date = todo.Date.Add(todo.Time);
-                TinyIoC.TinyIoCContainer.Current.Resolve<LocalNotification>()
+                Kit.Tools.Container.Get<LocalNotification>()?
                     .Set(todo.Title,
-                        $"{todo.Subject.Name} - {todo.Subject.GroupId}\n{todo.Description}",
-                        GetProgrammedId(todo), Xamarin.Forms.Color.FromHex(todo.Subject.Color), date.AddDays(-1), this.Channel, "ToDo")
+                        $"{todo.Subject.Name} - {todo.Subject.Group.Name}\n{todo.Description}",
+                        GetProgrammedId(todo), Xamarin.Forms.Color.FromHex(todo.Subject.Color), date.AddDays(-1), channel, "ToDo")?
                     .Schedule();
             }
             this.SetMidnightService();
         }
 
-        public abstract void ReSheduleTask(ToDo todo);
+        public abstract Task ReSheduleTask(ToDo todo);
     }
 }

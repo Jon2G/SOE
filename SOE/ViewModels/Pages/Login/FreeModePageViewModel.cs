@@ -5,6 +5,7 @@ using Kit.Enums;
 using Kit.Forms.ComponentDataAnnotations;
 using Kit.Forms.Model;
 using SOE.Data;
+using SOE.Enums;
 using SOE.Models;
 using SOE.Models.Data;
 using SOE.Validations;
@@ -30,7 +31,7 @@ namespace SOE.ViewModels.Pages.Login
             get => this._NickName;
             set
             {
-                this._NickName = value;
+                this._NickName = value?.Trim();
                 Raise(() => NickName);
                 ValidateProperty(value);
                 this.SignUpCommand.RaiseCanExecuteChanged();
@@ -53,7 +54,6 @@ namespace SOE.ViewModels.Pages.Login
         private string _Password;
         [Required(AllowEmptyStrings = false, ErrorMessage = "La contraseña no puede estar vacia")]
         [MinLength(8, ErrorMessage = "Debe ser de mínimo 8 caracterés minimo")]
-        [Equals(nameof(PasswordMatch), ErrorMessage = "Las contraseñas no coinciden")]
         public string Password
         {
             get => _Password;
@@ -62,6 +62,7 @@ namespace SOE.ViewModels.Pages.Login
                 _Password = value;
                 Raise(() => Password);
                 ValidateProperty(value);
+                ValidateProperty(PasswordMatch, nameof(PasswordMatch));
                 this.LogInCommand.RaiseCanExecuteChanged();
             }
         }
@@ -78,6 +79,7 @@ namespace SOE.ViewModels.Pages.Login
                 this._PasswordMatch = value;
                 Raise(() => PasswordMatch);
                 ValidateProperty(value);
+                ValidateProperty(Password, nameof(Password));
                 this.LogInCommand.RaiseCanExecuteChanged();
             }
         }
@@ -119,36 +121,42 @@ namespace SOE.ViewModels.Pages.Login
             this.SelectSchoolCommand = selectSchoolCommand;
             this.School = school;
             CurrentView = new FreeModeStartupView(this);
+            AppData.Instance.User.Mode = UserMode.FREE;
         }
 
 
         private async Task LogIn()
         {
             this.AttemptCount++;
-            if (await User.LogIn(this.Boleta, this.Password))
+            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Iniciando sesión..."))
             {
-                LoginSucceed().SafeFireAndForget();
-            }
-            else
-            {
-                if (AttemptCount >= 3)
+                if (await User.LogIn(this.Boleta, this.Password))
                 {
-                    await Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Tienes varios intentos fallidos." +
-                                                                          " Si continuas es posible que tu cuenta sea suspendida.", "Cuidado!", "Entiendo");
-                    AppData.Instance.User = new Models.Data.User();
-                    App.Current.MainPage = new SplashScreen();
-                    return;
+                    LoginSucceed().SafeFireAndForget();
                 }
-                UserLocalData.Instance.Password =
-                    AppData.Instance.User.Boleta = string.Empty;
-                Acr.UserDialogs.UserDialogs.Instance.Alert("Usuario o contraseña invalidos", "Atención", "Ok");
+                else
+                {
+                    if (AttemptCount >= 3)
+                    {
+                        await Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Tienes varios intentos fallidos." +
+                                                                              " Si continuas es posible que tu cuenta sea suspendida.",
+                            "Cuidado!", "Entiendo");
+                        AppData.Instance.User = new Models.Data.User();
+                        App.Current.MainPage = new SplashScreen();
+                        return;
+                    }
+
+                    UserLocalData.Instance.Password =
+                        AppData.Instance.User.Boleta = string.Empty;
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("Usuario o contraseña invalidos", "Atención", "Ok");
+                }
             }
         }
         private bool LogInCanExecute(object obj)
         {
             return !string.IsNullOrEmpty(Boleta)
                    && Models.Data.Validations.IsValidBoleta(Boleta) &&
-                   !string.IsNullOrEmpty(Password) && (Password == PasswordMatch);
+                   !string.IsNullOrEmpty(Password);
         }
         private async Task SignIn()
         {
@@ -196,7 +204,7 @@ namespace SOE.ViewModels.Pages.Login
             {
                 await AppData.Instance.User.School.Save();
                 User user = await AppData.Instance.User.Save();
-                var device = new SOE.Models.Device()
+                Models.Device? device = new SOE.Models.Device()
                 {
                     DeviceKey = Kit.Daemon.Devices.Device.Current.DeviceId,
                     Brand = Kit.Daemon.Devices.Device.Current.GetDeviceBrand(),
@@ -214,26 +222,7 @@ namespace SOE.ViewModels.Pages.Login
                     UserKey = user.DocumentId,
                 };
                 localData.Save();
-                App.Current.MainPage = new SplashScreen();
-
-                //switch (response.ResponseResult)
-                //{
-                //    case APIResponseResult.OK:
-                //        AppData.Instance.User.Id = Convert.ToInt32(response.Extra);
-                //        App.Current.MainPage = new RefreshDataPage(true);
-                //        break;
-                //    case APIResponseResult.INVALID_REQUEST:
-                //        App.Current.MainPage.DisplayAlert("Mensaje informativo", response.Message, "Ok").SafeFireAndForget();
-                //        break;
-                //    case APIResponseResult.INTERNAL_ERROR:
-                //        AppData.Instance.User.Id = OfflineConstants.IdBase;
-                //        AppData.Instance.User.IsOffline = true;
-                //        App.Current.MainPage = new RefreshDataPage(true, false);
-                //        break;
-                //    default:
-                //        Acr.UserDialogs.UserDialogs.Instance.Alert(response.Message);
-                //        return;
-                //}
+                await this.LoginSucceed();
             }
         }
         private bool SignUpCanExecute =>
@@ -244,36 +233,24 @@ namespace SOE.ViewModels.Pages.Login
         private async Task LoginSucceed()
         {
             await Task.Yield();
-            //CurrentView = new UserDataView(this);
-
-
-            Acr.UserDialogs.UserDialogs.Instance.ShowLoading("Validando información");
-            User? fireUser = await User.Get();
-            if (fireUser is not null)
+            using (Acr.UserDialogs.UserDialogs.Instance.Loading("Validando información"))
             {
-                AppData.Instance.User.NickName = fireUser.NickName;
-                AppData.Instance.User.Email = fireUser.Email;
+                User? fireUser = await User.Get();
+                if (fireUser is not null)
+                {
+                    AppData.Instance.User.NickName = fireUser.NickName;
+                    AppData.Instance.User.Email = fireUser.Email;
+                }
+                NickName = AppData.Instance.User.NickName;
+                Email = AppData.Instance.User.Email;
+                if (string.IsNullOrEmpty(AppData.Instance.User.NickName))
+                {
+                    NickName = User.GetRandomNickName();
+                }
+                UserLocalData.Instance.UserKey = Boleta;
+                UserLocalData.Instance.Save();
+                App.Current.MainPage = new SplashScreen();
             }
-            NickName = AppData.Instance.User.NickName;
-            Email = AppData.Instance.User.Email;
-            if (!string.IsNullOrEmpty(NickName) && !string.IsNullOrEmpty(Email))
-            {
-                SignUp().SafeFireAndForget();
-                return;
-            }
-            if (string.IsNullOrEmpty(AppData.Instance.User.NickName))
-            {
-                NickName = User.GetRandomNickName();
-            }
-            if (string.IsNullOrEmpty(AppData.Instance.User.Email))
-            {
-                await AppData.Instance.SAES.GetEmail();
-            }
-            await AppData.Instance.SAES.GetName();
-
-            this.Email = AppData.Instance.User.Email;
-            Acr.UserDialogs.UserDialogs.Instance.HideLoading();
-
         }
     }
 }

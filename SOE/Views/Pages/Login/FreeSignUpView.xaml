@@ -27,11 +27,11 @@
                       Margin="0,0,0,5" />
 
                     <Label Text="Contraseña:" FontSize="12" FontAttributes="Bold"/>
-                    <Entry IsPassword="True" 
+                    <Entry IsPassword="True" validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"
                  Text="{Binding Password}"
                  Placeholder="Contraseña" Margin="0"/>
                     <Label Text="Confirmación:" FontSize="12" FontAttributes="Bold"/>
-                    <Entry IsPassword="True" 
+                    <Entry IsPassword="True" validations:ControlValidation.BindableProperty="{x:Static Entry.TextProperty}"
                  Text="{Binding PasswordMatch}"
                  Placeholder="Confirmación" Margin="0"/>
 

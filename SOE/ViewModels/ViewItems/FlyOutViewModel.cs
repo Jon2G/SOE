@@ -20,6 +20,8 @@ namespace SOE.ViewModels.ViewItems
     {
         private ICommand _TareasCommand;
         public ICommand TareasCommand => _TareasCommand ??= new Command((x) => Goto(1));
+        private ICommand _MateriasCommand;
+        public ICommand MateriasCommand => _MateriasCommand ??= new Command(Materias);
 
         private ICommand _PdfCalendarCommand;
         public ICommand PdfCalendarCommand => this._PdfCalendarCommand ??= new AsyncCommand(PdfCalendar);
@@ -60,17 +62,22 @@ namespace SOE.ViewModels.ViewItems
                 Raise(() => AvatarSource);
             }
         }
-        private Command _DeveloperCommand;
-        public Command DeveloperCommand => _DeveloperCommand ??= new Command(Developer);
+        private AsyncCommand _DeveloperCommand;
+        public AsyncCommand DeveloperCommand => _DeveloperCommand ??= new AsyncCommand(Developer);
         public FlyOutViewModel()
         {
             this.SettingCommand = new Command(OpenSettings);
             this.UserCommand = new Command(UserProfile);
             this.ComingCommand = new Command(Coming);
             this.PrivacityCommand = new Command(Privacity);
-            GetAvatar();
+            GetAvatar().SafeFireAndForget();
         }
 
+        private void Materias()
+        {
+            AppShell.CloseFlyout();
+            Shell.Current.Navigation.PushAsync(new SubjectsPage()).SafeFireAndForget();
+        }
         private async Task PdfCalendar()
         {
             await Task.Yield();
@@ -100,10 +107,10 @@ namespace SOE.ViewModels.ViewItems
         private void Privacity(object obj)
         {
             AppShell.CloseFlyout();
-            Shell.Current.Navigation.PushAsync(new PrivacityPage()).SafeFireAndForget(); ;
+            Shell.Current.Navigation.PushAsync(new PrivacityPage()).SafeFireAndForget();
         }
-        private async void Developer() => await Application.Current.MainPage.Navigation.PushAsync(new DeveloperOptions());
-        private async void GetAvatar()
+        private Task Developer() => Application.Current.MainPage.Navigation.PushAsync(new DeveloperOptions());
+        private async Task GetAvatar()
         {
             await Task.Yield();
             this.AvatarSource = await Keeper.GetAvatar();
@@ -112,7 +119,7 @@ namespace SOE.ViewModels.ViewItems
         }
         private async Task TapAvatar()
         {
-            var page = new MenuAvatarPopUp(this);
+            MenuAvatarPopUp? page = new MenuAvatarPopUp(this);
             await page.ShowDialog();
         }
 

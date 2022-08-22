@@ -21,7 +21,7 @@ namespace SOE.Models.Scheduler
             return day.GetTimeLine()
                  .ContinueWith(t =>
                  {
-                     var observable = new ObservableCollection<ClassSquare>(t.Result);
+                     ObservableCollection<ClassSquare>? observable = new ObservableCollection<ClassSquare>(t.Result);
                      return new SheduleDay(day, observable);
                  });
         }

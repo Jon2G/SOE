@@ -15,7 +15,7 @@
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
     <ProvisioningType>manual</ProvisioningType>
-    <MtouchSdkVersion>14.5</MtouchSdkVersion>
+    <MtouchSdkVersion>15.5</MtouchSdkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,10 +32,13 @@
     <OptimizePNGs>true</OptimizePNGs>
     <MtouchI18n>west</MtouchI18n>
     <CodesignKey>Apple Development: Jonathan Garcia (L2WMS2JE6E)</CodesignKey>
-    <CodesignProvision>VS: WildCard Development</CodesignProvision>
-    <MtouchSdkVersion>15.0</MtouchSdkVersion>
+    <CodesignProvision>Automatic</CodesignProvision>
+    <MtouchSdkVersion>
+    </MtouchSdkVersion>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
+    <MtouchExtraArgs>--registrar:static --linkskip=SOE --linkskip=SOE.iOS --linkskip=SOEWeb.Shared --linkskip=Kit --linkskip=Kit.iOS --linkskip=LiteDB --linkskip=LiteDB.dll  --linkskip=System.Linq —linkskip=SOE.Enums —linkskip=Plugin.CloudFirestore —linkskip=Plugin.CloudFirestore.dll —linkskip=FirestoreLINQ —linkskip=Plugin.CloudFirestore.ObjectDocumentInfo —linkskip=System.Linq.Enumerable —linkskip=Plugin.CloudFirestore.ObjectProvider —linkskip=System.Linq.dll —linkskip=Plugin.CloudFirestore.Converters —linkskip=Firebase.CloudFirestore —linkskip=LiteDB.BsonExpression</MtouchExtraArgs>
+    <IOSDebuggerPort>10001</IOSDebuggerPort>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -45,22 +48,22 @@
     <WarningLevel>4</WarningLevel>
     <MtouchLink>Full</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
-    <CodesignKey>Apple Development: Jonathan Garcia (L2WMS2JE6E)</CodesignKey>
-    <CodesignProvision>VS: com.soe.soe-app Development</CodesignProvision>
+    <CodesignKey>Apple Distribution: Jonathan Garcia (25782E8V9A)</CodesignKey>
+    <CodesignProvision>SOERelease</CodesignProvision>
     <OptimizePNGs>true</OptimizePNGs>
     <MtouchI18n>west</MtouchI18n>
     <MtouchExtraArgs>--linkskip SOE --linkskip SOE.iOS --linkskip SOEWeb.Shared --linkskip Kit --linkskip PanCardView --linkskip Newtonsoft.Json</MtouchExtraArgs>
-    <MtouchDebug>true</MtouchDebug>
     <MtouchUseLlvm>true</MtouchUseLlvm>
-    <MtouchSdkVersion>14.5</MtouchSdkVersion>
+    <MtouchSdkVersion>15.5</MtouchSdkVersion>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugType>portable</DebugType>
     <MtouchInterpreter>-all</MtouchInterpreter>
-    <CodesignProvision>SOEDevelopment</CodesignProvision>
-    <MtouchSdkVersion>15.0</MtouchSdkVersion>
+    <CodesignProvision>Automatic</CodesignProvision>
+    <MtouchSdkVersion>
+    </MtouchSdkVersion>
     <DebugSymbols>true</DebugSymbols>
     <Optimize>false</Optimize>
     <OutputPath>bin\iPhone\Debug</OutputPath>
@@ -68,16 +71,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>Apple Development: Jonathan Garcia (L2WMS2JE6E)</CodesignKey>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <MtouchLink>None</MtouchLink>
+    <MtouchLink>Full</MtouchLink>
     <MtouchInterpreter>-all</MtouchInterpreter>
     <OptimizePNGs>true</OptimizePNGs>
     <MtouchI18n>west</MtouchI18n>
     <MtouchFastDev>false</MtouchFastDev>
     <IOSDebugOverWiFi>false</IOSDebugOverWiFi>
-    <MtouchExtraArgs>--interpreter --registrar:static</MtouchExtraArgs>
+    <MtouchExtraArgs>--registrar:static</MtouchExtraArgs>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <CodesignExtraArgs>
     </CodesignExtraArgs>
@@ -85,6 +88,7 @@
     </MtouchSdkVersion>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
+    <IOSDebuggerPort>10001</IOSDebuggerPort>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -93,19 +97,19 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>Apple Development: Jonathan Garcia (L2WMS2JE6E)</CodesignKey>
+    <CodesignKey>Apple Distribution: Jonathan Garcia (25782E8V9A)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>Full</MtouchLink>
-    <MtouchExtraArgs>--linkskip SOE --linkskip SOE.iOS --linkskip SOEWeb.Shared --linkskip Kit --linkskip Kit.iOS --registrar:static</MtouchExtraArgs>
+    <MtouchExtraArgs>--registrar:static</MtouchExtraArgs>
     <MtouchInterpreter>-all</MtouchInterpreter>
     <MtouchFastDev>false</MtouchFastDev>
     <MtouchUseLlvm>false</MtouchUseLlvm>
     <OptimizePNGs>true</OptimizePNGs>
     <MtouchFloat32>false</MtouchFloat32>
-    <MtouchSdkVersion>15.0</MtouchSdkVersion>
-    <IOSDebuggerPort>10001</IOSDebuggerPort>
+    <MtouchSdkVersion>15.5</MtouchSdkVersion>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
+    <CodesignProvision>SOERelease</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
     <AppExtensionDebugBundleId />
@@ -148,10 +152,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs">
-      <Version>7.2.0.562</Version>
+      <Version>7.2.0.564</Version>
     </PackageReference>
     <PackageReference Include="CardsView">
-      <Version>2.8.0</Version>
+      <Version>2.8.1</Version>
     </PackageReference>
     <PackageReference Include="DeviceId">
       <Version>6.2.0</Version>
@@ -165,26 +169,20 @@
     <PackageReference Include="Forms9Patch">
       <Version>2.4.9</Version>
     </PackageReference>
-    <PackageReference Include="Grpc.Core.Xamarin">
-      <Version>2.44.0</Version>
-    </PackageReference>
     <PackageReference Include="HtmlAgilityPack">
-      <Version>1.11.42</Version>
+      <Version>1.11.43</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
-      <Version>4.5.0</Version>
+      <Version>4.5.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Crashes">
-      <Version>4.5.0</Version>
+      <Version>4.5.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CSharp">
       <Version>4.7.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Management.Infrastructure">
       <Version>2.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="Plugin.CloudFirestore">
-      <Version>4.1.0</Version>
     </PackageReference>
     <PackageReference Include="Plugin.Fingerprint">
       <Version>2.1.5</Version>
@@ -193,16 +191,10 @@
       <Version>2.1.0</Version>
     </PackageReference>
     <PackageReference Include="SkiaSharp.Views.Forms">
-      <Version>2.80.3</Version>
+      <Version>2.88.1</Version>
     </PackageReference>
     <PackageReference Include="sqlite-net">
       <Version>1.6.292</Version>
-    </PackageReference>
-    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3">
-      <Version>2.0.7</Version>
-    </PackageReference>
-    <PackageReference Include="SQLitePCLRaw.bundle_green">
-      <Version>2.0.7</Version>
     </PackageReference>
     <PackageReference Include="System.Management">
       <Version>6.0.0</Version>
@@ -214,48 +206,45 @@
       <Version>4.1.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.CommunityToolkit">
-      <Version>2.0.1</Version>
+      <Version>2.0.4</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading">
       <Version>2.4.11.982</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Firebase.iOS.Core">
-      <Version>8.10.0</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Firebase.iOS.DynamicLinks">
-      <Version>8.10.0</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.1" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
     <PackageReference Include="Xamarin.Forms.PancakeView">
       <Version>2.3.0.759</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.SaveOpenPDFPackage">
       <Version>1.0.0</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Forms">
+      <Version>5.0.0.2515</Version>
+    </PackageReference>
+    <PackageReference Include="Plugin.CloudFirestore">
+      <Version>4.1.0</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Kit\Kit.Forms\Kit.Forms.csproj">
-      <Project>{34efec99-a6e9-4c5e-a4a3-cf62c8d2a3e1}</Project>
-      <Name>Kit.Forms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Kit\Kit.iOS\Kit.iOS.csproj">
-      <Project>{de4b3620-b011-4ab8-84d8-05e073dab97e}</Project>
-      <Name>Kit.iOS</Name>
-      <IsAppExtension>false</IsAppExtension>
-      <IsWatchApp>false</IsWatchApp>
-    </ProjectReference>
-    <ProjectReference Include="..\SOE\SOE.csproj">
-      <Project>{20ccea58-74b4-41b0-9e9e-22b7b328c798}</Project>
-      <Name>SOE</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Kit\Kit\Kit.csproj">
-      <Project>{FBDD1DCC-B804-4690-8113-98D775DE9A88}</Project>
-      <Name>Kit</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\WidgetCenterProxy\WidgetCenterProxyBinder\WidgetCenterProxyBinder\WidgetCenterProxyBinder.csproj">
       <Project>{8F198950-2819-4114-9317-886D141E25B9}</Project>
       <Name>WidgetCenterProxyBinder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kit\Kit.iOS\Kit.iOS.csproj">
+      <Project>{DE4B3620-B011-4AB8-84D8-05E073DAB97E}</Project>
+      <Name>Kit.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kit\Kit\Kit.csproj">
+      <Project>{FBDD1DCC-B804-4690-8113-98D775DE9A88}</Project>
+      <Name>Kit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kit\Kit.Forms\Kit.Forms.csproj">
+      <Project>{34EFEC99-A6E9-4C5E-A4A3-CF62C8D2A3E1}</Project>
+      <Name>Kit.Forms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SOE\SOE.csproj">
+      <Project>{20CCEA58-74B4-41B0-9E9E-22B7B328C798}</Project>
+      <Name>SOE</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -265,9 +254,6 @@
     <BundleResource Include="GoogleService-Info.plist">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Optimize>false</Optimize>
-    </BundleResource>
-    <BundleResource Include="..\SOE\Fonts\Fontello\font\fontello30.ttf">
-      <Link>Resources\fontello30.ttf</Link>
     </BundleResource>
     <BundleResource Include="..\Images\xamarin_icon.png">
       <Link>Resources\xamarin_icon.png</Link>
@@ -302,22 +288,8 @@
     <Content Include="playstore-icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="FireBase\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="UserNotificationCenterDelegate.cs" />
-    <AdditionalAppExtensions Include="/Users/jon2g/Desktop/Source/Repos/SOE/SOE.iOS/SwiftExtension/TimeLineWidget">
-      <Name>NativeWidgetExtension</Name>
-      <BuildOutput Condition="'$(Platform)' == 'iPhone'">DerivedData/TimelineWidgetNativeApp/Build/Products/Debug-iphoneos</BuildOutput>
-      <BuildOutput Condition="'$(Platform)' == 'iPhoneSimulator'">DerivedData/TimelineWidgetNativeApp/Build/Products/Debug-iphonesimulator</BuildOutput>
-    </AdditionalAppExtensions>
-    <!--  <AdditionalAppExtensions Include="/Users/jon2g/Desktop/Source/Repos/SOE/SOE.iOS/SwiftExtension/TodoWidget">
-		<Name>TodoWidgetExtension</Name>
-        <BuildOutput Condition="'$(Platform)' == 'iPhone'">DerivedData/TodoWidgetNativeApp/Build/Products/Debug-iphoneos</BuildOutput>
-        <BuildOutput Condition="'$(Platform)' == 'iPhoneSimulator'">DerivedData/TodoWidgetNativeApp/Build/Products/Debug-iphonesimulator</BuildOutput>
-	</AdditionalAppExtensions>-->
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
       <Visible>false</Visible>
@@ -361,6 +333,44 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon1024.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\.DS_Store">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon1024-2.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon1024-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon120-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon80-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon180-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon87-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon58-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalAppExtensions Include="/Users/jon2g/Documents/GitHub/SOE/SOE.iOS/SwiftExtension/TimeLineWidget">
+      <Name>NativeWidgetExtension</Name>
+      <BuildOutput Condition="'$(Platform)' == 'iPhone'">DerivedData/TimelineWidgetNativeApp/Build/Products/Release-iphoneos</BuildOutput>
+      <!--      <BuildOutput Condition="'$(Platform)' == 'iPhoneSimulator'">DerivedData/TimelineWidgetNativeApp/Build/Products/Debug-iphonesimulator</BuildOutput>-->
+    </AdditionalAppExtensions>
+  </ItemGroup>
+  <!--<Import Project="/Library/Frameworks/Mono.framework/External/xbuild/Xamarin/iOS/Xamarin.iOS.CSharp.targets" />-->
+  <ItemGroup>
+    <LinkDescription Include="LinkDescription.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

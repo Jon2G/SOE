@@ -8,7 +8,7 @@
 import Foundation
 
 struct ClassSquare:Hashable,Codable,Identifiable{
-    var id:Int //SubjectId
+    var id:String //SubjectId
     var index:Int //Consecutive
     var subjectName:String
     var formattedTime:String

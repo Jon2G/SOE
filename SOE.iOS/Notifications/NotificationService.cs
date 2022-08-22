@@ -34,7 +34,7 @@ namespace SOE.iOS.Notifications
         public void ScheduleAll()
         {
             ClassAlarm alarm = new();
-            alarm.ScheduleAll();
+            alarm.ScheduleAll().SafeFireAndForget();
 
             ToDoAlarm todo = new();
             todo.ScheduleAll().SafeFireAndForget();
@@ -43,7 +43,7 @@ namespace SOE.iOS.Notifications
         public void ReSheduleTask(ToDo toDo)
         {
             ToDoAlarm alarm = new ToDoAlarm();
-            alarm.ReSheduleTask(toDo);
+            alarm.ReSheduleTask(toDo).SafeFireAndForget();
         }
     }
 }

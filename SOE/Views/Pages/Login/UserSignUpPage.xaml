@@ -19,12 +19,12 @@
              xmlns:data="clr-namespace:SOE.Data;assembly=SOE"
              xmlns:login="clr-namespace:SOE.ViewModels.Pages.Login;assembly=SOE"
              xmlns:controls="clr-namespace:Kit.Forms.Controls;assembly=Kit.Forms"
-             Background="{DynamicResource Background}"
+             Background="{DynamicResource Background}" 
              x:Name="Me">
     <Grid>
         <saes:Saes x:Name="SAES" IsVisible="True"/>
         <ContentView Background="{DynamicResource Background}"
-                     x:Name="ContentView" BackgroundColor="Red">
+                     x:Name="ContentView" >
             <pancakeView:CustomPancakeView Visual="Default" 
                                            CornerRadius="10" x:Name="PancakeView"
                                            Padding="0" VerticalOptions="Center"
@@ -92,7 +92,7 @@
                          Background="{DynamicResource PrimaryColor}" />
                     </StackLayout>
 
-                    <ContentView Padding="0" Margin="0"
+                    <ContentView Padding="0" Margin="0" 
                                  Content="{Binding CurrentView}" 
                                  HorizontalOptions="FillAndExpand" 
                                  VerticalOptions="FillAndExpand"/>

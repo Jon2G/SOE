@@ -1,4 +1,5 @@
 ﻿using AsyncAwaitBestPractices;
+using AsyncAwaitBestPractices.MVVM;
 using FirestoreLINQ;
 
 using Kit;
@@ -21,7 +22,7 @@ using Xamarin.Forms;
 
 namespace SOE.Models.TodoModels
 {
-    [FireStoreCollection("ToDo")]
+    [FireStoreCollection("ToDo"),Xamarin.Forms.Internals.Preserve(AllMembers =true)]
     public class ToDo : ModelBase
     {
         [Id]
@@ -49,7 +50,7 @@ namespace SOE.Models.TodoModels
                 if (this._Document != value)
                 {
                     _Document = value;
-                    Raise(() => Document);
+                    Raise(()=>Document);
                     this.LoadDocument();
                 }
             }
@@ -77,30 +78,51 @@ namespace SOE.Models.TodoModels
         }
 
         private TimeSpan _Time;
+        [Ignored]
         public TimeSpan Time
         {
             get => _Time;
             set
             {
                 _Time = value;
+                if (TotalHours != value.TotalHours)
+                {
+                    TotalHours = value.TotalHours;
+                }
                 Raise(() => Time);
             }
         }
 
+        public double TotalHours
+        {
+            get => Time.TotalHours;
+            set
+            {
+                if (Time.TotalHours != value)
+                {
+                    Time = TimeSpan.FromHours(value);
+                }
+            }
+        }
+
         public bool HasPictures { get; set; }
-
+        [Ignored]
         private Subject _Subject;
-
-        public Subject Subject
+        [Ignored]
+        public Subject? Subject
         {
             get => this._Subject;
             set
             {
                 this._Subject = value;
+                this.SubjectId = value?.GetDocumentId();
                 this.Raise(() => this.Subject);
             }
         }
+        public string? SubjectId { get; set; }
+        [Ignored]
         public string FormattedTime => $"{Time:hh}:{Time:mm}";
+        [Ignored]
         public string FormattedDate => $"{Date.DayOfWeek.GetDayName()} - {Date:dd/MM}";
 
         public async Task<List<PhotoArchive>> GetPhotos()
@@ -127,8 +149,9 @@ namespace SOE.Models.TodoModels
             }
             return photos;
         }
-
+        [Ignored]
         private FormattedString _FormattedString;
+        [Ignored]
         public FormattedString FormattedString
         {
             get => _FormattedString; set
@@ -137,13 +160,14 @@ namespace SOE.Models.TodoModels
                 Raise(() => FormattedString);
             }
         }
+        [Ignored]
         public ICommand OpenBrowserCommand { get; }
         private void LoadDocument()
         {
-            var formattedString = new FormattedString();
-            foreach (var part in this.Document.DocumentParts)
+            FormattedString? formattedString = new FormattedString();
+            foreach (DocumentPart? part in this.Document.DocumentParts)
             {
-                var span = new Span()
+                Span? span = new Span()
                 {
                     Text = part.Content
                 };
@@ -160,10 +184,8 @@ namespace SOE.Models.TodoModels
             }
             FormattedString = formattedString;
         }
-
+        [Ignored]
         private PendingStatus _Status;
-
-
         public PendingStatus Status
         {
             get => _Status;
@@ -241,21 +263,21 @@ namespace SOE.Models.TodoModels
         public ToDo()
         {
             this.Status = PendingStatus.Pending;
-            OpenBrowserCommand = new Command<string>(OpenBrowser);
+            OpenBrowserCommand = new AsyncCommand<string>(OpenBrowser);
             Date = DateTime.Now;
             Time = DateTime.Now.TimeOfDay;
 
         }
-        private async void OpenBrowser(string zelda)
+        private Task OpenBrowser(string zelda)
         {
             UriBuilder builder = new(zelda);
-            await Browser.OpenAsync(builder.Uri, BrowserLaunchMode.SystemPreferred);
+            return Browser.OpenAsync(builder.Uri, BrowserLaunchMode.SystemPreferred);
         }
 
-        public ToDo LoadSubject()
+        public async Task<Subject> GetSubject()
         {
-            //this.Subject = SubjectService.Get(this.SubjectId);
-            return this;
+            this.Subject = await Subject.GetCachedSubject(this.SubjectId);
+            return Subject;
         }
 
         public static ICollectionReference Collection =>
@@ -270,59 +292,80 @@ namespace SOE.Models.TodoModels
             }
         }
 
-        public async Task Save(IEnumerable<PhotoArchive> Photos = null)
+        public Task Delete() => ToDo.Collection.Document(this.DocumentId).DeleteAsync();
+
+        public async Task Save(IEnumerable<PhotoArchive>? Photos = null)
         {
             await Task.Yield();
-            HasPictures = Photos is not null && Photos.Any();
-            if (Description is null)
+            try
             {
-                Description = "";
-            }
-            this.Document = new Document().Parse(Description);
-            //le quita las horas y segundos a la fecha
-            Date = new DateTime(Date.Year, Date.Month, Date.Day);
-            var result = await ToDo.Collection.AddAsync(this);
-            this.DocumentId = result.Id;
-            if (HasPictures)
-            {
-                foreach (PhotoArchive archive in Photos)
+                HasPictures = Photos is not null && Photos.Any();
+                if (Description is null)
                 {
-                    archive.ParentId = this.DocumentId;
-                    FileImageSource image = archive.Value;
-                    if (!File.Exists(archive.Path))
+                    Description = "";
+                }
+
+                if (string.IsNullOrEmpty(this.DocumentId))
+                {
+                    this.Document = new Document().Parse(Description);
+                    //le quita las horas y segundos a la fecha
+                    Date = new DateTime(Date.Year, Date.Month, Date.Day);
+                    IDocumentReference? result = await ToDo.Collection.AddAsync<ToDo>(this);
+                    this.DocumentId = result.Id;
+                }
+                else
+                {
+                    await Collection.Document(DocumentId).SetAsync(this);
+                }
+
+
+                if (HasPictures)
+                {
+                    foreach (PhotoArchive archive in Photos)
                     {
-                        using (FileStream file = new(archive.Path, FileMode.OpenOrCreate))
+                        archive.ParentId = this.DocumentId;
+                        FileImageSource image = archive.Value;
+                        if (!File.Exists(archive.Path))
                         {
-                            if (image is not null && !image.IsEmpty) // image.Height > 0
+                            using (FileStream file = new(archive.Path, FileMode.OpenOrCreate))
                             {
-                                using Stream memory = image.ImageToStream();
-                                await memory.CopyToAsync(file);
+                                if (image is not null && !image.IsEmpty) // image.Height > 0
+                                {
+                                    using Stream memory = image.ImageToStream();
+                                    await memory.CopyToAsync(file);
+                                }
                             }
                         }
+                        await Keeper.Save(archive);
                     }
-                    await Keeper.Save(archive);
+                }
+                /////////////
+                if (Shell.Current is AppShell app)
+                {
+                    PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction);
                 }
             }
-            /////////////
-            if (Shell.Current is AppShell app)
+            catch(Exception ex)
             {
-                PendingTasksView.Instance?.Model.Refresh(PendingTasksView.Instance?.OnRefreshCompleteAction);
+                Console.WriteLine("SOE.iOS " + ex.ToString());
+                Acr.UserDialogs.UserDialogs.Instance.Alert(ex.ToString(), "ERROR", "Ok");
             }
-            await Shell.Current.Navigation.PopToRootAsync(true);
+            Shell.Current.Navigation.PopToRootAsync(true).SafeFireAndForget();
         }
 
-        public static Task<List<ToDo>> Get(PendingStatus status = PendingStatus.Pending)
+        public static async Task<List<ToDo>> Get(PendingStatus status = PendingStatus.Pending)
         {
-            return ToDo.IQuery(ToDo.Collection
-                     .WhereEqualsTo(nameof(ToDo.Status), status)
-                     .OrderBy(nameof(ToDo.Date)).OrderBy(nameof(ToDo.Subject)).OrderBy(nameof(ToDo.Time)))
-                .ToListAsync()
-                 .AsTask();
+            IQuerySnapshot query = await ToDo.Collection
+                .WhereEqualsTo(nameof(ToDo.Status), (int)status)
+                .OrderBy(nameof(ToDo.Date)).OrderBy(nameof(ToDo.SubjectId)).OrderBy(nameof(ToDo.TotalHours))
+                .GetAsync();
+            return query.ToObjects<ToDo>().ToList();
         }
-        public static ValueTask<ToDo> Get(string DocumentId)
+        public static async ValueTask<ToDo?> Get(string DocumentId)
         {
             IQuery q = Collection.WhereEqualsTo(nameof(DocumentId), DocumentId);
-            return IQuery(q).FirstOrDefaultAsync();
+            var todo=await IQuery(q).FirstOrDefaultAsync();
+            return todo;
         }
     }
 }

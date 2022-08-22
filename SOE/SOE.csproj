@@ -8,6 +8,8 @@
     <UserSecretsId>2e4b0392-c909-4468-9569-fccdfaa16cda</UserSecretsId>
     <Configurations>Release;Debug</Configurations>
     <Nullable>enable</Nullable>
+    <AssemblyVersion>3.0.0</AssemblyVersion>
+    <FileVersion>3.0.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -15,53 +17,55 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Fonts\Fontello\font\fontello.ttf" />
     <None Remove="Secrets\Schools.json" />
   </ItemGroup>
 
 
 
   <ItemGroup>
-    <EmbeddedResource Include="Fonts\Fontello\font\fontello30.ttf" />
+    <EmbeddedResource Include="Fonts\Fontello\font\fontello.ttf" />
     <EmbeddedResource Include="Resources\CalendarioEscolar.pdf" />
     <EmbeddedResource Include="Secrets\Schools.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Acr.UserDialogs" Version="7.2.0.562" />
-    <PackageReference Include="AsyncAwaitBestPractices" Version="6.0.4" />
-    <PackageReference Include="CardsView" Version="2.8.0" />
+    <PackageReference Include="Acr.UserDialogs" Version="7.2.0.564" />
+    <PackageReference Include="AsyncAwaitBestPractices" Version="6.0.5" />
+    <PackageReference Include="CardsView" Version="2.8.1" />
     <PackageReference Include="DeviceId" Version="6.2.0" />
     <PackageReference Include="dotMorten.Xamarin.Forms.AutoSuggestBox" Version="1.1.1" />
     <PackageReference Include="dotMorten.Xamarin.Forms.AutoSuggestBoxChange" Version="1.1.1" />
     <PackageReference Include="Forms9Patch" Version="2.4.9" />
     <PackageReference Include="Grpc.Core.Xamarin" Version="2.44.0" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.42" />
-    <PackageReference Include="MailKit" Version="3.2.0" />
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.0" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.0" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.43" />
+    <PackageReference Include="LiteDB" Version="5.0.12" />
+    <PackageReference Include="MailKit" Version="3.3.0" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.3" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.3" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />
     <PackageReference Include="NameGenerator" Version="2.0.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Plugin.CloudFirestore" Version="4.1.0" />
     <PackageReference Include="Plugin.Fingerprint" Version="2.1.5" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.1.0" />
-    <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.3" />
-    <PackageReference Include="sqlite-net" Version="1.6.292" />
+    <PackageReference Include="SkiaSharp.Views.Forms" Version="2.88.0" />
     <PackageReference Include="System.Linq.Async" Version="6.0.1" />
     <PackageReference Include="System.Management" Version="6.0.0" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />
     <PackageReference Include="Xam.Plugin.DeviceInfo" Version="4.1.1" />
-    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.1" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.4" />
     <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />  
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.1" />  
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2515" />  
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />  
     <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />  
     <PackageReference Include="Xamarin.Forms.SaveOpenPDFPackage" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Kit\Kit.Forms\Kit.Forms.csproj" />
-    <ProjectReference Include="..\..\..\Kit\Kit\Kit.csproj" />
+    <ProjectReference Include="..\..\Kit\Kit.Forms\Kit.Forms.csproj" />
+    <ProjectReference Include="..\..\Kit\Kit\Kit.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -75,6 +79,12 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\AcademicDirectory.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Pages\AddSubjectPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Pages\ColorPickerPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\Login\FreeModePage.xaml">
@@ -93,6 +103,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\ReportBugsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Pages\SubjectsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\PopUps\AddContactPage.xaml">
@@ -170,6 +183,9 @@
     <EmbeddedResource Update="Views\PopUps\RequestCameraPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\ViewItems\DualColorView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\ViewItems\GalleryView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -177,6 +193,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ViewItems\NoInscriptionView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ViewItems\NoSubjectsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ViewItems\NotificationView.xaml">
@@ -286,6 +305,9 @@
     </Compile>
     <Compile Update="Views\Pages\BlogPage.xaml.cs">
       <DependentUpon>BlogPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PopUps\AddTeacherPopUp.xaml.cs">
+      <DependentUpon>AddTeacherPopUp.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\PopUps\DeleteLinkPopUP.xaml.cs">
       <DependentUpon>DeleteLinkPopUp.xaml</DependentUpon>

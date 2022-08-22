@@ -1,43 +1,61 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
-  <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-    <item name="colorPrimary">@color/colorPrimary</item>
-    <item name="colorPrimaryDark">@android:color/transparent</item>
-    <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
-    <item name="colorSecondary">@color/colorSecondary</item>
-    <item name="colorAccent">@color/colorAccent</item>
-    <item name="colorOnSecondary">@color/colorOnSecondary</item>
-    <item name="colorOnBackground">@color/colorOnBackground</item>
-    <item name="colorButtonNormal">@color/colorSecondary</item>
-    <item name="android:textColorPrimary">@color/colorTextPrimary</item>
-    <item name="android:textColorSecondary">@color/colorTextSecondary</item>
-    <item name="isLightTheme">@bool/is_light_theme</item>
-    <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-    <item name="android:windowLightStatusBar">@bool/is_light_theme</item>
-    <item name="android:windowTranslucentStatus">false</item>
-    <item name="android:windowTranslucentNavigation">true</item>
-    <item name="android:datePickerDialogTheme">@style/AppCompatDialogStyle</item>
-    <item name="android:timePickerDialogTheme">@style/AppCompatDialogStyle</item>
-    <item name="colorControlActivated">@color/colorAccent</item>
-    <item name="android:selectableItemBackgroundBorderless">@color/colorSecondary</item>
-    <item name="colorControlHighlight">@color/colorAccent</item>
-  </style>
-  
-  <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
-    <item name="colorAccent">@color/colorPrimary</item>
-    <item name="android:timePickerMode">clock</item>
-    <item name="android:headerBackground">@color/colorPrimary</item>
-    <!-- TimePicker Time *TextAppearance* -->
-    <item name="android:numbersTextColor">@color/colorTextPrimary</item>
-    <item name="android:numbersSelectorColor">@color/colorAccent</item>
-    <item name="android:numbersBackgroundColor">@color/colorOnSecondary</item>
-  </style>
+	<style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+		<item name="colorPrimary">@color/colorPrimary</item>
+		<item name="colorPrimaryDark">@android:color/transparent</item>
+		<item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+		<item name="colorSecondary">@color/colorSecondary</item>
+		<item name="colorAccent">@color/colorAccent</item>
+		<item name="colorOnSecondary">@color/colorOnSecondary</item>
+		<item name="colorOnBackground">@color/colorOnBackground</item>
+		<item name="colorButtonNormal">@color/colorSecondary</item>
+		<item name="android:textColorPrimary">@color/colorTextPrimary</item>
+		<item name="android:textColorSecondary">@color/colorTextSecondary</item>
+		<item name="isLightTheme">@bool/is_light_theme</item>
+		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
+		<item name="android:windowLightStatusBar">@bool/is_light_theme</item>
+		<item name="android:windowTranslucentStatus">false</item>
+		<item name="android:windowTranslucentNavigation">true</item>
+		<item name="android:datePickerDialogTheme">@style/AppCompatDialogStyle</item>
+		<item name="android:timePickerDialogTheme">@style/AppCompatDialogStyle</item>
+		<item name="colorControlActivated">@color/colorAccent</item>
+		<item name="android:selectableItemBackgroundBorderless">@color/colorSecondary</item>
+		<item name="colorControlHighlight">@color/colorAccent</item>
+		<!--Listview selected color-->
+		<item name="android:colorPressedHighlight">@color/ListViewSelected</item>
+		<item name="android:colorLongPressedHighlight">@color/ListViewHighlighted</item>
+		<item name="android:colorFocusedHighlight">@color/ListViewSelected</item>
+		<item name="android:colorActivatedHighlight">@color/ListViewSelected</item>
+		<item name="android:activatedBackgroundIndicator">@color/ListViewSelected</item>
+	</style>
 
-  <style name="SplashTheme" parent="MainTheme.Base">
-    <item name="android:windowBackground">@drawable/splash_screen</item>
-    <item name="android:windowFullscreen">true</item>
-    <item name="android:windowContentOverlay">@null</item>
-    <item name="android:windowActionBar">true</item>
-  </style>
+	<style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
+		<item name="colorAccent">@color/colorPrimary</item>
+		<item name="android:timePickerMode">clock</item>
+		<item name="android:headerBackground">@color/colorPrimary</item>
+		<!-- TimePicker Time *TextAppearance* -->
+		<item name="android:numbersTextColor">@color/colorTextPrimary</item>
+		<item name="android:numbersSelectorColor">@color/colorAccent</item>
+		<item name="android:numbersBackgroundColor">@color/colorOnSecondary</item>
+		<!--Listview selected color-->
+		<item name="android:colorPressedHighlight">@color/ListViewSelected</item>
+		<item name="android:colorLongPressedHighlight">@color/ListViewHighlighted</item>
+		<item name="android:colorFocusedHighlight">@color/ListViewSelected</item>
+		<item name="android:colorActivatedHighlight">@color/ListViewSelected</item>
+		<item name="android:activatedBackgroundIndicator">@color/ListViewSelected</item>
+	</style>
+
+	<style name="SplashTheme" parent="MainTheme.Base">
+		<item name="android:windowBackground">@drawable/splash_screen</item>
+		<item name="android:windowFullscreen">true</item>
+		<item name="android:windowContentOverlay">@null</item>
+		<item name="android:windowActionBar">true</item>
+		<!--Listview selected color-->
+		<item name="android:colorPressedHighlight">@color/ListViewSelected</item>
+		<item name="android:colorLongPressedHighlight">@color/ListViewHighlighted</item>
+		<item name="android:colorFocusedHighlight">@color/ListViewSelected</item>
+		<item name="android:colorActivatedHighlight">@color/ListViewSelected</item>
+		<item name="android:activatedBackgroundIndicator">@color/ListViewSelected</item>
+	</style>
 
 </resources>

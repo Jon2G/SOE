@@ -146,9 +146,9 @@ namespace SOE.ViewModels.ViewItems
         private string GetHTMLTable()
         {
             List<Tr> rows = new List<Tr>();
-            foreach (var day in WeekDays)
+            foreach (SheduleDay? day in WeekDays)
             {
-                foreach (var subject in day.Class)
+                foreach (ClassSquare? subject in day.Class)
                 {
                     if (rows.FirstOrDefault(x => x.Begin == subject.Begin) is Tr actualRow)
                     {
@@ -164,11 +164,11 @@ namespace SOE.ViewModels.ViewItems
                     }
                 }
             }
-            foreach (var day in WeekDays)
+            foreach (SheduleDay? day in WeekDays)
             {
-                foreach (var subject in day.Class)
+                foreach (ClassSquare? subject in day.Class)
                 {
-                    foreach (var row in rows)
+                    foreach (Tr? row in rows)
                     {
                         if (row.Subject == subject)
                         {
@@ -205,7 +205,7 @@ namespace SOE.ViewModels.ViewItems
             StringBuilder sb = new StringBuilder();
             sb.Append("<tr>")
                 .Append("<td>Horario</td>");
-            foreach (var day in WeekDays)
+            foreach (SheduleDay? day in WeekDays)
             {
                 sb.Append("<td>")
                     .Append(day.Day.Name)

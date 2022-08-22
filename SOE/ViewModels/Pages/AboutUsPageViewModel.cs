@@ -1,13 +1,13 @@
 ﻿using AsyncAwaitBestPractices;
+using AsyncAwaitBestPractices.MVVM;
 using Kit;
 using Kit.Model;
 using Microsoft.AppCenter.Crashes;
 using SOE.Data;
 using SOE.Views.Pages;
-using SOEWeb.Shared;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -29,7 +29,7 @@ namespace SOE.ViewModels.Pages
             this.BuyMeACoffeCommand = new Command(BuyMeACoffe);
             this.XamarinCommand = new Command(Xamarin);
             this.GitHubCommand = new Command(GitHub);
-            this.ReportBugCommand = new Command(ReportBug);
+            this.ReportBugCommand = new AsyncCommand(ReportBug);
             this.RequestFeatureCommand = new Command(RequestFeature);
             this.GMailCommand = new Command(GMail);
             this.TrelloCommand = new Command(Trello);
@@ -38,23 +38,23 @@ namespace SOE.ViewModels.Pages
 
 
 
-        private async void GMail()
+        private void GMail()
         {
             try
             {
                 string saludo = DateTime.Now.Saludo();
-                await Email.ComposeAsync(new EmailMessage
+                Email.ComposeAsync(new EmailMessage
                 {
                     Subject = "SOE App",
                     Body = $"{saludo} \nSolicito reportar \n#Escribe aquí tu reporte hacia nosotros.#\nAtt.{AppData.Instance.User.Name}",
                     To = new List<string>() { "soeapp.soporte@gmail.com" },
                     //Cc = ccRecipients,
                     //Bcc = bccRecipients
-                });
+                }).SafeFireAndForget();
             }
             catch (Exception ex)
             {
-                
+
                 Crashes.GenerateTestCrash(); Log.Logger.Error(ex, nameof(GMail));
             }
 
@@ -65,10 +65,10 @@ namespace SOE.ViewModels.Pages
 
 
 
-        private async void ReportBug()
+        private Task ReportBug()
         {
-           var pr = new ReportBugsPage();
-           await pr.ShowDialog();
+            ReportBugsPage? pr = new ReportBugsPage();
+            return pr.ShowDialog();
         }
         private void RequestFeature() => OpenBrowser("https://github.com/Jon2G/SOE/issues/new?assignees=&labels=&template=solicitud-de-funci-n-adicional.md&title=");
 
@@ -78,16 +78,16 @@ namespace SOE.ViewModels.Pages
 
         private void Privacity(object obj)
         {
-            AppShell.CloseFlyout(); 
+            AppShell.CloseFlyout();
             Shell.Current.Navigation.PushAsync(new PrivacityPage()).SafeFireAndForget();
         }
 
-        private async void OpenBrowser(string url)
+        private void OpenBrowser(string url)
         {
             try
             {
                 Uri uri = new Uri(url);
-                await Browser.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
+                Browser.OpenAsync(uri, BrowserLaunchMode.SystemPreferred).SafeFireAndForget();
             }
             catch (Exception e)
             {

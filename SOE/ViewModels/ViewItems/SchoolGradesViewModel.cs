@@ -89,7 +89,7 @@ namespace SOE.ViewModels
             }
             if (schoolGrades.Any())
             {
-                var avgGrades = grades.Where(y => y.Partial == GradePartial.Final && y.NumericScore > 0).ToArray();
+                Grade[]? avgGrades = grades.Where(y => y.Partial == GradePartial.Final && y.NumericScore > 0).ToArray();
                 if (avgGrades?.Any() ?? false)
                 {
                     this.SemesterAvg = (float)avgGrades.Average(x => x.NumericScore);

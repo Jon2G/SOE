@@ -77,9 +77,9 @@ namespace SOE.Views.Pages
                 UpdateService.AvaibleUpdate();
                 if (Device.RuntimePlatform == Device.iOS && Xamarin.Essentials.DeviceInfo.Version.Major >= 14)
                 {
-                    var appTrackingTransparencyPermission =
-                        TinyIoC.TinyIoCContainer.Current.Resolve<IAppTrackingTransparencyPermission>();
-                    var status = PermissionStatus.Denied;
+                    IAppTrackingTransparencyPermission? appTrackingTransparencyPermission =
+                        Kit.Tools.Container.Resolve<IAppTrackingTransparencyPermission>();
+                    PermissionStatus status = PermissionStatus.Denied;
                     if (appTrackingTransparencyPermission is not null)
                         status = await appTrackingTransparencyPermission.CheckStatusAsync();
                     switch (status)

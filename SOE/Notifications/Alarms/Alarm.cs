@@ -9,7 +9,7 @@ namespace SOE.Notifications.Alarms
         public abstract string Description { get; }
         public abstract Task ScheduleAll();
         protected virtual void SetMidnightService() { }
-        protected virtual IChannel Channel { get; }
+        protected virtual IChannel? Channel { get; }
         protected abstract Type NotificationType { get; }
 
         public Alarm()
@@ -18,7 +18,7 @@ namespace SOE.Notifications.Alarms
         }
         private void TinyRegister()
         {
-            TinyIoC.TinyIoCContainer.Current.Register(typeof(LocalNotification), this.NotificationType);
+            Kit.Tools.Container.Register(typeof(LocalNotification), this.NotificationType);
         }
     }
 }

@@ -7,6 +7,7 @@ using Kit.Services.Interfaces;
 using SOE.Data.Archives;
 using SOE.ViewModels.ViewItems;
 using SOE.Views.PopUps;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
@@ -54,7 +55,7 @@ namespace SOE.ViewModels.PopUps
             {
                 return;
             }
-            var result = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync(new MediaPickerOptions()
+            FileResult? result = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync(new MediaPickerOptions()
             {
                 Title = "Selecione una imagen"
             });
@@ -85,11 +86,11 @@ namespace SOE.ViewModels.PopUps
             {
                 return;
             }
-            var result = await Xamarin.Essentials.MediaPicker.PickPhotoAsync(new MediaPickerOptions()
+            FileResult? result = await Xamarin.Essentials.MediaPicker.PickPhotoAsync(new MediaPickerOptions()
             {
                 Title = "Selecione una imagen"
             });
-            var file = await result.LoadPhotoAsync();
+            FileInfo? file = await result.LoadPhotoAsync();
             if (file != null)
             {
                 if (this.FlyOutViewModel.AvatarSource is null)

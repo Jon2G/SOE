@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SOE.API
 {
+    [Xamarin.Forms.Internals.Preserve(true,false)]
     public static class FireBaseConnection
     {
         public static IFirestore Database => CrossCloudFirestore.Current.Instance;
@@ -28,7 +29,7 @@ namespace SOE.API
 
         public static async IAsyncEnumerable<Grade> GetEnumerable(this Task<IQuerySnapshot> task)
         {
-            var capitalQuerySnapshot = await task;
+            IQuerySnapshot? capitalQuerySnapshot = await task;
             foreach (IDocumentSnapshot documentSnapshot in capitalQuerySnapshot.Documents)
             {
                 yield return documentSnapshot.ToObject<Grade>();
@@ -36,7 +37,7 @@ namespace SOE.API
         }
         public static async Task<T> GetFistOrDefault<T>(this Task<IQuerySnapshot> task) where T : class
         {
-            var capitalQuerySnapshot = await task;
+            IQuerySnapshot? capitalQuerySnapshot = await task;
             return capitalQuerySnapshot.GetFistOrDefault<T>();
         }
         public static T GetFistOrDefault<T>(this IQuerySnapshot capitalQuerySnapshot) where T : class

@@ -33,7 +33,8 @@
     <MtouchI18n>west</MtouchI18n>
     <CodesignKey>Apple Development: Jonathan Garcia (L2WMS2JE6E)</CodesignKey>
     <CodesignProvision>Automatic</CodesignProvision>
-    <MtouchSdkVersion></MtouchSdkVersion>
+    <MtouchSdkVersion>
+    </MtouchSdkVersion>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <MtouchExtraArgs>--registrar:static --linkskip=SOE --linkskip=SOE.iOS --linkskip=SOEWeb.Shared --linkskip=Kit --linkskip=Kit.iOS --linkskip=LiteDB --linkskip=LiteDB.dll  --linkskip=System.Linq —linkskip=SOE.Enums —linkskip=Plugin.CloudFirestore —linkskip=Plugin.CloudFirestore.dll —linkskip=FirestoreLINQ —linkskip=Plugin.CloudFirestore.ObjectDocumentInfo —linkskip=System.Linq.Enumerable —linkskip=Plugin.CloudFirestore.ObjectProvider —linkskip=System.Linq.dll —linkskip=Plugin.CloudFirestore.Converters —linkskip=Firebase.CloudFirestore —linkskip=LiteDB.BsonExpression</MtouchExtraArgs>
@@ -287,7 +288,7 @@
     <Content Include="playstore-icon.ico" />
   </ItemGroup>
   <ItemGroup>
-      <Compile Include="UserNotificationCenterDelegate.cs" />
+    <Compile Include="UserNotificationCenterDelegate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -332,28 +333,41 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon1024.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\.DS_Store" />
-    <ImageAsset Include="Assets.xcassets\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon1024-2.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon1024-1.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon120-1.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon80-1.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon180-1.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon87-1.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon58-1.png" />
+    <ImageAsset Include="Assets.xcassets\.DS_Store">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon1024-2.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon1024-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon120-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon80-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon180-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon87-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon58-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
   </ItemGroup>
-     <ItemGroup>
-     <AdditionalAppExtensions Include="/Users/jon2g/Documents/GitHub/SOE/SOE.iOS/SwiftExtension/TimeLineWidget">
+  <ItemGroup>
+    <AdditionalAppExtensions Include="/Users/jon2g/Documents/GitHub/SOE/SOE.iOS/SwiftExtension/TimeLineWidget">
       <Name>NativeWidgetExtension</Name>
       <BuildOutput Condition="'$(Platform)' == 'iPhone'">DerivedData/TimelineWidgetNativeApp/Build/Products/Release-iphoneos</BuildOutput>
-<!--      <BuildOutput Condition="'$(Platform)' == 'iPhoneSimulator'">DerivedData/TimelineWidgetNativeApp/Build/Products/Debug-iphonesimulator</BuildOutput>-->
-    </AdditionalAppExtensions> 
+      <!--      <BuildOutput Condition="'$(Platform)' == 'iPhoneSimulator'">DerivedData/TimelineWidgetNativeApp/Build/Products/Debug-iphonesimulator</BuildOutput>-->
+    </AdditionalAppExtensions>
   </ItemGroup>
-
-
-  
-
-
   <!--<Import Project="/Library/Frameworks/Mono.framework/External/xbuild/Xamarin/iOS/Xamarin.iOS.CSharp.targets" />-->
   <ItemGroup>
     <LinkDescription Include="LinkDescription.xml" />

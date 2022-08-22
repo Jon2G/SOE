@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<linker>
+	<assembly fullname="LiteDB">
+		<type fullname="LiteDB*" />
+	</assembly>
+	<assembly fullname="SOE">
+		<type fullname="SOE*" />
+	</assembly>
+	<assembly fullname="SOE.Droid">
+		<type fullname="SOE.Droid*" />
+	</assembly>
+	<assembly fullname="Kit">
+		<type fullname="Kit*" />
+	</assembly>
+	<assembly fullname="Kit.Droid">
+		<type fullname="Kit.Droid*" />
+	</assembly>
+	<assembly fullname="Kit.Forms">
+		<type fullname="Kit.Forms*" />
+		<type fullname="Kit.Forms.Controls*" />
+	</assembly>
+	<assembly fullname="Forms9Patch">
+		<type fullname="Forms9Patch*" />
+	</assembly>
+	<assembly fullname="PanCardView">
+		<type fullname="PanCardView*" />
+	</assembly>
+	<assembly fullname="Newtonsoft.Json">
+		<type fullname="Newtonsoft.Json*" />
+	</assembly>
+	<assembly fullname="Plugin.CloudFirestore">
+		<type fullname="Plugin.CloudFirestore*" />
+		<type fullname="Plugin.CloudFirestore.Converters*" />
+	</assembly>
+</linker>
+

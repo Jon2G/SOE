@@ -1,5 +1,6 @@
 ﻿using Kit.Forms.Services.Interfaces;
 using SOE.Models.TodoModels;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -33,11 +34,20 @@ namespace SOE.Widgets
         public static async Task<List<ToDo>> GetTasks(int WidgetId)
         {
             await Task.Yield();
-            if (!WidgetsTodos.ContainsKey(WidgetId))
+            try
             {
-                return WidgetsTodos[WidgetId] = await GetTasks();
+                if (!WidgetsTodos.ContainsKey(WidgetId))
+                {
+                    return WidgetsTodos[WidgetId] = await GetTasks();
+                }
+
+                return WidgetsTodos[WidgetId];
             }
-            return WidgetsTodos[WidgetId];
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return await Task.FromResult(new List<ToDo>());
         }
 
         public static void Unload(int WidgetId)

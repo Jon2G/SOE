@@ -7,8 +7,10 @@ using Kit;
 using Kit.Droid;
 using SOE.Models.TodoModels;
 using SOE.Widgets;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace SOE.Droid.Widgets.ToDos
@@ -120,17 +122,25 @@ namespace SOE.Droid.Widgets.ToDos
             // from the network, etc., it is ok to do it here, synchronously. The widget will remain
             // in its current state while work is being done here, so you don't need to worry about
             // locking up the widget.
-            List<Task> tasks = new List<Task>();
-            this.Todos = ToDosWidget.GetTasks(this.mAppWidgetId).GetAwaiter().GetResult();
-            foreach (ToDo? todo in this.Todos)
+            try
             {
-                tasks.Add(todo.GetSubject());
-                tasks.Add(todo.Subject.GetGroup());
+                Task<List<ToDo>> getTask = ToDosWidget.GetTasks(this.mAppWidgetId);
+                TaskAwaiter<List<ToDo>> awaiter = getTask.GetAwaiter();
+                this.Todos = awaiter.GetResult();
+                List<Task> tasks = new List<Task>();
+                foreach (ToDo todo in this.Todos)
+                {
+                    tasks.Add(todo.GetSubject());
+                    if (todo.Subject is null) continue;
+                    tasks.Add(todo.Subject.GetGroup());
+                }
+
+                Task.WaitAll(tasks.ToArray());
             }
-            Task.WaitAll(tasks.ToArray());
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
-
-
-
     }
 }
